@@ -129,6 +129,7 @@ func _build_poi_window(layer: CanvasLayer, ui_theme: Theme) -> void:
 	poi_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	dialogue.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	box.add_child(poi_description)
+	dialogue.world_state = state
 	box.add_child(dialogue)
 	poi_close.text = "Volver al mapa"
 	poi_close.pressed.connect(_close_poi)

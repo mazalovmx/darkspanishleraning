@@ -6,6 +6,7 @@ const COSTS := {"road": 1, "grass": 1, "field": 1, "forest": 2, "marsh": 3,
 enum Fog { UNKNOWN, EXPLORED, VISIBLE }
 const VIEW_RADIUS := 5
 const MOVEMENT_MAX := 18
+var learner = preload("res://src/spanish/learner_profile.gd").new()
 var day := 1
 var hero_cell := Vector2i(2, 10)
 var movement_remaining := MOVEMENT_MAX

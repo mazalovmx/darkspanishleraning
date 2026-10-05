@@ -14,6 +14,14 @@ without lecturing. Separately evaluate the player's Spanish. Return ONLY JSON:
 "conversation":{"player_intent":"intent","npc_attitude_delta":0,"suggested_unlock":null,
 "difficulty_observation":"comfortable"}}
 At most two corrections. Severity: minor/important. Difficulty: comfortable/struggling/challenged.
+Use language_profile.allowed_grammar_tags for grammar labels. Track irregular verbs
+with verb:<infinitive> tags using allowed_verb_tags (e.g. verb:tener).
+Use separate successful_grammar entries for tense/grammar and verb tags. For an error
+in a verb form combine tags in type, e.g. present|verb:tener. Mark only language actually
+produced by the player, never your own reply or a suggested correction. Do not award a
+success tag for a construction that you corrected. Limit feedback to two useful errors
+from the current/taught block; do not introduce new tenses as correction exercises.
+When possible recast the corrected form naturally in npc_reply while answering the player.
 Grammar/vocabulary entries are strings. suggested_unlock must be null; attitude delta must be 0.
 Never claim a purchase, quest, clue or institutional act has occurred."""
 var config: Dictionary = {}

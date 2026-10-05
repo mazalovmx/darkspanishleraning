@@ -67,3 +67,13 @@ reply only in that location's log. No canonical state object is supplied to the 
 The prompt uses the authored NPC fixture and at most three exchanges. All world-change
 proposals are rejected for now. Language evaluation is validated but not applied/displayed.
 JSON schema validation cannot prove factual grounding of arbitrary NPC prose.
+
+## Learner observations
+
+WorldState now owns `game/src/spanish/learner_profile.gd`, a RefCounted data object.
+Dialogue captures day/location before submission, revalidates proposals at completion,
+and applies only validated language observations. NPC text never changes world facts.
+Known grammar and verb labels update bounded metrics; repeated recent messages and
+confidence below 0.7 are ignored. Context is copied into the same request. Feedback is
+cached per location; authored fallback clears it. Curriculum remains on the initial
+block; mastery is evidence for future scheduling, never an automatic block unlock.

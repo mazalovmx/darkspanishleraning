@@ -81,3 +81,17 @@ recognized nonempty value exists. Keys are passed only via the process environme
 No key is put in command arguments or logs. Live test success requires schema validation
 AND the reply appearing in the originating UI log. Verified: HTTP 200, one attempt,
 PASS, exit 0. Tests without --live do not send a live request.
+
+## Spanish evaluation checks
+
+```powershell
+& tools/local/godot/Godot_v4.6.2-stable_win64_console.exe --headless --path game --script res://tests/spanish_feedback_test.gd
+```
+
+Expected: 27 assertions, zero failures. Remove --headless for the rendered feedback
+screenshot tools/local/spanish-preview.png. Covers clamping, deduplication, confidence,
+unknown tags, error/success conflicts, verb tracking, memory bounds, UI corrections,
+reopen, fallback, invalid evaluation and absence of automatic curriculum advancement.
+The opt-in tools/run-game.ps1 -LiveTest now sends an intentional tener error and requires
+an actual correction in the feedback plus decreased tener mastery from a test-only 0.5
+baseline. Passed HTTP 200 in one attempt. This baseline never affects normal new games.

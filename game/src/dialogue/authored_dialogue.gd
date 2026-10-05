@@ -17,6 +17,9 @@ var client = preload("res://src/claude/claude_client.gd").new()
 var pending_location := ""
 var pending_message := ""
 var pending_fallback := ""
+var pending_day := 1
+var last_feedback: Dictionary = {}
+var world_state: RefCounted
 
 func _ready() -> void:
 	add_child(client)
@@ -56,8 +59,8 @@ func open_conversation(id: String) -> void:
 	input.clear()
 	send_button.disabled = true
 	speaker.text = "Conversación · " + str(conversations[id].name)
-	hint.text = conversations[id].hint
-	feedback.text = "Evaluación de español no disponible. Puede continuar la conversación."
+	hint.text = "Objetivo: presente y peticiones sencillas. " + str(conversations[id].hint)
+	feedback.text = last_feedback.get(location_id, "Evaluación de español no disponible. Puede continuar la conversación.")
 	_render_history()
 
 func submit(message: String) -> void:
@@ -67,6 +70,7 @@ func submit(message: String) -> void:
 	if clean.is_empty():
 		return
 	pending_location = location_id
+	pending_day = world_state.day
 	pending_message = clean
 	pending_fallback = reply_for(location_id, clean)
 	input.clear()
@@ -75,11 +79,19 @@ func submit(message: String) -> void:
 	feedback.text = "Esperando respuesta…"
 	client.request_reply({"npc": conversations[location_id], "player_message": clean,
 		"recent_dialogue": histories[location_id].slice(-3),
-		"language_profile": {"block": "present_and_basic_requests"}})
+		"language_profile": world_state.learner.context()})
 
 func _on_reply(proposal: Dictionary) -> void:
 	if pending_location.is_empty():
 		return
+	# Recheck the boundary before learner updates, even if a caller bypasses HTTP.
+	if not proposal.is_empty() and not client.valid_proposal(proposal):
+		proposal = {}
+	last_feedback[pending_location] = "Evaluación de español no disponible. Puede continuar la conversación."
+	if not proposal.is_empty():
+		world_state.learner.observe(proposal.language, pending_message,
+			conversations[pending_location].npc_id, pending_day)
+		last_feedback[pending_location] = _language_feedback(proposal.language)
 	var history: Array = histories[pending_location]
 	history.append({"player": pending_message,
 		"reply": proposal.get("npc_reply", pending_fallback)})
@@ -89,7 +101,7 @@ func _on_reply(proposal: Dictionary) -> void:
 	send_button.disabled = input.text.strip_edges().is_empty()
 	if location_id == pending_location:
 		_render_history()
-		feedback.text = "Evaluación de español no disponible. Puede continuar la conversación."
+		feedback.text = last_feedback.get(location_id, "Evaluación de español no disponible. Puede continuar la conversación.")
 		if is_visible_in_tree():
 			input.grab_focus()
 	pending_location = ""
@@ -119,3 +131,15 @@ func _render_history() -> void:
 		lines.append("Tú: " + str(exchange.player))
 		lines.append(str(npc.name) + ": " + str(exchange.reply))
 	transcript.text = "\n\n".join(lines)
+
+func _language_feedback(language: Dictionary) -> String:
+	if language.confidence < 0.7:
+		return "Evaluación incierta; no cambia tu progreso. Puedes continuar."
+	var lines: Array[String] = ["Sentido comprendido ✓" if language.meaning_understood else "El sentido no está claro. Prueba a reformularlo."]
+	for error: Dictionary in language.errors.slice(0, 2):
+		lines.append("Mejor: %s → %s" % [_short(error.original), _short(error.better)])
+	return "\n".join(lines)
+
+func _short(text: String) -> String:
+	text = text.replace("\n", " ").replace("\r", " ")
+	return text if text.length() <= 60 else text.left(57) + "…"

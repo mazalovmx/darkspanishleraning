@@ -2,8 +2,8 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: live Claude dialogue verified through the actual game UI; Gate C passed.
-Next task: Spanish feedback/evaluation (sequence step 08 / Gate D), following the ordered curriculum.
+Current task: Spanish feedback and learner observations implemented; Gate D passed.
+Next task: NPC grounding and deterministic canonical verifier (sequence step 09 / Epic 6).
 
 ## Provenance
 
@@ -51,7 +51,7 @@ now lives at game/config/game.json and is loaded by the client.
 ## Gates
 
 Bootstrap startup accepted with the documented nonfatal shutdown limitations.
-Gates A, B and C: passed. Gates D through I: not passed.
+Gates A through D: passed. Gates E through I: not passed.
 Epics 2 and 4 are complete. Do not claim Claude dialogue or language evaluation yet.
 
 ## Epic 1: minimal world map
@@ -192,3 +192,33 @@ not a language-quality benchmark. Existing shutdown leak diagnostics persist.
 game/tests/claude_live_test.gd is opt-in (--live); ordinary local suites make no paid
 calls. Next: display validated Spanish feedback and implement learner updates without
 randomly jumping ahead of the current curriculum block.
+
+## Spanish evaluation / Gate D
+
+The dialogue now displays understood/unclear meaning and at most two compact corrections,
+separate from the NPC reply. Low-confidence evaluation is explicitly uncertain; offline
+fallback clears stale feedback without changing progress. Feedback survives reopening
+and stays with its original NPC when a response arrives late. Prompt requests natural
+recasts and the UI preserves NPC text. Current present/basic-request objective is visible.
+
+WorldState owns a RefCounted learner profile (transient until save/load). All 19 grammar
+and 25 irregular-verb categories start at zero observed mastery, not a placement score.
+Only known tags update metrics. Successful understood usage adds 0.05 once per tag;
+errors subtract 0.08 and override conflicting success. Values clamp to [0,1]. Confidence
+below 0.7 and duplicates among the last 40 normalized messages do not update observations.
+Important errors keep count, last-seen day and up to three examples. Vocabulary caps at
+100 entries. Distinct successful NPC contexts are recorded. These are initial engineering
+heuristics, not calibrated educational scores. No score unlocks a new curriculum block.
+
+The existing response schema carries irregular verbs using verb:<infinitive> tags.
+Error type can combine grammar and verb with | (e.g. present|verb:tener); success tags
+remain separate array entries. Unknown labels cannot create new mastery categories.
+Profile/context is passed in the same dialogue call; no extra evaluation API call.
+
+Checks: 27 learner/UI assertions passed headless and with OpenGL. Existing 72 client,
+25 authored dialogue and 365 map assertions passed. Editor import exit 0, no script/import
+errors. Rendered feedback screenshot inspected. Live test returned HTTP 200 on one
+attempt for an intentional tener error and verified both visible correction and reduced
+verb mastery from a test-only baseline of 0.5. Gate D is green for this initial loop;
+this is not a language-quality benchmark or a complete teaching scheduler. Existing
+ObjectDB/26-resource shutdown diagnostics persist. Save/load remains unimplemented.

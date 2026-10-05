@@ -94,3 +94,7 @@ Reference checked 2026-10-05:
 - https://platform.claude.com/docs/en/api/messages/create
 - https://platform.claude.com/docs/en/models/overview
 Model default: claude-sonnet-5-5, stored only in runtime configuration (not scripts).
+
+Language context now includes observed grammar/verb mastery and allowed tag lists.
+The runtime prompt requests current-block corrections and natural NPC recasts, and
+forbids crediting the NPC's wording as player success. Full scheduler remains pending.

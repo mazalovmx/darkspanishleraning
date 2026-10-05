@@ -1,14 +1,13 @@
 # Backlog
 
-## Next: Spanish feedback/evaluation (step 08 / Gate D)
+## Next: NPC grounding and canonical verifier (step 09 / Epic 6)
 
-Gate C passed with a real HTTP 200 completion and UI log verification on 2026-10-05.
-Implement visible meaning feedback and at most two useful corrections without blocking
-the conversation. Track grammar/irregular verbs and bounded learner mastery using
-validated evaluations. Keep ordered prerequisite blocks from master section 1.3;
-no random advanced-tense tasks. Grounding and saves follow in the prescribed sequence.
-Use tools/run-game.ps1 to launch with a local .env, or -LiveTest for an explicit paid
-smoke test. Ordinary regression tests stay offline.
+Gate D passed: meaning/corrections display and bounded learner observations work,
+including one live error-correction check. Build NPC knowledge, beliefs, secrets and
+lie policy from the scenario bible, assemble bounded context, and deterministically
+reject unknown/out-of-knowledge clue proposals. No arbitrary model state mutation.
+Save/load follows step 10; evidence node and clue unlock follow steps 11-12. Preserve
+the current ordered language block; full scheduler and advancement remain later work.
 
 ## Required language practice
 

@@ -18,15 +18,19 @@ func run() -> void:
 	map.state.move_to(Vector2i(6, 11), true)
 	map._refresh()
 	map._open_poi(Vector2i(6, 11))
+	map.state.learner.verbs.tener = 0.5 # Test baseline for measuring a correction.
 	var client = map.dialogue.client
 	client.http.request_completed.connect(func(result: int, code: int, _headers: PackedStringArray, _body: PackedByteArray):
 		print("Live transport result=%d HTTP=%d" % [result, code]))
 	client.completed.connect(func(proposal: Dictionary):
 		var success: bool = not proposal.is_empty() and map.dialogue.histories.LOC11.size() == 1 and map.dialogue.histories.LOC11[0].reply == proposal.npc_reply
+		var language_ok: bool = success and not proposal.language.errors.is_empty() and map.dialogue.feedback.text.contains("Mejor:") and map.state.learner.verbs.tener < 0.5
+		print("Live Spanish feedback check: %s" % ["PASS" if language_ok else "FAIL"])
+		success = success and language_ok
 		print("Live Claude UI check: %s; attempts=%d" % ["PASS" if success else "FAIL (authored fallback)", client.attempts])
 		map.queue_free()
 		quit(0 if success else 1))
 	create_timer(50).timeout.connect(func():
 		print("Live check deadline exceeded.")
 		quit(1))
-	map.dialogue.submit("Buenas tardes. ¿Cómo llego al monasterio?")
+	map.dialogue.submit("Yo tiene pan. ¿Cómo llego al monasterio?")

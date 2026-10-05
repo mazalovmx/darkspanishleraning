@@ -34,3 +34,11 @@ not the complete NPC knowledge/belief/secret schema. No reply carries unlock pro
 Lucio's identity/public background comes from bible sections 10.2 and 13.1; the unnamed
 innkeeper is a supporting prototype role, not the protagonist Mateo de Aranda. Directions
 are local to the prototype map. Conversations do not perform purchases yet.
+
+## Language tag convention
+
+successful_grammar entries use the fixed grammar IDs in LearnerProfile.GRAMMAR or
+verb:<infinitive> from LearnerProfile.VERBS. Error type may combine those with |.
+Unknown labels are ignored for mastery; correction text can still be shown after schema
+validation. No new response fields or evaluation requests were added. Learner values
+are observed estimates initialized at zero; persistence and placement are future work.
