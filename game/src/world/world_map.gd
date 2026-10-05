@@ -17,6 +17,10 @@ var hero := Sprite2D.new()
 var status := Label.new()
 var route_info := Label.new()
 var end_button := Button.new()
+var poi_modal := ColorRect.new()
+var poi_title := Label.new()
+var poi_description := Label.new()
+var poi_close := Button.new()
 
 func _ready() -> void:
 	_build_tiles()
@@ -65,6 +69,7 @@ func _build_ui() -> void:
 	panel.theme.default_font_size = 18
 	panel.theme.default_font = ThemeDB.fallback_font
 	layer.add_child(panel)
+	_build_poi_window(layer, panel.theme)
 	var margin := MarginContainer.new()
 	for side in ["left", "top", "right", "bottom"]:
 		margin.add_theme_constant_override("margin_" + side, 16)
@@ -100,7 +105,59 @@ func _build_ui() -> void:
 		swatch.add_theme_font_size_override("font_size", 14)
 		swatches.add_child(swatch)
 
+func _build_poi_window(layer: CanvasLayer, ui_theme: Theme) -> void:
+	poi_modal.color = Color(0, 0, 0, 0.7)
+	layer.add_child(poi_modal)
+	poi_modal.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	poi_modal.theme = ui_theme
+	poi_modal.z_index = 10
+	var panel := PanelContainer.new()
+	panel.position = Vector2(340, 230)
+	panel.size = Vector2(600, 260)
+	poi_modal.add_child(panel)
+	var margin := MarginContainer.new()
+	for side in ["left", "top", "right", "bottom"]:
+		margin.add_theme_constant_override("margin_" + side, 24)
+	panel.add_child(margin)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 20)
+	margin.add_child(box)
+	poi_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	poi_title.custom_minimum_size.x = 552
+	box.add_child(poi_title)
+	poi_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	poi_description.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	box.add_child(poi_description)
+	poi_close.text = "Volver al mapa"
+	poi_close.pressed.connect(_close_poi)
+	box.add_child(poi_close)
+	poi_modal.hide()
+
+func _open_poi(cell: Vector2i) -> void:
+	if cell != state.hero_cell:
+		return
+	var location := state.location_at(cell)
+	if location.is_empty():
+		return
+	poi_title.text = location.name
+	poi_description.text = location.description
+	preview.clear()
+	end_button.disabled = true
+	poi_modal.show()
+	poi_close.grab_focus()
+	queue_redraw()
+
+func _close_poi() -> void:
+	poi_modal.hide()
+	end_button.disabled = false
+	poi_close.release_focus()
+	_update_preview()
+
 func _unhandled_input(event: InputEvent) -> void:
+	if poi_modal.visible:
+		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+			_close_poi()
+		return
 	if event is InputEventMouse:
 		pointer = event.position
 	if event is InputEventMouseMotion:
@@ -115,9 +172,10 @@ func _unhandled_input(event: InputEvent) -> void:
 				if cell == state.hero_cell:
 					selected = true
 				elif selected:
-					state.move_to(cell)
+					state.move_to(cell, true)
 				_refresh()
 				_update_preview()
+				_open_poi(cell)
 			MOUSE_BUTTON_RIGHT:
 				selected = false
 				_update_preview()
@@ -133,11 +191,21 @@ func _clamp_camera() -> void:
 	camera.force_update_scroll()
 
 func _end_turn() -> void:
+	if poi_modal.visible:
+		return
 	state.end_turn()
 	_refresh()
 	_update_preview()
 
 func _refresh() -> void:
+	var names := COLORS.keys()
+	for y in state.grid.region.size.y:
+		for x in state.grid.region.size.x:
+			var cell := Vector2i(x, y)
+			if state.fog_at(cell) == WorldState.Fog.UNKNOWN:
+				tiles.erase_cell(cell)
+			else:
+				tiles.set_cell(cell, 0, Vector2i(names.find(state.terrain[y][x]), 0))
 	hero.position = tiles.map_to_local(state.hero_cell)
 	status.text = "Día %d\nMovimiento: %d / %d\n%s" % [state.day,
 		state.movement_remaining, state.MOVEMENT_MAX,
@@ -147,19 +215,41 @@ func _refresh() -> void:
 func _update_preview() -> void:
 	hovered = tiles.local_to_map(tiles.get_global_transform_with_canvas().affine_inverse() * pointer)
 	preview.clear()
-	if selected:
-		preview = state.path_to(hovered)
+	if selected and not poi_modal.visible:
+		preview = state.path_to(hovered, true)
 	if not selected:
 		route_info.text = "Selecciona al héroe para viajar."
+	elif state.fog_at(hovered) == WorldState.Fog.UNKNOWN and state.grid.region.has_point(hovered):
+		route_info.text = "Zona sin explorar. Acércate para descubrirla."
 	elif preview.is_empty():
 		route_info.text = "Destino inaccesible."
 	else:
 		var cost: int = state.path_cost(preview)
 		route_info.text = "Ruta: %d puntos.%s" % [cost,
 			"\nNo quedan suficientes puntos." if cost > state.movement_remaining else ""]
+	var location := state.location_at(hovered)
+	if not location.is_empty():
+		route_info.text = str(location.name) + "\n" + route_info.text
 	queue_redraw()
 
 func _draw() -> void:
+	for y in state.grid.region.size.y:
+		for x in state.grid.region.size.x:
+			var cell := Vector2i(x, y)
+			var visibility := state.fog_at(cell)
+			if visibility != WorldState.Fog.VISIBLE:
+				var shade := Color("171c25") if visibility == WorldState.Fog.UNKNOWN else Color(0, 0, 0, 0.48)
+				draw_rect(Rect2(Vector2(cell) * CELL_SIZE, Vector2.ONE * CELL_SIZE), shade)
+	for location: Dictionary in state.locations:
+		var cell := Vector2i(location.position[0], location.position[1])
+		if state.fog_at(cell) == WorldState.Fog.UNKNOWN:
+			continue
+		var center := tiles.map_to_local(cell)
+		var color := Color("d9b875") if location.kind == "inn" else Color("cbd3eb")
+		if state.fog_at(cell) == WorldState.Fog.EXPLORED:
+			color = color.darkened(0.4)
+		draw_rect(Rect2(center - Vector2(12, 12), Vector2(24, 24)), color, false, 2)
+		draw_string(ThemeDB.fallback_font, center + Vector2(-6, 6), "P" if location.kind == "inn" else "M", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, color)
 	if selected:
 		draw_arc(tiles.map_to_local(state.hero_cell), 14, 0, TAU, 32, Color.WHITE, 2)
 	if preview.size() > 1:

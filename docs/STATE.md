@@ -1,9 +1,9 @@
 # Project state
 
-Updated: 2026-10-04
+Updated: 2026-10-05
 Branch: implementation
-Current task: Epic 1 minimal world map completed, with existing shutdown diagnostics.
-Next task: Epic 2 fog and POIs. Gate A passed by automated state/input tests and scene checks.
+Current task: Epic 2 fog and POIs completed, with existing shutdown diagnostics.
+Next task: authored dialogue (sequence step 05 / Epic 4) to complete Gate B.
 
 ## Provenance
 
@@ -51,7 +51,7 @@ implemented. Initial config is not yet loaded by runtime code.
 
 Bootstrap startup accepted with the documented nonfatal shutdown limitations.
 Gate A: passed for the prototype movement loop. Gates B through I: not passed.
-Epic 2 is next; no later gated features have been implemented.
+Epic 2 is complete. Gate B remains pending until authored dialogue works.
 
 ## Epic 1: minimal world map
 
@@ -75,4 +75,30 @@ hero selection and readable controls. Existing shutdown leak diagnostics persist
 No manual human playtest or FPS benchmark is claimed.
 
 Limitations: placeholder colored tiles, instant movement (no animation), single hero,
-whole-route affordability required (no partial movement). No fog or POIs yet.
+whole-route affordability required (no partial movement). Fog and POIs were added in Epic 2 below.
+
+## Epic 2: fog and POIs
+
+- WorldState owns UNKNOWN/EXPLORED/VISIBLE fog with a circular radius of 5 cells,
+  without line-of-sight simulation. Each traversed cell reveals its surroundings;
+  only the final hero radius remains visible. Exploration persists through turns.
+- Unknown terrain is absent from TileMapLayer and painted opaque; explored terrain
+  is dimmed. Player previews and moves use a separate AStarGrid2D containing only
+  discovered traversable cells, so unknown routes and terrain costs cannot leak.
+  The original full-terrain grid remains available for rule-level regression tests.
+- JSON contains LOC11 Venta del Perro Negro and LOC01 Santa Lucerna with canonical
+  names/IDs from the scenario bible. Positions [6,11] and [12,10] are prototype-only,
+  not replacements for full-map coordinates or the campaign's monastery start.
+- Discovered POIs show markers. Arrival opens a shared Spanish description window;
+  revisiting the current cell reopens it without spending points. Close button and
+  Escape restore controls. Modal blocks movement, camera input and end turn.
+- No dialogue, purchases, clues, NPCs or quest transitions have been implemented.
+
+Validation: 365 assertions passed headless and with OpenGL (exit 0), including the
+existing movement regression suite, circular visibility, intermediate route reveal,
+exploration retention, exclusion of every unknown cell from player navigation,
+failed POI movement, actual close-button mouse input, Escape, reopening and modal
+input isolation. Rendered map and monastery-window screenshots inspected at 1280x720.
+Editor import also completed with exit 0 and no script/import errors.
+The known ObjectDB/26-resources shutdown diagnostics persist. Manual playtesting and
+FPS benchmarking remain unperformed. Gate B is not marked passed.

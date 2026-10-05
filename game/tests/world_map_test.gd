@@ -69,11 +69,36 @@ func run() -> void:
 		state.grid.set_point_solid(state.hero_cell + offset, true)
 	check(state.path_to(Vector2i(0, 0)).is_empty(), "Unreachable destination has no path")
 
+	var scout = WorldState.new()
+	check(scout.fog_at(Vector2i(2, 10)) == WorldState.Fog.VISIBLE, "Hero cell visible at start")
+	check(scout.fog_at(Vector2i(7, 10)) == WorldState.Fog.VISIBLE, "Radius five boundary visible")
+	check(scout.fog_at(Vector2i(7, 11)) == WorldState.Fog.UNKNOWN, "Outside circular radius hidden")
+	check(scout.location_at(Vector2i(12, 10)).is_empty(), "Unknown monastery not exposed")
+	check(scout.location_at(Vector2i(6, 11)).id == "LOC11", "Inn discovered at start")
+	check(scout.path_to(Vector2i(12, 10), true).is_empty(), "Preview cannot reveal unknown route")
+	var fog_before: Dictionary = scout.fog.duplicate()
+	check(not scout.move_to(Vector2i(12, 10), true), "Cannot jump into unknown terrain")
+	check(scout.fog == fog_before and scout.movement_remaining == 18, "Rejected exploration changes nothing")
+	check(scout.move_to(Vector2i(7, 10), true), "Can explore toward visible frontier")
+	check(scout.fog_at(Vector2i(2, 5)) == WorldState.Fog.EXPLORED, "Old visibility retained as explored")
+	check(scout.fog_at(Vector2i(4, 5)) == WorldState.Fog.EXPLORED, "Intermediate route cells reveal surroundings")
+	check(scout.location_at(Vector2i(12, 10)).id == "LOC01", "Monastery discovered by approach")
+	check(scout.fog_at(Vector2i(19, 0)) == WorldState.Fog.UNKNOWN, "Distant terrain stays hidden")
+	scout.end_turn()
+	check(scout.fog_at(Vector2i(2, 5)) == WorldState.Fog.EXPLORED, "Exploration survives day change")
+	check(scout.move_to(Vector2i(2, 10), true), "Return through explored terrain")
+	check(scout.fog_at(Vector2i(2, 5)) == WorldState.Fog.VISIBLE, "Returning restores visibility")
+	for y in scout.grid.region.size.y:
+		for x in scout.grid.region.size.x:
+			var cell := Vector2i(x, y)
+			if scout.fog_at(cell) == WorldState.Fog.UNKNOWN:
+				check(scout.known_grid.is_point_solid(cell), "Unknown cells excluded from player pathfinding")
+
 	var map = load("res://src/world/world_map.tscn").instantiate()
 	root.add_child(map)
 	await process_frame
 	await process_frame
-	check(map.tiles.get_used_cells().size() == 400, "All map cells rendered")
+	check(map.tiles.get_used_cells().size() == map.state.fog.size(), "Only discovered terrain is rendered")
 	check(map.camera.is_current(), "Prototype camera active")
 	click_map(map, Vector2i(3, 10))
 	check(map.state.hero_cell == Vector2i(2, 10), "Movement requires hero selection")
@@ -115,6 +140,49 @@ func run() -> void:
 		await process_frame
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("C:/dev/game/tools/local/world-preview.png")
+	# POI arrival, modal input isolation, closing and reopening.
+	check(map.tiles.get_cell_source_id(Vector2i(19, 0)) == -1, "Hidden terrain has no tile")
+	map.state.movement_remaining = 0
+	click_map(map, Vector2i(6, 11))
+	check(not map.poi_modal.visible, "Over-budget POI cannot open")
+	map.state.end_turn()
+	click_map(map, Vector2i(6, 11))
+	check(map.poi_modal.visible and map.poi_title.text == "Venta del Perro Negro", "Arrival opens inn window")
+	check(map.state.hero_cell == Vector2i(6, 11), "POI opens only after arrival")
+	var modal_cell: Vector2i = map.state.hero_cell
+	var modal_day: int = map.state.day
+	var modal_camera: Vector2 = map.camera.position
+	click_map(map, Vector2i(7, 10))
+	root.push_input(pan, true)
+	map.end_button.pressed.emit()
+	check(map.state.hero_cell == modal_cell and map.state.day == modal_day, "Modal blocks movement and day changes")
+	check(map.camera.position == modal_camera, "Modal blocks camera drag")
+	var close_event := InputEventMouseButton.new()
+	close_event.position = map.poi_close.get_global_rect().get_center()
+	close_event.button_index = MOUSE_BUTTON_LEFT
+	close_event.pressed = true
+	await process_frame
+	close_event.position = map.poi_close.get_global_rect().get_center()
+	root.push_input(close_event, true)
+	close_event = close_event.duplicate()
+	close_event.pressed = false
+	root.push_input(close_event, true)
+	check(not map.poi_modal.visible and not map.end_button.disabled, "Close button restores map controls")
+	var remaining: int = map.state.movement_remaining
+	click_map(map, Vector2i(6, 11))
+	check(map.poi_modal.visible and map.state.movement_remaining == remaining, "Reopen current POI without movement cost")
+	var escape := InputEventKey.new()
+	escape.keycode = KEY_ESCAPE
+	escape.pressed = true
+	root.push_input(escape, true)
+	check(not map.poi_modal.visible, "Escape closes POI")
+	click_map(map, Vector2i(7, 10))
+	click_map(map, Vector2i(12, 10))
+	check(map.poi_modal.visible and map.poi_title.text == "Monasterio de Santa Lucerna", "Generic window opens monastery")
+	if DisplayServer.get_name() != "headless":
+		await process_frame
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("C:/dev/game/tools/local/poi-preview.png")
 	map.queue_free()
 	await process_frame
 	print("World map checks: %d, failures: %d" % [checks, failures])

@@ -21,10 +21,16 @@ initialization and main-scene startup, not interactive playability or FPS.
 
 Omit `--headless` for graphics validation. The graphics run writes a review screenshot
 at `tools/local/world-preview.png` (local path currently specific to this workspace).
-Expected: `World map checks: 58, failures: 0`, exit 0. Also inspect script/error logs.
+Expected: `World map checks: 365, failures: 0`, exit 0. Also inspect script/error logs.
 The suite instantiates the real map scene and dispatches mouse input through the
 viewport. It checks rules, weighted paths, blocked destinations, point spending,
 selection, pan/zoom, picking and route previews. End-turn wiring is tested through
 its button signal; it is not a manual playtest. Original bootstrap shutdown diagnostics
 remain and are recorded in STATE.md. Root tests/ directories remain scaffolding.
 See STATE.md for actual results and known shutdown diagnostics.
+
+Fog/POI coverage includes visibility radius, explored retention, discovery along
+movement paths, hidden navigation, hidden terrain removal, POI arrival affordability,
+reopening without cost, actual close-button mouse input, Escape and modal input
+isolation. Graphics tests also save tools/local/poi-preview.png for the monastery
+window. These images are local ignored artifacts. Scenario dialogue is not tested yet.

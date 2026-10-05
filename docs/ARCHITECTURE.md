@@ -37,3 +37,14 @@ The one-hero end turn advances day and replenishes movement.
 this state. `game/content/world/prototype.json` authors the fixed terrain layout.
 `game/tests/world_map_test.gd` tests state and actual viewport input dispatch.
 Retained upstream autoloads are unchanged; the new scene activates its own camera.
+
+## Fog and locations
+
+WorldState stores fog separately from visuals. A second AStarGrid2D, known_grid,
+contains discovered traversable cells; player moves/previews use discovered_only=true.
+The full grid remains useful for deterministic terrain tests. Fog is updated along
+successful routes; rejected movement does not reveal terrain. Rendering omits unknown
+tiles, dims explored cells and draws only discovered POI markers.
+Location records live in prototype.json. The map uses one modal for any reached
+location, populated from its authored name and description. No gameplay effects or
+NPC dialogue occur yet. The modal guards both world input and end-turn callbacks.

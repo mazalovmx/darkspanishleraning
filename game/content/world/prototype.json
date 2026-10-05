@@ -1,5 +1,9 @@
 {
   "legend": {".": "grass", "=": "road", "F": "forest", "M": "mountain", "~": "water", "s": "marsh", "f": "field", "r": "ruins", "*": "snow"},
+  "locations": [
+    {"id": "LOC11", "name": "Venta del Perro Negro", "kind": "inn", "position": [6, 11], "description": "Una posada en el camino. Un lugar de encuentro para viajeros."},
+    {"id": "LOC01", "name": "Monasterio de Santa Lucerna", "kind": "monastery", "position": [12, 10], "description": "Un monasterio conocido por copiar manuscritos y tratar enfermedades de los ojos."}
+  ],
   "rows": [
     "....................",
     "..FFFF........***...",

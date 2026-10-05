@@ -18,5 +18,9 @@ beliefs, secrets and proposals must stay separate from canonical evidence.
 ## Prototype terrain
 
 game/content/world/prototype.json contains a legend (single-character symbols to
-terrain names) and 20 rows of 20 symbols. Layout is authored and has no scenario
-facts or locations. Traversal costs remain deterministic in world_state.gd.
+terrain names) and 20 rows of 20 symbols. Layout is authored; the locations array adds prototype POIs. Traversal costs remain deterministic in world_state.gd.
+
+Each locations entry has id, name, kind (inn or monastery), position [x,y], and a
+Spanish description. IDs LOC01/LOC11 and names match WORLD_AND_SCENARIO_BIBLE.md.
+Positions are local to the 20x20 fixture, not the 160x120 campaign. Descriptions use
+public location information only; no secret facts, clue unlocks or quest logic.

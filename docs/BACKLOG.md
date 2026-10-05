@@ -1,12 +1,15 @@
 # Backlog
 
-## Next: Epic 2, fog and POIs (toward Gate B)
+## Next: authored dialogue (sequence step 05 / Epic 4, Gate B)
 
-Read MASTER_BUILD_SPEC.md, STATE.md and WORLD_AND_SCENARIO_BIBLE.md before scenario work.
-Add UNKNOWN/EXPLORED/VISIBLE fog with radius 5, location markers, generic POI window,
-and inn/monastery examples. Unknown terrain stays hidden; discovered terrain persists
-as explored; reaching a POI opens its UI. Authored dialogue follows in Epic 4.
-Gate A passed: the 20 x 20 movement prototype and its tests are complete.
+Epic 2 is complete: fog, discovered POI markers and modal inn/monastery windows work.
+Follow the explicit first implementation sequence in MASTER_BUILD_SPEC.md section 41:
+now add authored dialogue with Spanish free-text input, NPC reply, bounded dialogue log,
+and a compact feedback area. Reuse the POI entry point. Read the scenario bible before
+choosing NPCs or writing lines. No Claude calls or language scoring before their stages.
+Acceptance: Spanish input produces an authored reply; dialogue closes/reopens; existing
+movement, fog and POI tests still pass. Gate B requires POI plus authored dialogue.
+Broader hero/inventory scaffolding remains deferred until needed by this sequence.
 
 ## Bootstrap follow-ups
 
