@@ -95,6 +95,7 @@ func run() -> void:
 				check(scout.known_grid.is_point_solid(cell), "Unknown cells excluded from player pathfinding")
 
 	var map = load("res://src/world/world_map.tscn").instantiate()
+	map.persistence_enabled = false
 	root.add_child(map)
 	await process_frame
 	await process_frame

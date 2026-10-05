@@ -2,8 +2,8 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: NPC grounding complete; equipment/soul/ghost catalogs authored and validated.
-Next task: save/load (sequence step 10). Latest passed gate: E; expansion runtime remains gated.
+Current task: save/load implemented and verified (sequence step 10).
+Next task: evidence display (step 11), then verified clue unlock (step 12). Latest passed gate: E.
 
 ## Provenance
 
@@ -291,3 +291,36 @@ slots/recipes, all item IDs/effects/tiers, SX reward references, curriculum cond
 knight effects and counter links. Existing shutdown diagnostics persist. These are
 content checks, not gameplay or balance tests. Catalogs remain authored_not_integrated.
 Next implementation stays step 10 save/load; runtime expansion waits for its gates.
+
+## Save/load (sequence step 10)
+
+Implemented one versioned user://savegame.json slot for the current prototype. It stores
+day, hero cell, remaining movement, explored cells and the complete implemented learner
+profile: grammar/verb observations, important-error counts/dates/examples, vocabulary,
+recent-message deduplication and successful NPC contexts. The current curriculum block
+is restored without unlocking new material. Fog visibility and weighted known-path
+grids are rebuilt from the snapshot; terrain and NPC definitions remain canonical content.
+
+Map UI has Guardar/Cargar, startup resume, and autosave after completed dialogue,
+returning from a location and ending the day. Save/load are blocked during an in-flight
+response. Loading replaces state only after validation, rebinds dialogue to its learner
+and clears transient conversation history/feedback. No raw Claude history, API key,
+request payload or generated world facts are serialized. Evidence, inventory, other
+heroes and NPC summaries do not exist in the new runtime yet and are not claimed saved.
+
+Writes validate a full snapshot, stage/flush/re-read a same-directory .tmp file and use
+Godot rename replacement without truncating the prior slot. Malformed/oversized files,
+unknown versions/maps, bad cells, malformed mastery/error fields and out-of-range values
+are rejected. Corruption keeps the running session intact and suspends autosave; explicit
+UI confirmation is needed to overwrite an unreadable slot. No power-loss durability
+claim is made. JSON uses full float precision; tests allow numerical drift <=1e-12 and
+integer counters are reconstructed as integers.
+
+Executed: 523 save/load assertions headless and with OpenGL, plus 365 map, 25 authored
+dialogue, 72 client, 27 Spanish feedback and 54 grounding assertions, all passed.
+A separate write process exited, then a fresh read process verified position/day and
+Spanish Unicode/profile data: both PASS/exit 0. Rendered save/load HUD screenshot
+inspected. Tests use isolated save paths or disable persistence, never the user slot.
+No live API call was made. Existing ObjectDB/26-resource shutdown diagnostics persist.
+Step 10 complete; next step 11 is evidence display, then step 12 verified clue unlock.
+This does not unlock campaign/equipment/knight runtime expansion or claim Gate F passed.

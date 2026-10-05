@@ -118,6 +118,7 @@ func run() -> void:
 	await process_frame
 
 	var map = load("res://src/world/world_map.tscn").instantiate()
+	map.persistence_enabled = false
 	root.add_child(map)
 	await process_frame
 	var panel = map.dialogue

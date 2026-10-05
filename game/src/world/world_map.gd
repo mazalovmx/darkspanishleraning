@@ -1,12 +1,20 @@
 extends Node2D
 
 const WorldState = preload("res://src/world/world_state.gd")
+const SaveGame = preload("res://src/save/save_game.gd")
 const CELL_SIZE := 32
 const COLORS := {"road": Color("bda474"), "grass": Color("69764b"),
 	"forest": Color("304a37"), "marsh": Color("64716b"), "mountain": Color("555660"),
 	"water": Color("365f80"), "field": Color("a29446"), "ruins": Color("80716a"),
 	"snow": Color("ccd7d7")}
 var state: WorldState = WorldState.new()
+var persistence_enabled := true
+var save_path := SaveGame.PATH
+var save_locked := false
+var save_button := Button.new()
+var load_button := Button.new()
+var save_notice := Label.new()
+var save_confirm := ConfirmationDialog.new()
 var selected := false
 var pointer := Vector2.ZERO
 var preview: Array[Vector2i] = []
@@ -38,6 +46,9 @@ func _ready() -> void:
 	_build_ui()
 	_refresh()
 	_update_preview()
+
+	if persistence_enabled:
+		_load_game(true)
 
 func _build_tiles() -> void:
 	var atlas_image := Image.create(CELL_SIZE * COLORS.size(), CELL_SIZE, false, Image.FORMAT_RGBA8)
@@ -76,7 +87,7 @@ func _build_ui() -> void:
 		margin.add_theme_constant_override("margin_" + side, 16)
 	panel.add_child(margin)
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 14)
+	box.add_theme_constant_override("separation", 10)
 	margin.add_child(box)
 	var title := Label.new()
 	title.text = "MAPA DE VIAJE"
@@ -87,14 +98,35 @@ func _build_ui() -> void:
 	instructions.add_theme_font_size_override("font_size", 15)
 	box.add_child(instructions)
 	box.add_child(route_info)
-	route_info.custom_minimum_size = Vector2(260, 72)
+	route_info.custom_minimum_size = Vector2(260, 60)
 	route_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	end_button.text = "Terminar turno"
 	end_button.pressed.connect(_end_turn)
 	box.add_child(end_button)
+	var saves := HBoxContainer.new()
+	save_button.text = "Guardar"
+	load_button.text = "Cargar"
+	save_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	load_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	save_button.pressed.connect(func(): _save_game())
+	load_button.pressed.connect(func(): _load_game())
+	saves.add_child(save_button)
+	saves.add_child(load_button)
+	box.add_child(saves)
+	save_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	save_notice.add_theme_font_size_override("font_size", 14)
+	box.add_child(save_notice)
+	layer.add_child(save_confirm)
+	save_confirm.title = "Reemplazar archivo"
+	save_confirm.dialog_text = "El archivo no se puede cargar. ¿Guardar esta partida en su lugar?"
+	save_confirm.confirmed.connect(func(): _save_game(false, true))
+	dialogue.request_started.connect(func():
+		save_button.disabled = true
+		load_button.disabled = true)
+	dialogue.turn_finished.connect(_on_dialogue_finished)
 	var legend := Label.new()
-	legend.text = "COSTE POR CASILLA\n\nCamino / pradera / campo: 1\nBosque / ruinas / nieve: 2\nPantano: 3\nAgua / montaña: impasable"
-	legend.add_theme_font_size_override("font_size", 15)
+	legend.text = "COSTE POR CASILLA\nCamino / pradera / campo: 1\nBosque / ruinas / nieve: 2\nPantano: 3\nAgua / montaña: impasable"
+	legend.add_theme_font_size_override("font_size", 14)
 	box.add_child(legend)
 	var labels := ["Camino", "Pradera", "Bosque", "Pantano", "Montaña", "Agua", "Campo", "Ruinas", "Nieve"]
 	var swatches := HFlowContainer.new()
@@ -157,6 +189,8 @@ func _close_poi() -> void:
 	poi_close.release_focus()
 	_update_preview()
 
+	_save_game(true)
+
 func _input(event: InputEvent) -> void:
 	# Handle Escape before LineEdit consumes it to release its keyboard focus.
 	if poi_modal.visible and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
@@ -202,6 +236,7 @@ func _end_turn() -> void:
 	if poi_modal.visible:
 		return
 	state.end_turn()
+	_save_game(true)
 	_refresh()
 	_update_preview()
 
@@ -266,3 +301,54 @@ func _draw() -> void:
 			points.append(tiles.map_to_local(cell))
 		var color := Color("f7df9a") if state.path_cost(preview) <= state.movement_remaining else Color("eb7770")
 		draw_polyline(points, color, 3)
+
+func _save_game(automatic := false, replace_invalid := false) -> void:
+	if not persistence_enabled:
+		return
+	if dialogue.client.busy or not dialogue.pending_location.is_empty():
+		if not automatic:
+			save_notice.text = "Espera a que termine la respuesta."
+		return
+	if save_locked and not replace_invalid:
+		if not automatic:
+			save_confirm.popup_centered()
+		return
+	var error: String = SaveGame.write_save(state, save_path)
+	if error.is_empty():
+		save_locked = false
+		save_notice.text = "Partida guardada."
+	else:
+		save_notice.text = "No se pudo guardar. Inténtalo de nuevo."
+
+func _load_game(startup := false) -> void:
+	if not persistence_enabled or dialogue.client.busy or not dialogue.pending_location.is_empty():
+		return
+	var result: Dictionary = SaveGame.read_save(save_path)
+	if not result.has("state"):
+		if result.error != "missing":
+			save_locked = true
+			save_notice.text = "Archivo no válido. Guardado automático pausado."
+		elif not startup:
+			save_notice.text = "Todavía no hay una partida guardada."
+		return
+	state = result.state
+	dialogue.world_state = state
+	dialogue.histories.clear()
+	dialogue.last_feedback.clear()
+	dialogue.location_id = ""
+	dialogue.input.clear()
+	poi_modal.hide()
+	end_button.disabled = false
+	selected = false
+	preview.clear()
+	save_locked = false
+	camera.position = tiles.map_to_local(state.hero_cell)
+	_clamp_camera()
+	_refresh()
+	_update_preview()
+	save_notice.text = "Partida cargada."
+
+func _on_dialogue_finished() -> void:
+	save_button.disabled = false
+	load_button.disabled = false
+	_save_game(true)

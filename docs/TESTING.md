@@ -132,3 +132,35 @@ component provenance, curriculum order, non-click assembly requirements, bounded
 effects, valid battle commands, optional counters and recovery contracts. This does
 not test implemented assembly, persuasion, simultaneous movement or battle balance:
 those systems are not connected. Existing ObjectDB/26-resource shutdown diagnostics remain.
+
+## Save/load checks
+
+```powershell
+& tools/local/godot/Godot_v4.6.2-stable_win64_console.exe --headless --path game --script res://tests/save_game_test.gd
+```
+
+Executed: 523 assertions, zero failures, exit 0 (headless and OpenGL). Tests use an
+isolated user://save_test_<process_id> directory, then clean only their own files.
+Existing map/dialogue/client/learner/grounding tests now disable persistence. The live
+test also disables it; that live test was not rerun in this task.
+
+Covers complete implemented-state round-trip, all 400 fog cells, weighted routes,
+learner deduplication, malformed input, future versions, corrupt/oversized files,
+validation/write/replacement failures, startup resume, UI confirmation before replacing
+an unreadable file, pending-reply guards, autosave and clearing transient feedback.
+Mastery equality tolerance is 1e-12; integer counters are restored as integers.
+The map scene was rendered and tools/local/save-preview.png was inspected.
+
+Fresh-process smoke (use a fresh unique filename beginning save_restart_):
+
+```powershell
+$testSavePath = 'user://save_restart_' + [guid]::NewGuid().ToString('N') + '.json'
+& tools/local/godot/Godot_v4.6.2-stable_win64_console.exe --headless --path game --script res://tests/save_restart_test.gd -- --write $testSavePath
+& tools/local/godot/Godot_v4.6.2-stable_win64_console.exe --headless --path game --script res://tests/save_restart_test.gd -- --read $testSavePath
+```
+
+Both processes passed and exited 0; the reader removes that test file. Regression:
+365 map + 25 authored + 72 client + 27 Spanish + 54 grounding passed. Existing
+ObjectDB/26-resource shutdown diagnostics remain. Abrupt power-loss recovery is not
+tested. Replacement uses the documented [Godot DirAccess.rename_absolute](https://docs.godotengine.org/en/4.6/classes/class_diraccess.html#class-diraccess-method-rename-absolute)
+behavior; successful Windows replacement and failed-destination preservation are tested.

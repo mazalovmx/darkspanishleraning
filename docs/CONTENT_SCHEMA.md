@@ -93,3 +93,21 @@ Profiles reference SB branches, optional SA counters and existing battle unit ID
 They include exact first/second-round commands and target rules, but no runtime AI
 consumes them. turn_contract specifies atomic snapshot/order resolution and save fields.
 Immutable evidence and main story facts are outside every intervention's authority.
+
+## Prototype save format v1
+
+user://savegame.json has exactly version, map_id, day, hero, explored and learner.
+hero contains cell [x,y] and movement; explored is a unique list of in-bounds cell pairs.
+Current map_id is prototype_20x20_v1; incompatible map changes require a version/map
+migration decision. The file is bounded to 1 MiB. Unknown formats are not silently reset.
+
+learner contains block, grammar, verbs, errors, vocabulary, recent_messages and
+successful_contexts. Fixed grammar/verb categories and ranges are validated; error
+records have positive integer count, valid last_seen_day and up to three examples.
+Only implemented NPC contexts/current teaching block are accepted. Vocabulary is capped
+at 100, message fingerprints at 40; these are learner memory, not full dialogue history.
+
+Visibility, terrain and AStar grids are derived. Save decoding constructs a separate
+WorldState; failed decoding cannot partially mutate the current session. A staged,
+validated file replaces the old slot only after successful writing. A stale .tmp is
+not treated as a committed save. No investigation/inventory placeholders are fabricated.

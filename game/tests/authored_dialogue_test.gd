@@ -14,6 +14,7 @@ func check(condition: bool, message: String) -> void:
 
 func run() -> void:
 	var map = load("res://src/world/world_map.tscn").instantiate()
+	map.persistence_enabled = false
 	root.add_child(map)
 	await process_frame
 	map.selected = true

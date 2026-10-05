@@ -1,4 +1,6 @@
 extends VBoxContainer
+signal request_started
+signal turn_finished
 ## Authored prototype conversations. This UI never changes canonical world state.
 
 const MAX_EXCHANGES := 12
@@ -84,6 +86,7 @@ func submit(message: String) -> void:
 	context["player_message"] = clean
 	context["recent_dialogue"] = histories[location_id].slice(-3)
 	context["language_profile"] = world_state.learner.context()
+	request_started.emit()
 	client.request_reply(context)
 
 func _on_reply(proposal: Dictionary) -> void:
@@ -119,6 +122,8 @@ func _on_reply(proposal: Dictionary) -> void:
 	pending_location = ""
 	pending_message = ""
 	pending_fallback = ""
+
+	turn_finished.emit()
 
 func reply_for(id: String, message: String) -> String:
 	if not conversations.has(id):

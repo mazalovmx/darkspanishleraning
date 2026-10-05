@@ -13,6 +13,7 @@ func run() -> void:
 		quit(2)
 		return
 	var map = load("res://src/world/world_map.tscn").instantiate()
+	map.persistence_enabled = false
 	root.add_child(map)
 	await process_frame
 	map.state.move_to(Vector2i(6, 11), true)

@@ -1,10 +1,13 @@
 # Backlog
 
-## Next: save/load (step 10)
+## Next: evidence display (step 11), then verified clue unlock (step 12)
 
-Gate E passed for the read-only canonical verifier. Implement persistence before
-evidence display/unlock (steps 11-12). Add coverage for save/reload of world and learner
-state. Equipment and soul-assembly authoring is requested; runtime expansion stays gated.
+Save/load now persists current world and learner state, resumes at startup, autosaves
+completed conversations/location exits/day ends and handles corrupt saves without
+mutating the session. Next add one canonical evidence node and display its observation,
+claim, interpretation, institutional status and causal link distinctly. Then connect
+one verified clue unlock to dialogue and extend/version saves for evidence state.
+Do not populate the full authored quest/equipment/ghost catalogs before their gates.
 
 ## Required language practice
 
