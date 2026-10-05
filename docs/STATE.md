@@ -2,8 +2,8 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: Claude client and strict response validation implemented; local tests pass.
-Next task: real Claude dialogue smoke test with a local API key to verify Gate C; do not begin Gate D yet.
+Current task: live Claude dialogue verified through the actual game UI; Gate C passed.
+Next task: Spanish feedback/evaluation (sequence step 08 / Gate D), following the ordered curriculum.
 
 ## Provenance
 
@@ -44,14 +44,14 @@ Editor shutdown reports ObjectDB instances leaked. Both timed runtime runs repor
 ObjectDB instances leaked and `26 resources still in use at exit`. These are unresolved
 shutdown diagnostics, not a clean all-errors-free result. They did not prevent startup.
 Original demo dialogue/combat, performance targets and export have not been tested.
-Claude transport is implemented but unverified against the live service. Learner model,
+Claude transport and actual UI completion have now been verified against the live service. Learner model,
 canonical GameState, evidence and JSON save/load are not implemented. Runtime config
 now lives at game/config/game.json and is loaded by the client.
 
 ## Gates
 
 Bootstrap startup accepted with the documented nonfatal shutdown limitations.
-Gates A and B: passed for the prototype movement and POI/authored-dialogue loops. Gates C through I: not passed.
+Gates A, B and C: passed. Gates D through I: not passed.
 Epics 2 and 4 are complete. Do not claim Claude dialogue or language evaluation yet.
 
 ## Epic 1: minimal world map
@@ -173,3 +173,22 @@ No random jumps to untaught tenses. Reviews use taught material; stretch is rest
 to the nearest next block and may be reduced during consolidation. Story tasks must be
 scaffolded to learner prerequisites. This is a design requirement, not an implemented
 mastery scheduler. Implement and test thresholds at the learner/scheduler stages.
+
+## Live Claude verification (2026-10-05)
+
+User supplied a local .env containing ANTHROPIC_KEY. tools/run-game.ps1 reads only the
+recognized Anthropic variables and maps the alias to the client's ANTHROPIC_API_KEY
+in the child process environment. It restores the launching process environment after
+exit; .env remains ignored, unchanged and untracked. No credential was printed.
+The launcher also supports ANTHROPIC_API_KEY (preferred if both names exist).
+
+Ran tools/run-game.ps1 -LiveTest: HTTP 200, HTTPRequest result 0, one attempt, exit 0.
+The real map scene reached the inn, submitted a short Spanish question through its
+dialogue panel, received a schema-valid proposal and verified that the actual reply
+was appended to the correct UI conversation rather than authored fallback. Gate C
+is now green. This supersedes the earlier pending notes; it is one live smoke test,
+not a language-quality benchmark. Existing shutdown leak diagnostics persist.
+
+game/tests/claude_live_test.gd is opt-in (--live); ordinary local suites make no paid
+calls. Next: display validated Spanish feedback and implement learner updates without
+randomly jumping ahead of the current curriculum block.

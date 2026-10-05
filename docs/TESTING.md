@@ -59,8 +59,25 @@ wrong types/ranges, truncated output, proposals that would mutate state, retry l
 missing key, offline mode, duplicate submissions, delayed replies and fallback UI.
 The authored-dialogue suite explicitly forces offline mode even if a key is available.
 
-Live Gate C remains pending: configure ANTHROPIC_API_KEY in the local environment and
+Live Gate C passed on 2026-10-05. To repeat: configure ANTHROPIC_API_KEY in the local environment and
 start a fresh Godot process. Keep dev_flags.offline_mode=false in game/config/game.json.
 Reach the inn, send a short Spanish message and verify a validated Claude reply rather
 than fallback. Use the debugger to inspect client completion if needed, never key/header
 contents. Record actual outcome and model availability before starting Gate D.
+
+## Local key launcher and opt-in live check
+
+```powershell
+# Launch the game with a locally supplied .env:
+./tools/run-game.ps1
+# Explicitly send one short real conversation (maximum one retry):
+./tools/run-game.ps1 -LiveTest
+```
+
+.env accepts ANTHROPIC_API_KEY or ANTHROPIC_KEY; the standard name takes precedence.
+The launcher supports simple KEY=value lines with optional matching quotes and optional
+export prefix; it does not execute the file. Existing process key is retained when no
+recognized nonempty value exists. Keys are passed only via the process environment.
+No key is put in command arguments or logs. Live test success requires schema validation
+AND the reply appearing in the originating UI log. Verified: HTTP 200, one attempt,
+PASS, exit 0. Tests without --live do not send a live request.

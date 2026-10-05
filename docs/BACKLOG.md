@@ -1,15 +1,14 @@
 # Backlog
 
-## Next: live verification of Gate C
+## Next: Spanish feedback/evaluation (step 08 / Gate D)
 
-Client, schema validation and UI fallback are implemented and covered by local tests.
-A real Messages call is still required. Set ANTHROPIC_API_KEY locally, launch a fresh
-Godot process, open a reached POI and send a short Spanish greeting. Never put the key
-in chat, repository, logs or saves. Confirm the reply passes validation and the UI
-recovers from unavailable service; do not mark Gate C green from fake transport tests.
-Default model is configurable at game/config/game.json. Official docs were checked
-on 2026-10-05; account access must still be verified live.
-After Gate C: Spanish feedback/evaluation (step 08 / Gate D), then grounding and saves.
+Gate C passed with a real HTTP 200 completion and UI log verification on 2026-10-05.
+Implement visible meaning feedback and at most two useful corrections without blocking
+the conversation. Track grammar/irregular verbs and bounded learner mastery using
+validated evaluations. Keep ordered prerequisite blocks from master section 1.3;
+no random advanced-tense tasks. Grounding and saves follow in the prescribed sequence.
+Use tools/run-game.ps1 to launch with a local .env, or -LiveTest for an explicit paid
+smoke test. Ordinary regression tests stay offline.
 
 ## Required language practice
 
