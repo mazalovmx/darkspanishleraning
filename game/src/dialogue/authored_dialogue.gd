@@ -20,6 +20,7 @@ var pending_fallback := ""
 var pending_day := 1
 var last_feedback: Dictionary = {}
 var world_state: RefCounted
+var grounding = preload("res://src/dialogue/npc_grounding.gd").new()
 
 func _ready() -> void:
 	add_child(client)
@@ -77,9 +78,13 @@ func submit(message: String) -> void:
 	input.editable = false
 	send_button.disabled = true
 	feedback.text = "Esperando respuesta…"
-	client.request_reply({"npc": conversations[location_id], "player_message": clean,
-		"recent_dialogue": histories[location_id].slice(-3),
-		"language_profile": world_state.learner.context()})
+	# No quest/revealed-evidence state exists before sequence steps 10-12.
+	var context: Dictionary = grounding.context_for(conversations[location_id].npc_id,
+		grounding.intent_for(clean), {}, [])
+	context["player_message"] = clean
+	context["recent_dialogue"] = histories[location_id].slice(-3)
+	context["language_profile"] = world_state.learner.context()
+	client.request_reply(context)
 
 func _on_reply(proposal: Dictionary) -> void:
 	if pending_location.is_empty():
@@ -87,6 +92,13 @@ func _on_reply(proposal: Dictionary) -> void:
 	# Recheck the boundary before learner updates, even if a caller bypasses HTTP.
 	if not proposal.is_empty() and not client.valid_proposal(proposal):
 		proposal = {}
+	if not proposal.is_empty():
+		var intent: String = grounding.intent_for(pending_message)
+		var unlock: Variant = proposal.conversation.suggested_unlock
+		if not grounding.allows_unlock(unlock, conversations[pending_location].npc_id, intent, {}, []):
+			proposal = {}
+		elif unlock != null and proposal.conversation.player_intent != intent:
+			proposal = {}
 	last_feedback[pending_location] = "Evaluación de español no disponible. Puede continuar la conversación."
 	if not proposal.is_empty():
 		world_state.learner.observe(proposal.language, pending_message,

@@ -2,8 +2,8 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: 108 side quests and battle encounters authored and validated; integration gated.
-Next task: NPC grounding and deterministic canonical verifier (sequence step 09 / Epic 6).
+Current task: NPC grounding and canonical verifier implemented; Gate E passed.
+Next task: save/load (sequence step 10); requested equipment catalog authoring also in progress.
 
 ## Provenance
 
@@ -242,3 +242,31 @@ referential integrity, prerequisites/reachability, curriculum order, evidence/an
 coherence, acrostics, stacks and peaceful/retreat paths. Existing shutdown diagnostics
 persist. This task changes authored content and its validator, not gameplay systems.
 Gate D remains the latest passed gate; next implementation is grounding/verifier.
+
+## NPC grounding and canonical verifier (step 09)
+
+Added npc_grounding.json with separate public knowledge, beliefs, false beliefs,
+secrets, lie policy and register for the two prototype NPCs. Lucio's secret follows
+bible 13.1; he does not receive the true nature of El Índice. Undisclosed secret text
+is not sent to Claude. Prototype innkeeper remains separate from protagonist Mateo.
+Profiles deliberately add no unsupported rumors or lies.
+
+NpcGrounding builds copied, bounded per-NPC context and checks clue existence, actual
+NPC knowledge, exact prerequisite states, repeat reveals and locally recognized intent.
+Model-supplied player_intent is not authority. Unknown IDs and public facts that are
+not clues are rejected. Missing policies fail closed. Secrets require an explicit,
+nonempty canonical release policy. UI checks before showing a proposal or updating
+learner observations; rejection uses the originating NPC's authored fallback, including
+late responses after moving to another NPC.
+
+Runtime clue catalog is intentionally empty until sequence steps 11-12. Tests use
+synthetic clue fixtures to exercise acceptance and denial without adding story evidence.
+No clue, quest, inventory or relationship mutation exists in this task. The verifier
+protects canonical state; it cannot prove arbitrary generated prose factually correct.
+Intent recognition is a conservative authored-keyword baseline, not semantic analysis.
+
+Executed: 54 grounding checks, 72 client, 27 Spanish feedback and 25 authored dialogue
+checks, all zero failures/exit 0. Grounding integration runs the actual map/dialogue
+scene with a fake transport; no live API call was made. Existing ObjectDB/26-resource
+shutdown diagnostics persist. Gate E is green for the verifier; evidence display/unlock
+still follow save/load in the explicit sequence. Next implementation: step 10 save/load.

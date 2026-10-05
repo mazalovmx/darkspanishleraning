@@ -70,7 +70,7 @@ func run() -> void:
 	check(Client.valid_proposal(corrected), "Structured correction accepted")
 	var malicious := valid()
 	malicious.conversation.suggested_unlock = "invented_clue"
-	check(not Client.valid_proposal(malicious), "Unlock rejected before grounding system exists")
+	check(Client.valid_proposal(malicious), "Unlock string passes syntax; canonical verifier checks authorization")
 	malicious = valid()
 	malicious.conversation.npc_attitude_delta = true
 	check(not Client.valid_proposal(malicious), "Boolean attitude rejected")

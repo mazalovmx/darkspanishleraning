@@ -1,13 +1,10 @@
 # Backlog
 
-## Next: NPC grounding and canonical verifier (step 09 / Epic 6)
+## Next: save/load (step 10)
 
-Gate D passed: meaning/corrections display and bounded learner observations work,
-including one live error-correction check. Build NPC knowledge, beliefs, secrets and
-lie policy from the scenario bible, assemble bounded context, and deterministically
-reject unknown/out-of-knowledge clue proposals. No arbitrary model state mutation.
-Save/load follows step 10; evidence node and clue unlock follow steps 11-12. Preserve
-the current ordered language block; full scheduler and advancement remain later work.
+Gate E passed for the read-only canonical verifier. Implement persistence before
+evidence display/unlock (steps 11-12). Add coverage for save/reload of world and learner
+state. Equipment and soul-assembly authoring is requested; runtime expansion stays gated.
 
 ## Required language practice
 

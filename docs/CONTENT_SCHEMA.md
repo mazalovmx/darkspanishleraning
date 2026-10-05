@@ -60,3 +60,18 @@ assessment engine. Battle victory has null truth_effect; peaceful access require
 prior evidence, never its own reward. Artifacts are nonconsumable and quest-critical.
 The validator scene tests references, DAG reachability, language order, answer coherence,
 cipher solutions, stack bounds and non-blocking retreat/peaceful paths.
+
+## NPC grounding boundary
+
+npc_grounding.json contains facts keyed by ID, clues keyed by the same ID, an authored
+intent-keyword map and NPC profiles keyed by ID. Profiles require persona, knowledge,
+beliefs, false_beliefs, secrets, lie_policy and language_register. A clue policy requires
+intent and prerequisites (exact string-valued quest states); a secret entry requires id
+and nonempty prerequisites. No clue entries are populated at this stage.
+
+Only authorized known facts and disclosed secrets reach the prompt. Beliefs stay in
+separate fields and never grant clue permission. Syntax validation accepts null or
+nonempty unlock strings up to 100 characters; NpcGrounding then rejects IDs outside
+the canonical catalog/knowledge or unmet conditions. This service is read-only.
+The dialogue supplies empty quest/reveal state until persistence/evidence integration;
+neither model text nor conversation.player_intent supplies canonical state.

@@ -108,3 +108,13 @@ Executed 2026-10-05: 5,341 checks, zero failures, exit 0. Validates all 108 ques
 108 artifacts, 108 battle records, 12 branches and cipher answers. These checks do
 not exercise campaign integration, combat balance, language assessment or persistence.
 The existing ObjectDB/26-resource shutdown diagnostics still appear.
+
+## NPC grounding checks
+
+Run: Godot --headless --path game --script res://tests/npc_grounding_test.gd
+(using the local binary shown above). Executed: 54 checks, zero failures, exit 0.
+Covers per-NPC isolation, withheld secrets, copied context, known/unknown clue IDs,
+exact prerequisite types, repeated reveals, belief vs knowledge, local intent and the
+actual map/dialogue response boundary with fake transport. Existing 72 client, 27
+Spanish feedback and 25 authored dialogue checks also passed. No live call on this step.
+Existing shutdown retention diagnostics remain; arbitrary prose truth is not verified.
