@@ -2,15 +2,15 @@
 
 Updated: 2026-10-04
 Branch: implementation
-Current task: bootstrap repository from GDQuest Open RPG completed, with known shutdown diagnostics.
-Next task: Epic 1, minimal world map. Gate A is not yet passed.
+Current task: Epic 1 minimal world map completed, with existing shutdown diagnostics.
+Next task: Epic 2 fog and POIs. Gate A passed by automated state/input tests and scene checks.
 
 ## Provenance
 
 Upstream repository: https://github.com/gdquest-demos/godot-open-rpg
 Upstream commit: 19bd328fae9e4b534d3bb6db380a3d871d6ea58f
 Engine verified: 4.6.2.stable.official.71f334935
-Working project: game/project.godot; main scene: game/src/main.tscn.
+Working project: game/project.godot; main scene: game/src/world/world_map.tscn.
 The upstream/ checkout is an ignored local reference, not an embedded submodule.
 Original root specifications and docs/ copies match byte-for-byte.
 
@@ -43,13 +43,36 @@ No speculative refactoring or changes to scenario/specification content.
 Editor shutdown reports ObjectDB instances leaked. Both timed runtime runs report
 ObjectDB instances leaked and `26 resources still in use at exit`. These are unresolved
 shutdown diagnostics, not a clean all-errors-free result. They did not prevent startup.
-Interactive movement/dialogue/combat, visual correctness, performance targets and
-export have not been tested. No gameplay unit tests exist yet.
+Original demo dialogue/combat, performance targets and export have not been tested.
 Claude API, learner model, canonical GameState, evidence and JSON save/load are not
 implemented. Initial config is not yet loaded by runtime code.
 
 ## Gates
 
 Bootstrap startup accepted with the documented nonfatal shutdown limitations.
-Gates A through I: not passed. The upstream demo is not evidence that any game-specific
-gate is green. Only Epic 1 is next; later feature work remains locked.
+Gate A: passed for the prototype movement loop. Gates B through I: not passed.
+Epic 2 is next; no later gated features have been implemented.
+
+## Epic 1: minimal world map
+
+- Authored 20 x 20 JSON terrain rendered with TileMapLayer, a Sprite2D hero and Camera2D.
+- Weighted AStarGrid2D routes, cardinal movement, blocked water/mountains, all specified
+  terrain costs. Out-of-bounds/unreachable/over-budget moves leave state unchanged.
+- Click hero to select; hover previews a route and total cost; click destination moves.
+  Right click deselects; middle drag pans; wheel zooms. Spanish UI shows day and points.
+- End turn advances the single-hero day and restores 18 movement points.
+- RefCounted WorldState owns prototype data; visuals reflect it. A full campaign
+  GameState/autoload, HeroState, saves and multi-hero rules remain future work.
+- New runtime code/content/tests live in game/ so Godot resource paths work without
+  copying or external-path dependencies. Root scaffolding remains reserved.
+
+Validation: 58 checks passed headless and with OpenGL on Radeon Vega 8, exit 0.
+Coverage includes weighted detours, blocked and unreachable cells, full budget use,
+atomic rejection, selection/movement via viewport mouse events, pan/zoom picking,
+route preview and end-turn signal wiring. New default main scene ran for 60 frames.
+Imported scripts successfully; inspected a rendered 1280 x 720 screenshot with route,
+hero selection and readable controls. Existing shutdown leak diagnostics persist.
+No manual human playtest or FPS benchmark is claimed.
+
+Limitations: placeholder colored tiles, instant movement (no animation), single hero,
+whole-route affordability required (no partial movement). No fog or POIs yet.

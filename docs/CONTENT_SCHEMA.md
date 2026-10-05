@@ -14,3 +14,9 @@ when implementing Epic 5. Never include API keys in configuration or saves.
 
 Future content must use stable IDs and deterministic prerequisites. NPC knowledge,
 beliefs, secrets and proposals must stay separate from canonical evidence.
+
+## Prototype terrain
+
+game/content/world/prototype.json contains a legend (single-character symbols to
+terrain names) and 20 rows of 20 symbols. Layout is authored and has no scenario
+facts or locations. Traversal costs remain deterministic in world_state.gd.

@@ -1,13 +1,12 @@
 # Backlog
 
-## Next: Epic 1, minimal world map (Gate A)
+## Next: Epic 2, fog and POIs (toward Gate B)
 
-Read MASTER_BUILD_SPEC.md and STATE.md before implementation.
-Create a 20 x 20 TileMapLayer prototype, camera pan/zoom, selectable hero,
-AStarGrid2D path preview, terrain costs and end-turn control.
-Acceptance: movement consumes points; forest costs 2 vs road 1;
-mountains/water are impassable. Run relevant tests and the smallest scene.
-Resolve Godot resource placement for new root-level scaffolding before adding code.
+Read MASTER_BUILD_SPEC.md, STATE.md and WORLD_AND_SCENARIO_BIBLE.md before scenario work.
+Add UNKNOWN/EXPLORED/VISIBLE fog with radius 5, location markers, generic POI window,
+and inn/monastery examples. Unknown terrain stays hidden; discovered terrain persists
+as explored; reaching a POI opens its UI. Authored dialogue follows in Epic 4.
+Gate A passed: the 20 x 20 movement prototype and its tests are complete.
 
 ## Bootstrap follow-ups
 

@@ -13,6 +13,18 @@ Inspect logs as well as exit codes: Godot may return zero despite script errors.
 `--quit-after` counts frames, not seconds. The windowed smoke run checks graphics
 initialization and main-scene startup, not interactive playability or FPS.
 
-Current automated gameplay tests: none. The tests directories are scaffolding.
-Add deterministic movement tests with Epic 1; later tests must follow the gates.
+## World map regression checks
+
+```powershell
+& tools/local/godot/Godot_v4.6.2-stable_win64_console.exe --headless --path game --script res://tests/world_map_test.gd
+```
+
+Omit `--headless` for graphics validation. The graphics run writes a review screenshot
+at `tools/local/world-preview.png` (local path currently specific to this workspace).
+Expected: `World map checks: 58, failures: 0`, exit 0. Also inspect script/error logs.
+The suite instantiates the real map scene and dispatches mouse input through the
+viewport. It checks rules, weighted paths, blocked destinations, point spending,
+selection, pan/zoom, picking and route previews. End-turn wiring is tested through
+its button signal; it is not a manual playtest. Original bootstrap shutdown diagnostics
+remain and are recorded in STATE.md. Root tests/ directories remain scaffolding.
 See STATE.md for actual results and known shutdown diagnostics.
