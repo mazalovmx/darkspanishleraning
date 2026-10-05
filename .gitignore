@@ -1,0 +1,13 @@
+.godot/
+**/.godot/
+.env
+.env.*
+!.env.example
+*.log
+*.tmp
+exports/
+tools/local/
+savegame.json
+
+# Local upstream reference; runnable source is vendored in game/.
+/upstream/
