@@ -3,7 +3,7 @@ extends RefCounted
 const WorldState = preload("res://src/world/world_state.gd")
 const Learner = preload("res://src/spanish/learner_profile.gd")
 const PATH := "user://savegame.json"
-const VERSION := 1
+const VERSION := 2
 const MAP_ID := "prototype_20x20_v1"
 const MAX_BYTES := 1048576
 
@@ -17,7 +17,7 @@ static func snapshot(state: WorldState) -> Dictionary:
 	var learner = state.learner
 	return {"version": VERSION, "map_id": MAP_ID, "day": state.day,
 		"hero": {"cell": [state.hero_cell.x, state.hero_cell.y], "movement": state.movement_remaining},
-		"explored": explored, "learner": {"block": learner.current_block,
+		"explored": explored, "evidence": state.evidence.progress(), "learner": {"block": learner.current_block,
 		"grammar": learner.grammar.duplicate(true), "verbs": learner.verbs.duplicate(true),
 		"errors": learner.errors.duplicate(true), "vocabulary": learner.vocabulary.duplicate(),
 		"recent_messages": learner.recent_messages.duplicate(),
@@ -84,10 +84,14 @@ static func _learner_valid(data: Variant, day: int) -> bool:
 	return true
 
 static func decode(data: Variant) -> Dictionary:
-	if not data is Dictionary or data.size() != 6:
+	if not data is Dictionary:
 		return {"error": "invalid"}
-	if not _integer(data.get("version"), VERSION, VERSION):
+	if not _integer(data.get("version"), 1, VERSION):
 		return {"error": "version"}
+	if data.size() != (6 if data.version == 1 else 7):
+		return {"error": "invalid"}
+	if data.version == VERSION and not data.has("evidence"):
+		return {"error": "invalid"}
 	if not data.get("map_id") is String or data.map_id != MAP_ID:
 		return {"error": "map"}
 	if not _integer(data.get("day"), 1, 1000000) or not data.get("hero") is Dictionary or data.hero.size() != 2:
@@ -102,6 +106,8 @@ static func decode(data: Variant) -> Dictionary:
 	if not _learner_valid(data.get("learner"), int(data.day)):
 		return {"error": "invalid"}
 	var state := WorldState.new()
+	if not state.evidence.restore(data.get("evidence", {}), int(data.day)):
+		return {"error": "invalid"}
 	state.hero_cell = Vector2i(cell[0], cell[1])
 	if state.terrain_cost(state.hero_cell) == 0:
 		return {"error": "invalid"}

@@ -87,7 +87,7 @@ func run() -> void:
 		var bad := original.duplicate(true)
 		bad.erase(field)
 		check(not Save.decode(bad).has("state"), "Missing field rejected")
-	for value in [true, "1", 0, 2, 1.5]:
+	for value in [true, "1", 0, 3, 1.5]:
 		var bad := original.duplicate(true)
 		bad.version = value
 		check(not Save.decode(bad).has("state"), "Unknown or malformed version rejected")

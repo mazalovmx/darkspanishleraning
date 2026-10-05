@@ -111,3 +111,15 @@ Visibility, terrain and AStar grids are derived. Save decoding constructs a sepa
 WorldState; failed decoding cannot partially mutate the current session. A staged,
 validated file replaces the old slot only after successful writing. A stale .tmp is
 not treated as a committed save. No investigation/inventory placeholders are fabricated.
+
+## Evidence seed and save v2
+
+content/evidence/opening.json owns canonical observation/claim/interpretation/status/
+causal text. EvidenceGraph stores only progress, returns copies and accepts the authored
+Spanish exercise plus classification. A record has found_day, classification and
+spanish_note; no model or save can replace canonical node text.
+
+Save v2 adds evidence to the six v1 fields. V1 migration supplies an empty dictionary;
+the next write uses v2. Accepted records use known IDs, exact authored classification,
+bounded guided Spanish and an integer day no later than the saved world day.
+This is the first graph node; hypothesis links/comparison gates remain later work.

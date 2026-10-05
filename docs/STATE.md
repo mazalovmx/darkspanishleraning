@@ -2,8 +2,8 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: save/load implemented and verified (sequence step 10).
-Next task: evidence display (step 11), then verified clue unlock (step 12). Latest passed gate: E.
+Current task: evidence notebook implemented and verified (step 11).
+Next task: verified dialogue clue unlock (step 12). Latest passed gate: E.
 
 ## Provenance
 
@@ -324,3 +324,23 @@ inspected. Tests use isolated save paths or disable persistence, never the user 
 No live API call was made. Existing ObjectDB/26-resource shutdown diagnostics persist.
 Step 10 complete; next step 11 is evidence display, then step 12 verified clue unlock.
 This does not unlock campaign/equipment/knight runtime expansion or claim Gate F passed.
+
+## Evidence notebook (step 11)
+
+Added the canonical travel-food observation from bible Act I. Physical inspection is
+available only at Santa Lucerna. The notebook separates observation, attributed claim,
+four interpretations, institutional status and absent causal proof. Recording requires
+a typed, authored present-tense Spanish description plus correct classification as an
+observation. Guided matching does not award free-language mastery, prove a cause, unlock
+a curriculum block or complete the investigation. Wrong attempts are repeatable.
+
+Cuaderno opens the journal from the map; Examinar pertenencias opens the guided inspection
+in the monastery. Notebook blocks travel/end-day input, supports Escape and autosaves a
+successful record. Save v2 persists evidence ID/day/classification/Spanish note, never
+canonical evidence prose. V1 loads with an empty notebook and preserves existing progress.
+Unknown IDs, forged causal classifications and malformed records are rejected.
+
+Executed: 53 notebook checks headless and OpenGL, 524 save/load, 365 map and 25 authored
+dialogue checks passed. Final notebook screenshot inspected; all five sections visible.
+Existing ObjectDB/26-resource shutdown diagnostics persist. Step 11 complete. Next:
+step 12, one clue unlocked through grounded dialogue; no full investigation/Gate F yet.

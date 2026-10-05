@@ -15,6 +15,9 @@ var save_button := Button.new()
 var load_button := Button.new()
 var save_notice := Label.new()
 var save_confirm := ConfirmationDialog.new()
+var notebook = preload("res://src/evidence/evidence_notebook.gd").new()
+var notebook_button := Button.new()
+var inspect_button := Button.new()
 var selected := false
 var pointer := Vector2.ZERO
 var preview: Array[Vector2i] = []
@@ -82,6 +85,12 @@ func _build_ui() -> void:
 	panel.theme.default_font = ThemeDB.fallback_font
 	layer.add_child(panel)
 	_build_poi_window(layer, panel.theme)
+	notebook.theme = panel.theme
+	layer.add_child(notebook)
+	notebook.closed.connect(func():
+		end_button.disabled = poi_modal.visible
+		_update_preview())
+	notebook.evidence_recorded.connect(func(): _save_game(true))
 	var margin := MarginContainer.new()
 	for side in ["left", "top", "right", "bottom"]:
 		margin.add_theme_constant_override("margin_" + side, 16)
@@ -112,6 +121,13 @@ func _build_ui() -> void:
 	load_button.pressed.connect(func(): _load_game())
 	saves.add_child(save_button)
 	saves.add_child(load_button)
+	notebook_button.text = "Cuaderno"
+	notebook_button.add_theme_font_size_override("font_size", 15)
+	notebook_button.pressed.connect(func():
+		notebook.open_journal(state)
+		end_button.disabled = true
+		_update_preview())
+	saves.add_child(notebook_button)
 	box.add_child(saves)
 	save_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	save_notice.add_theme_font_size_override("font_size", 14)
@@ -165,7 +181,12 @@ func _build_poi_window(layer: CanvasLayer, ui_theme: Theme) -> void:
 	box.add_child(dialogue)
 	poi_close.text = "Volver al mapa"
 	poi_close.pressed.connect(_close_poi)
-	box.add_child(poi_close)
+	var actions := HBoxContainer.new()
+	box.add_child(actions)
+	inspect_button.text = "Examinar pertenencias"
+	inspect_button.pressed.connect(func(): notebook.inspect(state))
+	actions.add_child(inspect_button)
+	actions.add_child(poi_close)
 	poi_modal.hide()
 
 func _open_poi(cell: Vector2i) -> void:
@@ -174,6 +195,7 @@ func _open_poi(cell: Vector2i) -> void:
 	var location := state.location_at(cell)
 	if location.is_empty():
 		return
+	inspect_button.visible = location.id == "LOC01"
 	poi_title.text = location.name
 	poi_description.text = location.description
 	dialogue.open_conversation(location.id)
@@ -192,13 +214,17 @@ func _close_poi() -> void:
 	_save_game(true)
 
 func _input(event: InputEvent) -> void:
+	if notebook.visible and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		notebook.close()
+		get_viewport().set_input_as_handled()
+		return
 	# Handle Escape before LineEdit consumes it to release its keyboard focus.
 	if poi_modal.visible and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		_close_poi()
 		get_viewport().set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if poi_modal.visible:
+	if poi_modal.visible or notebook.visible:
 		return
 	if event is InputEventMouse:
 		pointer = event.position
@@ -233,7 +259,7 @@ func _clamp_camera() -> void:
 	camera.force_update_scroll()
 
 func _end_turn() -> void:
-	if poi_modal.visible:
+	if poi_modal.visible or notebook.visible:
 		return
 	state.end_turn()
 	_save_game(true)
@@ -258,7 +284,7 @@ func _refresh() -> void:
 func _update_preview() -> void:
 	hovered = tiles.local_to_map(tiles.get_global_transform_with_canvas().affine_inverse() * pointer)
 	preview.clear()
-	if selected and not poi_modal.visible:
+	if selected and not poi_modal.visible and not notebook.visible:
 		preview = state.path_to(hovered, true)
 	if not selected:
 		route_info.text = "Selecciona al héroe para viajar."
@@ -333,6 +359,9 @@ func _load_game(startup := false) -> void:
 		return
 	state = result.state
 	dialogue.world_state = state
+	notebook.hide()
+	notebook.world_state = state
+	notebook.active_id = ""
 	dialogue.histories.clear()
 	dialogue.last_feedback.clear()
 	dialogue.location_id = ""

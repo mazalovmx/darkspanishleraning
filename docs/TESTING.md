@@ -164,3 +164,13 @@ Both processes passed and exited 0; the reader removes that test file. Regressio
 ObjectDB/26-resource shutdown diagnostics remain. Abrupt power-loss recovery is not
 tested. Replacement uses the documented [Godot DirAccess.rename_absolute](https://docs.godotengine.org/en/4.6/classes/class_diraccess.html#class-diraccess-method-rename-absolute)
 behavior; successful Windows replacement and failed-destination preservation are tested.
+
+## Evidence notebook checks
+
+Run local Godot with --headless --path game --script res://tests/evidence_notebook_test.gd.
+Executed: 53 assertions, zero failures, exit 0, headless and OpenGL. Checks empty journal,
+location restriction, mandatory typed Spanish and classification, open interpretations,
+copy isolation, save/restore, v1 migration, forged record rejection, modal input and
+autosave. tools/local/evidence-preview.png inspected after final layout adjustment.
+Regression: 524 save/load, 365 map, 25 authored dialogue assertions passed. Existing
+shutdown diagnostics persist. No live API calls or complete-investigation claim.
