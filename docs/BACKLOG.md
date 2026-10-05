@@ -35,3 +35,15 @@ Follow the new syllabus in master section 1.3. Unlock successive grammar blocks 
 after repeated success and delayed recall; choose/test exact thresholds at the learner
 stage. Keep quest language within mastered/current prerequisites. The 60/25/15 policy
 must not sample arbitrary advanced tenses: next-block practice only, with support.
+
+## Authored side expansion: integration remains locked
+
+108 SX quests, AX artifacts and BX encounters across 12 SB cases are authored and
+structurally validated; see SIDE_INVESTIGATIONS.md. After Gate I and prerequisites:
+- Integrate persistent quest/evidence state and validate catalog transitions canonically.
+- Bind language prerequisites and repeated/delayed practice to the actual scheduler.
+- Provide guided offline Spanish production; a choice click must not complete practice.
+- Connect map/NPC entry points and both custody routes; test retreat and save/reload.
+- Adapt the four unit definitions and abilities to stack combat, then playtest balance.
+- Implement case-specific disclosure consequences and optional cross-case comparisons.
+Authoring does not pass Gate E or supersede the next grounding/verifier task.

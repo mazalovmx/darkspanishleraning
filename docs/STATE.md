@@ -2,7 +2,7 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: Spanish feedback and learner observations implemented; Gate D passed.
+Current task: 108 side quests and battle encounters authored and validated; integration gated.
 Next task: NPC grounding and deterministic canonical verifier (sequence step 09 / Epic 6).
 
 ## Provenance
@@ -222,3 +222,23 @@ attempt for an intentional tener error and verified both visible correction and 
 verb mastery from a test-only baseline of 0.5. Gate D is green for this initial loop;
 this is not a language-quality benchmark or a complete teaching scheduler. Existing
 ObjectDB/26-resource shutdown diagnostics persist. Save/load remains unimplemented.
+
+## Side investigations: authored expansion, not runtime integration
+
+User requested more than 100 side quests and battles with parallel scholarly mysteries.
+Added 108 quests, 108 artifacts and 108 encounter configurations in 12 original cases,
+with 108 evidence-inference puzzles plus 12 acrostics, 24 local disclosure outcomes and
+12 optional cross-case links. Full authored Spanish prompts and seven ordered learning
+blocks accompany the quests. Original main scenario and six SQ quests remain intact.
+Index: SIDE_INVESTIGATIONS.md; source: game/content/scenario/side_investigations.json.
+
+The catalog is not loaded by gameplay. Integration remains locked until Gate I and
+save/load, stack battles and curriculum prerequisites are implemented. No battle balance
+or complete campaign playthrough is claimed. All purchases remain subject to the
+existing mandatory Spanish requirement; this change adds no transaction runtime.
+
+Executed the dedicated Godot test scene: 5,341 checks, zero failures, exit 0. Covers
+referential integrity, prerequisites/reachability, curriculum order, evidence/answer
+coherence, acrostics, stacks and peaceful/retreat paths. Existing shutdown diagnostics
+persist. This task changes authored content and its validator, not gameplay systems.
+Gate D remains the latest passed gate; next implementation is grounding/verifier.

@@ -2784,3 +2784,26 @@ Acceptance criteria:
 ```
 
 After this commit, begin **EPIC 1 — Minimal World Map**.
+
+# 49. User-requested side investigation expansion (2026-10-05)
+
+Author 108 additional optional quests and 108 associated battle encounters in 12
+parallel original investigations. Each case combines collectible evidence, competing
+interpretations, a solvable puzzle and a local consequence. Scholarly mysteries and
+semiotics inform the design; do not copy existing novels' characters or plots.
+
+The authored catalog is game/content/scenario/side_investigations.json; its index and
+limitations are in docs/SIDE_INVESTIGATIONS.md. SX/AX/BX/SB identifiers are reserved
+for this expansion and do not replace the bible's original SQ quests.
+
+All 108 quests require active Spanish production and consolidation. Language follows
+the ordered blocks in section 1.3; quest completion never independently unlocks a
+tense. Earlier learning must be consolidated before later tasks become available.
+All purchases still require language practice as specified in section 1.2.
+
+This authoring addition does not unlock later implementation epics. Runtime integration
+requires Gate I and implemented save/load, stack battles and curriculum prerequisites.
+Until then the catalog remains authored_not_integrated and balance unplaytested.
+The original vertical slice and main plot remain the development priority. Playing
+every optional case is additional content, not part of the original campaign-duration
+estimate. Do not claim authored encounters are playable or balanced.

@@ -95,3 +95,16 @@ reopen, fallback, invalid evaluation and absence of automatic curriculum advance
 The opt-in tools/run-game.ps1 -LiveTest now sends an intentional tener error and requires
 an actual correction in the feedback plus decreased tener mastery from a test-only 0.5
 baseline. Passed HTTP 200 in one attempt. This baseline never affects normal new games.
+
+## Side catalog validation
+
+Run the smallest relevant fixture scene:
+
+```powershell
+& tools/local/godot/Godot_v4.6.2-stable_win64_console.exe --headless --path game res://tests/side_catalog_test.tscn
+```
+
+Executed 2026-10-05: 5,341 checks, zero failures, exit 0. Validates all 108 quests,
+108 artifacts, 108 battle records, 12 branches and cipher answers. These checks do
+not exercise campaign integration, combat balance, language assessment or persistence.
+The existing ObjectDB/26-resource shutdown diagnostics still appear.

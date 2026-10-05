@@ -42,3 +42,21 @@ verb:<infinitive> from LearnerProfile.VERBS. Error type may combine those with |
 Unknown labels are ignored for mastery; correction text can still be shown after schema
 validation. No new response fields or evaluation requests were added. Learner values
 are observed estimates initialized at zero; persistence and placement are future work.
+
+## Reserved side investigation catalog
+
+game/content/scenario/side_investigations.json is version 1, authored_not_integrated.
+Arrays: curriculum_blocks, units, branches, quests, artifacts, battles, cross_branch_links;
+abilities is keyed by ability ID. Runtime loaders do not consume this file yet.
+SX001-SX108 reference AX001-AX108 and BX001-BX108; SB01-SB12 group nine quests each.
+Original SQ identifiers are unchanged. requires is an all-of dependency list.
+Each puzzle stores three interpretations, answer/rejection IDs and required evidence.
+Twelve access_puzzle entries additionally store self-contained acrostic rules/answers.
+These author-side solutions must not be shown in future player-facing clue views.
+
+Language records specify prerequisite block, new target, authored prompt, model frame,
+independent production and delayed recall. These are requirements, not an implemented
+assessment engine. Battle victory has null truth_effect; peaceful access requires only
+prior evidence, never its own reward. Artifacts are nonconsumable and quest-critical.
+The validator scene tests references, DAG reachability, language order, answer coherence,
+cipher solutions, stack bounds and non-blocking retreat/peaceful paths.

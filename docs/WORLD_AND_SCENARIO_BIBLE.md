@@ -2590,3 +2590,31 @@ They end by deciding whether civilization should trust:
 There is no perfect answer.
 
 That is the point.
+
+# 42. Optional parallel case catalog (2026-10-05)
+
+The user's expansion adds 12 original cases of nine quests each, with 108 evidence
+artifacts, 108 battle encounters, 108 evidence-inference puzzles and 12 acrostics.
+See docs/SIDE_INVESTIGATIONS.md and game/content/scenario/side_investigations.json
+for every title, observation, false interpretation, supported answer and dependency.
+
+Cases concern a reused census; displaced bell hours; water rights; displaced residents'
+names; workshop bestiary symbols; optical claims; port weights; hospital denominators;
+guild standards; private correspondence; mine ventilation; and grain categories.
+They occupy existing locations and do not rewrite the central deaths, Esteban's
+disappearance, El Índice or the main ending. Original SQ01-SQ06 remain distinct.
+The ventilation case complements the existing mining quest without replacing its facts.
+
+Branches have independent entries and parallel clue paths that rejoin. Twelve optional
+comparisons link completed cases. Each ending offers public publication or protected
+disclosure, with local consequences. Violence grants custody only, never establishes
+truth. Peaceful access and retreat preserve the ability to complete an investigation.
+
+Every quest includes Spanish practice through model, supported production, independent
+production and delayed recall. Blocks progress 1,1,2,2,3,4,5,6,7, subject to actual prior
+mastery. All advanced tasks remain unavailable until their language prerequisites are
+consolidated. Rule-based cipher solutions require no outside literary knowledge.
+
+Status: authored data only. The bible's slice-first sequence remains in force; runtime
+population waits for Gate I and required systems. Combat values are unplaytested.
+Full optional completion is outside the original campaign-duration estimate.
