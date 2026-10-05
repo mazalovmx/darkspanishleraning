@@ -47,4 +47,13 @@ successful routes; rejected movement does not reveal terrain. Rendering omits un
 tiles, dims explored cells and draws only discovered POI markers.
 Location records live in prototype.json. The map uses one modal for any reached
 location, populated from its authored name and description. No gameplay effects or
-NPC dialogue occur yet. The modal guards both world input and end-turn callbacks.
+quest transitions occur in the location handler. Authored dialogue is embedded below. The modal guards both world input and end-turn callbacks.
+
+## Authored dialogue
+
+`game/src/dialogue/authored_dialogue.gd` builds the conversation controls and selects
+replies from `game/content/dialogue/authored.json`. It normalizes Spanish accents/case
+and checks whole words/phrases in authored priority order. It does not assess meaning,
+grammar or canonical knowledge. Unknown questions select the speaker's fallback.
+The bounded per-location UI histories are transient and have no world-state authority.
+`world_map.gd` opens this panel only inside a reached POI and preserves modal input guards.

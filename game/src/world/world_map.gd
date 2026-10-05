@@ -21,6 +21,7 @@ var poi_modal := ColorRect.new()
 var poi_title := Label.new()
 var poi_description := Label.new()
 var poi_close := Button.new()
+var dialogue = preload("res://src/dialogue/authored_dialogue.gd").new()
 
 func _ready() -> void:
 	_build_tiles()
@@ -112,8 +113,8 @@ func _build_poi_window(layer: CanvasLayer, ui_theme: Theme) -> void:
 	poi_modal.theme = ui_theme
 	poi_modal.z_index = 10
 	var panel := PanelContainer.new()
-	panel.position = Vector2(340, 230)
-	panel.size = Vector2(600, 260)
+	panel.position = Vector2(260, 70)
+	panel.size = Vector2(760, 580)
 	poi_modal.add_child(panel)
 	var margin := MarginContainer.new()
 	for side in ["left", "top", "right", "bottom"]:
@@ -123,11 +124,12 @@ func _build_poi_window(layer: CanvasLayer, ui_theme: Theme) -> void:
 	box.add_theme_constant_override("separation", 20)
 	margin.add_child(box)
 	poi_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	poi_title.custom_minimum_size.x = 552
+	poi_title.custom_minimum_size.x = 712
 	box.add_child(poi_title)
 	poi_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	poi_description.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	dialogue.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	box.add_child(poi_description)
+	box.add_child(dialogue)
 	poi_close.text = "Volver al mapa"
 	poi_close.pressed.connect(_close_poi)
 	box.add_child(poi_close)
@@ -141,6 +143,7 @@ func _open_poi(cell: Vector2i) -> void:
 		return
 	poi_title.text = location.name
 	poi_description.text = location.description
+	dialogue.open_conversation(location.id)
 	preview.clear()
 	end_button.disabled = true
 	poi_modal.show()
@@ -153,10 +156,14 @@ func _close_poi() -> void:
 	poi_close.release_focus()
 	_update_preview()
 
+func _input(event: InputEvent) -> void:
+	# Handle Escape before LineEdit consumes it to release its keyboard focus.
+	if poi_modal.visible and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		_close_poi()
+		get_viewport().set_input_as_handled()
+
 func _unhandled_input(event: InputEvent) -> void:
 	if poi_modal.visible:
-		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-			_close_poi()
 		return
 	if event is InputEventMouse:
 		pointer = event.position

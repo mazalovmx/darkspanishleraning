@@ -2,8 +2,8 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: Epic 2 fog and POIs completed, with existing shutdown diagnostics.
-Next task: authored dialogue (sequence step 05 / Epic 4) to complete Gate B.
+Current task: authored dialogue (sequence step 05 / Epic 4) completed.
+Next task: Claude client and validated responses (sequence steps 06-07 / Epic 5, Gate C).
 
 ## Provenance
 
@@ -50,8 +50,8 @@ implemented. Initial config is not yet loaded by runtime code.
 ## Gates
 
 Bootstrap startup accepted with the documented nonfatal shutdown limitations.
-Gate A: passed for the prototype movement loop. Gates B through I: not passed.
-Epic 2 is complete. Gate B remains pending until authored dialogue works.
+Gates A and B: passed for the prototype movement and POI/authored-dialogue loops. Gates C through I: not passed.
+Epics 2 and 4 are complete. Do not claim Claude dialogue or language evaluation yet.
 
 ## Epic 1: minimal world map
 
@@ -102,3 +102,31 @@ input isolation. Rendered map and monastery-window screenshots inspected at 1280
 Editor import also completed with exit 0 and no script/import errors.
 The known ObjectDB/26-resources shutdown diagnostics persist. Manual playtesting and
 FPS benchmarking remain unperformed. Gate B is not marked passed.
+
+## Authored dialogue / Gate B
+
+The reached POI window now contains a Spanish free-text field, Enter/Enviar submission,
+a plain-text scrollable log and a compact feedback area. JSON defines greetings,
+whole-word/phrase topics and a fallback for each speaker: the unnamed prototype innkeeper
+and Abad Lucio Salcedo. Lucio's replies use only public background. Inn directions refer
+to the prototype layout. No clue, transaction, quest or relationship is changed.
+Logs are independent by location, retain twelve exchanges, survive close/reopen in the
+current map instance, and are not saved to disk. Messages are limited to 300 characters.
+Unknown questions receive authored fallback, not inferred facts. Keyword selection is
+not semantic understanding or Spanish evaluation; the feedback explicitly says evaluation
+is unavailable. Escape closes even while the input owns keyboard focus.
+
+Validation: 25 dialogue assertions passed headless and with OpenGL; 365 map/fog/POI
+regression assertions passed headless. Spanish accented characters were entered through
+viewport key events and submitted with Enter. Verified bounded history, per-NPC isolation,
+blank rejection, fallback, literal markup, reopening and no movement/day mutations.
+Rendered 1280x720 dialogue screenshot inspected; editor import exited 0 with no script/import errors. Existing ObjectDB/26-resource shutdown
+diagnostics remain. No human playtest, live API call or language scoring is claimed.
+
+## User clarification: intensive Spanish practice
+
+Every purchase and most quests must involve active Spanish production and meaningful,
+intensive language practice; this is core gameplay, not optional decoration. Persisted
+in both synchronized MASTER_BUILD_SPEC.md copies, section 1.2. Apply it when implementing
+evaluation, transactions and quests, while keeping feedback concise, narrative contextual,
+and offline progression possible. The current static conversation is only the foundation.

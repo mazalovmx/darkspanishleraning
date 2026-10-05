@@ -24,3 +24,13 @@ Each locations entry has id, name, kind (inn or monastery), position [x,y], and 
 Spanish description. IDs LOC01/LOC11 and names match WORLD_AND_SCENARIO_BIBLE.md.
 Positions are local to the 20x20 fixture, not the 160x120 campaign. Descriptions use
 public location information only; no secret facts, clue unlocks or quest logic.
+
+## Authored dialogue fixture
+
+`game/content/dialogue/authored.json` is keyed by location ID. Each record contains
+npc_id, name, greeting, hint, ordered branches (keywords array plus reply), and fallback.
+Keywords are lowercase and accent-normalized. This is a prototype conversation format,
+not the complete NPC knowledge/belief/secret schema. No reply carries unlock proposals.
+Lucio's identity/public background comes from bible sections 10.2 and 13.1; the unnamed
+innkeeper is a supporting prototype role, not the protagonist Mateo de Aranda. Directions
+are local to the prototype map. Conversations do not perform purchases yet.

@@ -33,4 +33,16 @@ Fog/POI coverage includes visibility radius, explored retention, discovery along
 movement paths, hidden navigation, hidden terrain removal, POI arrival affordability,
 reopening without cost, actual close-button mouse input, Escape and modal input
 isolation. Graphics tests also save tools/local/poi-preview.png for the monastery
-window. These images are local ignored artifacts. Scenario dialogue is not tested yet.
+window. These images are local ignored artifacts. Authored dialogue has a separate suite below.
+
+## Authored dialogue checks
+
+```powershell
+& tools/local/godot/Godot_v4.6.2-stable_win64_console.exe --headless --path game --script res://tests/authored_dialogue_test.gd
+```
+
+Expected: 25 assertions, zero failures. Remove --headless to exercise graphics and
+write tools/local/dialogue-preview.png. Checks include Spanish Unicode typing and
+Enter through actual viewport events, authored replies/fallbacks, isolated bounded
+history, reopen, blank/oversized input, literal markup, and Escape with input focus.
+No external API is used; these tests do not validate language evaluation quality.

@@ -95,6 +95,13 @@ The player uses Spanish to:
 - issue conclusions.
 
 The game should force small Spanish production events every 5–10 minutes outside combat.
+User clarification (2026-10-05): Spanish conversation and intensive language practice
+are core gameplay. Every purchase and most quests must require active Spanish
+production and meaningful practice, rather than optional dialogue decoration or a
+click-only bypass. Build this through the scheduled dialogue, evaluation and
+transactional-language stages; authored offline branches must preserve practice
+without making an API response a progression gate. Keep feedback concise and in
+context as required by the feedback policy.
 
 ---
 

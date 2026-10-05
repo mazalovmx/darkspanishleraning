@@ -1,15 +1,22 @@
 # Backlog
 
-## Next: authored dialogue (sequence step 05 / Epic 4, Gate B)
+## Next: Claude client and validated response (steps 06-07 / Epic 5, Gate C)
 
-Epic 2 is complete: fog, discovered POI markers and modal inn/monastery windows work.
-Follow the explicit first implementation sequence in MASTER_BUILD_SPEC.md section 41:
-now add authored dialogue with Spanish free-text input, NPC reply, bounded dialogue log,
-and a compact feedback area. Reuse the POI entry point. Read the scenario bible before
-choosing NPCs or writing lines. No Claude calls or language scoring before their stages.
-Acceptance: Spanish input produces an authored reply; dialogue closes/reopens; existing
-movement, fog and POI tests still pass. Gate B requires POI plus authored dialogue.
-Broader hero/inventory scaffolding remains deferred until needed by this sequence.
+Gate B passed: reached POIs support authored free-text conversations and reopening.
+Add API key access from the environment, one request per turn, timeout, one retry,
+strict response parsing/schema validation, and authored fallback. Verify current
+Anthropic API/model availability before live integration; the configured ID is not
+proof of availability. Never log/store API keys or let response IDs mutate world state.
+Acceptance: malformed/network failures cannot crash or block gameplay; fallback remains
+usable without a key. Gate C requires actual dialogue integration, not just mocked tests.
+Spanish evaluation follows (step 08 / Gate D); grounding and save/load follow in order.
+
+## Required language practice
+
+User clarification 2026-10-05: every purchase and most quests require active Spanish
+production and intensive practice. Apply this in evaluation, transactional archetypes
+and quest content. Do not implement click-only bypasses or make live API availability
+a progression gate. Root and docs specifications contain the same clarification.
 
 ## Bootstrap follow-ups
 
