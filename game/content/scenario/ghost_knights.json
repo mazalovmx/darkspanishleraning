@@ -1,0 +1,933 @@
+{
+    "version":  1,
+    "status":  "authored_not_integrated",
+    "activation_requires":  [
+                                "gate_i",
+                                "save_load",
+                                "battle_stack_integration",
+                                "spanish_curriculum",
+                                "simultaneous_world_orders"
+                            ],
+    "entity":  {
+                   "id":  "the_unfinished_sentence",
+                   "name":  "La Frase Inconclusa",
+                   "name_ru":  "Незавершённая фраза",
+                   "role":  "The user\u0027s verbal/semiotic adversary manifests as ghost knights, each embodying a different abuse of meaning.",
+                   "not_identical_to_el_indice":  true,
+                   "ontology":  "Manifestation is observable; whether it is a soul, relic-mediated apparition or autonomous language is unresolved. It cannot rewrite canonical past events.",
+                   "shared_goal":  "Convert uncertain interpretations into uncontestable obligations.",
+                   "soul_conflict":  "Tries to replace the consent of a fragmented artifact soul with the correct-looking formula. Only actual locally verified persuasion permits assembly."
+               },
+    "turn_contract":  {
+                          "mode":  "simultaneous_plan_then_resolve",
+                          "unit":  "world_day",
+                          "clock":  "Only committing a complete world turn advances knights. Typing, language corrections, inspecting and pausing do not.",
+                          "stages":  [
+                                         "snapshot",
+                                         "plan_all_orders",
+                                         "player_commit",
+                                         "revalidate",
+                                         "resolve_movement",
+                                         "resolve_encounters",
+                                         "apply_local_interventions",
+                                         "record_journal_and_tick_expiry"
+                                     ],
+                          "snapshot_rules":  {
+                                                 "npc_uses_player_current_order":  false,
+                                                 "all_actors_use_same_start_snapshot":  true,
+                                                 "player_fog_respected":  true,
+                                                 "knight_perception":  "Current location plus adjacent discovered locations; traces of previous turns only.",
+                                                 "telegraph_before_commit":  true,
+                                                 "ai_orders_frozen_before_player_commit":  true,
+                                                 "one_order_per_actor":  true
+                                             },
+                          "actions":  [
+                                          "move",
+                                          "intervene",
+                                          "guard",
+                                          "recover"
+                                      ],
+                          "movement":  "Each actor spends its own daily movement allowance on one queued route. Resolve route edges in ticks. New allies, loot and buffs take effect next turn.",
+                          "collisions":  {
+                                             "same_destination":  "Encounter at destination; no actor takes a second order.",
+                                             "opposite_edges":  "Encounter on the shared edge; neither phases through the other.",
+                                             "multiple_knights":  "Select one encounter by fixed initiative then ID; other knights spend their order guarding, no extra fights.",
+                                             "player_counter_same_target":  "Valid evidence counter interrupts that intervention; failed counter does not erase stored evidence.",
+                                             "ties":  "initiative_desc_then_actor_id"
+                                         },
+                          "budget":  {
+                                         "max_active_knights":  3,
+                                         "max_interventions_per_turn":  2,
+                                         "max_effects_per_branch":  1,
+                                         "max_effect_duration_turns":  2,
+                                         "repeat_target_cooldown_turns":  3
+                                     },
+                          "save_fields":  [
+                                              "world_turn",
+                                              "start_snapshot",
+                                              "committed_orders",
+                                              "rng_state",
+                                              "actor_positions",
+                                              "actor_cooldowns",
+                                              "local_effects",
+                                              "journal_event_ids"
+                                          ],
+                          "atomic_resolution":  true,
+                          "reload_rerolls":  false,
+                          "model_may_choose_story_mutations":  false
+                      },
+    "invariants":  {
+                       "past_canonical_facts_immutable":  true,
+                       "player_evidence_immutable":  true,
+                       "owned_equipment_never_deleted":  true,
+                       "consent_never_forged":  true,
+                       "main_mystery_solution_immutable":  true,
+                       "mandatory_clues_always_recoverable":  true,
+                       "refusal_of_pact_allowed":  true,
+                       "combat_never_proves_truth":  true
+                   },
+    "effects":  {
+                    "ambiguous_label":  {
+                                            "mutation":  "append_interpretation",
+                                            "max_turns":  2,
+                                            "route_change":  "inspect_original_before_optional_reward",
+                                            "reversible":  true
+                                        },
+                    "custody_disputed":  {
+                                             "mutation":  "append_provenance_challenge",
+                                             "max_turns":  2,
+                                             "route_change":  "require_extra_witness_or_compare_receipts",
+                                             "reversible":  true
+                                         },
+                    "meeting_shifted":  {
+                                            "mutation":  "reschedule_optional_witness",
+                                            "max_turns":  1,
+                                            "route_change":  "witness_returns_next_turn_or_visit_alternate_contact",
+                                            "reversible":  true
+                                        },
+                    "rumor_pressure":  {
+                                           "mutation":  "append_rumor",
+                                           "max_turns":  2,
+                                           "route_change":  "one_extra_source_comparison",
+                                           "reversible":  true
+                                       },
+                    "fragment_escrow":  {
+                                            "mutation":  "relocate_unclaimed_reward",
+                                            "max_turns":  2,
+                                            "route_change":  "visible_receipt_collection_or_automatic_return",
+                                            "reversible":  true
+                                        },
+                    "copy_redacted":  {
+                                          "mutation":  "hide_public_copy_excerpt",
+                                          "max_turns":  2,
+                                          "route_change":  "original_or_duplicate_route",
+                                          "reversible":  true
+                                      },
+                    "promise_contested":  {
+                                              "mutation":  "append_disputed_commitment",
+                                              "max_turns":  2,
+                                              "route_change":  "negotiate_local_terms_or_withdraw_offer",
+                                              "reversible":  true
+                                          },
+                    "causal_claim_contested":  {
+                                                   "mutation":  "append_false_interpretation",
+                                                   "max_turns":  2,
+                                                   "route_change":  "test_causal_link_or_defer_accusation",
+                                                   "reversible":  true
+                                               }
+                },
+    "knights":  [
+                    {
+                        "id":  "NK01",
+                        "name":  "El Glosador",
+                        "name_ru":  "Глоссатор",
+                        "appearance":  "Серые латы покрыты живыми полями рукописи; говорит уточнениями.",
+                        "method":  "Изменяет смысл подписи, добавляя правдоподобную оговорку.",
+                        "minimum_curriculum_block":  1,
+                        "spawn":  {
+                                      "branch_ids":  [
+                                                         "SB01",
+                                                         "SB05"
+                                                     ],
+                                      "requires":  "branch_started_and_language_prerequisites_consolidated",
+                                      "max_instances":  1
+                                  },
+                        "orders":  {
+                                       "priority":  [
+                                                        "recover_if_defeated",
+                                                        "intervene_if_visible_eligible_target_and_cooldown_ready",
+                                                        "move_toward_known_target",
+                                                        "guard"
+                                                    ],
+                                       "target_policy":  "prefers_uncompared_labels",
+                                       "action_id":  "annotate_label",
+                                       "effect_id":  "ambiguous_label",
+                                       "target_selection":  "Highest policy score among perceived eligible targets; tie by stable target ID.",
+                                       "initiative":  8,
+                                       "cooldown_turns":  3
+                                   },
+                        "intervention":  {
+                                             "trace":  "La etiqueta nueva añade una palabra que no aparece en el original.",
+                                             "trace_always_recorded":  true,
+                                             "flag_namespace":  "nk01_local",
+                                             "can_change_main_ending":  false,
+                                             "can_change_evidence":  false,
+                                             "expiry_returns_access":  true,
+                                             "requires_target_visibility":  true,
+                                             "unclaimed_items_only":  false
+                                         },
+                        "counter":  {
+                                        "id":  "compare_original",
+                                        "description_ru":  "Сравнить новую подпись с сохранённым оригиналом.",
+                                        "spanish_prompt":  "¿Qué dice la etiqueta original?",
+                                        "required_block":  1,
+                                        "requires_typed_spanish":  true,
+                                        "requires_supported_evidence":  true,
+                                        "alternative_routes":  [
+                                                                   "evidence_and_spanish",
+                                                                   "combat_for_access",
+                                                                   "wait_for_expiry"
+                                                               ],
+                                        "soul_set":  "SA01",
+                                        "soul_optional":  true,
+                                        "failure":  "Offer a clue and a simpler supported reply within the current block; do not remove evidence."
+                                    },
+                        "battle":  {
+                                       "enemy_stacks":  [
+                                                            {
+                                                                "unit":  "watchman",
+                                                                "count":  3
+                                                            },
+                                                            {
+                                                                "unit":  "hired_blade",
+                                                                "count":  4
+                                                            }
+                                                        ],
+                                       "commands":  [
+                                                        "ATTACK",
+                                                        "DEFEND",
+                                                        "ABILITY",
+                                                        "RETREAT"
+                                                    ],
+                                       "tactic":  "defend_then_feint",
+                                       "script":  {
+                                                      "first_round":  "DEFEND",
+                                                      "second_round":  "ABILITY",
+                                                      "target":  "lowest_defense_then_stack_index",
+                                                      "later_rounds":  "ATTACK",
+                                                      "invalid_or_spent_ability":  "ATTACK",
+                                                      "no_legal_target":  "DEFEND",
+                                                      "ability_uses":  1
+                                                  },
+                                       "defeat":  "Disperse for three world turns and cancel this knight\u0027s active local effect; do not grant truth or soul consent.",
+                                       "retreat":  "Keep equipment, clues and consent; local effect may continue only to its fixed expiry.",
+                                       "balance_status":  "authored_unplaytested"
+                                   },
+                        "journal":  {
+                                        "record_fields":  [
+                                                              "turn",
+                                                              "knight_id",
+                                                              "target_id",
+                                                              "visible_trace",
+                                                              "effect_type",
+                                                              "expiry_turn",
+                                                              "recovery_routes"
+                                                          ],
+                                        "hide_unseen_location":  true
+                                    }
+                    },
+                    {
+                        "id":  "NK02",
+                        "name":  "El Notario Vacío",
+                        "name_ru":  "Пустой нотариус",
+                        "appearance":  "Печати висят вместо забрала; все просьбы превращает в формуляры.",
+                        "method":  "Оспаривает происхождение вещей и требует дополнительного свидетеля.",
+                        "minimum_curriculum_block":  2,
+                        "spawn":  {
+                                      "branch_ids":  [
+                                                         "SB04",
+                                                         "SB07"
+                                                     ],
+                                      "requires":  "branch_started_and_language_prerequisites_consolidated",
+                                      "max_instances":  1
+                                  },
+                        "orders":  {
+                                       "priority":  [
+                                                        "recover_if_defeated",
+                                                        "intervene_if_visible_eligible_target_and_cooldown_ready",
+                                                        "move_toward_known_target",
+                                                        "guard"
+                                                    ],
+                                       "target_policy":  "prefers_unwitnessed_transfers",
+                                       "action_id":  "stamp_dispute",
+                                       "effect_id":  "custody_disputed",
+                                       "target_selection":  "Highest policy score among perceived eligible targets; tie by stable target ID.",
+                                       "initiative":  7,
+                                       "cooldown_turns":  3
+                                   },
+                        "intervention":  {
+                                             "trace":  "El sello es reciente, pero la entrega consta en dos registros anteriores.",
+                                             "trace_always_recorded":  true,
+                                             "flag_namespace":  "nk02_local",
+                                             "can_change_main_ending":  false,
+                                             "can_change_evidence":  false,
+                                             "expiry_returns_access":  true,
+                                             "requires_target_visibility":  true,
+                                             "unclaimed_items_only":  false
+                                         },
+                        "counter":  {
+                                        "id":  "trace_custody",
+                                        "description_ru":  "Восстановить цепочку передачи по двум записям.",
+                                        "spanish_prompt":  "Pide un testigo y explica de quién recibes el objeto.",
+                                        "required_block":  2,
+                                        "requires_typed_spanish":  true,
+                                        "requires_supported_evidence":  true,
+                                        "alternative_routes":  [
+                                                                   "evidence_and_spanish",
+                                                                   "combat_for_access",
+                                                                   "wait_for_expiry"
+                                                               ],
+                                        "soul_set":  "SA04",
+                                        "soul_optional":  true,
+                                        "failure":  "Offer a clue and a simpler supported reply within the current block; do not remove evidence."
+                                    },
+                        "battle":  {
+                                       "enemy_stacks":  [
+                                                            {
+                                                                "unit":  "watchman",
+                                                                "count":  4
+                                                            },
+                                                            {
+                                                                "unit":  "enforcer",
+                                                                "count":  5
+                                                            }
+                                                        ],
+                                       "commands":  [
+                                                        "ATTACK",
+                                                        "DEFEND",
+                                                        "ABILITY",
+                                                        "RETREAT"
+                                                    ],
+                                       "tactic":  "brace_then_attack",
+                                       "script":  {
+                                                      "first_round":  "ABILITY",
+                                                      "second_round":  "ATTACK",
+                                                      "target":  "highest_attack_then_stack_index",
+                                                      "later_rounds":  "ATTACK",
+                                                      "invalid_or_spent_ability":  "ATTACK",
+                                                      "no_legal_target":  "DEFEND",
+                                                      "ability_uses":  1
+                                                  },
+                                       "defeat":  "Disperse for three world turns and cancel this knight\u0027s active local effect; do not grant truth or soul consent.",
+                                       "retreat":  "Keep equipment, clues and consent; local effect may continue only to its fixed expiry.",
+                                       "balance_status":  "authored_unplaytested"
+                                   },
+                        "journal":  {
+                                        "record_fields":  [
+                                                              "turn",
+                                                              "knight_id",
+                                                              "target_id",
+                                                              "visible_trace",
+                                                              "effect_type",
+                                                              "expiry_turn",
+                                                              "recovery_routes"
+                                                          ],
+                                        "hide_unseen_location":  true
+                                    }
+                    },
+                    {
+                        "id":  "NK03",
+                        "name":  "El Anacronista",
+                        "name_ru":  "Анахронист",
+                        "appearance":  "Внутри пустых лат вращаются стрелки; отвечает прежде вопроса.",
+                        "method":  "Переставляет объявления о времени и пытается сорвать встречу.",
+                        "minimum_curriculum_block":  3,
+                        "spawn":  {
+                                      "branch_ids":  [
+                                                         "SB02",
+                                                         "SB03"
+                                                     ],
+                                      "requires":  "branch_started_and_language_prerequisites_consolidated",
+                                      "max_instances":  1
+                                  },
+                        "orders":  {
+                                       "priority":  [
+                                                        "recover_if_defeated",
+                                                        "intervene_if_visible_eligible_target_and_cooldown_ready",
+                                                        "move_toward_known_target",
+                                                        "guard"
+                                                    ],
+                                       "target_policy":  "prefers_scheduled_meetings",
+                                       "action_id":  "shift_notice",
+                                       "effect_id":  "meeting_shifted",
+                                       "target_selection":  "Highest policy score among perceived eligible targets; tie by stable target ID.",
+                                       "initiative":  6,
+                                       "cooldown_turns":  3
+                                   },
+                        "intervention":  {
+                                             "trace":  "La tinta del nuevo horario cubre una hora todavía visible.",
+                                             "trace_always_recorded":  true,
+                                             "flag_namespace":  "nk03_local",
+                                             "can_change_main_ending":  false,
+                                             "can_change_evidence":  false,
+                                             "expiry_returns_access":  true,
+                                             "requires_target_visibility":  true,
+                                             "unclaimed_items_only":  false
+                                         },
+                        "counter":  {
+                                        "id":  "compare_times",
+                                        "description_ru":  "Сверить независимые часы и назначить новую встречу.",
+                                        "spanish_prompt":  "Explica qué hora apareció primero y cuál cambió después.",
+                                        "required_block":  3,
+                                        "requires_typed_spanish":  true,
+                                        "requires_supported_evidence":  true,
+                                        "alternative_routes":  [
+                                                                   "evidence_and_spanish",
+                                                                   "combat_for_access",
+                                                                   "wait_for_expiry"
+                                                               ],
+                                        "soul_set":  null,
+                                        "soul_optional":  true,
+                                        "failure":  "Offer a clue and a simpler supported reply within the current block; do not remove evidence."
+                                    },
+                        "battle":  {
+                                       "enemy_stacks":  [
+                                                            {
+                                                                "unit":  "crossbow_guard",
+                                                                "count":  5
+                                                            },
+                                                            {
+                                                                "unit":  "watchman",
+                                                                "count":  6
+                                                            }
+                                                        ],
+                                       "commands":  [
+                                                        "ATTACK",
+                                                        "DEFEND",
+                                                        "ABILITY",
+                                                        "RETREAT"
+                                                    ],
+                                       "tactic":  "aim_then_attack",
+                                       "script":  {
+                                                      "first_round":  "ABILITY",
+                                                      "second_round":  "ATTACK",
+                                                      "target":  "fastest_then_stack_index",
+                                                      "later_rounds":  "ATTACK",
+                                                      "invalid_or_spent_ability":  "ATTACK",
+                                                      "no_legal_target":  "DEFEND",
+                                                      "ability_uses":  1
+                                                  },
+                                       "defeat":  "Disperse for three world turns and cancel this knight\u0027s active local effect; do not grant truth or soul consent.",
+                                       "retreat":  "Keep equipment, clues and consent; local effect may continue only to its fixed expiry.",
+                                       "balance_status":  "authored_unplaytested"
+                                   },
+                        "journal":  {
+                                        "record_fields":  [
+                                                              "turn",
+                                                              "knight_id",
+                                                              "target_id",
+                                                              "visible_trace",
+                                                              "effect_type",
+                                                              "expiry_turn",
+                                                              "recovery_routes"
+                                                          ],
+                                        "hide_unseen_location":  true
+                                    }
+                    },
+                    {
+                        "id":  "NK04",
+                        "name":  "El Corista",
+                        "name_ru":  "Хорист",
+                        "appearance":  "Один рыцарь отбрасывает три тени и говорит хором.",
+                        "method":  "Выдаёт повтор одного слуха за независимые свидетельства.",
+                        "minimum_curriculum_block":  4,
+                        "spawn":  {
+                                      "branch_ids":  [
+                                                         "SB06",
+                                                         "SB08"
+                                                     ],
+                                      "requires":  "branch_started_and_language_prerequisites_consolidated",
+                                      "max_instances":  1
+                                  },
+                        "orders":  {
+                                       "priority":  [
+                                                        "recover_if_defeated",
+                                                        "intervene_if_visible_eligible_target_and_cooldown_ready",
+                                                        "move_toward_known_target",
+                                                        "guard"
+                                                    ],
+                                       "target_policy":  "prefers_shared_rumor_sources",
+                                       "action_id":  "echo_claim",
+                                       "effect_id":  "rumor_pressure",
+                                       "target_selection":  "Highest policy score among perceived eligible targets; tie by stable target ID.",
+                                       "initiative":  5,
+                                       "cooldown_turns":  3
+                                   },
+                        "intervention":  {
+                                             "trace":  "Tres voces repiten incluso el mismo error del pregón.",
+                                             "trace_always_recorded":  true,
+                                             "flag_namespace":  "nk04_local",
+                                             "can_change_main_ending":  false,
+                                             "can_change_evidence":  false,
+                                             "expiry_returns_access":  true,
+                                             "requires_target_visibility":  true,
+                                             "unclaimed_items_only":  false
+                                         },
+                        "counter":  {
+                                        "id":  "trace_common_source",
+                                        "description_ru":  "Найти общего рассказчика и отличить повтор от нового наблюдения.",
+                                        "spanish_prompt":  "Compara lo que repetían todos con lo que observó una persona.",
+                                        "required_block":  4,
+                                        "requires_typed_spanish":  true,
+                                        "requires_supported_evidence":  true,
+                                        "alternative_routes":  [
+                                                                   "evidence_and_spanish",
+                                                                   "combat_for_access",
+                                                                   "wait_for_expiry"
+                                                               ],
+                                        "soul_set":  "SA03",
+                                        "soul_optional":  true,
+                                        "failure":  "Offer a clue and a simpler supported reply within the current block; do not remove evidence."
+                                    },
+                        "battle":  {
+                                       "enemy_stacks":  [
+                                                            {
+                                                                "unit":  "hired_blade",
+                                                                "count":  3
+                                                            },
+                                                            {
+                                                                "unit":  "crossbow_guard",
+                                                                "count":  4
+                                                            }
+                                                        ],
+                                       "commands":  [
+                                                        "ATTACK",
+                                                        "DEFEND",
+                                                        "ABILITY",
+                                                        "RETREAT"
+                                                    ],
+                                       "tactic":  "focus_weakest",
+                                       "script":  {
+                                                      "first_round":  "ATTACK",
+                                                      "second_round":  "ATTACK",
+                                                      "target":  "lowest_remaining_hp_then_stack_index",
+                                                      "later_rounds":  "ATTACK",
+                                                      "invalid_or_spent_ability":  "ATTACK",
+                                                      "no_legal_target":  "DEFEND",
+                                                      "ability_uses":  1
+                                                  },
+                                       "defeat":  "Disperse for three world turns and cancel this knight\u0027s active local effect; do not grant truth or soul consent.",
+                                       "retreat":  "Keep equipment, clues and consent; local effect may continue only to its fixed expiry.",
+                                       "balance_status":  "authored_unplaytested"
+                                   },
+                        "journal":  {
+                                        "record_fields":  [
+                                                              "turn",
+                                                              "knight_id",
+                                                              "target_id",
+                                                              "visible_trace",
+                                                              "effect_type",
+                                                              "expiry_turn",
+                                                              "recovery_routes"
+                                                          ],
+                                        "hide_unseen_location":  true
+                                    }
+                    },
+                    {
+                        "id":  "NK05",
+                        "name":  "El Tasador de Ausencias",
+                        "name_ru":  "Оценщик отсутствий",
+                        "appearance":  "Взвешивает пустоту на весах; называет каждую потерю услугой.",
+                        "method":  "Перехватывает ещё не забранный фрагмент и оставляет квитанцию о хранении.",
+                        "minimum_curriculum_block":  2,
+                        "spawn":  {
+                                      "branch_ids":  [
+                                                         "SB09",
+                                                         "SB10"
+                                                     ],
+                                      "requires":  "branch_started_and_language_prerequisites_consolidated",
+                                      "max_instances":  1
+                                  },
+                        "orders":  {
+                                       "priority":  [
+                                                        "recover_if_defeated",
+                                                        "intervene_if_visible_eligible_target_and_cooldown_ready",
+                                                        "move_toward_known_target",
+                                                        "guard"
+                                                    ],
+                                       "target_policy":  "prefers_unclaimed_soul_components",
+                                       "action_id":  "escrow_fragment",
+                                       "effect_id":  "fragment_escrow",
+                                       "target_selection":  "Highest policy score among perceived eligible targets; tie by stable target ID.",
+                                       "initiative":  4,
+                                       "cooldown_turns":  3
+                                   },
+                        "intervention":  {
+                                             "trace":  "La custodia indica un lugar, un objeto y un plazo; no cambia al dueño.",
+                                             "trace_always_recorded":  true,
+                                             "flag_namespace":  "nk05_local",
+                                             "can_change_main_ending":  false,
+                                             "can_change_evidence":  false,
+                                             "expiry_returns_access":  true,
+                                             "requires_target_visibility":  true,
+                                             "unclaimed_items_only":  true
+                                         },
+                        "counter":  {
+                                        "id":  "redeem_receipt",
+                                        "description_ru":  "Предъявить квитанцию и попросить вернуть фрагмент без платы.",
+                                        "spanish_prompt":  "Describe el fragmento y pide su devolución.",
+                                        "required_block":  2,
+                                        "requires_typed_spanish":  true,
+                                        "requires_supported_evidence":  true,
+                                        "alternative_routes":  [
+                                                                   "evidence_and_spanish",
+                                                                   "combat_for_access",
+                                                                   "wait_for_expiry"
+                                                               ],
+                                        "soul_set":  "SA06",
+                                        "soul_optional":  true,
+                                        "failure":  "Offer a clue and a simpler supported reply within the current block; do not remove evidence."
+                                    },
+                        "battle":  {
+                                       "enemy_stacks":  [
+                                                            {
+                                                                "unit":  "enforcer",
+                                                                "count":  4
+                                                            },
+                                                            {
+                                                                "unit":  "watchman",
+                                                                "count":  5
+                                                            }
+                                                        ],
+                                       "commands":  [
+                                                        "ATTACK",
+                                                        "DEFEND",
+                                                        "ABILITY",
+                                                        "RETREAT"
+                                                    ],
+                                       "tactic":  "guard_objective",
+                                       "script":  {
+                                                      "first_round":  "DEFEND",
+                                                      "second_round":  "ATTACK",
+                                                      "target":  "highest_initiative_then_stack_index",
+                                                      "later_rounds":  "ATTACK",
+                                                      "invalid_or_spent_ability":  "ATTACK",
+                                                      "no_legal_target":  "DEFEND",
+                                                      "ability_uses":  1
+                                                  },
+                                       "defeat":  "Disperse for three world turns and cancel this knight\u0027s active local effect; do not grant truth or soul consent.",
+                                       "retreat":  "Keep equipment, clues and consent; local effect may continue only to its fixed expiry.",
+                                       "balance_status":  "authored_unplaytested"
+                                   },
+                        "journal":  {
+                                        "record_fields":  [
+                                                              "turn",
+                                                              "knight_id",
+                                                              "target_id",
+                                                              "visible_trace",
+                                                              "effect_type",
+                                                              "expiry_turn",
+                                                              "recovery_routes"
+                                                          ],
+                                        "hide_unseen_location":  true
+                                    }
+                    },
+                    {
+                        "id":  "NK06",
+                        "name":  "El Censor de Ceniza",
+                        "name_ru":  "Пепельный цензор",
+                        "appearance":  "Из сочленений сыплются буквы; никогда не произносит имён.",
+                        "method":  "Скрывает часть публичной копии; оригинал и личные записи сохраняются.",
+                        "minimum_curriculum_block":  3,
+                        "spawn":  {
+                                      "branch_ids":  [
+                                                         "SB01",
+                                                         "SB08"
+                                                     ],
+                                      "requires":  "branch_started_and_language_prerequisites_consolidated",
+                                      "max_instances":  1
+                                  },
+                        "orders":  {
+                                       "priority":  [
+                                                        "recover_if_defeated",
+                                                        "intervene_if_visible_eligible_target_and_cooldown_ready",
+                                                        "move_toward_known_target",
+                                                        "guard"
+                                                    ],
+                                       "target_policy":  "prefers_uncompared_public_copies",
+                                       "action_id":  "redact_copy",
+                                       "effect_id":  "copy_redacted",
+                                       "target_selection":  "Highest policy score among perceived eligible targets; tie by stable target ID.",
+                                       "initiative":  3,
+                                       "cooldown_turns":  3
+                                   },
+                        "intervention":  {
+                                             "trace":  "El hueco tiene bordes de raspado y existe un registro de copia.",
+                                             "trace_always_recorded":  true,
+                                             "flag_namespace":  "nk06_local",
+                                             "can_change_main_ending":  false,
+                                             "can_change_evidence":  false,
+                                             "expiry_returns_access":  true,
+                                             "requires_target_visibility":  true,
+                                             "unclaimed_items_only":  false
+                                         },
+                        "counter":  {
+                                        "id":  "find_duplicate",
+                                        "description_ru":  "Найти заверенную копию либо сличить следы оттиска с оригиналом.",
+                                        "spanish_prompt":  "Cuenta qué parte desapareció y dónde encontraste otra copia.",
+                                        "required_block":  3,
+                                        "requires_typed_spanish":  true,
+                                        "requires_supported_evidence":  true,
+                                        "alternative_routes":  [
+                                                                   "evidence_and_spanish",
+                                                                   "combat_for_access",
+                                                                   "wait_for_expiry"
+                                                               ],
+                                        "soul_set":  "SA02",
+                                        "soul_optional":  true,
+                                        "failure":  "Offer a clue and a simpler supported reply within the current block; do not remove evidence."
+                                    },
+                        "battle":  {
+                                       "enemy_stacks":  [
+                                                            {
+                                                                "unit":  "hired_blade",
+                                                                "count":  5
+                                                            },
+                                                            {
+                                                                "unit":  "enforcer",
+                                                                "count":  6
+                                                            }
+                                                        ],
+                                       "commands":  [
+                                                        "ATTACK",
+                                                        "DEFEND",
+                                                        "ABILITY",
+                                                        "RETREAT"
+                                                    ],
+                                       "tactic":  "feint_then_attack",
+                                       "script":  {
+                                                      "first_round":  "ABILITY",
+                                                      "second_round":  "ATTACK",
+                                                      "target":  "highest_ranged_damage_then_stack_index",
+                                                      "later_rounds":  "ATTACK",
+                                                      "invalid_or_spent_ability":  "ATTACK",
+                                                      "no_legal_target":  "DEFEND",
+                                                      "ability_uses":  1
+                                                  },
+                                       "defeat":  "Disperse for three world turns and cancel this knight\u0027s active local effect; do not grant truth or soul consent.",
+                                       "retreat":  "Keep equipment, clues and consent; local effect may continue only to its fixed expiry.",
+                                       "balance_status":  "authored_unplaytested"
+                                   },
+                        "journal":  {
+                                        "record_fields":  [
+                                                              "turn",
+                                                              "knight_id",
+                                                              "target_id",
+                                                              "visible_trace",
+                                                              "effect_type",
+                                                              "expiry_turn",
+                                                              "recovery_routes"
+                                                          ],
+                                        "hide_unseen_location":  true
+                                    }
+                    },
+                    {
+                        "id":  "NK07",
+                        "name":  "El Caballero del Siempre",
+                        "name_ru":  "Рыцарь слова «всегда»",
+                        "appearance":  "На клинке одно слово: siempre; делает паузу перед каждым условием.",
+                        "method":  "Навязывает безусловную клятву и превращает обещание в местное требование.",
+                        "minimum_curriculum_block":  7,
+                        "spawn":  {
+                                      "branch_ids":  [
+                                                         "SB11",
+                                                         "SB12"
+                                                     ],
+                                      "requires":  "branch_started_and_language_prerequisites_consolidated",
+                                      "max_instances":  1
+                                  },
+                        "orders":  {
+                                       "priority":  [
+                                                        "recover_if_defeated",
+                                                        "intervene_if_visible_eligible_target_and_cooldown_ready",
+                                                        "move_toward_known_target",
+                                                        "guard"
+                                                    ],
+                                       "target_policy":  "prefers_unqualified_promises",
+                                       "action_id":  "offer_absolute_pact",
+                                       "effect_id":  "promise_contested",
+                                       "target_selection":  "Highest policy score among perceived eligible targets; tie by stable target ID.",
+                                       "initiative":  2,
+                                       "cooldown_turns":  3
+                                   },
+                        "intervention":  {
+                                             "trace":  "El texto convierte una intención limitada en una obligación sin excepción.",
+                                             "trace_always_recorded":  true,
+                                             "flag_namespace":  "nk07_local",
+                                             "can_change_main_ending":  false,
+                                             "can_change_evidence":  false,
+                                             "expiry_returns_access":  true,
+                                             "requires_target_visibility":  true,
+                                             "unclaimed_items_only":  false
+                                         },
+                        "counter":  {
+                                        "id":  "limit_promise",
+                                        "description_ru":  "Назвать условие обещания и объяснить, почему новая улика требует пересмотра.",
+                                        "spanish_prompt":  "¿Qué condición propondrías para que la promesa siga siendo justa?",
+                                        "required_block":  7,
+                                        "requires_typed_spanish":  true,
+                                        "requires_supported_evidence":  true,
+                                        "alternative_routes":  [
+                                                                   "evidence_and_spanish",
+                                                                   "combat_for_access",
+                                                                   "wait_for_expiry"
+                                                               ],
+                                        "soul_set":  null,
+                                        "soul_optional":  true,
+                                        "failure":  "Offer a clue and a simpler supported reply within the current block; do not remove evidence."
+                                    },
+                        "battle":  {
+                                       "enemy_stacks":  [
+                                                            {
+                                                                "unit":  "enforcer",
+                                                                "count":  3
+                                                            },
+                                                            {
+                                                                "unit":  "crossbow_guard",
+                                                                "count":  4
+                                                            }
+                                                        ],
+                                       "commands":  [
+                                                        "ATTACK",
+                                                        "DEFEND",
+                                                        "ABILITY",
+                                                        "RETREAT"
+                                                    ],
+                                       "tactic":  "bait_then_defend",
+                                       "script":  {
+                                                      "first_round":  "ATTACK",
+                                                      "second_round":  "DEFEND",
+                                                      "target":  "last_attacker_else_lowest_hp",
+                                                      "later_rounds":  "ATTACK",
+                                                      "invalid_or_spent_ability":  "ATTACK",
+                                                      "no_legal_target":  "DEFEND",
+                                                      "ability_uses":  1
+                                                  },
+                                       "defeat":  "Disperse for three world turns and cancel this knight\u0027s active local effect; do not grant truth or soul consent.",
+                                       "retreat":  "Keep equipment, clues and consent; local effect may continue only to its fixed expiry.",
+                                       "balance_status":  "authored_unplaytested"
+                                   },
+                        "journal":  {
+                                        "record_fields":  [
+                                                              "turn",
+                                                              "knight_id",
+                                                              "target_id",
+                                                              "visible_trace",
+                                                              "effect_type",
+                                                              "expiry_turn",
+                                                              "recovery_routes"
+                                                          ],
+                                        "hide_unseen_location":  true
+                                    }
+                    },
+                    {
+                        "id":  "NK08",
+                        "name":  "El Silogista Hueco",
+                        "name_ru":  "Полый силлогист",
+                        "appearance":  "Латы из вложенных скобок; каждую атаку объявляет выводом.",
+                        "method":  "Подсовывает стройное обвинение с недоказанной причинной связью.",
+                        "minimum_curriculum_block":  5,
+                        "spawn":  {
+                                      "branch_ids":  [
+                                                         "SB03",
+                                                         "SB05"
+                                                     ],
+                                      "requires":  "branch_started_and_language_prerequisites_consolidated",
+                                      "max_instances":  1
+                                  },
+                        "orders":  {
+                                       "priority":  [
+                                                        "recover_if_defeated",
+                                                        "intervene_if_visible_eligible_target_and_cooldown_ready",
+                                                        "move_toward_known_target",
+                                                        "guard"
+                                                    ],
+                                       "target_policy":  "prefers_unexamined_causal_claims",
+                                       "action_id":  "insert_false_link",
+                                       "effect_id":  "causal_claim_contested",
+                                       "target_selection":  "Highest policy score among perceived eligible targets; tie by stable target ID.",
+                                       "initiative":  1,
+                                       "cooldown_turns":  3
+                                   },
+                        "intervention":  {
+                                             "trace":  "El registro muestra dos hechos cercanos, pero no la relación que afirma el caballero.",
+                                             "trace_always_recorded":  true,
+                                             "flag_namespace":  "nk08_local",
+                                             "can_change_main_ending":  false,
+                                             "can_change_evidence":  false,
+                                             "expiry_returns_access":  true,
+                                             "requires_target_visibility":  true,
+                                             "unclaimed_items_only":  false
+                                         },
+                        "counter":  {
+                                        "id":  "test_causal_link",
+                                        "description_ru":  "Отделить последовательность событий от причины и предложить проверку.",
+                                        "spanish_prompt":  "Explica qué prueba falta para aceptar la conclusión que propone.",
+                                        "required_block":  5,
+                                        "requires_typed_spanish":  true,
+                                        "requires_supported_evidence":  true,
+                                        "alternative_routes":  [
+                                                                   "evidence_and_spanish",
+                                                                   "combat_for_access",
+                                                                   "wait_for_expiry"
+                                                               ],
+                                        "soul_set":  "SA05",
+                                        "soul_optional":  true,
+                                        "failure":  "Offer a clue and a simpler supported reply within the current block; do not remove evidence."
+                                    },
+                        "battle":  {
+                                       "enemy_stacks":  [
+                                                            {
+                                                                "unit":  "crossbow_guard",
+                                                                "count":  4
+                                                            },
+                                                            {
+                                                                "unit":  "enforcer",
+                                                                "count":  5
+                                                            }
+                                                        ],
+                                       "commands":  [
+                                                        "ATTACK",
+                                                        "DEFEND",
+                                                        "ABILITY",
+                                                        "RETREAT"
+                                                    ],
+                                       "tactic":  "focus_highest_damage",
+                                       "script":  {
+                                                      "first_round":  "ATTACK",
+                                                      "second_round":  "ABILITY",
+                                                      "target":  "highest_expected_damage_then_stack_index",
+                                                      "later_rounds":  "ATTACK",
+                                                      "invalid_or_spent_ability":  "ATTACK",
+                                                      "no_legal_target":  "DEFEND",
+                                                      "ability_uses":  1
+                                                  },
+                                       "defeat":  "Disperse for three world turns and cancel this knight\u0027s active local effect; do not grant truth or soul consent.",
+                                       "retreat":  "Keep equipment, clues and consent; local effect may continue only to its fixed expiry.",
+                                       "balance_status":  "authored_unplaytested"
+                                   },
+                        "journal":  {
+                                        "record_fields":  [
+                                                              "turn",
+                                                              "knight_id",
+                                                              "target_id",
+                                                              "visible_trace",
+                                                              "effect_type",
+                                                              "expiry_turn",
+                                                              "recovery_routes"
+                                                          ],
+                                        "hide_unseen_location":  true
+                                    }
+                    }
+                ]
+}

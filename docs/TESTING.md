@@ -118,3 +118,17 @@ exact prerequisite types, repeated reveals, belief vs knowledge, local intent an
 actual map/dialogue response boundary with fake transport. Existing 72 client, 27
 Spanish feedback and 25 authored dialogue checks also passed. No live call on this step.
 Existing shutdown retention diagnostics remain; arbitrary prose truth is not verified.
+## Equipment and ghost catalog fixture
+
+Run the local Godot binary with:
+
+```powershell
+& tools/local/godot/Godot_v4.6.2-stable_win64_console.exe --headless --path game res://tests/equipment_ghost_catalog_test.tscn
+```
+
+Executed: 1,886 checks, zero failures, exit 0. Covers 30 types, 180 items, six ranks,
+six recipes, 24 SX reward overlays and eight knight profiles. Checks slot compatibility,
+component provenance, curriculum order, non-click assembly requirements, bounded
+effects, valid battle commands, optional counters and recovery contracts. This does
+not test implemented assembly, persuasion, simultaneous movement or battle balance:
+those systems are not connected. Existing ObjectDB/26-resource shutdown diagnostics remain.

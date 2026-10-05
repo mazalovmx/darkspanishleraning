@@ -2807,3 +2807,33 @@ Until then the catalog remains authored_not_integrated and balance unplaytested.
 The original vertical slice and main plot remain the development priority. Playing
 every optional case is additional content, not part of the original campaign-duration
 estimate. Do not claim authored encounters are playable or balanced.
+
+# 50. Equipment, soul assemblies and simultaneous ghost opponents (2026-10-05)
+
+User requests 20-30 equipment types spanning ordinary items to highest-rank combined
+artifacts with souls, and distinct ghost knights embodying the verbal/semiotic enemy.
+The authored catalogs define 30 types, five ordinary tiers and soul as the sixth/highest
+tier: 150 ordinary items, 24 unique components and six assemblies. See
+docs/EQUIPMENT_AND_GHOST_KNIGHTS.md for the full rules and content index.
+
+Adopt the equipment-combination pattern of Heroes III: individual bonuses persist,
+all component slots stay reserved, assembly can be reversed. Do not copy its assets,
+item names or spells. Use a plain inventory list and fourteen equipment slots, no grid.
+Assembly additionally requires the same hero to persuade the fragmented soul in Spanish:
+evidence from memories, independent argument, objection and delayed recall, respecting
+the ordered curriculum. No model-only success flag or phrase click may grant consent.
+All purchases still require active Spanish. Components/evidence cannot be consumed,
+duplicated or lost during assembly. Another hero needs their own consent for full power.
+
+Eight distinct knight profiles choose different targets and bounded interventions.
+Future strategic turns use simultaneous planning from a shared snapshot, frozen AI
+orders before player commit, deterministic collision resolution and an atomic save.
+Typing and language feedback never advance hostile turns. Keep at most three active
+knights, two interventions per day and one active effect per branch, lasting at most
+two turns. Every effect has traces, counterplay and recovery; owned evidence/equipment,
+soul consent and canonical main mystery cannot be rewritten by an opponent or model.
+
+This expands authored scope only, not the current implementation gate. Catalogs remain
+authored_not_integrated; balance and simultaneous resolution are unplaytested. Runtime
+integration needs Gate I, persistence, equipment, stack combat and ordered curriculum.
+Do not replace the current map/day loop until that integration is explicitly reached.

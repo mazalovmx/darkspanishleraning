@@ -2,8 +2,8 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: NPC grounding and canonical verifier implemented; Gate E passed.
-Next task: save/load (sequence step 10); requested equipment catalog authoring also in progress.
+Current task: NPC grounding complete; equipment/soul/ghost catalogs authored and validated.
+Next task: save/load (sequence step 10). Latest passed gate: E; expansion runtime remains gated.
 
 ## Provenance
 
@@ -270,3 +270,24 @@ checks, all zero failures/exit 0. Grounding integration runs the actual map/dial
 scene with a fake transport; no live API call was made. Existing ObjectDB/26-resource
 shutdown diagnostics persist. Gate E is green for the verifier; evidence display/unlock
 still follow save/load in the explicit sequence. Next implementation: step 10 save/load.
+
+## Equipment and ghost knights: requested authored scope
+
+Added equipment.json: 30 equipment types, six rarity ranks, 150 ordinary item variants,
+24 unique components and six soul assemblies (180 total item records). Recipes reserve
+all component slots, preserve bonuses/instances, require hero-specific Spanish persuasion
+and delayed recall. Reward overlays reference existing SX quests without replacing AX
+evidence. Added ghost_knights.json: eight manifestations of the semiotic enemy, each
+with a distinct targeting policy, story effect, appearance, counter and combat script.
+
+Authored simultaneous-world-turn contract freezes AI orders before player commit and
+resolves from a shared snapshot. Language practice does not tick hostile turns. Local
+effects are bounded, traced, reversible and cannot erase owned equipment, evidence,
+soul consent or main plot truth. Maximum three active knights and two interventions.
+Both root specifications are synchronized with their docs copies.
+
+Executed the smallest catalog test scene: 1,886 checks, zero failures, exit 0. Validates
+slots/recipes, all item IDs/effects/tiers, SX reward references, curriculum conditions,
+knight effects and counter links. Existing shutdown diagnostics persist. These are
+content checks, not gameplay or balance tests. Catalogs remain authored_not_integrated.
+Next implementation stays step 10 save/load; runtime expansion waits for its gates.

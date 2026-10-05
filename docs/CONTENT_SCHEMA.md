@@ -75,3 +75,21 @@ nonempty unlock strings up to 100 characters; NpcGrounding then rejects IDs outs
 the canonical catalog/knowledge or unmet conditions. This service is read-only.
 The dialogue supplies empty quest/reveal state until persistence/evidence integration;
 neither model text nor conversation.player_intent supplies canonical state.
+
+## Equipment and ghost catalogs (authoring only)
+
+equipment.json reserves EQ001-EQ150 (ordinary variants), SP001-SP024 (unique parts),
+SA01-SA06 (assembled items/recipes). Thirty types map to fourteen slots through ring
+and misc slot groups. Every stat has an explicit cap. All six highest-rank items are
+soul-assembly rewards, never shop stock. reward_bindings reference SX quests; they are
+future overlays, not mutations of the original quest/evidence catalog.
+
+Recipes bind exact part IDs to slots, memory sources to components and soul tasks to
+curriculum blocks. Persist consent by hero/set and retain exact component instances.
+The catalog's assembly/economy rules are requirements for a future local verifier.
+
+ghost_knights.json reserves NK01-NK08 and defines eight reversible local effect types.
+Profiles reference SB branches, optional SA counters and existing battle unit IDs.
+They include exact first/second-round commands and target rules, but no runtime AI
+consumes them. turn_contract specifies atomic snapshot/order resolution and save fields.
+Immutable evidence and main story facts are outside every intervention's authority.

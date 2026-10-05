@@ -44,3 +44,16 @@ structurally validated; see SIDE_INVESTIGATIONS.md. After Gate I and prerequisit
 - Adapt the four unit definitions and abilities to stack combat, then playtest balance.
 - Implement case-specific disclosure consequences and optional cross-case comparisons.
 Authoring does not pass Gate E or supersede the next grounding/verifier task.
+
+## Authored equipment / ghost integration (locked until prerequisites)
+
+See EQUIPMENT_AND_GHOST_KNIGHTS.md. Catalogs cover 30 types/180 items/six soul assemblies
+and eight ghost knight profiles; their structural validator passes. Future integration:
+- Persistent item-instance IDs, fourteen slots, stat caps and exact reversible assembly.
+- Hero-specific soul consent with independent Spanish argument and delayed recall.
+- Reward overlays that preserve AX evidence and peaceful-route availability.
+- Simultaneous daily order snapshots, visible telegraphs, movement/edge collisions,
+  bounded local effects, expiry/recovery and atomic save/reload without rerolls.
+- Distinct battle scripts, actor perception and recovery after retreat/defeat.
+- Playtest equipment/army balance and accessibility of every recovery route.
+Do not treat this authored catalog as implemented inventory, dialogue or adversary AI.

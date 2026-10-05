@@ -2618,3 +2618,34 @@ consolidated. Rule-based cipher solutions require no outside literary knowledge.
 Status: authored data only. The bible's slice-first sequence remains in force; runtime
 population waits for Gate I and required systems. Combat values are unplaytested.
 Full optional completion is outside the original campaign-duration estimate.
+
+# 43. Fragmented souls and ghost knights (2026-10-05)
+
+The user-requested verbal/semiotic adversary manifests as eight ghost knight personas.
+Working name: La Frase Inconclusa (the Unfinished Sentence). Its aim is to turn an
+interpretation into an unquestionable obligation. These apparitions do not change
+El Índice into an oracle or rewrite the canonical causes of the main deaths. Their
+observable actions are real in the expanded scenario; the metaphysics of souls,
+apparitions and relic-mediated voices remains open as in section 6.
+
+The Glosador alters labels; the Notario challenges provenance; the Anacronista shifts
+notices; the Corista multiplies rumors; the Tasador intercepts unclaimed fragments;
+the Censor obscures copies; the Caballero del Siempre absolutizes promises; and the
+Silogista inserts unsupported causal links. Their traces and local consequences can
+alter optional scene order, witness access and comparisons, never immutable past facts.
+Each has a distinct target policy, appearance, Spanish counter and battle tactic.
+
+Six highest-rank assemblies house Alda, Iria, Nerio, Beltrán, Sira and Daro: respectively
+the intact witness armor, open-hand vestments, distant-voices bow, revisable-oath sword,
+unfinished reader's crown and free-roads mantle. Their four components preserve memories.
+The player must persuade the soul in Spanish, not merely complete a shopping list.
+Each has a particular fear, competing arguments and ordered teaching prerequisites.
+
+Twenty-four reward overlays attach components to the SX investigations without replacing
+or consuming their AX evidence. Both peaceful and combat custody routes preserve these
+rewards. Ghost victories never establish truth or forge consent. The soul artifacts
+offer additional counters, but no case requires owning one to remain solvable.
+
+Canonical expansion data: game/content/scenario/equipment.json and ghost_knights.json.
+Author guide: docs/EQUIPMENT_AND_GHOST_KNIGHTS.md. Runtime remains gated; no playable
+equipment, soul dialogue, knight AI or simultaneous world-turn integration is claimed.

@@ -1,0 +1,4938 @@
+{
+  "version": 1,
+  "status": "authored_not_integrated",
+  "activation_requires": [
+    "gate_i",
+    "save_load",
+    "battle_stack_integration",
+    "spanish_curriculum",
+    "equipment_slots"
+  ],
+  "design_reference": {
+    "source": "https://homm.fandom.com/wiki/Shadow_of_Death_Manual",
+    "section": "Combination Artifacts Reference",
+    "adopted": [
+      "parts retain bonuses",
+      "combined artifact reserves all component slots",
+      "manual reversible assembly"
+    ],
+    "adaptation": "Original items, soul persuasion and deterministic language gates; no imported characters or spells."
+  },
+  "slots": [
+    "head",
+    "neck",
+    "torso",
+    "cloak",
+    "feet",
+    "weapon",
+    "shield",
+    "ring_1",
+    "ring_2",
+    "misc_1",
+    "misc_2",
+    "misc_3",
+    "misc_4",
+    "misc_5"
+  ],
+  "rarities": [
+    {
+      "id": "common",
+      "name": "Обычная",
+      "suffix": "de campaña",
+      "rank": 1
+    },
+    {
+      "id": "uncommon",
+      "name": "Необычная",
+      "suffix": "de taller",
+      "rank": 2
+    },
+    {
+      "id": "rare",
+      "name": "Редкая",
+      "suffix": "de maestría",
+      "rank": 3
+    },
+    {
+      "id": "epic",
+      "name": "Эпическая",
+      "suffix": "de memoria",
+      "rank": 4
+    },
+    {
+      "id": "relic",
+      "name": "Реликтовая",
+      "suffix": "de la Edad Clara",
+      "rank": 5
+    },
+    {
+      "id": "soul",
+      "name": "Составная с душой",
+      "suffix": null,
+      "rank": 6
+    }
+  ],
+  "effects": {
+    "army_attack": {
+      "unit": "points",
+      "cap": 20,
+      "scope": "all_friendly_stacks"
+    },
+    "army_defense": {
+      "unit": "points",
+      "cap": 20,
+      "scope": "all_friendly_stacks"
+    },
+    "army_hp_percent": {
+      "unit": "percent",
+      "cap": 50,
+      "scope": "all_friendly_stacks"
+    },
+    "army_initiative": {
+      "unit": "points",
+      "cap": 5,
+      "scope": "all_friendly_stacks"
+    },
+    "army_luck": {
+      "unit": "points",
+      "cap": 3,
+      "scope": "all_friendly_stacks"
+    },
+    "army_morale": {
+      "unit": "points",
+      "cap": 3,
+      "scope": "all_friendly_stacks"
+    },
+    "world_movement": {
+      "unit": "points_per_day",
+      "cap": 6,
+      "scope": "equipped_hero"
+    },
+    "ranged_damage_percent": {
+      "unit": "percent",
+      "cap": 50,
+      "scope": "friendly_ranged_stacks"
+    }
+  },
+  "types": [
+    {
+      "id": "helmet",
+      "name_ru": "Шлем",
+      "name_es": "Yelmo",
+      "slot_group": "head",
+      "effect": "army_defense"
+    },
+    {
+      "id": "crown",
+      "name_ru": "Корона",
+      "name_es": "Corona",
+      "slot_group": "head",
+      "effect": "army_morale"
+    },
+    {
+      "id": "hood",
+      "name_ru": "Капюшон",
+      "name_es": "Capucha",
+      "slot_group": "head",
+      "effect": "army_initiative"
+    },
+    {
+      "id": "cuirass",
+      "name_ru": "Кираса",
+      "name_es": "Coraza",
+      "slot_group": "torso",
+      "effect": "army_defense"
+    },
+    {
+      "id": "chainmail",
+      "name_ru": "Кольчуга",
+      "name_es": "Cota",
+      "slot_group": "torso",
+      "effect": "army_defense"
+    },
+    {
+      "id": "robe",
+      "name_ru": "Мантия",
+      "name_es": "Túnica",
+      "slot_group": "torso",
+      "effect": "army_hp_percent"
+    },
+    {
+      "id": "shield",
+      "name_ru": "Щит",
+      "name_es": "Escudo",
+      "slot_group": "shield",
+      "effect": "army_defense"
+    },
+    {
+      "id": "buckler",
+      "name_ru": "Баклер",
+      "name_es": "Broquel",
+      "slot_group": "shield",
+      "effect": "army_initiative"
+    },
+    {
+      "id": "boots",
+      "name_ru": "Сапоги",
+      "name_es": "Botas",
+      "slot_group": "feet",
+      "effect": "world_movement"
+    },
+    {
+      "id": "sandals",
+      "name_ru": "Сандалии",
+      "name_es": "Sandalias",
+      "slot_group": "feet",
+      "effect": "army_initiative"
+    },
+    {
+      "id": "gloves",
+      "name_ru": "Перчатки",
+      "name_es": "Guantes",
+      "slot_group": "misc",
+      "effect": "army_attack"
+    },
+    {
+      "id": "bracers",
+      "name_ru": "Наручи",
+      "name_es": "Brazales",
+      "slot_group": "misc",
+      "effect": "army_defense"
+    },
+    {
+      "id": "ring",
+      "name_ru": "Кольцо",
+      "name_es": "Anillo",
+      "slot_group": "ring",
+      "effect": "army_luck"
+    },
+    {
+      "id": "signet",
+      "name_ru": "Перстень",
+      "name_es": "Sello",
+      "slot_group": "ring",
+      "effect": "army_morale"
+    },
+    {
+      "id": "amulet",
+      "name_ru": "Амулет",
+      "name_es": "Amuleto",
+      "slot_group": "neck",
+      "effect": "army_hp_percent"
+    },
+    {
+      "id": "necklace",
+      "name_ru": "Ожерелье",
+      "name_es": "Collar",
+      "slot_group": "neck",
+      "effect": "army_morale"
+    },
+    {
+      "id": "cloak",
+      "name_ru": "Плащ",
+      "name_es": "Capa",
+      "slot_group": "cloak",
+      "effect": "army_defense"
+    },
+    {
+      "id": "mantle",
+      "name_ru": "Накидка",
+      "name_es": "Manto",
+      "slot_group": "cloak",
+      "effect": "army_initiative"
+    },
+    {
+      "id": "belt",
+      "name_ru": "Пояс",
+      "name_es": "Cinturón",
+      "slot_group": "misc",
+      "effect": "world_movement"
+    },
+    {
+      "id": "sash",
+      "name_ru": "Перевязь",
+      "name_es": "Banda",
+      "slot_group": "misc",
+      "effect": "army_morale"
+    },
+    {
+      "id": "sword",
+      "name_ru": "Меч",
+      "name_es": "Espada",
+      "slot_group": "weapon",
+      "effect": "army_attack"
+    },
+    {
+      "id": "dagger",
+      "name_ru": "Кинжал",
+      "name_es": "Daga",
+      "slot_group": "weapon",
+      "effect": "army_initiative"
+    },
+    {
+      "id": "axe",
+      "name_ru": "Топор",
+      "name_es": "Hacha",
+      "slot_group": "weapon",
+      "effect": "army_attack"
+    },
+    {
+      "id": "mace",
+      "name_ru": "Булава",
+      "name_es": "Maza",
+      "slot_group": "weapon",
+      "effect": "army_attack"
+    },
+    {
+      "id": "spear",
+      "name_ru": "Копьё",
+      "name_es": "Lanza",
+      "slot_group": "weapon",
+      "effect": "army_attack"
+    },
+    {
+      "id": "staff",
+      "name_ru": "Посох",
+      "name_es": "Bastón",
+      "slot_group": "weapon",
+      "effect": "army_hp_percent"
+    },
+    {
+      "id": "bow",
+      "name_ru": "Лук",
+      "name_es": "Arco",
+      "slot_group": "misc",
+      "effect": "ranged_damage_percent"
+    },
+    {
+      "id": "crossbow",
+      "name_ru": "Арбалет",
+      "name_es": "Ballesta",
+      "slot_group": "misc",
+      "effect": "ranged_damage_percent"
+    },
+    {
+      "id": "quiver",
+      "name_ru": "Колчан",
+      "name_es": "Carcaj",
+      "slot_group": "misc",
+      "effect": "ranged_damage_percent"
+    },
+    {
+      "id": "reliquary",
+      "name_ru": "Реликварий",
+      "name_es": "Relicario",
+      "slot_group": "misc",
+      "effect": "army_luck"
+    }
+  ],
+  "items": [
+    {
+      "id": "EQ001",
+      "type": "helmet",
+      "name": "Yelmo de campaña",
+      "rarity": "common",
+      "default_slot": "head",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Yelmo de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ002",
+      "type": "helmet",
+      "name": "Yelmo de taller",
+      "rarity": "uncommon",
+      "default_slot": "head",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 2
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Yelmo de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ003",
+      "type": "helmet",
+      "name": "Yelmo de maestría",
+      "rarity": "rare",
+      "default_slot": "head",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 3
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Yelmo de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ004",
+      "type": "helmet",
+      "name": "Yelmo de memoria",
+      "rarity": "epic",
+      "default_slot": "head",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 4
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Yelmo de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ005",
+      "type": "helmet",
+      "name": "Yelmo de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "head",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 5
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Yelmo de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ006",
+      "type": "crown",
+      "name": "Corona de campaña",
+      "rarity": "common",
+      "default_slot": "head",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Corona de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ007",
+      "type": "crown",
+      "name": "Corona de taller",
+      "rarity": "uncommon",
+      "default_slot": "head",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 1
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Corona de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ008",
+      "type": "crown",
+      "name": "Corona de maestría",
+      "rarity": "rare",
+      "default_slot": "head",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 2
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Corona de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ009",
+      "type": "crown",
+      "name": "Corona de memoria",
+      "rarity": "epic",
+      "default_slot": "head",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 2
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Corona de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ010",
+      "type": "crown",
+      "name": "Corona de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "head",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 3
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Corona de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ011",
+      "type": "hood",
+      "name": "Capucha de campaña",
+      "rarity": "common",
+      "default_slot": "head",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Capucha de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ012",
+      "type": "hood",
+      "name": "Capucha de taller",
+      "rarity": "uncommon",
+      "default_slot": "head",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 1
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Capucha de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ013",
+      "type": "hood",
+      "name": "Capucha de maestría",
+      "rarity": "rare",
+      "default_slot": "head",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 2
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Capucha de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ014",
+      "type": "hood",
+      "name": "Capucha de memoria",
+      "rarity": "epic",
+      "default_slot": "head",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 2
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Capucha de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ015",
+      "type": "hood",
+      "name": "Capucha de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "head",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 3
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Capucha de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ016",
+      "type": "cuirass",
+      "name": "Coraza de campaña",
+      "rarity": "common",
+      "default_slot": "torso",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Coraza de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ017",
+      "type": "cuirass",
+      "name": "Coraza de taller",
+      "rarity": "uncommon",
+      "default_slot": "torso",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 2
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Coraza de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ018",
+      "type": "cuirass",
+      "name": "Coraza de maestría",
+      "rarity": "rare",
+      "default_slot": "torso",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 3
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Coraza de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ019",
+      "type": "cuirass",
+      "name": "Coraza de memoria",
+      "rarity": "epic",
+      "default_slot": "torso",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 4
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Coraza de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ020",
+      "type": "cuirass",
+      "name": "Coraza de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "torso",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 5
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Coraza de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ021",
+      "type": "chainmail",
+      "name": "Cota de campaña",
+      "rarity": "common",
+      "default_slot": "torso",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Cota de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ022",
+      "type": "chainmail",
+      "name": "Cota de taller",
+      "rarity": "uncommon",
+      "default_slot": "torso",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 2
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Cota de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ023",
+      "type": "chainmail",
+      "name": "Cota de maestría",
+      "rarity": "rare",
+      "default_slot": "torso",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 3
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Cota de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ024",
+      "type": "chainmail",
+      "name": "Cota de memoria",
+      "rarity": "epic",
+      "default_slot": "torso",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 4
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Cota de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ025",
+      "type": "chainmail",
+      "name": "Cota de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "torso",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 5
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Cota de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ026",
+      "type": "robe",
+      "name": "Túnica de campaña",
+      "rarity": "common",
+      "default_slot": "torso",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 3
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Túnica de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ027",
+      "type": "robe",
+      "name": "Túnica de taller",
+      "rarity": "uncommon",
+      "default_slot": "torso",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 6
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Túnica de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ028",
+      "type": "robe",
+      "name": "Túnica de maestría",
+      "rarity": "rare",
+      "default_slot": "torso",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 9
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Túnica de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ029",
+      "type": "robe",
+      "name": "Túnica de memoria",
+      "rarity": "epic",
+      "default_slot": "torso",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 12
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Túnica de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ030",
+      "type": "robe",
+      "name": "Túnica de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "torso",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 15
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Túnica de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ031",
+      "type": "shield",
+      "name": "Escudo de campaña",
+      "rarity": "common",
+      "default_slot": "shield",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Escudo de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ032",
+      "type": "shield",
+      "name": "Escudo de taller",
+      "rarity": "uncommon",
+      "default_slot": "shield",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 2
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Escudo de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ033",
+      "type": "shield",
+      "name": "Escudo de maestría",
+      "rarity": "rare",
+      "default_slot": "shield",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 3
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Escudo de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ034",
+      "type": "shield",
+      "name": "Escudo de memoria",
+      "rarity": "epic",
+      "default_slot": "shield",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 4
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Escudo de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ035",
+      "type": "shield",
+      "name": "Escudo de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "shield",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 5
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Escudo de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ036",
+      "type": "buckler",
+      "name": "Broquel de campaña",
+      "rarity": "common",
+      "default_slot": "shield",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Broquel de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ037",
+      "type": "buckler",
+      "name": "Broquel de taller",
+      "rarity": "uncommon",
+      "default_slot": "shield",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 1
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Broquel de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ038",
+      "type": "buckler",
+      "name": "Broquel de maestría",
+      "rarity": "rare",
+      "default_slot": "shield",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 2
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Broquel de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ039",
+      "type": "buckler",
+      "name": "Broquel de memoria",
+      "rarity": "epic",
+      "default_slot": "shield",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 2
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Broquel de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ040",
+      "type": "buckler",
+      "name": "Broquel de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "shield",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 3
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Broquel de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ041",
+      "type": "boots",
+      "name": "Botas de campaña",
+      "rarity": "common",
+      "default_slot": "feet",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "world_movement",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Botas de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ042",
+      "type": "boots",
+      "name": "Botas de taller",
+      "rarity": "uncommon",
+      "default_slot": "feet",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "world_movement",
+          "amount": 1
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Botas de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ043",
+      "type": "boots",
+      "name": "Botas de maestría",
+      "rarity": "rare",
+      "default_slot": "feet",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "world_movement",
+          "amount": 2
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Botas de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ044",
+      "type": "boots",
+      "name": "Botas de memoria",
+      "rarity": "epic",
+      "default_slot": "feet",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "world_movement",
+          "amount": 2
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Botas de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ045",
+      "type": "boots",
+      "name": "Botas de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "feet",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "world_movement",
+          "amount": 3
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Botas de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ046",
+      "type": "sandals",
+      "name": "Sandalias de campaña",
+      "rarity": "common",
+      "default_slot": "feet",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Sandalias de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ047",
+      "type": "sandals",
+      "name": "Sandalias de taller",
+      "rarity": "uncommon",
+      "default_slot": "feet",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 1
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Sandalias de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ048",
+      "type": "sandals",
+      "name": "Sandalias de maestría",
+      "rarity": "rare",
+      "default_slot": "feet",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 2
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Sandalias de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ049",
+      "type": "sandals",
+      "name": "Sandalias de memoria",
+      "rarity": "epic",
+      "default_slot": "feet",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 2
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Sandalias de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ050",
+      "type": "sandals",
+      "name": "Sandalias de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "feet",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 3
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Sandalias de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ051",
+      "type": "gloves",
+      "name": "Guantes de campaña",
+      "rarity": "common",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Guantes de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ052",
+      "type": "gloves",
+      "name": "Guantes de taller",
+      "rarity": "uncommon",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 2
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Guantes de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ053",
+      "type": "gloves",
+      "name": "Guantes de maestría",
+      "rarity": "rare",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 3
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Guantes de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ054",
+      "type": "gloves",
+      "name": "Guantes de memoria",
+      "rarity": "epic",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 4
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Guantes de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ055",
+      "type": "gloves",
+      "name": "Guantes de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 5
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Guantes de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ056",
+      "type": "bracers",
+      "name": "Brazales de campaña",
+      "rarity": "common",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Brazales de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ057",
+      "type": "bracers",
+      "name": "Brazales de taller",
+      "rarity": "uncommon",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 2
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Brazales de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ058",
+      "type": "bracers",
+      "name": "Brazales de maestría",
+      "rarity": "rare",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 3
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Brazales de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ059",
+      "type": "bracers",
+      "name": "Brazales de memoria",
+      "rarity": "epic",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 4
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Brazales de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ060",
+      "type": "bracers",
+      "name": "Brazales de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 5
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Brazales de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ061",
+      "type": "ring",
+      "name": "Anillo de campaña",
+      "rarity": "common",
+      "default_slot": "ring_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_luck",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Anillo de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ062",
+      "type": "ring",
+      "name": "Anillo de taller",
+      "rarity": "uncommon",
+      "default_slot": "ring_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_luck",
+          "amount": 1
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Anillo de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ063",
+      "type": "ring",
+      "name": "Anillo de maestría",
+      "rarity": "rare",
+      "default_slot": "ring_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_luck",
+          "amount": 2
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Anillo de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ064",
+      "type": "ring",
+      "name": "Anillo de memoria",
+      "rarity": "epic",
+      "default_slot": "ring_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_luck",
+          "amount": 2
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Anillo de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ065",
+      "type": "ring",
+      "name": "Anillo de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "ring_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_luck",
+          "amount": 3
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Anillo de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ066",
+      "type": "signet",
+      "name": "Sello de campaña",
+      "rarity": "common",
+      "default_slot": "ring_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Sello de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ067",
+      "type": "signet",
+      "name": "Sello de taller",
+      "rarity": "uncommon",
+      "default_slot": "ring_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 1
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Sello de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ068",
+      "type": "signet",
+      "name": "Sello de maestría",
+      "rarity": "rare",
+      "default_slot": "ring_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 2
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Sello de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ069",
+      "type": "signet",
+      "name": "Sello de memoria",
+      "rarity": "epic",
+      "default_slot": "ring_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 2
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Sello de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ070",
+      "type": "signet",
+      "name": "Sello de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "ring_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 3
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Sello de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ071",
+      "type": "amulet",
+      "name": "Amuleto de campaña",
+      "rarity": "common",
+      "default_slot": "neck",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 3
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Amuleto de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ072",
+      "type": "amulet",
+      "name": "Amuleto de taller",
+      "rarity": "uncommon",
+      "default_slot": "neck",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 6
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Amuleto de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ073",
+      "type": "amulet",
+      "name": "Amuleto de maestría",
+      "rarity": "rare",
+      "default_slot": "neck",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 9
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Amuleto de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ074",
+      "type": "amulet",
+      "name": "Amuleto de memoria",
+      "rarity": "epic",
+      "default_slot": "neck",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 12
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Amuleto de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ075",
+      "type": "amulet",
+      "name": "Amuleto de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "neck",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 15
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Amuleto de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ076",
+      "type": "necklace",
+      "name": "Collar de campaña",
+      "rarity": "common",
+      "default_slot": "neck",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Collar de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ077",
+      "type": "necklace",
+      "name": "Collar de taller",
+      "rarity": "uncommon",
+      "default_slot": "neck",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 1
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Collar de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ078",
+      "type": "necklace",
+      "name": "Collar de maestría",
+      "rarity": "rare",
+      "default_slot": "neck",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 2
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Collar de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ079",
+      "type": "necklace",
+      "name": "Collar de memoria",
+      "rarity": "epic",
+      "default_slot": "neck",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 2
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Collar de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ080",
+      "type": "necklace",
+      "name": "Collar de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "neck",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 3
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Collar de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ081",
+      "type": "cloak",
+      "name": "Capa de campaña",
+      "rarity": "common",
+      "default_slot": "cloak",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Capa de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ082",
+      "type": "cloak",
+      "name": "Capa de taller",
+      "rarity": "uncommon",
+      "default_slot": "cloak",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 2
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Capa de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ083",
+      "type": "cloak",
+      "name": "Capa de maestría",
+      "rarity": "rare",
+      "default_slot": "cloak",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 3
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Capa de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ084",
+      "type": "cloak",
+      "name": "Capa de memoria",
+      "rarity": "epic",
+      "default_slot": "cloak",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 4
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Capa de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ085",
+      "type": "cloak",
+      "name": "Capa de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "cloak",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 5
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Capa de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ086",
+      "type": "mantle",
+      "name": "Manto de campaña",
+      "rarity": "common",
+      "default_slot": "cloak",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Manto de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ087",
+      "type": "mantle",
+      "name": "Manto de taller",
+      "rarity": "uncommon",
+      "default_slot": "cloak",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 1
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Manto de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ088",
+      "type": "mantle",
+      "name": "Manto de maestría",
+      "rarity": "rare",
+      "default_slot": "cloak",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 2
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Manto de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ089",
+      "type": "mantle",
+      "name": "Manto de memoria",
+      "rarity": "epic",
+      "default_slot": "cloak",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 2
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Manto de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ090",
+      "type": "mantle",
+      "name": "Manto de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "cloak",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 3
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Manto de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ091",
+      "type": "belt",
+      "name": "Cinturón de campaña",
+      "rarity": "common",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "world_movement",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Cinturón de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ092",
+      "type": "belt",
+      "name": "Cinturón de taller",
+      "rarity": "uncommon",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "world_movement",
+          "amount": 1
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Cinturón de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ093",
+      "type": "belt",
+      "name": "Cinturón de maestría",
+      "rarity": "rare",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "world_movement",
+          "amount": 2
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Cinturón de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ094",
+      "type": "belt",
+      "name": "Cinturón de memoria",
+      "rarity": "epic",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "world_movement",
+          "amount": 2
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Cinturón de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ095",
+      "type": "belt",
+      "name": "Cinturón de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "world_movement",
+          "amount": 3
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Cinturón de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ096",
+      "type": "sash",
+      "name": "Banda de campaña",
+      "rarity": "common",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Banda de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ097",
+      "type": "sash",
+      "name": "Banda de taller",
+      "rarity": "uncommon",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 1
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Banda de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ098",
+      "type": "sash",
+      "name": "Banda de maestría",
+      "rarity": "rare",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 2
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Banda de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ099",
+      "type": "sash",
+      "name": "Banda de memoria",
+      "rarity": "epic",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 2
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Banda de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ100",
+      "type": "sash",
+      "name": "Banda de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 3
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Banda de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ101",
+      "type": "sword",
+      "name": "Espada de campaña",
+      "rarity": "common",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Espada de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ102",
+      "type": "sword",
+      "name": "Espada de taller",
+      "rarity": "uncommon",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 2
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Espada de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ103",
+      "type": "sword",
+      "name": "Espada de maestría",
+      "rarity": "rare",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 3
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Espada de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ104",
+      "type": "sword",
+      "name": "Espada de memoria",
+      "rarity": "epic",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 4
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Espada de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ105",
+      "type": "sword",
+      "name": "Espada de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 5
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Espada de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ106",
+      "type": "dagger",
+      "name": "Daga de campaña",
+      "rarity": "common",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Daga de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ107",
+      "type": "dagger",
+      "name": "Daga de taller",
+      "rarity": "uncommon",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 1
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Daga de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ108",
+      "type": "dagger",
+      "name": "Daga de maestría",
+      "rarity": "rare",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 2
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Daga de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ109",
+      "type": "dagger",
+      "name": "Daga de memoria",
+      "rarity": "epic",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 2
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Daga de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ110",
+      "type": "dagger",
+      "name": "Daga de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 3
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Daga de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ111",
+      "type": "axe",
+      "name": "Hacha de campaña",
+      "rarity": "common",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Hacha de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ112",
+      "type": "axe",
+      "name": "Hacha de taller",
+      "rarity": "uncommon",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 2
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Hacha de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ113",
+      "type": "axe",
+      "name": "Hacha de maestría",
+      "rarity": "rare",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 3
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Hacha de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ114",
+      "type": "axe",
+      "name": "Hacha de memoria",
+      "rarity": "epic",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 4
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Hacha de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ115",
+      "type": "axe",
+      "name": "Hacha de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 5
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Hacha de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ116",
+      "type": "mace",
+      "name": "Maza de campaña",
+      "rarity": "common",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Maza de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ117",
+      "type": "mace",
+      "name": "Maza de taller",
+      "rarity": "uncommon",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 2
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Maza de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ118",
+      "type": "mace",
+      "name": "Maza de maestría",
+      "rarity": "rare",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 3
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Maza de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ119",
+      "type": "mace",
+      "name": "Maza de memoria",
+      "rarity": "epic",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 4
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Maza de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ120",
+      "type": "mace",
+      "name": "Maza de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 5
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Maza de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ121",
+      "type": "spear",
+      "name": "Lanza de campaña",
+      "rarity": "common",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Lanza de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ122",
+      "type": "spear",
+      "name": "Lanza de taller",
+      "rarity": "uncommon",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 2
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Lanza de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ123",
+      "type": "spear",
+      "name": "Lanza de maestría",
+      "rarity": "rare",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 3
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Lanza de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ124",
+      "type": "spear",
+      "name": "Lanza de memoria",
+      "rarity": "epic",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 4
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Lanza de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ125",
+      "type": "spear",
+      "name": "Lanza de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 5
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Lanza de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ126",
+      "type": "staff",
+      "name": "Bastón de campaña",
+      "rarity": "common",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 3
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Bastón de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ127",
+      "type": "staff",
+      "name": "Bastón de taller",
+      "rarity": "uncommon",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 6
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Bastón de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ128",
+      "type": "staff",
+      "name": "Bastón de maestría",
+      "rarity": "rare",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 9
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Bastón de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ129",
+      "type": "staff",
+      "name": "Bastón de memoria",
+      "rarity": "epic",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 12
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Bastón de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ130",
+      "type": "staff",
+      "name": "Bastón de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "weapon",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 15
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Bastón de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ131",
+      "type": "bow",
+      "name": "Arco de campaña",
+      "rarity": "common",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 3
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Arco de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ132",
+      "type": "bow",
+      "name": "Arco de taller",
+      "rarity": "uncommon",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 6
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Arco de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ133",
+      "type": "bow",
+      "name": "Arco de maestría",
+      "rarity": "rare",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 9
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Arco de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ134",
+      "type": "bow",
+      "name": "Arco de memoria",
+      "rarity": "epic",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 12
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Arco de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ135",
+      "type": "bow",
+      "name": "Arco de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 15
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Arco de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ136",
+      "type": "crossbow",
+      "name": "Ballesta de campaña",
+      "rarity": "common",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 3
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Ballesta de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ137",
+      "type": "crossbow",
+      "name": "Ballesta de taller",
+      "rarity": "uncommon",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 6
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Ballesta de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ138",
+      "type": "crossbow",
+      "name": "Ballesta de maestría",
+      "rarity": "rare",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 9
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Ballesta de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ139",
+      "type": "crossbow",
+      "name": "Ballesta de memoria",
+      "rarity": "epic",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 12
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Ballesta de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ140",
+      "type": "crossbow",
+      "name": "Ballesta de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 15
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Ballesta de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ141",
+      "type": "quiver",
+      "name": "Carcaj de campaña",
+      "rarity": "common",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 3
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Carcaj de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ142",
+      "type": "quiver",
+      "name": "Carcaj de taller",
+      "rarity": "uncommon",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 6
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Carcaj de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ143",
+      "type": "quiver",
+      "name": "Carcaj de maestría",
+      "rarity": "rare",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 9
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Carcaj de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ144",
+      "type": "quiver",
+      "name": "Carcaj de memoria",
+      "rarity": "epic",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 12
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Carcaj de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ145",
+      "type": "quiver",
+      "name": "Carcaj de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 15
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Carcaj de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "EQ146",
+      "type": "reliquary",
+      "name": "Relicario de campaña",
+      "rarity": "common",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_luck",
+          "amount": 1
+        }
+      ],
+      "price_gold": 40,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Relicario de campaña: una pieza reparable de uso diario."
+    },
+    {
+      "id": "EQ147",
+      "type": "reliquary",
+      "name": "Relicario de taller",
+      "rarity": "uncommon",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_luck",
+          "amount": 1
+        }
+      ],
+      "price_gold": 110,
+      "source": {
+        "kind": "merchant",
+        "requires_spanish": true
+      },
+      "lore": "Relicario de taller: obra de un taller identificado."
+    },
+    {
+      "id": "EQ148",
+      "type": "reliquary",
+      "name": "Relicario de maestría",
+      "rarity": "rare",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_luck",
+          "amount": 2
+        }
+      ],
+      "price_gold": 280,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Relicario de maestría: pieza firmada por un maestro."
+    },
+    {
+      "id": "EQ149",
+      "type": "reliquary",
+      "name": "Relicario de memoria",
+      "rarity": "epic",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_luck",
+          "amount": 2
+        }
+      ],
+      "price_gold": 650,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Relicario de memoria: pieza que conserva marcas de antiguos dueños."
+    },
+    {
+      "id": "EQ150",
+      "type": "reliquary",
+      "name": "Relicario de la Edad Clara",
+      "rarity": "relic",
+      "default_slot": "misc_1",
+      "unique": false,
+      "effects": [
+        {
+          "effect": "army_luck",
+          "amount": 3
+        }
+      ],
+      "price_gold": 1400,
+      "source": {
+        "kind": "optional_treasure",
+        "requires_spanish": false
+      },
+      "lore": "Relicario de la Edad Clara: resto restaurado de la Edad Clara."
+    },
+    {
+      "id": "SP001",
+      "type": "helmet",
+      "name": "Yelmo de la Mirada",
+      "rarity": "rare",
+      "default_slot": "head",
+      "unique": true,
+      "set_id": "SA01",
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX001"
+      },
+      "lore": "Una parte de Armadura del Testigo Íntegro; conserva la voz de Alda, la guardiana sin rostro."
+    },
+    {
+      "id": "SP002",
+      "type": "cuirass",
+      "name": "Coraza del Nombre",
+      "rarity": "rare",
+      "default_slot": "torso",
+      "unique": true,
+      "set_id": "SA01",
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX003"
+      },
+      "lore": "Una parte de Armadura del Testigo Íntegro; conserva la voz de Alda, la guardiana sin rostro."
+    },
+    {
+      "id": "SP003",
+      "type": "shield",
+      "name": "Escudo de la Réplica",
+      "rarity": "relic",
+      "default_slot": "shield",
+      "unique": true,
+      "set_id": "SA01",
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX011"
+      },
+      "lore": "Una parte de Armadura del Testigo Íntegro; conserva la voz de Alda, la guardiana sin rostro."
+    },
+    {
+      "id": "SP004",
+      "type": "boots",
+      "name": "Botas del Umbral",
+      "rarity": "relic",
+      "default_slot": "feet",
+      "unique": true,
+      "set_id": "SA01",
+      "effects": [
+        {
+          "effect": "world_movement",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX013"
+      },
+      "lore": "Una parte de Armadura del Testigo Íntegro; conserva la voz de Alda, la guardiana sin rostro."
+    },
+    {
+      "id": "SA01",
+      "type": "helmet",
+      "name": "Armadura del Testigo Íntegro",
+      "rarity": "soul",
+      "default_slot": "head",
+      "reserved_slots": [
+        "head",
+        "torso",
+        "shield",
+        "feet"
+      ],
+      "unique": true,
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 3
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "soul_assembly",
+        "set_id": "SA01"
+      },
+      "lore": "Temo que me uses para imponer una sola versión."
+    },
+    {
+      "id": "SP005",
+      "type": "hood",
+      "name": "Capucha de la Vigilia",
+      "rarity": "rare",
+      "default_slot": "head",
+      "unique": true,
+      "set_id": "SA02",
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX019"
+      },
+      "lore": "Una parte de Vestiduras de la Mano Abierta; conserva la voz de Iria, la sanadora dividida."
+    },
+    {
+      "id": "SP006",
+      "type": "robe",
+      "name": "Túnica de las Camas Vacías",
+      "rarity": "rare",
+      "default_slot": "torso",
+      "unique": true,
+      "set_id": "SA02",
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 5
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX021"
+      },
+      "lore": "Una parte de Vestiduras de la Mano Abierta; conserva la voz de Iria, la sanadora dividida."
+    },
+    {
+      "id": "SP007",
+      "type": "amulet",
+      "name": "Amuleto de los Nombres",
+      "rarity": "relic",
+      "default_slot": "neck",
+      "unique": true,
+      "set_id": "SA02",
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 5
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX029"
+      },
+      "lore": "Una parte de Vestiduras de la Mano Abierta; conserva la voz de Iria, la sanadora dividida."
+    },
+    {
+      "id": "SP008",
+      "type": "gloves",
+      "name": "Guantes de la Última Guardia",
+      "rarity": "relic",
+      "default_slot": "misc_1",
+      "unique": true,
+      "set_id": "SA02",
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX031"
+      },
+      "lore": "Una parte de Vestiduras de la Mano Abierta; conserva la voz de Iria, la sanadora dividida."
+    },
+    {
+      "id": "SA02",
+      "type": "hood",
+      "name": "Vestiduras de la Mano Abierta",
+      "rarity": "soul",
+      "default_slot": "head",
+      "reserved_slots": [
+        "head",
+        "torso",
+        "neck",
+        "misc_1"
+      ],
+      "unique": true,
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 12
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "soul_assembly",
+        "set_id": "SA02"
+      },
+      "lore": "Temo que ocultes a quienes no pudiste salvar."
+    },
+    {
+      "id": "SP009",
+      "type": "bow",
+      "name": "Arco del Primer Eco",
+      "rarity": "rare",
+      "default_slot": "misc_1",
+      "unique": true,
+      "set_id": "SA03",
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 5
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX037"
+      },
+      "lore": "Una parte de Arco de las Voces Distantes; conserva la voz de Nerio, el vigía del eco."
+    },
+    {
+      "id": "SP010",
+      "type": "quiver",
+      "name": "Carcaj de las Distancias",
+      "rarity": "rare",
+      "default_slot": "misc_2",
+      "unique": true,
+      "set_id": "SA03",
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 5
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX039"
+      },
+      "lore": "Una parte de Arco de las Voces Distantes; conserva la voz de Nerio, el vigía del eco."
+    },
+    {
+      "id": "SP011",
+      "type": "ring",
+      "name": "Anillo de la Escucha",
+      "rarity": "relic",
+      "default_slot": "ring_1",
+      "unique": true,
+      "set_id": "SA03",
+      "effects": [
+        {
+          "effect": "army_luck",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX047"
+      },
+      "lore": "Una parte de Arco de las Voces Distantes; conserva la voz de Nerio, el vigía del eco."
+    },
+    {
+      "id": "SP012",
+      "type": "cloak",
+      "name": "Capa del Vigía",
+      "rarity": "relic",
+      "default_slot": "cloak",
+      "unique": true,
+      "set_id": "SA03",
+      "effects": [
+        {
+          "effect": "army_defense",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX049"
+      },
+      "lore": "Una parte de Arco de las Voces Distantes; conserva la voz de Nerio, el vigía del eco."
+    },
+    {
+      "id": "SA03",
+      "type": "bow",
+      "name": "Arco de las Voces Distantes",
+      "rarity": "soul",
+      "default_slot": "misc_1",
+      "reserved_slots": [
+        "misc_1",
+        "misc_2",
+        "ring_1",
+        "cloak"
+      ],
+      "unique": true,
+      "effects": [
+        {
+          "effect": "ranged_damage_percent",
+          "amount": 15
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "soul_assembly",
+        "set_id": "SA03"
+      },
+      "lore": "Confundo muchas voces con muchos testigos."
+    },
+    {
+      "id": "SP013",
+      "type": "sword",
+      "name": "Espada de la Cláusula",
+      "rarity": "rare",
+      "default_slot": "weapon",
+      "unique": true,
+      "set_id": "SA04",
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX055"
+      },
+      "lore": "Una parte de Espada del Juramento Revisable; conserva la voz de Beltrán, la promesa rota."
+    },
+    {
+      "id": "SP014",
+      "type": "buckler",
+      "name": "Broquel de la Excepción",
+      "rarity": "rare",
+      "default_slot": "shield",
+      "unique": true,
+      "set_id": "SA04",
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX057"
+      },
+      "lore": "Una parte de Espada del Juramento Revisable; conserva la voz de Beltrán, la promesa rota."
+    },
+    {
+      "id": "SP015",
+      "type": "amulet",
+      "name": "Amuleto del Testigo",
+      "rarity": "relic",
+      "default_slot": "neck",
+      "unique": true,
+      "set_id": "SA04",
+      "effects": [
+        {
+          "effect": "army_hp_percent",
+          "amount": 5
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX065"
+      },
+      "lore": "Una parte de Espada del Juramento Revisable; conserva la voz de Beltrán, la promesa rota."
+    },
+    {
+      "id": "SP016",
+      "type": "signet",
+      "name": "Sello de la Enmienda",
+      "rarity": "relic",
+      "default_slot": "ring_1",
+      "unique": true,
+      "set_id": "SA04",
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX067"
+      },
+      "lore": "Una parte de Espada del Juramento Revisable; conserva la voz de Beltrán, la promesa rota."
+    },
+    {
+      "id": "SA04",
+      "type": "sword",
+      "name": "Espada del Juramento Revisable",
+      "rarity": "soul",
+      "default_slot": "weapon",
+      "reserved_slots": [
+        "weapon",
+        "shield",
+        "neck",
+        "ring_1"
+      ],
+      "unique": true,
+      "effects": [
+        {
+          "effect": "army_attack",
+          "amount": 4
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "soul_assembly",
+        "set_id": "SA04"
+      },
+      "lore": "Temo que una promesa me obligue a mentir cuando aparece una prueba nueva."
+    },
+    {
+      "id": "SP017",
+      "type": "crown",
+      "name": "Corona del Margen",
+      "rarity": "rare",
+      "default_slot": "head",
+      "unique": true,
+      "set_id": "SA05",
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX073"
+      },
+      "lore": "Una parte de Corona del Lector Inconcluso; conserva la voz de Sira, la memoria sin margen."
+    },
+    {
+      "id": "SP018",
+      "type": "necklace",
+      "name": "Collar de las Referencias",
+      "rarity": "rare",
+      "default_slot": "neck",
+      "unique": true,
+      "set_id": "SA05",
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX075"
+      },
+      "lore": "Una parte de Corona del Lector Inconcluso; conserva la voz de Sira, la memoria sin margen."
+    },
+    {
+      "id": "SP019",
+      "type": "ring",
+      "name": "Anillo de la Duda",
+      "rarity": "relic",
+      "default_slot": "ring_1",
+      "unique": true,
+      "set_id": "SA05",
+      "effects": [
+        {
+          "effect": "army_luck",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX083"
+      },
+      "lore": "Una parte de Corona del Lector Inconcluso; conserva la voz de Sira, la memoria sin margen."
+    },
+    {
+      "id": "SP020",
+      "type": "reliquary",
+      "name": "Relicario de la Página Ausente",
+      "rarity": "relic",
+      "default_slot": "misc_1",
+      "unique": true,
+      "set_id": "SA05",
+      "effects": [
+        {
+          "effect": "army_luck",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX085"
+      },
+      "lore": "Una parte de Corona del Lector Inconcluso; conserva la voz de Sira, la memoria sin margen."
+    },
+    {
+      "id": "SA05",
+      "type": "crown",
+      "name": "Corona del Lector Inconcluso",
+      "rarity": "soul",
+      "default_slot": "head",
+      "reserved_slots": [
+        "head",
+        "neck",
+        "ring_1",
+        "misc_1"
+      ],
+      "unique": true,
+      "effects": [
+        {
+          "effect": "army_luck",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "soul_assembly",
+        "set_id": "SA05"
+      },
+      "lore": "Temo que completes con una invención lo que todavía no sabemos."
+    },
+    {
+      "id": "SP021",
+      "type": "mantle",
+      "name": "Manto de la Reserva",
+      "rarity": "rare",
+      "default_slot": "cloak",
+      "unique": true,
+      "set_id": "SA06",
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX091"
+      },
+      "lore": "Una parte de Manto de los Caminos Libres; conserva la voz de Daro, el mensajero sin destinatario."
+    },
+    {
+      "id": "SP022",
+      "type": "sandals",
+      "name": "Sandalias del Regreso",
+      "rarity": "rare",
+      "default_slot": "feet",
+      "unique": true,
+      "set_id": "SA06",
+      "effects": [
+        {
+          "effect": "army_initiative",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX093"
+      },
+      "lore": "Una parte de Manto de los Caminos Libres; conserva la voz de Daro, el mensajero sin destinatario."
+    },
+    {
+      "id": "SP023",
+      "type": "signet",
+      "name": "Sello del Consentimiento",
+      "rarity": "relic",
+      "default_slot": "ring_1",
+      "unique": true,
+      "set_id": "SA06",
+      "effects": [
+        {
+          "effect": "army_morale",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX101"
+      },
+      "lore": "Una parte de Manto de los Caminos Libres; conserva la voz de Daro, el mensajero sin destinatario."
+    },
+    {
+      "id": "SP024",
+      "type": "belt",
+      "name": "Cinturón de las Rutas",
+      "rarity": "relic",
+      "default_slot": "misc_1",
+      "unique": true,
+      "set_id": "SA06",
+      "effects": [
+        {
+          "effect": "world_movement",
+          "amount": 1
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "quest_reward_overlay",
+        "quest_id": "SX103"
+      },
+      "lore": "Una parte de Manto de los Caminos Libres; conserva la voz de Daro, el mensajero sin destinatario."
+    },
+    {
+      "id": "SA06",
+      "type": "mantle",
+      "name": "Manto de los Caminos Libres",
+      "rarity": "soul",
+      "default_slot": "cloak",
+      "reserved_slots": [
+        "cloak",
+        "feet",
+        "ring_1",
+        "misc_1"
+      ],
+      "unique": true,
+      "effects": [
+        {
+          "effect": "world_movement",
+          "amount": 3
+        }
+      ],
+      "price_gold": null,
+      "source": {
+        "kind": "soul_assembly",
+        "set_id": "SA06"
+      },
+      "lore": "Temo que entregar una carta permita perseguir a quien quiere guardar silencio."
+    }
+  ],
+  "sets": [
+    {
+      "id": "SA01",
+      "name": "Armadura del Testigo Íntegro",
+      "name_ru": "Доспех целого свидетеля",
+      "components": [
+        {
+          "item_id": "SP001",
+          "slot": "head"
+        },
+        {
+          "item_id": "SP002",
+          "slot": "torso"
+        },
+        {
+          "item_id": "SP003",
+          "slot": "shield"
+        },
+        {
+          "item_id": "SP004",
+          "slot": "feet"
+        }
+      ],
+      "reserved_slots": [
+        "head",
+        "torso",
+        "shield",
+        "feet"
+      ],
+      "combined_item": "SA01",
+      "bonus": {
+        "effect": "army_defense",
+        "amount": 3
+      },
+      "special": {
+        "id": "witness_guard",
+        "target_knight": "NK01",
+        "uses_per_day": 1,
+        "effect": "Protect this branch from one new ambiguous-label intervention.",
+        "action": "prevent_label_intervention",
+        "duration": "next_world_turn",
+        "automatic_truth": false
+      },
+      "soul": {
+        "name": "Alda, la guardiana sin rostro",
+        "fear": "Temo que me uses para imponer una sola versión.",
+        "memories": [
+          {
+            "id": "SA01_memory_1",
+            "text": "Protejo a quien pregunta.",
+            "source_component": "SP001"
+          },
+          {
+            "id": "SA01_memory_2",
+            "text": "Un sello no demuestra la verdad.",
+            "source_component": "SP002"
+          }
+        ],
+        "accepted_argument": "Quiero proteger a los testigos y escuchar otra versión.",
+        "rejected_argument": "Tu fuerza demuestra que mi versión es cierta."
+      },
+      "ritual": {
+        "required_block": 2,
+        "required_memories": [
+          "SA01_memory_1",
+          "SA01_memory_2"
+        ],
+        "stages": [
+          "listen",
+          "compare_memories",
+          "supported_production",
+          "independent_argument",
+          "answer_objection",
+          "delayed_recall",
+          "consent"
+        ],
+        "spanish_prompts": [
+          "¿Qué proteges cuando llevas mi escudo?",
+          "¿Por qué necesitas escuchar otra versión?",
+          "Pide mi ayuda y explica tu propósito."
+        ],
+        "supported_frame": "Quiero proteger a los testigos y escuchar otra versión.",
+        "independent_reformulation": "Explica de otra manera cómo proteges a un testigo.",
+        "delayed_recall": "Sin mirar el modelo, pide ayuda y explica por qué escuchas otra versión.",
+        "canonical_checks": [
+          "components_owned_and_equipped",
+          "correct_memory_comparison",
+          "meaningful_spanish_production",
+          "independent_argument_completed",
+          "objection_addressed",
+          "delayed_recall_completed",
+          "curriculum_prerequisites_consolidated"
+        ],
+        "wrong_reason": "Tu fuerza demuestra que mi versión es cierta.",
+        "retry_response": "No pierdes mis fragmentos. Escucha mi temor y prueba otro argumento."
+      }
+    },
+    {
+      "id": "SA02",
+      "name": "Vestiduras de la Mano Abierta",
+      "name_ru": "Облачение открытой ладони",
+      "components": [
+        {
+          "item_id": "SP005",
+          "slot": "head"
+        },
+        {
+          "item_id": "SP006",
+          "slot": "torso"
+        },
+        {
+          "item_id": "SP007",
+          "slot": "neck"
+        },
+        {
+          "item_id": "SP008",
+          "slot": "misc_1"
+        }
+      ],
+      "reserved_slots": [
+        "head",
+        "torso",
+        "neck",
+        "misc_1"
+      ],
+      "combined_item": "SA02",
+      "bonus": {
+        "effect": "army_hp_percent",
+        "amount": 12
+      },
+      "special": {
+        "id": "open_record",
+        "target_knight": "NK06",
+        "uses_per_day": 1,
+        "effect": "Restore one redacted copy from its already acquired duplicate; still solve its evidence task.",
+        "action": "restore_public_copy",
+        "duration": "immediate",
+        "automatic_truth": false
+      },
+      "soul": {
+        "name": "Iria, la sanadora dividida",
+        "fear": "Temo que ocultes a quienes no pudiste salvar.",
+        "memories": [
+          {
+            "id": "SA02_memory_1",
+            "text": "Anoté ocho curaciones y dos traslados.",
+            "source_component": "SP005"
+          },
+          {
+            "id": "SA02_memory_2",
+            "text": "Dejé los nombres de todos en el registro.",
+            "source_component": "SP006"
+          }
+        ],
+        "accepted_argument": "Anotaste a todos; no borraste a quienes fueron trasladados.",
+        "rejected_argument": "Curaste a ocho; por eso nadie más estuvo enfermo."
+      },
+      "ritual": {
+        "required_block": 3,
+        "required_memories": [
+          "SA02_memory_1",
+          "SA02_memory_2"
+        ],
+        "stages": [
+          "listen",
+          "compare_memories",
+          "supported_production",
+          "independent_argument",
+          "answer_objection",
+          "delayed_recall",
+          "consent"
+        ],
+        "spanish_prompts": [
+          "¿Qué anoté en el registro?",
+          "¿Qué pasó con los dos pacientes trasladados?",
+          "Explica por qué no borraste sus nombres."
+        ],
+        "supported_frame": "Anotaste a todos; no borraste a quienes fueron trasladados.",
+        "independent_reformulation": "Cuenta los hechos en otro orden, sin convertir un traslado en una curación.",
+        "delayed_recall": "Recuerda qué ocurrió con cada grupo de pacientes.",
+        "canonical_checks": [
+          "components_owned_and_equipped",
+          "correct_memory_comparison",
+          "meaningful_spanish_production",
+          "independent_argument_completed",
+          "objection_addressed",
+          "delayed_recall_completed",
+          "curriculum_prerequisites_consolidated"
+        ],
+        "wrong_reason": "Curaste a ocho; por eso nadie más estuvo enfermo.",
+        "retry_response": "No pierdes mis fragmentos. Escucha mi temor y prueba otro argumento."
+      }
+    },
+    {
+      "id": "SA03",
+      "name": "Arco de las Voces Distantes",
+      "name_ru": "Лук дальних голосов",
+      "components": [
+        {
+          "item_id": "SP009",
+          "slot": "misc_1"
+        },
+        {
+          "item_id": "SP010",
+          "slot": "misc_2"
+        },
+        {
+          "item_id": "SP011",
+          "slot": "ring_1"
+        },
+        {
+          "item_id": "SP012",
+          "slot": "cloak"
+        }
+      ],
+      "reserved_slots": [
+        "misc_1",
+        "misc_2",
+        "ring_1",
+        "cloak"
+      ],
+      "combined_item": "SA03",
+      "bonus": {
+        "effect": "ranged_damage_percent",
+        "amount": 15
+      },
+      "special": {
+        "id": "trace_echo",
+        "target_knight": "NK04",
+        "uses_per_day": 1,
+        "effect": "Reveal the shared source link in one visible rumor trace, without certifying the claim.",
+        "action": "reveal_rumor_source",
+        "duration": "immediate",
+        "automatic_truth": false
+      },
+      "soul": {
+        "name": "Nerio, el vigía del eco",
+        "fear": "Confundo muchas voces con muchos testigos.",
+        "memories": [
+          {
+            "id": "SA03_memory_1",
+            "text": "Cada noche oía tres voces desde la torre.",
+            "source_component": "SP009"
+          },
+          {
+            "id": "SA03_memory_2",
+            "text": "Una noche descubrí que repetían el mismo pregón.",
+            "source_component": "SP010"
+          }
+        ],
+        "accepted_argument": "Antes oías tres voces, pero aquella noche descubriste una sola fuente.",
+        "rejected_argument": "Tres voces siempre significan tres testigos independientes."
+      },
+      "ritual": {
+        "required_block": 4,
+        "required_memories": [
+          "SA03_memory_1",
+          "SA03_memory_2"
+        ],
+        "stages": [
+          "listen",
+          "compare_memories",
+          "supported_production",
+          "independent_argument",
+          "answer_objection",
+          "delayed_recall",
+          "consent"
+        ],
+        "spanish_prompts": [
+          "¿Qué oías cada noche?",
+          "¿Qué descubriste aquella noche?",
+          "Compara el hábito y el descubrimiento."
+        ],
+        "supported_frame": "Antes oías tres voces, pero aquella noche descubriste una sola fuente.",
+        "independent_reformulation": "Explica cómo cambió tu interpretación al encontrar la fuente común.",
+        "delayed_recall": "Distingue lo que ocurría habitualmente de lo que pasó una vez.",
+        "canonical_checks": [
+          "components_owned_and_equipped",
+          "correct_memory_comparison",
+          "meaningful_spanish_production",
+          "independent_argument_completed",
+          "objection_addressed",
+          "delayed_recall_completed",
+          "curriculum_prerequisites_consolidated"
+        ],
+        "wrong_reason": "Tres voces siempre significan tres testigos independientes.",
+        "retry_response": "No pierdes mis fragmentos. Escucha mi temor y prueba otro argumento."
+      }
+    },
+    {
+      "id": "SA04",
+      "name": "Espada del Juramento Revisable",
+      "name_ru": "Меч пересматриваемой клятвы",
+      "components": [
+        {
+          "item_id": "SP013",
+          "slot": "weapon"
+        },
+        {
+          "item_id": "SP014",
+          "slot": "shield"
+        },
+        {
+          "item_id": "SP015",
+          "slot": "neck"
+        },
+        {
+          "item_id": "SP016",
+          "slot": "ring_1"
+        }
+      ],
+      "reserved_slots": [
+        "weapon",
+        "shield",
+        "neck",
+        "ring_1"
+      ],
+      "combined_item": "SA04",
+      "bonus": {
+        "effect": "army_attack",
+        "amount": 4
+      },
+      "special": {
+        "id": "contest_seal",
+        "target_knight": "NK02",
+        "uses_per_day": 1,
+        "effect": "Offer a duplicate-receipt route for one provenance challenge; still present it in Spanish.",
+        "action": "open_duplicate_receipt_route",
+        "duration": "two_world_turns",
+        "automatic_truth": false
+      },
+      "soul": {
+        "name": "Beltrán, la promesa rota",
+        "fear": "Temo que una promesa me obligue a mentir cuando aparece una prueba nueva.",
+        "memories": [
+          {
+            "id": "SA04_memory_1",
+            "text": "El juramento que hice protegía a los vecinos.",
+            "source_component": "SP013"
+          },
+          {
+            "id": "SA04_memory_2",
+            "text": "La orden que recibí exigía acusarlos sin pruebas.",
+            "source_component": "SP014"
+          }
+        ],
+        "accepted_argument": "La promesa que protege a los vecinos no autoriza una acusación sin pruebas.",
+        "rejected_argument": "Toda orden es válida porque contiene un sello."
+      },
+      "ritual": {
+        "required_block": 5,
+        "required_memories": [
+          "SA04_memory_1",
+          "SA04_memory_2"
+        ],
+        "stages": [
+          "listen",
+          "compare_memories",
+          "supported_production",
+          "independent_argument",
+          "answer_objection",
+          "delayed_recall",
+          "consent"
+        ],
+        "spanish_prompts": [
+          "¿Qué promesa protege a los vecinos?",
+          "¿A qué se refiere la orden que rechazaste?",
+          "Une las dos ideas y explica el límite de la promesa."
+        ],
+        "supported_frame": "La promesa que protege a los vecinos no autoriza una acusación sin pruebas.",
+        "independent_reformulation": "Reformula el juramento usando una oración con que.",
+        "delayed_recall": "Explica a quién protege la promesa y qué acción no permite.",
+        "canonical_checks": [
+          "components_owned_and_equipped",
+          "correct_memory_comparison",
+          "meaningful_spanish_production",
+          "independent_argument_completed",
+          "objection_addressed",
+          "delayed_recall_completed",
+          "curriculum_prerequisites_consolidated"
+        ],
+        "wrong_reason": "Toda orden es válida porque contiene un sello.",
+        "retry_response": "No pierdes mis fragmentos. Escucha mi temor y prueba otro argumento."
+      }
+    },
+    {
+      "id": "SA05",
+      "name": "Corona del Lector Inconcluso",
+      "name_ru": "Корона незавершённого читателя",
+      "components": [
+        {
+          "item_id": "SP017",
+          "slot": "head"
+        },
+        {
+          "item_id": "SP018",
+          "slot": "neck"
+        },
+        {
+          "item_id": "SP019",
+          "slot": "ring_1"
+        },
+        {
+          "item_id": "SP020",
+          "slot": "misc_1"
+        }
+      ],
+      "reserved_slots": [
+        "head",
+        "neck",
+        "ring_1",
+        "misc_1"
+      ],
+      "combined_item": "SA05",
+      "bonus": {
+        "effect": "army_luck",
+        "amount": 1
+      },
+      "special": {
+        "id": "expose_leap",
+        "target_knight": "NK08",
+        "uses_per_day": 1,
+        "effect": "Highlight the missing premise of one hostile inference, without selecting the answer.",
+        "action": "highlight_missing_premise",
+        "duration": "immediate",
+        "automatic_truth": false
+      },
+      "soul": {
+        "name": "Sira, la memoria sin margen",
+        "fear": "Temo que completes con una invención lo que todavía no sabemos.",
+        "memories": [
+          {
+            "id": "SA05_memory_1",
+            "text": "He comparado las dos copias y falta una página.",
+            "source_component": "SP017"
+          },
+          {
+            "id": "SA05_memory_2",
+            "text": "Voy a buscar otro registro antes de decidir.",
+            "source_component": "SP018"
+          }
+        ],
+        "accepted_argument": "Has comparado las copias; vamos a buscar la página sin inventar su contenido.",
+        "rejected_argument": "Una página ausente prueba que el acusado confesó."
+      },
+      "ritual": {
+        "required_block": 6,
+        "required_memories": [
+          "SA05_memory_1",
+          "SA05_memory_2"
+        ],
+        "stages": [
+          "listen",
+          "compare_memories",
+          "supported_production",
+          "independent_argument",
+          "answer_objection",
+          "delayed_recall",
+          "consent"
+        ],
+        "spanish_prompts": [
+          "¿Qué has comprobado hasta ahora?",
+          "¿Qué vas a buscar después?",
+          "Propón un plan y separa lo comprobado de lo pendiente."
+        ],
+        "supported_frame": "Has comparado las copias; vamos a buscar la página sin inventar su contenido.",
+        "independent_reformulation": "Expón el mismo plan con una comprobación terminada y una acción futura.",
+        "delayed_recall": "Recuerda lo que hemos comprobado y lo que aún vamos a contrastar.",
+        "canonical_checks": [
+          "components_owned_and_equipped",
+          "correct_memory_comparison",
+          "meaningful_spanish_production",
+          "independent_argument_completed",
+          "objection_addressed",
+          "delayed_recall_completed",
+          "curriculum_prerequisites_consolidated"
+        ],
+        "wrong_reason": "Una página ausente prueba que el acusado confesó.",
+        "retry_response": "No pierdes mis fragmentos. Escucha mi temor y prueba otro argumento."
+      }
+    },
+    {
+      "id": "SA06",
+      "name": "Manto de los Caminos Libres",
+      "name_ru": "Плащ свободных дорог",
+      "components": [
+        {
+          "item_id": "SP021",
+          "slot": "cloak"
+        },
+        {
+          "item_id": "SP022",
+          "slot": "feet"
+        },
+        {
+          "item_id": "SP023",
+          "slot": "ring_1"
+        },
+        {
+          "item_id": "SP024",
+          "slot": "misc_1"
+        }
+      ],
+      "reserved_slots": [
+        "cloak",
+        "feet",
+        "ring_1",
+        "misc_1"
+      ],
+      "combined_item": "SA06",
+      "bonus": {
+        "effect": "world_movement",
+        "amount": 3
+      },
+      "special": {
+        "id": "safe_delivery",
+        "target_knight": "NK05",
+        "uses_per_day": 1,
+        "effect": "Prevent one escrow interception at the hero's declared reward destination.",
+        "action": "protect_unclaimed_fragment",
+        "duration": "next_world_turn",
+        "automatic_truth": false
+      },
+      "soul": {
+        "name": "Daro, el mensajero sin destinatario",
+        "fear": "Temo que entregar una carta permita perseguir a quien quiere guardar silencio.",
+        "memories": [
+          {
+            "id": "SA06_memory_1",
+            "text": "La carta tiene destinatario, pero no permiso para publicar su dirección.",
+            "source_component": "SP021"
+          },
+          {
+            "id": "SA06_memory_2",
+            "text": "El mensajero puede ofrecer una entrega reservada.",
+            "source_component": "SP022"
+          }
+        ],
+        "accepted_argument": "Propondría una entrega reservada para que el destinatario pueda decidir.",
+        "rejected_argument": "Si no responde, deberíamos publicar su dirección."
+      },
+      "ritual": {
+        "required_block": 7,
+        "required_memories": [
+          "SA06_memory_1",
+          "SA06_memory_2"
+        ],
+        "stages": [
+          "listen",
+          "compare_memories",
+          "supported_production",
+          "independent_argument",
+          "answer_objection",
+          "delayed_recall",
+          "consent"
+        ],
+        "spanish_prompts": [
+          "¿Qué propondrías sin revelar la dirección?",
+          "¿Qué condición pedirías para que la entrega sea aceptable?",
+          "Defiende tu propuesta y reconoce el derecho a no responder."
+        ],
+        "supported_frame": "Propondría una entrega reservada para que el destinatario pueda decidir.",
+        "independent_reformulation": "Ofrece otra solución con una condición y un propósito.",
+        "delayed_recall": "Sin leer el pacto, propone una entrega respetuosa y responde a una objeción.",
+        "canonical_checks": [
+          "components_owned_and_equipped",
+          "correct_memory_comparison",
+          "meaningful_spanish_production",
+          "independent_argument_completed",
+          "objection_addressed",
+          "delayed_recall_completed",
+          "curriculum_prerequisites_consolidated"
+        ],
+        "wrong_reason": "Si no responde, deberíamos publicar su dirección.",
+        "retry_response": "No pierdes mis fragmentos. Escucha mi temor y prueba otro argumento."
+      }
+    }
+  ],
+  "reward_bindings": [
+    {
+      "quest_id": "SX001",
+      "item_id": "SP001",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX003",
+      "item_id": "SP002",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX011",
+      "item_id": "SP003",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX013",
+      "item_id": "SP004",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX019",
+      "item_id": "SP005",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX021",
+      "item_id": "SP006",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX029",
+      "item_id": "SP007",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX031",
+      "item_id": "SP008",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX037",
+      "item_id": "SP009",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX039",
+      "item_id": "SP010",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX047",
+      "item_id": "SP011",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX049",
+      "item_id": "SP012",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX055",
+      "item_id": "SP013",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX057",
+      "item_id": "SP014",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX065",
+      "item_id": "SP015",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX067",
+      "item_id": "SP016",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX073",
+      "item_id": "SP017",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX075",
+      "item_id": "SP018",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX083",
+      "item_id": "SP019",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX085",
+      "item_id": "SP020",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX091",
+      "item_id": "SP021",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX093",
+      "item_id": "SP022",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX101",
+      "item_id": "SP023",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    },
+    {
+      "quest_id": "SX103",
+      "item_id": "SP024",
+      "requires": "quest_completed",
+      "custody_routes": [
+        "battle_victory",
+        "peaceful_access"
+      ],
+      "source": "Un compartimento sellado independiente del objeto de prueba.",
+      "does_not_replace_evidence": true,
+      "once_per_campaign": true
+    }
+  ],
+  "rules": {
+    "backpack_grants_bonuses": false,
+    "duplicate_unique_items": false,
+    "slot_groups": {
+      "ring": [
+        "ring_1",
+        "ring_2"
+      ],
+      "misc": [
+        "misc_1",
+        "misc_2",
+        "misc_3",
+        "misc_4",
+        "misc_5"
+      ]
+    },
+    "bow_slot_note": "Bows and quivers are army-command artifacts in accessory slots, as in the inspiration; they do not replace the hero weapon.",
+    "effect_stacking": "Sum equipped component effects once, add the assembled-set effect once, then clamp each stat to its catalog cap. Never also count hidden components as loose inventory.",
+    "economy": {
+      "all_purchases_require_spanish": true,
+      "successful_typed_request_required": true,
+      "validate_stock_and_price_locally": true,
+      "soul_rank_for_sale": false,
+      "quest_component_for_sale": false
+    },
+    "assembly": {
+      "all_components_owned_by_same_hero": true,
+      "all_components_equipped": true,
+      "all_reserved_slots_required": true,
+      "requires_soul_consent": true,
+      "requires_spanish_production": true,
+      "requires_prior_curriculum_mastery": true,
+      "consumes_component_instances": false,
+      "model_cannot_commit": true,
+      "atomic": true,
+      "unavailable_in_combat": true
+    },
+    "disassembly": {
+      "returns_exact_component_instances": true,
+      "same_slots_remain_occupied": true,
+      "preserves_consent": true,
+      "unavailable_in_combat": true,
+      "no_gold_cost": true,
+      "no_new_language_gate": true
+    },
+    "transfer": {
+      "assembled_set_can_transfer": true,
+      "new_hero_requires_own_spanish_consent": true,
+      "until_consent": "components_only_bonuses",
+      "evidence_never_consumed": true
+    },
+    "soul_consent": {
+      "key": [
+        "hero_id",
+        "set_id"
+      ],
+      "reject_model_only_claim": true,
+      "reject_phrase_copy_as_mastery": true,
+      "check_memory_evidence": true,
+      "check_taught_block": true,
+      "min_distinct_production_prompts": 3,
+      "delayed_recall_min_world_turns": 1,
+      "grammar_errors": "Meaningful argument may pass with corrections; never require perfect grammar.",
+      "offline": "Authored guided Spanish production with typed semantic slots and paraphrase. Evidence and completion flags verified locally; no invented free-text grammar score.",
+      "failure": "Keep all parts and earned practice. Give one hint and allow another argument; no paid retries."
+    },
+    "save_contract": [
+      "instance_ids",
+      "owner_id",
+      "equipped_slots",
+      "component_instances",
+      "assembly_state",
+      "hero_set_consent",
+      "ritual_stage",
+      "practice_prompt_ids",
+      "recall_due_turn"
+    ],
+    "balance_status": "authored_unplaytested"
+  }
+}
