@@ -1,15 +1,15 @@
 # Backlog
 
-## Next: Claude client and validated response (steps 06-07 / Epic 5, Gate C)
+## Next: live verification of Gate C
 
-Gate B passed: reached POIs support authored free-text conversations and reopening.
-Add API key access from the environment, one request per turn, timeout, one retry,
-strict response parsing/schema validation, and authored fallback. Verify current
-Anthropic API/model availability before live integration; the configured ID is not
-proof of availability. Never log/store API keys or let response IDs mutate world state.
-Acceptance: malformed/network failures cannot crash or block gameplay; fallback remains
-usable without a key. Gate C requires actual dialogue integration, not just mocked tests.
-Spanish evaluation follows (step 08 / Gate D); grounding and save/load follow in order.
+Client, schema validation and UI fallback are implemented and covered by local tests.
+A real Messages call is still required. Set ANTHROPIC_API_KEY locally, launch a fresh
+Godot process, open a reached POI and send a short Spanish greeting. Never put the key
+in chat, repository, logs or saves. Confirm the reply passes validation and the UI
+recovers from unavailable service; do not mark Gate C green from fake transport tests.
+Default model is configurable at game/config/game.json. Official docs were checked
+on 2026-10-05; account access must still be verified live.
+After Gate C: Spanish feedback/evaluation (step 08 / Gate D), then grounding and saves.
 
 ## Required language practice
 
@@ -30,3 +30,10 @@ After Gate A: fog/POIs, authored dialogue (Gate B), Claude integration (Gate C),
 language evaluation (Gate D), grounding, save/load, evidence and investigation.
 Follow sections 37, 40 and 41 of MASTER_BUILD_SPEC.md for the precise sequence.
 No full map, campaign expansion or polish before their stated gates.
+
+## Ordered teaching progression
+
+Follow the new syllabus in master section 1.3. Unlock successive grammar blocks only
+after repeated success and delayed recall; choose/test exact thresholds at the learner
+stage. Keep quest language within mastered/current prerequisites. The 60/25/15 policy
+must not sample arbitrary advanced tenses: next-block practice only, with support.

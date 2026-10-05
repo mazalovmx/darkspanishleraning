@@ -46,3 +46,21 @@ write tools/local/dialogue-preview.png. Checks include Spanish Unicode typing an
 Enter through actual viewport events, authored replies/fallbacks, isolated bounded
 history, reopen, blank/oversized input, literal markup, and Escape with input focus.
 No external API is used; these tests do not validate language evaluation quality.
+
+## Claude client checks
+
+```powershell
+& tools/local/godot/Godot_v4.6.2-stable_win64_console.exe --headless --path game --script res://tests/claude_client_test.gd
+```
+
+Expected: 72 assertions, zero failures. Fake transport simulates completed HTTPRequest
+signals; no real HTTP/TLS or paid API calls are made. Tests cover malformed schema,
+wrong types/ranges, truncated output, proposals that would mutate state, retry limit,
+missing key, offline mode, duplicate submissions, delayed replies and fallback UI.
+The authored-dialogue suite explicitly forces offline mode even if a key is available.
+
+Live Gate C remains pending: configure ANTHROPIC_API_KEY in the local environment and
+start a fresh Godot process. Keep dev_flags.offline_mode=false in game/config/game.json.
+Reach the inn, send a short Spanish message and verify a validated Claude reply rather
+than fallback. Use the debugger to inspect client completion if needed, never key/header
+contents. Record actual outcome and model availability before starting Gate D.

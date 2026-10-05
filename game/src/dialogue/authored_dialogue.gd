@@ -13,8 +13,14 @@ var input := LineEdit.new()
 var send_button := Button.new()
 var feedback := Label.new()
 var hint := Label.new()
+var client = preload("res://src/claude/claude_client.gd").new()
+var pending_location := ""
+var pending_message := ""
+var pending_fallback := ""
 
 func _ready() -> void:
+	add_child(client)
+	client.completed.connect(_on_reply)
 	add_theme_constant_override("separation", 10)
 	add_child(speaker)
 	transcript.custom_minimum_size = Vector2(0, 170)
@@ -31,7 +37,7 @@ func _ready() -> void:
 	input.max_length = MAX_MESSAGE_LENGTH
 	input.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	input.text_submitted.connect(submit)
-	input.text_changed.connect(func(text: String): send_button.disabled = text.strip_edges().is_empty())
+	input.text_changed.connect(func(text: String): send_button.disabled = client.busy or text.strip_edges().is_empty())
 	row.add_child(input)
 	send_button.text = "Enviar"
 	send_button.pressed.connect(func(): submit(input.text))
@@ -55,19 +61,40 @@ func open_conversation(id: String) -> void:
 	_render_history()
 
 func submit(message: String) -> void:
-	if not is_visible_in_tree() or not conversations.has(location_id):
+	if client.busy or not is_visible_in_tree() or not conversations.has(location_id):
 		return
 	var clean := message.strip_edges().left(MAX_MESSAGE_LENGTH)
 	if clean.is_empty():
 		return
-	var history: Array = histories[location_id]
-	history.append({"player": clean, "reply": reply_for(location_id, clean)})
+	pending_location = location_id
+	pending_message = clean
+	pending_fallback = reply_for(location_id, clean)
+	input.clear()
+	input.editable = false
+	send_button.disabled = true
+	feedback.text = "Esperando respuesta…"
+	client.request_reply({"npc": conversations[location_id], "player_message": clean,
+		"recent_dialogue": histories[location_id].slice(-3),
+		"language_profile": {"block": "present_and_basic_requests"}})
+
+func _on_reply(proposal: Dictionary) -> void:
+	if pending_location.is_empty():
+		return
+	var history: Array = histories[pending_location]
+	history.append({"player": pending_message,
+		"reply": proposal.get("npc_reply", pending_fallback)})
 	while history.size() > MAX_EXCHANGES:
 		history.pop_front()
-	input.clear()
-	send_button.disabled = true
-	_render_history()
-	input.grab_focus()
+	input.editable = true
+	send_button.disabled = input.text.strip_edges().is_empty()
+	if location_id == pending_location:
+		_render_history()
+		feedback.text = "Evaluación de español no disponible. Puede continuar la conversación."
+		if is_visible_in_tree():
+			input.grab_focus()
+	pending_location = ""
+	pending_message = ""
+	pending_fallback = ""
 
 func reply_for(id: String, message: String) -> String:
 	if not conversations.has(id):

@@ -2,8 +2,8 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: authored dialogue (sequence step 05 / Epic 4) completed.
-Next task: Claude client and validated responses (sequence steps 06-07 / Epic 5, Gate C).
+Current task: Claude client and strict response validation implemented; local tests pass.
+Next task: real Claude dialogue smoke test with a local API key to verify Gate C; do not begin Gate D yet.
 
 ## Provenance
 
@@ -44,8 +44,9 @@ Editor shutdown reports ObjectDB instances leaked. Both timed runtime runs repor
 ObjectDB instances leaked and `26 resources still in use at exit`. These are unresolved
 shutdown diagnostics, not a clean all-errors-free result. They did not prevent startup.
 Original demo dialogue/combat, performance targets and export have not been tested.
-Claude API, learner model, canonical GameState, evidence and JSON save/load are not
-implemented. Initial config is not yet loaded by runtime code.
+Claude transport is implemented but unverified against the live service. Learner model,
+canonical GameState, evidence and JSON save/load are not implemented. Runtime config
+now lives at game/config/game.json and is loaded by the client.
 
 ## Gates
 
@@ -130,3 +131,45 @@ intensive language practice; this is core gameplay, not optional decoration. Per
 in both synchronized MASTER_BUILD_SPEC.md copies, section 1.2. Apply it when implementing
 evaluation, transactions and quests, while keeping feedback concise, narrative contextual,
 and offline progression possible. The current static conversation is only the foundation.
+
+## Claude client / Gate C pending
+
+HTTPRequest now sends one Messages request per player turn, with at most one retry
+on transport, HTTP or validation failure. Timeout: 20 seconds per attempt. Response
+size is bounded to 64 KiB; redirects are disabled; request headers, keys and raw bodies
+are never logged or persisted. ANTHROPIC_API_KEY is read only from the environment.
+Missing key or explicit offline mode returns authored dialogue without a request.
+Pending submissions are locked; closing/reopening or changing POIs cannot misattribute
+a late reply. Successful validated NPC text is displayed as plain text. Language data
+is validated but not yet displayed/scored; that belongs to Gate D.
+
+Validation rejects malformed/truncated envelopes, invalid nested fields/types/ranges,
+oversized text, more than two corrections, and all non-null unlock/nonzero attitude
+proposals until deterministic grounding/relationship systems exist. This is schema
+validation, not proof of factual truth in model prose. Canonical state is untouched.
+Prompt knowledge is limited to the existing authored NPC fixture and last three
+exchanges, with present-tense/basic-request language constraints for the initial block.
+
+Configuration moved from config/game.json to game/config/game.json so there is one
+Godot-loadable source. Model default updated to claude-sonnet-5-5 after checking official
+Anthropic model docs on 2026-10-05; both master specifications updated identically.
+Offline mode defaults false, but no key still means immediate authored fallback.
+
+Checks: 72 client assertions passed using a fake transport (no paid requests), including
+strict parsing, retries, timeout/completion simulation, no-key/offline behavior and late
+reply UI handling. 25 authored dialogue assertions passed headless; 365 map/POI assertions
+passed headless. Authored dialogue also passed all 25 checks with OpenGL; editor import
+exited 0 without script/import errors. Live HTTP/TLS/model access has NOT been tested: ANTHROPIC_API_KEY was
+absent. Gate C stays pending, and later gates remain locked. Existing shutdown diagnostics
+persist. See TESTING.md for local runs and how to perform the remaining live check.
+
+## User clarification: sequential language curriculum
+
+Both master specifications now define ordered prerequisite blocks: present foundations;
+transactions/questions; preterite; imperfect and contrast; connected accounts; plans and
+experience; conditions and argument. Each follows model -> supported production ->
+independent use -> delayed recall, with repeated success across contexts before advancing.
+No random jumps to untaught tenses. Reviews use taught material; stretch is restricted
+to the nearest next block and may be reduced during consolidation. Story tasks must be
+scaffolded to learner prerequisites. This is a design requirement, not an implemented
+mastery scheduler. Implement and test thresholds at the learner/scheduler stages.

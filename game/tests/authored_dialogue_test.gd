@@ -22,6 +22,7 @@ func run() -> void:
 	map._open_poi(Vector2i(6, 11))
 	await process_frame
 	var dialogue = map.dialogue
+	dialogue.client.config.dev_flags.offline_mode = true
 	check(dialogue.is_visible_in_tree(), "Dialogue opens in reached POI")
 	check(dialogue.transcript.text.contains("El posadero:"), "NPC greeting shown")
 	check(dialogue.feedback.text.contains("no disponible"), "No fabricated language evaluation")

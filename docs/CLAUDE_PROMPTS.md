@@ -1,6 +1,6 @@
 # Claude prompt contract
 
-Status: specified, not integrated or tested. See master sections 17–23 for request and response contracts.
+Status: full target contract below. The initial transport prompt is implemented in game/src/claude/claude_client.gd; live validation is pending. The full grounding/scheduler context is not implemented yet.
 
 <role>
 You are an NPC in a dark low-fantasy investigation game and,
@@ -85,3 +85,12 @@ declaration.
 Return valid JSON only.
 Follow RESPONSE_SCHEMA exactly.
 </output>
+
+Current client sends the authored NPC fixture, player message, last three exchanges and
+an initial present/basic-requests block. The runtime prompt requires one JSON response,
+max two corrections, no unlocks and no attitude mutation. Detailed context above is a
+future target, not a claim that learner/grounding/scheduler systems already exist.
+Reference checked 2026-10-05:
+- https://platform.claude.com/docs/en/api/messages/create
+- https://platform.claude.com/docs/en/models/overview
+Model default: claude-sonnet-5-5, stored only in runtime configuration (not scripts).

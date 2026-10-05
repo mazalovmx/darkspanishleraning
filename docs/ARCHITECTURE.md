@@ -18,7 +18,7 @@ Do not move retained files casually: scenes use resource paths and UIDs.
 New runtime source/content/tests are placed under `game/` to keep them inside res://.
 Root `src/`, `content/`, `assets/`, and `tests/` remain reserved scaffolding. No staging
 or duplicate copies are required. This is a documented placement decision, not a specification edit.
-Root `config/game.json` is an initial configuration contract; no loader exists yet.
+`game/config/game.json` is the single runtime configuration, loaded by the Claude client.
 
 ## Planned authority boundary
 
@@ -57,3 +57,13 @@ and checks whole words/phrases in authored priority order. It does not assess me
 grammar or canonical knowledge. Unknown questions select the speaker's fallback.
 The bounded per-location UI histories are transient and have no world-state authority.
 `world_map.gd` opens this panel only inside a reached POI and preserves modal input guards.
+
+## Claude transport boundary
+
+`game/src/claude/claude_client.gd` owns HTTPRequest, bounded retries and schema validation.
+It emits a validated proposal or an empty dictionary for authored fallback. Dialogue UI
+captures the originating location before the asynchronous call and stores the eventual
+reply only in that location's log. No canonical state object is supplied to the client.
+The prompt uses the authored NPC fixture and at most three exchanges. All world-change
+proposals are rejected for now. Language evaluation is validated but not applied/displayed.
+JSON schema validation cannot prove factual grounding of arbitrary NPC prose.

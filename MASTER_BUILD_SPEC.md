@@ -120,6 +120,31 @@ interaction_pressure
 Difficulty increases gradually.
 
 The game must not simply switch from “A2” to “B1”.
+### Ordered curriculum (user clarification, 2026-10-05)
+
+Use a sequential syllabus, not random jumps between easy and advanced tasks:
+1. Consolidate present tense, ser/estar/hay, agreement and basic questions.
+2. Present-tense needs, quantities, prices, requests and directions in transactions.
+3. Completed past events: preterite, frequent irregular verbs and simple timelines.
+4. Past descriptions and habits: imperfect, then preterite/imperfect contrast.
+5. Connected accounts: object pronouns, por/para, relative clauses and reported facts.
+6. Plans and experience: ir a + infinitive, future and present perfect in context.
+7. Hypotheses and argument: conditional, basic subjunctive and reported speech.
+
+Each block follows introduction with a model, supported production, independent use,
+and delayed recall. Require repeated success across multiple contexts before advancing;
+a single correct answer or a story level is not proof of mastery. Choose exact mastery
+thresholds when implementing learner evaluation/scheduling, and test them deterministically.
+Quest complexity and linguistic prerequisites must be aligned: scaffold a required story
+scene if the learner has not mastered its language yet. Do not make API availability a gate.
+
+Adapt the five difficulty dimensions within the current block first. Reviews target
+already taught material; stretch tasks use only the nearest next block with support.
+The 60/25/15 scheduler is subordinate to this prerequisite order: no arbitrary advanced
+tense before its prerequisites. Early consolidation can reduce the stretch share.
+Introduce at most one new grammar/tense target per encounter, revisit it in several
+purchases or quests, and keep a clear current learning objective for the player.
+This sequence is the game's chosen syllabus, not a claim that all courses share one order.
 
 ---
 
@@ -965,14 +990,14 @@ Game-world changes occur only after these deterministic conditions are satisfied
 Default:
 
 ```text
-claude-sonnet-5
+claude-sonnet-5-5
 ```
 
 Keep model name in config:
 
 ```json
 {
-  "claude_model": "claude-sonnet-5"
+  "claude_model": "claude-sonnet-5-5"
 }
 ```
 
@@ -1936,7 +1961,7 @@ Delete only after identifying reusable systems.
 Create:
 
 ```text
-/config/game.json
+/game/config/game.json
 ```
 
 with model ID, language defaults and dev flags.
@@ -2719,7 +2744,7 @@ Primary implementation references:
 - Godot Engine — MIT-licensed free/open-source engine.
 - GDQuest `godot-open-rpg` — MIT-licensed Godot 4 RPG demo with turn-based combat, inventory, maps, dialogue, grid movement and UI.
 - Anthropic Claude Platform — use an active Claude model via Messages API.
-- Keep `claude-sonnet-5` configurable rather than permanently hard-coded.
+- Keep `claude-sonnet-5-5` configurable rather than permanently hard-coded.
 - Anthropic prompting guidance supports explicit structured prompts and XML-delimited context.
 - Do not set legacy sampling parameters such as custom temperature/top_p/top_k for modern Claude models unless current documentation explicitly allows them.
 - Always re-check Anthropic model lifecycle before a long break in development.
