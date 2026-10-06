@@ -2,8 +2,8 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: steps 13 investigative loop and 14 map battle complete; Gate F still needs purchase.
-Next task: step 15 transactional merchant, then combined Gate F/G check and grammar scheduler.
+Current task: steps 13-15 implemented; combined Gate F/G verification next.
+Next task: combined Gate F/G verification, then step 16 ordered grammar scheduler.
 
 ## Provenance
 
@@ -476,3 +476,22 @@ Corrected the first arena preview's inherited large font and missing CanvasLayer
 added a viewport-bound check and inspected the corrected arena and actual map transition.
 The earlier arena snapshot was visually unusable despite passing logical checks.
 No paid calls. Existing shutdown warnings persist. Gate F awaits transactional purchase.
+## Transactional merchant and recruitment (step 15)
+
+The inn market sells bread, water, bandages, horse feed, lamp oil and militia recruits.
+Every transaction requires a typed Spanish request, correct price statement and explicit
+product/quantity/total confirmation. Canonical prices and stock are rechecked at commit;
+gold, goods/army and stock change together. Cancellation, stale quotes, insufficient
+funds and full army slots cannot charge. Recruiting merges matching stacks or fills a
+free slot, including recovery from an empty defeated army. No click-only buying route.
+The initial exercise is guided present-tense practice and does not fabricate mastery.
+
+Save v4 stores inventory, stock and bounded validated Spanish receipts. V1-v3 migration
+keeps previous state and adds empty trade defaults. Pending quotes are transient.
+Purchases autosave; practice does not advance days. No Claude calls are needed.
+
+Executed 43 market checks headless/OpenGL, 64 battle integration, 525 save, 53 notebook,
+365 map and 29 reasoning checks: passed. Reviewed rendered market. Fresh write/read
+processes preserved purchase/army/evidence/learner: PASS (after fixing test indentation).
+Existing shutdown diagnostics persist. Full merchant archetypes and advanced variants
+remain later curriculum/campaign work. Combined Gate F/G test is next; not yet marked.

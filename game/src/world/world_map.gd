@@ -19,6 +19,8 @@ var notebook = preload("res://src/evidence/evidence_notebook.gd").new()
 var notebook_button := Button.new()
 var inspect_button := Button.new()
 var battle_button := Button.new()
+var market_button := Button.new()
+var market = preload("res://src/economy/market_panel.gd").new()
 var army_notice := Label.new()
 var arena = preload("res://src/combat/stack_arena.tscn").instantiate()
 var selected := false
@@ -88,6 +90,14 @@ func _build_ui() -> void:
 	panel.theme.default_font = ThemeDB.fallback_font
 	layer.add_child(panel)
 	_build_poi_window(layer, panel.theme)
+	market.theme = panel.theme
+	layer.add_child(market)
+	market.closed.connect(func():
+		end_button.disabled = poi_modal.visible
+		_refresh())
+	market.purchased.connect(func():
+		_refresh()
+		_save_game(true))
 	layer.add_child(arena)
 	arena.z_index = 30
 	arena.finished.connect(_on_battle_finished)
@@ -200,6 +210,11 @@ func _build_poi_window(layer: CanvasLayer, ui_theme: Theme) -> void:
 	battle_button.text = "Despejar el camino"
 	battle_button.pressed.connect(_start_battle)
 	actions.add_child(battle_button)
+	market_button.text = "Comprar"
+	market_button.pressed.connect(func():
+		if not dialogue.client.busy:
+			market.open_market(state))
+	actions.add_child(market_button)
 	actions.add_child(poi_close)
 	poi_modal.hide()
 
@@ -209,6 +224,7 @@ func _open_poi(cell: Vector2i) -> void:
 	var location := state.location_at(cell)
 	if location.is_empty():
 		return
+	market_button.visible = location.id == "LOC11"
 	inspect_button.visible = location.id == "LOC01"
 	battle_button.visible = location.id == "LOC11" and state.evidence.has_evidence("travel_food") and state.encounters.get("opening_road", {}).get("outcome", "") != "victory"
 	poi_title.text = location.name
@@ -231,6 +247,10 @@ func _close_poi() -> void:
 func _input(event: InputEvent) -> void:
 	if arena.visible:
 		return
+	if market.visible and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		market.close()
+		get_viewport().set_input_as_handled()
+		return
 	if notebook.visible and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		notebook.close()
 		get_viewport().set_input_as_handled()
@@ -241,7 +261,7 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if poi_modal.visible or notebook.visible or arena.visible:
+	if poi_modal.visible or notebook.visible or arena.visible or market.visible:
 		return
 	if event is InputEventMouse:
 		pointer = event.position
@@ -276,7 +296,7 @@ func _clamp_camera() -> void:
 	camera.force_update_scroll()
 
 func _end_turn() -> void:
-	if poi_modal.visible or notebook.visible or arena.visible:
+	if poi_modal.visible or notebook.visible or arena.visible or market.visible:
 		return
 	state.end_turn()
 	_save_game(true)
@@ -302,7 +322,7 @@ func _refresh() -> void:
 func _update_preview() -> void:
 	hovered = tiles.local_to_map(tiles.get_global_transform_with_canvas().affine_inverse() * pointer)
 	preview.clear()
-	if selected and not poi_modal.visible and not notebook.visible and not arena.visible:
+	if selected and not poi_modal.visible and not notebook.visible and not arena.visible and not market.visible:
 		preview = state.path_to(hovered, true)
 	if not selected:
 		route_info.text = "Selecciona al héroe para viajar."
@@ -378,6 +398,8 @@ func _load_game(startup := false) -> void:
 	state = result.state
 	dialogue.world_state = state
 	notebook.hide()
+	market.hide()
+	market.world_state = state
 	notebook.world_state = state
 	notebook.active_id = ""
 	dialogue.histories.clear()
@@ -401,7 +423,7 @@ func _on_dialogue_finished() -> void:
 	_save_game(true)
 
 func _start_battle() -> void:
-	if dialogue.client.busy or notebook.visible or not state.begin_encounter("opening_road"):
+	if dialogue.client.busy or notebook.visible or market.visible or not state.begin_encounter("opening_road"):
 		save_notice.text = "Necesitas un ejército, dos puntos de movimiento y acceso al encuentro."
 		return
 	poi_modal.hide()

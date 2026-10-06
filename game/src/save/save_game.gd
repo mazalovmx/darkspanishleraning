@@ -3,7 +3,7 @@ extends RefCounted
 const WorldState = preload("res://src/world/world_state.gd")
 const Learner = preload("res://src/spanish/learner_profile.gd")
 const PATH := "user://savegame.json"
-const VERSION := 3
+const VERSION := 4
 const MAP_ID := "prototype_20x20_v1"
 const MAX_BYTES := 1048576
 
@@ -17,7 +17,7 @@ static func snapshot(state: WorldState) -> Dictionary:
 	var learner = state.learner
 	return {"version": VERSION, "map_id": MAP_ID, "day": state.day,
 		"hero": {"cell": [state.hero_cell.x, state.hero_cell.y], "movement": state.movement_remaining},
-		"strategy": {"army": state.army.duplicate(true), "resources": state.resources.duplicate(true), "encounters": state.encounters.duplicate(true)}, "explored": explored, "evidence": state.evidence.progress(), "learner": {"block": learner.current_block,
+		"strategy": {"trade": state.trade.snapshot(), "army": state.army.duplicate(true), "resources": state.resources.duplicate(true), "encounters": state.encounters.duplicate(true)}, "explored": explored, "evidence": state.evidence.progress(), "learner": {"block": learner.current_block,
 		"grammar": learner.grammar.duplicate(true), "verbs": learner.verbs.duplicate(true),
 		"errors": learner.errors.duplicate(true), "vocabulary": learner.vocabulary.duplicate(),
 		"recent_messages": learner.recent_messages.duplicate(),
@@ -106,7 +106,7 @@ static func decode(data: Variant) -> Dictionary:
 	if not _learner_valid(data.get("learner"), int(data.day)):
 		return {"error": "invalid"}
 	var state := WorldState.new()
-	if data.version >= 3 and not _restore_strategy(state, data.get("strategy"), int(data.day)):
+	if data.version >= 3 and not _restore_strategy(state, data.get("strategy"), int(data.day), int(data.version)):
 		return {"error": "invalid"}
 	if not state.evidence.restore(data.get("evidence", {}), int(data.day)):
 		return {"error": "invalid"}
@@ -187,8 +187,10 @@ static func write_save(state: WorldState, path := PATH) -> String:
 		return "replace"
 	return ""
 
-static func _restore_strategy(state: WorldState, data: Variant, day: int) -> bool:
-	if not data is Dictionary or data.size() != 3:
+static func _restore_strategy(state: WorldState, data: Variant, day: int, version: int) -> bool:
+	if not data is Dictionary or data.size() != (4 if version >= 4 else 3):
+		return false
+	if version >= 4 and not state.trade.restore(data.get("trade"), day):
 		return false
 	if not data.get("army") is Array or (not data.army.is_empty() and not WorldState.StackBattle.new().valid_army(data.army)):
 		return false

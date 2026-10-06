@@ -7,6 +7,7 @@ enum Fog { UNKNOWN, EXPLORED, VISIBLE }
 const VIEW_RADIUS := 5
 const MOVEMENT_MAX := 18
 var learner = preload("res://src/spanish/learner_profile.gd").new()
+var trade = preload("res://src/economy/trade_state.gd").new()
 var evidence = preload("res://src/evidence/evidence_graph.gd").new()
 const StackBattle = preload("res://src/combat/stack_battle.gd")
 var army: Array = StackBattle.new().data.starting_army.duplicate(true)

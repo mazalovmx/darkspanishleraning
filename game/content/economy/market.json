@@ -1,0 +1,50 @@
+{
+  "bread": {
+    "name": "Pan",
+    "singular": "pan",
+    "plural": "panes",
+    "price": 2,
+    "stock": 30,
+    "kind": "supply"
+  },
+  "water": {
+    "name": "Agua potable",
+    "singular": "botella de agua",
+    "plural": "botellas de agua",
+    "price": 1,
+    "stock": 30,
+    "kind": "supply"
+  },
+  "medicine": {
+    "name": "Vendas",
+    "singular": "venda",
+    "plural": "vendas",
+    "price": 5,
+    "stock": 12,
+    "kind": "supply"
+  },
+  "horse_feed": {
+    "name": "Comida para el caballo",
+    "singular": "ración de pienso",
+    "plural": "raciones de pienso",
+    "price": 3,
+    "stock": 20,
+    "kind": "supply"
+  },
+  "lamp_oil": {
+    "name": "Aceite para la lámpara",
+    "singular": "frasco de aceite",
+    "plural": "frascos de aceite",
+    "price": 4,
+    "stock": 12,
+    "kind": "supply"
+  },
+  "militia": {
+    "name": "Milicianos",
+    "singular": "miliciano",
+    "plural": "milicianos",
+    "price": 15,
+    "stock": 16,
+    "kind": "recruit"
+  }
+}

@@ -9,6 +9,9 @@ func _initialize() -> void:
 	if args[0] == "--write":
 		var state = preload("res://src/world/world_state.gd").new()
 		state.move_to(Vector2i(6, 11), true)
+		var phrases: Dictionary = state.trade.models("bread", 2)
+		for stage in ["request", "price", "confirm"]:
+			state.trade.submit(state, "bread", 2, phrases[stage])
 		state.end_turn()
 		state.move_to(Vector2i(7, 10), true)
 		state.move_to(Vector2i(12, 10), true)
@@ -26,6 +29,8 @@ func _initialize() -> void:
 		if ok:
 			var state = result.state
 			ok = state.day == 2 and state.hero_cell == Vector2i(12, 10)
+			ok = ok and state.resources.gold == 296 and state.trade.inventory.bread == 2 and state.trade.purchase_count == 1
+			ok = ok and state.army.size() == 2
 			ok = ok and state.evidence.has_evidence("travel_food") and state.evidence.has_evidence("monastery_claim")
 			ok = ok and state.evidence.progress().monastery_claim.classification == "claim"
 			ok = ok and is_equal_approx(state.learner.grammar.present, 0.05)
