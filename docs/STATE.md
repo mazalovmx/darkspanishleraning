@@ -1,9 +1,9 @@
 # Project state
 
-Updated: 2026-10-05
+Updated: 2026-10-06
 Branch: implementation
-Current task: ordered curriculum UI, conversation focus and save v5 integrated. Gates A-G passed.
-Next task: steps 17-18 three heroes with independent movement, armies and inventory.
+Current task: full province map model implemented. Gates A-H passed for the development slice.
+Next task: step 19 province display integration, then remaining acts and strategic economy.
 
 ## Provenance
 
@@ -599,3 +599,18 @@ repeated 46 checks in both modes after that adjustment. OpenGL used accessibilit
 disabled for the test process only. Existing engine shutdown warnings remain.
 Gate H passed for the three-hero development slice. Next step 19: full map; scenario
 acts, strategic economy, artifact and ghost-knight runtime remain unfinished.
+## Full province model (step 19, display integration next)
+
+Added authored 160x120 terrain, eight regions, eighteen canonical-coordinate POIs,
+thirteen named roads/branches and seven resource-site placements. The northern pass
+uses verified opening reconstruction as its access condition; blocked pathfinding
+cannot bypass the ridge. Resource sites are placements only, not income yet.
+WorldState accepts either authored map. Campaign starts Mateo at Santa Lucerna;
+Ines and Elias retain canonical future locations but remain locked and reveal no fog.
+
+Save v6 now uses the actual map identity and map-specific bounds, preserving prototype
+compatibility. Executed 38,753 province checks (including cell/region validation,
+road connectivity, closed-pass isolation, discovered travel to Cardena across days,
+and province save/restore), 526 save checks and 46 party scene checks: all passed.
+Existing shutdown diagnostics remain. Root/working bible updated together for the
+northern checkpoint. Next integrate campaign rendering/camera and launch scene.

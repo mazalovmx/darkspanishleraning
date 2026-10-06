@@ -1,0 +1,809 @@
+{
+  "id": "province_160x120_v1",
+  "size": [
+    160,
+    120
+  ],
+  "start": [
+    52,
+    39
+  ],
+  "legend": {
+    ".": "grass",
+    "=": "road",
+    "F": "forest",
+    "M": "mountain",
+    "~": "water",
+    "s": "marsh",
+    "f": "field",
+    "r": "ruins",
+    "*": "snow"
+  },
+  "regions": [
+    {
+      "id": "north",
+      "name": "Sierra del Relé",
+      "bounds": [
+        0,
+        0,
+        160,
+        15
+      ]
+    },
+    {
+      "id": "bruma",
+      "name": "Tierras de Bruma",
+      "bounds": [
+        0,
+        15,
+        160,
+        16
+      ]
+    },
+    {
+      "id": "lucerna",
+      "name": "Valles de Lucerna",
+      "bounds": [
+        0,
+        31,
+        82,
+        33
+      ]
+    },
+    {
+      "id": "miralba",
+      "name": "Cuenca de Miralba",
+      "bounds": [
+        82,
+        31,
+        78,
+        33
+      ]
+    },
+    {
+      "id": "valdora",
+      "name": "Campos de Valdora",
+      "bounds": [
+        0,
+        64,
+        82,
+        20
+      ]
+    },
+    {
+      "id": "ferraza",
+      "name": "Riberas de Hierro",
+      "bounds": [
+        82,
+        64,
+        78,
+        20
+      ]
+    },
+    {
+      "id": "marjal",
+      "name": "Marjal Negro",
+      "bounds": [
+        0,
+        84,
+        82,
+        36
+      ]
+    },
+    {
+      "id": "cardena",
+      "name": "Costa de Cárdena",
+      "bounds": [
+        82,
+        84,
+        78,
+        36
+      ]
+    }
+  ],
+  "roads": [
+    {
+      "id": "camino_real",
+      "name": "Camino Real",
+      "points": [
+        [
+          33,
+          26
+        ],
+        [
+          33,
+          32
+        ],
+        [
+          52,
+          32
+        ],
+        [
+          52,
+          39
+        ],
+        [
+          52,
+          55
+        ],
+        [
+          63,
+          55
+        ],
+        [
+          63,
+          66
+        ],
+        [
+          63,
+          90
+        ],
+        [
+          126,
+          90
+        ],
+        [
+          126,
+          105
+        ]
+      ]
+    },
+    {
+      "id": "camino_hierro",
+      "name": "Camino de Hierro",
+      "points": [
+        [
+          105,
+          48
+        ],
+        [
+          105,
+          68
+        ],
+        [
+          103,
+          68
+        ],
+        [
+          114,
+          68
+        ],
+        [
+          114,
+          78
+        ]
+      ]
+    },
+    {
+      "id": "camino_este",
+      "name": "Camino del Este",
+      "points": [
+        [
+          52,
+          39
+        ],
+        [
+          60,
+          39
+        ],
+        [
+          60,
+          44
+        ],
+        [
+          105,
+          44
+        ],
+        [
+          105,
+          48
+        ]
+      ]
+    },
+    {
+      "id": "camino_venta",
+      "name": "Camino de la Venta",
+      "points": [
+        [
+          63,
+          66
+        ],
+        [
+          74,
+          66
+        ],
+        [
+          74,
+          59
+        ],
+        [
+          74,
+          44
+        ]
+      ]
+    },
+    {
+      "id": "camino_bruma",
+      "name": "Senda de Bruma",
+      "points": [
+        [
+          33,
+          26
+        ],
+        [
+          92,
+          26
+        ],
+        [
+          92,
+          22
+        ],
+        [
+          105,
+          22
+        ],
+        [
+          105,
+          48
+        ]
+      ]
+    },
+    {
+      "id": "camino_ciego",
+      "name": "Paso de Monte Ciego",
+      "points": [
+        [
+          33,
+          26
+        ],
+        [
+          49,
+          26
+        ],
+        [
+          49,
+          16
+        ],
+        [
+          49,
+          14
+        ],
+        [
+          49,
+          10
+        ],
+        [
+          50,
+          10
+        ],
+        [
+          48,
+          10
+        ],
+        [
+          48,
+          8
+        ]
+      ]
+    },
+    {
+      "id": "camino_marjal",
+      "name": "Calzada del Marjal",
+      "points": [
+        [
+          63,
+          90
+        ],
+        [
+          39,
+          90
+        ],
+        [
+          39,
+          94
+        ],
+        [
+          39,
+          105
+        ],
+        [
+          126,
+          105
+        ]
+      ]
+    },
+    {
+      "id": "camino_arce",
+      "name": "Camino del grano",
+      "points": [
+        [
+          52,
+          55
+        ],
+        [
+          46,
+          55
+        ]
+      ]
+    },
+    {
+      "id": "camino_archivo",
+      "name": "Cuesta del Archivo",
+      "points": [
+        [
+          63,
+          62
+        ],
+        [
+          66,
+          62
+        ]
+      ]
+    },
+    {
+      "id": "camino_impresores",
+      "name": "Calle de los Impresores",
+      "points": [
+        [
+          63,
+          70
+        ],
+        [
+          71,
+          70
+        ]
+      ]
+    },
+    {
+      "id": "camino_hospital",
+      "name": "Calle del Hospital",
+      "points": [
+        [
+          105,
+          51
+        ],
+        [
+          107,
+          51
+        ]
+      ]
+    },
+    {
+      "id": "camino_taller",
+      "name": "Senda del Taller",
+      "points": [
+        [
+          114,
+          73
+        ],
+        [
+          117,
+          73
+        ]
+      ]
+    },
+    {
+      "id": "camino_campamento",
+      "name": "Senda de las caravanas",
+      "points": [
+        [
+          114,
+          78
+        ],
+        [
+          114,
+          82
+        ],
+        [
+          93,
+          82
+        ],
+        [
+          93,
+          90
+        ]
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "id": "LOC01",
+      "name": "Monasterio de Santa Lucerna",
+      "position": [
+        52,
+        39
+      ],
+      "kind": "monastery",
+      "description": "Un monasterio de copistas y médicos. La lluvia cae sobre el patio de la torre."
+    },
+    {
+      "id": "LOC02",
+      "name": "Valdora",
+      "position": [
+        63,
+        66
+      ],
+      "kind": "capital",
+      "description": "Fachadas de mármol, tejados con goteras y las oficinas del Tribunal."
+    },
+    {
+      "id": "LOC03",
+      "name": "Miralba",
+      "position": [
+        105,
+        48
+      ],
+      "kind": "university",
+      "description": "Librerías, lentes y estudiantes llenan las calles de la universidad."
+    },
+    {
+      "id": "LOC04",
+      "name": "Ferraza",
+      "position": [
+        114,
+        78
+      ],
+      "kind": "industrial",
+      "description": "Ruedas hidráulicas y hornos trabajan junto al barrio de los obreros."
+    },
+    {
+      "id": "LOC05",
+      "name": "Cárdena",
+      "position": [
+        126,
+        105
+      ],
+      "kind": "port",
+      "description": "El puerto recibe libros extranjeros, instrumentos y mercancías sin declarar."
+    },
+    {
+      "id": "LOC06",
+      "name": "Puente Seco",
+      "position": [
+        103,
+        68
+      ],
+      "kind": "customs",
+      "description": "El río sigue lleno. En el puente se revisan las cargas y los permisos."
+    },
+    {
+      "id": "LOC07",
+      "name": "San Vélaro",
+      "position": [
+        33,
+        26
+      ],
+      "kind": "town",
+      "description": "Graneros, un depósito militar y un camino de peregrinos bajo el frío."
+    },
+    {
+      "id": "LOC08",
+      "name": "Minas de Bruma",
+      "position": [
+        92,
+        22
+      ],
+      "kind": "mine",
+      "description": "Las galerías producen hierro y plata. El aire cuesta más que el mineral."
+    },
+    {
+      "id": "LOC09",
+      "name": "Monte Ciego",
+      "position": [
+        48,
+        8
+      ],
+      "kind": "ruin",
+      "description": "Un pico remoto. Entre la nieve sobresalen muros de una estación antigua."
+    },
+    {
+      "id": "LOC10",
+      "name": "Marjal Negro",
+      "position": [
+        39,
+        94
+      ],
+      "kind": "marsh",
+      "description": "Agua oscura, cañaverales y restos de una calzada hundida."
+    },
+    {
+      "id": "LOC11",
+      "name": "Venta del Perro Negro",
+      "position": [
+        74,
+        59
+      ],
+      "kind": "inn",
+      "description": "Una posada en el camino. Un lugar de encuentro para viajeros."
+    },
+    {
+      "id": "LOC12",
+      "name": "Granja Arce",
+      "position": [
+        46,
+        55
+      ],
+      "kind": "farm",
+      "description": "Sacos de grano, un horno y carros esperan junto al camino."
+    },
+    {
+      "id": "LOC13",
+      "name": "Taller Rojo",
+      "position": [
+        117,
+        73
+      ],
+      "kind": "workshop",
+      "description": "Los mecánicos ajustan bombas y ruedas entre polvo rojo."
+    },
+    {
+      "id": "LOC14",
+      "name": "Archivo Episcopal",
+      "position": [
+        66,
+        62
+      ],
+      "kind": "archive",
+      "description": "Estantes, sellos y formularios regulan el acceso a los documentos."
+    },
+    {
+      "id": "LOC15",
+      "name": "Hospital de Miralba",
+      "position": [
+        107,
+        51
+      ],
+      "kind": "hospital",
+      "description": "Aquí se atiende a enfermos y se comparan observaciones médicas."
+    },
+    {
+      "id": "LOC16",
+      "name": "Casa de Impresores",
+      "position": [
+        71,
+        70
+      ],
+      "kind": "guildhouse",
+      "description": "Prensas, tipos móviles y permisos de copia llenan el taller."
+    },
+    {
+      "id": "LOC17",
+      "name": "Campamento del Puente",
+      "position": [
+        93,
+        82
+      ],
+      "kind": "camp",
+      "description": "Un refugio discreto junto a los caminos de las caravanas."
+    },
+    {
+      "id": "LOC18",
+      "name": "Torre del Relé",
+      "position": [
+        50,
+        10
+      ],
+      "kind": "ruin",
+      "description": "Una torre sin campana domina el paso de montaña."
+    }
+  ],
+  "resource_sites": [
+    {
+      "id": "mine_wood",
+      "resource": "wood",
+      "position": [
+        44,
+        48
+      ],
+      "daily_income": 2,
+      "guarded": false
+    },
+    {
+      "id": "mine_ore",
+      "resource": "ore",
+      "position": [
+        91,
+        24
+      ],
+      "daily_income": 2,
+      "guarded": false
+    },
+    {
+      "id": "mine_gold",
+      "resource": "gold",
+      "position": [
+        95,
+        22
+      ],
+      "daily_income": 250,
+      "guarded": true
+    },
+    {
+      "id": "mine_mercury",
+      "resource": "mercury",
+      "position": [
+        43,
+        96
+      ],
+      "daily_income": 1,
+      "guarded": true
+    },
+    {
+      "id": "mine_sulfur",
+      "resource": "sulfur",
+      "position": [
+        119,
+        78
+      ],
+      "daily_income": 1,
+      "guarded": true
+    },
+    {
+      "id": "mine_crystal",
+      "resource": "crystal",
+      "position": [
+        45,
+        10
+      ],
+      "daily_income": 1,
+      "guarded": true
+    },
+    {
+      "id": "mine_gems",
+      "resource": "gems",
+      "position": [
+        51,
+        9
+      ],
+      "daily_income": 1,
+      "guarded": true
+    }
+  ],
+  "gates": [
+    {
+      "id": "northern_pass",
+      "position": [
+        49,
+        14
+      ],
+      "requires": "opening_conclusion",
+      "message": "Antes de cruzar la sierra, termina el informe sobre la muerte de Tomás."
+    }
+  ],
+  "hero_starts": {
+    "inquisitor": [
+      52,
+      39
+    ],
+    "smuggler": [
+      126,
+      105
+    ],
+    "survivor": [
+      48,
+      8
+    ]
+  },
+  "rows": [
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMM*******************************************MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMM*******************************************MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMM*******************************************MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMM*******************************************MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMM*******************************************MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMM*******************************************MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMM*******************************************MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMM*********************=*********************MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMM*********************=**r******************MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMM******************r======******************MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMM**********************=********************MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMM**********************=********************MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMM**********************=********************MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM=MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "M************************************************=**********************************MMMMMMMMMMMMM**************************************************************M",
+    "M************************************************=********************************MMMMMMMMMMMMMMMMM************************************************************M",
+    "M************************************************=******************************MMMMMMMMMMMMMMMMMMMMM**********************************************************M",
+    "M************************************************=*****************************MMMMMMMMMMMMMMMMMMMMMMM*********************************************************M",
+    "M************************************************=****************************MMMMMMMMMMMMMMMMMMMMMMMMM********************************************************M",
+    "M************************************************=****************************MMMMMMMMMMMMMMMMMMMMMMMMM********************************************************M",
+    "M************************************************=****************************MMMMMMMMMMMMMMMMMMMMMMMMM********************************************************M",
+    "M************************************************=***************************MMMMMMMMMMMMMM====r==========*****************************************************M",
+    "M************************************************=****************************MMMMMMMMMMMMM==MMMMMMMMMM**=*****************************************************M",
+    "M************************************************=****************************MMMMMMMMMMMMMr=MMMMMMMMMM**=*****************************************************M",
+    "M................................................=............................MMMMMMMMMMMMMM=MMMMMMMMMM..=.....................................................M",
+    "M................................============================================================MMMMMMMMM...=.....................................................M",
+    "M................................=..............................................MMMMMMMMMMMMMMMMMMMMM....=.....................................................M",
+    "M................................=................................................MMMMMMMMMMMMMMMMM......=.....................................................M",
+    "M................................=..................................................MMMMMMMMMMMMM...~~...=.....................................................M",
+    "M................................=...................................FFFFFFFFFFFFFFFFFF..MMM........~~...=.....................................................M",
+    "M................................=...................................FFFFFFFFFFFFFFFFFF.............~~...=.....................................................M",
+    "M................................====================................FFFFFFFFFFFFFFFFFF.............~~...=.....................................................M",
+    "M...................................................=................FFFFFFFFFFFFFFFFFF............~~....=.....................................................M",
+    "M...................................................=................FFFFFFFFFFFFFFFFFF............~~....=.....................................................M",
+    "M...................................................=................FFFFFFFFFFFFFFFFFF............~~....=.....................................................M",
+    "M...............FFFFFFFFFFFFFF......................=................FFFFFFFFFFFFFFFFFF............~~....=.....................................................M",
+    "M...............FFFFFFFFFFFFFF......................=................FFFFFFFFFFFFFFFFFF...........~~.....=.....................................................M",
+    "M...............FFFFFFFFFFFFFF......................=................FFFFFFFFFFFFFFFFFF...........~~.....=.....................................................M",
+    "M...............FFFFFFFFFFFFFF......................=========........FFFFFFFFFFFFFFFFFF...........~~.....=.....................................................M",
+    "M...............FFFFFFFFFFFFFF......................=.......=........FFFFFFFFFFFFFFFFFF...........~~.....=.....................................................M",
+    "M...............FFFFFFFFFFFFFF......................=.......=........FFFFFFFFFFFFFFFFFF..........~~......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF......................=.......=........FFFFFFFFFFFFFFFFFF..........~~......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF......................=.......=........FFFFFFFFFFFFFFFFFF..........~~......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF......................=.......==============================================................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF......................=................FFFFF=FFFFFFFFFFFF..........~~......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF......................=................FFFFF=FFFFFFFFFFFF.........~~.......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF......................=................FFFFF=FFFFFFFFFFFF.........~~.......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF..............r.......=................FFFFF=FFFFFFFFFFFF.........~~.......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF....ffffffffff=fffffff=ffffffff........FFFFF=FFFFFFFFFFFF.........~~.......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF....ffffffffff=fffffff=ffffffff........FFFFF=FFFFFFFFFFFF.........~~.......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF....ffffffffff=fffffff=ffffffff........FFFFF=FFFFFFFFFFFF.........~~.......===..............FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF....ffffffffff=fffffff=ffffffff.............=.....................~~.......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF....ffffffffff=fffffff=ffffffff.............=.....................~~.......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF....ffffffffff=fffffff=ffffffff.............=.....................~~.......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF....ffffffffff====================..........=.....................~~.......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF....fffffffffffffffffffffffffff..=..........=.....................~~.......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF....fffffffffffffffffffffffffff..=..........=.....................~~.......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF....fffffffffffffffffffffffffff..=..........=.....................~~.......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF....fffffffffffffffffffffffffff..=..........=......................~~......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF....fffffffffffffffffffffffffff..=..........=......................~~......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF.................................=..........=......................~~......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF.................................====.......=......................~~......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF.................................=..........=......................~~......=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF.................................=..........=.......................~~.....=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF.................................=..........=.......................~~.....=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF.................................============.......................~~.....=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF.................................=..................................~~.....=................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF.................................=...................................~~..============.......FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF.................................=...................................~~.............=.......FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF.................................=========...........................~~.............=.......FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF................fffffffffffffffff=ffffffff............................~~............=.......FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF................fffffffffffffffff=ffffffff............................~~............=.......FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF................fffffffffffffffff=ffffffff............................~~............====....FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF................fffffffffffffffff=ffffffff............................~~............=.......FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF................fffffffffffffffff=ffffffff.............................~~...........=.......FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF................fffffffffffffffff=ffffffff.............................~~...........=.......FFFFFFFFFFFFFFFFFFFF.................M",
+    "M...............FFFFFFFFFFFFFF................fffffffffffffffff=ffffffff.............................~~...........=.......FFFFFFFFFFFFFFFFFFFF.................M",
+    "M.............................................fffffffffffffffff=ffffffff.............................~~...........=====r..FFFFFFFFFFFFFFFFFFFF.................M",
+    "M.............................................fffffffffffffffff=ffffffff.............................~~...........=.......FFFFFFFFFFFFFFFFFFFF.................M",
+    "M.............................................fffffffffffffffff=ffffffff..............................~~..........=.......FFFFFFFFFFFFFFFFFFFF.................M",
+    "M.............................................fffffffffffffffff=ffffffff..............................~~..........=.......FFFFFFFFFFFFFFFFFFFF.................M",
+    "M.............................................fffffffffffffffff=ffffffff.....................======================.......FFFFFFFFFFFFFFFFFFFF.................M",
+    "M..............................................................=.............................=........~~..................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M........................sssssssssssssssssssssssssssss.........=.............................=........~~..................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M........................sssssssssssssssssssssssssssss.........=.............................=........~~..................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M........................sssssssssssssssssssssssssssss.........=.............................=........~~..................FFFFFFFFFFFFFFFFFFFF.................M",
+    "M........................sssssssssssssssssssssssssssss.........=.............................=........~~.......................................................M",
+    "M........................sssssssssssssssssssssssssssss.........=.............................=........~~.......................................................M",
+    "M........................sssssssssssssssssssssssssssss.........=.............................=........~~.......................................................M",
+    "M........................ssssssssssssss========================================================================================................................M",
+    "M........................ssssssssssssss=ssssssssssssss................................................~~......................=................................M",
+    "M........................ssssssssssssss=ssssssssssssss................................................~~......................=................................M",
+    "M........................ssssssssssssss=ssssssssssssss...............................................~~.......................=................................M",
+    "M........................ssssssssssssss=====ssssssssss...............................................~~.......................=................................M",
+    "M........................ssssssssssssss=sss=ssssssssss...............................................~~.......................=................................M",
+    "M........................ssssssssssssss=sssrssssssssss...............................................~~.......................=................................M",
+    "M........................ssssssssssssss=ssssssssssssss...............................................~~.......................=................................M",
+    "M........................ssssssssssssss=ssssssssssssss..............................................~~........................=................................M",
+    "M........................ssssssssssssss=ssssssssssssss..............................................~~........................=................................M",
+    "M........................ssssssssssssss=ssssssssssssss..............................................~~........................=................................M",
+    "M........................ssssssssssssss=ssssssssssssss..............................................~~........................=................................M",
+    "M........................ssssssssssssss=ssssssssssssss.............................................~~.........................=................................M",
+    "M........................ssssssssssssss=ssssssssssssss.............................................~~.........................=................................M",
+    "M........................ssssssssssssss=ssssssssssssss.............................................~~.........................=................................M",
+    "M........................ssssssssssssss========================================================================================................................M",
+    "M........................sssssssssssssssssssssssssssss............................................~~...........................................................M",
+    "M........................sssssssssssssssssssssssssssss............................................~~...........................................................M",
+    "M........................sssssssssssssssssssssssssssss............................................~~...........................................................M",
+    "M.................................................................................................~~...........................................................M",
+    "M...............................................................................................~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~M",
+    "M...............................................................................................~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~M",
+    "M...............................................................................................~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~M",
+    "M...............................................................................................~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~M",
+    "M...............................................................................................~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~M",
+    "M...............................................................................................~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~M",
+    "M...............................................................................................~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~M",
+    "M...............................................................................................~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~M",
+    "M...............................................................................................~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~M",
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
+  ]
+}

@@ -2688,3 +2688,12 @@ fixture, not an early canonical arrival of Elias or a replacement for Inés's Ac
 introduction. The full campaign must retain Cárdena for Inés and Monte Ciego for Elias.
 The prototype starts Mateo with militia/archers, Inés with archers and Elias with two
 rare relic sentinels. These escorts do not reveal the truth of El Índice to other NPCs.
+### Province map travel staging
+
+The authored 160x120 map preserves all eighteen location coordinates from section 26.
+Its northern ridge has one pass at (49,14). The travel checkpoint opens after the
+verified opening reconstruction; this does not introduce Elias, who still requires
+his Act V scene. Ines remains locked until her Act III introduction in Cardena.
+Seven resource-site placements support the later economy; placing a mine does not
+by itself implement ownership, income or purchases. Public POI descriptions disclose
+no murder solutions or concealed machinery beneath the monastery.

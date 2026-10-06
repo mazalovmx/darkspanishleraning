@@ -15,7 +15,7 @@ static func snapshot(state: WorldState) -> Dictionary:
 			if state.fog_at(cell) != WorldState.Fog.UNKNOWN:
 				explored.append([x, y])
 	var learner = state.learner
-	return {"version": VERSION, "map_id": MAP_ID, "day": state.day,
+	return {"version": VERSION, "map_id": state.map_id, "day": state.day,
 		"party": state.party.snapshot(), "hero": {"cell": [state.hero_cell.x, state.hero_cell.y], "movement": state.movement_remaining},
 		"strategy": {"trade": state.trade.snapshot(), "army": state.army.duplicate(true), "resources": state.resources.duplicate(true), "encounters": state.encounters.duplicate(true)}, "explored": explored, "evidence": state.evidence.progress(), "learner": {"block": learner.current_block, "curriculum": learner.curriculum.snapshot(),
 		"grammar": learner.grammar.duplicate(true), "verbs": learner.verbs.duplicate(true),
@@ -98,20 +98,21 @@ static func decode(data: Variant) -> Dictionary:
 		return {"error": "invalid"}
 	if data.version >= 2 and not data.has("evidence"):
 		return {"error": "invalid"}
-	if not data.get("map_id") is String or data.map_id != MAP_ID:
+	if not data.get("map_id") is String or not WorldState.MAPS.has(data.map_id):
 		return {"error": "map"}
 	if not _integer(data.get("day"), 1, 1000000) or not data.get("hero") is Dictionary or data.hero.size() != 2:
 		return {"error": "invalid"}
+	var state := WorldState.new(data.map_id)
+	var bounds: Vector2i = state.grid.region.size
 	var cell: Variant = data.hero.get("cell")
-	if not cell is Array or cell.size() != 2 or not _integer(cell[0], 0, 19) or not _integer(cell[1], 0, 19):
+	if not cell is Array or cell.size() != 2 or not _integer(cell[0], 0, bounds.x - 1) or not _integer(cell[1], 0, bounds.y - 1):
 		return {"error": "invalid"}
 	if not _integer(data.hero.get("movement"), 0, WorldState.MOVEMENT_MAX):
 		return {"error": "invalid"}
-	if not data.get("explored") is Array or data.explored.size() > 400:
+	if not data.get("explored") is Array or data.explored.size() > bounds.x * bounds.y:
 		return {"error": "invalid"}
 	if not _learner_valid(data.get("learner"), int(data.day), int(data.version)):
 		return {"error": "invalid"}
-	var state := WorldState.new()
 	if data.version >= 3 and not _restore_strategy(state, data.get("strategy"), int(data.day), int(data.version)):
 		return {"error": "invalid"}
 	if not state.evidence.restore(data.get("evidence", {}), int(data.day)):
@@ -121,7 +122,7 @@ static func decode(data: Variant) -> Dictionary:
 		return {"error": "invalid"}
 	var explored := {}
 	for pair: Variant in data.explored:
-		if not pair is Array or pair.size() != 2 or not _integer(pair[0], 0, 19) or not _integer(pair[1], 0, 19):
+		if not pair is Array or pair.size() != 2 or not _integer(pair[0], 0, bounds.x - 1) or not _integer(pair[1], 0, bounds.y - 1):
 			return {"error": "invalid"}
 		var position := Vector2i(pair[0], pair[1])
 		if explored.has(position):
@@ -150,6 +151,7 @@ static func decode(data: Variant) -> Dictionary:
 	else:
 		state.party.active().inventory = state.trade.inventory
 	state.trade.inventory = state.party.active().inventory
+	state._sync_gates()
 	state._reveal_from(state.hero_cell)
 	var learner: Dictionary = data.learner
 	for tag in learner.grammar:

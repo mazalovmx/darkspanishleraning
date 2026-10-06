@@ -4,6 +4,10 @@ extends RefCounted
 const COSTS := {"road": 1, "grass": 1, "field": 1, "forest": 2, "marsh": 3,
 	"ruins": 2, "snow": 2, "mountain": 0, "water": 0}
 enum Fog { UNKNOWN, EXPLORED, VISIBLE }
+const MAPS := {"prototype_20x20_v1": "res://content/world/prototype.json",
+	"province_160x120_v1": "res://content/world/province.json"}
+var map_id := "prototype_20x20_v1"
+var map_data: Dictionary = {}
 const VIEW_RADIUS := 5
 const MOVEMENT_MAX := 18
 var party = preload("res://src/world/party_state.gd").new()
@@ -37,10 +41,17 @@ var known_grid := AStarGrid2D.new()
 var fog: Dictionary = {}
 var locations: Array = []
 
-func _init() -> void:
+func _init(selected_map := "prototype_20x20_v1") -> void:
+	assert(MAPS.has(selected_map), "Unknown authored map")
+	map_id = selected_map
 	trade.inventory = party.active().inventory
-	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(
-		"res://content/world/prototype.json"))
+	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(MAPS[map_id]))
+	map_data = data
+	if data.has("hero_starts"):
+		for id in party.heroes:
+			var position: Array = data.hero_starts[id]
+			party.heroes[id].cell = Vector2i(position[0], position[1])
+			party.heroes[id].unlocked = id == "inquisitor"
 	locations = data.get("locations", [])
 	for row: String in data.rows:
 		var cells: Array[String] = []
@@ -67,6 +78,7 @@ func _init() -> void:
 	for y in grid.region.size.y:
 		for x in grid.region.size.x:
 			known_grid.set_point_solid(Vector2i(x, y), true)
+	_sync_gates()
 	_reveal_from(hero_cell)
 
 func fog_at(cell: Vector2i) -> int:
@@ -85,7 +97,7 @@ func _reveal_from(center: Vector2i) -> void:
 				var cell := Vector2i(x, y)
 				if grid.region.has_point(cell) and origin.distance_squared_to(cell) <= VIEW_RADIUS * VIEW_RADIUS:
 					fog[cell] = Fog.VISIBLE
-					known_grid.set_point_solid(cell, terrain_cost(cell) == 0)
+					known_grid.set_point_solid(cell, terrain_cost(cell) == 0 or gate_at(cell).get("closed", false))
 					known_grid.set_point_weight_scale(cell, maxi(1, terrain_cost(cell)))
 
 func location_at(cell: Vector2i) -> Dictionary:
@@ -102,7 +114,8 @@ func terrain_cost(cell: Vector2i) -> int:
 	return COSTS[terrain[cell.y][cell.x]]
 
 func path_to(destination: Vector2i, discovered_only := false) -> Array[Vector2i]:
-	if terrain_cost(destination) == 0:
+	_sync_gates()
+	if terrain_cost(destination) == 0 or gate_at(destination).get("closed", false):
 		return []
 	if discovered_only:
 		if fog_at(destination) == Fog.UNKNOWN:
@@ -174,3 +187,26 @@ func select_hero(id: String) -> bool:
 	trade.inventory = party.active().inventory
 	_reveal_from(hero_cell)
 	return true
+
+func gate_at(cell: Vector2i) -> Dictionary:
+	for gate: Dictionary in map_data.get("gates", []):
+		if cell == Vector2i(gate.position[0], gate.position[1]):
+			var result := gate.duplicate()
+			result["closed"] = not evidence.has_evidence(gate.requires)
+			return result
+	return {}
+
+func _sync_gates() -> void:
+	for gate: Dictionary in map_data.get("gates", []):
+		var cell := Vector2i(gate.position[0], gate.position[1])
+		var closed := not evidence.has_evidence(gate.requires)
+		grid.set_point_solid(cell, closed)
+		if known_grid.is_in_boundsv(cell):
+			known_grid.set_point_solid(cell, closed or fog_at(cell) == Fog.UNKNOWN)
+
+func region_at(cell: Vector2i) -> String:
+	for region: Dictionary in map_data.get("regions", []):
+		var b: Array = region.bounds
+		if Rect2i(b[0], b[1], b[2], b[3]).has_point(cell):
+			return region.name
+	return ""
