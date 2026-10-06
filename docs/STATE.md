@@ -688,3 +688,19 @@ each, passed; screenshot reviewed. Existing shutdown diagnostics remain.
 The core mainline now reaches all four endings. Gate I expansion continues: the
 108-case catalog, strategic economy, equipment/souls, ghost knights, wider live NPC
 dialogue coverage and manual balance/playtime testing are still incomplete.
+## Strategic economy model (integration next)
+
+Added eight construction offers with real seven-resource costs, prerequisite buildings,
+one construction per settlement/day, daily building income, weekly recruitment pools
+and paid militia-to-veteran upgrades. Recruitment respects seven stack slots; upgrades
+conserve troop counts and can reuse a vacated slot. Quotes use three typed Spanish
+stages with curriculum-derived language tiers and recheck all resources before commit.
+Mines require physical presence and a Spanish order; guarded sites require a recorded
+victory. Income is idempotent within one world day. Restore validates buildings,
+prerequisite chronology, receipts, recruitment counters and mine claims atomically.
+
+Executed 50 economy-model, 39 stack-battle and 36 party-state checks: passed.
+The guarded-mine victory in this isolated model test is an explicit fixture, not yet
+a played mine encounter. Existing shutdown diagnostics persist.
+Next connect world turns, guarded battles, save v8 and the construction/recruitment UI.
+The artifact market building is authored; artifact sales await equipment integration.

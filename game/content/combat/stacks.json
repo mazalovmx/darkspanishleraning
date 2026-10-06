@@ -59,7 +59,19 @@
                                          "hp":  24,
                                          "ranged":  false,
                                          "damage_min":  4
-                                     }
+                                     },
+                  "veteran_guard":  {
+                                        "name":  "Guardia veterana",
+                                        "hp":  15,
+                                        "damage_min":  3,
+                                        "damage_max":  5,
+                                        "attack":  5,
+                                        "defense":  7,
+                                        "initiative":  7,
+                                        "ability":  "brace",
+                                        "ability_name":  "Formar escudos",
+                                        "ranged":  false
+                                    }
               },
     "opening":  {
                     "id":  "opening_road",

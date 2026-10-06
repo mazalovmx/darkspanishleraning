@@ -1,0 +1,200 @@
+{
+  "towns": [
+    "LOC01",
+    "LOC02",
+    "LOC04",
+    "LOC05",
+    "LOC07"
+  ],
+  "resource_names": {
+    "gold": "oro",
+    "wood": "madera",
+    "ore": "mineral",
+    "mercury": "mercurio",
+    "sulfur": "azufre",
+    "crystal": "cristal",
+    "gems": "gemas"
+  },
+  "buildings": {
+    "council_hall": {
+      "name": "casa de administración",
+      "cost": {
+        "gold": 300,
+        "wood": 5,
+        "ore": 5
+      },
+      "requires": [],
+      "income": {
+        "gold": 100
+      },
+      "description": "Produce 100 de oro al día."
+    },
+    "barracks": {
+      "name": "cuartel",
+      "cost": {
+        "gold": 200,
+        "wood": 5,
+        "ore": 3
+      },
+      "requires": [],
+      "income": {},
+      "description": "Permite contratar hasta 12 milicianos por semana."
+    },
+    "archery_range": {
+      "name": "campo de arquería",
+      "cost": {
+        "gold": 300,
+        "wood": 8,
+        "ore": 3
+      },
+      "requires": [
+        "barracks"
+      ],
+      "income": {},
+      "description": "Permite contratar hasta 8 arqueros por semana."
+    },
+    "forge": {
+      "name": "forja",
+      "cost": {
+        "gold": 400,
+        "wood": 5,
+        "ore": 10
+      },
+      "requires": [
+        "barracks"
+      ],
+      "income": {},
+      "description": "Permite mejorar milicianos a guardias veteranos."
+    },
+    "laboratory": {
+      "name": "taller de reliquias",
+      "cost": {
+        "gold": 800,
+        "ore": 5,
+        "mercury": 3,
+        "sulfur": 3,
+        "crystal": 4
+      },
+      "requires": [
+        "forge"
+      ],
+      "income": {},
+      "description": "Permite contratar 2 centinelas de reliquia por semana."
+    },
+    "treasury": {
+      "name": "tesorería",
+      "cost": {
+        "gold": 1000,
+        "ore": 5,
+        "gems": 5
+      },
+      "requires": [
+        "council_hall"
+      ],
+      "income": {
+        "gold": 250
+      },
+      "description": "Añade 250 de oro al ingreso diario."
+    },
+    "lumber_yard": {
+      "name": "aserradero",
+      "cost": {
+        "gold": 250,
+        "ore": 5
+      },
+      "requires": [
+        "council_hall"
+      ],
+      "income": {
+        "wood": 1
+      },
+      "description": "Añade una unidad de madera al día."
+    },
+    "artifact_market": {
+      "name": "lonja de artefactos",
+      "cost": {
+        "gold": 600,
+        "wood": 5,
+        "ore": 5,
+        "crystal": 2,
+        "gems": 2
+      },
+      "requires": [
+        "council_hall"
+      ],
+      "income": {},
+      "description": "Permite comerciar con equipo y fragmentos de reliquias."
+    }
+  },
+  "recruits": {
+    "militia": {
+      "name": "milicianos",
+      "building": "barracks",
+      "weekly": 12,
+      "cost": {
+        "gold": 15
+      }
+    },
+    "archers": {
+      "name": "arqueros",
+      "building": "archery_range",
+      "weekly": 8,
+      "cost": {
+        "gold": 25
+      }
+    },
+    "relic_sentinel": {
+      "name": "centinelas de reliquia",
+      "building": "laboratory",
+      "weekly": 2,
+      "cost": {
+        "gold": 90,
+        "crystal": 1,
+        "gems": 1
+      }
+    }
+  },
+  "upgrades": {
+    "militia": {
+      "target": "veteran_guard",
+      "name": "guardias veteranos",
+      "building": "forge",
+      "cost": {
+        "gold": 20,
+        "ore": 1
+      }
+    }
+  },
+  "mine_guards": {
+    "gold": [
+      {
+        "type": "bandits",
+        "count": 8
+      }
+    ],
+    "mercury": [
+      {
+        "type": "bandits",
+        "count": 6
+      }
+    ],
+    "sulfur": [
+      {
+        "type": "bandits",
+        "count": 7
+      }
+    ],
+    "crystal": [
+      {
+        "type": "ghost_guard",
+        "count": 3
+      }
+    ],
+    "gems": [
+      {
+        "type": "ghost_guard",
+        "count": 4
+      }
+    ]
+  }
+}
