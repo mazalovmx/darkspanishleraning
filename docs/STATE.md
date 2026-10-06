@@ -2,8 +2,8 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: steps 13-15 implemented; combined Gate F/G verification next.
-Next task: combined Gate F/G verification, then step 16 ordered grammar scheduler.
+Current task: steps 13-15 verified together; Gates F and G passed.
+Next task: step 16 ordered grammar scheduler and curriculum-controlled difficulty.
 
 ## Provenance
 
@@ -495,3 +495,19 @@ Executed 43 market checks headless/OpenGL, 64 battle integration, 525 save, 53 n
 processes preserved purchase/army/evidence/learner: PASS (after fixing test indentation).
 Existing shutdown diagnostics persist. Full merchant archetypes and advanced variants
 remain later curriculum/campaign work. Combined Gate F/G test is next; not yet marked.
+## Combined vertical slice: Gates F and G passed
+
+Executed vertical_slice_test.gd headless and OpenGL: 31 checks, zero failures, exit 0.
+The test travels on discovered paths, talks to all four NPCs, buys supplies through
+three typed Spanish stages, inspects all physical clues and the institutional document,
+makes and corrects a wrong hypothesis, uncovers the lie/unrelated secret, gets the
+medical report, saves/loads mid-case, compares testimony, reconstructs the cause,
+returns to the inn, wins the actual encounter, and saves/loads the combined outcome.
+Purchase costs, reward, survivor army, receipts, evidence and current language block
+remain consistent. Claude outage is explicit for this test; live transport was verified
+earlier at Gate C. This is automated integration coverage, not a human playtime study.
+
+Gates A-G are now passed for the vertical slice. H/I and full-game completion remain
+pending. Next: the ordered curriculum scheduler before adding the second/third heroes.
+Known shutdown diagnostics remain. The full MVP checklist still needs more POIs and
+other listed content; Gate F/G completion does not imply the entire game is finished.
