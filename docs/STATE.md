@@ -747,3 +747,25 @@ use the corrected forms.
 Executed 55 economic-model checks (including historical receipt compatibility),
 28 strategy-curriculum checks through actual prerequisite lessons and all four language
 tiers, and 20 economy-scene checks: passed. Existing shutdown diagnostics persist.
+## Equipment and soul model (world integration next)
+
+Indexed all 180 catalog entries, thirty types and fourteen slots. Ordinary instances
+and unique fragments have explicit owners and slots; backpack items grant no bonuses.
+Assembly keeps the exact four component instances and their occupied slots, adds the
+set bonus once within catalog caps, and reverses without losing parts or consent.
+Co-located transfers preserve ownership correctly; a new wearer receives only component
+bonuses until completing their own soul conversation. Specials have a per-set daily
+use guard; their ghost-counter effects are not integrated yet.
+
+Each of six souls has a staged authored offline conversation: listen, compare two
+distinct memories, supported production, independent argument, answer an objection,
+recall on a later day and accept the pact. Current grammar requires actual practice
+and earlier block consolidation. Copying the supported line cannot satisfy the
+independent prompt. Selected understood grammar-error variants pass with a correction;
+no free-language mastery score is fabricated. Early fear wording follows taught forms.
+
+Executed equipment-model checks: initial 474 passed; after adding memory-duplication
+and corrective-feedback cases, 498 passed. Covers all six sets, both owners' separate
+consents, reversibility, transfer, daily special limits and forged-save rejection.
+Existing shutdown diagnostics persist. Acquisition verification belongs to the upcoming
+purchase/quest callers; this model is not yet connected to world saves or battle stats.

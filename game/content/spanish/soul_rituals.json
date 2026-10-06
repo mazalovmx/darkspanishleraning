@@ -1,0 +1,95 @@
+{
+    "SA01":  {
+                 "grammar":  [
+                                 "present"
+                             ],
+                 "fear":  "No quiero imponer una sola versión.",
+                 "comparison":  "Las dos memorias piden escuchar y comprobar.",
+                 "independent":  "Protejo al testigo cuando escucho su versión.",
+                 "objection":  "No uso tu fuerza como prueba de mi versión.",
+                 "recall":  "Quiero tu ayuda para escuchar al testigo y comprobar su relato.",
+                 "alternatives":  {
+                                      "answer_objection":  [
+                                                               "No uso tu fuerza como pruebas de mi versión."
+                                                           ]
+                                  }
+             },
+    "SA02":  {
+                 "grammar":  [
+                                 "preterite"
+                             ],
+                 "fear":  "No quiero ocultar los traslados.",
+                 "comparison":  "El registro incluyó ocho curaciones y dos traslados.",
+                 "independent":  "Trasladaste a dos personas y anotaste ocho curaciones.",
+                 "objection":  "Los dos traslados no fueron curaciones.",
+                 "recall":  "Anotaste los nombres de todos y no ocultaste los dos traslados.",
+                 "alternatives":  {
+                                      "answer_objection":  [
+                                                               "Los dos traslados no fue curaciones."
+                                                           ]
+                                  }
+             },
+    "SA03":  {
+                 "grammar":  [
+                                 "preterite",
+                                 "imperfect"
+                             ],
+                 "fear":  "Muchas voces no siempre son muchos testigos.",
+                 "comparison":  "Las tres voces repetían el mismo pregón.",
+                 "independent":  "Al principio parecían tres testigos, pero encontramos una sola fuente.",
+                 "objection":  "Las voces repetían un relato; no eran pruebas independientes.",
+                 "recall":  "Oías tres voces cada noche y una noche descubriste su fuente común.",
+                 "alternatives":  {
+                                      "answer_objection":  [
+                                                               "Las voces repetía un relato; no eran pruebas independientes."
+                                                           ]
+                                  }
+             },
+    "SA04":  {
+                 "grammar":  [
+                                 "relative_clauses"
+                             ],
+                 "fear":  "Una promesa no permite mentir.",
+                 "comparison":  "La orden que exigía acusar sin pruebas contradecía la promesa.",
+                 "independent":  "Defiendo una promesa que protege a los vecinos sin inventar acusaciones.",
+                 "objection":  "Rechazo la orden que exige acusar sin pruebas.",
+                 "recall":  "La promesa que protege a los vecinos no permite mentir sobre ellos.",
+                 "alternatives":  {
+                                      "answer_objection":  [
+                                                               "Rechazo la orden que exigen acusar sin pruebas."
+                                                           ]
+                                  }
+             },
+    "SA05":  {
+                 "grammar":  [
+                                 "perfect",
+                                 "ir_a_future"
+                             ],
+                 "fear":  "No quiero inventar el contenido de una página.",
+                 "comparison":  "Hemos comparado dos copias y falta una página.",
+                 "independent":  "He comprobado la ausencia y voy a consultar otro registro.",
+                 "objection":  "No hemos encontrado una confesión en la página ausente.",
+                 "recall":  "Hemos visto que falta una página y vamos a buscar otra copia.",
+                 "alternatives":  {
+                                      "answer_objection":  [
+                                                               "No hemos encontrado una confesión en las página ausente."
+                                                           ]
+                                  }
+             },
+    "SA06":  {
+                 "grammar":  [
+                                 "conditional",
+                                 "subjunctive_basic"
+                             ],
+                 "fear":  "Temo que entregar una carta permita perseguir a quien quiere guardar silencio.",
+                 "comparison":  "Una entrega no debería autorizar la publicación de la dirección.",
+                 "independent":  "Si acepta recibirla, ofrecería una entrega privada para que conserve su libertad.",
+                 "objection":  "Aunque no responda, no deberíamos publicar su dirección.",
+                 "recall":  "Propondría entregar la carta en privado si acepta, para que pueda decidir sin presión.",
+                 "alternatives":  {
+                                      "answer_objection":  [
+                                                               "Aunque no responda, no deberíamos publicar sus dirección."
+                                                           ]
+                                  }
+             }
+}
