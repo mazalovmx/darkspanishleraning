@@ -59,7 +59,10 @@ func restore(data: Variant, day: int) -> bool:
 	_progress = validated
 	return true
 func context_flags() -> Dictionary:
-	return {"food_recorded": "yes"} if has_evidence("travel_food") else {}
+	var flags := {"food_recorded": "yes"} if has_evidence("travel_food") else {}
+	for id in _progress:
+		flags[id + "_recorded"] = "yes"
+	return flags
 
 func record_dialogue(id: String, npc_id: String, location_id: String, message: String, day: int) -> bool:
 	if not definitions.has(id) or definitions[id].source_type != "testimony":

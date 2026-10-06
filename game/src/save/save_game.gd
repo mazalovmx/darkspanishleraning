@@ -73,10 +73,10 @@ static func _learner_valid(data: Variant, day: int) -> bool:
 		if not tag is String or not profile._known(tag):
 			return false
 		var contexts: Variant = data.successful_contexts[tag]
-		if not _strings(contexts, 2, 100) or contexts.is_empty():
+		if not _strings(contexts, 4, 100) or contexts.is_empty():
 			return false
 		for npc_id: String in contexts:
-			if npc_id not in ["innkeeper_prototype", "lucio_salcedo"]:
+			if npc_id not in ["innkeeper_prototype", "lucio_salcedo", "hermano_gabriel", "leonor_valera"]:
 				return false
 	for message: String in data.recent_messages:
 		if message != message.strip_edges().to_lower():

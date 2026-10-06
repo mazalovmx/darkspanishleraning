@@ -1,28 +1,115 @@
 {
-  "LOC11": {
-    "npc_id": "innkeeper_prototype",
-    "name": "El posadero",
-    "greeting": "Buenas tardes. Bienvenido a la Venta del Perro Negro. ¿Qué necesita?",
-    "hint": "Puede saludar o preguntar por Santa Lucerna.",
-    "branches": [
-      {"keywords": ["monasterio", "santa lucerna", "camino"], "reply": "¿Busca Santa Lucerna? Siga el camino hacia el este. El monasterio está junto al camino."},
-      {"keywords": ["nombre", "posada", "venta"], "reply": "Esta es la Venta del Perro Negro. Por aquí pasan muchos viajeros."},
-      {"keywords": ["gracias"], "reply": "De nada. Buen viaje."},
-      {"keywords": ["hola", "buenas", "buenos dias"], "reply": "Buenas. Dígame, ¿qué desea saber?"}
-    ],
-    "fallback": "No sabría decirle. ¿Quiere preguntar por el camino a Santa Lucerna?"
-  },
-  "LOC01": {
-    "npc_id": "lucio_salcedo",
-    "name": "Abad Lucio Salcedo",
-    "greeting": "Bienvenido a Santa Lucerna. Soy el abad Lucio Salcedo. Le escucho.",
-    "hint": "Puede preguntar por el abad o por el monasterio.",
-    "branches": [
-      {"keywords": ["nombre", "quien es", "quien eres", "abad"], "reply": "Me llamo Lucio Salcedo. Soy el abad de Santa Lucerna."},
-      {"keywords": ["monasterio", "manuscritos", "ojos"], "reply": "Santa Lucerna es conocida por sus manuscritos y por el cuidado de los ojos. Nuestro trabajo exige paciencia."},
-      {"keywords": ["gracias"], "reply": "No tiene que agradecérmelo. Pregunte con calma."},
-      {"keywords": ["hola", "buenas", "buenos dias"], "reply": "Buenos días. ¿Qué desea saber de Santa Lucerna?"}
-    ],
-    "fallback": "No quisiera confundir una sospecha con un hecho. Formule una pregunta más concreta, por favor."
-  }
+    "LOC11":  {
+                  "npc_id":  "innkeeper_prototype",
+                  "name":  "El posadero",
+                  "greeting":  "Buenas tardes. Bienvenido a la Venta del Perro Negro. ¿Qué necesita?",
+                  "hint":  "Puede saludar o preguntar por Santa Lucerna.",
+                  "branches":  [
+                                   {
+                                       "keywords":  [
+                                                        "monasterio",
+                                                        "santa lucerna",
+                                                        "camino"
+                                                    ],
+                                       "reply":  "¿Busca Santa Lucerna? Siga el camino hacia el este. El monasterio está junto al camino."
+                                   },
+                                   {
+                                       "keywords":  [
+                                                        "nombre",
+                                                        "posada",
+                                                        "venta"
+                                                    ],
+                                       "reply":  "Esta es la Venta del Perro Negro. Por aquí pasan muchos viajeros."
+                                   },
+                                   {
+                                       "keywords":  [
+                                                        "gracias"
+                                                    ],
+                                       "reply":  "De nada. Buen viaje."
+                                   },
+                                   {
+                                       "keywords":  [
+                                                        "hola",
+                                                        "buenas",
+                                                        "buenos dias"
+                                                    ],
+                                       "reply":  "Buenas. Dígame, ¿qué desea saber?"
+                                   }
+                               ],
+                  "fallback":  "No sabría decirle. ¿Quiere preguntar por el camino a Santa Lucerna?"
+              },
+    "LOC01":  {
+                  "npc_id":  "lucio_salcedo",
+                  "name":  "Abad Lucio Salcedo",
+                  "greeting":  "Bienvenido a Santa Lucerna. Soy el abad Lucio Salcedo. Le escucho.",
+                  "hint":  "Puede preguntar por el abad o por el monasterio.",
+                  "branches":  [
+                                   {
+                                       "keywords":  [
+                                                        "nombre",
+                                                        "quien es",
+                                                        "quien eres",
+                                                        "abad"
+                                                    ],
+                                       "reply":  "Me llamo Lucio Salcedo. Soy el abad de Santa Lucerna."
+                                   },
+                                   {
+                                       "keywords":  [
+                                                        "monasterio",
+                                                        "manuscritos",
+                                                        "ojos"
+                                                    ],
+                                       "reply":  "Santa Lucerna es conocida por sus manuscritos y por el cuidado de los ojos. Nuestro trabajo exige paciencia."
+                                   },
+                                   {
+                                       "keywords":  [
+                                                        "gracias"
+                                                    ],
+                                       "reply":  "No tiene que agradecérmelo. Pregunte con calma."
+                                   },
+                                   {
+                                       "keywords":  [
+                                                        "hola",
+                                                        "buenas",
+                                                        "buenos dias"
+                                                    ],
+                                       "reply":  "Buenos días. ¿Qué desea saber de Santa Lucerna?"
+                                   }
+                               ],
+                  "fallback":  "No quisiera confundir una sospecha con un hecho. Formule una pregunta más concreta, por favor."
+              },
+    "LOC01_GABRIEL":  {
+                          "location_id":  "LOC01",
+                          "name":  "Hermano Gabriel",
+                          "greeting":  "Soy Gabriel. Cuido la bodega. ¿Qué desea saber?",
+                          "branches":  [
+                                           {
+                                               "reply":  "Me llamo Gabriel. Estoy a cargo de la bodega.",
+                                               "keywords":  [
+                                                                "hola",
+                                                                "nombre"
+                                                            ]
+                                           }
+                                       ],
+                          "hint":  "Examine las pertenencias y pregunte por la noche.",
+                          "fallback":  "No sé cómo explicarlo. Haga una pregunta concreta, por favor.",
+                          "npc_id":  "hermano_gabriel"
+                      },
+    "LOC01_LEONOR":  {
+                         "location_id":  "LOC01",
+                         "name":  "Doctora Leonor Valera",
+                         "greeting":  "Soy Leonor, médica de Miralba. Estoy aquí para examinar los indicios.",
+                         "branches":  [
+                                          {
+                                              "reply":  "Me llamo Leonor Valera. Soy médica.",
+                                              "keywords":  [
+                                                               "hola",
+                                                               "nombre"
+                                                           ]
+                                          }
+                                      ],
+                         "hint":  "Examine el tubo, la sangre y la bota antes de preguntar por la herida.",
+                         "fallback":  "Necesito indicios físicos. Una sospecha no sustituye un examen.",
+                         "npc_id":  "leonor_valera"
+                     }
 }

@@ -2,8 +2,8 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: step 13 underway; expanded physical inspections and custody document complete.
-Next task: integrate Gabriel and Leonor dialogue, then hypothesis comparison and causal conclusion (step 13 / Epic 11). Gate F remains pending.
+Current task: step 13 underway; physical inspections and four-NPC witness loop complete.
+Next task: hypothesis comparison and causal conclusion, then battle and merchant needed for Gate F.
 
 ## Provenance
 
@@ -410,3 +410,19 @@ travel through discovered cells and reran successfully. Rendered 1280x720 docume
 notebook inspected; subsequently changed its recorded-note label to "Tu anotación".
 Root/docs specification hashes match; git diff --check passed. No live API calls.
 Existing ObjectDB/26-resources shutdown diagnostics remain unresolved.
+## Opening witnesses integrated (step 13, partial)
+
+Gabriel and visiting Leonor now join Lucio in the monastery speaker selector; the innkeeper
+is the fourth slice NPC. Each keeps separate transient history and late-response routing.
+Gabriel's initial denial, horse observation with mistaken inference and wine secret follow
+authored prerequisite questions. Leonor's clinical report needs tube, blood and boot.
+The absent notebook remains absent. Author reliability labels never enter player output.
+Critical disclosures remain authored and all unlocks use request-time and live verification.
+Offline Spanish production follows the same path; it does not invent language mastery.
+The save validator accepts successful language contexts from all four canonical NPCs.
+
+Executed: 27 witness checks headless/OpenGL, 39 dialogue-clue, 54 grounding, 524 save,
+25 authored dialogue, 27 Spanish feedback and 72 client checks: final runs passed.
+Fixed two test-fixture errors (StringName key and config access before node readiness)
+before final runs. No live API calls. Existing shutdown leak diagnostics persist.
+Gate F remains pending: next implement comparison/conclusion, then battle and purchase.

@@ -9,7 +9,7 @@ var conversations: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(
 	"res://content/dialogue/authored.json"))
 var histories: Dictionary = {}
 var location_id := ""
-var speaker := Label.new()
+var speaker := OptionButton.new()
 var transcript := RichTextLabel.new()
 var input := LineEdit.new()
 var send_button := Button.new()
@@ -30,6 +30,9 @@ func _ready() -> void:
 	client.completed.connect(_on_reply)
 	add_theme_constant_override("separation", 10)
 	add_child(speaker)
+	speaker.item_selected.connect(func(index: int):
+		if not client.busy:
+			open_conversation(str(speaker.get_item_metadata(index))))
 	transcript.custom_minimum_size = Vector2(0, 170)
 	transcript.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	transcript.bbcode_enabled = false
@@ -62,7 +65,14 @@ func open_conversation(id: String) -> void:
 		histories[id] = []
 	input.clear()
 	send_button.disabled = true
-	speaker.text = "Conversación · " + str(conversations[id].name)
+	speaker.clear()
+	for key in conversations:
+		if scene_for(key) == scene_for(id):
+			speaker.add_item("Conversación · " + str(conversations[key].name))
+			speaker.set_item_metadata(speaker.item_count - 1, key)
+			if key == id:
+				speaker.select(speaker.item_count - 1)
+	speaker.disabled = client.busy
 	hint.text = "Objetivo: presente y peticiones sencillas. " + str(conversations[id].hint)
 	feedback.text = last_feedback.get(location_id, "Evaluación de español no disponible. Puede continuar la conversación.")
 	_render_history()
@@ -79,6 +89,7 @@ func submit(message: String) -> void:
 	pending_fallback = reply_for(location_id, clean)
 	input.clear()
 	input.editable = false
+	speaker.disabled = true
 	send_button.disabled = true
 	feedback.text = "Esperando respuesta…"
 	# Capture eligible IDs before sending; recheck live prerequisites on completion.
@@ -115,15 +126,18 @@ func _on_reply(proposal: Dictionary) -> void:
 		last_feedback[pending_location] = _language_feedback(proposal.language)
 	var reply: String = proposal.get("npc_reply", pending_fallback)
 	# Authored disclosure also works without API. Rejected proposals never unlock it.
-	if not rejected and "monastery_claim" in pending_unlocks:
-		if evidence.record_dialogue("monastery_claim", npc_id, pending_location, pending_message, pending_day):
-			reply = evidence.node("monastery_claim").claim + " Esa afirmación no demuestra la causa."
-			last_feedback[pending_location] += "\nNueva afirmación anotada en el cuaderno."
+	if not rejected:
+		for id: String in pending_unlocks:
+			if evidence.record_dialogue(id, npc_id, scene_for(pending_location), pending_message, pending_day):
+				reply = evidence.node(id).claim + " Esta declaración queda anotada con su fuente."
+				last_feedback[pending_location] += "\nNueva afirmación anotada en el cuaderno."
+				break
 	var history: Array = histories[pending_location]
 	history.append({"player": pending_message, "reply": reply})
 	while history.size() > MAX_EXCHANGES:
 		history.pop_front()
 	input.editable = true
+	speaker.disabled = false
 	send_button.disabled = input.text.strip_edges().is_empty()
 	if location_id == pending_location:
 		_render_history()
@@ -139,8 +153,12 @@ func _on_reply(proposal: Dictionary) -> void:
 func reply_for(id: String, message: String) -> String:
 	if not conversations.has(id):
 		return ""
-	if id == "LOC01" and world_state.evidence.has_evidence("travel_food") and world_state.evidence.valid_note("monastery_claim", message):
-		return world_state.evidence.node("monastery_claim").claim + " Esa afirmación no demuestra la causa."
+	var evidence = world_state.evidence
+	var context: Dictionary = grounding.context_for(conversations[id].npc_id,
+		grounding.intent_for(message), evidence.context_flags(), evidence.progress().keys())
+	for clue_id: String in context.get("npc_knowledge", {}):
+		if evidence.valid_note(clue_id, message):
+			return evidence.node(clue_id).claim + " Esta declaración queda anotada con su fuente."
 	var normalized := message.to_lower()
 	var accents := {"á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u", "ü": "u"}
 	for letter in accents:
@@ -156,8 +174,16 @@ func reply_for(id: String, message: String) -> String:
 
 func _render_history() -> void:
 	hint.text = "Objetivo: presente y peticiones sencillas. " + str(conversations[location_id].hint)
-	if location_id == "LOC01" and world_state.evidence.has_evidence("travel_food") and not world_state.evidence.has_evidence("monastery_claim"):
-		hint.text = "Pregunta: ¿Qué dice la comunidad sobre la muerte de Tomás?"
+	var evidence = world_state.evidence
+	for id in evidence.definitions:
+		var clue: Dictionary = evidence.node(id)
+		if clue.get("npc_id", "") != conversations[location_id].npc_id or evidence.has_evidence(id):
+			continue
+		var sample: String = clue.language.get("sample", "")
+		if grounding.allows_unlock(id, conversations[location_id].npc_id, grounding.intent_for(sample),
+				evidence.context_flags(), evidence.progress().keys()):
+			hint.text = "Pregunta: " + sample
+			break
 	var npc: Dictionary = conversations[location_id]
 	var lines: Array[String] = [str(npc.name) + ": " + str(npc.greeting)]
 	for exchange: Dictionary in histories[location_id]:
@@ -176,3 +202,6 @@ func _language_feedback(language: Dictionary) -> String:
 func _short(text: String) -> String:
 	text = text.replace("\n", " ").replace("\r", " ")
 	return text if text.length() <= 60 else text.left(57) + "…"
+
+func scene_for(conversation_id: String) -> String:
+	return str(conversations.get(conversation_id, {}).get("location_id", conversation_id))

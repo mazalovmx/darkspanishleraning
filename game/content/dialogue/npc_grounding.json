@@ -6,7 +6,11 @@
                   "lucio_identity":  "Lucio Salcedo es el abad de Santa Lucerna.",
                   "monastery_work":  "Santa Lucerna es conocida por sus manuscritos y por el cuidado de los ojos.",
                   "forbidden_research":  "El monasterio oculta investigaciones prohibidas.",
-                  "monastery_claim":  "La comunidad presenta la muerte de Tomás como un suicidio. Es una afirmación atribuida, no una causa demostrada."
+                  "monastery_claim":  "La comunidad presenta la muerte de Tomás como un suicidio. Es una afirmación atribuida, no una causa demostrada.",
+                  "gabriel_denial":  "Declaración atribuida a Hermano Gabriel: Mi relato es sencillo: estoy en la capilla y no oigo nada.",
+                  "horse_sound":  "Declaración atribuida a Hermano Gabriel: En mi relato oigo un caballo. Creo que el visitante es contrabandista.",
+                  "wine_secret":  "Declaración atribuida a Hermano Gabriel: Robo vino de la bodega. Temo una sanción; por eso oculto parte de mi relato.",
+                  "medical_report":  "Declaración atribuida a Doctora Leonor Valera: La lesión indica un golpe mortal anterior a la caída. El golpe es compatible con un instrumento de latón."
               },
     "clues":  {
                   "monastery_claim":  {
@@ -14,7 +18,34 @@
                                           "prerequisites":  {
                                                                 "food_recorded":  "yes"
                                                             }
-                                      }
+                                      },
+                  "gabriel_denial":  {
+                                         "intent":  "ask_night",
+                                         "prerequisites":  {
+                                                               "travel_food_recorded":  "yes"
+                                                           }
+                                     },
+                  "horse_sound":  {
+                                      "intent":  "ask_horse",
+                                      "prerequisites":  {
+                                                            "gabriel_denial_recorded":  "yes",
+                                                            "brass_tube_recorded":  "yes"
+                                                        }
+                                  },
+                  "wine_secret":  {
+                                      "intent":  "ask_wine",
+                                      "prerequisites":  {
+                                                            "horse_sound_recorded":  "yes"
+                                                        }
+                                  },
+                  "medical_report":  {
+                                         "intent":  "ask_wound",
+                                         "prerequisites":  {
+                                                               "brass_tube_recorded":  "yes",
+                                                               "tower_blood_recorded":  "yes",
+                                                               "scraped_boot_recorded":  "yes"
+                                                           }
+                                     }
               },
     "intents":  {
                     "ask_route":  [
@@ -43,6 +74,22 @@
                                       "suicidio",
                                       "comunidad",
                                       "tomas"
+                                  ],
+                    "ask_night":  [
+                                      "noche"
+                                  ],
+                    "ask_horse":  [
+                                      "caballo",
+                                      "medianoche"
+                                  ],
+                    "ask_wine":  [
+                                     "vino",
+                                     "cambia",
+                                     "oculta"
+                                 ],
+                    "ask_wound":  [
+                                      "herida",
+                                      "lesion"
                                   ]
                 },
     "npcs":  {
@@ -114,6 +161,71 @@
                                                           "evasion":  "Puede negarse a responder; no inventa hechos."
                                                       },
                                        "language_register":  "formal"
+                                   },
+                 "hermano_gabriel":  {
+                                         "false_beliefs":  [
+
+                                                           ],
+                                         "id":  "hermano_gabriel",
+                                         "knowledge":  [
+                                                           "gabriel_denial",
+                                                           "horse_sound"
+                                                       ],
+                                         "beliefs":  [
+
+                                                     ],
+                                         "lie_policy":  {
+                                                            "triggers":  [
+                                                                             "ask_night"
+                                                                         ],
+                                                            "can_lie":  true,
+                                                            "evasion":  "Solo puede repetir la declaración autorizada; no inventa hechos ni motivos adicionales."
+                                                        },
+                                         "language_register":  "neutral_colloquial",
+                                         "secrets":  [
+                                                         {
+                                                             "id":  "wine_secret",
+                                                             "prerequisites":  {
+                                                                                   "horse_sound_recorded":  "yes"
+                                                                               }
+                                                         }
+                                                     ],
+                                         "persona":  {
+                                                         "occupation":  "encargado de la bodega",
+                                                         "traits":  [
+                                                                        "nervioso"
+                                                                    ],
+                                                         "goal":  "Evitar una sanción."
+                                                     }
+                                     },
+                 "leonor_valera":  {
+                                       "false_beliefs":  [
+
+                                                         ],
+                                       "id":  "leonor_valera",
+                                       "knowledge":  [
+                                                         "medical_report"
+                                                     ],
+                                       "beliefs":  [
+
+                                                   ],
+                                       "lie_policy":  {
+                                                          "can_lie":  false,
+                                                          "triggers":  [
+
+                                                                       ]
+                                                      },
+                                       "language_register":  "clear_professional",
+                                       "secrets":  [
+
+                                                   ],
+                                       "persona":  {
+                                                       "occupation":  "médica de Miralba",
+                                                       "traits":  [
+                                                                      "precisa"
+                                                                  ],
+                                                       "goal":  "Examinar indicios físicos sin acusaciones infundadas."
+                                                   }
                                    }
              }
 }
