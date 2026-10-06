@@ -511,3 +511,19 @@ Gates A-G are now passed for the vertical slice. H/I and full-game completion re
 pending. Next: the ordered curriculum scheduler before adding the second/third heroes.
 Known shutdown diagnostics remain. The full MVP checklist still needs more POIs and
 other listed content; Gate F/G completion does not imply the entire game is finished.
+## Ordered curriculum engine (step 16, integration pending)
+
+Authored seven prerequisite blocks with 31 topics, each with a model, guided production,
+two distinct transfer questions and delayed recall. Block advancement requires all topics
+and recall on a later game day, across at least three contexts per block. Game-day spacing
+is an engineering proxy, not a claim of real-world retention. The scheduler chooses
+60% weak/review, 25% current and 15% stretch after consolidation, suppresses early stretch,
+avoids recent focus repetition where possible, and never selects an untaught tense.
+Three understood exchanges adjust one difficulty dimension; two comprehension failures
+reduce pressure. Per-conversation adjustment is capped at 0.10.
+
+Executed curriculum_test.gd: 890 checks, zero failures, exit 0, after correcting two
+test type declarations. Covers every block, every intermediate restore, forged/skipped
+prerequisites, delayed recall, grammar/verb coverage and scheduling/difficulty limits.
+The engine and content are not yet wired into learner saves or gameplay UI.
+Next task is that integration. Existing shutdown warnings persist.

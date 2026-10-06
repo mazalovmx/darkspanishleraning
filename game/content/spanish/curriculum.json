@@ -1,0 +1,977 @@
+{
+    "blocks":  [
+                   {
+                       "id":  "present_and_basic_requests",
+                       "title":  "Presente: observar y preguntar",
+                       "grammar":  [
+                                       "ser_estar",
+                                       "hay",
+                                       "gender_articles",
+                                       "present"
+                                   ],
+                       "verbs":  [
+                                     "ser",
+                                     "estar",
+                                     "haber",
+                                     "tener",
+                                     "ver"
+                                 ],
+                       "cards":  [
+                                     {
+                                         "id":  "identity",
+                                         "tag":  "ser_estar",
+                                         "context":  "monastery",
+                                         "rule":  "Ser identifica; estar sitúa. Soy médico. Estoy en la venta.",
+                                         "model":  "Soy médico.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Di tu oficio: eres investigador.",
+                                                               "answers":  [
+                                                                               "Soy investigador."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di dónde estás: en la torre.",
+                                                               "answers":  [
+                                                                               "Estoy en la torre."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di el oficio de Leonor: médica.",
+                                                               "answers":  [
+                                                                               "Leonor es médica."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "existence",
+                                         "tag":  "hay",
+                                         "context":  "road",
+                                         "rule":  "Hay presenta algo que existe; no cambia en plural.",
+                                         "model":  "Hay una torre.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Describe la presencia de dos caminos.",
+                                                               "answers":  [
+                                                                               "Hay dos caminos."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Describe la presencia de sangre en la torre.",
+                                                               "answers":  [
+                                                                               "Hay sangre en la torre."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Describe la presencia de tres libros.",
+                                                               "answers":  [
+                                                                               "Hay tres libros."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "agreement",
+                                         "tag":  "gender_articles",
+                                         "context":  "archive",
+                                         "rule":  "El/la y los/las concuerdan con el nombre. Libro: masculino; carta: femenino.",
+                                         "model":  "La carta es antigua.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Describe dos cartas antiguas: empieza por Las.",
+                                                               "answers":  [
+                                                                               "Las cartas son antiguas."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Describe un libro rojo: empieza por El.",
+                                                               "answers":  [
+                                                                               "El libro es rojo."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Describe dos libros antiguos: empieza por Los.",
+                                                               "answers":  [
+                                                                               "Los libros son antiguos."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "possession",
+                                         "tag":  "present",
+                                         "context":  "inn",
+                                         "rule":  "Tener: tengo, tienes, tiene. Ver: veo, ves, ve.",
+                                         "model":  "Tengo una carta.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Di que tienes pan.",
+                                                               "answers":  [
+                                                                               "Tengo pan."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Pregunta si el posadero tiene agua usando Tiene.",
+                                                               "answers":  [
+                                                                               "¿Tiene agua?"
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que ves una marca.",
+                                                               "answers":  [
+                                                                               "Veo una marca."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     }
+                                 ]
+                   },
+                   {
+                       "id":  "requests_and_prices",
+                       "title":  "Peticiones, cantidades y precios",
+                       "grammar":  [
+                                       "present"
+                                   ],
+                       "verbs":  [
+                                     "querer",
+                                     "poder",
+                                     "pedir",
+                                     "dar",
+                                     "ir"
+                                 ],
+                       "cards":  [
+                                     {
+                                         "id":  "request",
+                                         "tag":  "present",
+                                         "context":  "market",
+                                         "rule":  "Quiero/necesito + nombre pide algo sin un tiempo nuevo.",
+                                         "model":  "Quiero agua.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Pide dos panes usando Quiero.",
+                                                               "answers":  [
+                                                                               "Quiero dos panes."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Pide tres vendas usando Necesito.",
+                                                               "answers":  [
+                                                                               "Necesito tres vendas."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Pide una habitación usando Necesito.",
+                                                               "answers":  [
+                                                                               "Necesito una habitación."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "price",
+                                         "tag":  "present",
+                                         "context":  "inn",
+                                         "rule":  "Cuánto cuesta con un objeto; cuánto cuestan con varios.",
+                                         "model":  "¿Cuánto cuesta el pan?",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Pregunta el precio de las vendas.",
+                                                               "answers":  [
+                                                                               "¿Cuánto cuestan las vendas?"
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Pregunta el precio de la habitación.",
+                                                               "answers":  [
+                                                                               "¿Cuánto cuesta la habitación?"
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Pregunta el precio de dos panes.",
+                                                               "answers":  [
+                                                                               "¿Cuánto cuestan dos panes?"
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "permission",
+                                         "tag":  "present",
+                                         "context":  "guard",
+                                         "rule":  "Poder en presente: puedo, puede. ¿Puedo + infinitivo? pide permiso.",
+                                         "model":  "¿Puedo hablar?",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Pide permiso para entrar usando Puedo.",
+                                                               "answers":  [
+                                                                               "¿Puedo entrar?"
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Pregunta si la guardia puede ayudar: Puede.",
+                                                               "answers":  [
+                                                                               "¿Puede ayudar?"
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Pide permiso para pasar usando Puedo.",
+                                                               "answers":  [
+                                                                               "¿Puedo pasar?"
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "needs",
+                                         "tag":  "present",
+                                         "context":  "stable",
+                                         "rule":  "Pedir: pido; dar: doy; ir: voy. Usa peticiones breves en presente.",
+                                         "model":  "Pido agua.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Di que pides comida.",
+                                                               "answers":  [
+                                                                               "Pido comida."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que das dos monedas.",
+                                                               "answers":  [
+                                                                               "Doy dos monedas."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que vas a la venta.",
+                                                               "answers":  [
+                                                                               "Voy a la venta."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     }
+                                 ]
+                   },
+                   {
+                       "id":  "completed_past",
+                       "title":  "Pretérito: hechos terminados",
+                       "grammar":  [
+                                       "preterite"
+                                   ],
+                       "verbs":  [
+                                     "ir",
+                                     "venir",
+                                     "decir",
+                                     "hacer",
+                                     "poner",
+                                     "traer",
+                                     "conducir",
+                                     "andar"
+                                 ],
+                       "cards":  [
+                                     {
+                                         "id":  "past_travel",
+                                         "tag":  "preterite",
+                                         "context":  "road",
+                                         "rule":  "Ayer sitúa un hecho terminado. Ir: fui; venir: vine; andar: anduve.",
+                                         "model":  "Ayer fui a la venta.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Cuenta tu viaje de ayer al monasterio con fui.",
+                                                               "answers":  [
+                                                                               "Ayer fui al monasterio."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que viniste ayer usando vine.",
+                                                               "answers":  [
+                                                                               "Vine ayer."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que anduviste por el camino usando anduve.",
+                                                               "answers":  [
+                                                                               "Anduve por el camino."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "past_speech",
+                                         "tag":  "preterite",
+                                         "context":  "witness",
+                                         "rule":  "Decir: dije; hacer: hice. Son acciones terminadas.",
+                                         "model":  "Dije mi nombre.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Di que dijiste la verdad.",
+                                                               "answers":  [
+                                                                               "Dije la verdad."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que hiciste una pregunta.",
+                                                               "answers":  [
+                                                                               "Hice una pregunta."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que dijiste la fecha.",
+                                                               "answers":  [
+                                                                               "Dije la fecha."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "past_objects",
+                                         "tag":  "preterite",
+                                         "context":  "archive",
+                                         "rule":  "Poner: puse; traer: traje. Usa el pretérito para una entrega terminada.",
+                                         "model":  "Traje una carta.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Di que trajiste el libro.",
+                                                               "answers":  [
+                                                                               "Traje el libro."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que pusiste la carta en la mesa.",
+                                                               "answers":  [
+                                                                               "Puse la carta en la mesa."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que trajiste las vendas.",
+                                                               "answers":  [
+                                                                               "Traje las vendas."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "past_journey",
+                                         "tag":  "preterite",
+                                         "context":  "stable",
+                                         "rule":  "Conducir: conduje; tener: tuve; poder: pude.",
+                                         "model":  "Conduje el carro.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Di que condujiste el carro ayer.",
+                                                               "answers":  [
+                                                                               "Conduje el carro ayer."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que tuviste permiso.",
+                                                               "answers":  [
+                                                                               "Tuve permiso."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que pudiste entrar.",
+                                                               "answers":  [
+                                                                               "Pude entrar."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     }
+                                 ]
+                   },
+                   {
+                       "id":  "past_background",
+                       "title":  "Imperfecto y contraste con pretérito",
+                       "grammar":  [
+                                       "imperfect",
+                                       "preterite_vs_imperfect"
+                                   ],
+                       "verbs":  [
+                                     "ser",
+                                     "estar",
+                                     "ir",
+                                     "tener",
+                                     "oir",
+                                     "caer",
+                                     "saber",
+                                     "morir"
+                                 ],
+                       "cards":  [
+                                     {
+                                         "id":  "background",
+                                         "tag":  "imperfect",
+                                         "context":  "road",
+                                         "rule":  "El imperfecto describe el fondo: era, estaba, tenía.",
+                                         "model":  "El camino era oscuro.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Describe la torre como alta en el pasado usando era.",
+                                                               "answers":  [
+                                                                               "La torre era alta."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Describe tu hambre en ese momento con tenía.",
+                                                               "answers":  [
+                                                                               "Tenía hambre."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Sitúa al testigo en la venta con estaba.",
+                                                               "answers":  [
+                                                                               "El testigo estaba en la venta."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "habit",
+                                         "tag":  "imperfect",
+                                         "context":  "inn",
+                                         "rule":  "Una costumbre pasada: iba, veía, oía; no una sola visita terminada.",
+                                         "model":  "Iba a la venta cada día.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Di que ibas al monasterio cada día.",
+                                                               "answers":  [
+                                                                               "Iba al monasterio cada día."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que veías al médico cada semana.",
+                                                               "answers":  [
+                                                                               "Veía al médico cada semana."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que oías campanas cada noche.",
+                                                               "answers":  [
+                                                                               "Oía campanas cada noche."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "interruption",
+                                         "tag":  "preterite_vs_imperfect",
+                                         "context":  "witness",
+                                         "rule":  "Imperfecto para el fondo; pretérito para un hecho que ocurre en él.",
+                                         "model":  "Estaba en la venta cuando oí un caballo.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Combina: estabas en la torre; oíste un grito. Usa Estaba/cuando/oí.",
+                                                               "answers":  [
+                                                                               "Estaba en la torre cuando oí un grito."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Combina: ibas a la venta; viste al médico. Usa Iba/cuando/vi.",
+                                                               "answers":  [
+                                                                               "Iba a la venta cuando vi al médico."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Combina: tenías hambre; llegó Gabriel. Usa Tenía/cuando/llegó.",
+                                                               "answers":  [
+                                                                               "Tenía hambre cuando llegó Gabriel."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "past_result",
+                                         "tag":  "preterite_vs_imperfect",
+                                         "context":  "clinic",
+                                         "rule":  "Distingue estado y resultado: estaba enfermo / murió; sabía / supe.",
+                                         "model":  "Estaba cansado, pero pude caminar.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Contrasta el estado con el hecho: estaba enfermo, murió ayer.",
+                                                               "answers":  [
+                                                                               "Estaba enfermo y murió ayer."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Cuenta una caída terminada usando cayó.",
+                                                               "answers":  [
+                                                                               "Cayó de la torre."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que conociste la verdad ayer usando supe.",
+                                                               "answers":  [
+                                                                               "Supe la verdad ayer."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     }
+                                 ]
+                   },
+                   {
+                       "id":  "connected_accounts",
+                       "title":  "Relatos conectados y referencias",
+                       "grammar":  [
+                                       "object_pronouns",
+                                       "gustar",
+                                       "por_para",
+                                       "se",
+                                       "reflexive",
+                                       "relative_clauses",
+                                       "imperative"
+                                   ],
+                       "verbs":  [
+                                     "dar",
+                                     "poner",
+                                     "decir",
+                                     "pedir",
+                                     "dormir",
+                                     "sentir",
+                                     "seguir"
+                                 ],
+                       "cards":  [
+                                     {
+                                         "id":  "pronouns",
+                                         "tag":  "object_pronouns",
+                                         "context":  "archive",
+                                         "rule":  "Lo sustituye el libro; la sustituye la carta. Evita repetir el objeto.",
+                                         "model":  "Tengo el libro. Lo leo.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Sustituye el libro en Leo el libro.",
+                                                               "answers":  [
+                                                                               "Lo leo."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Sustituye la carta en Traigo la carta.",
+                                                               "answers":  [
+                                                                               "La traigo."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Sustituye los documentos en Veo los documentos.",
+                                                               "answers":  [
+                                                                               "Los veo."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "liking",
+                                         "tag":  "gustar",
+                                         "context":  "inn",
+                                         "rule":  "Gusta con un nombre singular; gustan con plural.",
+                                         "model":  "Me gusta el pan.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Di que te gustan los libros.",
+                                                               "answers":  [
+                                                                               "Me gustan los libros."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que te gusta la música.",
+                                                               "answers":  [
+                                                                               "Me gusta la música."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que te gustan las cartas antiguas.",
+                                                               "answers":  [
+                                                                               "Me gustan las cartas antiguas."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "purpose",
+                                         "tag":  "por_para",
+                                         "context":  "clinic",
+                                         "rule":  "Para indica finalidad; por puede indicar motivo.",
+                                         "model":  "Traigo vendas para el médico.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Di que traes agua para el caballo.",
+                                                               "answers":  [
+                                                                               "Traigo agua para el caballo."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que preguntas por miedo.",
+                                                               "answers":  [
+                                                                               "Pregunto por miedo."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que necesitas aceite para la lámpara.",
+                                                               "answers":  [
+                                                                               "Necesito aceite para la lámpara."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "impersonal",
+                                         "tag":  "se",
+                                         "context":  "market",
+                                         "rule":  "Se vende/se venden expresa una oferta sin nombrar al vendedor.",
+                                         "model":  "Se vende pan.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Indica que venden libros usando Se.",
+                                                               "answers":  [
+                                                                               "Se venden libros."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Indica que venden agua usando Se.",
+                                                               "answers":  [
+                                                                               "Se vende agua."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Indica que venden vendas usando Se.",
+                                                               "answers":  [
+                                                                               "Se venden vendas."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "reflexive",
+                                         "tag":  "reflexive",
+                                         "context":  "clinic",
+                                         "rule":  "Me/te/se cambia con la persona: me siento, se siente. Dormir: duermo.",
+                                         "model":  "Me siento bien.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Di que te sientes cansado usando Me.",
+                                                               "answers":  [
+                                                                               "Me siento cansado."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que te duermes temprano usando Me.",
+                                                               "answers":  [
+                                                                               "Me duermo temprano."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que Leonor se siente bien.",
+                                                               "answers":  [
+                                                                               "Leonor se siente bien."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "relative",
+                                         "tag":  "relative_clauses",
+                                         "context":  "witness",
+                                         "rule":  "Que une una descripción a un nombre.",
+                                         "model":  "Busco al médico que vive aquí.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Busca el libro que está en la mesa.",
+                                                               "answers":  [
+                                                                               "Busco el libro que está en la mesa."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Describe al hombre que sigue al caballo: Es el hombre...",
+                                                               "answers":  [
+                                                                               "Es el hombre que sigue al caballo."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Busca la carta que tiene Gabriel.",
+                                                               "answers":  [
+                                                                               "Busco la carta que tiene Gabriel."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "polite_command",
+                                         "tag":  "imperative",
+                                         "context":  "market",
+                                         "rule":  "Petición formal: dé/deme, ponga, diga. Úsala cuando corresponde tratar de usted.",
+                                         "model":  "Deme agua, por favor.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Pide pan con Deme y por favor.",
+                                                               "answers":  [
+                                                                               "Deme pan, por favor."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Pide que pongan la carta aquí usando Ponga.",
+                                                               "answers":  [
+                                                                               "Ponga la carta aquí."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Pide la verdad usando Diga.",
+                                                               "answers":  [
+                                                                               "Diga la verdad."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     }
+                                 ]
+                   },
+                   {
+                       "id":  "plans_and_experience",
+                       "title":  "Planes y experiencia reciente",
+                       "grammar":  [
+                                       "ir_a_future",
+                                       "future_simple",
+                                       "perfect"
+                                   ],
+                       "verbs":  [
+                                     "ir",
+                                     "haber",
+                                     "hacer",
+                                     "poder",
+                                     "seguir"
+                                 ],
+                       "cards":  [
+                                     {
+                                         "id":  "plans",
+                                         "tag":  "ir_a_future",
+                                         "context":  "road",
+                                         "rule":  "Ir a + infinitivo expresa un plan: voy a visitar.",
+                                         "model":  "Voy a visitar la venta.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Di que vas a visitar el hospital.",
+                                                               "answers":  [
+                                                                               "Voy a visitar el hospital."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que vas a seguir el camino.",
+                                                               "answers":  [
+                                                                               "Voy a seguir el camino."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que vas a hablar con Leonor.",
+                                                               "answers":  [
+                                                                               "Voy a hablar con Leonor."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "future",
+                                         "tag":  "future_simple",
+                                         "context":  "guard",
+                                         "rule":  "El futuro simple anuncia una acción futura: hablaré; poder: podré.",
+                                         "model":  "Mañana hablaré con el abad.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Di que mañana visitarás la venta usando visitaré.",
+                                                               "answers":  [
+                                                                               "Mañana visitaré la venta."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que mañana podrás entrar usando podré.",
+                                                               "answers":  [
+                                                                               "Mañana podré entrar."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que mañana harás una pregunta usando haré.",
+                                                               "answers":  [
+                                                                               "Mañana haré una pregunta."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "experience",
+                                         "tag":  "perfect",
+                                         "context":  "archive",
+                                         "rule":  "Haber en presente + participio: he visto, he leído.",
+                                         "model":  "He leído una carta.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Di que has visto la torre usando He.",
+                                                               "answers":  [
+                                                                               "He visto la torre."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que has leído el libro usando He.",
+                                                               "answers":  [
+                                                                               "He leído el libro."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que has hablado con Gabriel usando He.",
+                                                               "answers":  [
+                                                                               "He hablado con Gabriel."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "recent_result",
+                                         "tag":  "perfect",
+                                         "context":  "clinic",
+                                         "rule":  "Participios frecuentes: hecho, dicho, puesto. He + participio mantiene la relación con el presente.",
+                                         "model":  "He hecho una pregunta.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Di que has dicho la verdad usando He.",
+                                                               "answers":  [
+                                                                               "He dicho la verdad."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que has puesto la carta aquí usando He.",
+                                                               "answers":  [
+                                                                               "He puesto la carta aquí."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que has traído vendas usando He.",
+                                                               "answers":  [
+                                                                               "He traído vendas."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     }
+                                 ]
+                   },
+                   {
+                       "id":  "hypotheses_and_argument",
+                       "title":  "Condiciones, subjuntivo y argumentos",
+                       "grammar":  [
+                                       "conditional",
+                                       "subjunctive_basic",
+                                       "reported_speech"
+                                   ],
+                       "verbs":  [
+                                     "poder",
+                                     "querer",
+                                     "venir",
+                                     "caber",
+                                     "saber",
+                                     "estar",
+                                     "ser"
+                                 ],
+                       "cards":  [
+                                     {
+                                         "id":  "conditional",
+                                         "tag":  "conditional",
+                                         "context":  "guard",
+                                         "rule":  "El condicional formula una posibilidad: podría, querría. No afirma un hecho.",
+                                         "model":  "Podría pedir permiso.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Di que podrías hablar con el abad.",
+                                                               "answers":  [
+                                                                               "Podría hablar con el abad."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que querrías ver el documento.",
+                                                               "answers":  [
+                                                                               "Querría ver el documento."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Di que el libro cabría en la bolsa.",
+                                                               "answers":  [
+                                                                               "El libro cabría en la bolsa."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "subjunctive",
+                                         "tag":  "subjunctive_basic",
+                                         "context":  "clinic",
+                                         "rule":  "Quiero que + subjuntivo expresa una petición sobre otra persona: venga.",
+                                         "model":  "Quiero que venga el médico.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Pide que venga Leonor usando Quiero que.",
+                                                               "answers":  [
+                                                                               "Quiero que venga Leonor."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Pide que el testigo diga la verdad usando Quiero que.",
+                                                               "answers":  [
+                                                                               "Quiero que el testigo diga la verdad."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Pide que el documento esté aquí usando Quiero que.",
+                                                               "answers":  [
+                                                                               "Quiero que el documento esté aquí."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "reported",
+                                         "tag":  "reported_speech",
+                                         "context":  "witness",
+                                         "rule":  "Atribuye una declaración: Gabriel dice que... No la conviertas en un hecho comprobado.",
+                                         "model":  "Gabriel dice que oye un caballo.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Atribuye a Leonor la declaración hay una lesión.",
+                                                               "answers":  [
+                                                                               "Leonor dice que hay una lesión."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Atribuye al abad la declaración la comunidad está tranquila.",
+                                                               "answers":  [
+                                                                               "El abad dice que la comunidad está tranquila."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Atribuye a Gabriel la declaración tiene miedo.",
+                                                               "answers":  [
+                                                                               "Gabriel dice que tiene miedo."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     },
+                                     {
+                                         "id":  "uncertainty",
+                                         "tag":  "subjunctive_basic",
+                                         "context":  "archive",
+                                         "rule":  "Es posible que + subjuntivo limita una afirmación: sea, esté.",
+                                         "model":  "Es posible que sea una copia.",
+                                         "exercises":  [
+                                                           {
+                                                               "prompt":  "Expresa que es posible que el libro esté aquí.",
+                                                               "answers":  [
+                                                                               "Es posible que el libro esté aquí."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Expresa que es posible que Gabriel sepa la verdad.",
+                                                               "answers":  [
+                                                                               "Es posible que Gabriel sepa la verdad."
+                                                                           ]
+                                                           },
+                                                           {
+                                                               "prompt":  "Expresa que es posible que la carta sea falsa.",
+                                                               "answers":  [
+                                                                               "Es posible que la carta sea falsa."
+                                                                           ]
+                                                           }
+                                                       ]
+                                     }
+                                 ]
+                   }
+               ]
+}
