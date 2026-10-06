@@ -79,6 +79,7 @@ func run() -> void:
 	old.version = 3
 	old.erase("party")
 	old.erase("campaign")
+	old.strategy.erase("economy")
 	old.learner.erase("curriculum")
 	old.learner.grammar.erase("future_simple")
 	old.strategy.erase("trade")

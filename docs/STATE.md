@@ -704,3 +704,17 @@ The guarded-mine victory in this isolated model test is an explicit fixture, not
 a played mine encounter. Existing shutdown diagnostics persist.
 Next connect world turns, guarded battles, save v8 and the construction/recruitment UI.
 The artifact market building is authored; artifact sales await equipment integration.
+## Economy connected to world turns, mine combat and save v8
+
+World day changes now pay owned-mine and constructed-building income. Strategic quotes
+lock hero changes and battle entry. Guarded mines use canonical site-specific battles
+and actual surviving armies; winning clears guards, then a typed Spanish claim establishes
+ownership. Mine victories cannot reuse the inn reward or be repeatedly farmed.
+Save v8 validates the economic ledger against recorded mine victories and supports both
+maps; older saves migrate with no invented buildings, mine ownership or retroactive income.
+
+Executed 26 world-economy checks including an actual won mine battle and another mine's
+retreat, 527 save, 43 market, 64 battle integration, 46 party integration and
+22 curriculum integration checks: passed. Existing shutdown diagnostics persist.
+The economic model is now world/save-connected; construction and mine interaction
+controls are the next task, so the full player-facing loop is not yet claimed.

@@ -10,6 +10,7 @@ var map_id := "prototype_20x20_v1"
 var map_data: Dictionary = {}
 const VIEW_RADIUS := 5
 const MOVEMENT_MAX := 18
+var economy = preload("res://src/economy/strategy_economy.gd").new()
 var party = preload("res://src/world/party_state.gd").new()
 var learner = preload("res://src/spanish/learner_profile.gd").new()
 var trade = preload("res://src/economy/trade_state.gd").new()
@@ -150,16 +151,23 @@ func end_turn() -> void:
 		return
 	day += 1
 	party.end_day()
+	economy.advance_day(self)
 
 func begin_encounter(id: String) -> bool:
-	if active_battle != null or army.is_empty() or movement_remaining < 2:
+	if active_battle != null or army.is_empty() or movement_remaining < 2 or not economy.pending.is_empty() or not trade.pending.is_empty():
 		return false
 	var model := StackBattle.new()
-	var encounter: Dictionary = model.data.opening
-	if id != encounter.id or location_at(hero_cell).get("id", "") != encounter.location_id:
+	var encounter := encounter_definition(id)
+	if encounter.is_empty():
 		return false
-	if not evidence.has_evidence(encounter.requires) or encounters.get(id, {}).get("outcome", "") == "victory":
+	if encounter.has("location_id"):
+		if location_at(hero_cell).get("id", "") != encounter.location_id:
+			return false
+	elif hero_cell != Vector2i(encounter.position[0],encounter.position[1]):
 		return false
+	if (not str(encounter.requires).is_empty() and not evidence.has_evidence(encounter.requires)) or encounters.get(id, {}).get("outcome", "") == "victory":
+		return false
+	model.data["opening"] = encounter
 	if not model.start(army, encounter.enemies, day * 1009 + hero_cell.x * 31 + hero_cell.y):
 		return false
 	active_battle = model
@@ -173,8 +181,9 @@ func settle_encounter() -> bool:
 	var result: String = active_battle.outcome
 	army = active_battle.surviving_army()
 	if result == "victory":
-		for resource in active_battle.data.opening.reward:
-			resources[resource] += int(active_battle.data.opening.reward[resource])
+		var reward: Dictionary = encounter_definition(active_encounter).reward
+		for resource in reward:
+			resources[resource] += int(reward[resource])
 	elif result in ["defeat", "retreated"]:
 		movement_remaining = 0
 	encounters[active_encounter] = {"outcome": result, "day": day}
@@ -183,7 +192,7 @@ func settle_encounter() -> bool:
 	return true
 
 func select_hero(id: String) -> bool:
-	if active_battle != null or not trade.pending.is_empty() or not party.select(id):
+	if active_battle != null or not trade.pending.is_empty() or not economy.pending.is_empty() or not party.select(id):
 		return false
 	trade.inventory = party.active().inventory
 	_reveal_from(hero_cell)
@@ -211,3 +220,20 @@ func region_at(cell: Vector2i) -> String:
 		if Rect2i(b[0], b[1], b[2], b[3]).has_point(cell):
 			return region.name
 	return ""
+func resource_at(cell: Vector2i) -> Dictionary:
+	if fog_at(cell) == Fog.UNKNOWN:
+		return {}
+	for entry: Dictionary in map_data.get("resource_sites",[]):
+		if cell == Vector2i(entry.position[0],entry.position[1]):
+			return entry
+	return {}
+
+func encounter_definition(id: String) -> Dictionary:
+	if id == "opening_road":
+		return StackBattle.new().data.opening.duplicate(true)
+	var entry: Dictionary = economy.site(self,id)
+	if entry.is_empty() or not entry.guarded:
+		return {}
+	return {"id":id,"name":"Guardianes de la mina de " + str(economy.catalog.resource_names[entry.resource]),
+		"position":entry.position.duplicate(),"enemies":economy.catalog.mine_guards[entry.resource].duplicate(true),
+		"requires":"","reward":{}}

@@ -3,7 +3,7 @@ extends RefCounted
 const WorldState = preload("res://src/world/world_state.gd")
 const Learner = preload("res://src/spanish/learner_profile.gd")
 const PATH := "user://savegame.json"
-const VERSION := 7
+const VERSION := 8
 const MAP_ID := "prototype_20x20_v1"
 const MAX_BYTES := 1048576
 
@@ -17,7 +17,7 @@ static func snapshot(state: WorldState) -> Dictionary:
 	var learner = state.learner
 	return {"version": VERSION, "map_id": state.map_id, "day": state.day,
 		"campaign": state.campaign.snapshot(), "party": state.party.snapshot(), "hero": {"cell": [state.hero_cell.x, state.hero_cell.y], "movement": state.movement_remaining},
-		"strategy": {"trade": state.trade.snapshot(), "army": state.army.duplicate(true), "resources": state.resources.duplicate(true), "encounters": state.encounters.duplicate(true)}, "explored": explored, "evidence": state.evidence.progress(), "learner": {"block": learner.current_block, "curriculum": learner.curriculum.snapshot(),
+		"strategy": {"economy": state.economy.snapshot(), "trade": state.trade.snapshot(), "army": state.army.duplicate(true), "resources": state.resources.duplicate(true), "encounters": state.encounters.duplicate(true)}, "explored": explored, "evidence": state.evidence.progress(), "learner": {"block": learner.current_block, "curriculum": learner.curriculum.snapshot(),
 		"grammar": learner.grammar.duplicate(true), "verbs": learner.verbs.duplicate(true),
 		"errors": learner.errors.duplicate(true), "vocabulary": learner.vocabulary.duplicate(),
 		"recent_messages": learner.recent_messages.duplicate(),
@@ -171,6 +171,11 @@ static func decode(data: Variant) -> Dictionary:
 		state.learner.curriculum.restore(learner.curriculum, int(data.day))
 	if not state.campaign.restore(data.get("campaign", {}), state):
 		return {"error": "invalid"}
+	if data.version >= 8:
+		if not state.economy.restore(data.strategy.get("economy"), state):
+			return {"error": "invalid"}
+	else:
+		state.economy.last_income_day = state.day
 	return {"state": state, "error": ""}
 
 static func read_save(path := PATH) -> Dictionary:
@@ -214,7 +219,7 @@ static func write_save(state: WorldState, path := PATH) -> String:
 	return ""
 
 static func _restore_strategy(state: WorldState, data: Variant, day: int, version: int) -> bool:
-	if not data is Dictionary or data.size() != (4 if version >= 4 else 3):
+	if not data is Dictionary or data.size() != (5 if version >= 8 else 4 if version >= 4 else 3):
 		return false
 	if version >= 4 and not state.trade.restore(data.get("trade"), day):
 		return false
@@ -225,10 +230,10 @@ static func _restore_strategy(state: WorldState, data: Variant, day: int, versio
 	for resource in state.resources:
 		if not _integer(data.resources.get(resource), 0, 1000000000):
 			return false
-	if not data.get("encounters") is Dictionary or data.encounters.size() > 1:
+	if not data.get("encounters") is Dictionary or data.encounters.size() > 1 + state.map_data.get("resource_sites", []).size():
 		return false
 	for id in data.encounters:
-		if id != "opening_road":
+		if not id is String or state.encounter_definition(id).is_empty():
 			return false
 		var entry: Variant = data.encounters[id]
 		if not entry is Dictionary or entry.size() != 2 or entry.get("outcome") not in ["victory", "defeat", "retreated"]:

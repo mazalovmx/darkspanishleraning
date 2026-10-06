@@ -84,6 +84,7 @@ func run() -> void:
 	old.version = 4
 	old.erase("party")
 	old.erase("campaign")
+	old.strategy.erase("economy")
 	old.learner.erase("curriculum")
 	old.learner.grammar.erase("future_simple")
 	var migrated := Save.decode(old)
