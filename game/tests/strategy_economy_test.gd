@@ -98,6 +98,16 @@ func run() -> void:
 	var saved := economy.snapshot()
 	var restored := Economy.new()
 	check(restored.restore(saved,state) and restored.snapshot() == saved,"Economy restores exactly")
+	check(economy.models("build","forge",1).request == "Quiero construir una forja.", "Building article agrees")
+	check(economy.models("recruit","militia",1).request == "Quiero contratar 1 miliciano.", "Singular recruitment agrees")
+	check(economy.models("upgrade","militia",1,"plans").confirm.contains("la mejora de 1 miliciano a guardia veterano"), "Upgrade confirmation names source and result")
+	var legacy := saved.duplicate(true)
+	for receipt in legacy.receipts:
+		var old_models: Dictionary = economy.models(receipt.kind,receipt.id,receipt.quantity,receipt.tier,true)
+		for stage in ["request","price","confirm"]:
+			receipt[stage] = old_models[stage]
+	check(restored.restore(legacy,state), "Earlier economic receipt wording remains readable")
+	check(restored.restore(saved,state), "Current receipt wording remains readable")
 	for mutation in ["unknown_building","same_day","prerequisite","negative_stock","income_future","fake_claim","fake_phrase"]:
 		var bad := saved.duplicate(true)
 		match mutation:

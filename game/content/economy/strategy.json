@@ -133,7 +133,8 @@
       "weekly": 12,
       "cost": {
         "gold": 15
-      }
+      },
+      "singular": "miliciano"
     },
     "archers": {
       "name": "arqueros",
@@ -141,7 +142,8 @@
       "weekly": 8,
       "cost": {
         "gold": 25
-      }
+      },
+      "singular": "arquero"
     },
     "relic_sentinel": {
       "name": "centinelas de reliquia",
@@ -151,7 +153,8 @@
         "gold": 90,
         "crystal": 1,
         "gems": 1
-      }
+      },
+      "singular": "centinela de reliquia"
     }
   },
   "upgrades": {
@@ -162,7 +165,8 @@
       "cost": {
         "gold": 20,
         "ore": 1
-      }
+      },
+      "singular": "guardia veterano"
     }
   },
   "mine_guards": {

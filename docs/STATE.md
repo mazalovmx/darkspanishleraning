@@ -736,3 +736,14 @@ corrected that fixture and reran successfully. Screenshot reviewed. Existing shu
 diagnostics remain. Artifact sales, equipment effects, optional case runtime and
 simultaneous ghost-knight turns are still next; the artifact-market building alone
 does not yet provide equipment sales.
+## Strategic Spanish wording and curriculum validation
+
+Construction requests now use the correct indefinite article, recruitment agrees in
+number, upgrades name both the source soldier and resulting type, and costs explicitly
+name coins/resource units. Confirmation wording follows the operation. Previously saved
+economic receipts remain accepted as complete historical variants; new transactions
+use the corrected forms.
+
+Executed 55 economic-model checks (including historical receipt compatibility),
+28 strategy-curriculum checks through actual prerequisite lessons and all four language
+tiers, and 20 economy-scene checks: passed. Existing shutdown diagnostics persist.

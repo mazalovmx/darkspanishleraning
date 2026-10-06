@@ -29,20 +29,41 @@ func cost(kind: String, id: String, quantity: int) -> Dictionary:
 		result[resource] = int(definition.cost[resource]) * quantity
 	return result
 
-func cost_text(amounts: Dictionary) -> String:
+func cost_text(amounts: Dictionary, legacy := false) -> String:
 	var parts: PackedStringArray = []
 	for resource in catalog.resource_names:
 		if amounts.has(resource):
-			parts.append("%d de %s" % [amounts[resource],catalog.resource_names[resource]])
+			var amount: int = int(amounts[resource])
+			if legacy:
+				parts.append("%d de %s" % [amount,catalog.resource_names[resource]])
+			elif resource == "gold":
+				parts.append("%d %s de oro" % [amount,"moneda" if amount == 1 else "monedas"])
+			elif resource == "gems":
+				parts.append("%d %s" % [amount,"gema" if amount == 1 else "gemas"])
+			else:
+				parts.append("%d %s de %s" % [amount,"unidad" if amount == 1 else "unidades",catalog.resource_names[resource]])
 	return " y ".join(parts)
 
-func models(kind: String, id: String, quantity: int, tier := "basic") -> Dictionary:
+func models(kind: String, id: String, quantity: int, tier := "basic", legacy := false) -> Dictionary:
 	var definition := offer(kind,id)
 	if definition.is_empty():
 		return {}
 	var target: String = definition.name if kind == "build" else "%d %s" % [quantity,definition.name]
 	var verb := "construir" if kind == "build" else "contratar" if kind == "recruit" else "mejorar a"
-	var total := cost_text(cost(kind,id,quantity))
+	if not legacy:
+		if kind == "build":
+			target = ("una " if id in ["council_hall","forge","treasury","artifact_market"] else "un ") + str(definition.name)
+		elif kind == "upgrade":
+			verb = "convertir"
+			target = "%d %s en %s" % [quantity,"miliciano" if quantity == 1 else "milicianos",definition.singular if quantity == 1 else definition.name]
+		elif kind == "recruit" and quantity == 1:
+			target = "1 " + str(definition.singular)
+	var total := cost_text(cost(kind,id,quantity),legacy)
+	var confirmation_target := target
+	if not legacy and kind == "build":
+		confirmation_target = "la construcción de " + target
+	elif not legacy and kind == "upgrade":
+		confirmation_target = "la mejora de %d %s a %s" % [quantity,"miliciano" if quantity == 1 else "milicianos",definition.singular if quantity == 1 else definition.name]
 	var request := "Quiero"
 	if tier == "past":
 		request = "Decidí"
@@ -51,8 +72,8 @@ func models(kind: String, id: String, quantity: int, tier := "basic") -> Diction
 	elif tier == "argument":
 		request = "Querría"
 	return {"request":"%s %s %s." % [request,verb,target],
-		"price":("Si pido %s, el coste total es %s." % [target,total]) if tier == "argument" else "El coste total es %s." % total,
-		"confirm":("Acepto pagar %s porque necesito %s." % [total,target]) if tier == "argument" else ("Voy a pagar %s por %s." % [total,target]) if tier == "plans" else "Confirmo %s por %s." % [target,total]}
+		"price":("Si pido %s, el coste total es %s." % [confirmation_target,total]) if tier == "argument" else "El coste total es %s." % total,
+		"confirm":("Acepto pagar %s porque necesito %s." % [total,confirmation_target]) if tier == "argument" else ("Voy a pagar %s por %s." % [total,confirmation_target]) if tier == "plans" else "Confirmo %s por %s." % [confirmation_target,total]}
 
 func current_models(world: RefCounted, kind: String, id: String, quantity: int) -> Dictionary:
 	return models(kind,id,quantity,str(pending.get("tier",world.trade.tier_for(world))))
@@ -302,10 +323,16 @@ func restore(data: Variant, world: RefCounted) -> bool:
 			recent_recruits[key] = int(recent_recruits.get(key,0)) + int(receipt.quantity)
 			if int(data.recruited.get(receipt.location,{}).get(receipt.id,0)) < recent_recruits[key]:
 				return false
-		var expected := models(receipt.kind,receipt.id,int(receipt.quantity),receipt.tier)
-		for stage in ["request","price","confirm"]:
-			if not receipt.get(stage) is String or receipt[stage].length() > 300 or world.trade.normalize(receipt[stage]) != world.trade.normalize(expected[stage]):
-				return false
+		var valid_language := false
+		for legacy in [false,true]:
+			var expected := models(receipt.kind,receipt.id,int(receipt.quantity),receipt.tier,legacy)
+			var all_stages := true
+			for stage in ["request","price","confirm"]:
+				if not receipt.get(stage) is String or receipt[stage].length() > 300 or world.trade.normalize(receipt[stage]) != world.trade.normalize(expected[stage]):
+					all_stages = false
+			valid_language = valid_language or all_stages
+		if not valid_language:
+			return false
 	if world.map_id != "province_160x120_v1" and (not data.buildings.is_empty() or not data.recruited.is_empty() or not data.mines.is_empty() or data.purchase_count != 0):
 		return false
 	buildings = data.buildings.duplicate(true)
