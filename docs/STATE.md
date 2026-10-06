@@ -3,7 +3,7 @@
 Updated: 2026-10-05
 Branch: implementation
 Current task: ordered curriculum UI, conversation focus and save v5 integrated. Gates A-G passed.
-Next task: apply learned language tiers to transactions, then steps 17-18 three heroes.
+Next task: steps 17-18 three heroes with independent movement, armies and inventory.
 
 ## Provenance
 
@@ -550,3 +550,17 @@ No Godot processes were left running. Repeated the test with --accessibility dis
 for that test process only: 22/0 and OpenGL initialized; screenshot inspected.
 The game's accessibility settings were not changed. Existing shutdown warnings persist.
 Next apply transaction language tiers, then the three-hero milestones; full game pending.
+## Transaction language follows the curriculum
+
+Market and recruitment requests now progress through present requests, taught preterite,
+ir-a plans and conditional/justified requests. The selected tier derives from taught
+grammar, not hero level or model output. Every tier retains three typed stages, canonical
+price/stock validation and atomic settlement. Earlier receipts remain valid; mixed
+incompatible stage text is rejected on restore. No advance to an untaught tense.
+Lesson context names are now player-facing Spanish rather than internal English keys.
+
+Executed 38 market-curriculum checks headless/OpenGL and 43 base market checks, all passed.
+The tier test completes actual prerequisite lessons, makes purchases at all four tiers,
+restores their mixed history and checks the real shop prompt. OpenGL test used
+--accessibility disabled after the earlier AccessKit failure; screenshot inspected.
+Existing shutdown diagnostics remain. Step 16 complete; next implement three heroes.

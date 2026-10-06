@@ -22,25 +22,49 @@ func normalize(message: String) -> String:
 func phrase(id: String, quantity: int) -> String:
 	return "%d %s" % [quantity, goods[id].singular if quantity == 1 else goods[id].plural]
 
-func models(id: String, quantity: int) -> Dictionary:
+func models(id: String, quantity: int, tier: String = "basic") -> Dictionary:
 	var total: int = int(goods[id].price) * quantity
 	var verb := "contratar" if goods[id].kind == "recruit" else "comprar"
 	var noun := "contratación" if goods[id].kind == "recruit" else "compra"
-	return {"request": "Quiero %s %s." % [verb, phrase(id, quantity)],
+	var result := {"request": "Quiero %s %s." % [verb, phrase(id, quantity)],
 		"price": ("Es " if total == 1 else "Son ") + money(total) + ".",
 		"confirm": "Confirmo la %s de %s por %s." % [noun, phrase(id, quantity), money(total)]}
+	if tier == "past":
+		result.request = "Decidí %s %s." % [verb, phrase(id, quantity)]
+		result.price = "El total es %s por %s." % [money(total), phrase(id, quantity)]
+	elif tier == "plans":
+		result.request = "Voy a %s %s." % [verb, phrase(id, quantity)]
+		result.confirm = "Voy a pagar %s por %s." % [money(total), phrase(id, quantity)]
+	elif tier == "argument":
+		result.request = "Querría %s %s." % [verb, phrase(id, quantity)]
+		result.price = "Si pido %s, el total es %s." % [phrase(id, quantity), money(total)]
+		result.confirm = "Acepto pagar %s porque necesito %s." % [money(total), phrase(id, quantity)]
+	return result
+
+func tier_for(state: RefCounted) -> String:
+	var grammar: Array = state.learner.curriculum.allowed_grammar()
+	if "conditional" in grammar:
+		return "argument"
+	if "ir_a_future" in grammar:
+		return "plans"
+	if "preterite" in grammar:
+		return "past"
+	return "basic"
+
+func current_models(state: RefCounted, id: String, quantity: int) -> Dictionary:
+	return models(id, quantity, str(pending.get("tier", tier_for(state))))
 
 func money(amount: int) -> String:
 	return "%d %s" % [amount, "moneda" if amount == 1 else "monedas"]
 
-func _matches(id: String, quantity: int, message: String, stage: String) -> bool:
+func _matches(id: String, quantity: int, message: String, stage: String, tier: String = "basic") -> bool:
 	if message.length() > 300:
 		return false
 	var normalized := normalize(message)
-	var expected: Dictionary = models(id, quantity)
+	var expected: Dictionary = models(id, quantity, tier)
 	if normalized == normalize(expected[stage]):
 		return true
-	if stage == "request":
+	if stage == "request" and tier == "basic":
 		return normalized in [normalize("necesito " + phrase(id, quantity)), normalize("quiero " + phrase(id, quantity))]
 	return false
 
@@ -55,25 +79,25 @@ func submit(state: RefCounted, id: String, quantity: int, message: String) -> Di
 		cancel()
 		return {"ok": false, "message": "Visita la venta para comprar."}
 	if phase == "request":
-		if not _matches(id, quantity, message, "request"):
-			return {"ok": false, "message": "Pide el producto y la cantidad: " + models(id, quantity).request}
+		if not _matches(id, quantity, message, "request", tier_for(state)):
+			return {"ok": false, "message": "Pide el producto y la cantidad: " + current_models(state, id, quantity).request}
 		if int(stock[id]) < quantity:
 			return {"ok": false, "message": "No hay existencias suficientes."}
 		pending = {"id": id, "quantity": quantity, "total": int(goods[id].price) * quantity,
-			"day": state.day, "request": message}
+			"day": state.day, "request": message, "tier": tier_for(state)}
 		phase = "price"
 		return {"ok": true, "message": "El total es %s. Explica cuánto cuesta." % money(pending.total)}
 	if pending.get("id") != id or pending.get("quantity") != quantity or pending.get("day") != state.day:
 		cancel()
 		return {"ok": false, "message": "El pedido cambia. Empieza de nuevo."}
 	if phase == "price":
-		if not _matches(id, quantity, message, "price"):
-			return {"ok": false, "message": "Revisa la cantidad por el precio: " + models(id, quantity).price}
+		if not _matches(id, quantity, message, "price", pending.tier):
+			return {"ok": false, "message": "Revisa la cantidad por el precio: " + current_models(state, id, quantity).price}
 		pending["price"] = message
 		phase = "confirm"
 		return {"ok": true, "message": "Correcto. Confirma producto, cantidad y precio."}
-	if not _matches(id, quantity, message, "confirm"):
-		return {"ok": false, "message": "Confirma el pedido completo: " + models(id, quantity).confirm}
+	if not _matches(id, quantity, message, "confirm", pending.tier):
+		return {"ok": false, "message": "Confirma el pedido completo: " + current_models(state, id, quantity).confirm}
 	var total: int = int(goods[id].price) * quantity
 	if pending.total != total or int(stock[id]) < quantity or int(state.resources.gold) < total:
 		cancel()
@@ -133,9 +157,16 @@ func restore(data: Variant, day: int) -> bool:
 			return false
 		if not _integer(receipt.get("total"), 1, 1000000) or receipt.total != int(goods[receipt.id].price) * int(receipt.quantity):
 			return false
-		for stage in ["request", "price", "confirm"]:
-			if not receipt.get(stage) is String or not _matches(receipt.id, int(receipt.quantity), receipt[stage], stage):
-				return false
+		var matches_tier := false
+		for tier in ["basic", "past", "plans", "argument"]:
+			var all_stages := true
+			for stage in ["request", "price", "confirm"]:
+				if not receipt.get(stage) is String or not _matches(receipt.id, int(receipt.quantity), receipt[stage], stage, tier):
+					all_stages = false
+			if all_stages:
+				matches_tier = true
+		if not matches_tier:
+			return false
 		previous_day = int(receipt.day)
 	stock = data.stock.duplicate()
 	inventory = data.inventory.duplicate()

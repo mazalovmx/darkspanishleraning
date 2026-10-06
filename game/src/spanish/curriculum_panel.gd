@@ -67,7 +67,7 @@ func refresh() -> void:
 		explanation.text = "Has completado los siete bloques de este curso.\n\nLas conversaciones siguen repasando lo aprendido; completar ejercicios no demuestra dominio de todas las situaciones reales."
 		advance.text = "Curso completado"
 	elif task.stage == "introduce":
-		explanation.text = "NUEVA FORMA · " + str(task.card.context) + "\n\n" + str(task.card.rule) + "\n\nModelo: " + str(task.card.model)
+		explanation.text = "NUEVA FORMA · " + str({"road":"Camino", "monastery":"Monasterio", "archive":"Archivo", "inn":"Posada", "market":"Mercado", "guard":"Guardia", "stable":"Establo", "clinic":"Hospital", "witness":"Testigo"}.get(task.card.context, "Conversación")) + "\n\n" + str(task.card.rule) + "\n\nModelo: " + str(task.card.model)
 		advance.text = "Entendido · practicar"
 	elif task.stage == "guided":
 		explanation.text = "PRÁCTICA CON APOYO\n\n" + str(task.card.rule) + "\n\nEscribe el modelo: " + str(task.card.model) + "\n\nDespués cambiará la situación."
