@@ -631,3 +631,22 @@ the test to inspect and classify the food through the UI first, then reran both 
 Reviewed province screenshot. Existing shutdown diagnostics persist. This completes
 the geographic/display stage, not the missing NPC/act/economy interactions.
 Next step 20: remaining scenario acts and their deterministic progress gates.
+## Remaining-acts model and authored tasks (step 20, interface pending)
+
+Added 29 canonical mainline tasks from the episcopal order through the five council
+claim categories. Separate causal chains preserve Roque/Tomas, Leon's accident,
+Selmo/Gaspar, the Order/Beltran and Esteban's voluntary entry. Gabriel identifies the
+visitor and reports what he witnessed; he is not fabricated as an eyewitness to the blow.
+New supporting records/scenes are authored fiction consistent with the bible.
+Formal classification, Spanish production, prerequisites and distinct supporting records
+are deterministic. Hero introductions occur at Cardena and Monte Ciego; the crypt requires
+all three at Santa Lucerna. No task advances on a click, wrong classification or an
+unpracticed grammar form. Later tense use requires actual lesson transfer and earlier
+block recall; chronological restore checks prevent backdating practice.
+
+Save v7 persists the campaign ledger and checks hero unlock consistency. Older saves
+retain empty campaign progress. Executed 328 campaign checks, 527 save, 46 party,
+64 battle integration, 43 market, 22 curriculum integration, 53 notebook, 31 vertical
+slice and 17 province scene checks: passed. Existing shutdown diagnostics persist.
+This commit is model/content only. Campaign task UI, final decision derivation, optional
+cases, economic runtime and full NPC conversation expansion are still pending.

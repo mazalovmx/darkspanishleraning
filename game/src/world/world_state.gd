@@ -13,6 +13,7 @@ const MOVEMENT_MAX := 18
 var party = preload("res://src/world/party_state.gd").new()
 var learner = preload("res://src/spanish/learner_profile.gd").new()
 var trade = preload("res://src/economy/trade_state.gd").new()
+var campaign = preload("res://src/world/campaign_state.gd").new()
 var evidence = preload("res://src/evidence/evidence_graph.gd").new()
 const StackBattle = preload("res://src/combat/stack_battle.gd")
 var army: Array:

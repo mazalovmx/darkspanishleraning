@@ -1,0 +1,638 @@
+{
+  "version": 1,
+  "nodes": {
+    "sealed_order": {
+      "id": "sealed_order",
+      "act": 2,
+      "location": "LOC14",
+      "speaker": "Oficial del Archivo",
+      "title": "El sello y la propiedad",
+      "source": "El documento lleva la firma del obispo Veyra y el sello episcopal. Declara ilícitos los cuadernos de Tomás y ordena su custodia. No contiene una nueva prueba médica.",
+      "prompt": "Explica qué cambia el documento: la situación legal o la causa física de la muerte.",
+      "answers": [
+        "El documento cambia la situación legal de los cuadernos."
+      ],
+      "classification": "declared",
+      "requires": [
+        "e:opening_conclusion"
+      ],
+      "min_block": 1,
+      "grammar": [],
+      "hero": "inquisitor",
+      "declaration": {
+        "authority": "bishop_veyra",
+        "procedure": "sealed_written_order",
+        "target": "tomas_notebooks",
+        "seal": "episcopal",
+        "witness": "archive_clerk"
+      }
+    },
+    "bishop_reason": {
+      "id": "bishop_reason",
+      "act": 2,
+      "location": "LOC02",
+      "speaker": "Aureliano Veyra",
+      "title": "La estabilidad",
+      "source": "Veyra: «Quiero cerrar el caso. La calificación de herejía permite confiscar la investigación. Mi prioridad es la estabilidad». Su prioridad política no establece cómo murió Tomás.",
+      "prompt": "Resume la prioridad que afirma el obispo.",
+      "answers": [
+        "El obispo quiere estabilidad."
+      ],
+      "classification": "reported",
+      "requires": [
+        "sealed_order"
+      ],
+      "min_block": 1,
+      "grammar": [],
+      "hero": "any"
+    },
+    "legal_distinction": {
+      "id": "legal_distinction",
+      "act": 2,
+      "location": "LOC02",
+      "speaker": "Beatriz Orma",
+      "title": "Dos preguntas distintas",
+      "source": "Beatriz: «El sello puede cambiar quién guarda los papeles. No puede convertir una caída en la causa de una muerte». Compara la orden y la reconstrucción física.",
+      "prompt": "Distingue la autoridad legal de la prueba causal.",
+      "answers": [
+        "Una declaración no demuestra la causa de la muerte."
+      ],
+      "classification": "inferred",
+      "requires": [
+        "sealed_order",
+        "bishop_reason"
+      ],
+      "min_block": 1,
+      "grammar": [],
+      "hero": "inquisitor",
+      "supports": [
+        "sealed_order",
+        "e:opening_conclusion"
+      ]
+    },
+    "ines_arrival": {
+      "id": "ines_arrival",
+      "act": 3,
+      "location": "LOC05",
+      "speaker": "Inés Vargas",
+      "title": "Un encargo en el puerto",
+      "source": "Inés muestra el encargo de recuperar el cuaderno perdido. El contratante se presentó como un estudioso, pero el pago procede de los impresores autorizados.",
+      "prompt": "Resume quién pagó el encargo.",
+      "answers": [
+        "Los impresores pagaron el encargo."
+      ],
+      "classification": "observed",
+      "requires": [
+        "legal_distinction"
+      ],
+      "min_block": 2,
+      "grammar": [
+        "preterite"
+      ],
+      "hero": "any",
+      "unlock_hero": "smuggler"
+    },
+    "notebook_route": {
+      "id": "notebook_route",
+      "act": 3,
+      "location": "LOC06",
+      "speaker": "Escribano de aduanas",
+      "title": "La carga sin título",
+      "source": "El registro de aduanas describe un cuaderno técnico. El mensajero lo entregó a un depósito de los impresores, no a una universidad. Inés compara las marcas del encargo y del registro.",
+      "prompt": "Explica adónde llevó el mensajero el cuaderno.",
+      "answers": [
+        "El mensajero llevó el cuaderno al depósito de los impresores."
+      ],
+      "classification": "observed",
+      "requires": [
+        "ines_arrival"
+      ],
+      "min_block": 2,
+      "grammar": [
+        "preterite"
+      ],
+      "hero": "smuggler"
+    },
+    "copying_method": {
+      "id": "copying_method",
+      "act": 3,
+      "location": "LOC16",
+      "speaker": "Oficial de las prensas",
+      "title": "Precio de copia",
+      "source": "El cuaderno recuperado contiene un método barato de copia óptica. El libro de cuentas registra pagos de Esteban Roque para destruir los planos de Tomás. La firma comercial no pertenece al hermano Esteban.",
+      "prompt": "Relaciona el pago documentado con su finalidad.",
+      "answers": [
+        "Esteban Roque pagó para destruir los planos."
+      ],
+      "classification": "observed",
+      "requires": [
+        "notebook_route"
+      ],
+      "min_block": 2,
+      "grammar": [
+        "preterite"
+      ],
+      "hero": "smuggler"
+    },
+    "roque_account": {
+      "id": "roque_account",
+      "act": 3,
+      "location": "LOC01",
+      "speaker": "Hermano Gabriel",
+      "title": "El visitante de la torre",
+      "source": "Ante el registro comercial, Gabriel identifica al visitante como Esteban Roque. Relata la discusión y la salida de un hombre con un cilindro de latón. No afirma haber visto el golpe: su identificación debe contrastarse con las pruebas físicas.",
+      "prompt": "Resume el acto atribuido al visitante, sin confundirlo con el hermano Esteban.",
+      "answers": [
+        "Gabriel vio a Esteban Roque junto a la torre."
+      ],
+      "classification": "reported",
+      "requires": [
+        "copying_method"
+      ],
+      "min_block": 2,
+      "grammar": [
+        "preterite"
+      ],
+      "hero": "any"
+    },
+    "tomas_cause": {
+      "id": "tomas_cause",
+      "act": 3,
+      "location": "LOC02",
+      "speaker": "Beatriz Orma",
+      "title": "Un móvil no basta",
+      "source": "La reconstrucción física establece el golpe anterior a la caída. El registro documenta el conflicto comercial y Gabriel identifica al visitante. La amenaza contra los planos y la violencia forman una cadena concreta.",
+      "prompt": "Concluye quién mató a Tomás con las pruebas reunidas.",
+      "answers": [
+        "Esteban Roque mató a Tomás durante una disputa."
+      ],
+      "classification": "inferred",
+      "requires": [
+        "roque_account"
+      ],
+      "min_block": 2,
+      "grammar": [
+        "preterite"
+      ],
+      "hero": "any",
+      "supports": [
+        "roque_account",
+        "e:opening_conclusion"
+      ]
+    },
+    "leon_valve": {
+      "id": "leon_valve",
+      "act": 4,
+      "location": "LOC13",
+      "speaker": "Simón Vale",
+      "title": "La válvula",
+      "source": "La válvula de seguridad aparece atada. No hay un mecanismo cortado ni huellas ajenas. Simón conserva el registro del propio León: reducía las pérdidas de presión para sostener la demostración.",
+      "prompt": "Describe qué hacía León durante la demostración.",
+      "answers": [
+        "León anulaba la válvula de seguridad."
+      ],
+      "classification": "observed",
+      "requires": [
+        "tomas_cause"
+      ],
+      "min_block": 3,
+      "grammar": [
+        "imperfect"
+      ],
+      "hero": "any"
+    },
+    "leon_threat": {
+      "id": "leon_threat",
+      "act": 4,
+      "location": "LOC04",
+      "speaker": "Portera del taller",
+      "title": "La amenaza",
+      "source": "La portera conserva una advertencia anterior de la Orden contra los experimentos. Recuerda a León diciendo que, si bajaba de nuevo la presión, la demostración fracasaba. La carta prueba una amenaza; no prueba sabotaje.",
+      "prompt": "Resume qué exigía la Orden en su advertencia.",
+      "answers": [
+        "La Orden exigía detener los experimentos."
+      ],
+      "classification": "reported",
+      "requires": [
+        "tomas_cause"
+      ],
+      "min_block": 3,
+      "grammar": [
+        "imperfect"
+      ],
+      "hero": "any"
+    },
+    "leon_cause": {
+      "id": "leon_cause",
+      "act": 4,
+      "location": "LOC13",
+      "speaker": "Simón Vale",
+      "title": "Presión",
+      "source": "Los restos muestran la anulación de la protección y el registro vincula esa decisión con León. La amenaza institucional es real, pero no aporta una intervención en el mecanismo.",
+      "prompt": "Distingue accidente y amenaza.",
+      "answers": [
+        "León anulaba la protección cuando ocurrió el accidente."
+      ],
+      "classification": "inferred",
+      "requires": [
+        "leon_valve",
+        "leon_threat"
+      ],
+      "min_block": 3,
+      "grammar": [
+        "imperfect",
+        "preterite"
+      ],
+      "hero": "any",
+      "supports": [
+        "leon_valve",
+        "leon_threat"
+      ]
+    },
+    "gaspar_protocol": {
+      "id": "gaspar_protocol",
+      "act": 4,
+      "location": "LOC15",
+      "speaker": "Leonor Valera",
+      "title": "Un tratamiento barato",
+      "source": "Los cuadernos de Gaspar y Leonor describen desinfección con alcohol y un protocolo barato. Las tarifas gremiales eran mucho más caras. El ahorro amenazaba un negocio, no demostraba aún un homicidio.",
+      "prompt": "Describe qué amenazaba el tratamiento barato.",
+      "answers": [
+        "El tratamiento amenazaba el monopolio del gremio."
+      ],
+      "classification": "observed",
+      "requires": [
+        "tomas_cause"
+      ],
+      "min_block": 3,
+      "grammar": [
+        "imperfect"
+      ],
+      "hero": "any"
+    },
+    "selmo_dose": {
+      "id": "selmo_dose",
+      "act": 4,
+      "location": "LOC03",
+      "speaker": "Ayudante de botica",
+      "title": "El frasco sustituido",
+      "source": "La ayudante identifica a Selmo Oribe como quien sustituyó el frasco destinado a Gaspar. El registro de preparación y el análisis de Leonor sitúan el veneno en esa dosis. La ayudante trabajaba en la botica aquella tarde.",
+      "prompt": "Describe la acción durante la preparación.",
+      "answers": [
+        "Selmo sustituyó el frasco mientras la ayudante trabajaba."
+      ],
+      "classification": "reported",
+      "requires": [
+        "gaspar_protocol"
+      ],
+      "min_block": 3,
+      "grammar": [
+        "preterite",
+        "imperfect"
+      ],
+      "hero": "any"
+    },
+    "gaspar_cause": {
+      "id": "gaspar_cause",
+      "act": 4,
+      "location": "LOC15",
+      "speaker": "Leonor Valera",
+      "title": "Lo limpio y lo rentable",
+      "source": "El protocolo barato explica el interés económico. La sustitución identificada y el análisis de la dosis proporcionan la cadena causal. No hay que convertir cada muerte en una orden del mismo grupo.",
+      "prompt": "Formula la conclusión sobre Gaspar.",
+      "answers": [
+        "Selmo mató a Gaspar porque el tratamiento amenazaba su negocio."
+      ],
+      "classification": "inferred",
+      "requires": [
+        "selmo_dose"
+      ],
+      "min_block": 3,
+      "grammar": [
+        "preterite",
+        "imperfect"
+      ],
+      "hero": "any",
+      "supports": [
+        "gaspar_protocol",
+        "selmo_dose"
+      ]
+    },
+    "beltran_order": {
+      "id": "beltran_order",
+      "act": 4,
+      "location": "LOC14",
+      "speaker": "Custodia del archivo",
+      "title": "La orden auténtica",
+      "source": "Entre los documentos de Beltrán aparece una autorización interna contra él por descubrir El Índice. El registro de servicio identifica al ejecutor de la Orden y coincide con el informe de la herida. Aquí sí existe una cadena institucional de homicidio.",
+      "prompt": "Explica por qué esta muerte se distingue de las anteriores.",
+      "answers": [
+        "La Orden autorizó la muerte de Beltrán."
+      ],
+      "classification": "observed",
+      "requires": [
+        "leon_cause",
+        "gaspar_cause"
+      ],
+      "min_block": 3,
+      "grammar": [
+        "preterite"
+      ],
+      "hero": "any"
+    },
+    "esteban_choice": {
+      "id": "esteban_choice",
+      "act": 4,
+      "location": "LOC01",
+      "speaker": "Hermano Esteban",
+      "title": "El desaparecido",
+      "source": "El hermano Esteban comparece vivo. Explica que decidió ingresar en la Orden después de leer predicciones que le convencieron del peligro. No es Esteban Roque, el agente de los impresores.",
+      "prompt": "Corrige la suposición sobre su desaparición.",
+      "answers": [
+        "El hermano Esteban ingresó voluntariamente en la Orden."
+      ],
+      "classification": "reported",
+      "requires": [
+        "beltran_order"
+      ],
+      "min_block": 3,
+      "grammar": [
+        "preterite"
+      ],
+      "hero": "any"
+    },
+    "separate_causes": {
+      "id": "separate_causes",
+      "act": 4,
+      "location": "LOC02",
+      "speaker": "Beatriz Orma",
+      "title": "El patrón roto",
+      "source": "Tomás: disputa comercial y violencia. León: protección anulada por el inventor. Gaspar: envenenamiento por interés gremial. Beltrán: homicidio autorizado por la Orden. Esteban: ingreso voluntario. Una semejanza visual no unifica las causas.",
+      "prompt": "Explica el error de atribuir todas las muertes a un solo culpable.",
+      "answers": [
+        "Las muertes tenían causas diferentes."
+      ],
+      "classification": "inferred",
+      "requires": [
+        "esteban_choice"
+      ],
+      "min_block": 3,
+      "grammar": [
+        "imperfect"
+      ],
+      "hero": "any",
+      "supports": [
+        "leon_cause",
+        "beltran_order"
+      ]
+    },
+    "elias_arrival": {
+      "id": "elias_arrival",
+      "act": 5,
+      "location": "LOC09",
+      "speaker": "Elias Venn",
+      "title": "Un hombre sin procedencia",
+      "source": "Elias porta objetos imposibles de fabricar en la provincia. Dice que procede de otro mundo y que conoce sistemas parecidos al Índice. Sus objetos son observables; su relato sobre el origen todavía requiere contraste.",
+      "prompt": "Separa lo que dice Elias de lo que puedes observar.",
+      "answers": [
+        "Elias dice que viene de otro mundo."
+      ],
+      "classification": "reported",
+      "requires": [
+        "separate_causes"
+      ],
+      "min_block": 4,
+      "grammar": [],
+      "hero": "any",
+      "unlock_hero": "survivor"
+    },
+    "relay_comparison": {
+      "id": "relay_comparison",
+      "act": 5,
+      "location": "LOC18",
+      "speaker": "Elias Venn",
+      "title": "Nombres y mecanismos",
+      "source": "Elias compara su instrumento con el relé. Una correspondencia técnica no demuestra que sus explicaciones sean infalibles. Explica que los administradores confundieron las respuestas del sistema con conocimiento del mundo.",
+      "prompt": "Reformula la advertencia de Elias.",
+      "answers": [
+        "Elias dice que una respuesta plausible no demuestra una causa."
+      ],
+      "classification": "reported",
+      "requires": [
+        "elias_arrival"
+      ],
+      "min_block": 4,
+      "grammar": [],
+      "hero": "survivor"
+    },
+    "ysabel_account": {
+      "id": "ysabel_account",
+      "act": 5,
+      "location": "LOC01",
+      "speaker": "Ysabel de la Sal",
+      "title": "La lectora",
+      "source": "Ysabel reconoce errores del Índice, pero teme que la provincia quede sin guía. Defiende la restricción de ciertos experimentos como prevención. Una intención protectora no demuestra que cada restricción funcione.",
+      "prompt": "Explica cómo justifica Ysabel las restricciones.",
+      "answers": [
+        "Ysabel dice que las restricciones protegen a la provincia."
+      ],
+      "classification": "reported",
+      "requires": [
+        "relay_comparison"
+      ],
+      "min_block": 4,
+      "grammar": [],
+      "hero": "any"
+    },
+    "archive_meeting": {
+      "id": "archive_meeting",
+      "act": 6,
+      "location": "LOC01",
+      "speaker": "Abad Lucio Salcedo",
+      "title": "La puerta inferior",
+      "source": "Mateo aporta la investigación, Inés el cuaderno y Elias la comparación técnica. Los tres deben reunirse físicamente en Santa Lucerna antes de abrir la cripta. La autorización se limita al examen del archivo.",
+      "prompt": "Expresa el propósito de la entrada conjunta.",
+      "answers": [
+        "Vamos a examinar el archivo juntos."
+      ],
+      "classification": "declared",
+      "requires": [
+        "ysabel_account"
+      ],
+      "min_block": 5,
+      "grammar": [
+        "ir_a_future"
+      ],
+      "hero": "any",
+      "reunite": true
+    },
+    "index_crisis": {
+      "id": "index_crisis",
+      "act": 6,
+      "location": "LOC01",
+      "speaker": "El Índice",
+      "title": "Una pregunta sobre crisis",
+      "source": "La consulta pregunta por desarrollos que preceden a colapsos. La respuesta enumera comunicación, logística y concentración industrial junto a conflictos. El conjunto consultado está formado por acontecimientos registrados como importantes.",
+      "prompt": "Describe qué has consultado, sin convertir asociaciones en leyes.",
+      "answers": [
+        "He consultado un archivo de crisis."
+      ],
+      "classification": "observed",
+      "requires": [
+        "archive_meeting"
+      ],
+      "min_block": 5,
+      "grammar": [
+        "perfect"
+      ],
+      "hero": "any"
+    },
+    "ordinary_tuesday": {
+      "id": "ordinary_tuesday",
+      "act": 6,
+      "location": "LOC01",
+      "speaker": "Elias Venn",
+      "title": "Un martes corriente",
+      "source": "Elias propone preguntar por un martes ordinario con imprenta extendida. Faltan registros de continuidad cotidiana. El silencio del archivo no demuestra ausencia de bienestar ni de sufrimiento.",
+      "prompt": "Describe qué falta en la comparación.",
+      "answers": [
+        "No hemos encontrado suficientes registros de días corrientes."
+      ],
+      "classification": "observed",
+      "requires": [
+        "index_crisis"
+      ],
+      "min_block": 5,
+      "grammar": [
+        "perfect"
+      ],
+      "hero": "any"
+    },
+    "archive_bias": {
+      "id": "archive_bias",
+      "act": 6,
+      "location": "LOC01",
+      "speaker": "Ysabel de la Sal",
+      "title": "Del indicio a la ley",
+      "source": "Los fundadores convirtieron asociaciones en advertencias, después en doctrina y finalmente en ley. El archivo selecciona crisis, no una muestra completa de la vida. La institución hizo vinculante una interpretación.",
+      "prompt": "Explica lo que ha hecho la Orden con las asociaciones.",
+      "answers": [
+        "La Orden ha convertido asociaciones en leyes."
+      ],
+      "classification": "inferred",
+      "requires": [
+        "ordinary_tuesday"
+      ],
+      "min_block": 5,
+      "grammar": [
+        "perfect"
+      ],
+      "hero": "any",
+      "supports": [
+        "index_crisis",
+        "ordinary_tuesday"
+      ]
+    },
+    "council_observed": {
+      "id": "council_observed",
+      "act": 7,
+      "location": "LOC02",
+      "speaker": "Beatriz Orma",
+      "title": "Consejo · observado",
+      "source": "Ante el consejo se presenta el registro y la inspección de la válvula de León. Clasifica únicamente la frase sobre el estado material: «La válvula estaba atada».",
+      "prompt": "Reformula el hecho físico presentado.",
+      "answers": [
+        "La válvula estaba atada."
+      ],
+      "classification": "observed",
+      "requires": [
+        "archive_bias"
+      ],
+      "min_block": 6,
+      "grammar": [],
+      "hero": "any"
+    },
+    "council_reported": {
+      "id": "council_reported",
+      "act": 7,
+      "location": "LOC02",
+      "speaker": "Hermano Esteban",
+      "title": "Consejo · referido",
+      "source": "Esteban declara: «Ingresé porque las predicciones me convencieron». Clasifica el acto de escuchar su motivo declarado; no demuestra que sus predicciones fueran correctas.",
+      "prompt": "Reformula el testimonio como testimonio.",
+      "answers": [
+        "Esteban dice que las predicciones lo convencieron."
+      ],
+      "classification": "reported",
+      "requires": [
+        "archive_bias"
+      ],
+      "min_block": 6,
+      "grammar": [],
+      "hero": "any"
+    },
+    "council_inferred": {
+      "id": "council_inferred",
+      "act": 7,
+      "location": "LOC02",
+      "speaker": "Representante de los gremios",
+      "title": "Consejo · inferido",
+      "source": "Un consejero sostiene: «Todas las muertes tienen el mismo autor». Es una interpretación que las cadenas causales reunidas contradicen. Clasifica la afirmación, sin adoptarla como hecho.",
+      "prompt": "Corrige esa conclusión.",
+      "answers": [
+        "No se deberían atribuir todas las muertes al mismo autor."
+      ],
+      "classification": "inferred",
+      "requires": [
+        "archive_bias"
+      ],
+      "min_block": 6,
+      "grammar": [
+        "conditional"
+      ],
+      "hero": "any"
+    },
+    "council_declared": {
+      "id": "council_declared",
+      "act": 7,
+      "location": "LOC02",
+      "speaker": "Aureliano Veyra",
+      "title": "Consejo · declarado",
+      "source": "Se lee la orden episcopal sobre la custodia de los cuadernos. Su fuerza procede de una autoridad y un procedimiento; su existencia no convierte la acusación religiosa en causa física.",
+      "prompt": "Explica el límite de la declaración.",
+      "answers": [
+        "La declaración no prueba que Tomás sea culpable."
+      ],
+      "classification": "declared",
+      "requires": [
+        "archive_bias"
+      ],
+      "min_block": 6,
+      "grammar": [
+        "subjunctive_basic"
+      ],
+      "hero": "any"
+    },
+    "council_unknown": {
+      "id": "council_unknown",
+      "act": 7,
+      "location": "LOC02",
+      "speaker": "Rodrigo Mendaña",
+      "title": "Consejo · no resuelto",
+      "source": "Nadie dispone de una prueba completa de las consecuencias a largo plazo de publicar, cerrar o destruir El Índice. Las predicciones disponibles proceden de una muestra sesgada.",
+      "prompt": "Formula esa incertidumbre.",
+      "answers": [
+        "No sabemos qué ocurriría a largo plazo."
+      ],
+      "classification": "unresolved",
+      "requires": [
+        "archive_bias"
+      ],
+      "min_block": 6,
+      "grammar": [
+        "conditional"
+      ],
+      "hero": "any"
+    }
+  }
+}

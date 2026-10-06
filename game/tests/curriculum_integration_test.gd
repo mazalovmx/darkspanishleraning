@@ -83,6 +83,7 @@ func run() -> void:
 	var old := Save.snapshot(World.new())
 	old.version = 4
 	old.erase("party")
+	old.erase("campaign")
 	old.learner.erase("curriculum")
 	old.learner.grammar.erase("future_simple")
 	var migrated := Save.decode(old)

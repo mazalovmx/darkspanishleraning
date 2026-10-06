@@ -78,6 +78,7 @@ func run() -> void:
 	var old := saved.duplicate(true)
 	old.version = 3
 	old.erase("party")
+	old.erase("campaign")
 	old.learner.erase("curriculum")
 	old.learner.grammar.erase("future_simple")
 	old.strategy.erase("trade")

@@ -1,0 +1,158 @@
+extends RefCounted
+## Authored campaign claims. No model response can advance this ledger.
+var definitions: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/scenario/campaign.json")).nodes
+var records: Dictionary = {}
+const CLASSIFICATIONS := ["observed", "reported", "inferred", "declared", "unresolved"]
+
+func _proof_day(world: RefCounted, id: String, progress: Dictionary) -> int:
+	if id.begins_with("e:"):
+		return int(world.evidence.progress().get(id.trim_prefix("e:"), {}).get("found_day", 0))
+	return int(progress.get(id, {}).get("day", 0))
+
+func prerequisites(world: RefCounted, node: Dictionary, progress: Dictionary, day: int) -> bool:
+	for id: String in node.requires + node.get("supports", []):
+		var found := _proof_day(world, id, progress)
+		if found < 1 or found > day:
+			return false
+	return true
+
+func language_ready(world: RefCounted, node: Dictionary, day: int) -> bool:
+	var course = world.learner.curriculum
+	for index in int(node.min_block):
+		for card: Dictionary in course.blocks[index].cards:
+			var recalled: int = int(course.records.get(card.id, {}).get("recall", {}).get("day", 0))
+			if recalled < 1 or recalled > day:
+				return false
+	for tag: String in node.grammar:
+		var practiced := false
+		for block: Dictionary in course.blocks:
+			for card: Dictionary in block.cards:
+				if card.tag == tag:
+					var applied: int = int(course.records.get(card.id, {}).get("second", {}).get("day", 0))
+					practiced = applied > 0 and applied <= day
+		if not practiced:
+			return false
+	return true
+
+func available(world: RefCounted) -> Array:
+	var result := []
+	for id in definitions:
+		if not records.has(id) and prerequisites(world, definitions[id], records, world.day):
+			result.append(id)
+	return result
+
+func chapter(world: RefCounted) -> int:
+	if not world.evidence.has_evidence("opening_conclusion"):
+		return 1
+	for id in definitions:
+		if not records.has(id):
+			return int(definitions[id].act)
+	return 7
+
+func _answer_valid(world: RefCounted, node: Dictionary, answer: String, classification: String, supports: Array) -> bool:
+	if answer.length() > 300 or classification != node.classification:
+		return false
+	var matched := false
+	for accepted: String in node.answers:
+		if world.learner.curriculum.normalized(answer) == world.learner.curriculum.normalized(accepted):
+			matched = true
+	if not matched:
+		return false
+	var required: Array = node.get("supports", [])
+	if supports.size() != required.size():
+		return false
+	var seen := {}
+	for id in supports:
+		if not id is String or id not in required or seen.has(id):
+			return false
+		seen[id] = true
+	return true
+
+func _declaration_valid(node: Dictionary) -> bool:
+	if not node.has("declaration"):
+		return true
+	# The signed canonical order, never authority supplied by an NPC/model response.
+	return node.declaration == {"authority":"bishop_veyra", "procedure":"sealed_written_order",
+		"target":"tomas_notebooks", "seal":"episcopal", "witness":"archive_clerk"}
+
+func reason(world: RefCounted, id: String) -> String:
+	if world.map_id != "province_160x120_v1" or not definitions.has(id):
+		return "Este expediente no está disponible aquí."
+	var node: Dictionary = definitions[id]
+	if records.has(id):
+		return "La conclusión ya está anotada."
+	if not prerequisites(world, node, records, world.day):
+		return "Primero reúne las pruebas anteriores."
+	if not language_ready(world, node, world.day):
+		return "Completa las prácticas y el repaso del curso antes de esta tarea."
+	if world.active_battle != null or not world.trade.pending.is_empty():
+		return "Termina la acción actual."
+	if world.location_at(world.hero_cell).get("id", "") != node.location:
+		return "Viaja al lugar del expediente."
+	if node.hero != "any" and world.party.active_id != node.hero:
+		return "Esta gestión corresponde a otro miembro del grupo."
+	if node.get("reunite", false):
+		for member in world.party.heroes.values():
+			if not member.unlocked or member.cell != world.hero_cell:
+				return "Reúne a Mateo, Inés y Elias en Santa Lucerna."
+	return ""
+
+func submit(world: RefCounted, id: String, answer: String, classification: String, supports: Array = []) -> Dictionary:
+	var denied := reason(world, id)
+	if not denied.is_empty():
+		return {"ok":false, "message":denied}
+	var node: Dictionary = definitions[id]
+	if not _answer_valid(world, node, answer, classification, supports) or not _declaration_valid(node):
+		return {"ok":false, "message":"Revisa la fuente, la categoría y las pruebas. Escribe una frase completa en español."}
+	records[id] = {"day":world.day, "hero":world.party.active_id, "answer":answer.strip_edges(),
+		"classification":classification, "supports":supports.duplicate()}
+	if node.has("unlock_hero"):
+		world.party.heroes[node.unlock_hero].unlocked = true
+		world._reveal_from(world.hero_cell)
+	return {"ok":true, "message":"Anotado. La categoría no convierte un testimonio en un hecho observado."}
+
+func snapshot() -> Dictionary:
+	return records.duplicate(true)
+
+func restore(data: Variant, world: RefCounted) -> bool:
+	if not data is Dictionary or data.size() > definitions.size():
+		return false
+	if world.map_id != "province_160x120_v1" and not data.is_empty():
+		return false
+	var validated := {}
+	for id in data:
+		if not id is String or not definitions.has(id):
+			return false
+		var entry: Variant = data[id]
+		var node: Dictionary = definitions[id]
+		if not entry is Dictionary or entry.size() != 5:
+			return false
+		var day: Variant = entry.get("day")
+		if not (day is int or day is float) or not is_finite(day) or day != floor(day) or day < 1 or day > world.day:
+			return false
+		if not entry.get("hero") is String or not world.party.heroes.has(entry.hero):
+			return false
+		if node.hero != "any" and node.hero != entry.hero:
+			return false
+		var intro := "ines_arrival" if entry.hero == "smuggler" else "elias_arrival" if entry.hero == "survivor" else ""
+		if not intro.is_empty():
+			if not data.get(intro) is Dictionary or definitions.keys().find(id) <= definitions.keys().find(intro):
+				return false
+			var intro_day: Variant = data[intro].get("day")
+			if not (intro_day is int or intro_day is float) or intro_day > day:
+				return false
+		if not entry.get("answer") is String or not entry.get("classification") is String or not entry.get("supports") is Array:
+			return false
+		if not _answer_valid(world, node, entry.answer, entry.classification, entry.supports):
+			return false
+		if not language_ready(world, node, int(day)) or not _declaration_valid(node):
+			return false
+		validated[id] = entry.duplicate(true)
+	for id in validated:
+		if not prerequisites(world, definitions[id], validated, int(validated[id].day)):
+			return false
+	if world.map_id == "province_160x120_v1":
+		if world.party.heroes.smuggler.unlocked != validated.has("ines_arrival") or world.party.heroes.survivor.unlocked != validated.has("elias_arrival"):
+			return false
+	records = validated
+	return true
