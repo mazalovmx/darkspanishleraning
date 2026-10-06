@@ -45,7 +45,7 @@ func chapter(world: RefCounted) -> int:
 	if not world.evidence.has_evidence("opening_conclusion"):
 		return 1
 	for id in definitions:
-		if not records.has(id):
+		if not records.has(id) and not definitions[id].get("optional", false):
 			return int(definitions[id].act)
 	return 7
 
@@ -104,6 +104,8 @@ func submit(world: RefCounted, id: String, answer: String, classification: Strin
 	var node: Dictionary = definitions[id]
 	if not _answer_valid(world, node, answer, classification, supports) or not _declaration_valid(node):
 		return {"ok":false, "message":"Revisa la fuente, la categoría y las pruebas. Escribe una frase completa en español."}
+	if not _outcome_ready(world, node, answer, records, world.day):
+		return {"ok":false, "message":"La Carta exige revisar los expedientes del grano, la ventilación y el condensador."}
 	records[id] = {"day":world.day, "hero":world.party.active_id, "answer":answer.strip_edges(),
 		"classification":classification, "supports":supports.duplicate()}
 	if node.has("unlock_hero"):
@@ -149,10 +151,27 @@ func restore(data: Variant, world: RefCounted) -> bool:
 			return false
 		validated[id] = entry.duplicate(true)
 	for id in validated:
-		if not prerequisites(world, definitions[id], validated, int(validated[id].day)):
+		if not prerequisites(world, definitions[id], validated, int(validated[id].day)) or not _outcome_ready(world, definitions[id], validated[id].answer, validated, int(validated[id].day)):
 			return false
 	if world.map_id == "province_160x120_v1":
 		if world.party.heroes.smuggler.unlocked != validated.has("ines_arrival") or world.party.heroes.survivor.unlocked != validated.has("elias_arrival"):
 			return false
 	records = validated
 	return true
+func _outcome_ready(world: RefCounted, node: Dictionary, answer: String, progress: Dictionary, day: int) -> bool:
+	for outcome: Dictionary in node.get("outcomes", []):
+		if world.learner.curriculum.normalized(answer) == world.learner.curriculum.normalized(outcome.answer):
+			for id: String in outcome.requires:
+				var found := _proof_day(world,id,progress)
+				if found < 1 or found > day:
+					return false
+	return true
+
+func ending(world: RefCounted) -> Dictionary:
+	if not records.has("council_resolution"):
+		return {}
+	var answer: String = records.council_resolution.answer
+	for outcome: Dictionary in definitions.council_resolution.outcomes:
+		if world.learner.curriculum.normalized(answer) == world.learner.curriculum.normalized(outcome.answer):
+			return outcome.duplicate(true)
+	return {}

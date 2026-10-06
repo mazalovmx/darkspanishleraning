@@ -53,13 +53,19 @@ func run() -> void:
 			check(not map.hero_buttons.smuggler.disabled, "Ines portrait enabled immediately")
 		if id == "elias_arrival":
 			check(not map.hero_buttons.survivor.disabled, "Elias portrait enabled immediately")
+		if id == "council_resolution":
+			check(panel.body.text.contains("El archivo destruido"), "Derived ending and consequences displayed")
+			if DisplayServer.get_name() != "headless":
+				await process_frame
+				await RenderingServer.frame_post_draw
+				root.get_texture().get_image().save_png("C:/dev/game/tools/local/council-preview.png")
 		if id == "archive_bias" and DisplayServer.get_name() != "headless":
 			await process_frame
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("C:/dev/game/tools/local/campaign-preview.png")
 		panel.close_button.pressed.emit()
 	map._load_game()
-	check(map.state.campaign.records.size() == 29 and not panel.visible, "Loading replaces ledger and closes old panel")
+	check(map.state.campaign.records.size() == map.state.campaign.definitions.size() and not panel.visible, "Loading replaces ledger and closes old panel")
 	map.campaign_button.pressed.emit()
 	panel.active_id = "sealed_order"
 	panel.refresh()

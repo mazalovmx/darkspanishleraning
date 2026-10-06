@@ -96,6 +96,8 @@ static func decode(data: Variant) -> Dictionary:
 		return {"error": "version"}
 	if data.size() != (6 if data.version == 1 else 7 if data.version == 2 else 8 if data.version < 6 else 9 if data.version == 6 else 10):
 		return {"error": "invalid"}
+	if data.version >= 7 and not data.has("campaign"):
+		return {"error": "invalid"}
 	if data.version >= 2 and not data.has("evidence"):
 		return {"error": "invalid"}
 	if not data.get("map_id") is String or not WorldState.MAPS.has(data.map_id):

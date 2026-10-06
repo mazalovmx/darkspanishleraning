@@ -121,12 +121,17 @@ func refresh() -> void:
 	if campaign.records.has(active_id):
 		var record: Dictionary = campaign.records[active_id]
 		body.text = "%s\n\n%s\n\nAnotación · día %d\n%s\nCategoría: %s" % [node.speaker,node.source,record.day,record.answer,LABELS[campaign.CLASSIFICATIONS.find(record.classification)]]
+		if active_id == "council_resolution":
+			var outcome: Dictionary = campaign.ending(world_state)
+			body.text = "FINAL · " + str(outcome.title) + "\n\n" + str(outcome.text) + "\n\n" + str(outcome.characters) + "\n\nDeclaración registrada:\n" + str(record.answer)
 		return
 	var reason: String = campaign.reason(world_state,active_id)
 	if not reason.is_empty():
 		body.text = "%s\n\nLugar: %s\n\n%s" % [node.title,_location_name(node.location),reason]
 		return
 	body.text = "%s\n\n%s" % [node.speaker,node.source]
+	for outcome: Dictionary in node.get("outcomes", []):
+		body.text += "\n\nPropuesta: " + str(outcome.answer)
 	question.text = node.prompt
 	answer.show()
 	category.show()

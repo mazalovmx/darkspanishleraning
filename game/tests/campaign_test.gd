@@ -71,7 +71,7 @@ func run() -> void:
 		check(not campaign.submit(state,id,node.answers[0],node.classification,supports).ok, "Task cannot grant duplicate progress")
 		check(Save.decode(Save.snapshot(state)).has("state"), "Every intermediate campaign state restores: " + id)
 	check(state.party.heroes.smuggler.unlocked and state.party.heroes.survivor.unlocked, "Both story introductions earned")
-	check(campaign.chapter(state) == 7 and campaign.records.size() == 29, "All authored mainline steps reach council")
+	check(campaign.chapter(state) == 7 and campaign.records.size() == campaign.definitions.size(), "All authored mainline steps reach council")
 	var snapshot := Save.snapshot(state)
 	var restored := Save.decode(snapshot)
 	check(restored.has("state") and restored.state.campaign.snapshot() == campaign.snapshot(), "Whole campaign ledger survives save")

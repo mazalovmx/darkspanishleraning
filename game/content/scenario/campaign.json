@@ -633,6 +633,217 @@
         "conditional"
       ],
       "hero": "any"
+    },
+    "grain_records": {
+      "id": "grain_records",
+      "act": 3,
+      "location": "LOC07",
+      "speaker": "Panadera de San Vélaro",
+      "title": "Pan de ayer · los suministros",
+      "source": "La panadera muestra entregas interrumpidas y harina insuficiente. El precio alto y el pan duro no prueban por sí solos avaricia; los carros de grano no llegaron.",
+      "prompt": "Explica el problema documentado por las entregas.",
+      "answers": [
+        "Los carros de grano no llegaron."
+      ],
+      "classification": "observed",
+      "requires": [
+        "legal_distinction"
+      ],
+      "min_block": 2,
+      "grammar": [
+        "preterite"
+      ],
+      "hero": "any",
+      "optional": true
+    },
+    "grain_review": {
+      "id": "grain_review",
+      "act": 3,
+      "location": "LOC12",
+      "speaker": "Carretero de Granja Arce",
+      "title": "Pan de ayer · la ruta",
+      "source": "El carretero contrasta las fechas de entrega con las de salida. La interrupción del transporte coincide con la escasez. Se acuerda revisar la ruta y los suministros antes de acusar a la panadera.",
+      "prompt": "Relaciona el transporte y la escasez sin inventar una intención.",
+      "answers": [
+        "La interrupción de la ruta causó la escasez."
+      ],
+      "classification": "inferred",
+      "requires": [
+        "grain_records"
+      ],
+      "min_block": 2,
+      "grammar": [
+        "preterite"
+      ],
+      "hero": "any",
+      "optional": true,
+      "supports": [
+        "grain_records",
+        "legal_distinction"
+      ]
+    },
+    "ventilation_records": {
+      "id": "ventilation_records",
+      "act": 4,
+      "location": "LOC08",
+      "speaker": "Delegada de los mineros",
+      "title": "Aire para los muertos · dos daños",
+      "source": "Los registros comparan jornadas con ventilación y sin ella. El ventilador mejora el aire, pero los propietarios prolongan los turnos al aumentar la producción. La prohibición gremial impide usar una máquina sin licencia.",
+      "prompt": "Describe el segundo efecto documentado.",
+      "answers": [
+        "Los propietarios prolongaban los turnos cuando aumentaba la producción."
+      ],
+      "classification": "observed",
+      "requires": [
+        "leon_cause"
+      ],
+      "min_block": 3,
+      "grammar": [
+        "imperfect"
+      ],
+      "hero": "any",
+      "optional": true
+    },
+    "ventilation_review": {
+      "id": "ventilation_review",
+      "act": 5,
+      "location": "LOC02",
+      "speaker": "Beatriz Orma",
+      "title": "Aire para los muertos · permiso revisable",
+      "source": "Beatriz dispone una licencia con inspección del aire y límites de jornada. La firma de la jueza y el registro de los trabajadores identifican responsables. El permiso no presenta la máquina como cura de todos los daños.",
+      "prompt": "Expresa las dos condiciones del permiso.",
+      "answers": [
+        "El permiso exige ventilación y límites de jornada."
+      ],
+      "classification": "declared",
+      "requires": [
+        "ventilation_records"
+      ],
+      "min_block": 4,
+      "grammar": [],
+      "hero": "any",
+      "optional": true,
+      "supports": [
+        "ventilation_records",
+        "leon_cause"
+      ]
+    },
+    "capacitor_records": {
+      "id": "capacitor_records",
+      "act": 5,
+      "location": "LOC09",
+      "speaker": "Encargada de las peregrinaciones",
+      "title": "El santo eléctrico · el objeto",
+      "source": "Elias identifica un condensador antiguo que produce chispas sin peligro en su estado actual. La encargada muestra las cuentas: las visitas mantienen a varias familias. El funcionamiento del objeto y el sustento del pueblo son preguntas distintas.",
+      "prompt": "Distingue la identidad material de su significado religioso.",
+      "answers": [
+        "El objeto es un condensador."
+      ],
+      "classification": "observed",
+      "requires": [
+        "elias_arrival"
+      ],
+      "min_block": 4,
+      "grammar": [],
+      "hero": "survivor",
+      "optional": true
+    },
+    "capacitor_review": {
+      "id": "capacitor_review",
+      "act": 6,
+      "location": "LOC09",
+      "speaker": "Elias Venn",
+      "title": "El santo eléctrico · explicar sin destruir",
+      "source": "El pueblo conserva el aparato y recibe una explicación de su funcionamiento. La exposición deja de afirmar un milagro y reconoce las cuentas de las familias. No se destruye el sustento para demostrar superioridad intelectual.",
+      "prompt": "Expresa lo que se conserva y lo que cambia.",
+      "answers": [
+        "Hemos conservado el objeto y explicado su funcionamiento."
+      ],
+      "classification": "inferred",
+      "requires": [
+        "capacitor_records"
+      ],
+      "min_block": 5,
+      "grammar": [
+        "perfect"
+      ],
+      "hero": "any",
+      "optional": true,
+      "supports": [
+        "capacitor_records",
+        "relay_comparison"
+      ]
+    },
+    "council_resolution": {
+      "id": "council_resolution",
+      "act": 7,
+      "location": "LOC02",
+      "speaker": "Beatriz Orma y el Consejo",
+      "title": "La resolución del Consejo",
+      "source": "El Consejo recibe cinco clases de afirmaciones y reconoce la incertidumbre. Destruir el Índice acaba con su operación; conservarlo mantiene la censura; abrirlo permite también su uso selectivo. Una carta de garantías necesita experiencia contrastada sobre suministros, trabajo y tecnología cotidiana. La decisión será definitiva para esta partida.",
+      "prompt": "Redacta una propuesta con sus límites y elige como apoyo la inferencia corregida y la incertidumbre reconocida. La Carta exige los tres expedientes opcionales revisados.",
+      "answers": [
+        "Propongo que se destruya el Índice, aunque no sepamos las consecuencias futuras.",
+        "Propongo que se conserve el Índice bajo custodia de la Orden, aunque continúe la censura.",
+        "Propongo que se abra el archivo al público, aunque las facciones seleccionen sus respuestas.",
+        "Propongo que el Índice solo aconseje y que las decisiones exijan pruebas independientes y revisión."
+      ],
+      "classification": "declared",
+      "requires": [
+        "council_observed",
+        "council_reported",
+        "council_inferred",
+        "council_declared",
+        "council_unknown"
+      ],
+      "supports": [
+        "council_inferred",
+        "council_unknown"
+      ],
+      "min_block": 6,
+      "grammar": [
+        "subjunctive_basic",
+        "conditional"
+      ],
+      "hero": "inquisitor",
+      "outcomes": [
+        {
+          "id": "destroy",
+          "answer": "Propongo que se destruya el Índice, aunque no sepamos las consecuencias futuras.",
+          "title": "El archivo destruido",
+          "text": "El Índice deja de operar y la Orden pierde su centro. La investigación prohibida se extiende junto con conflictos gremiales e inestabilidad. El futuro permanece abierto.",
+          "characters": "Mateo conserva las pruebas fuera de la máquina. Inés abre rutas para los libros recuperados. Elias llama libertad a la decisión; Ysabel, amnesia.",
+          "requires": []
+        },
+        {
+          "id": "preserve",
+          "answer": "Propongo que se conserve el Índice bajo custodia de la Orden, aunque continúe la censura.",
+          "title": "Un año tranquilo",
+          "text": "El Índice permanece secreto. La Orden adopta reformas limitadas y mantiene la supresión. Ferraza ve restringidos sus experimentos; la pobreza continúa causando muertes sin titulares.",
+          "characters": "Mateo sigue trabajando dentro del Tribunal. Inés encuentra nuevas fronteras para el comercio clandestino. Elias se niega a llamar prueba al silencio de los archivos.",
+          "requires": []
+        },
+        {
+          "id": "open",
+          "answer": "Propongo que se abra el archivo al público, aunque las facciones seleccionen sus respuestas.",
+          "title": "Muchas voces, la misma máquina",
+          "text": "El archivo se hace público. Las consultas se multiplican y las facciones citan selectivamente sus respuestas para defender autoridades rivales. El acceso cambia el problema; no elimina el sesgo.",
+          "characters": "Inés organiza la circulación de copias. Mateo exige distinguir citas y pruebas. Elias enseña cómo cambiar una pregunta altera lo que se obtiene.",
+          "requires": []
+        },
+        {
+          "id": "charter",
+          "answer": "Propongo que el Índice solo aconseje y que las decisiones exijan pruebas independientes y revisión.",
+          "title": "La Carta de las Pruebas",
+          "text": "El Índice puede aconsejar, nunca declarar por sí mismo. Cada predicción incluye incertidumbre y alternativas. Las decisiones exigen pruebas independientes; las restricciones tienen revisión y caducidad. Cada acto identifica una autoridad humana responsable. Su cumplimiento sigue dependiendo de personas.",
+          "characters": "Mateo limita la autoridad que ejerce. Inés distribuye libros y conocimiento médico. Elias admite lo que desconoce y elige enseñar en vez de convertirse en oráculo.",
+          "requires": [
+            "grain_review",
+            "ventilation_review",
+            "capacitor_review"
+          ]
+        }
+      ]
     }
   }
 }

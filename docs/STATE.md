@@ -2,8 +2,8 @@
 
 Updated: 2026-10-06
 Branch: implementation
-Current task: full province map playable; opening investigation retained. Gates A-H passed.
-Next task: step 20 remaining acts, followed by strategic economy and optional content integration.
+Current task: province mainline reaches four verified endings. Gates A-H passed; Gate I expansion underway.
+Next task: strategic resource economy, then optional cases, equipment and ghost-knight runtime.
 
 ## Provenance
 
@@ -665,3 +665,26 @@ tasks through UI controls and its autosave, 365 map, 46 party and 31 vertical-sl
 regressions: all passed. Screenshot reviewed; shutdown diagnostics remain.
 The mainline is playable through council classifications. Final disposition and its
 consequences are next; no claim of complete endings or a human playtime test yet.
+## Council resolutions and four endings
+
+The council now requires the five claim categories, supporting records and a typed
+Spanish proposal acknowledging the chosen policy's limits. Destroy, preserve and open
+have distinct provincial/character consequences; the Evidence Charter additionally
+requires three optional investigations: disrupted grain supplies, ventilation with
+working-hour safeguards and the capacitor/pilgrimage economy. Those cases each have
+a source and a reviewed conclusion. Their records support the Charter; detailed
+economic simulation of those local policies remains future work.
+
+The ending is derived from the immutable recorded proposal, never a writable ending
+label. Missing evidence/optional cases, backdated proofs or a replaced save sentence
+cannot grant the Charter. Repeated submissions cannot change the council decision.
+The ending screen leads with consequences and character outcomes, followed by the
+actual declaration. This is an authored scenario ending, not proof of human playtime.
+
+Executed 376 campaign checks, 182 ending-model checks, 322 expanded panel checks
+headless and 323 OpenGL (including the ending display), 527 save checks. After moving
+consequences to the top, executed the focused ending scene headless/OpenGL: 184 checks
+each, passed; screenshot reviewed. Existing shutdown diagnostics remain.
+The core mainline now reaches all four endings. Gate I expansion continues: the
+108-case catalog, strategic economy, equipment/souls, ghost knights, wider live NPC
+dialogue coverage and manual balance/playtime testing are still incomplete.
