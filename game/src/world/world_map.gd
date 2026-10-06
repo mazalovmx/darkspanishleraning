@@ -89,6 +89,8 @@ func _build_ui() -> void:
 	layer.add_child(notebook)
 	notebook.closed.connect(func():
 		end_button.disabled = poi_modal.visible
+		if poi_modal.visible and not dialogue.location_id.is_empty():
+			dialogue._render_history()
 		_update_preview())
 	notebook.evidence_recorded.connect(func(): _save_game(true))
 	var margin := MarginContainer.new()

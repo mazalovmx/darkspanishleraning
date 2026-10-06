@@ -1,13 +1,14 @@
 # Backlog
 
-## Next: evidence display (step 11), then verified clue unlock (step 12)
+## Next: one complete investigation (step 13 / Epic 11)
 
-Save/load now persists current world and learner state, resumes at startup, autosaves
-completed conversations/location exits/day ends and handles corrupt saves without
-mutating the session. Next add one canonical evidence node and display its observation,
-claim, interpretation, institutional status and causal link distinctly. Then connect
-one verified clue unlock to dialogue and extend/version saves for evidence state.
-Do not populate the full authored quest/equipment/ghost catalogs before their gates.
+Steps 11-12 work: typed Spanish physical observation, separate semiotic categories,
+verified attributed claim from Lucio, authored offline disclosure and persistence.
+Complete the opening investigation according to bible Act I and master Epic 11:
+remaining canonical clues and NPCs, player comparisons, hypothesis/causal links and
+local deterministic completion gates. Do not equate a notebook entry with a solution.
+Keep Spanish within the current ordered curriculum and preserve the no-API route.
+The campaign/equipment/ghost expansion remains authored and gated, not playable yet.
 
 ## Required language practice
 

@@ -10,6 +10,10 @@ func _initialize() -> void:
 		var state = preload("res://src/world/world_state.gd").new()
 		state.move_to(Vector2i(6, 11), true)
 		state.end_turn()
+		state.move_to(Vector2i(7, 10), true)
+		state.move_to(Vector2i(12, 10), true)
+		state.evidence.record("travel_food", "LOC01", "Hay comida.", "observation", 2)
+		state.evidence.record_dialogue("monastery_claim", "lucio_salcedo", "LOC01", "¿Qué dice la comunidad?", 2)
 		state.learner.observe({"meaning_understood": true, "confidence": 0.9, "errors": [],
 			"successful_grammar": ["present"], "new_vocabulary": ["sueño"]},
 			"Tengo sueño", "innkeeper_prototype", 2)
@@ -21,7 +25,9 @@ func _initialize() -> void:
 		var ok := result.has("state")
 		if ok:
 			var state = result.state
-			ok = state.day == 2 and state.hero_cell == Vector2i(6, 11)
+			ok = state.day == 2 and state.hero_cell == Vector2i(12, 10)
+			ok = ok and state.evidence.has_evidence("travel_food") and state.evidence.has_evidence("monastery_claim")
+			ok = ok and state.evidence.progress().monastery_claim.classification == "claim"
 			ok = ok and is_equal_approx(state.learner.grammar.present, 0.05)
 			ok = ok and state.learner.vocabulary == ["sueño"] and state.learner.recent_messages == ["tengo sueño"]
 		print("Restart read: ", "PASS" if ok else "FAIL")

@@ -1,88 +1,119 @@
 {
-  "version": 1,
-  "facts": {
-    "inn_name": "Esta es la Venta del Perro Negro. Por aquí pasan muchos viajeros.",
-    "route_to_monastery": "En el mapa del prototipo, Santa Lucerna está al este de la venta, junto al camino.",
-    "lucio_identity": "Lucio Salcedo es el abad de Santa Lucerna.",
-    "monastery_work": "Santa Lucerna es conocida por sus manuscritos y por el cuidado de los ojos.",
-    "forbidden_research": "El monasterio oculta investigaciones prohibidas."
-  },
-  "clues": {},
-  "intents": {
-    "ask_route": [
-      "camino",
-      "llego",
-      "llegar"
-    ],
-    "ask_monastery": [
-      "monasterio",
-      "lucerna",
-      "manuscritos",
-      "ojos"
-    ],
-    "ask_identity": [
-      "nombre",
-      "quien",
-      "abad"
-    ],
-    "greeting": [
-      "hola",
-      "buenas",
-      "buenos"
-    ]
-  },
-  "npcs": {
-    "innkeeper_prototype": {
-      "id": "innkeeper_prototype",
-      "persona": {
-        "occupation": "posadero",
-        "traits": [],
-        "goal": "Atender preguntas sobre la venta y el camino."
-      },
-      "knowledge": [
-        "inn_name",
-        "route_to_monastery"
-      ],
-      "beliefs": [],
-      "false_beliefs": [],
-      "secrets": [],
-      "lie_policy": {
-        "can_lie": false,
-        "triggers": []
-      },
-      "language_register": "neutral_colloquial"
-    },
-    "lucio_salcedo": {
-      "id": "lucio_salcedo",
-      "persona": {
-        "age": 61,
-        "occupation": "abad",
-        "traits": [
-          "amable",
-          "políticamente hábil"
-        ],
-        "goal": "Proteger el monasterio."
-      },
-      "knowledge": [
-        "lucio_identity",
-        "monastery_work"
-      ],
-      "beliefs": [],
-      "false_beliefs": [],
-      "secrets": [
-        {
-          "id": "forbidden_research",
-          "prerequisites": {
-            "research_disclosed": "confirmed"
-          }
-        }
-      ],
-      "lie_policy": {
-        "can_lie": false,
-        "triggers": [],
-        "evasion": "Puede negarse a responder; no inventa hechos."
-      },
-      "language_register": "formal"
-    }
-  }
+    "version":  1,
+    "facts":  {
+                  "inn_name":  "Esta es la Venta del Perro Negro. Por aquí pasan muchos viajeros.",
+                  "route_to_monastery":  "En el mapa del prototipo, Santa Lucerna está al este de la venta, junto al camino.",
+                  "lucio_identity":  "Lucio Salcedo es el abad de Santa Lucerna.",
+                  "monastery_work":  "Santa Lucerna es conocida por sus manuscritos y por el cuidado de los ojos.",
+                  "forbidden_research":  "El monasterio oculta investigaciones prohibidas.",
+                  "monastery_claim":  "La comunidad presenta la muerte de Tomás como un suicidio. Es una afirmación atribuida, no una causa demostrada."
+              },
+    "clues":  {
+                  "monastery_claim":  {
+                                          "intent":  "ask_death",
+                                          "prerequisites":  {
+                                                                "food_recorded":  "yes"
+                                                            }
+                                      }
+              },
+    "intents":  {
+                    "ask_route":  [
+                                      "camino",
+                                      "llego",
+                                      "llegar"
+                                  ],
+                    "ask_monastery":  [
+                                          "monasterio",
+                                          "lucerna",
+                                          "manuscritos",
+                                          "ojos"
+                                      ],
+                    "ask_identity":  [
+                                         "nombre",
+                                         "quien",
+                                         "abad"
+                                     ],
+                    "greeting":  [
+                                     "hola",
+                                     "buenas",
+                                     "buenos"
+                                 ],
+                    "ask_death":  [
+                                      "muerte",
+                                      "suicidio",
+                                      "comunidad",
+                                      "tomas"
+                                  ]
+                },
+    "npcs":  {
+                 "innkeeper_prototype":  {
+                                             "id":  "innkeeper_prototype",
+                                             "persona":  {
+                                                             "occupation":  "posadero",
+                                                             "traits":  [
+
+                                                                        ],
+                                                             "goal":  "Atender preguntas sobre la venta y el camino."
+                                                         },
+                                             "knowledge":  [
+                                                               "inn_name",
+                                                               "route_to_monastery"
+                                                           ],
+                                             "beliefs":  [
+
+                                                         ],
+                                             "false_beliefs":  [
+
+                                                               ],
+                                             "secrets":  [
+
+                                                         ],
+                                             "lie_policy":  {
+                                                                "can_lie":  false,
+                                                                "triggers":  [
+
+                                                                             ]
+                                                            },
+                                             "language_register":  "neutral_colloquial"
+                                         },
+                 "lucio_salcedo":  {
+                                       "id":  "lucio_salcedo",
+                                       "persona":  {
+                                                       "age":  61,
+                                                       "occupation":  "abad",
+                                                       "traits":  [
+                                                                      "amable",
+                                                                      "políticamente hábil"
+                                                                  ],
+                                                       "goal":  "Proteger el monasterio."
+                                                   },
+                                       "knowledge":  [
+                                                         "lucio_identity",
+                                                         "monastery_work",
+                                                         "monastery_claim"
+                                                     ],
+                                       "beliefs":  [
+
+                                                   ],
+                                       "false_beliefs":  [
+
+                                                         ],
+                                       "secrets":  [
+                                                       {
+                                                           "id":  "forbidden_research",
+                                                           "prerequisites":  {
+                                                                                 "research_disclosed":  "confirmed"
+                                                                             }
+                                                       }
+                                                   ],
+                                       "lie_policy":  {
+                                                          "can_lie":  false,
+                                                          "triggers":  [
+
+                                                                       ],
+                                                          "evasion":  "Puede negarse a responder; no inventa hechos."
+                                                      },
+                                       "language_register":  "formal"
+                                   }
+             }
 }

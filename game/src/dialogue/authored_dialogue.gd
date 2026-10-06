@@ -1,7 +1,7 @@
 extends VBoxContainer
 signal request_started
 signal turn_finished
-## Authored prototype conversations. This UI never changes canonical world state.
+## Authored conversations; evidence changes pass the local canonical verifier.
 
 const MAX_EXCHANGES := 12
 const MAX_MESSAGE_LENGTH := 300
@@ -20,6 +20,7 @@ var pending_location := ""
 var pending_message := ""
 var pending_fallback := ""
 var pending_day := 1
+var pending_unlocks: Array = []
 var last_feedback: Dictionary = {}
 var world_state: RefCounted
 var grounding = preload("res://src/dialogue/npc_grounding.gd").new()
@@ -80,9 +81,10 @@ func submit(message: String) -> void:
 	input.editable = false
 	send_button.disabled = true
 	feedback.text = "Esperando respuesta…"
-	# No quest/revealed-evidence state exists before sequence steps 10-12.
+	# Capture eligible IDs before sending; recheck live prerequisites on completion.
 	var context: Dictionary = grounding.context_for(conversations[location_id].npc_id,
-		grounding.intent_for(clean), {}, [])
+		grounding.intent_for(clean), world_state.evidence.context_flags(), world_state.evidence.progress().keys())
+	pending_unlocks = context.get("eligible_unlock_ids", []).duplicate()
 	context["player_message"] = clean
 	context["recent_dialogue"] = histories[location_id].slice(-3)
 	context["language_profile"] = world_state.learner.context()
@@ -92,42 +94,53 @@ func submit(message: String) -> void:
 func _on_reply(proposal: Dictionary) -> void:
 	if pending_location.is_empty():
 		return
-	# Recheck the boundary before learner updates, even if a caller bypasses HTTP.
+	var rejected := false
+	var intent: String = grounding.intent_for(pending_message)
+	var npc_id: String = conversations[pending_location].npc_id
+	var evidence = world_state.evidence
 	if not proposal.is_empty() and not client.valid_proposal(proposal):
 		proposal = {}
+		rejected = true
 	if not proposal.is_empty():
-		var intent: String = grounding.intent_for(pending_message)
 		var unlock: Variant = proposal.conversation.suggested_unlock
-		if not grounding.allows_unlock(unlock, conversations[pending_location].npc_id, intent, {}, []):
-			proposal = {}
-		elif unlock != null and proposal.conversation.player_intent != intent:
+		if not grounding.allows_unlock(unlock, npc_id, intent, evidence.context_flags(), evidence.progress().keys()):
+			rejected = true
+		elif unlock != null:
+			rejected = unlock not in pending_unlocks or proposal.conversation.player_intent != intent or not evidence.valid_note(unlock, pending_message)
+		if rejected:
 			proposal = {}
 	last_feedback[pending_location] = "Evaluación de español no disponible. Puede continuar la conversación."
 	if not proposal.is_empty():
-		world_state.learner.observe(proposal.language, pending_message,
-			conversations[pending_location].npc_id, pending_day)
+		world_state.learner.observe(proposal.language, pending_message, npc_id, pending_day)
 		last_feedback[pending_location] = _language_feedback(proposal.language)
+	var reply: String = proposal.get("npc_reply", pending_fallback)
+	# Authored disclosure also works without API. Rejected proposals never unlock it.
+	if not rejected and "monastery_claim" in pending_unlocks:
+		if evidence.record_dialogue("monastery_claim", npc_id, pending_location, pending_message, pending_day):
+			reply = evidence.node("monastery_claim").claim + " Esa afirmación no demuestra la causa."
+			last_feedback[pending_location] += "\nNueva afirmación anotada en el cuaderno."
 	var history: Array = histories[pending_location]
-	history.append({"player": pending_message,
-		"reply": proposal.get("npc_reply", pending_fallback)})
+	history.append({"player": pending_message, "reply": reply})
 	while history.size() > MAX_EXCHANGES:
 		history.pop_front()
 	input.editable = true
 	send_button.disabled = input.text.strip_edges().is_empty()
 	if location_id == pending_location:
 		_render_history()
-		feedback.text = last_feedback.get(location_id, "Evaluación de español no disponible. Puede continuar la conversación.")
+		feedback.text = last_feedback[pending_location]
 		if is_visible_in_tree():
 			input.grab_focus()
 	pending_location = ""
 	pending_message = ""
 	pending_fallback = ""
-
+	pending_unlocks.clear()
 	turn_finished.emit()
 
 func reply_for(id: String, message: String) -> String:
 	if not conversations.has(id):
 		return ""
+	if id == "LOC01" and world_state.evidence.has_evidence("travel_food") and world_state.evidence.valid_note("monastery_claim", message):
+		return world_state.evidence.node("monastery_claim").claim + " Esa afirmación no demuestra la causa."
 	var normalized := message.to_lower()
 	var accents := {"á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u", "ü": "u"}
 	for letter in accents:
@@ -142,6 +155,9 @@ func reply_for(id: String, message: String) -> String:
 	return conversations[id].fallback
 
 func _render_history() -> void:
+	hint.text = "Objetivo: presente y peticiones sencillas. " + str(conversations[location_id].hint)
+	if location_id == "LOC01" and world_state.evidence.has_evidence("travel_food") and not world_state.evidence.has_evidence("monastery_claim"):
+		hint.text = "Pregunta: ¿Qué dice la comunidad sobre la muerte de Tomás?"
 	var npc: Dictionary = conversations[location_id]
 	var lines: Array[String] = [str(npc.name) + ": " + str(npc.greeting)]
 	for exchange: Dictionary in histories[location_id]:

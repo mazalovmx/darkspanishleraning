@@ -123,3 +123,16 @@ Save v2 adds evidence to the six v1 fields. V1 migration supplies an empty dicti
 the next write uses v2. Accepted records use known IDs, exact authored classification,
 bounded guided Spanish and an integer day no later than the saved world day.
 This is the first graph node; hypothesis links/comparison gates remain later work.
+
+## Dialogue disclosure
+
+monastery_claim is a testimony node whose classification is claim and whose source is
+Lucio reporting the community's position. NPC grounding grants him this clue with
+ask_death intent and food_recorded=yes prerequisite. context_flags derives that flag
+from canonical evidence rather than model text; no arbitrary quest flags are introduced.
+
+Dialogue captures eligible IDs when sending and rechecks when the response arrives.
+EvidenceGraph.record_dialogue validates source/location, local intent, prerequisite,
+repeat status and authored question. Physical record() cannot grant testimony.
+Critical claim text comes from opening.json. Save restore also enforces the food
+prerequisite and discovery chronology; no schema bump beyond v2 is needed.

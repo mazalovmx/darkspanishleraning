@@ -174,3 +174,17 @@ copy isolation, save/restore, v1 migration, forged record rejection, modal input
 autosave. tools/local/evidence-preview.png inspected after final layout adjustment.
 Regression: 524 save/load, 365 map, 25 authored dialogue assertions passed. Existing
 shutdown diagnostics persist. No live API calls or complete-investigation claim.
+
+## Verified dialogue clue tests
+
+Run local Godot with --headless --path game --script res://tests/dialogue_clue_test.gd.
+Executed: 39 checks, zero failures, exit 0, headless and OpenGL. Fake transport tests
+actual request eligibility, model proposal verification, rejected-proposal isolation,
+original-NPC/day handling after movement, canonical disclosure, journal selection and
+autosave. Explicit offline mode tests the same unlock without invented mastery.
+tools/local/dialogue-clue-preview.png inspected.
+
+Regression: 53 notebook + 54 grounding + 72 client + 27 Spanish + 25 authored dialogue +
+524 save + 365 map checks passed. Fresh-process save_restart_test now also verifies
+both evidence nodes and claim classification; write/read passed. No live API run was
+performed. Existing ObjectDB/26-resource shutdown diagnostics remain.

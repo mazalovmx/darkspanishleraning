@@ -2,8 +2,8 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: evidence notebook implemented and verified (step 11).
-Next task: verified dialogue clue unlock (step 12). Latest passed gate: E.
+Current task: evidence notebook and verified dialogue clue unlock complete (steps 11-12).
+Next task: one complete investigation (step 13 / Epic 11). Gate F remains pending.
 
 ## Provenance
 
@@ -344,3 +344,34 @@ Executed: 53 notebook checks headless and OpenGL, 524 save/load, 365 map and 25 
 dialogue checks passed. Final notebook screenshot inspected; all five sections visible.
 Existing ObjectDB/26-resource shutdown diagnostics persist. Step 11 complete. Next:
 step 12, one clue unlocked through grounded dialogue; no full investigation/Gate F yet.
+
+## Verified dialogue clue unlock (step 12)
+
+Added monastery_claim, the community's suicide explanation communicated by Lucio, from
+bible Act I. It is recorded as an attributed claim, not a proven cause. The food
+observation must already be recorded. The player asks a supported present-tense Spanish
+question; the UI supplies a scaffold after inspection. A keyword alone is insufficient.
+
+Actual request context now includes derived evidence prerequisites and eligible clue IDs.
+The response boundary checks syntax, NPC knowledge, current prerequisites, local intent,
+the request-time eligible set and the authored Spanish question before allowing mutation.
+EvidenceGraph rechecks canonical eligibility independently. Unknown IDs, physical-clue
+proposals, wrong intent, missing prerequisites and repeats cannot grant evidence.
+Critical disclosure text is authored; generated prose cannot redefine the evidence node.
+
+The authored no-API path performs the same local checks. A malformed/rejected proposal
+cannot fall through to this unlock path. Valid ordinary replies may also trigger the
+authored disclosure for a fully eligible question, so model reluctance or API availability
+does not gate progress. Offline matching never fabricates language evaluation/mastery.
+Late replies retain their source NPC and request day, and autosave after completion.
+
+Notebook now selects between both nodes. Save v2 restores both and validates that the
+claim has its earlier food prerequisite with consistent dates. Executed: 39 dialogue
+clue checks headless and OpenGL; 53 notebook, 54 grounding, 72 client, 27 Spanish,
+25 authored dialogue, 524 save and 365 map checks passed. Fresh write/read processes
+restored both clues, classifications and Spanish profile: PASS/exit 0. Screenshot
+inspected. No live API call was made; fake transport covers the model-proposal path.
+Existing ObjectDB/26-resource shutdown diagnostics persist.
+
+Steps 11-12 complete. Next step 13: the first complete investigation (Epic 11); existing
+two-node notebook is not that full investigation, and Gate F remains pending.

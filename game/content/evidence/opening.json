@@ -1,33 +1,63 @@
 {
-  "travel_food": {
-    "id": "travel_food",
-    "title": "La comida de Tomás",
-    "location_id": "LOC01",
-    "source": "Inspección de las pertenencias de Tomás",
-    "source_type": "physical",
-    "observation": "Tomás tiene comida preparada para un viaje.",
-    "claim": "La comunidad del monasterio presenta la muerte como un suicidio.",
-    "claim_source": "Comunidad de Santa Lucerna",
-    "interpretations": [
-      "Preparación de un viaje.",
-      "Preparación de una huida.",
-      "Una puesta en escena.",
-      "Comida guardada para otro momento."
-    ],
-    "institutional_status": "Sin verificar. Una declaración no establece la causa.",
-    "causal_link": "No establecido: la comida no demuestra cómo ni por qué muere Tomás.",
-    "language": {
-      "block": "present_and_basic_requests",
-      "accepted_notes": [
-        "hay comida",
-        "hay comida para un viaje",
-        "hay comida de viaje",
-        "veo comida",
-        "veo comida para un viaje",
-        "tomas tiene comida",
-        "tomas tiene comida para un viaje"
-      ]
-    },
-    "classification": "observation"
-  }
+    "travel_food":  {
+                        "id":  "travel_food",
+                        "title":  "La comida de Tomás",
+                        "location_id":  "LOC01",
+                        "source":  "Inspección de las pertenencias de Tomás",
+                        "source_type":  "physical",
+                        "observation":  "Tomás tiene comida preparada para un viaje.",
+                        "claim":  "La comunidad del monasterio presenta la muerte como un suicidio.",
+                        "claim_source":  "Comunidad de Santa Lucerna",
+                        "interpretations":  [
+                                                "Preparación de un viaje.",
+                                                "Preparación de una huida.",
+                                                "Una puesta en escena.",
+                                                "Comida guardada para otro momento."
+                                            ],
+                        "institutional_status":  "Sin verificar. Una declaración no establece la causa.",
+                        "causal_link":  "No establecido: la comida no demuestra cómo ni por qué muere Tomás.",
+                        "language":  {
+                                         "block":  "present_and_basic_requests",
+                                         "accepted_notes":  [
+                                                                "hay comida",
+                                                                "hay comida para un viaje",
+                                                                "hay comida de viaje",
+                                                                "veo comida",
+                                                                "veo comida para un viaje",
+                                                                "tomas tiene comida",
+                                                                "tomas tiene comida para un viaje"
+                                                            ]
+                                     },
+                        "classification":  "observation"
+                    },
+    "monastery_claim":  {
+                            "id":  "monastery_claim",
+                            "title":  "La versión del monasterio",
+                            "location_id":  "LOC01",
+                            "npc_id":  "lucio_salcedo",
+                            "source":  "Abad Lucio Salcedo, sobre la posición de la comunidad",
+                            "source_type":  "testimony",
+                            "observation":  "El abad comunica la explicación de la comunidad.",
+                            "claim":  "La comunidad presenta la muerte de Tomás como un suicidio.",
+                            "claim_source":  "Comunidad de Santa Lucerna, según el abad",
+                            "interpretations":  [
+                                                    "La comunidad acepta esa explicación.",
+                                                    "La comunidad quiere evitar un escándalo.",
+                                                    "El abad repite una versión que necesita comprobación."
+                                                ],
+                            "institutional_status":  "Declaración atribuida. No es una conclusión probada.",
+                            "causal_link":  "No establecido: el cargo del abad no demuestra la causa de la muerte.",
+                            "classification":  "claim",
+                            "language":  {
+                                             "block":  "present_and_basic_requests",
+                                             "accepted_notes":  [
+                                                                    "que dice la comunidad",
+                                                                    "que dice la comunidad sobre la muerte",
+                                                                    "que dice la comunidad sobre la muerte de tomas",
+                                                                    "como explica la comunidad la muerte de tomas",
+                                                                    "que dice sobre la muerte de tomas",
+                                                                    "es un suicidio"
+                                                                ]
+                                         }
+                        }
 }

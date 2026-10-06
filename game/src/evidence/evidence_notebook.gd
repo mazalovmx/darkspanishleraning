@@ -3,6 +3,7 @@ signal closed
 signal evidence_recorded
 var world_state: RefCounted
 var active_id := ""
+var entries := OptionButton.new()
 var body := RichTextLabel.new()
 var note := LineEdit.new()
 var category := OptionButton.new()
@@ -32,6 +33,10 @@ func _ready() -> void:
 	var title := Label.new()
 	title.text = "CUADERNO DE INVESTIGACIÓN"
 	box.add_child(title)
+	box.add_child(entries)
+	entries.item_selected.connect(func(index: int):
+		active_id = str(entries.get_item_metadata(index))
+		_render())
 	body.bbcode_enabled = false
 	body.add_theme_font_size_override("normal_font_size", 16)
 	body.custom_minimum_size = Vector2(880, 340)
@@ -66,6 +71,8 @@ func _ready() -> void:
 func open_journal(state: RefCounted) -> void:
 	world_state = state
 	active_id = "travel_food" if state.evidence.has_evidence("travel_food") else ""
+	if state.evidence.has_evidence("monastery_claim"):
+		active_id = "monastery_claim"
 	_render()
 	show()
 	close_button.grab_focus()
@@ -87,6 +94,16 @@ func close() -> void:
 	closed.emit()
 
 func _render() -> void:
+	entries.clear()
+	var ids: Array = world_state.evidence.progress().keys()
+	if not active_id.is_empty() and active_id not in ids:
+		ids.append(active_id)
+	for id: String in ids:
+		entries.add_item(world_state.evidence.node(id).title)
+		entries.set_item_metadata(entries.item_count - 1, id)
+		if id == active_id:
+			entries.select(entries.item_count - 1)
+	entries.visible = entries.item_count > 1
 	note.clear()
 	category.select(0)
 	feedback.text = ""
@@ -100,7 +117,7 @@ func _render() -> void:
 		"\n• ".join(clue.interpretations), clue.institutional_status, clue.causal_link]
 	body.scroll_to_line(0)
 	if world_state.evidence.has_evidence(active_id):
-		feedback.text = "Tu observación: " + str(world_state.evidence.progress()[active_id].spanish_note) + "\nLas interpretaciones siguen abiertas."
+		feedback.text = ("Tu pregunta: " if clue.source_type == "testimony" else "Tu observación: ") + str(world_state.evidence.progress()[active_id].spanish_note) + "\nLas interpretaciones siguen abiertas."
 	else:
 		exercise.show()
 		feedback.text = "Clasifica la frase sobre la comida. No demuestra la causa de la muerte."
