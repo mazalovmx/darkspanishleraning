@@ -443,3 +443,18 @@ error before these runs. Inspected the rendered assessment with all controls vis
 No live API calls; preexisting shutdown warnings persist.
 Step 13's investigative portion works. Gate F remains pending until its battle/purchase
 acceptance criteria are provided by the immediately following steps 14 and 15.
+## Stack battle adapter (step 14, arena complete)
+
+Added a seven-slot army combat adapter over retained Open RPG BattlerStats and an
+inherited CombatArena scene. Aggregate HP determines living count; attacks scale with
+count and attack/defense. Initiative orders rounds, melee retaliates once per round,
+ranged attacks avoid retaliation, defense lasts until the next action, and each unit
+type has one once-per-battle ability. Deterministic enemy targeting and seeded damage
+support repeatable checks. Retreat, defeat and victory return survivor armies once.
+Four authored unit types: militia, archers, bandits, spectral guard.
+
+Executed 38 combat checks headless and OpenGL; all final checks passed. Fixed the
+retaliation test to observe the same round rather than the next-round reset.
+Reviewed the rendered arena. Existing shutdown warnings persist.
+This commit provides the arena only; next connect map encounters, persistent losses,
+rewards and save migration before claiming step 14 complete.
