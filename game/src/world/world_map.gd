@@ -19,6 +19,8 @@ var save_confirm := ConfirmationDialog.new()
 var notebook = preload("res://src/evidence/evidence_notebook.gd").new()
 var notebook_button := Button.new()
 var language_button := Button.new()
+var campaign_button := Button.new()
+var campaign_journal = preload("res://src/world/campaign_panel.gd").new()
 var lessons = preload("res://src/spanish/curriculum_panel.gd").new()
 var inspect_button := Button.new()
 var battle_button := Button.new()
@@ -98,6 +100,14 @@ func _build_ui() -> void:
 	panel.theme.default_font = ThemeDB.fallback_font
 	layer.add_child(panel)
 	_build_poi_window(layer, panel.theme)
+	campaign_journal.theme = panel.theme
+	layer.add_child(campaign_journal)
+	campaign_journal.closed.connect(func():
+		end_button.disabled = poi_modal.visible
+		_update_preview())
+	campaign_journal.progressed.connect(func():
+		_refresh()
+		_save_game(true))
 	lessons.theme = panel.theme
 	layer.add_child(lessons)
 	lessons.closed.connect(func():
@@ -171,7 +181,22 @@ func _build_ui() -> void:
 	route_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	end_button.text = "Terminar turno"
 	end_button.pressed.connect(_end_turn)
-	box.add_child(end_button)
+	var turns := HBoxContainer.new()
+	end_button.add_theme_font_size_override("font_size",15)
+	end_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	turns.add_child(end_button)
+	campaign_button.text = "Expedientes"
+	campaign_button.add_theme_font_size_override("font_size",15)
+	campaign_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	campaign_button.visible = state.map_id == "province_160x120_v1"
+	campaign_button.pressed.connect(func():
+		if arena.visible or market.visible or notebook.visible or lessons.visible or campaign_journal.visible or dialogue.client.busy:
+			return
+		campaign_journal.open_journal(state)
+		end_button.disabled = true
+		_update_preview())
+	turns.add_child(campaign_button)
+	box.add_child(turns)
 	var saves := HBoxContainer.new()
 	save_button.text = "Guardar"
 	load_button.text = "Cargar"
@@ -184,13 +209,15 @@ func _build_ui() -> void:
 	notebook_button.text = "Cuaderno"
 	notebook_button.add_theme_font_size_override("font_size", 15)
 	notebook_button.pressed.connect(func():
+		if campaign_journal.visible:
+			return
 		notebook.open_journal(state)
 		end_button.disabled = true
 		_update_preview())
 	saves.add_child(notebook_button)
 	language_button.text = "Español"
 	language_button.pressed.connect(func():
-		if not arena.visible and not dialogue.client.busy and not market.visible and not notebook.visible:
+		if not arena.visible and not dialogue.client.busy and not market.visible and not notebook.visible and not campaign_journal.visible:
 			lessons.open_course(state)
 			end_button.disabled = true
 			_update_preview())
@@ -295,6 +322,10 @@ func _close_poi() -> void:
 func _input(event: InputEvent) -> void:
 	if arena.visible:
 		return
+	if campaign_journal.visible and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		campaign_journal.close()
+		get_viewport().set_input_as_handled()
+		return
 	if lessons.visible and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		lessons.close()
 		get_viewport().set_input_as_handled()
@@ -313,7 +344,7 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _switch_hero(id: String) -> void:
-	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
+	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
 		_refresh()
 		return
 	if not state.select_hero(id):
@@ -327,7 +358,7 @@ func _switch_hero(id: String) -> void:
 	_save_game(true)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible:
+	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible:
 		return
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode in [KEY_F1, KEY_F2, KEY_F3]:
 		_switch_hero(["inquisitor", "smuggler", "survivor"][event.keycode - KEY_F1])
@@ -366,7 +397,7 @@ func _clamp_camera() -> void:
 	camera.force_update_scroll()
 
 func _end_turn() -> void:
-	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible:
+	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible:
 		return
 	state.end_turn()
 	_save_game(true)
@@ -391,7 +422,7 @@ func _refresh() -> void:
 func _update_preview() -> void:
 	hovered = tiles.local_to_map(tiles.get_global_transform_with_canvas().affine_inverse() * pointer)
 	preview.clear()
-	if selected and not poi_modal.visible and not notebook.visible and not arena.visible and not market.visible and not lessons.visible:
+	if selected and not poi_modal.visible and not notebook.visible and not arena.visible and not market.visible and not lessons.visible and not campaign_journal.visible:
 		preview = state.path_to(hovered, true)
 	if not selected:
 		route_info.text = "Selecciona al héroe para viajar."
@@ -501,6 +532,9 @@ func _load_game(startup := false) -> void:
 	notebook.hide()
 	market.hide()
 	lessons.hide()
+	campaign_journal.hide()
+	campaign_journal.world_state = state
+	campaign_button.visible = state.map_id == "province_160x120_v1"
 	lessons.world_state = state
 	market.world_state = state
 	notebook.world_state = state
@@ -526,7 +560,7 @@ func _on_dialogue_finished() -> void:
 	_save_game(true)
 
 func _start_battle() -> void:
-	if dialogue.client.busy or notebook.visible or market.visible or lessons.visible or not state.begin_encounter("opening_road"):
+	if dialogue.client.busy or notebook.visible or market.visible or lessons.visible or campaign_journal.visible or not state.begin_encounter("opening_road"):
 		save_notice.text = "Necesitas un ejército, dos puntos de movimiento y acceso al encuentro."
 		return
 	poi_modal.hide()

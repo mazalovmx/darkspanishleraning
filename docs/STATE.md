@@ -650,3 +650,18 @@ retain empty campaign progress. Executed 328 campaign checks, 527 save, 46 party
 slice and 17 province scene checks: passed. Existing shutdown diagnostics persist.
 This commit is model/content only. Campaign task UI, final decision derivation, optional
 cases, economic runtime and full NPC conversation expansion are still pending.
+## Mainline act journal connected
+
+Expedientes opens the currently available tasks and previously recorded claims.
+Future documents are withheld until prerequisites, language practice and location
+requirements hold. Each task needs typed Spanish and a claim category; causal tasks
+also require two distinct records chosen from the actual shared ledger. Optional
+models never auto-fill the answer or award free-language mastery.
+Introductions enable portraits immediately, and every completed task autosaves.
+The panel blocks map/day/hero input and closes correctly on Escape or load.
+
+Executed 285 campaign-panel checks headless and OpenGL, including every one of the 29
+tasks through UI controls and its autosave, 365 map, 46 party and 31 vertical-slice
+regressions: all passed. Screenshot reviewed; shutdown diagnostics remain.
+The mainline is playable through council classifications. Final disposition and its
+consequences are next; no claim of complete endings or a human playtime test yet.
