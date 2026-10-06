@@ -1,5 +1,5 @@
 extends RefCounted
-## First canonical evidence node. Model text and saves cannot redefine its meaning.
+## Canonical evidence nodes. Model text and saves cannot redefine its meaning.
 var definitions: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(
 	"res://content/evidence/opening.json"))
 var _progress: Dictionary = {}
@@ -26,11 +26,11 @@ func valid_note(id: String, note: String) -> bool:
 func record(id: String, location_id: String, note: String, classification: String, day: int) -> bool:
 	if not definitions.has(id) or _progress.has(id) or day < 1:
 		return false
-	if definitions[id].source_type != "physical":
+	if definitions[id].source_type not in ["physical", "document"]:
 		return false
 	if definitions[id].location_id != location_id or classification != definitions[id].classification:
 		return false
-	if not valid_note(id, note):
+	if not valid_note(id, note) or not prerequisites_met(id, _progress, day):
 		return false
 	_progress[id] = {"found_day": day, "classification": classification, "spanish_note": note.strip_edges()}
 	return true
@@ -53,8 +53,8 @@ func restore(data: Variant, day: int) -> bool:
 		if not entry.get("spanish_note") is String or not valid_note(id, entry.spanish_note):
 			return false
 		validated[id] = {"found_day": int(found), "classification": entry.classification, "spanish_note": entry.spanish_note}
-	if validated.has("monastery_claim"):
-		if not validated.has("travel_food") or validated.monastery_claim.found_day < validated.travel_food.found_day:
+	for id in validated:
+		if not prerequisites_met(id, validated, validated[id].found_day):
 			return false
 	_progress = validated
 	return true
@@ -68,7 +68,24 @@ func record_dialogue(id: String, npc_id: String, location_id: String, message: S
 		return false
 	if not grounding.allows_unlock(id, npc_id, grounding.intent_for(message), context_flags(), _progress.keys()):
 		return false
-	if not valid_note(id, message) or day < _progress.travel_food.found_day:
+	if day < 1 or not valid_note(id, message) or not prerequisites_met(id, _progress, day):
 		return false
 	_progress[id] = {"found_day": day, "classification": "claim", "spanish_note": message.strip_edges()}
 	return true
+
+func prerequisites_met(id: String, records: Dictionary, day: int) -> bool:
+	if not definitions.has(id):
+		return false
+	for required in definitions[id].get("requires", []):
+		if not records.has(required) or records[required].found_day > day:
+			return false
+	return true
+
+func inspectable_ids(location_id: String) -> Array:
+	var result: Array = []
+	for id in definitions:
+		var clue: Dictionary = definitions[id]
+		if clue.location_id == location_id and clue.source_type in ["physical", "document"]:
+			if prerequisites_met(id, _progress, 2147483647):
+				result.append(id)
+	return result

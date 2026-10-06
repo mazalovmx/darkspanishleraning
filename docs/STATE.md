@@ -2,8 +2,8 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: evidence notebook and verified dialogue clue unlock complete (steps 11-12).
-Next task: one complete investigation (step 13 / Epic 11). Gate F remains pending.
+Current task: step 13 underway; expanded physical inspections and custody document complete.
+Next task: integrate Gabriel and Leonor dialogue, then hypothesis comparison and causal conclusion (step 13 / Epic 11). Gate F remains pending.
 
 ## Provenance
 
@@ -375,3 +375,38 @@ Existing ObjectDB/26-resource shutdown diagnostics persist.
 
 Steps 11-12 complete. Next step 13: the first complete investigation (Epic 11); existing
 two-node notebook is not that full investigation, and Gate F remains pending.
+
+## Opening investigation: physical evidence and custody document (step 13, partial)
+
+The notebook now exposes four further physical inspections after the initial food:
+broken brass tube, blood inside the tower, scraped boot and absent notebook.
+Each has its own present-tense Spanish model, vocabulary and accepted production.
+The notebook's absence does not recover it or skip Inés's later plot.
+The local custody order becomes inspectable after the abbot's attributed account.
+It requires institutional-declaration classification, not observation or proven cause.
+
+Inspection lists only prerequisite-eligible physical/document nodes at the monastery;
+the ordinary journal lists recorded evidence only. Testimony is not inspectable.
+Recording and v2 restoration enforce all authored prerequisites and chronological
+ordering, preserving state on rejection. Existing v1/v2 save compatibility remains.
+Guided matching does not award free-language mastery or advance the curriculum.
+
+The content file also holds authored Gabriel/Leonor testimony for subsequent integration.
+These four reserved nodes are not exposed by the current conversation runtime.
+The first complete investigation, hypothesis correction and causal assessment remain
+unfinished; no battle, merchant, full economy or Gate F completion is claimed.
+
+The user's Heroes III economic requirement is synchronized in both master copies:
+seven core resources pay for buildings, troop recruitment/upgrades, artifacts and
+services; mines, daily income, stock checks, seven target army slots and compulsory
+Spanish transactions are specified. Supplies remain additional consumables.
+Both bible copies document the opening staging without changing the canonical culprit.
+
+Validation actually run: 48 opening-inspection checks headless and OpenGL; 53 notebook,
+39 dialogue-clue, 524 save/load, 365 map and 25 authored-dialogue checks headless.
+All final runs passed (1,054 distinct assertions). The first new UI test failed because
+its direct hero teleport left the monastery undiscovered; corrected the fixture to
+travel through discovered cells and reran successfully. Rendered 1280x720 document
+notebook inspected; subsequently changed its recorded-note label to "Tu anotación".
+Root/docs specification hashes match; git diff --check passed. No live API calls.
+Existing ObjectDB/26-resources shutdown diagnostics remain unresolved.

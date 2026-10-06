@@ -37,7 +37,9 @@ Why:
 
 The implementation goal is **not to reproduce Heroes III technically**.
 
-The goal is to reproduce the *experience*:
+Heroes III is the mechanical reference for exploration, economy, armies and equipment, as clarified by the user on 2026-10-05. Implement these rules incrementally in Godot under the existing gates; using another engine or copying its technical architecture is not required.
+
+The required gameplay includes:
 
 - large map,
 - fog of war,
@@ -789,15 +791,43 @@ Example JSON:
 
 # 12. Inventory / economy
 
-Resources:
+Core strategic resources (Heroes III reference):
 
 ```text
 gold
-food
-medicine
-horse_feed
-lamp_oil
+wood
+ore
+mercury
+sulfur
+crystal
+gems
 ```
+
+Resources are spendable strategic assets, not collectible decorations. They pay for:
+- construction and upgrades of settlement buildings;
+- recruiting army stacks and upgrading eligible troops;
+- purchasing artifacts and other equipment;
+- authored services and exchanges with explicit prices.
+
+Buildings unlock recruitment, troop growth, upgrades or income. Owned mines generate
+daily income and can be contested on the adventure map. Finite stock, recruitment
+availability, ownership and the complete resource cost must be validated before an
+atomic purchase; rejected or interrupted orders cannot spend resources or grant goods.
+Travel budgets, roads, terrain, fog, resource sites and guarded rewards form the same
+strategic loop as investigations. Target armies have seven stack slots; any smaller
+early battle fixture is an explicitly temporary development slice.
+
+Every purchase, including construction and recruitment, requires active Spanish:
+name the desired building/unit/item, specify quantity where relevant, understand the
+price and confirm the request. Use the current taught grammar block and an authored
+offline route. Language retries do not advance hostile world turns or consume payment.
+Never award mastery merely for selecting a menu item.
+
+Food, medicine, horse feed and lamp oil remain optional authored supplies, distinct
+from the seven strategic resources. They do not replace the core economy.
+Implement resource/army/building runtime at the corresponding unlocked milestones;
+these requirements do not claim those systems already exist. The user's simultaneous
+ghost-knight world orders remain an explicit variation on the reference game's turns.
 
 Quest items:
 

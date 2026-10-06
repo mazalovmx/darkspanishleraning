@@ -2649,3 +2649,26 @@ offer additional counters, but no case requires owning one to remain solvable.
 Canonical expansion data: game/content/scenario/equipment.json and ghost_knights.json.
 Author guide: docs/EQUIPMENT_AND_GHOST_KNIGHTS.md. Runtime remains gated; no playable
 equipment, soul dialogue, knight AI or simultaneous world-turn integration is claimed.
+
+## Opening investigation staging and strategic economy (2026-10-05)
+
+The opening implementation expands the six Act I clues without changing their cause.
+The first guided observation is travel food. Subsequent physical inspections cover the
+broken brass tube, blood inside the tower, scraped boot and the notebook's absence.
+Recording an absence does not recover the notebook or bypass Inés's later investigation.
+
+A local preservation order is available after Lucio communicates the community's account:
+the abbot orders Tomás's belongings preserved and transfers recorded. This is a custody
+document, not proof of suicide and not the bishop's later heresy/confiscation decision.
+Authored dialogue extensions reserve Gabriel's denial, horse testimony and irrelevant
+wine theft, plus a visiting Leonor's clinical report. Leonor's home remains Miralba.
+These reserved conversations require their own grounding and runtime integration before
+being offered to the player; author-only reliability labels must never leak to the UI.
+
+The strategic economy follows the user's Heroes III requirement: gold, wood, ore,
+mercury, sulfur, crystal and gems fund buildings, recruitment, troop upgrades and
+artifacts. Mines and contested resource sites make map travel and army decisions
+material to the narrative. Food and medical supplies are additional consumables.
+All purchases require supported Spanish production at the learner's current block.
+The mechanical contract is in MASTER_BUILD_SPEC section 12; the implementation gates
+still apply, and authored economic requirements are not an implemented economy.

@@ -3,6 +3,8 @@ signal closed
 signal evidence_recorded
 var world_state: RefCounted
 var active_id := ""
+var inspection_mode := false
+var prompt := Label.new()
 var entries := OptionButton.new()
 var body := RichTextLabel.new()
 var note := LineEdit.new()
@@ -43,7 +45,6 @@ func _ready() -> void:
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	box.add_child(body)
 	box.add_child(exercise)
-	var prompt := Label.new()
 	prompt.text = "Describe lo que ves: Hay… / Veo… / Tomás tiene…\nPalabras: comida · comida para un viaje"
 	prompt.add_theme_font_size_override("font_size", 16)
 	exercise.add_child(prompt)
@@ -56,6 +57,7 @@ func _ready() -> void:
 	category.add_item("Una observación")
 	category.add_item("Una interpretación")
 	category.add_item("Una acusación")
+	category.add_item("Una declaración institucional")
 	row.add_child(category)
 	record_button.text = "Anotar la prueba"
 	record_button.pressed.connect(_record)
@@ -69,6 +71,7 @@ func _ready() -> void:
 	hide()
 
 func open_journal(state: RefCounted) -> void:
+	inspection_mode = false
 	world_state = state
 	active_id = "travel_food" if state.evidence.has_evidence("travel_food") else ""
 	if state.evidence.has_evidence("monastery_claim"):
@@ -82,6 +85,7 @@ func inspect(state: RefCounted) -> bool:
 	if location.get("id", "") != "LOC01":
 		return false
 	world_state = state
+	inspection_mode = true
 	active_id = "travel_food"
 	_render()
 	show()
@@ -96,6 +100,11 @@ func close() -> void:
 func _render() -> void:
 	entries.clear()
 	var ids: Array = world_state.evidence.progress().keys()
+	if inspection_mode:
+		var location: Dictionary = world_state.location_at(world_state.hero_cell)
+		for id in world_state.evidence.inspectable_ids(location.get("id", "")):
+			if id not in ids:
+				ids.append(id)
 	if not active_id.is_empty() and active_id not in ids:
 		ids.append(active_id)
 	for id: String in ids:
@@ -112,26 +121,30 @@ func _render() -> void:
 		body.text = "Todavía no hay pruebas anotadas. Examina las pertenencias de Tomás en Santa Lucerna."
 		return
 	var clue: Dictionary = world_state.evidence.node(active_id)
+	prompt.text = "Modelo: %s\nPalabras: %s" % [
+		clue.language.get("sample", ""), clue.language.get("vocabulary", "")]
 	body.text = "%s\nOBSERVACIÓN\n%s\nFuente: %s\nAFIRMACIÓN\n%s\nFuente: %s\nINTERPRETACIONES POSIBLES\n• %s\nESTADO INSTITUCIONAL\n%s\nVÍNCULO CAUSAL\n%s" % [
 		clue.title, clue.observation, clue.source, clue.claim, clue.claim_source,
 		"\n• ".join(clue.interpretations), clue.institutional_status, clue.causal_link]
 	body.scroll_to_line(0)
 	if world_state.evidence.has_evidence(active_id):
-		feedback.text = ("Tu pregunta: " if clue.source_type == "testimony" else "Tu observación: ") + str(world_state.evidence.progress()[active_id].spanish_note) + "\nLas interpretaciones siguen abiertas."
+		feedback.text = ("Tu pregunta: " if clue.source_type == "testimony" else "Tu anotación: ") + str(world_state.evidence.progress()[active_id].spanish_note) + "\nLas interpretaciones siguen abiertas."
 	else:
 		exercise.show()
-		feedback.text = "Clasifica la frase sobre la comida. No demuestra la causa de la muerte."
+		feedback.text = "Clasifica la frase: observar algo y recibir una orden son actos distintos."
 
 func _record() -> void:
 	if active_id.is_empty() or world_state == null:
 		return
 	var location: Dictionary = world_state.location_at(world_state.hero_cell)
-	if category.selected != 1:
-		feedback.text = "La comida se puede observar. La intención y la causa necesitan otras pruebas."
+	var classes := ["", "observation", "interpretation", "accusation", "institutional_declaration"]
+	var clue: Dictionary = world_state.evidence.node(active_id)
+	if category.selected < 0 or classes[category.selected] != clue.classification:
+		feedback.text = "Distingue una observación de una interpretación, una acusación o una orden."
 		return
 	if not world_state.evidence.valid_note(active_id, note.text):
-		feedback.text = "Prueba con Hay / Veo / Tomás tiene + comida (para un viaje)."
+		feedback.text = "Prueba con: " + str(clue.language.get("sample", ""))
 		return
-	if world_state.evidence.record(active_id, location.get("id", ""), note.text, "observation", world_state.day):
+	if world_state.evidence.record(active_id, location.get("id", ""), note.text, classes[category.selected], world_state.day):
 		_render()
 		evidence_recorded.emit()

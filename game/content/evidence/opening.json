@@ -26,9 +26,14 @@
                                                                 "veo comida para un viaje",
                                                                 "tomas tiene comida",
                                                                 "tomas tiene comida para un viaje"
-                                                            ]
+                                                            ],
+                                         "sample":  "Hay comida para un viaje.",
+                                         "vocabulary":  "comida · comida para un viaje"
                                      },
-                        "classification":  "observation"
+                        "classification":  "observation",
+                        "requires":  [
+
+                                     ]
                     },
     "monastery_claim":  {
                             "id":  "monastery_claim",
@@ -57,7 +62,295 @@
                                                                     "como explica la comunidad la muerte de tomas",
                                                                     "que dice sobre la muerte de tomas",
                                                                     "es un suicidio"
-                                                                ]
-                                         }
-                        }
+                                                                ],
+                                             "sample":  "¿Qué dice la comunidad sobre la muerte de Tomás?"
+                                         },
+                            "requires":  [
+                                             "travel_food"
+                                         ]
+                        },
+    "brass_tube":  {
+                       "id":  "brass_tube",
+                       "title":  "El tubo de latón",
+                       "location_id":  "LOC01",
+                       "source_type":  "physical",
+                       "classification":  "observation",
+                       "observation":  "En la torre hay un tubo de latón roto.",
+                       "claim":  "Una rotura no identifica por sí sola a quien usa el objeto.",
+                       "claim_source":  "Registro local / examen de las pertenencias",
+                       "source":  "Inspección en Santa Lucerna",
+                       "interpretations":  [
+                                               "Un instrumento roto durante una pelea.",
+                                               "Un objeto dañado antes de esa noche."
+                                           ],
+                       "institutional_status":  "Sin verificación independiente de la interpretación.",
+                       "causal_link":  "Ningún vínculo causal queda probado por esta pieza aislada.",
+                       "requires":  [
+                                        "travel_food"
+                                    ],
+                       "language":  {
+                                        "block":  "present_and_basic_requests",
+                                        "sample":  "Hay un tubo roto.",
+                                        "vocabulary":  "tubo roto · tubo de latón",
+                                        "accepted_notes":  [
+                                                               "hay un tubo roto",
+                                                               "hay un tubo de laton roto",
+                                                               "veo un tubo roto"
+                                                           ]
+                                    }
+                   },
+    "tower_blood":  {
+                        "id":  "tower_blood",
+                        "title":  "La sangre dentro de la torre",
+                        "location_id":  "LOC01",
+                        "source_type":  "physical",
+                        "classification":  "observation",
+                        "observation":  "Hay sangre dentro de la torre.",
+                        "claim":  "La posición de la sangre necesita una explicación distinta de la caída exterior.",
+                        "claim_source":  "Registro local / examen de las pertenencias",
+                        "source":  "Inspección en Santa Lucerna",
+                        "interpretations":  [
+                                                "Una lesión dentro de la torre.",
+                                                "Sangre trasladada desde otro lugar."
+                                            ],
+                        "institutional_status":  "Sin verificación independiente de la interpretación.",
+                        "causal_link":  "Ningún vínculo causal queda probado por esta pieza aislada.",
+                        "requires":  [
+                                         "travel_food"
+                                     ],
+                        "language":  {
+                                         "block":  "present_and_basic_requests",
+                                         "sample":  "Hay sangre dentro de la torre.",
+                                         "vocabulary":  "sangre · dentro de la torre",
+                                         "accepted_notes":  [
+                                                                "hay sangre dentro de la torre",
+                                                                "veo sangre dentro de la torre",
+                                                                "hay sangre en la torre"
+                                                            ]
+                                     }
+                    },
+    "scraped_boot":  {
+                         "id":  "scraped_boot",
+                         "title":  "La bota raspada",
+                         "location_id":  "LOC01",
+                         "source_type":  "physical",
+                         "classification":  "observation",
+                         "observation":  "Una bota de Tomás presenta una marca de roce.",
+                         "claim":  "La marca por sí sola no permite reconstruir el movimiento del cuerpo.",
+                         "claim_source":  "Registro local / examen de las pertenencias",
+                         "source":  "Inspección en Santa Lucerna",
+                         "interpretations":  [
+                                                 "Roce durante una caída.",
+                                                 "Roce al mover el cuerpo.",
+                                                 "Desgaste anterior."
+                                             ],
+                         "institutional_status":  "Sin verificación independiente de la interpretación.",
+                         "causal_link":  "Ningún vínculo causal queda probado por esta pieza aislada.",
+                         "requires":  [
+                                          "travel_food"
+                                      ],
+                         "language":  {
+                                          "block":  "present_and_basic_requests",
+                                          "sample":  "La bota tiene una marca.",
+                                          "vocabulary":  "bota · marca de roce",
+                                          "accepted_notes":  [
+                                                                 "la bota tiene una marca",
+                                                                 "hay una marca en la bota",
+                                                                 "veo una marca de roce"
+                                                             ]
+                                      }
+                     },
+    "missing_notebook":  {
+                             "id":  "missing_notebook",
+                             "title":  "El cuaderno ausente",
+                             "location_id":  "LOC01",
+                             "source_type":  "physical",
+                             "classification":  "observation",
+                             "observation":  "El cuaderno de Tomás no está entre sus pertenencias.",
+                             "claim":  "Ausencia en este lugar no demuestra quién lo tiene ni por qué falta.",
+                             "claim_source":  "Registro local / examen de las pertenencias",
+                             "source":  "Inspección en Santa Lucerna",
+                             "interpretations":  [
+                                                     "Alguien se lleva el cuaderno.",
+                                                     "Tomás guarda el cuaderno en otro lugar."
+                                                 ],
+                             "institutional_status":  "Sin verificación independiente de la interpretación.",
+                             "causal_link":  "Ningún vínculo causal queda probado por esta pieza aislada.",
+                             "requires":  [
+                                              "travel_food"
+                                          ],
+                             "language":  {
+                                              "block":  "present_and_basic_requests",
+                                              "sample":  "El cuaderno no está.",
+                                              "vocabulary":  "cuaderno · no está",
+                                              "accepted_notes":  [
+                                                                     "el cuaderno no esta",
+                                                                     "no veo el cuaderno",
+                                                                     "el cuaderno no esta aqui"
+                                                                 ]
+                                          }
+                         },
+    "preservation_order":  {
+                               "id":  "preservation_order",
+                               "title":  "La orden de conservación",
+                               "location_id":  "LOC01",
+                               "source_type":  "document",
+                               "classification":  "institutional_declaration",
+                               "observation":  "El documento lleva el sello del abad.",
+                               "claim":  "Se ordena conservar las pertenencias de Tomás y registrar cada entrega.",
+                               "claim_source":  "Registro local / examen de las pertenencias",
+                               "source":  "Orden del abad de Santa Lucerna",
+                               "interpretations":  [
+                                                       "Una medida para conservar pruebas.",
+                                                       "Una forma de controlar el acceso."
+                                                   ],
+                               "institutional_status":  "Orden local de custodia. No declara la causa de la muerte.",
+                               "causal_link":  "Ningún vínculo causal queda probado por esta pieza aislada.",
+                               "requires":  [
+                                                "monastery_claim"
+                                            ],
+                               "language":  {
+                                                "block":  "present_and_basic_requests",
+                                                "sample":  "El abad ordena conservar las pertenencias.",
+                                                "vocabulary":  "el abad ordena · conservar las pertenencias",
+                                                "accepted_notes":  [
+                                                                       "el abad ordena conservar las pertenencias",
+                                                                       "la orden exige conservar las pertenencias"
+                                                                   ]
+                                            }
+                           },
+    "gabriel_denial":  {
+                           "id":  "gabriel_denial",
+                           "title":  "El primer relato de Gabriel",
+                           "location_id":  "LOC01",
+                           "source_type":  "testimony",
+                           "classification":  "claim",
+                           "observation":  "Gabriel ofrece un relato sobre la noche.",
+                           "claim":  "Mi relato es sencillo: estoy en la capilla y no oigo nada.",
+                           "claim_source":  "Hermano Gabriel",
+                           "source":  "Hermano Gabriel",
+                           "interpretations":  [
+                                                   "Una noche silenciosa.",
+                                                   "Un relato incompleto por miedo."
+                                               ],
+                           "institutional_status":  "Sin verificación independiente de la interpretación.",
+                           "causal_link":  "Ningún vínculo causal queda probado por esta pieza aislada.",
+                           "requires":  [
+                                            "travel_food"
+                                        ],
+                           "language":  {
+                                            "block":  "present_and_basic_requests",
+                                            "sample":  "¿Qué oye por la noche?",
+                                            "vocabulary":  "Qué oye por la noche",
+                                            "accepted_notes":  [
+                                                                   "que oye por la noche",
+                                                                   "que oye gabriel por la noche"
+                                                               ]
+                                        },
+                           "npc_id":  "hermano_gabriel",
+                           "intent":  "ask_night",
+                           "authored_reliability":  "deliberate_lie"
+                       },
+    "horse_sound":  {
+                        "id":  "horse_sound",
+                        "title":  "El caballo después de medianoche",
+                        "location_id":  "LOC01",
+                        "source_type":  "testimony",
+                        "classification":  "claim",
+                        "observation":  "Gabriel informa de un sonido de caballo después de medianoche.",
+                        "claim":  "En mi relato oigo un caballo. Creo que el visitante es contrabandista.",
+                        "claim_source":  "Hermano Gabriel",
+                        "source":  "Hermano Gabriel",
+                        "interpretations":  [
+                                                "Alguien llega.",
+                                                "Alguien sale.",
+                                                "El caballo se mueve sin jinete."
+                                            ],
+                        "institutional_status":  "Sin verificación independiente de la interpretación.",
+                        "causal_link":  "Ningún vínculo causal queda probado por esta pieza aislada.",
+                        "requires":  [
+                                         "gabriel_denial",
+                                         "brass_tube"
+                                     ],
+                        "language":  {
+                                         "block":  "present_and_basic_requests",
+                                         "sample":  "¿Oye un caballo?",
+                                         "vocabulary":  "Oye un caballo",
+                                         "accepted_notes":  [
+                                                                "oye un caballo",
+                                                                "hay un caballo",
+                                                                "que oye despues de medianoche"
+                                                            ]
+                                     },
+                        "npc_id":  "hermano_gabriel",
+                        "intent":  "ask_horse",
+                        "authored_reliability":  "honest_observation_mistaken_inference"
+                    },
+    "wine_secret":  {
+                        "id":  "wine_secret",
+                        "title":  "El vino de Gabriel",
+                        "location_id":  "LOC01",
+                        "source_type":  "testimony",
+                        "classification":  "claim",
+                        "observation":  "Gabriel explica por qué oculta su presencia cerca de la bodega.",
+                        "claim":  "Robo vino de la bodega. Temo una sanción; por eso oculto parte de mi relato.",
+                        "claim_source":  "Hermano Gabriel",
+                        "source":  "Hermano Gabriel",
+                        "interpretations":  [
+                                                "Una mentira para ocultar el robo de vino.",
+                                                "La mentira no demuestra participación en la muerte."
+                                            ],
+                        "institutional_status":  "Sin verificación independiente de la interpretación.",
+                        "causal_link":  "Ningún vínculo causal queda probado por esta pieza aislada.",
+                        "requires":  [
+                                         "horse_sound"
+                                     ],
+                        "language":  {
+                                         "block":  "present_and_basic_requests",
+                                         "sample":  "¿Por qué cambia su relato?",
+                                         "vocabulary":  "Por qué cambia su relato",
+                                         "accepted_notes":  [
+                                                                "por que cambia su relato",
+                                                                "por que oculta el vino",
+                                                                "que pasa con el vino"
+                                                            ]
+                                     },
+                        "npc_id":  "hermano_gabriel",
+                        "intent":  "ask_wine",
+                        "authored_reliability":  "irrelevant_secret"
+                    },
+    "medical_report":  {
+                           "id":  "medical_report",
+                           "title":  "La lesión y la caída",
+                           "location_id":  "LOC01",
+                           "source_type":  "testimony",
+                           "classification":  "claim",
+                           "observation":  "Leonor compara la lesión, el tubo y los rastros dentro de la torre.",
+                           "claim":  "La lesión indica un golpe mortal anterior a la caída. El golpe es compatible con un instrumento de latón.",
+                           "claim_source":  "Doctora Leonor Valera",
+                           "source":  "Doctora Leonor Valera",
+                           "interpretations":  [
+                                                   "Golpe dentro de la torre y caída posterior.",
+                                                   "La caída por sí sola no explica el conjunto."
+                                               ],
+                           "institutional_status":  "Sin verificación independiente de la interpretación.",
+                           "causal_link":  "Informe clínico: golpe mortal, después caída. No identifica al autor.",
+                           "requires":  [
+                                            "brass_tube",
+                                            "tower_blood",
+                                            "scraped_boot"
+                                        ],
+                           "language":  {
+                                            "block":  "present_and_basic_requests",
+                                            "sample":  "¿Qué indica la herida?",
+                                            "vocabulary":  "Qué indica la herida",
+                                            "accepted_notes":  [
+                                                                   "que indica la herida",
+                                                                   "que indica la lesion",
+                                                                   "la caida explica la herida"
+                                                               ]
+                                        },
+                           "npc_id":  "leonor_valera",
+                           "intent":  "ask_wound"
+                       }
 }
