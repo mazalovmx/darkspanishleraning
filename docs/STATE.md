@@ -577,3 +577,25 @@ inventories/armies transactionally.
 Executed 36 party-state and 39 combat regression checks, all passed; shutdown warnings
 persist. This is the party model only. Next wire portraits/F1-F3, shared visibility,
 per-hero trading/battles and save v6 before claiming Gate H.
+## Three heroes integrated: Gate H passed
+
+Portrait controls and F1/F2/F3 select Mateo, Ines and Elias without resetting movement.
+Positions, armies and supplies are independent; resources, shop stock, evidence and the
+ordered Spanish course are shared. Fog combines every unlocked hero's current vision.
+Purchases and combat settle against the active hero. Switching is blocked during a
+quote, battle, location interaction, course or other modal; HTTP responses cannot be
+reassigned by switching. NPC requests include the selected hero's public role/register.
+
+Save v6 validates and restores all three heroes and the active selection, checking its
+compatibility aliases against the party. V1-v5 migrate to Mateo without losing prior
+progress. Prototype staging remains a mechanical fixture, not early campaign arrivals.
+The troop/supply transfer model is available; its player-facing panel remains pending.
+
+Executed 46 party integration checks headless and OpenGL, 365 map, 526 save, 64 battle
+integration, 43 market, 22 curriculum integration, 53 notebook and 31 vertical-slice
+checks: all passed. Fixed a boolean misuse in the new test before running the suite.
+Reviewed the rendered scene and tightened sidebar spacing to keep the legend on screen;
+repeated 46 checks in both modes after that adjustment. OpenGL used accessibility
+disabled for the test process only. Existing engine shutdown warnings remain.
+Gate H passed for the three-hero development slice. Next step 19: full map; scenario
+acts, strategic economy, artifact and ghost-knight runtime remain unfinished.

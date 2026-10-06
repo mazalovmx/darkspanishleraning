@@ -98,6 +98,9 @@ func submit(message: String) -> void:
 		grounding.intent_for(clean), world_state.evidence.context_flags(), world_state.evidence.progress().keys())
 	pending_unlocks = context.get("eligible_unlock_ids", []).duplicate()
 	context["player_message"] = clean
+	var hero_definition: Dictionary = world_state.party.active().definition
+	context["player_hero"] = {"id": world_state.party.active_id, "name": hero_definition.name,
+		"role": hero_definition.role, "register": hero_definition.register}
 	context["recent_dialogue"] = histories[location_id].slice(-3)
 	context["language_profile"] = world_state.learner.context()
 	context["language_profile"]["focus"] = world_state.learner.curriculum.select_focus(world_state.learner.grammar, world_state.learner.errors)

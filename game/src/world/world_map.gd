@@ -25,6 +25,7 @@ var market_button := Button.new()
 var market = preload("res://src/economy/market_panel.gd").new()
 var army_notice := Label.new()
 var arena = preload("res://src/combat/stack_arena.tscn").instantiate()
+var hero_buttons: Dictionary = {}
 var selected := false
 var pointer := Vector2.ZERO
 var preview: Array[Vector2i] = []
@@ -125,11 +126,33 @@ func _build_ui() -> void:
 		margin.add_theme_constant_override("margin_" + side, 16)
 	panel.add_child(margin)
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 10)
+	box.add_theme_constant_override("separation", 5)
 	margin.add_child(box)
 	var title := Label.new()
 	title.text = "MAPA DE VIAJE"
 	box.add_child(title)
+	var portraits := HBoxContainer.new()
+	box.add_child(portraits)
+	var hero_index := 0
+	for id: String in state.party.heroes:
+		var member = state.party.heroes[id]
+		var button := Button.new()
+		button.text = "F%d %s" % [hero_index + 1, member.definition.short_name]
+		button.tooltip_text = "%s — %s" % [member.definition.name, member.definition.role]
+		button.add_theme_font_size_override("font_size", 13)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.toggle_mode = true
+		var portrait := Image.create(20, 24, false, Image.FORMAT_RGBA8)
+		var color := Color(member.definition.color)
+		for y in 24:
+			for x in 20:
+				if Vector2(x - 9.5, y - 6).length() < 5 or (y > 12 and absf(x - 9.5) < 8):
+					portrait.set_pixel(x, y, color)
+		button.icon = ImageTexture.create_from_image(portrait)
+		button.pressed.connect(_switch_hero.bind(id))
+		portraits.add_child(button)
+		hero_buttons[id] = button
+		hero_index += 1
 	box.add_child(status)
 	army_notice.add_theme_font_size_override("font_size", 14)
 	army_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -284,8 +307,26 @@ func _input(event: InputEvent) -> void:
 		_close_poi()
 		get_viewport().set_input_as_handled()
 
+func _switch_hero(id: String) -> void:
+	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
+		_refresh()
+		return
+	if not state.select_hero(id):
+		_refresh()
+		return
+	selected = true
+	camera.position = tiles.map_to_local(state.hero_cell)
+	_clamp_camera()
+	_refresh()
+	_update_preview()
+	_save_game(true)
+
 func _unhandled_input(event: InputEvent) -> void:
 	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible:
+		return
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode in [KEY_F1, KEY_F2, KEY_F3]:
+		_switch_hero(["inquisitor", "smuggler", "survivor"][event.keycode - KEY_F1])
+		get_viewport().set_input_as_handled()
 		return
 	if event is InputEventMouse:
 		pointer = event.position
@@ -338,7 +379,11 @@ func _refresh() -> void:
 				tiles.set_cell(cell, 0, Vector2i(names.find(state.terrain[y][x]), 0))
 	army_notice.text = "Oro: %d · Destacamentos: %d / 7" % [state.resources.gold, state.army.size()]
 	hero.position = tiles.map_to_local(state.hero_cell)
-	status.text = "Día %d\nMovimiento: %d / %d\n%s" % [state.day,
+	hero.modulate = Color(state.party.active().definition.color)
+	for id in hero_buttons:
+		hero_buttons[id].set_pressed_no_signal(id == state.party.active_id)
+		hero_buttons[id].disabled = not state.party.heroes[id].unlocked
+	status.text = "%s · Día %d\nMovimiento: %d / %d\n%s" % [state.party.active().definition.short_name, state.day,
 		state.movement_remaining, state.MOVEMENT_MAX,
 		"Héroe seleccionado" if selected else "Selecciona al héroe"]
 	queue_redraw()
@@ -381,6 +426,18 @@ func _draw() -> void:
 			color = color.darkened(0.4)
 		draw_rect(Rect2(center - Vector2(12, 12), Vector2(24, 24)), color, false, 2)
 		draw_string(ThemeDB.fallback_font, center + Vector2(-6, 6), "P" if location.kind == "inn" else "M", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, color)
+	var marker_index := 0
+	for id in state.party.heroes:
+		var member = state.party.heroes[id]
+		if id == state.party.active_id or not member.unlocked:
+			continue
+		var center := tiles.map_to_local(member.cell)
+		if member.cell == state.hero_cell:
+			center += Vector2(-12 + marker_index * 24, 12)
+		var color := Color(member.definition.color)
+		draw_circle(center, 8, color)
+		draw_string(ThemeDB.fallback_font, center + Vector2(-5, 5), str(member.definition.short_name).left(1), HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("17202b"))
+		marker_index += 1
 	if selected:
 		draw_arc(tiles.map_to_local(state.hero_cell), 14, 0, TAU, 32, Color.WHITE, 2)
 	if preview.size() > 1:

@@ -70,6 +70,8 @@ func run() -> void:
 	check(state.path_to(Vector2i(0, 0)).is_empty(), "Unreachable destination has no path")
 
 	var scout = WorldState.new()
+	scout.party.heroes.smuggler.unlocked = false
+	scout.party.heroes.survivor.unlocked = false
 	check(scout.fog_at(Vector2i(2, 10)) == WorldState.Fog.VISIBLE, "Hero cell visible at start")
 	check(scout.fog_at(Vector2i(7, 10)) == WorldState.Fog.VISIBLE, "Radius five boundary visible")
 	check(scout.fog_at(Vector2i(7, 11)) == WorldState.Fog.UNKNOWN, "Outside circular radius hidden")

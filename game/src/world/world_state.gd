@@ -6,18 +6,31 @@ const COSTS := {"road": 1, "grass": 1, "field": 1, "forest": 2, "marsh": 3,
 enum Fog { UNKNOWN, EXPLORED, VISIBLE }
 const VIEW_RADIUS := 5
 const MOVEMENT_MAX := 18
+var party = preload("res://src/world/party_state.gd").new()
 var learner = preload("res://src/spanish/learner_profile.gd").new()
 var trade = preload("res://src/economy/trade_state.gd").new()
 var evidence = preload("res://src/evidence/evidence_graph.gd").new()
 const StackBattle = preload("res://src/combat/stack_battle.gd")
-var army: Array = StackBattle.new().data.starting_army.duplicate(true)
+var army: Array:
+	get:
+		return party.active().army
+	set(value):
+		party.active().army = value
 var resources := {"gold": 300, "wood": 5, "ore": 5, "mercury": 0, "sulfur": 0, "crystal": 0, "gems": 0}
 var encounters: Dictionary = {}
 var active_battle: RefCounted
 var active_encounter := ""
 var day := 1
-var hero_cell := Vector2i(2, 10)
-var movement_remaining := MOVEMENT_MAX
+var hero_cell: Vector2i:
+	get:
+		return party.active().cell
+	set(value):
+		party.active().cell = value
+var movement_remaining: int:
+	get:
+		return party.active().movement_remaining
+	set(value):
+		party.active().movement_remaining = value
 var terrain: Array = []
 var grid := AStarGrid2D.new()
 var known_grid := AStarGrid2D.new()
@@ -25,6 +38,7 @@ var fog: Dictionary = {}
 var locations: Array = []
 
 func _init() -> void:
+	trade.inventory = party.active().inventory
 	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(
 		"res://content/world/prototype.json"))
 	locations = data.get("locations", [])
@@ -61,13 +75,18 @@ func fog_at(cell: Vector2i) -> int:
 func _reveal_from(center: Vector2i) -> void:
 	for cell in fog:
 		fog[cell] = Fog.EXPLORED
-	for y in range(center.y - VIEW_RADIUS, center.y + VIEW_RADIUS + 1):
-		for x in range(center.x - VIEW_RADIUS, center.x + VIEW_RADIUS + 1):
-			var cell := Vector2i(x, y)
-			if grid.region.has_point(cell) and center.distance_squared_to(cell) <= VIEW_RADIUS * VIEW_RADIUS:
-				fog[cell] = Fog.VISIBLE
-				known_grid.set_point_solid(cell, terrain_cost(cell) == 0)
-				known_grid.set_point_weight_scale(cell, maxi(1, terrain_cost(cell)))
+	var centers: Array[Vector2i] = [center]
+	for id in party.heroes:
+		if id != party.active_id and party.heroes[id].unlocked:
+			centers.append(party.heroes[id].cell)
+	for origin: Vector2i in centers:
+		for y in range(origin.y - VIEW_RADIUS, origin.y + VIEW_RADIUS + 1):
+			for x in range(origin.x - VIEW_RADIUS, origin.x + VIEW_RADIUS + 1):
+				var cell := Vector2i(x, y)
+				if grid.region.has_point(cell) and origin.distance_squared_to(cell) <= VIEW_RADIUS * VIEW_RADIUS:
+					fog[cell] = Fog.VISIBLE
+					known_grid.set_point_solid(cell, terrain_cost(cell) == 0)
+					known_grid.set_point_weight_scale(cell, maxi(1, terrain_cost(cell)))
 
 func location_at(cell: Vector2i) -> Dictionary:
 	if fog_at(cell) == Fog.UNKNOWN:
@@ -116,7 +135,7 @@ func end_turn() -> void:
 	if active_battle != null:
 		return
 	day += 1
-	movement_remaining = MOVEMENT_MAX
+	party.end_day()
 
 func begin_encounter(id: String) -> bool:
 	if active_battle != null or army.is_empty() or movement_remaining < 2:
@@ -147,4 +166,11 @@ func settle_encounter() -> bool:
 	encounters[active_encounter] = {"outcome": result, "day": day}
 	active_battle = null
 	active_encounter = ""
+	return true
+
+func select_hero(id: String) -> bool:
+	if active_battle != null or not trade.pending.is_empty() or not party.select(id):
+		return false
+	trade.inventory = party.active().inventory
+	_reveal_from(hero_cell)
 	return true

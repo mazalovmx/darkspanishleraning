@@ -3,7 +3,7 @@ extends RefCounted
 const WorldState = preload("res://src/world/world_state.gd")
 const Learner = preload("res://src/spanish/learner_profile.gd")
 const PATH := "user://savegame.json"
-const VERSION := 5
+const VERSION := 6
 const MAP_ID := "prototype_20x20_v1"
 const MAX_BYTES := 1048576
 
@@ -16,7 +16,7 @@ static func snapshot(state: WorldState) -> Dictionary:
 				explored.append([x, y])
 	var learner = state.learner
 	return {"version": VERSION, "map_id": MAP_ID, "day": state.day,
-		"hero": {"cell": [state.hero_cell.x, state.hero_cell.y], "movement": state.movement_remaining},
+		"party": state.party.snapshot(), "hero": {"cell": [state.hero_cell.x, state.hero_cell.y], "movement": state.movement_remaining},
 		"strategy": {"trade": state.trade.snapshot(), "army": state.army.duplicate(true), "resources": state.resources.duplicate(true), "encounters": state.encounters.duplicate(true)}, "explored": explored, "evidence": state.evidence.progress(), "learner": {"block": learner.current_block, "curriculum": learner.curriculum.snapshot(),
 		"grammar": learner.grammar.duplicate(true), "verbs": learner.verbs.duplicate(true),
 		"errors": learner.errors.duplicate(true), "vocabulary": learner.vocabulary.duplicate(),
@@ -94,7 +94,7 @@ static func decode(data: Variant) -> Dictionary:
 		return {"error": "invalid"}
 	if not _integer(data.get("version"), 1, VERSION):
 		return {"error": "version"}
-	if data.size() != (6 if data.version == 1 else 7 if data.version == 2 else 8):
+	if data.size() != (6 if data.version == 1 else 7 if data.version == 2 else 8 if data.version < 6 else 9):
 		return {"error": "invalid"}
 	if data.version >= 2 and not data.has("evidence"):
 		return {"error": "invalid"}
@@ -137,6 +137,19 @@ static func decode(data: Variant) -> Dictionary:
 			var position := Vector2i(x, y)
 			state.known_grid.set_point_solid(position, not explored.has(position) or state.terrain_cost(position) == 0)
 			state.known_grid.set_point_weight_scale(position, maxi(1, state.terrain_cost(position)))
+	if data.version >= 6:
+		if not state.party.restore(data.get("party"), state.grid.region, func(position: Vector2i): return state.terrain_cost(position) > 0):
+			return {"error": "invalid"}
+		if state.hero_cell != Vector2i(cell[0], cell[1]) or state.movement_remaining != int(data.hero.movement):
+			return {"error": "invalid"}
+		if state.army != data.strategy.army or state.party.active().inventory != data.strategy.trade.inventory:
+			return {"error": "invalid"}
+		for member in state.party.heroes.values():
+			if member.unlocked and not explored.has(member.cell):
+				return {"error": "invalid"}
+	else:
+		state.party.active().inventory = state.trade.inventory
+	state.trade.inventory = state.party.active().inventory
 	state._reveal_from(state.hero_cell)
 	var learner: Dictionary = data.learner
 	for tag in learner.grammar:
