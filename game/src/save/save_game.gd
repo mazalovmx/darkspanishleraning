@@ -3,7 +3,7 @@ extends RefCounted
 const WorldState = preload("res://src/world/world_state.gd")
 const Learner = preload("res://src/spanish/learner_profile.gd")
 const PATH := "user://savegame.json"
-const VERSION := 4
+const VERSION := 5
 const MAP_ID := "prototype_20x20_v1"
 const MAX_BYTES := 1048576
 
@@ -17,7 +17,7 @@ static func snapshot(state: WorldState) -> Dictionary:
 	var learner = state.learner
 	return {"version": VERSION, "map_id": MAP_ID, "day": state.day,
 		"hero": {"cell": [state.hero_cell.x, state.hero_cell.y], "movement": state.movement_remaining},
-		"strategy": {"trade": state.trade.snapshot(), "army": state.army.duplicate(true), "resources": state.resources.duplicate(true), "encounters": state.encounters.duplicate(true)}, "explored": explored, "evidence": state.evidence.progress(), "learner": {"block": learner.current_block,
+		"strategy": {"trade": state.trade.snapshot(), "army": state.army.duplicate(true), "resources": state.resources.duplicate(true), "encounters": state.encounters.duplicate(true)}, "explored": explored, "evidence": state.evidence.progress(), "learner": {"block": learner.current_block, "curriculum": learner.curriculum.snapshot(),
 		"grammar": learner.grammar.duplicate(true), "verbs": learner.verbs.duplicate(true),
 		"errors": learner.errors.duplicate(true), "vocabulary": learner.vocabulary.duplicate(),
 		"recent_messages": learner.recent_messages.duplicate(),
@@ -47,12 +47,18 @@ static func _scores(values: Variant, keys: Array) -> bool:
 			return false
 	return true
 
-static func _learner_valid(data: Variant, day: int) -> bool:
-	if not data is Dictionary or data.size() != 7:
+static func _learner_valid(data: Variant, day: int, version: int) -> bool:
+	if not data is Dictionary or data.size() != (8 if version >= 5 else 7):
 		return false
-	if not data.get("block") is String or data.block != "present_and_basic_requests":
+	var course = preload("res://src/spanish/curriculum.gd").new()
+	if version >= 5 and not course.restore(data.get("curriculum"), day):
 		return false
-	if not _scores(data.get("grammar"), Learner.GRAMMAR) or not _scores(data.get("verbs"), Learner.VERBS):
+	if not data.get("block") is String or data.block != course.block_id():
+		return false
+	var grammar_keys: Array = Learner.GRAMMAR.duplicate()
+	if version < 5:
+		grammar_keys.erase("future_simple")
+	if not _scores(data.get("grammar"), grammar_keys) or not _scores(data.get("verbs"), Learner.VERBS):
 		return false
 	if not _strings(data.get("vocabulary"), 100, 100) or not _strings(data.get("recent_messages"), 40, 300):
 		return false
@@ -103,7 +109,7 @@ static func decode(data: Variant) -> Dictionary:
 		return {"error": "invalid"}
 	if not data.get("explored") is Array or data.explored.size() > 400:
 		return {"error": "invalid"}
-	if not _learner_valid(data.get("learner"), int(data.day)):
+	if not _learner_valid(data.get("learner"), int(data.day), int(data.version)):
 		return {"error": "invalid"}
 	var state := WorldState.new()
 	if data.version >= 3 and not _restore_strategy(state, data.get("strategy"), int(data.day), int(data.version)):
@@ -144,7 +150,8 @@ static func decode(data: Variant) -> Dictionary:
 	state.learner.vocabulary.assign(learner.vocabulary)
 	state.learner.recent_messages.assign(learner.recent_messages)
 	state.learner.successful_contexts = learner.successful_contexts.duplicate(true)
-	state.learner.current_block = learner.block
+	if data.version >= 5:
+		state.learner.curriculum.restore(learner.curriculum, int(data.day))
 	return {"state": state, "error": ""}
 
 static func read_save(path := PATH) -> Dictionary:

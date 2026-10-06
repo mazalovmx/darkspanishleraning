@@ -2,8 +2,8 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: steps 13-15 verified together; Gates F and G passed.
-Next task: step 16 ordered grammar scheduler and curriculum-controlled difficulty.
+Current task: ordered curriculum UI, conversation focus and save v5 integrated. Gates A-G passed.
+Next task: apply learned language tiers to transactions, then steps 17-18 three heroes.
 
 ## Provenance
 
@@ -527,3 +527,26 @@ test type declarations. Covers every block, every intermediate restore, forged/s
 prerequisites, delayed recall, grammar/verb coverage and scheduling/difficulty limits.
 The engine and content are not yet wired into learner saves or gameplay UI.
 Next task is that integration. Existing shutdown warnings persist.
+## Curriculum in gameplay and save v5
+
+The Español control opens the ordered course. It shows the model only for introduction/
+guided production, changes prompts for two independent transfers and requires recall
+on a later game day. Lessons autosave and never advance hostile turns. The learner's
+current block is derived from canonical lesson records, not a writable difficulty label.
+Completed lessons remain distinct from observed free-language mastery.
+
+NPC prompts receive the actual curriculum, taught grammar, scheduled focus and bounded
+difficulty dimensions. Repeated/uncertain dialogue cannot farm difficulty changes;
+model tags for untaught tenses cannot award grammar observations. Added future_simple
+as a separate grammar category rather than mislabelling it ir_a_future.
+
+Save v5 validates course proofs and block consistency. V1-v4 migration initializes an
+empty course and future_simple=0 while preserving previous observations and game state.
+Executed: 22 curriculum integration checks headless and OpenGL; 890 course, 525 save,
+43 market, 64 battle integration, 53 notebook, 27 Spanish feedback, 72 Claude client,
+31 vertical-slice checks headless, all passed.
+The first OpenGL attempt failed inside AccessKit Windows with resource-memory error.
+No Godot processes were left running. Repeated the test with --accessibility disabled
+for that test process only: 22/0 and OpenGL initialized; screenshot inspected.
+The game's accessibility settings were not changed. Existing shutdown warnings persist.
+Next apply transaction language tiers, then the three-hero milestones; full game pending.

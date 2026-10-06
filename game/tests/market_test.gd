@@ -77,6 +77,8 @@ func run() -> void:
 	check(not Save.decode(bad).has("state"), "Negative stock rejected")
 	var old := saved.duplicate(true)
 	old.version = 3
+	old.learner.erase("curriculum")
+	old.learner.grammar.erase("future_simple")
 	old.strategy.erase("trade")
 	check(Save.decode(old).has("state") and Save.decode(old).state.trade.purchase_count == 0, "V3 adds empty trade without fabricated purchases")
 	var path := "user://market_test_%d.json" % OS.get_process_id()

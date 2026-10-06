@@ -64,6 +64,8 @@ func run() -> void:
 		check(not Save.decode(bad).has("state"), "Invalid army rejected")
 	var old := saved.duplicate(true)
 	old.version = 2
+	old.learner.erase("curriculum")
+	old.learner.grammar.erase("future_simple")
 	old.erase("strategy")
 	check(Save.decode(old).has("state"), "V2 migrates")
 	check(Save.decode(old).state.resources.gold == 300 and Save.decode(old).state.encounters.is_empty(), "Migration adds defaults without fabricated victories")

@@ -17,6 +17,8 @@ var save_notice := Label.new()
 var save_confirm := ConfirmationDialog.new()
 var notebook = preload("res://src/evidence/evidence_notebook.gd").new()
 var notebook_button := Button.new()
+var language_button := Button.new()
+var lessons = preload("res://src/spanish/curriculum_panel.gd").new()
 var inspect_button := Button.new()
 var battle_button := Button.new()
 var market_button := Button.new()
@@ -90,6 +92,15 @@ func _build_ui() -> void:
 	panel.theme.default_font = ThemeDB.fallback_font
 	layer.add_child(panel)
 	_build_poi_window(layer, panel.theme)
+	lessons.theme = panel.theme
+	layer.add_child(lessons)
+	lessons.closed.connect(func():
+		end_button.disabled = poi_modal.visible
+		_update_preview())
+	lessons.progressed.connect(func():
+		if poi_modal.visible and not dialogue.location_id.is_empty():
+			dialogue._render_history()
+		_save_game(true))
 	market.theme = panel.theme
 	layer.add_child(market)
 	market.closed.connect(func():
@@ -149,6 +160,15 @@ func _build_ui() -> void:
 		end_button.disabled = true
 		_update_preview())
 	saves.add_child(notebook_button)
+	language_button.text = "Español"
+	language_button.pressed.connect(func():
+		if not arena.visible and not dialogue.client.busy and not market.visible and not notebook.visible:
+			lessons.open_course(state)
+			end_button.disabled = true
+			_update_preview())
+	saves.add_child(language_button)
+	for control in [save_button, load_button, notebook_button, language_button]:
+		control.add_theme_font_size_override("font_size", 13)
 	box.add_child(saves)
 	save_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	save_notice.add_theme_font_size_override("font_size", 14)
@@ -247,6 +267,10 @@ func _close_poi() -> void:
 func _input(event: InputEvent) -> void:
 	if arena.visible:
 		return
+	if lessons.visible and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		lessons.close()
+		get_viewport().set_input_as_handled()
+		return
 	if market.visible and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		market.close()
 		get_viewport().set_input_as_handled()
@@ -261,7 +285,7 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if poi_modal.visible or notebook.visible or arena.visible or market.visible:
+	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible:
 		return
 	if event is InputEventMouse:
 		pointer = event.position
@@ -296,7 +320,7 @@ func _clamp_camera() -> void:
 	camera.force_update_scroll()
 
 func _end_turn() -> void:
-	if poi_modal.visible or notebook.visible or arena.visible or market.visible:
+	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible:
 		return
 	state.end_turn()
 	_save_game(true)
@@ -322,7 +346,7 @@ func _refresh() -> void:
 func _update_preview() -> void:
 	hovered = tiles.local_to_map(tiles.get_global_transform_with_canvas().affine_inverse() * pointer)
 	preview.clear()
-	if selected and not poi_modal.visible and not notebook.visible and not arena.visible and not market.visible:
+	if selected and not poi_modal.visible and not notebook.visible and not arena.visible and not market.visible and not lessons.visible:
 		preview = state.path_to(hovered, true)
 	if not selected:
 		route_info.text = "Selecciona al héroe para viajar."
@@ -399,6 +423,8 @@ func _load_game(startup := false) -> void:
 	dialogue.world_state = state
 	notebook.hide()
 	market.hide()
+	lessons.hide()
+	lessons.world_state = state
 	market.world_state = state
 	notebook.world_state = state
 	notebook.active_id = ""
@@ -423,13 +449,14 @@ func _on_dialogue_finished() -> void:
 	_save_game(true)
 
 func _start_battle() -> void:
-	if dialogue.client.busy or notebook.visible or market.visible or not state.begin_encounter("opening_road"):
+	if dialogue.client.busy or notebook.visible or market.visible or lessons.visible or not state.begin_encounter("opening_road"):
 		save_notice.text = "Necesitas un ejército, dos puntos de movimiento y acceso al encuentro."
 		return
 	poi_modal.hide()
 	save_button.disabled = true
 	load_button.disabled = true
 	notebook_button.disabled = true
+	language_button.disabled = true
 	end_button.disabled = true
 	arena.present(state.active_battle, str(state.active_battle.data.opening.name))
 	_update_preview()
@@ -441,6 +468,7 @@ func _on_battle_finished(_outcome: String, _survivors: Array) -> void:
 	save_button.disabled = false
 	load_button.disabled = false
 	notebook_button.disabled = false
+	language_button.disabled = false
 	end_button.disabled = false
 	_refresh()
 	_update_preview()

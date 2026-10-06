@@ -47,6 +47,8 @@ func run() -> void:
 	check(not state.evidence.restore({"unknown": {}}, 1) and state.evidence.progress() == progress, "Invalid restore is transactional")
 	var old := saved.duplicate(true)
 	old.version = 1
+	old.learner.erase("curriculum")
+	old.learner.grammar.erase("future_simple")
 	old.erase("evidence")
 	old.erase("strategy")
 	var migrated := Save.decode(old)

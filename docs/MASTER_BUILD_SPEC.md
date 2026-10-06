@@ -2869,3 +2869,19 @@ This expands authored scope only, not the current implementation gate. Catalogs 
 authored_not_integrated; balance and simultaneous resolution are unplaytested. Runtime
 integration needs Gate I, persistence, equipment, stack combat and ordered curriculum.
 Do not replace the current map/day loop until that integration is explicitly reached.
+
+## Ordered curriculum implementation thresholds (2026-10-06)
+
+The initial authored course contains 31 topics over the seven ordered blocks. Each
+topic requires introduction, guided production, two changed-context productions and
+recall on a later game day. All topics of a block precede advancement. These are initial
+engineering thresholds, not a calibrated claim of fluency or real-time spaced retention.
+Guided work does not award free-language mastery. Save validation rechecks the proofs.
+future_simple is an additional grammar metric distinct from ir_a_future.
+
+After consolidation, the focus cycle is 12 weak/review, 5 current and 3 stretch slots
+per 20 dialogue requests. During consolidation, stretch becomes current practice.
+Stretch increases vocabulary/sentence demands within taught grammar; new tenses follow
+lesson prerequisites. Three understood exchanges adjust one dimension by 0.05; two
+comprehension failures reduce one pressure dimension by 0.04, capped at 0.10 per
+conversation. Uncertain and duplicate productions cannot drive these adjustments.

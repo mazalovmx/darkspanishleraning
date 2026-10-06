@@ -58,6 +58,7 @@ func _ready() -> void:
 
 func open_conversation(id: String) -> void:
 	location_id = id
+	world_state.learner.curriculum.begin_conversation()
 	visible = conversations.has(id)
 	if not visible:
 		return
@@ -99,6 +100,7 @@ func submit(message: String) -> void:
 	context["player_message"] = clean
 	context["recent_dialogue"] = histories[location_id].slice(-3)
 	context["language_profile"] = world_state.learner.context()
+	context["language_profile"]["focus"] = world_state.learner.curriculum.select_focus(world_state.learner.grammar, world_state.learner.errors)
 	request_started.emit()
 	client.request_reply(context)
 
@@ -173,7 +175,7 @@ func reply_for(id: String, message: String) -> String:
 	return conversations[id].fallback
 
 func _render_history() -> void:
-	hint.text = "Objetivo: presente y peticiones sencillas. " + str(conversations[location_id].hint)
+	hint.text = "Objetivo: " + str(world_state.learner.curriculum.blocks[world_state.learner.curriculum.index()].title) + ". " + str(conversations[location_id].hint)
 	var evidence = world_state.evidence
 	for id in evidence.definitions:
 		var clue: Dictionary = evidence.node(id)
