@@ -718,3 +718,21 @@ retreat, 527 save, 43 market, 64 battle integration, 46 party integration and
 22 curriculum integration checks: passed. Existing shutdown diagnostics persist.
 The economic model is now world/save-connected; construction and mine interaction
 controls are the next task, so the full player-facing loop is not yet claimed.
+## Strategic economy interface connected
+
+Settlements expose construction, weekly recruitment and troop upgrades. The panel shows
+all seven resource balances, prerequisites, stock and full costs; a quote locks its
+item/quantity until completion or cancellation. Every purchase uses typed request,
+cost comprehension and confirmation. Reached resource sites expose their guards and
+Spanish ownership order. After an actual mine fight the panel resumes at the claim
+step; only the next world day grants income. Owned sites change marker color.
+The sidebar now scrolls, keeping its expanded resource display and controls accessible.
+
+Executed 20 economy-scene checks headless/OpenGL, including UI construction, recruitment,
+cancelled quotes, a won mine fight, ownership autosave and the next day's income;
+365 map, 64 battle integration, 46 party and 31 vertical-slice regressions: passed.
+The first new UI test retained quantity four while typing a quantity-one request;
+corrected that fixture and reran successfully. Screenshot reviewed. Existing shutdown
+diagnostics remain. Artifact sales, equipment effects, optional case runtime and
+simultaneous ghost-knight turns are still next; the artifact-market building alone
+does not yet provide equipment sales.

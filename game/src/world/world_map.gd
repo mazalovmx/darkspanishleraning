@@ -25,6 +25,8 @@ var lessons = preload("res://src/spanish/curriculum_panel.gd").new()
 var inspect_button := Button.new()
 var battle_button := Button.new()
 var market_button := Button.new()
+var strategy_button := Button.new()
+var strategy_panel = preload("res://src/economy/strategy_panel.gd").new()
 var market = preload("res://src/economy/market_panel.gd").new()
 var army_notice := Label.new()
 var arena = preload("res://src/combat/stack_arena.tscn").instantiate()
@@ -100,6 +102,15 @@ func _build_ui() -> void:
 	panel.theme.default_font = ThemeDB.fallback_font
 	layer.add_child(panel)
 	_build_poi_window(layer, panel.theme)
+	strategy_panel.theme = panel.theme
+	layer.add_child(strategy_panel)
+	strategy_panel.closed.connect(func():
+		end_button.disabled = poi_modal.visible
+		_update_preview())
+	strategy_panel.committed.connect(func():
+		_refresh()
+		_save_game(true))
+	strategy_panel.battle_requested.connect(_start_battle)
 	campaign_journal.theme = panel.theme
 	layer.add_child(campaign_journal)
 	campaign_journal.closed.connect(func():
@@ -142,7 +153,11 @@ func _build_ui() -> void:
 	panel.add_child(margin)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 5)
-	margin.add_child(box)
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	margin.add_child(scroll)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(box)
 	var title := Label.new()
 	title.text = "MAPA DE VIAJE"
 	box.add_child(title)
@@ -190,7 +205,7 @@ func _build_ui() -> void:
 	campaign_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	campaign_button.visible = state.map_id == "province_160x120_v1"
 	campaign_button.pressed.connect(func():
-		if arena.visible or market.visible or notebook.visible or lessons.visible or campaign_journal.visible or dialogue.client.busy:
+		if arena.visible or market.visible or notebook.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or dialogue.client.busy:
 			return
 		campaign_journal.open_journal(state)
 		end_button.disabled = true
@@ -209,7 +224,7 @@ func _build_ui() -> void:
 	notebook_button.text = "Cuaderno"
 	notebook_button.add_theme_font_size_override("font_size", 15)
 	notebook_button.pressed.connect(func():
-		if campaign_journal.visible:
+		if campaign_journal.visible or strategy_panel.visible:
 			return
 		notebook.open_journal(state)
 		end_button.disabled = true
@@ -217,7 +232,7 @@ func _build_ui() -> void:
 	saves.add_child(notebook_button)
 	language_button.text = "Español"
 	language_button.pressed.connect(func():
-		if not arena.visible and not dialogue.client.busy and not market.visible and not notebook.visible and not campaign_journal.visible:
+		if not arena.visible and not dialogue.client.busy and not market.visible and not notebook.visible and not campaign_journal.visible and not strategy_panel.visible:
 			lessons.open_course(state)
 			end_button.disabled = true
 			_update_preview())
@@ -290,6 +305,11 @@ func _build_poi_window(layer: CanvasLayer, ui_theme: Theme) -> void:
 		if not dialogue.client.busy:
 			market.open_market(state))
 	actions.add_child(market_button)
+	strategy_button.text = "Asentamiento"
+	strategy_button.pressed.connect(func():
+		if not dialogue.client.busy:
+			strategy_panel.open_site(state))
+	actions.add_child(strategy_button)
 	actions.add_child(poi_close)
 	poi_modal.hide()
 
@@ -298,7 +318,13 @@ func _open_poi(cell: Vector2i) -> void:
 		return
 	var location := state.location_at(cell)
 	if location.is_empty():
+		var site := state.resource_at(cell)
+		if not site.is_empty():
+			strategy_panel.open_site(state,site.id)
+			end_button.disabled = true
+			_update_preview()
 		return
+	strategy_button.visible = state.map_id == "province_160x120_v1" and location.id in state.economy.catalog.towns
 	market_button.visible = location.id == "LOC11"
 	inspect_button.visible = location.id == "LOC01"
 	battle_button.visible = location.id == "LOC11" and state.evidence.has_evidence("travel_food") and state.encounters.get("opening_road", {}).get("outcome", "") != "victory"
@@ -322,6 +348,10 @@ func _close_poi() -> void:
 func _input(event: InputEvent) -> void:
 	if arena.visible:
 		return
+	if strategy_panel.visible and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		strategy_panel.close()
+		get_viewport().set_input_as_handled()
+		return
 	if campaign_journal.visible and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		campaign_journal.close()
 		get_viewport().set_input_as_handled()
@@ -344,7 +374,7 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _switch_hero(id: String) -> void:
-	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
+	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
 		_refresh()
 		return
 	if not state.select_hero(id):
@@ -358,7 +388,7 @@ func _switch_hero(id: String) -> void:
 	_save_game(true)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible:
+	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible:
 		return
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode in [KEY_F1, KEY_F2, KEY_F3]:
 		_switch_hero(["inquisitor", "smuggler", "survivor"][event.keycode - KEY_F1])
@@ -397,7 +427,7 @@ func _clamp_camera() -> void:
 	camera.force_update_scroll()
 
 func _end_turn() -> void:
-	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible:
+	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible:
 		return
 	state.end_turn()
 	_save_game(true)
@@ -408,7 +438,7 @@ func _refresh() -> void:
 	var names := COLORS.keys()
 	for cell: Vector2i in state.fog:
 		tiles.set_cell(cell, 0, Vector2i(names.find(state.terrain[cell.y][cell.x]), 0))
-	army_notice.text = "Oro: %d · Destacamentos: %d / 7" % [state.resources.gold, state.army.size()]
+	army_notice.text = "Oro: %d · Madera: %d · Mineral: %d\nMercurio: %d · Azufre: %d\nCristal: %d · Gemas: %d · Ejército: %d/7" % [state.resources.gold,state.resources.wood,state.resources.ore,state.resources.mercury,state.resources.sulfur,state.resources.crystal,state.resources.gems,state.army.size()]
 	hero.position = tiles.map_to_local(state.hero_cell)
 	hero.modulate = Color(state.party.active().definition.color)
 	for id in hero_buttons:
@@ -422,7 +452,7 @@ func _refresh() -> void:
 func _update_preview() -> void:
 	hovered = tiles.local_to_map(tiles.get_global_transform_with_canvas().affine_inverse() * pointer)
 	preview.clear()
-	if selected and not poi_modal.visible and not notebook.visible and not arena.visible and not market.visible and not lessons.visible and not campaign_journal.visible:
+	if selected and not poi_modal.visible and not notebook.visible and not arena.visible and not market.visible and not lessons.visible and not campaign_journal.visible and not strategy_panel.visible:
 		preview = state.path_to(hovered, true)
 	if not selected:
 		route_info.text = "Selecciona al héroe para viajar."
@@ -434,6 +464,9 @@ func _update_preview() -> void:
 		var cost: int = state.path_cost(preview)
 		route_info.text = "Ruta: %d puntos.%s" % [cost,
 			"\nNo quedan suficientes puntos." if cost > state.movement_remaining else ""]
+	var site := state.resource_at(hovered)
+	if not site.is_empty():
+		route_info.text = "Mina de %s · +%d/día\n%s" % [state.economy.catalog.resource_names[site.resource],site.daily_income,route_info.text]
 	var gate := state.gate_at(hovered)
 	if not gate.is_empty() and gate.closed and state.fog_at(hovered) != WorldState.Fog.UNKNOWN:
 		route_info.text = gate.message
@@ -469,7 +502,7 @@ func _draw() -> void:
 		if state.fog_at(cell) == WorldState.Fog.UNKNOWN:
 			continue
 		var center := tiles.map_to_local(cell)
-		draw_colored_polygon(PackedVector2Array([center + Vector2(0,-8), center + Vector2(8,0), center + Vector2(0,8), center + Vector2(-8,0)]), Color("bf9670"))
+		draw_colored_polygon(PackedVector2Array([center + Vector2(0,-8), center + Vector2(8,0), center + Vector2(0,8), center + Vector2(-8,0)]), Color("72c9b0") if state.economy.mines.has(site.id) else Color("bf9670"))
 	for gate: Dictionary in state.map_data.get("gates", []):
 		var cell := Vector2i(gate.position[0], gate.position[1])
 		if state.fog_at(cell) != WorldState.Fog.UNKNOWN and state.gate_at(cell).closed:
@@ -533,6 +566,8 @@ func _load_game(startup := false) -> void:
 	market.hide()
 	lessons.hide()
 	campaign_journal.hide()
+	strategy_panel.hide()
+	strategy_panel.world_state = state
 	campaign_journal.world_state = state
 	campaign_button.visible = state.map_id == "province_160x120_v1"
 	lessons.world_state = state
@@ -559,8 +594,8 @@ func _on_dialogue_finished() -> void:
 	load_button.disabled = false
 	_save_game(true)
 
-func _start_battle() -> void:
-	if dialogue.client.busy or notebook.visible or market.visible or lessons.visible or campaign_journal.visible or not state.begin_encounter("opening_road"):
+func _start_battle(id := "opening_road") -> void:
+	if dialogue.client.busy or notebook.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or not state.begin_encounter(id):
 		save_notice.text = "Necesitas un ejército, dos puntos de movimiento y acceso al encuentro."
 		return
 	poi_modal.hide()
@@ -584,3 +619,7 @@ func _on_battle_finished(_outcome: String, _survivors: Array) -> void:
 	_refresh()
 	_update_preview()
 	_save_game(true)
+	var site := state.resource_at(state.hero_cell)
+	if not site.is_empty():
+		strategy_panel.open_site(state,site.id)
+		end_button.disabled = true
