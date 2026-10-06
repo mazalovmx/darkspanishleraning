@@ -1,0 +1,60 @@
+{
+  "inquisitor": {
+    "name": "Mateo de Aranda",
+    "short_name": "Mateo",
+    "role": "Investigador del Tribunal",
+    "register": "formal",
+    "color": "#e7c879",
+    "movement_max": 18,
+    "prototype_position": [
+      2,
+      10
+    ],
+    "army": [
+      {
+        "type": "militia",
+        "count": 8
+      },
+      {
+        "type": "archers",
+        "count": 4
+      }
+    ]
+  },
+  "smuggler": {
+    "name": "Inés Vargas",
+    "short_name": "Inés",
+    "role": "Contrabandista",
+    "register": "colloquial",
+    "color": "#72c9b0",
+    "movement_max": 18,
+    "prototype_position": [
+      2,
+      10
+    ],
+    "army": [
+      {
+        "type": "archers",
+        "count": 6
+      }
+    ]
+  },
+  "survivor": {
+    "name": "Elias Venn",
+    "short_name": "Elias",
+    "role": "Superviviente",
+    "register": "precise",
+    "color": "#a7a1ef",
+    "movement_max": 18,
+    "prototype_position": [
+      2,
+      10
+    ],
+    "army": [
+      {
+        "type": "relic_sentinel",
+        "count": 2
+      }
+    ]
+  }
+}

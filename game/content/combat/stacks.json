@@ -1,78 +1,90 @@
 {
-  "units": {
-    "militia": {
-      "name": "Milicia",
-      "hp": 9,
-      "damage_min": 2,
-      "damage_max": 4,
-      "attack": 3,
-      "defense": 4,
-      "initiative": 7,
-      "ability": "brace",
-      "ability_name": "Formar escudos",
-      "ranged": false
-    },
-    "archers": {
-      "name": "Arqueros",
-      "hp": 7,
-      "damage_min": 2,
-      "damage_max": 3,
-      "attack": 4,
-      "defense": 2,
-      "initiative": 8,
-      "ability": "aim",
-      "ability_name": "Disparo preciso",
-      "ranged": true
-    },
-    "bandits": {
-      "name": "Salteadores",
-      "hp": 8,
-      "damage_min": 2,
-      "damage_max": 4,
-      "attack": 3,
-      "defense": 2,
-      "initiative": 6,
-      "ability": "charge",
-      "ability_name": "Carga",
-      "ranged": false
-    },
-    "ghost_guard": {
-      "name": "Guardia espectral",
-      "hp": 12,
-      "damage_min": 3,
-      "damage_max": 4,
-      "attack": 5,
-      "defense": 5,
-      "initiative": 5,
-      "ability": "drain",
-      "ability_name": "Absorber vigor",
-      "ranged": false
-    }
-  },
-  "opening": {
-    "id": "opening_road",
-    "name": "Salteadores del camino",
-    "location_id": "LOC11",
-    "description": "Un grupo de salteadores bloquea las entregas junto a la venta. La pelea no demuestra quién mata a Tomás.",
-    "enemies": [
-      {
-        "type": "bandits",
-        "count": 5
-      }
-    ],
-    "reward": {
-      "gold": 60
-    },
-    "requires": "travel_food"
-  },
-  "starting_army": [
-    {
-      "type": "militia",
-      "count": 8
-    },
-    {
-      "type": "archers",
-      "count": 4
-    }
-  ]
+    "units":  {
+                  "militia":  {
+                                  "name":  "Milicia",
+                                  "hp":  9,
+                                  "damage_min":  2,
+                                  "damage_max":  4,
+                                  "attack":  3,
+                                  "defense":  4,
+                                  "initiative":  7,
+                                  "ability":  "brace",
+                                  "ability_name":  "Formar escudos",
+                                  "ranged":  false
+                              },
+                  "archers":  {
+                                  "name":  "Arqueros",
+                                  "hp":  7,
+                                  "damage_min":  2,
+                                  "damage_max":  3,
+                                  "attack":  4,
+                                  "defense":  2,
+                                  "initiative":  8,
+                                  "ability":  "aim",
+                                  "ability_name":  "Disparo preciso",
+                                  "ranged":  true
+                              },
+                  "bandits":  {
+                                  "name":  "Salteadores",
+                                  "hp":  8,
+                                  "damage_min":  2,
+                                  "damage_max":  4,
+                                  "attack":  3,
+                                  "defense":  2,
+                                  "initiative":  6,
+                                  "ability":  "charge",
+                                  "ability_name":  "Carga",
+                                  "ranged":  false
+                              },
+                  "ghost_guard":  {
+                                      "name":  "Guardia espectral",
+                                      "hp":  12,
+                                      "damage_min":  3,
+                                      "damage_max":  4,
+                                      "attack":  5,
+                                      "defense":  5,
+                                      "initiative":  5,
+                                      "ability":  "drain",
+                                      "ability_name":  "Absorber vigor",
+                                      "ranged":  false
+                                  },
+                  "relic_sentinel":  {
+                                         "ability_name":  "Defensa integrada",
+                                         "initiative":  6,
+                                         "defense":  6,
+                                         "damage_max":  6,
+                                         "attack":  6,
+                                         "name":  "Centinela de reliquia",
+                                         "ability":  "brace",
+                                         "hp":  24,
+                                         "ranged":  false,
+                                         "damage_min":  4
+                                     }
+              },
+    "opening":  {
+                    "id":  "opening_road",
+                    "name":  "Salteadores del camino",
+                    "location_id":  "LOC11",
+                    "description":  "Un grupo de salteadores bloquea las entregas junto a la venta. La pelea no demuestra quién mata a Tomás.",
+                    "enemies":  [
+                                    {
+                                        "type":  "bandits",
+                                        "count":  5
+                                    }
+                                ],
+                    "reward":  {
+                                   "gold":  60
+                               },
+                    "requires":  "travel_food"
+                },
+    "starting_army":  [
+                          {
+                              "type":  "militia",
+                              "count":  8
+                          },
+                          {
+                              "type":  "archers",
+                              "count":  4
+                          }
+                      ]
 }

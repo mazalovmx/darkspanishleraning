@@ -2680,3 +2680,11 @@ eight militia and four archers. Winning releases 60 gold as a local reward; retr
 and defeat preserve only surviving troops. This encounter is unrelated to the identity
 of Tomás's killer and supplies no evidence about the Order. It provides the required
 opening combat without rewriting the canonical death or later revelations.
+### Three-hero development slice
+
+The small development map may stage Mateo, Inés and Elias together to verify independent
+movement, armies and inventory before the campaign map exists. This is a mechanical
+fixture, not an early canonical arrival of Elias or a replacement for Inés's Act III
+introduction. The full campaign must retain Cárdena for Inés and Monte Ciego for Elias.
+The prototype starts Mateo with militia/archers, Inés with archers and Elias with two
+rare relic sentinels. These escorts do not reveal the truth of El Índice to other NPCs.

@@ -564,3 +564,16 @@ The tier test completes actual prerequisite lessons, makes purchases at all four
 restores their mixed history and checks the real shop prompt. OpenGL test used
 --accessibility disabled after the earlier AccessKit failure; screenshot inspected.
 Existing shutdown diagnostics remain. Step 16 complete; next implement three heroes.
+## Three-hero state foundation (steps 17-18, map integration pending)
+
+Added Mateo, Inés and Elias definitions and independent positions, movement, health,
+armies and supply inventories. Shared strategic resources/evidence remain world-owned.
+Party selection never refreshes movement. Co-located heroes can transfer troops/supplies;
+stack merges, seven-slot limits and quantity conservation are validated.
+Elias's small prototype escort uses two relic sentinels with the existing brace mechanic.
+Snapshot validation rejects unknown/locked active heroes, bad positions and malformed
+inventories/armies transactionally.
+
+Executed 36 party-state and 39 combat regression checks, all passed; shutdown warnings
+persist. This is the party model only. Next wire portraits/F1-F3, shared visibility,
+per-hero trading/battles and save v6 before claiming Gate H.
