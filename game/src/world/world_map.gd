@@ -18,6 +18,9 @@ var save_confirm := ConfirmationDialog.new()
 var notebook = preload("res://src/evidence/evidence_notebook.gd").new()
 var notebook_button := Button.new()
 var inspect_button := Button.new()
+var battle_button := Button.new()
+var army_notice := Label.new()
+var arena = preload("res://src/combat/stack_arena.tscn").instantiate()
 var selected := false
 var pointer := Vector2.ZERO
 var preview: Array[Vector2i] = []
@@ -85,6 +88,9 @@ func _build_ui() -> void:
 	panel.theme.default_font = ThemeDB.fallback_font
 	layer.add_child(panel)
 	_build_poi_window(layer, panel.theme)
+	layer.add_child(arena)
+	arena.z_index = 30
+	arena.finished.connect(_on_battle_finished)
 	notebook.theme = panel.theme
 	layer.add_child(notebook)
 	notebook.closed.connect(func():
@@ -104,6 +110,9 @@ func _build_ui() -> void:
 	title.text = "MAPA DE VIAJE"
 	box.add_child(title)
 	box.add_child(status)
+	army_notice.add_theme_font_size_override("font_size", 14)
+	army_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	box.add_child(army_notice)
 	var instructions := Label.new()
 	instructions.text = "Clic en el héroe: seleccionar\nClic en una casilla: mover\nBotón derecho: deseleccionar\nArrastrar botón central: cámara\nRueda: acercar / alejar"
 	instructions.add_theme_font_size_override("font_size", 15)
@@ -188,6 +197,9 @@ func _build_poi_window(layer: CanvasLayer, ui_theme: Theme) -> void:
 	inspect_button.text = "Examinar pertenencias"
 	inspect_button.pressed.connect(func(): notebook.inspect(state))
 	actions.add_child(inspect_button)
+	battle_button.text = "Despejar el camino"
+	battle_button.pressed.connect(_start_battle)
+	actions.add_child(battle_button)
 	actions.add_child(poi_close)
 	poi_modal.hide()
 
@@ -198,6 +210,7 @@ func _open_poi(cell: Vector2i) -> void:
 	if location.is_empty():
 		return
 	inspect_button.visible = location.id == "LOC01"
+	battle_button.visible = location.id == "LOC11" and state.evidence.has_evidence("travel_food") and state.encounters.get("opening_road", {}).get("outcome", "") != "victory"
 	poi_title.text = location.name
 	poi_description.text = location.description
 	dialogue.open_conversation(location.id)
@@ -216,6 +229,8 @@ func _close_poi() -> void:
 	_save_game(true)
 
 func _input(event: InputEvent) -> void:
+	if arena.visible:
+		return
 	if notebook.visible and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		notebook.close()
 		get_viewport().set_input_as_handled()
@@ -226,7 +241,7 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if poi_modal.visible or notebook.visible:
+	if poi_modal.visible or notebook.visible or arena.visible:
 		return
 	if event is InputEventMouse:
 		pointer = event.position
@@ -261,7 +276,7 @@ func _clamp_camera() -> void:
 	camera.force_update_scroll()
 
 func _end_turn() -> void:
-	if poi_modal.visible or notebook.visible:
+	if poi_modal.visible or notebook.visible or arena.visible:
 		return
 	state.end_turn()
 	_save_game(true)
@@ -277,6 +292,7 @@ func _refresh() -> void:
 				tiles.erase_cell(cell)
 			else:
 				tiles.set_cell(cell, 0, Vector2i(names.find(state.terrain[y][x]), 0))
+	army_notice.text = "Oro: %d · Destacamentos: %d / 7" % [state.resources.gold, state.army.size()]
 	hero.position = tiles.map_to_local(state.hero_cell)
 	status.text = "Día %d\nMovimiento: %d / %d\n%s" % [state.day,
 		state.movement_remaining, state.MOVEMENT_MAX,
@@ -286,7 +302,7 @@ func _refresh() -> void:
 func _update_preview() -> void:
 	hovered = tiles.local_to_map(tiles.get_global_transform_with_canvas().affine_inverse() * pointer)
 	preview.clear()
-	if selected and not poi_modal.visible and not notebook.visible:
+	if selected and not poi_modal.visible and not notebook.visible and not arena.visible:
 		preview = state.path_to(hovered, true)
 	if not selected:
 		route_info.text = "Selecciona al héroe para viajar."
@@ -333,7 +349,7 @@ func _draw() -> void:
 func _save_game(automatic := false, replace_invalid := false) -> void:
 	if not persistence_enabled:
 		return
-	if dialogue.client.busy or not dialogue.pending_location.is_empty():
+	if arena.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
 		if not automatic:
 			save_notice.text = "Espera a que termine la respuesta."
 		return
@@ -349,7 +365,7 @@ func _save_game(automatic := false, replace_invalid := false) -> void:
 		save_notice.text = "No se pudo guardar. Inténtalo de nuevo."
 
 func _load_game(startup := false) -> void:
-	if not persistence_enabled or dialogue.client.busy or not dialogue.pending_location.is_empty():
+	if not persistence_enabled or arena.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
 		return
 	var result: Dictionary = SaveGame.read_save(save_path)
 	if not result.has("state"):
@@ -382,4 +398,28 @@ func _load_game(startup := false) -> void:
 func _on_dialogue_finished() -> void:
 	save_button.disabled = false
 	load_button.disabled = false
+	_save_game(true)
+
+func _start_battle() -> void:
+	if dialogue.client.busy or notebook.visible or not state.begin_encounter("opening_road"):
+		save_notice.text = "Necesitas un ejército, dos puntos de movimiento y acceso al encuentro."
+		return
+	poi_modal.hide()
+	save_button.disabled = true
+	load_button.disabled = true
+	notebook_button.disabled = true
+	end_button.disabled = true
+	arena.present(state.active_battle, str(state.active_battle.data.opening.name))
+	_update_preview()
+
+func _on_battle_finished(_outcome: String, _survivors: Array) -> void:
+	if not state.settle_encounter():
+		return
+	arena.hide()
+	save_button.disabled = false
+	load_button.disabled = false
+	notebook_button.disabled = false
+	end_button.disabled = false
+	_refresh()
+	_update_preview()
 	_save_game(true)

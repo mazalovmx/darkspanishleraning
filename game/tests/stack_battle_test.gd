@@ -10,6 +10,7 @@ func check(ok: bool, message: String) -> void:
 		failures += 1
 		push_error(message)
 func run() -> void:
+	root.size = Vector2i(1280, 720)
 	var battle := Battle.new()
 	for bad in [[], [{"type":"invented","count":1}], [{"type":"militia","count":0}], [{"type":"militia","count":1.5}], [{"type":"militia","count":true}]]:
 		check(not battle.start(bad, [{"type":"bandits","count":1}]), "Invalid army rejected")
@@ -70,9 +71,13 @@ func run() -> void:
 	first.stacks[0].stats.health = 0
 	check(first.count_at(0) == 0, "Dead stack count is zero")
 	var arena = load("res://src/combat/stack_arena.tscn").instantiate()
-	root.add_child(arena)
+	var layer := CanvasLayer.new()
+	root.add_child(layer)
+	layer.add_child(arena)
 	await process_frame
 	check(arena.launch(battle.data.starting_army, battle.data.opening.enemies, 123, "Salteadores del camino"), "Reused arena launches")
+	await process_frame
+	check(Rect2(Vector2.ZERO, root.size).encloses(arena.attack_button.get_global_rect()), "Battle controls fit viewport")
 	check(arena.enemies.get_child_count() == 1 and arena.allies.get_child_count() == 2, "Stack cards rendered")
 	check(arena.selected_target == 2, "Enemy target preselected")
 	arena.ability_button.pressed.emit()
@@ -89,7 +94,7 @@ func run() -> void:
 		await process_frame
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("C:/dev/game/tools/local/stack-battle-preview.png")
-	arena.queue_free()
+	layer.queue_free()
 	await process_frame
 	print("Stack battle checks: %d, failures: %d" % [checks, failures])
 	quit(1 if failures else 0)

@@ -2,8 +2,8 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: step 13 investigative loop complete; Gate F still needs battle and purchase.
-Next task: step 14 stack battle, followed by step 15 transactional merchant; then verify full Gate F.
+Current task: steps 13 investigative loop and 14 map battle complete; Gate F still needs purchase.
+Next task: step 15 transactional merchant, then combined Gate F/G check and grammar scheduler.
 
 ## Provenance
 
@@ -458,3 +458,21 @@ retaliation test to observe the same round rather than the next-round reset.
 Reviewed the rendered arena. Existing shutdown warnings persist.
 This commit provides the arena only; next connect map encounters, persistent losses,
 rewards and save migration before claiming step 14 complete.
+## Persistent map battle (step 14 complete)
+
+The inn exposes a road-bandit encounter after the first clue. Starting spends two
+movement points; battles block movement, day changes, notebook and save/load. Settlement
+reads the canonical battle model rather than trusting UI result arguments. Survivors
+persist, retreat/defeat consume remaining movement, victory grants 60 gold exactly once,
+and completed encounters cannot be farmed. The initial army is eight militia/four archers.
+Seven named resources now exist in state; only initial values and battle gold are active.
+Buildings, mines, recruitment and resource purchases are still subsequent work.
+
+Save v3 adds army/resources/encounter results, validates bounded quantities/types, and
+migrates v1/v2 to starting strategic defaults without fabricated victories.
+Executed 64 integration checks headless/OpenGL; 39 arena checks headless/OpenGL;
+525 save, 365 map, 53 notebook, 29 reasoning and 27 witness checks passed.
+Corrected the first arena preview's inherited large font and missing CanvasLayer;
+added a viewport-bound check and inspected the corrected arena and actual map transition.
+The earlier arena snapshot was visually unusable despite passing logical checks.
+No paid calls. Existing shutdown warnings persist. Gate F awaits transactional purchase.

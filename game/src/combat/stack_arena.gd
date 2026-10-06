@@ -16,6 +16,9 @@ var selected_target := -1
 var settled := false
 
 func _ready() -> void:
+	theme = Theme.new()
+	theme.default_font = ThemeDB.fallback_font
+	theme.default_font_size = 18
 	custom_minimum_size = Vector2(1280, 720)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var backdrop := ColorRect.new()
@@ -68,12 +71,16 @@ func _ready() -> void:
 func launch(army: Array, opposing: Array, seed_value: int, title: String) -> bool:
 	if not battle.start(army, opposing, seed_value):
 		return false
+	present(battle, title)
+	return true
+
+func present(model: RefCounted, title: String) -> void:
+	battle = model
 	heading.text = title
 	settled = false
 	selected_target = -1
 	show()
 	refresh()
-	return true
 
 func command(action: String) -> void:
 	if battle.act(action, selected_target):

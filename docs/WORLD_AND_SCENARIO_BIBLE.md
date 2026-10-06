@@ -2672,3 +2672,11 @@ material to the narrative. Food and medical supplies are additional consumables.
 All purchases require supported Spanish production at the learner's current block.
 The mechanical contract is in MASTER_BUILD_SPEC section 12; the implementation gates
 still apply, and authored economic requirements are not an implemented economy.
+### Opening road encounter
+
+After the first recorded clue, the Venta del Perro Negro offers an optional encounter
+against five road bandits obstructing deliveries. The prototype escort starts with
+eight militia and four archers. Winning releases 60 gold as a local reward; retreat
+and defeat preserve only surviving troops. This encounter is unrelated to the identity
+of Tomás's killer and supplies no evidence about the Order. It provides the required
+opening combat without rewriting the canonical death or later revelations.

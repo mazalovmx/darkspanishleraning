@@ -48,10 +48,11 @@ func run() -> void:
 	var old := saved.duplicate(true)
 	old.version = 1
 	old.erase("evidence")
+	old.erase("strategy")
 	var migrated := Save.decode(old)
 	check(migrated.has("state") and migrated.state.evidence.progress().is_empty(), "V1 migrates without inventing evidence")
 	check(migrated.state.hero_cell == state.hero_cell, "V1 keeps world state")
-	check(Save.snapshot(migrated.state).version == 2, "Next save uses v2")
+	check(Save.snapshot(migrated.state).version == Save.VERSION, "Next save uses current version")
 
 	var path := "user://evidence_test_%d.json" % OS.get_process_id()
 	var map = load("res://src/world/world_map.tscn").instantiate()

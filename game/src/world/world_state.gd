@@ -8,6 +8,12 @@ const VIEW_RADIUS := 5
 const MOVEMENT_MAX := 18
 var learner = preload("res://src/spanish/learner_profile.gd").new()
 var evidence = preload("res://src/evidence/evidence_graph.gd").new()
+const StackBattle = preload("res://src/combat/stack_battle.gd")
+var army: Array = StackBattle.new().data.starting_army.duplicate(true)
+var resources := {"gold": 300, "wood": 5, "ore": 5, "mercury": 0, "sulfur": 0, "crystal": 0, "gems": 0}
+var encounters: Dictionary = {}
+var active_battle: RefCounted
+var active_encounter := ""
 var day := 1
 var hero_cell := Vector2i(2, 10)
 var movement_remaining := MOVEMENT_MAX
@@ -91,6 +97,8 @@ func path_cost(path: Array[Vector2i]) -> int:
 	return cost
 
 func move_to(destination: Vector2i, discovered_only := false) -> bool:
+	if active_battle != null:
+		return false
 	var path := path_to(destination, discovered_only)
 	if path.size() < 2:
 		return false
@@ -104,5 +112,38 @@ func move_to(destination: Vector2i, discovered_only := false) -> bool:
 	return true
 
 func end_turn() -> void:
+	if active_battle != null:
+		return
 	day += 1
 	movement_remaining = MOVEMENT_MAX
+
+func begin_encounter(id: String) -> bool:
+	if active_battle != null or army.is_empty() or movement_remaining < 2:
+		return false
+	var model := StackBattle.new()
+	var encounter: Dictionary = model.data.opening
+	if id != encounter.id or location_at(hero_cell).get("id", "") != encounter.location_id:
+		return false
+	if not evidence.has_evidence(encounter.requires) or encounters.get(id, {}).get("outcome", "") == "victory":
+		return false
+	if not model.start(army, encounter.enemies, day * 1009 + hero_cell.x * 31 + hero_cell.y):
+		return false
+	active_battle = model
+	active_encounter = id
+	movement_remaining -= 2
+	return true
+
+func settle_encounter() -> bool:
+	if active_battle == null or active_battle.outcome.is_empty():
+		return false
+	var result: String = active_battle.outcome
+	army = active_battle.surviving_army()
+	if result == "victory":
+		for resource in active_battle.data.opening.reward:
+			resources[resource] += int(active_battle.data.opening.reward[resource])
+	elif result in ["defeat", "retreated"]:
+		movement_remaining = 0
+	encounters[active_encounter] = {"outcome": result, "day": day}
+	active_battle = null
+	active_encounter = ""
+	return true

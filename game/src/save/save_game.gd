@@ -3,7 +3,7 @@ extends RefCounted
 const WorldState = preload("res://src/world/world_state.gd")
 const Learner = preload("res://src/spanish/learner_profile.gd")
 const PATH := "user://savegame.json"
-const VERSION := 2
+const VERSION := 3
 const MAP_ID := "prototype_20x20_v1"
 const MAX_BYTES := 1048576
 
@@ -17,7 +17,7 @@ static func snapshot(state: WorldState) -> Dictionary:
 	var learner = state.learner
 	return {"version": VERSION, "map_id": MAP_ID, "day": state.day,
 		"hero": {"cell": [state.hero_cell.x, state.hero_cell.y], "movement": state.movement_remaining},
-		"explored": explored, "evidence": state.evidence.progress(), "learner": {"block": learner.current_block,
+		"strategy": {"army": state.army.duplicate(true), "resources": state.resources.duplicate(true), "encounters": state.encounters.duplicate(true)}, "explored": explored, "evidence": state.evidence.progress(), "learner": {"block": learner.current_block,
 		"grammar": learner.grammar.duplicate(true), "verbs": learner.verbs.duplicate(true),
 		"errors": learner.errors.duplicate(true), "vocabulary": learner.vocabulary.duplicate(),
 		"recent_messages": learner.recent_messages.duplicate(),
@@ -88,9 +88,9 @@ static func decode(data: Variant) -> Dictionary:
 		return {"error": "invalid"}
 	if not _integer(data.get("version"), 1, VERSION):
 		return {"error": "version"}
-	if data.size() != (6 if data.version == 1 else 7):
+	if data.size() != (6 if data.version == 1 else 7 if data.version == 2 else 8):
 		return {"error": "invalid"}
-	if data.version == VERSION and not data.has("evidence"):
+	if data.version >= 2 and not data.has("evidence"):
 		return {"error": "invalid"}
 	if not data.get("map_id") is String or data.map_id != MAP_ID:
 		return {"error": "map"}
@@ -106,6 +106,8 @@ static func decode(data: Variant) -> Dictionary:
 	if not _learner_valid(data.get("learner"), int(data.day)):
 		return {"error": "invalid"}
 	var state := WorldState.new()
+	if data.version >= 3 and not _restore_strategy(state, data.get("strategy"), int(data.day)):
+		return {"error": "invalid"}
 	if not state.evidence.restore(data.get("evidence", {}), int(data.day)):
 		return {"error": "invalid"}
 	state.hero_cell = Vector2i(cell[0], cell[1])
@@ -162,6 +164,8 @@ static func read_save(path := PATH) -> Dictionary:
 	return decode(parser.data)
 
 static func write_save(state: WorldState, path := PATH) -> String:
+	if state.active_battle != null:
+		return "battle_active"
 	var data := snapshot(state)
 	if not decode(data).has("state"):
 		return "invalid_state"
@@ -182,3 +186,28 @@ static func write_save(state: WorldState, path := PATH) -> String:
 	if DirAccess.rename_absolute(temporary, path) != OK:
 		return "replace"
 	return ""
+
+static func _restore_strategy(state: WorldState, data: Variant, day: int) -> bool:
+	if not data is Dictionary or data.size() != 3:
+		return false
+	if not data.get("army") is Array or (not data.army.is_empty() and not WorldState.StackBattle.new().valid_army(data.army)):
+		return false
+	if not data.get("resources") is Dictionary or data.resources.size() != state.resources.size():
+		return false
+	for resource in state.resources:
+		if not _integer(data.resources.get(resource), 0, 1000000000):
+			return false
+	if not data.get("encounters") is Dictionary or data.encounters.size() > 1:
+		return false
+	for id in data.encounters:
+		if id != "opening_road":
+			return false
+		var entry: Variant = data.encounters[id]
+		if not entry is Dictionary or entry.size() != 2 or entry.get("outcome") not in ["victory", "defeat", "retreated"]:
+			return false
+		if not _integer(entry.get("day"), 1, day):
+			return false
+	state.army = data.army.duplicate(true)
+	state.resources = data.resources.duplicate(true)
+	state.encounters = data.encounters.duplicate(true)
+	return true
