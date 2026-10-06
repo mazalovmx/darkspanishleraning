@@ -14,8 +14,8 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="OpenRPG"
-run/main_scene="res://src/world/world_map.tscn"
+config/name="El Índice de Ceniza"
+run/main_scene="res://src/world/province_map.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 

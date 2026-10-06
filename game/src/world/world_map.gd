@@ -7,9 +7,10 @@ const COLORS := {"road": Color("bda474"), "grass": Color("69764b"),
 	"forest": Color("304a37"), "marsh": Color("64716b"), "mountain": Color("555660"),
 	"water": Color("365f80"), "field": Color("a29446"), "ruins": Color("80716a"),
 	"snow": Color("ccd7d7")}
+@export var initial_map_id := "prototype_20x20_v1"
 var state: WorldState = WorldState.new()
 var persistence_enabled := true
-var save_path := SaveGame.PATH
+@export var save_path := SaveGame.PATH
 var save_locked := false
 var save_button := Button.new()
 var load_button := Button.new()
@@ -43,8 +44,13 @@ var poi_close := Button.new()
 var dialogue = preload("res://src/dialogue/authored_dialogue.gd").new()
 
 func _ready() -> void:
+	if state.map_id != initial_map_id:
+		state = WorldState.new(initial_map_id)
 	_build_tiles()
 	camera.position = Vector2(430, 320)
+	if state.map_id == "province_160x120_v1":
+		camera.position = tiles.map_to_local(state.hero_cell)
+		camera.offset = Vector2(160, 0)
 	add_child(camera)
 	camera.make_current()
 	var token := Image.create(24, 24, false, Image.FORMAT_RGBA8)
@@ -78,9 +84,8 @@ func _build_tiles() -> void:
 	tiles.tile_set = tile_set
 	tiles.z_index = -1
 	add_child(tiles)
-	for y in state.grid.region.size.y:
-		for x in state.grid.region.size.x:
-			tiles.set_cell(Vector2i(x, y), 0, Vector2i(names.find(state.terrain[y][x]), 0))
+	for cell: Vector2i in state.fog:
+		tiles.set_cell(cell, 0, Vector2i(names.find(state.terrain[cell.y][cell.x]), 0))
 
 func _build_ui() -> void:
 	var layer := CanvasLayer.new()
@@ -357,7 +362,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				_update_preview()
 
 func _clamp_camera() -> void:
-	camera.position = camera.position.clamp(Vector2.ZERO, Vector2(640, 640))
+	camera.position = camera.position.clamp(Vector2.ZERO, Vector2(state.grid.region.size) * CELL_SIZE)
 	camera.force_update_scroll()
 
 func _end_turn() -> void:
@@ -370,13 +375,8 @@ func _end_turn() -> void:
 
 func _refresh() -> void:
 	var names := COLORS.keys()
-	for y in state.grid.region.size.y:
-		for x in state.grid.region.size.x:
-			var cell := Vector2i(x, y)
-			if state.fog_at(cell) == WorldState.Fog.UNKNOWN:
-				tiles.erase_cell(cell)
-			else:
-				tiles.set_cell(cell, 0, Vector2i(names.find(state.terrain[y][x]), 0))
+	for cell: Vector2i in state.fog:
+		tiles.set_cell(cell, 0, Vector2i(names.find(state.terrain[cell.y][cell.x]), 0))
 	army_notice.text = "Oro: %d · Destacamentos: %d / 7" % [state.resources.gold, state.army.size()]
 	hero.position = tiles.map_to_local(state.hero_cell)
 	hero.modulate = Color(state.party.active().definition.color)
@@ -403,14 +403,21 @@ func _update_preview() -> void:
 		var cost: int = state.path_cost(preview)
 		route_info.text = "Ruta: %d puntos.%s" % [cost,
 			"\nNo quedan suficientes puntos." if cost > state.movement_remaining else ""]
+	var gate := state.gate_at(hovered)
+	if not gate.is_empty() and gate.closed and state.fog_at(hovered) != WorldState.Fog.UNKNOWN:
+		route_info.text = gate.message
 	var location := state.location_at(hovered)
 	if not location.is_empty():
 		route_info.text = str(location.name) + "\n" + route_info.text
 	queue_redraw()
 
 func _draw() -> void:
-	for y in state.grid.region.size.y:
-		for x in state.grid.region.size.x:
+	var inverse := get_global_transform_with_canvas().affine_inverse()
+	var first := Vector2i((inverse * Vector2.ZERO / CELL_SIZE).floor())
+	var last := Vector2i((inverse * get_viewport_rect().size / CELL_SIZE).ceil()) + Vector2i.ONE
+	var visible_region := Rect2i(first, last - first).intersection(state.grid.region)
+	for y in range(visible_region.position.y, visible_region.end.y):
+		for x in range(visible_region.position.x, visible_region.end.x):
 			var cell := Vector2i(x, y)
 			var visibility := state.fog_at(cell)
 			if visibility != WorldState.Fog.VISIBLE:
@@ -425,7 +432,18 @@ func _draw() -> void:
 		if state.fog_at(cell) == WorldState.Fog.EXPLORED:
 			color = color.darkened(0.4)
 		draw_rect(Rect2(center - Vector2(12, 12), Vector2(24, 24)), color, false, 2)
-		draw_string(ThemeDB.fallback_font, center + Vector2(-6, 6), "P" if location.kind == "inn" else "M", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, color)
+		draw_string(ThemeDB.fallback_font, center + Vector2(-6, 6), str(location.name).left(1), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, color)
+	for site: Dictionary in state.map_data.get("resource_sites", []):
+		var cell := Vector2i(site.position[0], site.position[1])
+		if state.fog_at(cell) == WorldState.Fog.UNKNOWN:
+			continue
+		var center := tiles.map_to_local(cell)
+		draw_colored_polygon(PackedVector2Array([center + Vector2(0,-8), center + Vector2(8,0), center + Vector2(0,8), center + Vector2(-8,0)]), Color("bf9670"))
+	for gate: Dictionary in state.map_data.get("gates", []):
+		var cell := Vector2i(gate.position[0], gate.position[1])
+		if state.fog_at(cell) != WorldState.Fog.UNKNOWN and state.gate_at(cell).closed:
+			var center := tiles.map_to_local(cell)
+			draw_line(center - Vector2(12,0), center + Vector2(12,0), Color("df8571"), 4)
 	var marker_index := 0
 	for id in state.party.heroes:
 		var member = state.party.heroes[id]
@@ -477,6 +495,8 @@ func _load_game(startup := false) -> void:
 			save_notice.text = "Todavía no hay una partida guardada."
 		return
 	state = result.state
+	tiles.clear()
+	camera.offset = Vector2(160, 0) if state.map_id == "province_160x120_v1" else Vector2.ZERO
 	dialogue.world_state = state
 	notebook.hide()
 	market.hide()

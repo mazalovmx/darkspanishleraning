@@ -2,8 +2,8 @@
 
 Updated: 2026-10-06
 Branch: implementation
-Current task: full province map model implemented. Gates A-H passed for the development slice.
-Next task: step 19 province display integration, then remaining acts and strategic economy.
+Current task: full province map playable; opening investigation retained. Gates A-H passed.
+Next task: step 20 remaining acts, followed by strategic economy and optional content integration.
 
 ## Provenance
 
@@ -614,3 +614,20 @@ road connectivity, closed-pass isolation, discovered travel to Cardena across da
 and province save/restore), 526 save checks and 46 party scene checks: all passed.
 Existing shutdown diagnostics remain. Root/working bible updated together for the
 northern checkpoint. Next integrate campaign rendering/camera and launch scene.
+## Province display and launch (step 19 complete)
+
+The main scene now starts the province at Santa Lucerna. Its separate province save
+preserves the existing prototype save; the original development scene remains available.
+Camera bounds follow actual dimensions, portraits recenter the view, and locked heroes
+cannot be selected. Only explored tiles are populated; fog drawing is limited to the
+viewport rather than scanning 19,200 cells on every mouse update. Discovered resource
+sites and the closed northern pass have map markers. Opening inspection, conversations
+and the notebook work at the canonical coordinates.
+
+Executed 17 province-scene checks headless/OpenGL, 365 map regression, 46 party
+integration and 31 vertical-slice checks; headless main scene 60 frames: all passed.
+The initial scene test asked the witness before the required physical clue; corrected
+the test to inspect and classify the food through the UI first, then reran both modes.
+Reviewed province screenshot. Existing shutdown diagnostics persist. This completes
+the geographic/display stage, not the missing NPC/act/economy interactions.
+Next step 20: remaining scenario acts and their deterministic progress gates.
