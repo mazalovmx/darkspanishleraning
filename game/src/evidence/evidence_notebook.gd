@@ -4,6 +4,11 @@ signal evidence_recorded
 var world_state: RefCounted
 var active_id := ""
 var inspection_mode := false
+var reasoning_mode := false
+var compare_button := Button.new()
+var support_row := HBoxContainer.new()
+var support_a := OptionButton.new()
+var support_b := OptionButton.new()
 var prompt := Label.new()
 var entries := OptionButton.new()
 var body := RichTextLabel.new()
@@ -36,6 +41,9 @@ func _ready() -> void:
 	title.text = "CUADERNO DE INVESTIGACIÓN"
 	box.add_child(title)
 	box.add_child(entries)
+	compare_button.text = "Comparar pruebas"
+	compare_button.pressed.connect(open_reasoning)
+	box.add_child(compare_button)
 	entries.item_selected.connect(func(index: int):
 		active_id = str(entries.get_item_metadata(index))
 		_render())
@@ -51,6 +59,11 @@ func _ready() -> void:
 	note.placeholder_text = "Escribe una frase en español."
 	note.max_length = 300
 	exercise.add_child(note)
+	exercise.add_child(support_row)
+	for selector in [support_a, support_b]:
+		selector.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		selector.clip_text = true
+		support_row.add_child(selector)
 	var row := HBoxContainer.new()
 	exercise.add_child(row)
 	category.add_item("Esta frase es…")
@@ -72,6 +85,7 @@ func _ready() -> void:
 
 func open_journal(state: RefCounted) -> void:
 	inspection_mode = false
+	reasoning_mode = false
 	world_state = state
 	active_id = "travel_food" if state.evidence.has_evidence("travel_food") else ""
 	if state.evidence.has_evidence("monastery_claim"):
@@ -86,6 +100,7 @@ func inspect(state: RefCounted) -> bool:
 		return false
 	world_state = state
 	inspection_mode = true
+	reasoning_mode = false
 	active_id = "travel_food"
 	_render()
 	show()
@@ -100,6 +115,8 @@ func close() -> void:
 func _render() -> void:
 	entries.clear()
 	var ids: Array = world_state.evidence.progress().keys()
+	if reasoning_mode:
+		ids = world_state.evidence.reviewable_ids(world_state.day)
 	if inspection_mode:
 		var location: Dictionary = world_state.location_at(world_state.hero_cell)
 		for id in world_state.evidence.inspectable_ids(location.get("id", "")):
@@ -114,13 +131,22 @@ func _render() -> void:
 			entries.select(entries.item_count - 1)
 	entries.visible = entries.item_count > 1
 	note.clear()
+	category.clear()
+	for label in ["Esta frase es…", "Una observación", "Una interpretación", "Una acusación", "Una declaración institucional"]:
+		category.add_item(label)
 	category.select(0)
+	support_row.hide()
+	compare_button.visible = not reasoning_mode
+	body.custom_minimum_size.y = 340
 	feedback.text = ""
 	exercise.hide()
 	if active_id.is_empty():
 		body.text = "Todavía no hay pruebas anotadas. Examina las pertenencias de Tomás en Santa Lucerna."
 		return
 	var clue: Dictionary = world_state.evidence.node(active_id)
+	if clue.source_type == "reasoning" and not world_state.evidence.has_evidence(active_id):
+		_render_assessment(clue)
+		return
 	prompt.text = "Modelo: %s\nPalabras: %s" % [
 		clue.language.get("sample", ""), clue.language.get("vocabulary", "")]
 	body.text = "%s\nOBSERVACIÓN\n%s\nFuente: %s\nAFIRMACIÓN\n%s\nFuente: %s\nINTERPRETACIONES POSIBLES\n• %s\nESTADO INSTITUCIONAL\n%s\nVÍNCULO CAUSAL\n%s" % [
@@ -136,6 +162,9 @@ func _render() -> void:
 func _record() -> void:
 	if active_id.is_empty() or world_state == null:
 		return
+	if reasoning_mode:
+		_record_assessment()
+		return
 	var location: Dictionary = world_state.location_at(world_state.hero_cell)
 	var classes := ["", "observation", "interpretation", "accusation", "institutional_declaration"]
 	var clue: Dictionary = world_state.evidence.node(active_id)
@@ -148,3 +177,59 @@ func _record() -> void:
 	if world_state.evidence.record(active_id, location.get("id", ""), note.text, classes[category.selected], world_state.day):
 		_render()
 		evidence_recorded.emit()
+
+func open_reasoning() -> void:
+	var ids: Array = world_state.evidence.reviewable_ids(world_state.day)
+	if ids.is_empty():
+		feedback.text = "Anota la comida y pregunta al abad antes de comparar las versiones."
+		return
+	reasoning_mode = true
+	inspection_mode = false
+	active_id = str(ids.back())
+	for id: String in ids:
+		if not world_state.evidence.has_evidence(id):
+			active_id = id
+			break
+	_render()
+
+func _render_assessment(clue: Dictionary) -> void:
+	body.custom_minimum_size.y = 230
+	body.text = str(clue.assessment.question) + "\n\nPRUEBAS DISPONIBLES"
+	for id in world_state.evidence.progress():
+		var item: Dictionary = world_state.evidence.node(id)
+		if item.source_type != "reasoning":
+			body.text += "\n• " + str(item.title) + ": " + str(item.observation)
+	body.scroll_to_line(0)
+	prompt.text = "Formula una conclusión limitada. Modelo: " + str(clue.language.sample)
+	prompt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	category.clear()
+	category.add_item("Selecciona una hipótesis…")
+	category.set_item_metadata(0, "")
+	for option: Dictionary in clue.assessment.options:
+		category.add_item(option.text)
+		category.set_item_metadata(category.item_count - 1, option.id)
+	category.clip_text = true
+	category.custom_minimum_size.x = 570
+	for selector in [support_a, support_b]:
+		selector.clear()
+		selector.add_item("Selecciona una prueba de apoyo…")
+		selector.set_item_metadata(0, "")
+		for id in world_state.evidence.progress():
+			var item: Dictionary = world_state.evidence.node(id)
+			if item.source_type != "reasoning":
+				selector.add_item(item.title)
+				selector.set_item_metadata(selector.item_count - 1, id)
+	support_row.show()
+	exercise.show()
+	feedback.text = "Elige una hipótesis, dos pruebas distintas y escribe tu conclusión."
+
+func _record_assessment() -> void:
+	var clue: Dictionary = world_state.evidence.node(active_id)
+	var supports: Array = [support_a.get_item_metadata(support_a.selected),
+		support_b.get_item_metadata(support_b.selected)]
+	var choice: String = str(category.get_item_metadata(category.selected))
+	if world_state.evidence.record_reasoning(active_id, note.text, choice, supports, world_state.day):
+		_render()
+		evidence_recorded.emit()
+	else:
+		feedback.text = str(clue.assessment.feedback) + " Revisa también los apoyos y la frase."

@@ -2578,6 +2578,8 @@ full scenario content expansion
 
 Copilot should execute this exact sequence.
 
+Dependency clarification (2026-10-05): step 13 first completes the investigative loop. Its Epic 11 acceptance also requires the battle and purchase implemented immediately in steps 14 and 15. Keep Gate F pending through these constituent steps, then verify the combined loop before advancing to later gates. This resolves the dependency without claiming unimplemented checks passed.
+
 ```text
 01 repository boots
 02 hero moves

@@ -2,8 +2,8 @@
 
 Updated: 2026-10-05
 Branch: implementation
-Current task: step 13 underway; physical inspections and four-NPC witness loop complete.
-Next task: hypothesis comparison and causal conclusion, then battle and merchant needed for Gate F.
+Current task: step 13 investigative loop complete; Gate F still needs battle and purchase.
+Next task: step 14 stack battle, followed by step 15 transactional merchant; then verify full Gate F.
 
 ## Provenance
 
@@ -426,3 +426,20 @@ Executed: 27 witness checks headless/OpenGL, 39 dialogue-clue, 54 grounding, 524
 Fixed two test-fixture errors (StringName key and config access before node readiness)
 before final runs. No live API calls. Existing shutdown leak diagnostics persist.
 Gate F remains pending: next implement comparison/conclusion, then battle and purchase.
+## Hypothesis comparison and causal reconstruction
+
+Notebook comparisons now require a selected hypothesis, two distinct canonical supports
+and a present-tense Spanish conclusion. Wrong interpretations provide authored explanation
+and allow correction. Food cannot prove suicide; honest horse testimony does not identify
+a smuggler; Gabriel's unrelated lie cannot establish murder. Final reconstruction orders
+the fatal blow before the fall and explicitly leaves visitor identity/motive unproven.
+All six opening clues, custody order, clinical report and both comparisons are required.
+Save v2 persists accepted reasoning records and checks prerequisite chronology on restore.
+The assessment never awards free-language mastery from guided answers.
+
+Executed 29 reasoning checks headless/OpenGL, 48 inspection, 53 notebook, 39 dialogue-clue
+and 524 save checks: all final runs passed. Fixed an initial generated-script newline
+error before these runs. Inspected the rendered assessment with all controls visible.
+No live API calls; preexisting shutdown warnings persist.
+Step 13's investigative portion works. Gate F remains pending until its battle/purchase
+acceptance criteria are provided by the immediately following steps 14 and 15.

@@ -352,5 +352,175 @@
                                         },
                            "npc_id":  "leonor_valera",
                            "intent":  "ask_wound"
-                       }
+                       },
+    "food_hypothesis":  {
+                            "id":  "food_hypothesis",
+                            "title":  "La comida y la causa",
+                            "location_id":  "LOC01",
+                            "source_type":  "reasoning",
+                            "classification":  "interpretation",
+                            "observation":  "Comparación de las pruebas registradas.",
+                            "source":  "Cuaderno del investigador",
+                            "claim":  "La comida admite varias interpretaciones; la versión del abad sigue siendo una afirmación.",
+                            "claim_source":  "Conclusión limitada a los apoyos seleccionados",
+                            "interpretations":  [
+                                                    "La comida prueba el suicidio.",
+                                                    "La comida no demuestra la causa.",
+                                                    "La comida identifica al culpable."
+                                                ],
+                            "institutional_status":  "Una conclusión de investigación no es una sentencia institucional.",
+                            "causal_link":  "La comida admite varias interpretaciones; la versión del abad sigue siendo una afirmación.",
+                            "requires":  [
+                                             "travel_food",
+                                             "monastery_claim"
+                                         ],
+                            "language":  {
+                                             "sample":  "La comida no demuestra la causa.",
+                                             "vocabulary":  "demuestra · identifica · antes de",
+                                             "block":  "present_and_basic_requests",
+                                             "accepted_notes":  [
+                                                                    "la comida no demuestra la causa",
+                                                                    "la comida no prueba el suicidio"
+                                                                ]
+                                         },
+                            "assessment":  {
+                                               "supports":  [
+                                                                "travel_food",
+                                                                "monastery_claim"
+                                                            ],
+                                               "answer":  "open",
+                                               "question":  "¿La comida prueba que Tomás se suicida? Compare la observación con la versión del abad.",
+                                               "feedback":  "Tener comida no prueba una intención ni una causa. Compare lo observado con lo que afirma la comunidad.",
+                                               "options":  [
+                                                               {
+                                                                   "id":  "suicide",
+                                                                   "text":  "La comida prueba el suicidio."
+                                                               },
+                                                               {
+                                                                   "id":  "open",
+                                                                   "text":  "La comida no demuestra la causa."
+                                                               },
+                                                               {
+                                                                   "id":  "order",
+                                                                   "text":  "La comida identifica al culpable."
+                                                               }
+                                                           ]
+                                           }
+                        },
+    "horse_hypothesis":  {
+                             "id":  "horse_hypothesis",
+                             "title":  "El caballo y el testigo",
+                             "location_id":  "LOC01",
+                             "source_type":  "reasoning",
+                             "classification":  "interpretation",
+                             "observation":  "Comparación de las pruebas registradas.",
+                             "source":  "Cuaderno del investigador",
+                             "claim":  "El sonido es un testimonio; contrabandista es una inferencia. El robo de vino explica una mentira, no el homicidio.",
+                             "claim_source":  "Conclusión limitada a los apoyos seleccionados",
+                             "interpretations":  [
+                                                     "El caballo prueba que el visitante es contrabandista.",
+                                                     "La mentira demuestra que Gabriel mata a Tomás.",
+                                                     "El caballo no identifica al visitante."
+                                                 ],
+                             "institutional_status":  "Una conclusión de investigación no es una sentencia institucional.",
+                             "causal_link":  "El sonido es un testimonio; contrabandista es una inferencia. El robo de vino explica una mentira, no el homicidio.",
+                             "requires":  [
+                                              "horse_sound",
+                                              "wine_secret"
+                                          ],
+                             "language":  {
+                                              "sample":  "El caballo no identifica al visitante.",
+                                              "vocabulary":  "demuestra · identifica · antes de",
+                                              "block":  "present_and_basic_requests",
+                                              "accepted_notes":  [
+                                                                     "el caballo no identifica al visitante",
+                                                                     "la mentira no demuestra un asesinato"
+                                                                 ]
+                                          },
+                             "assessment":  {
+                                                "supports":  [
+                                                                 "horse_sound",
+                                                                 "wine_secret"
+                                                             ],
+                                                "answer":  "uncertain",
+                                                "question":  "Gabriel oye un caballo y oculta un robo de vino. ¿Esto identifica al visitante como contrabandista o asesino?",
+                                                "feedback":  "Una observación honesta puede acompañar una inferencia errónea. La mentira sobre el vino no basta para atribuir la muerte.",
+                                                "options":  [
+                                                                {
+                                                                    "id":  "smuggler",
+                                                                    "text":  "El caballo prueba que el visitante es contrabandista."
+                                                                },
+                                                                {
+                                                                    "id":  "gabriel",
+                                                                    "text":  "La mentira demuestra que Gabriel mata a Tomás."
+                                                                },
+                                                                {
+                                                                    "id":  "uncertain",
+                                                                    "text":  "El caballo no identifica al visitante."
+                                                                }
+                                                            ]
+                                            }
+                         },
+    "opening_conclusion":  {
+                               "id":  "opening_conclusion",
+                               "title":  "La secuencia de la muerte",
+                               "location_id":  "LOC01",
+                               "source_type":  "reasoning",
+                               "classification":  "causal_conclusion",
+                               "observation":  "Comparación de las pruebas registradas.",
+                               "source":  "Cuaderno del investigador",
+                               "claim":  "Un golpe mortal precede a la caída del cuerpo. La caída escenifica otra explicación. Estas pruebas no identifican todavía al visitante ni su motivo.",
+                               "claim_source":  "Conclusión limitada a los apoyos seleccionados",
+                               "interpretations":  [
+                                                       "Caída → golpe mortal dentro de la torre.",
+                                                       "Golpe mortal dentro de la torre → caída del cuerpo.",
+                                                       "Comida → intervención demostrada de la Orden."
+                                                   ],
+                               "institutional_status":  "Una conclusión de investigación no es una sentencia institucional.",
+                               "causal_link":  "Un golpe mortal precede a la caída del cuerpo. La caída escenifica otra explicación. Estas pruebas no identifican todavía al visitante ni su motivo.",
+                               "requires":  [
+                                                "food_hypothesis",
+                                                "horse_hypothesis",
+                                                "travel_food",
+                                                "brass_tube",
+                                                "tower_blood",
+                                                "scraped_boot",
+                                                "horse_sound",
+                                                "missing_notebook",
+                                                "preservation_order",
+                                                "medical_report"
+                                            ],
+                               "language":  {
+                                                "sample":  "Hay un golpe mortal antes de la caída.",
+                                                "vocabulary":  "demuestra · identifica · antes de",
+                                                "block":  "present_and_basic_requests",
+                                                "accepted_notes":  [
+                                                                       "hay un golpe mortal antes de la caida",
+                                                                       "el golpe mortal es anterior a la caida"
+                                                                   ]
+                                            },
+                               "assessment":  {
+                                                  "supports":  [
+                                                                   "tower_blood",
+                                                                   "medical_report"
+                                                               ],
+                                                  "answer":  "blow_first",
+                                                  "question":  "Reconstruya el orden compatible con las pruebas. Seleccione los dos apoyos más directos: rastros interiores e informe clínico.",
+                                                  "feedback":  "Compare la posición de la sangre y el informe de Leonor. El título de una institución no identifica al responsable.",
+                                                  "options":  [
+                                                                  {
+                                                                      "id":  "fall_first",
+                                                                      "text":  "Caída → golpe mortal dentro de la torre."
+                                                                  },
+                                                                  {
+                                                                      "id":  "blow_first",
+                                                                      "text":  "Golpe mortal dentro de la torre → caída del cuerpo."
+                                                                  },
+                                                                  {
+                                                                      "id":  "accuse_order",
+                                                                      "text":  "Comida → intervención demostrada de la Orden."
+                                                                  }
+                                                              ]
+                                              }
+                           }
 }

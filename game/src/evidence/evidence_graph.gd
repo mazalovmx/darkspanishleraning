@@ -92,3 +92,28 @@ func inspectable_ids(location_id: String) -> Array:
 			if prerequisites_met(id, _progress, 2147483647):
 				result.append(id)
 	return result
+
+func reviewable_ids(day: int) -> Array:
+	var result: Array = []
+	for id in definitions:
+		if definitions[id].source_type == "reasoning" and prerequisites_met(id, _progress, day):
+			result.append(id)
+	return result
+
+func record_reasoning(id: String, note: String, choice: String, supports: Array, day: int) -> bool:
+	if not definitions.has(id) or definitions[id].source_type != "reasoning" or has_evidence(id) or day < 1:
+		return false
+	var clue: Dictionary = definitions[id]
+	if not prerequisites_met(id, _progress, day) or not valid_note(id, note):
+		return false
+	if choice != clue.assessment.answer or supports.size() != clue.assessment.supports.size():
+		return false
+	var seen := {}
+	for supporting in supports:
+		if not supporting is String or seen.has(supporting) or not has_evidence(supporting):
+			return false
+		if supporting not in clue.assessment.supports:
+			return false
+		seen[supporting] = true
+	_progress[id] = {"found_day": day, "classification": clue.classification, "spanish_note": note.strip_edges()}
+	return true
