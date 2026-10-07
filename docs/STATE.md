@@ -1628,3 +1628,41 @@ entry.
 
 Executed for this commit: the full non-live run, 49 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## User requirement: conversations first; tildes count only in the last block
+
+User clarification (2026-10-07), recorded in both specification copies (section 1.3,
+"Conversation and orthography") and BACKLOG.md: add as many Claude conversations as
+possible so that the game is not reduced to choosing the right answer; ignore errors
+in tildes, ü and apostrophes in every block except the last; keep evaluating grammar
+and naturalness.
+
+Implemented in this commit:
+- `Curriculum.fold()` (static) lower-cases and drops tildes, ü and apostrophes. The
+  curriculum, market, strategy, soul ritual and evidence-note checks use it, so ü and
+  apostrophes are now ignored too (tildes already were).
+- `Curriculum.orthography_errors(message, authored)` names each typed word that
+  differs from an authored word only by those marks ("querria → querría"); words absent
+  from the authored sentences are not judged. It applies at submission time to tasks of
+  the last block: its lessons, the argument tier of the market, town orders and mine
+  claims, campaign nodes with min_block 6 and the SA06 soul ritual. Save restore stays
+  lenient so existing saves load.
+- Conversations: the learner context carries `orthography: ignore|check`; the system
+  prompt tells Claude to ignore those marks when "ignore" and to judge naturalness. As a
+  deterministic guard, before the last block any returned correction whose original and
+  better text differ only by those marks is dropped before it reaches mastery or the
+  feedback panel.
+
+Not done: more conversations (the main part of the requirement; P1 in BACKLOG.md), and
+a grammar check for gated free answers that works without the API; the key checks of
+the previous commits accept agreement and word-order errors.
+
+Tests: curriculum_test (fold, named tilde errors, forms authored both ways, unknown
+words, last-block detection), market_curriculum_test (a missing tilde passes in the
+past tier and is named in the argument tier), a golden conversation case in which a
+tilde-only correction leaves feedback and mastery unchanged; that case fails without the
+filter (checked by running it against the previous authored_dialogue.gd). Results in the
+next entry. The live prompt change has not been exercised against the real API.
+
+Executed for this commit: the full non-live run, 49 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

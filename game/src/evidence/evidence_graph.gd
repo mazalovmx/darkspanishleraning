@@ -1,5 +1,6 @@
 extends RefCounted
 ## Canonical evidence nodes. Model text and saves cannot redefine its meaning.
+const Curriculum = preload("res://src/spanish/curriculum.gd")
 var definitions: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(
 	"res://content/evidence/opening.json"))
 var _progress: Dictionary = {}
@@ -17,9 +18,7 @@ func node(id: String) -> Dictionary:
 func valid_note(id: String, note: String) -> bool:
 	if not definitions.has(id) or note.length() > 300:
 		return false
-	var text := note.strip_edges().to_lower()
-	for pair in [["á", "a"], ["é", "e"], ["í", "i"], ["ó", "o"], ["ú", "u"]]:
-		text = text.replace(pair[0], pair[1])
+	var text := Curriculum.fold(note)
 	text = text.trim_prefix("¿").trim_suffix("?").trim_suffix(".").strip_edges()
 	return text in definitions[id].language.accepted_notes
 

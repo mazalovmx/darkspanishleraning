@@ -1,5 +1,6 @@
 extends RefCounted
 ## Authored transaction practice; model prose never grants goods.
+const Curriculum = preload("res://src/spanish/curriculum.gd")
 var goods: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/economy/market.json"))
 var stock: Dictionary = {}
 var inventory: Dictionary = {}
@@ -14,9 +15,7 @@ func _init() -> void:
 		inventory[id] = 0
 
 func normalize(message: String) -> String:
-	var text := message.strip_edges().to_lower()
-	for pair in [["á","a"],["é","e"],["í","i"],["ó","o"],["ú","u"]]:
-		text = text.replace(pair[0], pair[1])
+	var text := Curriculum.fold(message)
 	return text.trim_prefix("¿").trim_suffix("?").trim_suffix(".").strip_edges()
 
 func phrase(id: String, quantity: int) -> String:
@@ -147,6 +146,13 @@ func cue(state: RefCounted, id: String, quantity: int) -> String:
 	var facts := "Producto: %s · Total: %s" % [phrase(id, quantity), money(int(goods[id].price) * quantity)]
 	return facts + "\nRecuerda: " + str(REMINDERS[phase][tier])
 
+## The argument tier belongs to the last block, where tildes count (master spec 1.3).
+func spelling(message: String, model: String, stage: String, tier: String) -> String:
+	if tier != "argument":
+		return ""
+	var errors := Curriculum.orthography_errors(message, [model, str(REMINDERS[stage][tier])])
+	return "" if errors.is_empty() else "En este nivel cuentan las tildes: " + ", ".join(errors) + "."
+
 func _rejection(id: String, quantity: int, message: String, tier: String) -> String:
 	var gaps := missing(id, quantity, message, phase, tier)
 	var text := "Falta " + (", ".join(gaps.slice(0, gaps.size() - 1)) + " y " + gaps[-1] if gaps.size() > 1 else gaps[0]) + "."
@@ -167,6 +173,9 @@ func submit(state: RefCounted, id: String, quantity: int, message: String) -> Di
 	if phase == "request":
 		if not _matches(id, quantity, message, "request", tier_for(state)):
 			return {"ok": false, "message": _rejection(id, quantity, message, tier_for(state))}
+		var request_spelling := spelling(message, models(id, quantity, tier_for(state)).request, "request", tier_for(state))
+		if not request_spelling.is_empty():
+			return {"ok": false, "message": request_spelling}
 		if int(stock[id]) < quantity:
 			return {"ok": false, "message": "No hay existencias suficientes."}
 		pending = {"id": id, "quantity": quantity, "total": int(goods[id].price) * quantity,
@@ -179,11 +188,17 @@ func submit(state: RefCounted, id: String, quantity: int, message: String) -> Di
 	if phase == "price":
 		if not _matches(id, quantity, message, "price", pending.tier):
 			return {"ok": false, "message": _rejection(id, quantity, message, pending.tier)}
+		var price_spelling := spelling(message, models(id, quantity, pending.tier).price, "price", pending.tier)
+		if not price_spelling.is_empty():
+			return {"ok": false, "message": price_spelling}
 		pending["price"] = message
 		phase = "confirm"
 		return {"ok": true, "message": "Correcto. Confirma producto, cantidad y precio."}
 	if not _matches(id, quantity, message, "confirm", pending.tier):
 		return {"ok": false, "message": _rejection(id, quantity, message, pending.tier)}
+	var confirm_spelling := spelling(message, models(id, quantity, pending.tier).confirm, "confirm", pending.tier)
+	if not confirm_spelling.is_empty():
+		return {"ok": false, "message": confirm_spelling}
 	var total: int = int(goods[id].price) * quantity
 	if pending.total != total or int(stock[id]) < quantity or int(state.resources.gold) < total:
 		cancel()

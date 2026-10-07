@@ -36,6 +36,16 @@ its own multi-session plan and scenario-bible review per NPC.
 
 ## P1 - Spanish as the control surface (sections 1.2, 20, 21, 34, 39, 43)
 
+- User requirement 2026-10-07 (master spec 1.3, "Conversation and orthography"):
+  as many Claude conversations as possible, so play is typing Spanish to characters
+  and never choosing an answer; tildes, ü and apostrophes are ignored except in the
+  last block; grammar and naturalness are evaluated at every level. Done: the
+  orthography rule in every gated check and in conversation feedback, naturalness in
+  the Claude prompt. Gated sentence tasks now take free wording checked by authored
+  keys, but keys check content and target forms, not full grammar: agreement and word
+  order errors pass. Open: route more gated tasks through conversation (see the next
+  items), and a grammar check for gated free answers that does not depend on the API.
+
 - Player level (user, 2026-10-07; master spec 1.3): the player is B1 but rusty on
   grammar. The 31 lessons are rewritten at that level with rule reminders. Still to
   do: review the campaign, market, strategy, optional-case and soul sentences against

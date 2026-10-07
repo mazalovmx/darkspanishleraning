@@ -1,5 +1,6 @@
 extends RefCounted
 ## Instance ownership and soul consent; acquisition callers must verify purchases/rewards.
+const Curriculum = preload("res://src/spanish/curriculum.gd")
 var catalog: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/scenario/equipment.json"))
 var language: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/spanish/soul_rituals.json"))
 var items: Dictionary = {}
@@ -138,9 +139,7 @@ const LISTEN_KEYS := [{"need":"pedir en presente (quiero, necesito…)","any":["
 var _separators := RegEx.create_from_string("[^\\p{L}\\p{N}]+")
 
 func _words(answer: String) -> String:
-	var text: String = _separators.sub(answer.to_lower(), " ", true)
-	for pair in [["á","a"],["é","e"],["í","i"],["ó","o"],["ú","u"]]:
-		text = text.replace(pair[0], pair[1])
+	var text: String = _separators.sub(Curriculum.fold(answer), " ", true)
 	return " " + " ".join(text.split(" ", false)) + " "
 
 ## Authored needs a free answer still lacks; consent has no keys and stays exact.
@@ -195,6 +194,13 @@ func persuade(world: RefCounted,set_id: String,answer: String,memories: Array = 
 		elif not gaps.is_empty() and not _near_miss(world,set_id,stage,answer) and world.learner.curriculum.normalized(answer) != world.learner.curriculum.normalized(expected(set_id,stage)):
 			hint = "Tu frase necesita: " + "; ".join(gaps) + "."
 		return {"ok":false,"message":str(sets[set_id].ritual.retry_response) + "\n" + hint}
+	if world.learner.curriculum.is_last_block(int(sets[set_id].ritual.required_block) - 1):
+		var authored: Array = [expected(set_id,stage),sets[set_id].ritual.supported_frame]
+		for field in ["fear","comparison","independent","objection","recall"]:
+			authored.append(language[set_id][field])
+		var spelling := Curriculum.orthography_errors(answer,authored)
+		if not spelling.is_empty():
+			return {"ok":false,"message":"En este nivel cuentan las tildes: " + ", ".join(spelling) + "."}
 	if not rituals.has(owner):
 		rituals[owner] = {}
 	if not rituals[owner].has(set_id):

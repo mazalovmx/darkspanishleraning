@@ -29,6 +29,10 @@ in a verb form combine tags in type, e.g. present|verb:tener. Mark only language
 produced by the player, never your own reply or a suggested correction. Do not award a
 success tag for a construction that you corrected. Limit feedback to two useful errors
 from the current/taught block; do not introduce new tenses as correction exercises.
+If language_profile.curriculum.orthography is "ignore", never report or recast a
+difference only in written accents, ü or apostrophes; if "check", report it. Also
+judge naturalness: a grammatical but unnatural phrasing may be one error whose better
+form is what a native speaker would say in this scene.
 When possible recast the corrected form naturally in npc_reply while answering the player.
 Grammar/vocabulary entries are strings. suggested_unlock is null or one exact ID from
 eligible_unlock_ids, only when the player asks about it. Do not claim it was unlocked.

@@ -11,6 +11,13 @@ func check(ok: bool, message: String) -> void:
 		push_error(message)
 func run() -> void:
 	var course := Course.new()
+	check(Course.fold("¡Pingüino D'Ávila!") == "¡pinguino davila!", "Fold drops tildes, diaeresis and apostrophes")
+	check(Course.orthography_errors("No sabemos que pasaria.", ["No sabemos qué pasaría."]) == PackedStringArray(["que → qué", "pasaria → pasaría"]), "Each word missing its authored tilde is named")
+	check(Course.orthography_errors("Creo que pasaría.", ["Creo que pasaría.", "No sé qué pasaría."]).is_empty(), "A form authored both ways is accepted")
+	check(Course.orthography_errors("La verguenza del dia.", ["La vergüenza del día."]).size() == 2, "Diaeresis and tilde both named")
+	check(Course.orthography_errors("Un barco extraño.", ["La vergüenza del día."]).is_empty(), "Unknown words are not judged")
+	var last_card: Dictionary = course.blocks.back().cards[0]
+	check(course.is_last_block(course.block_of(last_card.id)) and not course.is_last_block(0), "Only the last block is strict")
 	check(course.blocks.size() == 7 and course.index() == 0, "Seven ordered blocks")
 	check(not course.allowed_grammar().has("preterite"), "Past tense not available initially")
 	check(not course.introduce("conditional", 1), "Cannot skip to advanced card")

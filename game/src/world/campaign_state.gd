@@ -139,6 +139,10 @@ func submit(world: RefCounted, id: String, answer: String, classification: Strin
 	var gaps := missing(world, node, answer)
 	if answer.length() <= 300 and not gaps.is_empty():
 		return {"ok":false, "message":"Tu frase necesita: " + "; ".join(gaps) + "."}
+	if world.learner.curriculum.is_last_block(int(node.min_block)):
+		var spelling: PackedStringArray = world.learner.curriculum.orthography_errors(answer, node.answers + node.get("variants", []))
+		if not spelling.is_empty():
+			return {"ok":false, "message":"En este nivel cuentan las tildes: " + ", ".join(spelling) + "."}
 	if not _answer_valid(world, node, answer, classification, supports) or not _declaration_valid(node):
 		return {"ok":false, "message":"Revisa la fuente, la categoría y las pruebas. Escribe una frase completa en español."}
 	if not _outcome_ready(world, node, answer, records, world.day):

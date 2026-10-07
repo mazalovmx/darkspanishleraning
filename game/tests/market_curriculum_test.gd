@@ -1,6 +1,7 @@
 extends SceneTree
 const World = preload("res://src/world/world_state.gd")
 const Save = preload("res://src/save/save_game.gd")
+const Course = preload("res://src/spanish/curriculum.gd")
 var checks := 0
 var failures := 0
 func _initialize() -> void:
@@ -38,6 +39,14 @@ func run() -> void:
 		check(models.request.begins_with(setup[2]), "Request uses appropriate tense")
 		if setup[0] > 0:
 			check(not trade.submit(state, "bread", 2, trade.models("bread", 2).request).ok, "Higher lesson requires its learned production")
+		# Tildes, diaeresis and apostrophes count only in the last block (master spec 1.3).
+		var bare: String = Course.fold(models.request)
+		if setup[1] == "argument":
+			var spelled: Dictionary = trade.submit(state, "bread", 2, bare)
+			check(not spelled.ok and spelled.message.contains("querria → querría"), "Last block names the missing tilde")
+		elif setup[1] == "past":
+			check(trade.submit(state, "bread", 2, bare).ok and trade.phase == "price", "Missing tilde ignored before the last block")
+			trade.cancel()
 		for stage in ["request","price","confirm"]:
 			check(trade.submit(state, "bread", 2, models[stage]).ok, "Tier stage accepted")
 		check(trade.pending.is_empty(), "Completed tier clears quote")

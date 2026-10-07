@@ -162,6 +162,11 @@ func _on_reply(proposal: Dictionary) -> void:
 		pending_focus[0].recent_focus = pending_focus[2]
 	pending_focus = []
 	if not proposal.is_empty():
+		# Outside the last block a tilde, ü or apostrophe is not an error (master spec 1.3).
+		var course = world_state.learner.curriculum
+		if not course.is_last_block(course.index()):
+			proposal.language.errors = proposal.language.errors.filter(func(error: Dictionary) -> bool:
+				return course.fold(error.original) != course.fold(error.better))
 		world_state.learner.observe(proposal.language, pending_message, npc_id, pending_day)
 		last_feedback[pending_location] = _language_feedback(proposal.language)
 	var reply: String = proposal.get("npc_reply", pending_fallback)

@@ -165,6 +165,8 @@ func run() -> void:
 			check(reply == fallback, "Authored fallback used: " + label)
 		if expect.has("feedback_contains"):
 			check(panel.feedback.text.contains(expect.feedback_contains), "Feedback shows '%s': %s" % [expect.feedback_contains, label])
+		if expect.has("feedback_excludes"):
+			check(not panel.feedback.text.contains(expect.feedback_excludes), "Feedback omits '%s': %s" % [expect.feedback_excludes, label])
 		for tag: String in expect.get("delta", {}):
 			check(is_equal_approx(score(state, tag), BASELINE + float(expect.delta[tag])), "Mastery change for %s: %s" % [tag, label])
 		if expect.has("player_max"):

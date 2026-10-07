@@ -249,6 +249,9 @@ func submit(world: RefCounted, kind: String, id: String, quantity: int, message:
 	var gaps := missing(kind,id,quantity,message,phase,tier)
 	if not gaps.is_empty():
 		return {"ok":false,"message":_gaps_text(gaps) + "\nRecuerda: " + str(_trade.REMINDERS[phase][tier])}
+	var spelling: String = _trade.spelling(message,str(models(kind,id,quantity,tier)[phase]),phase,tier)
+	if not spelling.is_empty():
+		return {"ok":false,"message":spelling}
 	var location := _location(world)
 	if phase == "request":
 		pending = {"kind":kind,"id":id,"quantity":quantity,"day":world.day,"hero":world.party.active_id,
@@ -327,8 +330,10 @@ func claim_cue(world: RefCounted, id: String) -> String:
 		str(_trade.REMINDERS.request[tier]).replace("cantidad + producto","lo que quieres asegurar")]
 
 func claim_feedback(world: RefCounted, id: String, message: String) -> String:
-	var gaps := claim_missing(world,id,message,world.trade.tier_for(world))
-	return "Revisa el acceso." if gaps.is_empty() else _gaps_text(gaps)
+	var tier: String = world.trade.tier_for(world)
+	var gaps := claim_missing(world,id,message,tier)
+	var spelling: String = _trade.spelling(message,claim_model(world,id,tier),"request",tier)
+	return _gaps_text(gaps) if not gaps.is_empty() else spelling if not spelling.is_empty() else "Revisa el acceso."
 
 func claim(world: RefCounted, id: String, message: String) -> bool:
 	var entry := site(world,id)
@@ -339,7 +344,7 @@ func claim(world: RefCounted, id: String, message: String) -> bool:
 	if entry.guarded and world.encounters.get(id,{}).get("outcome","") != "victory":
 		return false
 	var tier: String = world.trade.tier_for(world)
-	if not claim_missing(world,id,message,tier).is_empty():
+	if not claim_missing(world,id,message,tier).is_empty() or not _trade.spelling(message,claim_model(world,id,tier),"request",tier).is_empty():
 		return false
 	mines[id] = {"day":world.day,"hero":world.party.active_id,"message":message.strip_edges(),"tier":tier}
 	return true

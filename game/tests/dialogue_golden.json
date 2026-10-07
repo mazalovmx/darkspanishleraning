@@ -1194,5 +1194,23 @@
         "queda anotada"
       ]
     }
+  },
+  {
+    "name": "tilde-only correction is ignored before the last block",
+    "conversation": "LOC11",
+    "evidence": [],
+    "player": "¿Que vende usted aqui?",
+    "model": {
+      "intent": "unknown",
+      "reply": "Vendo pan y agua.",
+      "errors": [{"type": "present", "original": "Que vende usted aqui", "better": "Qué vende usted aquí", "severity": "important"}]
+    },
+    "expect": {
+      "unlock": null,
+      "reply_contains": ["Vendo pan"],
+      "feedback_contains": "Sentido comprendido",
+      "feedback_excludes": "Mejor:",
+      "delta": {"present": 0}
+    }
   }]
 }

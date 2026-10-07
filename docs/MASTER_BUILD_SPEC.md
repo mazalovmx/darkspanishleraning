@@ -156,6 +156,14 @@ comes with a short rule reminder, shown when the form is introduced and availabl
 again during independent practice and after an error. The ordered sequence is a
 structured refresher for this player, not a beginner course.
 
+Conversation and orthography (user clarification, 2026-10-07): add as many Claude
+conversations as possible, so that the game is played by typing Spanish to characters
+and never reduces to choosing the right answer. In every block except the last,
+ignore errors that concern only written accents (tildes), the diaeresis (ü) or
+apostrophes; in the last block (conditions, subjunctive and argument) they count.
+Grammar and the naturalness of the exchange are still evaluated at every level: in
+conversations by Claude's assessment, deterministically wherever a task gates progress.
+
 ---
 
 ## 1.4 Canonical world is deterministic

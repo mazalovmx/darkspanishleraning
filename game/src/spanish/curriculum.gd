@@ -33,11 +33,45 @@ func card_for(id: String) -> Dictionary:
 				return card.duplicate(true)
 	return {}
 
-func normalized(message: String) -> String:
+const FOLD := [["á","a"],["é","e"],["í","i"],["ó","o"],["ú","u"],["ü","u"],["'",""],["’",""],["´",""],["`",""]]
+
+## Lower case without tildes, diaeresis or apostrophes: outside the last block these
+## are not errors (master spec 1.3, user clarification 2026-10-07).
+static func fold(message: String) -> String:
 	var result := message.strip_edges().to_lower()
-	for pair in [["á","a"],["é","e"],["í","i"],["ó","o"],["ú","u"]]:
+	for pair in FOLD:
 		result = result.replace(pair[0], pair[1])
-	return result.trim_prefix("¿").trim_suffix("?").trim_suffix(".").strip_edges()
+	return result
+
+func normalized(message: String) -> String:
+	return fold(message).trim_prefix("¿").trim_suffix("?").trim_suffix(".").strip_edges()
+
+## Last block only: each typed word that differs from an authored word only by a tilde,
+## a diaeresis or an apostrophe, as "querria → querría". Unknown words are not judged.
+static func orthography_errors(message: String, authored: Array) -> PackedStringArray:
+	var split := RegEx.create_from_string("[^\\p{L}'’´`]+")
+	var exact := {}
+	var folded := {}
+	for sentence: String in authored:
+		for word in split.sub(sentence.to_lower(), " ", true).split(" ", false):
+			exact[word] = true
+			if not folded.has(fold(word)):
+				folded[fold(word)] = word
+	var result: PackedStringArray = []
+	for word in split.sub(message.to_lower(), " ", true).split(" ", false):
+		if not exact.has(word) and folded.has(fold(word)) and str(folded[fold(word)]) not in result:
+			result.append("%s → %s" % [word, folded[fold(word)]])
+	return result
+
+func is_last_block(block: int) -> bool:
+	return block >= blocks.size() - 1
+
+func block_of(card_id: String) -> int:
+	for i in blocks.size():
+		for card: Dictionary in blocks[i].cards:
+			if card.id == card_id:
+				return i
+	return -1
 
 ## Lower case, accents dropped, punctuation as spaces, padded: " a b c ".
 func words(message: String) -> String:
@@ -88,6 +122,13 @@ func submit(id: String, message: String, day: int) -> Dictionary:
 		return {"ok": false, "message": "Sigue la tarea actual."}
 	if not _answer_ok(task.card, task.stage, message):
 		return {"ok": false, "message": "Revisa la forma y el sentido. Regla: " + str(task.card.rule)}
+	if is_last_block(block_of(id)):
+		var authored: Array = [task.card.model]
+		for exercise: Dictionary in task.card.exercises:
+			authored.append_array(exercise.answers)
+		var spelling := orthography_errors(message, authored)
+		if not spelling.is_empty():
+			return {"ok": false, "message": "En este nivel cuentan las tildes: " + ", ".join(spelling) + "."}
 	var record: Dictionary = records[id]
 	var earliest: int = int(record.introduced) if task.stage == "guided" else int(record.guided) if task.stage == "first" else int(record.first.day) if task.stage == "second" else int(record.second.day) + 1
 	if day < earliest:
@@ -183,7 +224,8 @@ func context() -> Dictionary:
 	return {"block": block_id(), "block_index": index() + 1, "title": blocks[index()].title,
 		"allowed_grammar": allowed_grammar(), "dimensions": dimensions.duplicate(),
 		"lesson_cards_completed": records.values().filter(func(record: Dictionary): return not record.recall.is_empty()).size(),
-		"policy": "Use the current block or earlier material. Ask one short production at a time. Do not jump to a later tense."}
+		"policy": "Use the current block or earlier material. Ask one short production at a time. Do not jump to a later tense.",
+		"orthography": "check" if is_last_block(index()) else "ignore"}
 
 func snapshot() -> Dictionary:
 	return {"records": records.duplicate(true), "cursor": cursor, "recent_focus": recent_focus.duplicate(),
