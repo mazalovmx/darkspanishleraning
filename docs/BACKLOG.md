@@ -24,7 +24,7 @@ Small, verifiable tasks first; each ends with tests, a STATE.md entry and one co
 4. [x] Working-doc drift: STATE.md header and bootstrap leftovers, ARCHITECTURE.md,
    CLAUDE_PROMPTS.md, CONTENT_SCHEMA.md, EQUIPMENT_AND_GHOST_KNIGHTS.md header,
    TESTING.md suite list, `ghost_knights.json` status label.
-5. [ ] Innkeeper directions follow the actual map (wrong on the province).
+5. [x] Innkeeper directions follow the actual map (wrong on the province).
 6. [ ] If budget remains: "Nueva partida" control with confirmation (P2 below).
 7. [ ] If budget remains: troop/supply transfer panel over the existing model.
 

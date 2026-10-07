@@ -1053,3 +1053,14 @@ equals requiring every lesson with the tag, so there is no defect and no change.
 
 Executed after the label change: equipment_ghost_catalog 1886, ghost_battle 116,
 ghost_persistence 331, ghost_scene 155, ghost_state 1459, ghost_world 154: passed.
+## Innkeeper directions match the province
+
+The innkeeper's authored reply and grounding fact sent the player east, which is true
+only on the 20x20 development map. On the province Santa Lucerna (52,39) lies north-
+west of the inn (74,59): Camino de la Venta runs north to Camino del Este, which runs
+west to the monastery. Both texts now say north, then west. On the development map
+this wording is inaccurate; that map is a test fixture, not the shipped game.
+
+Executed: authored_dialogue 25, dialogue_clue 39, npc_grounding 54, claude_client 72,
+vertical_slice 31: passed. The bible was consulted only for the location table
+(coordinates of LOC01 and LOC11), not reread in full for this one-line change.

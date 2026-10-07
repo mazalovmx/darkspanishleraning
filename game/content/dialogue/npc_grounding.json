@@ -2,7 +2,7 @@
     "version":  1,
     "facts":  {
                   "inn_name":  "Esta es la Venta del Perro Negro. Por aquí pasan muchos viajeros.",
-                  "route_to_monastery":  "En el mapa del prototipo, Santa Lucerna está al este de la venta, junto al camino.",
+                  "route_to_monastery":  "Santa Lucerna está al noroeste de la venta: el camino va al norte y después al oeste. El monasterio está junto al camino.",
                   "lucio_identity":  "Lucio Salcedo es el abad de Santa Lucerna.",
                   "monastery_work":  "Santa Lucerna es conocida por sus manuscritos y por el cuidado de los ojos.",
                   "forbidden_research":  "El monasterio oculta investigaciones prohibidas.",
