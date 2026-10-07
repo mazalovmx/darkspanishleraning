@@ -831,3 +831,19 @@ retreat preservation, abilities and an expanded battle scene; 39 existing battle
 and 285 equipment-integration checks: passed. Existing shutdown diagnostics persist.
 This validates battle execution, not encounter balance or availability on the map.
 Quest custody, language stages and rewards still require their runtime controller.
+## Optional investigation controller (world integration next)
+
+All 108 cases now have a deterministic controller for location/prerequisite access,
+peaceful custody or recorded victory, twelve access acrostics, physical inspection,
+supported-versus-overreaching interpretations, written supported production, changed
+sentence structure and recall on a later world day. Twelve final branch choices use
+written conditional proposals. Current grammar practice and consolidation of earlier
+blocks gate every case; battle victory cannot establish an interpretation.
+
+Offline practice is bounded authored sentence work with the actual artifact names,
+not unrestricted Spanish grading. It does not award fabricated free-language scores.
+Twenty-four reward bindings grant unique components once, separately from evidence;
+restore checks contiguous stages, chronology, prerequisite cases and reward identities.
+Executed 1574 checks through all 108 cases and all component rewards: passed.
+Existing shutdown diagnostics persist. This controller is not yet connected to world
+saves or the investigation interface; its passing test is not a completed playthrough.

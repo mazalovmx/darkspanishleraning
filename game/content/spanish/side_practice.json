@@ -1,0 +1,74 @@
+[
+  {
+    "supported": "Hay una pieza llamada «%s».",
+    "independent": [
+      "Aquí hay una prueba: «%s».",
+      "Veo una pieza: «%s». Aquí hay una prueba."
+    ],
+    "recall": "Recuerdo una prueba: «%s». Hay una pieza con ese nombre."
+  },
+  {
+    "supported": "La pieza «%s» es una prueba y está aquí.",
+    "independent": [
+      "Aquí está «%s». Es una pieza del expediente.",
+      "«%s» está aquí y es una prueba del expediente."
+    ],
+    "recall": "La prueba se llama «%s»; es una pieza del expediente y está aquí."
+  },
+  {
+    "supported": "Necesito examinar «%s», por favor.",
+    "independent": [
+      "Por favor, pido acceso a «%s» para examinar la pieza.",
+      "Pido permiso para examinar «%s», por favor."
+    ],
+    "recall": "Pido acceso a la pieza «%s» porque necesito examinar la prueba."
+  },
+  {
+    "supported": "Pido otra lectura de «%s» porque necesito comparar las versiones.",
+    "independent": [
+      "Necesito comparar las versiones; por eso pido otra lectura de «%s».",
+      "Para comparar las versiones, pido otra lectura de «%s»."
+    ],
+    "recall": "Necesito otra lectura de «%s» para comparar las versiones."
+  },
+  {
+    "supported": "Examiné «%s» y después comparé los datos.",
+    "independent": [
+      "Comparé los datos de «%s» después de examinar la pieza.",
+      "Primero examiné «%s»; después comparé los datos."
+    ],
+    "recall": "Examiné la pieza «%s» antes de comparar los datos."
+  },
+  {
+    "supported": "Antes leía «%s» sin contrastar las versiones; después comparé los datos.",
+    "independent": [
+      "Leía «%s» sin comparar las versiones, pero después contrasté los datos.",
+      "Antes no contrastaba «%s»; después comparé las versiones."
+    ],
+    "recall": "Antes leía «%s» sin contrastar; después examiné las diferencias."
+  },
+  {
+    "supported": "La pieza que examino se llama «%s» y permite comparar las versiones.",
+    "independent": [
+      "«%s» es la pieza que examino para comparar las versiones.",
+      "Comparo las versiones con la pieza que se llama «%s»."
+    ],
+    "recall": "La pieza que uso para comparar las versiones se llama «%s»."
+  },
+  {
+    "supported": "He examinado «%s» y voy a contrastar la interpretación.",
+    "independent": [
+      "Voy a contrastar la interpretación de «%s», que ya he examinado.",
+      "Ya he examinado «%s»; ahora voy a contrastar la interpretación."
+    ],
+    "recall": "He comparado las versiones sobre «%s» y voy a revisar la conclusión."
+  },
+  {
+    "supported": "Propondría revisar «%s» antes de aceptar una acusación.",
+    "independent": [
+      "Antes de aceptar una acusación, propondría revisar «%s».",
+      "Revisaría «%s» antes de aceptar una acusación."
+    ],
+    "recall": "No aceptaría una acusación sin revisar primero «%s»."
+  }
+]
