@@ -49,15 +49,46 @@ func chapter(world: RefCounted) -> int:
 			return int(definitions[id].act)
 	return 7
 
+## Needs a free answer still lacks. Authored answers and variants always pass; a node
+## without keys (the council's choice) accepts only them.
+func missing(world: RefCounted, node: Dictionary, answer: String) -> Array[String]:
+	var result: Array[String] = []
+	var course = world.learner.curriculum
+	for accepted: String in node.answers + node.get("variants", []):
+		if course.normalized(answer) == course.normalized(accepted):
+			return result
+	if not node.has("keys"):
+		result.append("una de las propuestas, tal como está escrita")
+		return result
+	var text: String = course.words(answer)
+	# One claim per conclusion: a second sentence or a long addition is not a paraphrase.
+	var longest := 0
+	for accepted: String in node.answers + node.get("variants", []):
+		longest = maxi(longest, course.words(accepted).split(" ", false).size())
+	if RegEx.create_from_string("[.;!?]\\s*\\S").search(answer.strip_edges()) != null:
+		result.append("una sola frase")
+	elif text.split(" ", false).size() > longest + 8:
+		result.append("una frase más breve, con una sola afirmación")
+	for group: Dictionary in node.keys:
+		if not group.any.any(func(form: String) -> bool: return text.contains(" %s " % form)):
+			result.append(str(group.need))
+	var negative: bool = course.words(node.answers[0]).contains(" no ")
+	if negative != (text.contains(" no ") or text.contains(" nunca ")):
+		var mixed: bool = node.get("variants", []).any(func(v: String) -> bool: return course.words(v).contains(" no ") != negative)
+		if not mixed:
+			result.append("una negación (no…)" if negative else "una afirmación, sin negación")
+	return result
+
+func needs(node: Dictionary) -> Array[String]:
+	var result: Array[String] = []
+	for group: Dictionary in node.get("keys", []):
+		result.append(str(group.need))
+	return result
+
 func _answer_valid(world: RefCounted, node: Dictionary, answer: String, classification: String, supports: Array) -> bool:
 	if answer.length() > 300 or classification != node.classification:
 		return false
-	var matched := false
-	# variants are authored paraphrases of the same claim in the same taught grammar.
-	for accepted: String in node.answers + node.get("variants", []):
-		if world.learner.curriculum.normalized(answer) == world.learner.curriculum.normalized(accepted):
-			matched = true
-	if not matched:
+	if not missing(world, node, answer).is_empty():
 		return false
 	var required: Array = node.get("supports", [])
 	if supports.size() != required.size():
@@ -105,6 +136,9 @@ func submit(world: RefCounted, id: String, answer: String, classification: Strin
 	if not denied.is_empty():
 		return {"ok":false, "message":denied}
 	var node: Dictionary = definitions[id]
+	var gaps := missing(world, node, answer)
+	if answer.length() <= 300 and not gaps.is_empty():
+		return {"ok":false, "message":"Tu frase necesita: " + "; ".join(gaps) + "."}
 	if not _answer_valid(world, node, answer, classification, supports) or not _declaration_valid(node):
 		return {"ok":false, "message":"Revisa la fuente, la categoría y las pruebas. Escribe una frase completa en español."}
 	if not _outcome_ready(world, node, answer, records, world.day):

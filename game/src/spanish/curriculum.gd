@@ -39,6 +39,13 @@ func normalized(message: String) -> String:
 		result = result.replace(pair[0], pair[1])
 	return result.trim_prefix("¿").trim_suffix("?").trim_suffix(".").strip_edges()
 
+## Lower case, accents dropped, punctuation as spaces, padded: " a b c ".
+func words(message: String) -> String:
+	var text := normalized(message)
+	for mark in [",", ".", ";", ":", "!", "¡", "?", "¿", "\"", "«", "»", "(", ")"]:
+		text = text.replace(mark, " ")
+	return " " + " ".join(text.split(" ", false)) + " "
+
 func _answer_ok(card: Dictionary, stage: String, message: String) -> bool:
 	if message.length() > 300:
 		return false

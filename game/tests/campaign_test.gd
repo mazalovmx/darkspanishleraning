@@ -40,6 +40,14 @@ func run() -> void:
 	var state := World.new("province_160x120_v1")
 	var campaign = state.campaign
 	check(campaign.chapter(state) == 1 and campaign.available(state).is_empty(), "Later acts hidden before opening")
+	for id: String in campaign.definitions:
+		var node: Dictionary = campaign.definitions[id]
+		check(node.has("keys") != (id == "council_resolution"), "Every free conclusion has authored keys: " + id)
+		if node.has("keys"):
+			# A probe whose exact texts never match, so the keys alone decide.
+			var probe := {"answers": [node.answers[0] + " ~"], "variants": node.variants.map(func(v: String) -> String: return v + " ~"), "keys": node.keys}
+			for accepted: String in node.answers + node.variants:
+				check(campaign.missing(state, probe, accepted).is_empty(), "Authored wording meets its own keys: " + id)
 	complete_opening(state)
 	check(campaign.chapter(state) == 2 and campaign.available(state) == ["sealed_order"], "Opening unlocks official order")
 	visit(state, "LOC14")
@@ -77,6 +85,15 @@ func run() -> void:
 				distinct[state.learner.curriculum.normalized(variant)] = true
 			check(distinct.size() == 3, "Paraphrases differ from the model: " + id)
 			check(not campaign.submit(state,id,wording + " Además, la Orden mató a todos.",node.classification,supports).ok, "Added claim is not a paraphrase: " + id)
+		if id == "tomas_cause":
+			var gap: Dictionary = campaign.submit(state,id,"Roque mató a Tomás.",node.classification,supports)
+			check(not gap.ok and gap.message.contains("en qué circunstancias") and not gap.message.contains(node.answers[0]), "Missing need named without the answer")
+			check(not campaign.submit(state,id,"Roque no mató a Tomás durante la disputa.",node.classification,supports).ok, "Reversed claim rejected")
+			check(not campaign.submit(state,id,"Roque mató a Tomás durante una disputa. Gabriel mintió.",node.classification,supports).ok, "Second sentence rejected")
+			wording = "Durante una pelea en el taller, Esteban Roque mató a Tomás."
+		if id == "confession_review":
+			check(not campaign.submit(state,id,"La confesión es una prueba independiente.",node.classification,supports).ok, "Dropped negation rejected")
+			wording = "Esa confesión del muchacho no es ninguna prueba independiente."
 		check(campaign.submit(state,id,wording,node.classification,supports).ok, "Canonical act task completes: " + id)
 		check(not campaign.submit(state,id,node.answers[0],node.classification,supports).ok, "Task cannot grant duplicate progress")
 		check(Save.decode(Save.snapshot(state)).has("state"), "Every intermediate campaign state restores: " + id)

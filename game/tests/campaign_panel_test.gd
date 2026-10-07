@@ -39,7 +39,10 @@ func run() -> void:
 		check(not panel.submit_button.disabled and panel.body.text.contains(node.speaker), "Authored source available on location: " + id)
 		check(panel.answer.text.is_empty(), "Answer is never auto-filled")
 		panel.hint_button.pressed.emit()
-		check(panel.feedback.text.contains(node.answers[0]) and panel.answer.text.is_empty(), "Model supports typing without click-only completion")
+		if id == "council_resolution":
+			check(panel.feedback.text.contains("propuestas") and panel.answer.text.is_empty(), "Council hint points to the proposals")
+		else:
+			check(panel.feedback.text.begins_with("Tu frase necesita:") and not panel.feedback.text.contains(node.answers[0]) and panel.answer.text.is_empty(), "Hint names what to say, never the model")
 		panel.answer.text = node.answers[0]
 		panel.category.select(map.state.campaign.CLASSIFICATIONS.find(node.classification)+1)
 		var supports: Array = node.get("supports",[])

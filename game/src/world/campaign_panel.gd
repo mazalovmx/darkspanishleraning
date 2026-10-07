@@ -63,10 +63,11 @@ func _ready() -> void:
 	submit_button.text = "Anotar conclusión"
 	submit_button.pressed.connect(_submit)
 	actions.add_child(submit_button)
-	hint_button.text = "Ver un modelo"
+	hint_button.text = "¿Qué debe decir?"
 	hint_button.pressed.connect(func():
 		if not active_id.is_empty() and not submit_button.disabled:
-			feedback.text = "Modelo: " + str(world_state.campaign.definitions[active_id].answers[0]))
+			var parts: Array[String] = world_state.campaign.needs(world_state.campaign.definitions[active_id])
+			feedback.text = "Escribe una de las propuestas." if parts.is_empty() else "Tu frase necesita: " + "; ".join(parts) + ".")
 	actions.add_child(hint_button)
 	feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	feedback.custom_minimum_size.y = 52

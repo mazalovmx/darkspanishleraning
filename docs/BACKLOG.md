@@ -50,9 +50,11 @@ its own multi-session plan and scenario-bible review per NPC.
   any conversation with a companion away from the place of introduction. To add one:
   an entry in `authored.json`, grounding facts and NPC record, a save whitelist id,
   and golden cases.
-- Acts II-VII are sentence-entry cards. Each now accepts its model sentence or two
-  authored paraphrases, but matching is still exact and a button shows the model.
-  Move the investigative ones to grounded conversation plus inspection as in Act I.
+- Acts II-VII are sentence-entry cards. Each accepts its model, two authored
+  paraphrases or the player's own sentence that meets the card's authored keys; the
+  hint button names the needs instead of showing the model. The council resolution
+  is still an exact choice among the proposals shown. Move the investigative cards to
+  grounded conversation plus inspection as in Act I.
 - The 108 optional cases reuse nine sentence templates; the per-quest
   `language.prompt/model_frame/independent_task/recall_task` fields are not read.
 - Copying the model: the inn market (LOC11) no longer shows or prints its model
@@ -63,7 +65,7 @@ its own multi-session plan and scenario-bible review per NPC.
   answers against authored keys and name the missing need; their listen, compare and
   supported stages still show a model by design (introduction and supported practice).
   Still showing a "Modelo:" before the first attempt, so passable by copying: optional
-  cases (side panel), campaign cards and evidence-notebook conclusions. Apply the same
+  cases (side panel) and evidence-notebook conclusions. Apply the same
   cue + reminder + element check to each.
 - NPC memory (Epic 19): conversation count, last day and discussed topics are stored
   per NPC, saved (v13), sent to Claude and shown as a return greeting. Still missing:

@@ -108,6 +108,14 @@ so it describes the form without giving the answer. Listening uses keys in code;
 consent has none and stays exact. Every model must meet its own keys
 (equipment_state_test checks this).
 
+content/scenario/campaign.json nodes use the same `keys` format. A conclusion is
+accepted when it equals an answer or variant, or when it meets every need, is a single
+sentence, is at most eight words longer than the longest authored version and has the
+same polarity (negated or not) as the first answer, unless the variants themselves mix
+polarity. Labels name a role or a form ("quién lo hizo", "matar en pretérito"), never
+the solution. `council_resolution` has no keys: the player types one of the shown
+proposals exactly. campaign_test checks that every answer and variant meets its keys.
+
 ghost_knights.json reserves NK01-NK08 and defines eight reversible local effect types.
 Profiles reference SB branches, optional SA counters and existing battle unit IDs.
 They include exact first/second-round commands and target rules, but no runtime AI

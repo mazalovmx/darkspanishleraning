@@ -1599,3 +1599,32 @@ next entry.
 
 Executed for this commit: the full non-live run, 49 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Campaign cards: free conclusions checked against authored keys
+
+`content/scenario/campaign.json` gives the 42 free campaign conclusions (all but the
+council resolution) authored keys in the soul-ritual format. `campaign_state.missing`
+accepts an answer or variant as before, otherwise requires every need, one sentence, at
+most eight words more than the longest authored version, and the polarity of the first
+answer (skipped where the variants mix negated and affirmative forms). A failed
+language check now returns "Tu frase necesita: …" with the missing labels; wrong
+classification or supports keep the generic retry message so the category cannot be
+found by elimination from the feedback. The journal button "Ver un modelo" became
+"¿Qué debe decir?" and lists the needs. Labels describe a role or a form, never the
+answer. Saved records validate through the same check, so old saves still load.
+`curriculum.words()` is the shared tokenizer for this check.
+
+Limitations: content check, not a parser; a sentence with the right words and a wrong
+relation between them can pass. The keys and labels were written by the agent, not
+reviewed by a Spanish speaker. "golpeó" was deliberately left out of the verbs for
+"quién mató a Tomás".
+
+Tests: campaign_test checks that every free node has keys and every answer and
+variant meets them alone, that a missing need is named without the answer, that a
+reversed claim, a dropped negation and a second sentence are rejected, and completes
+tomas_cause and confession_review with own wording (726 checks). campaign_panel_test
+checks that the hint names needs and never the model (363 checks). Results in the next
+entry.
+
+Executed for this commit: the full non-live run, 49 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

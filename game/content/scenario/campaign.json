@@ -16,6 +16,12 @@
         "Este documento cambia la situación legal de los cuadernos.",
         "La orden cambia la situación legal de los cuadernos."
       ],
+      "keys": [
+        {"need": "de qué documento hablas", "any": ["documento", "orden", "carta"]},
+        {"need": "un verbo en presente (cambia…)", "any": ["cambia", "modifica", "altera", "transforma"]},
+        {"need": "la situación legal", "any": ["situacion legal", "estado legal", "situacion juridica"]},
+        {"need": "los cuadernos", "any": ["cuadernos"]}
+      ],
       "classification": "declared",
       "requires": [
         "e:opening_conclusion"
@@ -46,6 +52,11 @@
         "El obispo busca estabilidad.",
         "El obispo desea estabilidad."
       ],
+      "keys": [
+        {"need": "el obispo", "any": ["obispo", "veyra"]},
+        {"need": "lo que quiere, en presente", "any": ["quiere", "busca", "desea", "necesita", "prefiere", "pide"]},
+        {"need": "su objetivo", "any": ["estabilidad", "calma", "paz", "orden"]}
+      ],
       "classification": "reported",
       "requires": [
         "sealed_order"
@@ -68,6 +79,12 @@
       "variants": [
         "Una declaración no prueba la causa de la muerte.",
         "La declaración no demuestra la causa de la muerte."
+      ],
+      "keys": [
+        {"need": "de qué documento hablas", "any": ["declaracion", "confesion", "orden"]},
+        {"need": "probar en presente (demuestra…)", "any": ["demuestra", "prueba", "establece", "explica"]},
+        {"need": "la causa", "any": ["causa"]},
+        {"need": "la muerte", "any": ["muerte"]}
       ],
       "classification": "inferred",
       "requires": [
@@ -97,6 +114,11 @@
         "Los impresores pagaron por el encargo.",
         "Los impresores pagaron este encargo."
       ],
+      "keys": [
+        {"need": "quién pagó", "any": ["impresores"]},
+        {"need": "pagar en pretérito plural", "any": ["pagaron", "financiaron"]},
+        {"need": "qué pagaron", "any": ["encargo", "trabajo", "pedido", "copia", "copias"]}
+      ],
       "classification": "observed",
       "requires": [
         "legal_distinction"
@@ -123,6 +145,12 @@
         "Un mensajero llevó el cuaderno al depósito de los impresores.",
         "El mensajero entregó el cuaderno en el depósito de los impresores."
       ],
+      "keys": [
+        {"need": "quién lo llevó", "any": ["mensajero"]},
+        {"need": "un verbo de movimiento en pretérito (llevó…)", "any": ["llevo", "entrego", "trajo", "dejo", "transporto"]},
+        {"need": "el cuaderno", "any": ["cuaderno"]},
+        {"need": "adónde", "any": ["deposito", "impresores"]}
+      ],
       "classification": "observed",
       "requires": [
         "ines_arrival"
@@ -147,6 +175,12 @@
       "variants": [
         "Esteban Roque pagó por destruir los planos.",
         "Roque pagó para destruir los planos."
+      ],
+      "keys": [
+        {"need": "quién pagó", "any": ["roque"]},
+        {"need": "pagar en pretérito", "any": ["pago", "ofrecio"]},
+        {"need": "para qué", "any": ["destruir", "quemar", "eliminar", "romper"]},
+        {"need": "qué querían destruir", "any": ["planos"]}
       ],
       "classification": "observed",
       "requires": [
@@ -173,6 +207,12 @@
         "Gabriel vio a Roque junto a la torre.",
         "Gabriel vio a Esteban Roque al lado de la torre."
       ],
+      "keys": [
+        {"need": "el testigo", "any": ["gabriel"]},
+        {"need": "ver en pretérito", "any": ["vio", "reconocio", "identifico"]},
+        {"need": "a quién vio", "any": ["roque"]},
+        {"need": "dónde", "any": ["torre"]}
+      ],
       "classification": "reported",
       "requires": [
         "copying_method"
@@ -197,6 +237,12 @@
       "variants": [
         "Roque mató a Tomás durante una disputa.",
         "Esteban Roque mató a Tomás durante una pelea."
+      ],
+      "keys": [
+        {"need": "quién lo hizo", "any": ["roque"]},
+        {"need": "un verbo en pretérito", "any": ["mato", "asesino"]},
+        {"need": "a quién", "any": ["tomas"]},
+        {"need": "en qué circunstancias (durante…)", "any": ["disputa", "pelea", "discusion", "conflicto", "rina"]}
       ],
       "classification": "inferred",
       "requires": [
@@ -227,6 +273,11 @@
         "León desactivaba la válvula de seguridad.",
         "El hermano León anulaba la válvula de seguridad."
       ],
+      "keys": [
+        {"need": "quién", "any": ["leon"]},
+        {"need": "lo que hacía, en imperfecto", "any": ["anulaba", "desactivaba", "bloqueaba", "ataba", "cerraba", "inutilizaba", "quitaba"]},
+        {"need": "sobre qué", "any": ["valvula", "proteccion"]}
+      ],
       "classification": "observed",
       "requires": [
         "tomas_cause"
@@ -252,6 +303,12 @@
         "La Orden exigía parar los experimentos.",
         "La Orden exigía el fin de los experimentos."
       ],
+      "keys": [
+        {"need": "quién exigía", "any": ["orden"]},
+        {"need": "exigir en imperfecto", "any": ["exigia", "pedia", "queria", "ordenaba", "mandaba", "reclamaba"]},
+        {"need": "qué exigía", "any": ["detener", "parar", "terminar", "fin", "suspender", "acabar", "cerrar"]},
+        {"need": "los experimentos", "any": ["experimentos", "investigaciones"]}
+      ],
       "classification": "reported",
       "requires": [
         "tomas_cause"
@@ -276,6 +333,13 @@
       "variants": [
         "León anulaba la protección cuando sucedió el accidente.",
         "Cuando ocurrió el accidente, León anulaba la protección."
+      ],
+      "keys": [
+        {"need": "quién", "any": ["leon"]},
+        {"need": "la acción en curso, en imperfecto", "any": ["anulaba", "desactivaba", "bloqueaba", "inutilizaba", "ataba", "quitaba"]},
+        {"need": "cuándo (cuando, mientras…)", "any": ["cuando", "mientras"]},
+        {"need": "el hecho puntual, en pretérito", "any": ["ocurrio", "sucedio", "paso", "hubo", "se produjo"]},
+        {"need": "el suceso", "any": ["accidente", "explosion"]}
       ],
       "classification": "inferred",
       "requires": [
@@ -308,6 +372,11 @@
         "El tratamiento ponía en peligro el monopolio del gremio.",
         "El nuevo tratamiento amenazaba el monopolio del gremio."
       ],
+      "keys": [
+        {"need": "qué amenazaba", "any": ["tratamiento", "remedio", "protocolo"]},
+        {"need": "amenazar en imperfecto", "any": ["amenazaba", "ponia en peligro", "perjudicaba", "danaba"]},
+        {"need": "a qué amenazaba", "any": ["monopolio", "negocio", "gremio", "tarifas"]}
+      ],
       "classification": "observed",
       "requires": [
         "tomas_cause"
@@ -332,6 +401,13 @@
       "variants": [
         "Selmo cambió el frasco mientras la ayudante trabajaba.",
         "Mientras la ayudante trabajaba, Selmo sustituyó el frasco."
+      ],
+      "keys": [
+        {"need": "quién", "any": ["selmo", "oribe"]},
+        {"need": "la acción puntual, en pretérito", "any": ["sustituyo", "cambio", "reemplazo", "cambio"]},
+        {"need": "el objeto", "any": ["frasco", "dosis", "botella"]},
+        {"need": "cuándo (mientras, cuando)", "any": ["mientras", "cuando"]},
+        {"need": "la acción en curso, en imperfecto", "any": ["trabajaba", "estaba", "preparaba", "atendia", "miraba", "limpiaba"]}
       ],
       "classification": "reported",
       "requires": [
@@ -358,6 +434,13 @@
       "variants": [
         "Selmo Oribe mató a Gaspar porque el tratamiento amenazaba su negocio.",
         "Selmo mató a Gaspar porque el tratamiento ponía en peligro su negocio."
+      ],
+      "keys": [
+        {"need": "quién lo hizo", "any": ["selmo", "oribe"]},
+        {"need": "un verbo en pretérito", "any": ["mato", "asesino", "enveneno"]},
+        {"need": "a quién", "any": ["gaspar"]},
+        {"need": "el motivo (porque…)", "any": ["porque", "ya que"]},
+        {"need": "la situación de fondo, en imperfecto", "any": ["amenazaba", "ponia en peligro", "perjudicaba", "danaba"]}
       ],
       "classification": "inferred",
       "requires": [
@@ -389,6 +472,12 @@
         "La Orden aprobó la muerte de Beltrán.",
         "La Orden autorizó el asesinato de Beltrán."
       ],
+      "keys": [
+        {"need": "quién", "any": ["orden"]},
+        {"need": "decidir en pretérito (autorizó…)", "any": ["autorizo", "aprobo", "ordeno", "permitio", "decidio"]},
+        {"need": "qué decidió", "any": ["muerte", "asesinato", "ejecucion", "matar"]},
+        {"need": "sobre quién", "any": ["beltran"]}
+      ],
       "classification": "observed",
       "requires": [
         "leon_cause",
@@ -415,6 +504,12 @@
         "El hermano Esteban entró voluntariamente en la Orden.",
         "Esteban ingresó voluntariamente en la Orden."
       ],
+      "keys": [
+        {"need": "quién", "any": ["esteban"]},
+        {"need": "entrar en pretérito", "any": ["ingreso", "entro", "se unio", "eligio", "escogio"]},
+        {"need": "cómo lo hizo", "any": ["voluntariamente", "por voluntad propia", "libremente", "por su voluntad", "por decision propia"]},
+        {"need": "dónde", "any": ["orden"]}
+      ],
       "classification": "reported",
       "requires": [
         "beltran_order"
@@ -439,6 +534,12 @@
       "variants": [
         "Las muertes tenían causas distintas.",
         "Las muertes no tenían la misma causa."
+      ],
+      "keys": [
+        {"need": "las muertes", "any": ["muertes"]},
+        {"need": "tener en imperfecto", "any": ["tenian", "eran"]},
+        {"need": "las causas", "any": ["causas", "causa", "origenes"]},
+        {"need": "la diferencia", "any": ["diferentes", "distintas", "diversas", "misma", "mismo"]}
       ],
       "classification": "inferred",
       "requires": [
@@ -469,6 +570,13 @@
         "Elias afirma que viene de otro mundo.",
         "Elias dice que llega de otro mundo."
       ],
+      "keys": [
+        {"need": "quién habla", "any": ["elias"]},
+        {"need": "un verbo de decir en presente", "any": ["dice", "afirma", "cuenta", "explica", "asegura", "sostiene", "declara"]},
+        {"need": "que", "any": ["que"]},
+        {"need": "venir en presente", "any": ["viene", "llega", "procede"]},
+        {"need": "de dónde", "any": ["otro mundo"]}
+      ],
       "classification": "reported",
       "requires": [
         "separate_causes"
@@ -493,6 +601,14 @@
         "Elias afirma que una respuesta plausible no demuestra una causa.",
         "Elias dice que una respuesta plausible no prueba una causa."
       ],
+      "keys": [
+        {"need": "quién habla", "any": ["elias"]},
+        {"need": "un verbo de decir en presente", "any": ["dice", "afirma", "cuenta", "explica", "asegura", "sostiene", "declara"]},
+        {"need": "la respuesta", "any": ["respuesta"]},
+        {"need": "cómo es la respuesta", "any": ["plausible", "convincente", "probable", "verosimil"]},
+        {"need": "probar en presente", "any": ["demuestra", "prueba", "establece"]},
+        {"need": "la causa", "any": ["causa"]}
+      ],
       "classification": "reported",
       "requires": [
         "elias_arrival"
@@ -516,6 +632,13 @@
         "Ysabel afirma que las restricciones protegen a la provincia.",
         "Ysabel dice que las restricciones protegen la provincia."
       ],
+      "keys": [
+        {"need": "quién habla", "any": ["ysabel"]},
+        {"need": "un verbo de decir en presente", "any": ["dice", "afirma", "cuenta", "explica", "asegura", "sostiene", "declara"]},
+        {"need": "las restricciones", "any": ["restricciones", "limites", "prohibiciones"]},
+        {"need": "proteger en presente plural", "any": ["protegen", "defienden", "cuidan"]},
+        {"need": "a quién", "any": ["provincia"]}
+      ],
       "classification": "reported",
       "requires": [
         "relay_comparison"
@@ -538,6 +661,12 @@
       "variants": [
         "Vamos a examinar juntos el archivo.",
         "Vamos a revisar el archivo juntos."
+      ],
+      "keys": [
+        {"need": "ir a + infinitivo", "any": ["vamos a", "voy a", "van a"]},
+        {"need": "qué vais a hacer", "any": ["examinar", "revisar", "estudiar", "consultar", "leer", "investigar"]},
+        {"need": "el archivo", "any": ["archivo"]},
+        {"need": "juntos", "any": ["juntos", "juntas", "contigo", "con ustedes", "con vosotros"]}
       ],
       "classification": "declared",
       "requires": [
@@ -565,6 +694,11 @@
         "Hemos consultado un archivo de crisis.",
         "He examinado un archivo de crisis."
       ],
+      "keys": [
+        {"need": "pretérito perfecto (he consultado…)", "any": ["he consultado", "he examinado", "he revisado", "he leido", "he estudiado", "he visto", "hemos consultado", "hemos examinado", "hemos revisado", "hemos leido", "hemos estudiado", "hemos visto", "ha consultado", "ha examinado", "ha revisado", "ha leido", "ha estudiado", "ha visto", "han consultado", "han examinado", "han revisado", "han leido", "han estudiado", "han visto"]},
+        {"need": "qué", "any": ["archivo", "registro"]},
+        {"need": "de qué tipo", "any": ["crisis"]}
+      ],
       "classification": "observed",
       "requires": [
         "archive_meeting"
@@ -590,6 +724,12 @@
         "No hemos encontrado bastantes registros de días corrientes.",
         "No hemos encontrado suficientes registros de días normales."
       ],
+      "keys": [
+        {"need": "pretérito perfecto (hemos encontrado…)", "any": ["he encontrado", "he visto", "he hallado", "he reunido", "hemos encontrado", "hemos visto", "hemos hallado", "hemos reunido", "ha encontrado", "ha visto", "ha hallado", "ha reunido", "han encontrado", "han visto", "han hallado", "han reunido"]},
+        {"need": "cuántos", "any": ["suficientes", "bastantes", "muchos"]},
+        {"need": "qué", "any": ["registros", "documentos", "datos"]},
+        {"need": "de qué días", "any": ["corrientes", "normales", "ordinarios", "comunes", "cotidianos"]}
+      ],
       "classification": "observed",
       "requires": [
         "index_crisis"
@@ -614,6 +754,12 @@
       "variants": [
         "La Orden ha transformado asociaciones en leyes.",
         "La Orden ha convertido las asociaciones en leyes."
+      ],
+      "keys": [
+        {"need": "quién", "any": ["orden"]},
+        {"need": "pretérito perfecto (ha convertido…)", "any": ["he convertido", "he transformado", "he hecho", "he cambiado", "hemos convertido", "hemos transformado", "hemos hecho", "hemos cambiado", "ha convertido", "ha transformado", "ha hecho", "ha cambiado", "han convertido", "han transformado", "han hecho", "han cambiado"]},
+        {"need": "qué", "any": ["asociaciones", "correlaciones", "coincidencias"]},
+        {"need": "en qué", "any": ["leyes", "normas", "reglas"]}
       ],
       "classification": "inferred",
       "requires": [
@@ -644,6 +790,11 @@
         "La válvula de seguridad estaba atada.",
         "La válvula estaba atada a mano."
       ],
+      "keys": [
+        {"need": "el objeto", "any": ["valvula"]},
+        {"need": "estar en imperfecto", "any": ["estaba"]},
+        {"need": "su estado", "any": ["atada", "bloqueada", "sujeta", "amarrada"]}
+      ],
       "classification": "observed",
       "requires": [
         "archive_bias"
@@ -667,6 +818,12 @@
         "Esteban afirma que las predicciones lo convencieron.",
         "Esteban dice que lo convencieron las predicciones."
       ],
+      "keys": [
+        {"need": "quién habla", "any": ["esteban"]},
+        {"need": "un verbo de decir en presente", "any": ["dice", "afirma", "cuenta", "explica", "asegura", "sostiene", "declara"]},
+        {"need": "qué lo convenció", "any": ["predicciones", "profecias"]},
+        {"need": "convencer en pretérito", "any": ["convencieron", "persuadieron"]}
+      ],
       "classification": "reported",
       "requires": [
         "archive_bias"
@@ -689,6 +846,12 @@
       "variants": [
         "No deberíamos atribuir todas las muertes al mismo autor.",
         "No se deberían atribuir todas las muertes a un solo autor."
+      ],
+      "keys": [
+        {"need": "un condicional (deberíamos…)", "any": ["deberian", "deberiamos", "deberia", "podriamos", "podria", "podrian"]},
+        {"need": "atribuir", "any": ["atribuir", "culpar", "asignar", "achacar"]},
+        {"need": "las muertes", "any": ["muertes"]},
+        {"need": "a quién", "any": ["autor", "culpable", "asesino", "responsable"]}
       ],
       "classification": "inferred",
       "requires": [
@@ -715,6 +878,14 @@
         "La declaración no demuestra que Tomás sea culpable.",
         "Esa declaración no prueba que Tomás sea culpable."
       ],
+      "keys": [
+        {"need": "de qué documento hablas", "any": ["declaracion", "confesion"]},
+        {"need": "probar en presente", "any": ["prueba", "demuestra", "establece"]},
+        {"need": "que", "any": ["que"]},
+        {"need": "de quién", "any": ["tomas"]},
+        {"need": "ser en subjuntivo", "any": ["sea"]},
+        {"need": "culpable", "any": ["culpable"]}
+      ],
       "classification": "declared",
       "requires": [
         "archive_bias"
@@ -739,6 +910,11 @@
       "variants": [
         "No sabemos qué pasaría a largo plazo.",
         "No sabemos qué sucedería a largo plazo."
+      ],
+      "keys": [
+        {"need": "saber en presente", "any": ["sabemos", "sabe", "conocemos", "se sabe"]},
+        {"need": "un condicional (ocurriría…)", "any": ["ocurriria", "pasaria", "sucederia", "seria", "habria", "traeria"]},
+        {"need": "cuándo", "any": ["largo plazo", "futuro", "despues"]}
       ],
       "classification": "unresolved",
       "requires": [
@@ -765,6 +941,11 @@
         "Los carros con grano no llegaron.",
         "No llegaron los carros de grano."
       ],
+      "keys": [
+        {"need": "qué no llegó", "any": ["carros", "carretas", "envios", "convoyes", "carretas"]},
+        {"need": "de qué", "any": ["grano", "trigo"]},
+        {"need": "llegar en pretérito", "any": ["llegaron"]}
+      ],
       "classification": "observed",
       "requires": [
         "legal_distinction"
@@ -790,6 +971,12 @@
       "variants": [
         "La interrupción de la ruta provocó la escasez.",
         "El corte de la ruta causó la escasez."
+      ],
+      "keys": [
+        {"need": "qué falló", "any": ["interrupcion", "corte", "bloqueo", "cierre"]},
+        {"need": "dónde", "any": ["ruta", "camino"]},
+        {"need": "causar en pretérito", "any": ["causo", "provoco", "produjo", "origino"]},
+        {"need": "la consecuencia", "any": ["escasez", "hambre", "falta"]}
       ],
       "classification": "inferred",
       "requires": [
@@ -821,6 +1008,13 @@
         "Los propietarios alargaban los turnos cuando aumentaba la producción.",
         "Cuando aumentaba la producción, los propietarios prolongaban los turnos."
       ],
+      "keys": [
+        {"need": "quiénes", "any": ["propietarios", "duenos", "patrones"]},
+        {"need": "lo que hacían, en imperfecto", "any": ["prolongaban", "alargaban", "extendian", "aumentaban"]},
+        {"need": "qué", "any": ["turnos", "jornadas", "horas"]},
+        {"need": "cuándo (cuando, si…)", "any": ["cuando", "si", "siempre que"]},
+        {"need": "la condición, en imperfecto", "any": ["aumentaba", "subia", "crecia"]}
+      ],
       "classification": "observed",
       "requires": [
         "leon_cause"
@@ -846,6 +1040,12 @@
       "variants": [
         "El permiso requiere ventilación y límites de jornada.",
         "El permiso exige ventilación y límites a la jornada."
+      ],
+      "keys": [
+        {"need": "qué documento", "any": ["permiso", "licencia"]},
+        {"need": "exigir en presente", "any": ["exige", "requiere", "pide", "obliga", "impone"]},
+        {"need": "la primera condición", "any": ["ventilacion", "aire"]},
+        {"need": "la segunda condición", "any": ["limites", "limite", "horario"]}
       ],
       "classification": "declared",
       "requires": [
@@ -875,6 +1075,11 @@
         "Este objeto es un condensador.",
         "El objeto es un condensador antiguo."
       ],
+      "keys": [
+        {"need": "el objeto", "any": ["objeto", "aparato", "pieza"]},
+        {"need": "ser en presente", "any": ["es"]},
+        {"need": "qué es", "any": ["condensador"]}
+      ],
       "classification": "observed",
       "requires": [
         "elias_arrival"
@@ -898,6 +1103,12 @@
       "variants": [
         "Hemos conservado el objeto y hemos explicado su funcionamiento.",
         "Hemos conservado el objeto y explicado cómo funciona."
+      ],
+      "keys": [
+        {"need": "pretérito perfecto (hemos conservado…)", "any": ["he conservado", "he guardado", "he protegido", "he mantenido", "hemos conservado", "hemos guardado", "hemos protegido", "hemos mantenido", "ha conservado", "ha guardado", "ha protegido", "ha mantenido", "han conservado", "han guardado", "han protegido", "han mantenido"]},
+        {"need": "explicar en participio", "any": ["explicado", "descrito", "mostrado", "ensenado", "aclarado"]},
+        {"need": "el objeto", "any": ["objeto", "aparato", "condensador"]},
+        {"need": "su funcionamiento", "any": ["funcionamiento", "funciona", "uso"]}
       ],
       "classification": "inferred",
       "requires": [
@@ -929,6 +1140,12 @@
         "La confesión del muchacho repite las palabras del guardia.",
         "La confesión repite las mismas palabras del guardia."
       ],
+      "keys": [
+        {"need": "de qué documento hablas", "any": ["confesion", "declaracion"]},
+        {"need": "repetir en presente", "any": ["repite", "copia", "reproduce"]},
+        {"need": "qué repite", "any": ["palabras", "frases", "expresiones", "version"]},
+        {"need": "de quién", "any": ["guardia"]}
+      ],
       "classification": "observed",
       "requires": [
         "legal_distinction"
@@ -952,6 +1169,12 @@
       "variants": [
         "Esta confesión no es una prueba independiente.",
         "La confesión del muchacho no es una prueba independiente."
+      ],
+      "keys": [
+        {"need": "de qué documento hablas", "any": ["confesion", "declaracion"]},
+        {"need": "ser en presente", "any": ["es"]},
+        {"need": "una prueba", "any": ["prueba"]},
+        {"need": "de qué tipo", "any": ["independiente", "autonoma", "separada"]}
       ],
       "classification": "inferred",
       "requires": [
@@ -981,6 +1204,12 @@
         "El sello de esta carta es falso.",
         "El sello de la carta no es auténtico."
       ],
+      "keys": [
+        {"need": "el sello", "any": ["sello"]},
+        {"need": "de qué documento", "any": ["carta"]},
+        {"need": "ser en presente", "any": ["es"]},
+        {"need": "su autenticidad", "any": ["falso", "falsificado", "no es autentico", "no es verdadero", "no es original"]}
+      ],
       "classification": "observed",
       "requires": [
         "notebook_route"
@@ -1004,6 +1233,14 @@
       "variants": [
         "La carta es falsa y no tiene validez legal, pero su contenido es verdadero.",
         "La carta es falsa y no tiene valor legal, pero su información es verdadera."
+      ],
+      "keys": [
+        {"need": "de qué documento hablas", "any": ["carta"]},
+        {"need": "su procedencia", "any": ["falsa", "falsificada"]},
+        {"need": "su validez", "any": ["validez", "valor legal", "valor juridico"]},
+        {"need": "el contraste (pero…)", "any": ["pero", "aunque", "sin embargo"]},
+        {"need": "lo que dice", "any": ["informacion", "contenido", "datos"]},
+        {"need": "la verdad de lo que dice", "any": ["verdadera", "cierta", "correcta", "verdadero", "cierto", "correcto"]}
       ],
       "classification": "inferred",
       "requires": [
@@ -1033,6 +1270,11 @@
         "La máquina de presión de Simón funciona.",
         "El motor de Simón funciona."
       ],
+      "keys": [
+        {"need": "qué", "any": ["motor", "maquina", "ingenio"]},
+        {"need": "de quién", "any": ["simon"]},
+        {"need": "funcionar en presente", "any": ["funciona", "sirve", "trabaja", "marcha"]}
+      ],
       "classification": "observed",
       "requires": [
         "leon_cause"
@@ -1057,6 +1299,15 @@
         "Los trabajadores quieren destruir la máquina, el propietario pide ampliar la producción y la Orden pide prohibirla.",
         "Los trabajadores piden destruir el motor, el propietario quiere ampliar la producción y la Orden pide prohibirlo."
       ],
+      "keys": [
+        {"need": "un verbo en presente (piden, quieren…)", "any": ["piden", "quieren", "exigen", "pide", "quiere", "exige", "desean", "desea", "reclaman", "reclama"]},
+        {"need": "los trabajadores", "any": ["trabajadores", "obreros"]},
+        {"need": "su petición", "any": ["destruir", "romper"]},
+        {"need": "el propietario", "any": ["propietario", "dueno"]},
+        {"need": "su petición", "any": ["ampliar", "aumentar"]},
+        {"need": "la Orden", "any": ["orden"]},
+        {"need": "su petición", "any": ["prohibir", "prohibirla", "prohibirlo"]}
+      ],
       "classification": "reported",
       "requires": [
         "simon_engine"
@@ -1080,6 +1331,14 @@
       "variants": [
         "El motor aumentaría la producción, pero pondría en riesgo los empleos.",
         "La máquina permitiría aumentar la producción, pero pondría en riesgo los empleos."
+      ],
+      "keys": [
+        {"need": "qué", "any": ["maquina", "motor"]},
+        {"need": "un condicional (aumentaría…)", "any": ["aumentaria", "incrementaria", "permitiria", "mejoraria"]},
+        {"need": "la producción", "any": ["produccion"]},
+        {"need": "el contraste (pero…)", "any": ["pero", "aunque", "sin embargo"]},
+        {"need": "el riesgo, en condicional", "any": ["pondria", "amenazaria", "eliminaria", "destruiria", "reduciria", "costaria", "quitaria"]},
+        {"need": "los empleos", "any": ["empleos", "trabajos", "puestos"]}
       ],
       "classification": "inferred",
       "requires": [
