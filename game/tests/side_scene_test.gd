@@ -18,6 +18,23 @@ func choose_option(control: OptionButton,id: String) -> void:
 func answer(message: String) -> void:
 	map.side_panel.input.text = message
 	map.side_panel.send_button.pressed.emit()
+func clear_with_ui(id: String) -> void:
+	var state = map.state
+	var knight: String = state.ghosts.blocked(state,id)
+	if knight.is_empty():
+		return
+	map.side_panel.close()
+	map.ghost_button.pressed.emit()
+	var counters = map.ghost_panel
+	for option in counters.entries.item_count:
+		if counters.entries.get_item_metadata(option) == knight:
+			counters.entries.select(option)
+			counters.entries.item_selected.emit(option)
+	counters.input.text = state.ghosts.counter_model(state,knight,counters.first.get_selected_metadata())
+	counters.send_button.pressed.emit()
+	check(state.ghosts.blocked(state,id).is_empty(),"Real UI counter removes case-stage obstruction")
+	counters.close()
+
 func run() -> void:
 	root.size = Vector2i(1280,720)
 	map = load("res://src/world/province_map.tscn").instantiate()
@@ -53,6 +70,9 @@ func run() -> void:
 	check(panel.visible and not panel.battle_button.visible and cases.records.is_empty(),"Victory returns to custody request, not a solved case")
 	for number in range(1,10):
 		var id := "SX%03d" % number
+		clear_with_ui(id)
+		if not panel.visible:
+			map.side_button.pressed.emit()
 		choose(id)
 		var node: Dictionary = cases.quests[id]
 		var models: Dictionary = cases.models(id)
@@ -84,11 +104,16 @@ func run() -> void:
 		check(panel.send_button.disabled,"Recall waits for later world day")
 		panel.close()
 		map._end_turn()
+		clear_with_ui(id)
 		map.side_button.pressed.emit()
 		choose(id)
 		check(not panel.prompt.text.contains(models.supported),"Recall hides the practised model")
 		answer(models.supported)
 		if not node.final_choice.is_empty():
+			clear_with_ui(id)
+			if not panel.visible:
+				map.side_button.pressed.emit()
+				choose(id)
 			choose_option(panel.choice,node.final_choice[1])
 			answer(cases.choice_model(node.final_choice[1]))
 		check(cases.complete(id,cases.records),"Case completed through panel")

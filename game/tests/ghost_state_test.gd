@@ -1,16 +1,25 @@
 extends "res://tests/campaign_test.gd"
 const Ghosts = preload("res://src/world/ghost_state.gd")
+func clear_intervention(state: RefCounted,id: String) -> void:
+	var knight: String = state.ghosts.blocked(state,id)
+	if knight.is_empty():
+		return
+	var sources: Array = state.ghosts.sources(state,id).slice(0,2 if knight in ["NK02","NK03","NK04","NK08"] else 1)
+	check(not sources.is_empty() and state.ghosts.counter(state,knight,id,state.ghosts.counter_model(state,knight,sources[0]),sources),"Real source-backed counter clears live prerequisite intervention")
+
 func finish_case(state: RefCounted,id: String) -> void:
 	var cases = state.side_cases
 	visit(state,cases.quests[id].location_id)
 	var phrases: Dictionary = cases.models(id)
 	var cipher: String = cases.quests[id].get("access_puzzle",{}).get("answer","")
+	clear_intervention(state,id)
 	check(cases.submit(state,id,phrases.access,"","","peaceful",cipher).ok,"Case prerequisite access")
 	cases.submit(state,id)
 	cases.submit(state,id,"","supported","overreach")
 	cases.submit(state,id,phrases.supported)
 	cases.submit(state,id,phrases.independent)
 	state.end_turn()
+	clear_intervention(state,id)
 	check(cases.submit(state,id,phrases.recall).ok,"Case prerequisite complete")
 func run() -> void:
 	var source := Ghosts.new()

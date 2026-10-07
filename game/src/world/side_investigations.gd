@@ -49,14 +49,17 @@ func prerequisites(id: String,ledger: Dictionary,day: int) -> bool:
 func reason(world: RefCounted,id: String) -> String:
 	if not quests.has(id) or world.map_id != "province_160x120_v1":
 		return "Este expediente pertenece a la provincia."
-	if world.active_battle != null or not world.trade.pending.is_empty() or not world.economy.pending.is_empty():
-		return "Termina la acción actual."
+	if world.planning_active() or world.active_battle != null or not world.trade.pending.is_empty() or not world.economy.pending.is_empty():
+		return "Resuelve las órdenes preparadas o termina la acción actual."
 	if world.location_at(world.hero_cell).get("id","") != quests[id].location_id:
 		return "Visita el lugar de la investigación."
 	if not prerequisites(id,records,world.day):
 		return "Resuelve primero los expedientes que aportan las pruebas necesarias."
 	if not language_ready(world,id,world.day):
 		return "Consolida los bloques anteriores y practica las formas de este expediente."
+	var knight: String = world.ghosts.blocked(world,id)
+	if not knight.is_empty():
+		return "Una intervención impide este paso. Abre «Caballeros y pruebas» para refutarla en español, o espera a que termine."
 	if stage(id) == "complete":
 		return "El expediente ya está resuelto."
 	return ""

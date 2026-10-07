@@ -991,3 +991,15 @@ passed. Reviewed the OpenGL screenshot. The initial scene fixture inherited an a
 active effect instead of the intended fresh telegraphed order; isolated fresh opposition
 while retaining real case/language progress and reran. Existing shutdown diagnostics
 persist. The next task is enforcing live case-stage effects and frozen-plan action guards.
+## Live interventions now gate optional investigation stages
+
+Optional cases consult active ghost effects at their designated stage and explain how
+to open Caballeros y pruebas or wait for expiry. Prepared strategic orders also block
+case mutation. The nine-case interface test now handles actual interventions through
+the counter panel at access, recall and final-choice boundaries. The 108-case catalog
+test explicitly isolates its controller from live opposition before world-save validation.
+
+Executed 219 complete branch UI checks, 1575 catalog-controller, 145 side-world,
+1459 ghost-strategy and 331 ghost-persistence checks: passed. Initial branch runs
+exposed the previously unhandled access and final-choice counter steps; the final run
+passed all nine cases with actual counter controls. Shutdown diagnostics persist.

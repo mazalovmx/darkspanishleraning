@@ -1,4 +1,4 @@
-extends "res://tests/campaign_test.gd"
+extends "res://tests/ghost_state_test.gd"
 func run() -> void:
 	var state := World.new("province_160x120_v1")
 	check(not state.begin_encounter("BX001"),"Side battle cannot bypass language gate")
@@ -29,6 +29,7 @@ func run() -> void:
 	cases.submit(state,"SX001",models.independent)
 	check(Save.decode(Save.snapshot(state)).has("state"),"Partial language progress saves")
 	state.end_turn()
+	clear_intervention(state,"SX001")
 	check(cases.submit(state,"SX001",models.recall).ok and state.equipment.instances.size() == 1,"Later recall awards unique component")
 	check(Save.decode(Save.snapshot(state)).has("state"),"Completed violent route and reward save together")
 	var definition: Dictionary = cases.battles.BX010
