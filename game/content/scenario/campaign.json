@@ -914,6 +914,110 @@
         "relay_comparison"
       ]
     },
+    "confession_record": {
+      "id": "confession_record",
+      "act": 2,
+      "location": "LOC02",
+      "speaker": "Guardia del Tribunal",
+      "title": "El niño que confesó · las dos hojas",
+      "source": "El guardia acusa a un muchacho de robar una reliquia. Su acusación escrita dice: «sustrajo el objeto sagrado con ánimo de lucro». La confesión del muchacho contiene la misma frase, palabra por palabra. Las dos hojas no dicen dónde está la reliquia.",
+      "prompt": "Compara las dos hojas y describe lo que ves en la confesión.",
+      "answers": [
+        "La confesión repite las palabras del guardia."
+      ],
+      "variants": [
+        "La confesión del muchacho repite las palabras del guardia.",
+        "La confesión repite las mismas palabras del guardia."
+      ],
+      "classification": "observed",
+      "requires": [
+        "legal_distinction"
+      ],
+      "min_block": 1,
+      "grammar": [],
+      "hero": "inquisitor",
+      "optional": true
+    },
+    "confession_review": {
+      "id": "confession_review",
+      "act": 2,
+      "location": "LOC02",
+      "speaker": "Escribano del Tribunal",
+      "title": "El niño que confesó · el eco",
+      "source": "El escribano lee las dos hojas ante Mateo. La confesión no añade ningún detalle propio: ni el lugar, ni la hora, ni el objeto. Un muchacho ante un guardia y un inquisidor puede repetir lo que oye. Esto no demuestra que sea inocente; indica que la acusación y la confesión son una sola fuente.",
+      "prompt": "Explica qué valor tiene la confesión como prueba.",
+      "answers": [
+        "La confesión no es una prueba independiente."
+      ],
+      "variants": [
+        "Esta confesión no es una prueba independiente.",
+        "La confesión del muchacho no es una prueba independiente."
+      ],
+      "classification": "inferred",
+      "requires": [
+        "confession_record"
+      ],
+      "min_block": 1,
+      "grammar": [],
+      "hero": "inquisitor",
+      "optional": true,
+      "supports": [
+        "confession_record",
+        "legal_distinction"
+      ]
+    },
+    "letter_seal": {
+      "id": "letter_seal",
+      "act": 3,
+      "location": "LOC17",
+      "speaker": "Correo de la Hermandad",
+      "title": "La carta verdadera · el sello",
+      "source": "Un correo de la Hermandad entrega a Inés una carta con el sello de la Universidad de Miralba. La carta afirma que un mensajero llevó el cuaderno de Tomás al depósito de los impresores. Inés compara el sello con uno auténtico: el dibujo no coincide. Nadie sabe quién escribió la carta.",
+      "prompt": "Describe lo que observas en el sello, sin juzgar todavía lo que afirma la carta.",
+      "answers": [
+        "El sello de la carta es falso."
+      ],
+      "variants": [
+        "El sello de esta carta es falso.",
+        "El sello de la carta no es auténtico."
+      ],
+      "classification": "observed",
+      "requires": [
+        "notebook_route"
+      ],
+      "min_block": 2,
+      "grammar": [],
+      "hero": "smuggler",
+      "optional": true
+    },
+    "letter_review": {
+      "id": "letter_review",
+      "act": 3,
+      "location": "LOC02",
+      "speaker": "Beatriz Orma",
+      "title": "La carta verdadera · la frase",
+      "source": "Beatriz examina la carta: «Un sello falso no da validez a un documento. Tampoco convierte en falsa cada frase que contiene». El registro de aduanas, una fuente distinta, confirma el destino del cuaderno. La carta no sirve como orden ni como prueba de su propio contenido.",
+      "prompt": "Separa la procedencia del documento de la verdad de lo que afirma.",
+      "answers": [
+        "La carta es falsa y no tiene validez legal, pero su información es verdadera."
+      ],
+      "variants": [
+        "La carta es falsa y no tiene validez legal, pero su contenido es verdadero.",
+        "La carta es falsa y no tiene valor legal, pero su información es verdadera."
+      ],
+      "classification": "inferred",
+      "requires": [
+        "letter_seal"
+      ],
+      "min_block": 2,
+      "grammar": [],
+      "hero": "any",
+      "optional": true,
+      "supports": [
+        "letter_seal",
+        "notebook_route"
+      ]
+    },
     "council_resolution": {
       "id": "council_resolution",
       "act": 7,
