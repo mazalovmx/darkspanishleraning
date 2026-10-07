@@ -1,4 +1,5 @@
 extends "res://tests/campaign_test.gd"
+const Institutions = preload("res://src/world/institutions.gd")
 func run() -> void:
 	var state := World.new("province_160x120_v1")
 	complete_opening(state)
@@ -68,6 +69,25 @@ func run() -> void:
 	check(not open.campaign.submit(open,letter.id,letter.answers[0],"inferred",["letter_seal","letter_seal"]).ok,"Claim needs a source other than the letter")
 	check(open.campaign.submit(open,letter.id,letter.variants[0],"inferred",letter.supports).ok,"Provenance separated from accuracy")
 	check(Save.decode(Save.snapshot(open)).has("state"),"Side lessons survive save")
+	# MQ10: granting emergency powers is an institutional act with consequences.
+	var purge: Dictionary = defs.purge_decision
+	check(base.campaign.purge_decision.answer == purge.outcomes[0].answer and not state.campaign.effects(state).has("emergency_powers"), "Refusing emergency powers puts no act in force")
+	check(not Institutions.valid(defs.crisis_forged_order.claimed_act), "The forged purge order is not a valid act")
+	var granted := base.duplicate(true)
+	granted.campaign.purge_decision.answer = purge.outcomes[1].answer
+	var powers = Save.decode(granted).state
+	check(powers != null and powers.campaign.effects(powers).has("emergency_powers"), "Granting emergency powers is an act in force")
+	check(not powers.campaign.effects(powers).has("miralba_purge"), "The forged order never takes effect")
+	var closed: Dictionary = powers.campaign.submit(powers,resolution.id,resolution.answers[3],"declared",resolution.supports)
+	check(not closed.ok, "Emergency powers close the Charter")
+	check(powers.campaign.submit(powers,resolution.id,resolution.answers[2],"declared",resolution.supports).ok, "Another ending remains")
+	check(powers.campaign.ending(powers).text.contains("descripción falsa en verdadera"), "The ending carries the consequence of the act")
+	var calm = Save.decode(base).state
+	calm.campaign.submit(calm,resolution.id,resolution.answers[2],"declared",resolution.supports)
+	check(not calm.campaign.ending(calm).text.contains("descripción falsa"), "Without the act there is no such epilogue")
+	var unrelated := base.duplicate(true)
+	unrelated.campaign.purge_decision.answer = "Propongo que el obispo decida."
+	check(not Save.decode(unrelated).has("state"), "A decision outside the proposals does not restore")
 	# A wrong council category is recorded and closes the Charter, not the other endings.
 	var mistaken := base.duplicate(true)
 	mistaken.campaign.erase("council_inferred")

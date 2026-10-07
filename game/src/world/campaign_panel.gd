@@ -136,6 +136,9 @@ func _refresh_body() -> void:
 	if campaign.records.has(active_id):
 		var record: Dictionary = campaign.records[active_id]
 		body.text = "%s\n\n%s\n\nAnotación · día %d\n%s\nCategoría: %s" % [node.speaker,node.source,record.day,record.answer,LABELS[campaign.CLASSIFICATIONS.find(record.classification)]]
+		var decided: Dictionary = campaign.outcome_for(world_state,node,str(record.answer))
+		if active_id != "council_resolution" and not decided.is_empty():
+			body.text += "\n\n" + str(decided.title) + "\n" + str(decided.text)
 		if active_id == "council_resolution":
 			var outcome: Dictionary = campaign.ending(world_state)
 			body.text = "FINAL · " + str(outcome.title) + "\n\n" + str(outcome.text) + "\n\n" + str(outcome.characters) + "\n\nDeclaración registrada:\n" + str(record.answer)

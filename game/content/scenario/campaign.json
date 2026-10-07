@@ -778,6 +778,253 @@
         "ordinary_tuesday"
       ]
     },
+    "crisis_convoy": {
+      "id": "crisis_convoy",
+      "act": 7,
+      "location": "LOC12",
+      "speaker": "Damián Soler, carretero de Granja Arce",
+      "title": "Crisis · el convoy detenido",
+      "source": "Damián Soler cuenta que el convoy de grano hacia San Vélaro vuelve a retrasarse. Nadie ha visto todavía los carros parados: hay una fecha de salida y ninguna entrega. En Valdora ya se habla de un bloqueo organizado.",
+      "prompt": "Refiere lo que cuenta el carretero, sin convertirlo en un bloqueo organizado.",
+      "answers": [
+        "Damián dice que el convoy de grano se retrasa."
+      ],
+      "variants": [
+        "Damián Soler dice que el convoy de grano se retrasa otra vez.",
+        "El carretero dice que el convoy de grano llega tarde."
+      ],
+      "keys": [
+        {"need": "quién lo cuenta", "any": ["damian", "soler", "carretero"]},
+        {"need": "un verbo de decir en presente", "any": ["dice", "afirma", "cuenta", "explica", "asegura", "sostiene", "declara"]},
+        {"need": "el convoy", "any": ["convoy", "carros", "grano"]},
+        {"need": "el retraso", "any": ["retrasa", "retraso", "tarde", "tarda", "demora"]}
+      ],
+      "classification": "reported",
+      "requires": [
+        "archive_bias"
+      ],
+      "min_block": 6,
+      "grammar": [],
+      "hero": "any"
+    },
+    "crisis_occupation": {
+      "id": "crisis_occupation",
+      "act": 7,
+      "location": "LOC04",
+      "speaker": "Lorenzo Villar, portavoz de los trabajadores",
+      "title": "Crisis · el taller ocupado",
+      "source": "En Ferraza los trabajadores ocupan un taller y se quedan junto a las máquinas. Desde la puerta se ve que nadie destruye nada ni ataca a los guardias. Lorenzo Villar dice que defienden su trabajo; el propietario habla de rebelión.",
+      "prompt": "Describe lo que se ve en el taller, sin adoptar la palabra del propietario.",
+      "answers": [
+        "Los trabajadores ocupan el taller y protegen las máquinas."
+      ],
+      "variants": [
+        "Los trabajadores ocupan el taller para proteger las máquinas.",
+        "Los obreros ocupan el taller y protegen las máquinas."
+      ],
+      "keys": [
+        {"need": "quiénes", "any": ["trabajadores", "obreros"]},
+        {"need": "ocupar en presente", "any": ["ocupan", "toman", "permanecen", "estan"]},
+        {"need": "el taller", "any": ["taller"]},
+        {"need": "las máquinas", "any": ["maquinas", "maquinaria", "motor"]}
+      ],
+      "classification": "observed",
+      "requires": [
+        "archive_bias"
+      ],
+      "min_block": 6,
+      "grammar": [],
+      "hero": "any"
+    },
+    "crisis_forged_order": {
+      "id": "crisis_forged_order",
+      "act": 7,
+      "location": "LOC03",
+      "speaker": "Inés Vargas",
+      "title": "Crisis · la orden de purga",
+      "source": "En Miralba circula un documento con un sello de la Orden: anuncia que la universidad será purgada. Inés lo compara con la orden auténtica del Archivo: el dibujo del sello no coincide y no nombra a ningún testigo. Los estudiantes ya se reúnen en la plaza.",
+      "prompt": "Explica qué valor institucional tiene ese documento.",
+      "answers": [
+        "El documento de la purga es falso y no tiene autoridad."
+      ],
+      "variants": [
+        "La orden de purga es falsa y no tiene autoridad.",
+        "El documento de la purga es falso y no tiene ninguna autoridad."
+      ],
+      "keys": [
+        {"need": "de qué documento hablas", "any": ["documento", "orden", "papel"]},
+        {"need": "su falsedad", "any": ["falso", "falsa", "falsificado", "falsificada"]},
+        {"need": "su autoridad", "any": ["autoridad", "validez", "valor"]}
+      ],
+      "classification": "inferred",
+      "requires": [
+        "archive_bias"
+      ],
+      "min_block": 6,
+      "grammar": [],
+      "hero": "smuggler",
+      "claimed_act": {
+        "kind": "emergency_authority",
+        "authority": "bishop_veyra",
+        "procedure": "sealed_written_order",
+        "target": "miralba_university",
+        "seal": "forged",
+        "witness": "",
+        "effect": "miralba_purge",
+        "text": "La universidad de Miralba será purgada."
+      }
+    },
+    "purge_decision": {
+      "id": "purge_decision",
+      "act": 7,
+      "location": "LOC02",
+      "speaker": "Aureliano Veyra",
+      "title": "MQ10 · La verdad oficial",
+      "source": "Tres sucesos llegan a Valdora el mismo día: el convoy de grano retrasado, el taller ocupado en Ferraza y la orden de purga que circula en Miralba. El obispo Veyra pide al Consejo autoridad de emergencia contra una «rebelión coordinada». Ningún expediente muestra un acuerdo entre los tres. Si el Consejo actúa como si existiera, la gente reaccionará a esa respuesta.",
+      "prompt": "Propón al Consejo qué hacer con la petición del obispo y elige como apoyo la orden falsa y el taller ocupado.",
+      "answers": [
+        "Propongo que no se conceda la autoridad de emergencia, porque los tres sucesos no están coordinados.",
+        "Propongo que se conceda la autoridad de emergencia, aunque nadie demuestre la coordinación."
+      ],
+      "classification": "declared",
+      "requires": [
+        "crisis_convoy",
+        "crisis_occupation",
+        "crisis_forged_order"
+      ],
+      "supports": [
+        "crisis_forged_order",
+        "crisis_occupation"
+      ],
+      "min_block": 6,
+      "grammar": [
+        "subjunctive_basic"
+      ],
+      "hero": "inquisitor",
+      "outcomes": [
+        {
+          "id": "refuse",
+          "answer": "Propongo que no se conceda la autoridad de emergencia, porque los tres sucesos no están coordinados.",
+          "title": "Ninguna rebelión declarada",
+          "text": "El Consejo niega la autoridad de emergencia. El grano sigue llegando tarde y el taller sigue ocupado, pero nadie convierte tres problemas en una conspiración.",
+          "requires": []
+        },
+        {
+          "id": "grant",
+          "answer": "Propongo que se conceda la autoridad de emergencia, aunque nadie demuestre la coordinación.",
+          "title": "La rebelión oficial",
+          "text": "El Consejo concede la autoridad de emergencia. Las patrullas llegan a Miralba y a Ferraza; estudiantes y trabajadores, tratados como un solo enemigo, empiezan a actuar juntos.",
+          "requires": [],
+          "declaration": {
+            "kind": "emergency_authority",
+            "authority": "valdora_council",
+            "procedure": "council_vote",
+            "target": "rebelion_coordinada",
+            "seal": "council",
+            "witness": "beatriz_orma",
+            "effect": "emergency_powers",
+            "text": "El obispo recibe autoridad de emergencia contra una «rebelión coordinada»."
+          }
+        }
+      ]
+    },
+    "council_ysabel": {
+      "id": "council_ysabel",
+      "act": 7,
+      "location": "LOC02",
+      "speaker": "Ysabel de la Sal",
+      "title": "Consejo · asociación falsa",
+      "source": "Ysabel sostiene: «Los años sin crisis registradas demuestran que el Índice funciona». El archivo consultado registra sobre todo crisis; la ausencia de registros no es una observación. Clasifica la afirmación y corrígela.",
+      "prompt": "Corrige la asociación sin negar los años tranquilos.",
+      "answers": [
+        "Los años sin crisis no demuestran que el Índice funcione."
+      ],
+      "variants": [
+        "Los años sin crisis registradas no demuestran que el Índice funcione.",
+        "Los años sin crisis no prueban que el Índice funcione."
+      ],
+      "keys": [
+        {"need": "los años sin crisis", "any": ["sin crisis"]},
+        {"need": "probar en presente", "any": ["demuestran", "demuestra", "prueban", "prueba"]},
+        {"need": "el Índice", "any": ["indice"]},
+        {"need": "funcionar en subjuntivo", "any": ["funcione", "sirva", "acierte"]}
+      ],
+      "council": true,
+      "classification": "inferred",
+      "requires": [
+        "purge_decision"
+      ],
+      "min_block": 6,
+      "grammar": [
+        "subjunctive_basic"
+      ],
+      "hero": "any"
+    },
+    "council_ines": {
+      "id": "council_ines",
+      "act": 7,
+      "location": "LOC02",
+      "speaker": "Inés Vargas",
+      "title": "Consejo · documento",
+      "source": "Inés pone sobre la mesa el libro de cuentas de los impresores. Cualquiera puede leer los asientos: pagos de Esteban Roque para destruir los planos de Tomás. Clasifica lo que muestra el documento.",
+      "prompt": "Di lo que registra el libro de cuentas.",
+      "answers": [
+        "El libro de cuentas registra pagos de Roque para destruir los planos."
+      ],
+      "variants": [
+        "El libro de cuentas registra los pagos de Esteban Roque para destruir los planos.",
+        "Los asientos registran pagos de Roque para destruir los planos."
+      ],
+      "keys": [
+        {"need": "el documento", "any": ["libro", "cuentas", "asientos"]},
+        {"need": "registrar en presente", "any": ["registra", "registran", "muestra", "muestran", "recoge"]},
+        {"need": "los pagos", "any": ["pagos", "pago", "dinero"]},
+        {"need": "de quién", "any": ["roque"]},
+        {"need": "los planos", "any": ["planos"]}
+      ],
+      "council": true,
+      "classification": "observed",
+      "requires": [
+        "purge_decision"
+      ],
+      "min_block": 6,
+      "grammar": [],
+      "hero": "any"
+    },
+    "council_elias": {
+      "id": "council_elias",
+      "act": 7,
+      "location": "LOC02",
+      "speaker": "Elias Venn",
+      "title": "Consejo · referido",
+      "source": "Elias declara ante el Consejo: «En mi mundo, un sistema parecido confundía lo importante con lo real». Nadie en la sala puede comprobar ese mundo. Clasifica la afirmación según su fuente.",
+      "prompt": "Refiere lo que dice Elias, sin presentarlo como un hecho comprobado.",
+      "answers": [
+        "Elias dice que en su mundo un sistema parecido confundía lo importante con lo real."
+      ],
+      "variants": [
+        "Elias afirma que en su mundo un sistema parecido confundía lo importante con lo real.",
+        "Elias dice que un sistema parecido de su mundo confundía lo importante con lo real."
+      ],
+      "keys": [
+        {"need": "quién lo dice", "any": ["elias"]},
+        {"need": "un verbo de decir en presente", "any": ["dice", "afirma", "cuenta", "explica", "asegura", "sostiene", "declara"]},
+        {"need": "su mundo", "any": ["mundo"]},
+        {"need": "el sistema", "any": ["sistema", "maquina"]},
+        {"need": "confundir en imperfecto", "any": ["confundia", "mezclaba"]},
+        {"need": "lo importante y lo real", "any": ["importante", "real", "realidad"]}
+      ],
+      "council": true,
+      "classification": "reported",
+      "requires": [
+        "purge_decision"
+      ],
+      "min_block": 6,
+      "grammar": [
+        "reported_speech"
+      ],
+      "hero": "any"
+    },
     "council_observed": {
       "id": "council_observed",
       "act": 7,
@@ -801,7 +1048,7 @@
       "council": true,
       "classification": "observed",
       "requires": [
-        "archive_bias"
+        "purge_decision"
       ],
       "min_block": 6,
       "grammar": [],
@@ -831,7 +1078,7 @@
       "council": true,
       "classification": "reported",
       "requires": [
-        "archive_bias"
+        "purge_decision"
       ],
       "min_block": 6,
       "grammar": [],
@@ -861,7 +1108,7 @@
       "council": true,
       "classification": "inferred",
       "requires": [
-        "archive_bias"
+        "purge_decision"
       ],
       "min_block": 6,
       "grammar": [
@@ -895,7 +1142,7 @@
       "council": true,
       "classification": "declared",
       "requires": [
-        "archive_bias"
+        "purge_decision"
       ],
       "min_block": 6,
       "grammar": [
@@ -926,7 +1173,7 @@
       "council": true,
       "classification": "unresolved",
       "requires": [
-        "archive_bias"
+        "purge_decision"
       ],
       "min_block": 6,
       "grammar": [
@@ -1384,7 +1631,10 @@
         "council_reported",
         "council_inferred",
         "council_declared",
-        "council_unknown"
+        "council_unknown",
+        "council_ysabel",
+        "council_ines",
+        "council_elias"
       ],
       "supports": [
         "council_inferred",
@@ -1396,6 +1646,7 @@
         "conditional"
       ],
       "hero": "inquisitor",
+      "epilogues": {"emergency_powers": "La autoridad de emergencia convirtió la descripción falsa en verdadera: Miralba y Ferraza se levantaron juntas contra las patrullas."},
       "outcomes": [
         {
           "id": "destroy",
@@ -1427,6 +1678,7 @@
           "title": "La Carta de las Pruebas",
           "text": "El Índice puede aconsejar, nunca declarar por sí mismo. Cada predicción incluye incertidumbre y alternativas. Las decisiones exigen pruebas independientes; las restricciones tienen revisión y caducidad. Cada acto identifica una autoridad humana responsable. Su cumplimiento sigue dependiendo de personas.",
           "characters": "Mateo limita la autoridad que ejerce. Inés distribuye libros y conocimiento médico. Elias admite lo que desconoce y elige enseñar en vez de convertirse en oráculo.",
+          "closed_by": ["emergency_powers"],
           "clean_council": true,
           "requires": [
             "grain_review",

@@ -255,7 +255,12 @@ func ending(world: RefCounted) -> Dictionary:
 	if not records.has("council_resolution"):
 		return {}
 	var answer: String = records.council_resolution.answer
-	for outcome: Dictionary in definitions.council_resolution.outcomes:
-		if world.learner.curriculum.normalized(answer) == world.learner.curriculum.normalized(outcome.answer):
-			return outcome.duplicate(true)
-	return {}
+	var result: Dictionary = outcome_for(world, definitions.council_resolution, answer).duplicate(true)
+	if result.is_empty():
+		return {}
+	# Acts still in force colour every ending (e.g. emergency powers granted at MQ10).
+	var acts_now := effects(world)
+	for effect: String in definitions.council_resolution.get("epilogues", {}):
+		if acts_now.has(effect):
+			result.text += " " + str(definitions.council_resolution.epilogues[effect])
+	return result

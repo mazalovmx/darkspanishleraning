@@ -1819,3 +1819,33 @@ checks).
 
 Executed for this commit: the full non-live run, 50 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## MQ10 "La verdad oficial", the Act VII crisis and three more council voices
+
+Bible 35 (three simultaneous events; a false description, an institutional response,
+and the description becomes true) and 17 (MQ10: prevent or enable a political purge).
+Seven campaign nodes inserted after archive_bias:
+- crisis_convoy (Granja Arce, Damián Soler, reported), crisis_occupation (Ferraza,
+  Lorenzo Villar, observed), crisis_forged_order (Miralba, Inés as active hero,
+  inferred). The forged order carries a `claimed_act` with a forged seal and no
+  witness; it is never valid and never in force.
+- purge_decision (MQ10, Valdora, Mateo): a choice between two proposals, refusing or
+  granting the bishop emergency powers. Granting carries a valid act (Consejo de
+  Valdora, council vote, council seal, witness Beatriz Orma, effect
+  `emergency_powers`). The journal shows the chosen outcome.
+- council_ysabel (false association, inferred), council_ines (the printers' ledger,
+  observed), council_elias (his account of his world, reported); all `council: true`.
+The five earlier council statements now require purge_decision; the council
+resolution requires all eight. The Charter has `closed_by: ["emergency_powers"]`, and
+the council resolution's `epilogues` add, to any ending, that the emergency powers
+turned the false description into a true one.
+
+Tests: council_endings_test (refusal puts no act in force, the forged order is invalid
+and never in force, granting puts the act in force, closes the Charter, leaves another
+ending with the epilogue; no epilogue without it; a decision outside the proposals
+does not restore; 293 checks). campaign_test and campaign_panel_test treat every node
+with outcomes as a proposal choice (815 and 402 checks). The new Spanish was written
+by the agent and is not reviewed.
+
+Executed for this commit: the full non-live run, 50 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

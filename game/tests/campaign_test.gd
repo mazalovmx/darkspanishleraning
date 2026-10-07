@@ -42,7 +42,7 @@ func run() -> void:
 	check(campaign.chapter(state) == 1 and campaign.available(state).is_empty(), "Later acts hidden before opening")
 	for id: String in campaign.definitions:
 		var node: Dictionary = campaign.definitions[id]
-		check(node.has("keys") != (id == "council_resolution"), "Every free conclusion has authored keys: " + id)
+		check(node.has("keys") != node.has("outcomes"), "Every free conclusion has authored keys: " + id)
 		if node.has("keys"):
 			# A probe whose exact texts never match, so the keys alone decide.
 			var probe := {"answers": [node.answers[0] + " ~"], "variants": node.variants.map(func(v: String) -> String: return v + " ~"), "keys": node.keys}
@@ -76,7 +76,7 @@ func run() -> void:
 		if not supports.is_empty():
 			check(not campaign.submit(state,id,node.answers[0],node.classification,[supports[0],supports[0]]).ok, "Distinct supporting evidence required")
 		var variants: Array = node.get("variants", [])
-		check(variants.size() == (0 if id == "council_resolution" else 2), "Two authored paraphrases per task: " + id)
+		check(variants.size() == (0 if node.has("outcomes") else 2), "Two authored paraphrases per task: " + id)
 		var wording: String = node.answers[0]
 		if not variants.is_empty():
 			wording = variants[checks % 2]

@@ -110,13 +110,16 @@ its own multi-session plan and scenario-bible review per NPC.
 
 ## P1 - Scenario coverage (bible sections 13, 17, 18, 26, 35, 36)
 
-- Missing quests: MQ10 and the Act VII political crisis. SQ03, SQ04 and SQ05 are
+- MQ10 and the Act VII crisis (bible 35) exist: three crisis cards (convoy reported,
+  workshop occupation observed, forged purge order inferred) and the decision on the
+  bishop's emergency powers, whose grant is an institutional act that closes the
+  Charter and adds an epilogue to every ending. SQ03, SQ04 and SQ05 are
   optional sentence-entry tasks (four, four and three nodes); none is required for an
   ending. SQ05 records the conflict but offers no destroy/scale/ban decision and has
   no consequence in the world, unlike the bible's "no clean choice".
 - El Índice is not a queryable text interface (Act VI).
-- Council: wrong classification is only retried, it does not affect endings; no
-  military commander, Ysabel, Inés or Elias nodes.
+- Council: a wrong classification is recorded and closes the Charter. Ysabel, Inés
+  and Elias have council statements; the commander speaks through council_unknown.
 - SQ01/SQ02/SQ06 have fixed outcomes instead of the bible's player options.
 - Locations with no interaction beyond a description: LOC10 entirely;
   LOC09, LOC12, LOC14, LOC16, LOC17, LOC18 have campaign cards only.
