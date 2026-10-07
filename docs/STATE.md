@@ -801,3 +801,19 @@ Executed 19 artifact-market scene checks headless and OpenGL, 55 economy-model,
 Reviewed the market screenshot; switching offers now also clears stale feedback.
 Existing shutdown diagnostics persist. Equipment controls are being connected next;
 optional quest rewards and knight interventions remain incomplete.
+## Equipment and soul interface connected
+
+The map now opens an inventory with fourteen named slots, item effects, capped hero
+bonuses and co-located transfers. Assembly, disassembly and whole-set transfer use
+the same validated model. A separate soul tab shows component requirements and follows
+all seven conversation stages; independent and recall answers are not displayed.
+Later grammar prompts remain hidden until curriculum prerequisites are met. Missing
+parts, occupied recipient slots and same-day recall block the relevant operations.
+Typing blocks travel, hero changes and world turns; each accepted action autosaves.
+Loading closes and rebinds the panel.
+
+Executed 157 equipment-scene checks headless and OpenGL; after visual improvements,
+157 OpenGL checks passed again. Also executed 365 map, 19 artifact-market and 46 party
+integration checks: passed. Reviewed inventory and soul screenshots. The scene test
+uses explicitly granted component fixtures; live quest acquisition remains next.
+Existing shutdown diagnostics persist. No knight-counter special is exposed yet.
