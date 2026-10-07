@@ -14,7 +14,7 @@ func run() -> void:
 	check(course.blocks.size() == 7 and course.index() == 0, "Seven ordered blocks")
 	check(not course.allowed_grammar().has("preterite"), "Past tense not available initially")
 	check(not course.introduce("conditional", 1), "Cannot skip to advanced card")
-	check(not course.submit("identity", "Soy investigador.", 1).ok, "Introduction required")
+	check(not course.submit("identity", course.blocks[0].cards[0].exercises[0].answers[0], 1).ok, "Introduction required")
 	var day := 1
 	var previous_index := 0
 	var visits := {}
@@ -53,6 +53,12 @@ func run() -> void:
 			contexts[card.context] = true
 			check(card.tag in block.grammar, "Each lesson has a current-block grammar target")
 			check(card.exercises.size() == 3, "Two transfer questions and delayed recall")
+			# Player level (spec 1.3): a refresher for a B1 learner, not beginner drills.
+			check(str(card.rule).length() >= 60 and str(card.model).split(" ").size() >= 5, "Lesson has a real rule reminder and a full-sentence model: " + card.id)
+			for exercise: Dictionary in card.exercises:
+				check(str(exercise.answers[0]).split(" ").size() >= 4 and course.normalized(exercise.answers[0]) != course.normalized(card.model), "Exercise asks for a full sentence that is not the model: " + card.id)
+				for accepted: String in exercise.answers:
+					check(not course.normalized(card.rule).contains(course.normalized(accepted)) and not course.normalized(exercise.prompt).contains(course.normalized(accepted)), "Neither rule nor prompt gives the answer away: " + card.id)
 			check(card.exercises[0].answers != card.exercises[1].answers and card.exercises[1].answers != card.exercises[2].answers, "Transfer prompts change answer")
 		check(contexts.size() >= 3, "Each block spans at least three contexts")
 		for verb in block.verbs:

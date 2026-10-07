@@ -29,21 +29,29 @@ func run() -> void:
 	var day: int = map.state.day
 	map._end_turn()
 	check(map.state.day == day, "Learning screen blocks hostile day progression")
+	var lesson: Dictionary = map.state.learner.curriculum.blocks[0].cards[0]
+	var transfer: String = lesson.exercises[0].answers[0]
+	var second: String = lesson.exercises[1].answers[0]
+	check(panel.explanation.text.contains(lesson.rule), "Introduction shows the rule reminder")
 	panel.advance.pressed.emit()
-	check(panel.task.stage == "guided" and panel.explanation.text.contains("Soy médico."), "Introduction leads to supported production")
+	check(panel.task.stage == "guided" and panel.explanation.text.contains(lesson.model), "Introduction leads to supported production")
 	panel.answer.text = "sí"
 	panel.advance.pressed.emit()
 	check(panel.task.stage == "guided", "Wrong answer cannot progress")
-	panel.answer.text = "Soy médico."
+	panel.answer.text = lesson.model
 	panel.advance.pressed.emit()
-	check(panel.task.stage == "first" and not panel.explanation.text.contains("Soy investigador."), "Transfer hides answer model")
-	panel.answer.text = "Soy investigador."
+	check(panel.task.stage == "first" and not panel.explanation.text.contains(transfer) and not panel.explanation.text.contains(lesson.model), "Transfer hides answer model")
+	check(panel.explanation.text.contains("Recuerda: " + str(lesson.rule)), "Independent practice keeps the rule reminder")
+	panel.answer.text = lesson.model
+	panel.advance.pressed.emit()
+	check(panel.task.stage == "first" and panel.feedback.text.contains("Regla"), "Copying the model fails and repeats the rule")
+	panel.answer.text = transfer
 	panel.advance.pressed.emit()
 	check(panel.task.stage == "second", "Second independent context required")
-	panel.answer.text = "Estoy en la torre."
+	panel.answer.text = second
 	panel.advance.pressed.emit()
 	check(panel.task.stage == "introduce" and panel.task.card.id == "existence", "Next topic while recall waits")
-	check(Save.read_save(path).state.learner.curriculum.records.identity.second.answer == "Estoy en la torre.", "Independent production autosaves")
+	check(Save.read_save(path).state.learner.curriculum.records.identity.second.answer == second, "Independent production autosaves")
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw

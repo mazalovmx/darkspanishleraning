@@ -37,12 +37,10 @@ its own multi-session plan and scenario-bible review per NPC.
 ## P1 - Spanish as the control surface (sections 1.2, 20, 21, 34, 39, 43)
 
 - Player level (user, 2026-10-07; master spec 1.3): the player is B1 but rusty on
-  grammar. The 31 lessons and 93 exercises are beginner sentences ("Soy médico.").
-  Rewrite them at B1 level while keeping the block order and grammar tags, show the
-  rule reminder in every stage and after an error, and check that the campaign,
-  market, case and soul sentences are not below that level either. Recall is gated
-  on a later game day for every card, which makes the early refresher slow: consider
-  letting the first blocks be consolidated faster.
+  grammar. The 31 lessons are rewritten at that level with rule reminders. Still to
+  do: review the campaign, market, strategy, optional-case and soul sentences against
+  the same requirement; let the early blocks be consolidated faster than one game
+  day per recall; have a Spanish speaker check the lesson texts.
 - Conversable NPCs: 13 exist (innkeeper, Lucio, Gabriel, Leonor, Beatriz Orma,
   Bishop Veyra, Simón Vale, Rodrigo Mendaña, Selmo Oribe, Ysabel, Esteban, Inés and
   Elias); the target is 30+. All but the four opening NPCs speak from bounded public

@@ -84,7 +84,10 @@ func run() -> void:
 	check(cell_colours.size() >= 7, "Terrain cells are baked from distinct art")
 	check(map.music_track == "minstrel_dance.mp3" and map.music.stream != null, "Travel music is selected on the map")
 	map._open_poi(map.state.hero_cell)
-	check(map.music_track == "kings_feast.mp3", "Entering a location changes the track")
+	var place: Dictionary = map.state.location_at(map.state.hero_cell)
+	check(map.music_track == map.LOCATION_MUSIC.get(place.kind, "kings_feast.mp3") and map.music_track != "minstrel_dance.mp3", "Entering a location changes the track")
+	for kind: String in map.LOCATION_MUSIC:
+		check(ResourceLoader.exists(map.MUSIC + str(map.LOCATION_MUSIC[kind])), "Location music file exists: " + kind)
 	map._play_sfx("no_such_event")
 	map._close_poi()
 	check(map.music_track == "minstrel_dance.mp3" and map.sfx.stream != null, "Leaving restores travel music and plays a sound")

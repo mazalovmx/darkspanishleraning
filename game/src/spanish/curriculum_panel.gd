@@ -75,6 +75,8 @@ func refresh() -> void:
 	else:
 		var number: int = ["first", "second", "recall"].find(task.stage)
 		explanation.text = ("RECUERDO SIN MODELO" if task.stage == "recall" else "APLICACIÓN SIN MODELO") + "\n\n" + str(task.card.exercises[number].prompt)
+		if task.stage != "recall":
+			explanation.text += "\n\nRecuerda: " + str(task.card.rule)
 		advance.text = "Comprobar"
 	if answer.visible:
 		answer.grab_focus()

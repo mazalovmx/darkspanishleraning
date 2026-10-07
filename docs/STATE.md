@@ -1477,3 +1477,41 @@ The hero-button portraits and the other 12 NPC portraits were not inspected; the
 audio was not listened to. The full runner was still in progress when this was
 committed at the user's request: 14 of 51 runs had passed, none had failed. Its
 final result is recorded in the next entry.
+## Result of the interrupted run, and lessons rewritten for a B1 player
+
+The full run that was still in progress at the previous commit finished with two
+failures out of 51, so commit e3f4c9f was pushed with a failing suite:
+- province_scene_test: a stale assertion of mine. It expected the old town track at
+  the monastery after the monastery had been given its own track. The test now reads
+  the expected track from the location-music table and checks every listed file
+  exists (64 checks).
+- performance_test: "move + end of day" worst case 2.29 s against a 2.0 s budget
+  while windowed review scripts were running at the same time. Rerun alone on an idle
+  machine it passed (average 0.51 s, worst 0.84 s). No code change; do not run other
+  Godot processes during the runner.
+
+Lessons (user requirement of 2026-10-07, master spec 1.3): all 31 lessons and their 93
+exercises were rewritten. Block order, lesson ids, grammar tags, contexts and target
+verbs are unchanged. Each lesson now has a fuller rule with the irregular forms it
+needs, a full-sentence model from the game's world, and exercises that ask for a full
+sentence. Where two natural versions exist (comma, word order, gender) both are
+accepted. 39 prompts that literally contained their answer ("Di que Gabriel oía…")
+became cue prompts the player must conjugate ("Cuenta una costumbre pasada: Gabriel /
+oír campanas cada noche / desde la bodega"). The rule is shown at introduction, during
+guided practice, as "Recuerda:" during the two independent applications, and after
+an error; delayed recall stays unaided. Lesson sentences avoid plot solutions.
+
+Not changed: answers are still matched exactly against the authored variants, recall
+is still gated on a later game day for every lesson, and the campaign, market, case
+and soul sentences were not reviewed against the B1 requirement.
+
+curriculum_test now asserts for every lesson a rule of at least 60 characters, a
+model of at least five words, exercise answers of at least four words that differ
+from the model, and that neither rule nor prompt contains any accepted answer (1,128
+checks). curriculum_integration_test reads the first lesson from data and checks the
+reminder during independent practice and that copying the model fails (25 checks).
+
+Executed the full runner on an idle machine: 49 suites plus restart write/read, all
+passed, 56,416 counted checks. Rendered and inspected the lesson screen in the
+independent stage with an error shown: prompt, reminder and feedback fit. The Spanish
+was written by the agent and not reviewed by a Spanish speaker.
