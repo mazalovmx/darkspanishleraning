@@ -139,7 +139,15 @@ func move_to(destination: Vector2i, discovered_only := false) -> bool:
 	if active_battle != null or not ghosts.pending_encounter.is_empty() or (map_id == "province_160x120_v1" and (not trade.pending.is_empty() or not economy.pending.is_empty())):
 		return false
 	if map_id == "province_160x120_v1":
-		return ghosts.prepare(self) and ghosts.plan.plan_move(self,party.active_id,destination)
+		var fresh: bool = ghosts.plan == null
+		var actors: Dictionary = ghosts.actors.duplicate(true)
+		if ghosts.prepare(self) and ghosts.plan.plan_move(self,party.active_id,destination):
+			return true
+		# A rejected destination must not leave the day's orders frozen.
+		if fresh:
+			ghosts.plan = null
+			ghosts.actors = actors
+		return false
 	var path := path_to(destination, discovered_only)
 	if path.size() < 2:
 		return false

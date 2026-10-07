@@ -73,6 +73,8 @@ func cancel() -> void:
 	phase = "request"
 
 func submit(state: RefCounted, id: String, quantity: int, message: String) -> Dictionary:
+	if state.planning_active():
+		return {"ok": false, "message": "Resuelve primero las órdenes preparadas."}
 	if not goods.has(id) or quantity < 1 or quantity > 20 or state.active_battle != null:
 		return {"ok": false, "message": "Pedido no válido."}
 	if state.location_at(state.hero_cell).get("id", "") != "LOC11":

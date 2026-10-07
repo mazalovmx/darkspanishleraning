@@ -1016,3 +1016,21 @@ variables for its own process and never runs claude_live_test.
 Executed the runner on the working tree: 45 suites plus restart write/read, all
 passed, 54,880 counted checks, exit 0. Not run: windowed/OpenGL variants, editor
 import, live Claude test. Existing shutdown diagnostics persist in every log.
+## Frozen-plan action guards completed
+
+While the day's orders are frozen, building, recruitment, mine claims, supply trade,
+campaign tasks, optional-case steps and equipment changes are rejected with a Spanish
+explanation; a soul special used as a ghost counter is still allowed. A destination
+the planner rejects (unknown, unreachable or too expensive) no longer leaves the day
+frozen: the freshly created plan and any knight activation are rolled back. The map
+status line now states that orders are frozen and what that blocks.
+
+Deliberately unchanged: cancelling a queued route keeps the plan frozen, because the
+knights' orders may already have been shown; releasing it would let the player react
+to them with non-counter actions. Hero transfers of troops/supplies are not guarded
+(no caller exists yet; see BACKLOG.md).
+
+Executed in the full runner pass above: ghost_world_test 154 checks (six new),
+ghost_state 1459, ghost_scene 155, ghost_persistence 331, plus every regression
+suite: passed. The status wording was changed after that run and is not covered by
+an assertion; no windowed run or screenshot review was done for it.

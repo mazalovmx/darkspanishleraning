@@ -142,6 +142,8 @@ func _army_after(world: RefCounted, kind: String, id: String, quantity: int) -> 
 	return army
 
 func reason(world: RefCounted, kind: String, id: String, quantity: int) -> String:
+	if world.planning_active():
+		return "Resuelve primero las órdenes preparadas."
 	var definition := offer(kind,id)
 	var location := _location(world)
 	if world.map_id != "province_160x120_v1" or location not in catalog.towns:
@@ -242,7 +244,7 @@ func claim_model(world: RefCounted, id: String, tier := "") -> String:
 
 func claim(world: RefCounted, id: String, message: String) -> bool:
 	var entry := site(world,id)
-	if entry.is_empty() or mines.has(id) or world.active_battle != null or not pending.is_empty() or not world.trade.pending.is_empty():
+	if world.planning_active() or entry.is_empty() or mines.has(id) or world.active_battle != null or not pending.is_empty() or not world.trade.pending.is_empty():
 		return false
 	if world.hero_cell != Vector2i(entry.position[0],entry.position[1]):
 		return false

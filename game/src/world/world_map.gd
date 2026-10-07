@@ -535,7 +535,7 @@ func _refresh() -> void:
 	end_button.text = "Resolver órdenes" if state.map_id == "province_160x120_v1" else "Terminar turno"
 	status.text = "%s · Día %d\nMovimiento: %d / %d\n%s" % [state.party.active().definition.short_name, state.day,
 		state.movement_remaining, state.MOVEMENT_MAX + int(state.equipment.bonuses(state.party.active_id).world_movement),
-		"Ruta preparada · resuelve las órdenes" if state.ghosts.plan != null else "Héroe seleccionado" if selected else "Selecciona al héroe"]
+		"Órdenes congeladas: resuelve el día\nantes de comerciar o investigar" if state.ghosts.plan != null else "Héroe seleccionado" if selected else "Selecciona al héroe"]
 	queue_redraw()
 
 func _update_preview() -> void:

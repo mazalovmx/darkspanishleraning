@@ -56,8 +56,8 @@ func _assembled(instance_id: String) -> bool:
 			return true
 	return false
 
-func _allowed(world: RefCounted) -> bool:
-	return world.active_battle == null and world.trade.pending.is_empty() and world.economy.pending.is_empty()
+func _allowed(world: RefCounted, counter := false) -> bool:
+	return (counter or not world.planning_active()) and world.ghosts.pending_encounter.is_empty() and world.active_battle == null and world.trade.pending.is_empty() and world.economy.pending.is_empty()
 
 func equip(world: RefCounted, instance_id: String, slot: String) -> bool:
 	if not _allowed(world) or not instances.has(instance_id) or _assembled(instance_id):
@@ -220,7 +220,7 @@ func transfer_set(world: RefCounted,set_id: String,target: String) -> bool:
 	return true
 
 func consume_special(world: RefCounted,set_id: String) -> Dictionary:
-	if not _allowed(world) or not assemblies.has(set_id) or assemblies[set_id].owner != world.party.active_id or not consent(world.party.active_id,set_id) or int(special_used.get(set_id,0)) >= world.day:
+	if not _allowed(world,true) or not assemblies.has(set_id) or assemblies[set_id].owner != world.party.active_id or not consent(world.party.active_id,set_id) or int(special_used.get(set_id,0)) >= world.day:
 		return {}
 	special_used[set_id] = world.day
 	return sets[set_id].special.duplicate(true)

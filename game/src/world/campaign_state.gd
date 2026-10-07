@@ -76,6 +76,8 @@ func _declaration_valid(node: Dictionary) -> bool:
 		"target":"tomas_notebooks", "seal":"episcopal", "witness":"archive_clerk"}
 
 func reason(world: RefCounted, id: String) -> String:
+	if world.planning_active():
+		return "Resuelve primero las órdenes preparadas."
 	if world.map_id != "province_160x120_v1" or not definitions.has(id):
 		return "Este expediente no está disponible aquí."
 	var node: Dictionary = definitions[id]

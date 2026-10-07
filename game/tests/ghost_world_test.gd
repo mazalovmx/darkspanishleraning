@@ -4,8 +4,15 @@ func run() -> void:
 	var state := World.new("province_160x120_v1")
 	var origin: Vector2i = state.hero_cell
 	var destination := origin + Vector2i(1,0)
+	var actors: Dictionary = state.ghosts.actors.duplicate(true)
+	check(not state.move_to(Vector2i(159,119),true) and not state.planning_active() and state.ghosts.actors == actors,"Rejected destination leaves orders unfrozen")
 	check(state.move_to(destination,true),"Province queues discovered route")
 	check(state.hero_cell == origin and state.day == 1,"Planning does not move or advance day")
+	check(not state.equipment._allowed(state),"Frozen plan blocks equipment mutation")
+	check(state.campaign.reason(state,"unused").contains("órdenes"),"Frozen plan blocks story actions")
+	check(state.economy.reason(state,"build","hall",1).contains("órdenes"),"Frozen plan blocks building and recruitment")
+	check(not state.trade.submit(state,"bread",1,"Quiero pan.").ok and state.trade.pending.is_empty(),"Frozen plan blocks new trade quote")
+	check(state.side_cases.reason(state,"SX001").contains("órdenes"),"Frozen plan blocks case mutation")
 	var loaded := Save.decode(JSON.parse_string(JSON.stringify(Save.snapshot(state))))
 	check(loaded.has("state"),"Whole-world planned route restores")
 	if loaded.has("state"):
