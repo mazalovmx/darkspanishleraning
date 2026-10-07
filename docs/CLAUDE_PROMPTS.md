@@ -1,6 +1,6 @@
 # Claude prompt contract
 
-Status: full target contract below. The initial transport prompt is implemented in game/src/claude/claude_client.gd; live validation is pending. The full grounding/scheduler context is not implemented yet.
+Status (2026-10-07): the text below is the target contract from the master spec. The runtime prompt in game/src/claude/claude_client.gd is a condensed variant of it. One live smoke test passed on 2026-10-05 and has not been rerun since the prompt gained grounding and curriculum context.
 
 <role>
 You are an NPC in a dark low-fantasy investigation game and,
@@ -86,10 +86,12 @@ Return valid JSON only.
 Follow RESPONSE_SCHEMA exactly.
 </output>
 
-Current client sends the authored NPC fixture, player message, last three exchanges and
-an initial present/basic-requests block. The runtime prompt requires one JSON response,
-max two corrections, no unlocks and no attitude mutation. Detailed context above is a
-future target, not a claim that learner/grounding/scheduler systems already exist.
+The client sends NPC grounding (knowledge, beliefs, releasable secrets), the player
+message, the last three exchanges, the learner profile, the taught grammar and the
+scheduled focus. The runtime prompt requires one JSON response and at most two
+corrections. A suggested unlock is verified deterministically before any change;
+attitude deltas other than zero are rejected. Not sent yet: scene, relationship,
+focus verbs, recent errors, conversation summary (see BACKLOG.md).
 Reference checked 2026-10-05:
 - https://platform.claude.com/docs/en/api/messages/create
 - https://platform.claude.com/docs/en/models/overview
@@ -97,4 +99,4 @@ Model default: claude-sonnet-5-5, stored only in runtime configuration (not scri
 
 Language context now includes observed grammar/verb mastery and allowed tag lists.
 The runtime prompt requests current-block corrections and natural NPC recasts, and
-forbids crediting the NPC's wording as player success. Full scheduler remains pending.
+forbids crediting the NPC's wording as player success. Only four NPCs use this path.

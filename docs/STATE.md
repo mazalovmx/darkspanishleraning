@@ -1034,3 +1034,22 @@ Executed in the full runner pass above: ghost_world_test 154 checks (six new),
 ghost_state 1459, ghost_scene 155, ghost_persistence 331, plus every regression
 suite: passed. The status wording was changed after that run and is not covered by
 an assertion; no windowed run or screenshot review was done for it.
+## Working documents brought in line with the runtime
+
+ARCHITECTURE.md now names the real entry scene (province_map.tscn), the canonical
+WorldState and its controllers; CLAUDE_PROMPTS.md describes the context actually
+sent; CONTENT_SCHEMA.md and EQUIPMENT_AND_GHOST_KNIGHTS.md no longer call integrated
+catalogs unintegrated; TESTING.md points to the later suites. ghost_knights.json
+status changed from authored_not_integrated to runtime_integrated_unbalanced, and the
+catalog test asserts the new label. The label is not read by gameplay code.
+
+Not edited: both copies of MASTER_BUILD_SPEC.md and WORLD_AND_SCENARIO_BIBLE.md still
+describe the expansion as authored only (sections 49-50 and the bible's expansion
+notes). That is a specification decision listed for the user in BACKLOG.md.
+
+Audit item reviewed and dropped: campaign_state.language_ready keeps only the last
+lesson carrying a grammar tag. Because lessons are completed strictly in order, that
+equals requiring every lesson with the tag, so there is no defect and no change.
+
+Executed after the label change: equipment_ghost_catalog 1886, ghost_battle 116,
+ghost_persistence 331, ghost_scene 155, ghost_state 1459, ghost_world 154: passed.

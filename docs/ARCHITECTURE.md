@@ -1,9 +1,29 @@
 # Architecture
 
-## Current bootstrap
+## Current layout (updated 2026-10-07)
 
 Godot 4.6.2 opens `game/project.godot`; `res://` resolves to `game/`.
-The entry point is `game/src/world/world_map.tscn`. The original demo remains at `game/src/main.tscn`.
+The entry point is `game/src/world/province_map.tscn` (the 160x120 province). It reuses
+`world_map.gd`; `world_map.tscn` is the 20x20 development map. The original demo
+remains at `game/src/main.tscn` and is not used by the new game.
+
+Runtime modules, all under `game/src`:
+- `world/world_state.gd`: the canonical state object (RefCounted, owned by the map
+  scene, no autoload). It owns day, fog, resources, encounters and these controllers:
+  `party_state.gd`/`hero_state.gd` (three heroes), `campaign_state.gd` (acts II-VII
+  and endings), `side_investigations.gd` (108 optional cases), `equipment_state.gd`
+  (items, assemblies, soul consent), `ghost_state.gd` with `simultaneous_turn.gd`
+  (knights and frozen daily orders).
+- `economy/trade_state.gd` (supply market) and `economy/strategy_economy.gd`
+  (buildings, recruitment, mines, artifact sales).
+- `evidence/evidence_graph.gd`, `spanish/learner_profile.gd`, `spanish/curriculum.gd`.
+- `dialogue/authored_dialogue.gd`, `dialogue/npc_grounding.gd`, `claude/claude_client.gd`.
+- `combat/stack_battle.gd` and `stack_arena.gd`: seven-slot stack battles.
+- `save/save_game.gd`: versioned JSON save (v12) with migration from v1.
+- Panels (`*_panel.gd`, `evidence_notebook.gd`) are views; they call the controllers
+  above and never hold canonical facts.
+Sections below the authority boundary are a historical description of the first
+prototype stages; STATE.md logs what was added afterwards.
 Upstream: https://github.com/gdquest-demos/godot-open-rpg at
 `19bd328fae9e4b534d3bb6db380a3d871d6ea58f` (MIT; see game/LICENSE and game/CREDITS.md).
 
@@ -20,12 +40,11 @@ Root `src/`, `content/`, `assets/`, and `tests/` remain reserved scaffolding. No
 or duplicate copies are required. This is a documented placement decision, not a specification edit.
 `game/config/game.json` is the single runtime configuration, loaded by the Claude client.
 
-## Planned authority boundary
+## Authority boundary
 
-One GameState will own canonical state. JSON content defines facts. Claude proposes
-responses; deterministic validation precedes state changes. These systems are not
-implemented at bootstrap. Do not treat upstream inventory persistence as the specified
-JSON save/load system. Implementation order and gates are in MASTER_BUILD_SPEC.md.
+WorldState owns canonical state. JSON content defines facts. Claude proposes
+responses; deterministic validation precedes state changes. Upstream inventory
+persistence is not the game's save system; `save/save_game.gd` is. Implementation order and gates are in MASTER_BUILD_SPEC.md.
 
 ## Prototype movement
 
@@ -64,8 +83,9 @@ The bounded per-location UI histories are transient and have no world-state auth
 It emits a validated proposal or an empty dictionary for authored fallback. Dialogue UI
 captures the originating location before the asynchronous call and stores the eventual
 reply only in that location's log. No canonical state object is supplied to the client.
-The prompt uses the authored NPC fixture and at most three exchanges. All world-change
-proposals are rejected for now. Language evaluation is validated but not applied/displayed.
+The prompt carries NPC grounding, curriculum focus and at most three exchanges. A clue
+proposal is accepted only after `npc_grounding.gd` and the evidence graph verify it;
+attitude changes are rejected. Validated language evaluation is displayed and observed.
 JSON schema validation cannot prove factual grounding of arbitrary NPC prose.
 
 ## Learner observations
@@ -75,5 +95,5 @@ Dialogue captures day/location before submission, revalidates proposals at compl
 and applies only validated language observations. NPC text never changes world facts.
 Known grammar and verb labels update bounded metrics; repeated recent messages and
 confidence below 0.7 are ignored. Context is copied into the same request. Feedback is
-cached per location; authored fallback clears it. Curriculum remains on the initial
-block; mastery is evidence for future scheduling, never an automatic block unlock.
+cached per location; authored fallback clears it. The current block is derived from
+completed lessons in `curriculum.gd`; observed mastery never unlocks a block.

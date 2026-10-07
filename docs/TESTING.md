@@ -149,7 +149,7 @@ six recipes, 24 SX reward overlays and eight knight profiles. Checks slot compat
 component provenance, curriculum order, non-click assembly requirements, bounded
 effects, valid battle commands, optional counters and recovery contracts. This does
 not test implemented assembly, persuasion, simultaneous movement or battle balance:
-those systems are not connected. Existing ObjectDB/26-resource shutdown diagnostics remain.
+those systems have their own later suites (equipment_*, ghost_*, simultaneous_turn). Existing ObjectDB/26-resource shutdown diagnostics remain.
 
 ## Save/load checks
 

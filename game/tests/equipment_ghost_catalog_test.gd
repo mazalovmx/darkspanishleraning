@@ -41,7 +41,7 @@ func run() -> void:
 	check(types.size() == 30 and items.size() == 180, "30 equipment types and 180 authored items")
 	check(sets.size() == 6 and knights.size() == 8, "Six souls and eight knight behaviors")
 	check(equipment.slots.size() == 14, "Fourteen body/accessory slots")
-	check(equipment.status == "runtime_integrated_partial_acquisition" and ghosts.status == "authored_not_integrated", "Runtime status honest")
+	check(equipment.status == "runtime_integrated_partial_acquisition" and ghosts.status == "runtime_integrated_unbalanced", "Runtime status honest")
 	check("gate_i" in equipment.activation_requires and "gate_i" in ghosts.activation_requires, "Integration gates preserved")
 	var rank := 0
 	for rarity: Dictionary in equipment.rarities:

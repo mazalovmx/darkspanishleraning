@@ -14,13 +14,14 @@ section 43, seven are met, three are partial and five are unmet or unmeasured.
 
 Small, verifiable tasks first; each ends with tests, a STATE.md entry and one commit.
 
-1. [ ] `tools/run-tests.ps1`: one command runs every non-live suite headless and
+1. [x] `tools/run-tests.ps1`: one command runs every non-live suite headless and
    prints a per-suite summary. Document it in TESTING.md.
-2. [ ] Finish the frozen-plan guard left uncommitted in five files: a rejected
+2. [x] Finish the frozen-plan guard left uncommitted in five files: a rejected
    destination must not freeze the day; the map must say that orders are frozen.
-3. [ ] `campaign_state.language_ready`: a grammar tag counts as practised when any
-   lesson with that tag reached independent transfer, not only the last one.
-4. [ ] Working-doc drift: STATE.md header and bootstrap leftovers, ARCHITECTURE.md,
+3. [-] `campaign_state.language_ready`: dropped, not a defect. Lessons are strictly
+   sequential, so "the last lesson with the tag was applied" already means every
+   lesson with that tag was applied. No code change.
+4. [x] Working-doc drift: STATE.md header and bootstrap leftovers, ARCHITECTURE.md,
    CLAUDE_PROMPTS.md, CONTENT_SCHEMA.md, EQUIPMENT_AND_GHOST_KNIGHTS.md header,
    TESTING.md suite list, `ghost_knights.json` status label.
 5. [ ] Innkeeper directions follow the actual map (wrong on the province).

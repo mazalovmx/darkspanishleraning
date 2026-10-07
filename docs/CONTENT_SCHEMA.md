@@ -45,9 +45,10 @@ are observed estimates initialized at zero; persistence and placement are future
 
 ## Reserved side investigation catalog
 
-game/content/scenario/side_investigations.json is version 1, authored_not_integrated.
+game/content/scenario/side_investigations.json is version 1, runtime_integrated_unbalanced.
 Arrays: curriculum_blocks, units, branches, quests, artifacts, battles, cross_branch_links;
-abilities is keyed by ability ID. Runtime loaders do not consume this file yet.
+abilities is keyed by ability ID. `game/src/world/side_investigations.gd` loads it;
+cross_branch_links and outcome flags are not consumed yet.
 SX001-SX108 reference AX001-AX108 and BX001-BX108; SB01-SB12 group nine quests each.
 Original SQ identifiers are unchanged. requires is an all-of dependency list.
 Each puzzle stores three interpretations, answer/rejection IDs and required evidence.
