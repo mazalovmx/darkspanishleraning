@@ -120,7 +120,9 @@ its own multi-session plan and scenario-bible review per NPC.
 - El Índice is not a queryable text interface (Act VI).
 - Council: a wrong classification is recorded and closes the Charter. Ysabel, Inés
   and Elias have council statements; the commander speaks through council_unknown.
-- SQ01/SQ02/SQ06 have fixed outcomes instead of the bible's player options.
+- SQ01 (threaten/bargain/investigate), SQ02 (approve/keep the ban) and SQ06
+  (destroy/explain/leave the cult) are decisions; harsh options close the matching
+  review and with it the Charter, and every choice adds an ending epilogue.
 - Locations with no interaction beyond a description: LOC10 entirely;
   LOC09, LOC12, LOC14, LOC16, LOC17, LOC18 have campaign cards only.
 - Santa Lucerna sub-spaces and city-specific vocabulary sets are not represented.

@@ -1,5 +1,5 @@
 extends "res://tests/campaign_test.gd"
-const MACHINE_CASE := ["simon_engine", "simon_demands", "simon_review"]
+const MACHINE_CASE := ["simon_engine", "simon_demands", "simon_choice", "simon_review"]
 func run() -> void:
 	var state := World.new("province_160x120_v1")
 	complete_opening(state)
@@ -68,5 +68,22 @@ func run() -> void:
 	forged = saved.duplicate(true)
 	forged.campaign.simon_review.answer = "La máquina no tiene ningún coste."
 	check(not Save.decode(forged).has("state"), "Save rejects an invented clean solution")
+	# SQ05 decision: every option has a price and a lasting consequence.
+	var choice: Dictionary = campaign.definitions.simon_choice
+	check(choice.decision and choice.outcomes.size() == 3, "SQ05 offers destroy, scale or ban")
+	for outcome: Dictionary in choice.outcomes:
+		var world = Save.decode(saved).state
+		world.select_hero("inquisitor")
+		visit(world, choice.location)
+		check(not world.campaign.submit(world, choice.id, "Hago lo que quiera el propietario.", "").ok, "Only the stated options decide")
+		check(world.campaign.submit(world, choice.id, outcome.answer, "").ok, "Decide SQ05: " + outcome.id)
+		var gold: int = world.resources.gold
+		world.end_turn()
+		world.economy.advance_day(world)
+		var scaled: bool = outcome.id == "scale"
+		check((world.resources.gold - gold >= 100) == scaled, "Only the scaled engine adds daily gold: " + outcome.id)
+		check(world.campaign.effects(world).has("engine_banned") == (outcome.id == "ban"), "Only the ban is an act in force: " + outcome.id)
+		var loaded := Save.decode(Save.snapshot(world))
+		check(loaded.has("state") and loaded.state.campaign.income(loaded.state) == world.campaign.income(world), "Decision and its income survive a restart: " + outcome.id)
 	print("Simon quest checks: %d, failures: %d" % [checks, failures])
 	quit(1 if failures else 0)

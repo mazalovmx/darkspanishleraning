@@ -88,6 +88,27 @@ func run() -> void:
 	var unrelated := base.duplicate(true)
 	unrelated.campaign.purge_decision.answer = "Propongo que el obispo decida."
 	check(not Save.decode(unrelated).has("state"), "A decision outside the proposals does not restore")
+	# SQ01, SQ02, SQ06: decisions with consequences; the harsh ones close their review.
+	for case in [["bakery_choice", "threaten", "grain_review"], ["ventilation_choice", "keep_ban", "ventilation_review"], ["capacitor_choice", "destroy", "capacitor_review"], ["capacitor_choice", "silence", "capacitor_review"]]:
+		var decision: Dictionary = defs[case[0]]
+		var picked: Dictionary = decision.outcomes.filter(func(o: Dictionary) -> bool: return o.id == case[1])[0]
+		var shut := base.duplicate(true)
+		shut.campaign[case[0]].answer = picked.answer
+		check(not Save.decode(shut).has("state"), "A review recorded after a decision that closed it does not restore: " + case[1])
+		shut.campaign.erase(case[2])
+		var world = Save.decode(shut).state
+		check(world != null and world.campaign.reason(world, case[2]) == "Una decisión anterior cerró esta vía.", "The decision closes the review: " + case[1])
+		world.select_hero("inquisitor")
+		visit(world, "LOC02")
+		check(not world.campaign.submit(world, resolution.id, resolution.answers[3], "declared", resolution.supports).ok, "Without the review there is no Charter: " + case[1])
+		check(world.campaign.submit(world, resolution.id, resolution.answers[1], "declared", resolution.supports).ok, "Another ending remains: " + case[1])
+		var line: String = str(resolution.epilogues[picked.effect])
+		check(world.campaign.ending(world).text.contains(line), "The ending remembers the decision: " + case[1])
+	var fan = Save.decode(base).state
+	check(fan.campaign.income(fan) == {"ore": 1}, "The approved fan adds ore each day")
+	var bargain := base.duplicate(true)
+	bargain.campaign.bakery_choice.answer = defs.bakery_choice.outcomes.filter(func(o: Dictionary) -> bool: return o.id == "bargain")[0].answer
+	check(Save.decode(bargain).has("state"), "A bargain keeps the supply review open")
 	# A wrong council category is recorded and closes the Charter, not the other endings.
 	var mistaken := base.duplicate(true)
 	mistaken.campaign.erase("council_inferred")

@@ -176,3 +176,9 @@ a required witness is named and target/effect/text are present. Valid acts of re
 nodes and chosen outcomes are in force (`campaign_state.acts/effects`); their `effect`
 flags are the world consequences. An outcome may list `closed_by` effects that make it
 unavailable. Acts are derived from campaign records, so they add no save state.
+
+Decision nodes (`"decision": true`) are chosen, not classified: the journal hides the
+category and any category is ignored. Their `outcomes` may carry `effect` (a
+consequence flag), `income` (daily resources added by the strategy economy) or a
+`declaration`. A node's `closed_by` lists effects that make it unavailable; the council
+resolution's `epilogues` map effects to lines appended to the ending.

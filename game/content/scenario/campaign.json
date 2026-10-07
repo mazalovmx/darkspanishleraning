@@ -1212,6 +1212,55 @@
       "hero": "any",
       "optional": true
     },
+    "bakery_choice": {
+      "id": "bakery_choice",
+      "act": 3,
+      "location": "LOC07",
+      "speaker": "Catalina Rius, panadera de San Vélaro",
+      "title": "SQ01 · Pan de ayer",
+      "source": "Catalina vende pan duro y caro mientras falta harina. Los vecinos piden castigo y miran a Mateo. El registro de entregas ya muestra que los carros no llegaron.",
+      "prompt": "Decide qué haces con la panadera.",
+      "answers": [
+        "Antes de acusarla, quiero revisar la ruta del grano.",
+        "Si no baja el precio, el Tribunal cierra la panadería.",
+        "Le compro el pan de ayer a mitad de precio."
+      ],
+      "decision": true,
+      "classification": "declared",
+      "requires": [
+        "grain_records"
+      ],
+      "min_block": 2,
+      "grammar": [],
+      "hero": "any",
+      "optional": true,
+      "outcomes": [
+        {
+          "id": "investigate",
+          "answer": "Antes de acusarla, quiero revisar la ruta del grano.",
+          "title": "Una pregunta mejor",
+          "text": "Catalina enseña sus cuentas. El problema está en el camino, no en el horno.",
+          "requires": [],
+          "effect": "supply_investigated"
+        },
+        {
+          "id": "threaten",
+          "answer": "Si no baja el precio, el Tribunal cierra la panadería.",
+          "title": "Una amenaza",
+          "text": "Catalina baja el precio y cierra antes de tiempo. Nadie revisa ya la ruta del grano.",
+          "requires": [],
+          "effect": "bakery_threatened"
+        },
+        {
+          "id": "bargain",
+          "answer": "Le compro el pan de ayer a mitad de precio.",
+          "title": "Un trato",
+          "text": "Catalina vende el pan de ayer más barato. La escasez sigue, pero la conversación continúa.",
+          "requires": [],
+          "effect": "bread_bargained"
+        }
+      ]
+    },
     "grain_review": {
       "id": "grain_review",
       "act": 3,
@@ -1234,8 +1283,10 @@
         {"need": "la consecuencia", "any": ["escasez", "hambre", "falta"]}
       ],
       "classification": "inferred",
+      "closed_by": ["bakery_threatened"],
       "requires": [
-        "grain_records"
+        "grain_records",
+        "bakery_choice"
       ],
       "min_block": 2,
       "grammar": [
@@ -1281,6 +1332,49 @@
       "hero": "any",
       "optional": true
     },
+    "ventilation_choice": {
+      "id": "ventilation_choice",
+      "act": 4,
+      "location": "LOC08",
+      "speaker": "Pilar Montoya, delegada de los mineros",
+      "title": "SQ02 · Aire para los muertos",
+      "source": "Los mineros piden el ventilador mecánico. Los inspectores del gremio lo prohíben porque no tiene licencia. Sin él, los mineros mueren despacio; con él, los propietarios alargan los turnos.",
+      "prompt": "Decide sobre el ventilador.",
+      "answers": [
+        "Apoyo el ventilador, pero con límites de jornada.",
+        "Mantengo la prohibición del ventilador hasta tener una licencia."
+      ],
+      "decision": true,
+      "classification": "declared",
+      "requires": [
+        "ventilation_records"
+      ],
+      "min_block": 3,
+      "grammar": [],
+      "hero": "any",
+      "optional": true,
+      "outcomes": [
+        {
+          "id": "approve",
+          "answer": "Apoyo el ventilador, pero con límites de jornada.",
+          "title": "El aire limpio",
+          "text": "El ventilador funciona en Bruma. Sube la producción y los propietarios intentan alargar los turnos.",
+          "requires": [],
+          "effect": "fan_approved",
+          "income": {
+            "ore": 1
+          }
+        },
+        {
+          "id": "keep_ban",
+          "answer": "Mantengo la prohibición del ventilador hasta tener una licencia.",
+          "title": "La prohibición sigue",
+          "text": "Los inspectores conservan la prohibición. El aire de las galerías no cambia.",
+          "requires": [],
+          "effect": "fan_kept_banned"
+        }
+      ]
+    },
     "ventilation_review": {
       "id": "ventilation_review",
       "act": 5,
@@ -1303,8 +1397,10 @@
         {"need": "la segunda condición", "any": ["limites", "limite", "horario"]}
       ],
       "classification": "declared",
+      "closed_by": ["fan_kept_banned"],
       "requires": [
-        "ventilation_records"
+        "ventilation_records",
+        "ventilation_choice"
       ],
       "min_block": 4,
       "grammar": [],
@@ -1344,6 +1440,55 @@
       "hero": "survivor",
       "optional": true
     },
+    "capacitor_choice": {
+      "id": "capacitor_choice",
+      "act": 5,
+      "location": "LOC09",
+      "speaker": "Águeda Llorente, encargada de las peregrinaciones",
+      "title": "SQ06 · El santo eléctrico",
+      "source": "La Iglesia quiere destruir el objeto que da chispas. Elias dice que es un aparato inofensivo. Las peregrinaciones mantienen a varias familias de Monte Ciego.",
+      "prompt": "Decide qué se hace con el objeto.",
+      "answers": [
+        "Conservamos el objeto y explicamos cómo funciona.",
+        "Destruimos el objeto, como pide la Iglesia.",
+        "Dejamos el santuario como está y no explicamos nada."
+      ],
+      "decision": true,
+      "classification": "declared",
+      "requires": [
+        "capacitor_records"
+      ],
+      "min_block": 4,
+      "grammar": [],
+      "hero": "any",
+      "optional": true,
+      "outcomes": [
+        {
+          "id": "explain",
+          "answer": "Conservamos el objeto y explicamos cómo funciona.",
+          "title": "El santo explicado",
+          "text": "El objeto sigue en su sitio y alguien explica por qué da chispas.",
+          "requires": [],
+          "effect": "capacitor_explained"
+        },
+        {
+          "id": "destroy",
+          "answer": "Destruimos el objeto, como pide la Iglesia.",
+          "title": "El santo destruido",
+          "text": "El objeto se rompe ante el pueblo. Los peregrinos dejan de llegar.",
+          "requires": [],
+          "effect": "capacitor_destroyed"
+        },
+        {
+          "id": "silence",
+          "answer": "Dejamos el santuario como está y no explicamos nada.",
+          "title": "El milagro intacto",
+          "text": "Nada cambia en Monte Ciego. Las chispas siguen siendo un milagro.",
+          "requires": [],
+          "effect": "capacitor_silenced"
+        }
+      ]
+    },
     "capacitor_review": {
       "id": "capacitor_review",
       "act": 6,
@@ -1366,8 +1511,10 @@
         {"need": "su funcionamiento", "any": ["funcionamiento", "funciona", "uso"]}
       ],
       "classification": "inferred",
+      "closed_by": ["capacitor_destroyed", "capacitor_silenced"],
       "requires": [
-        "capacitor_records"
+        "capacitor_records",
+        "capacitor_choice"
       ],
       "min_block": 5,
       "grammar": [
@@ -1572,6 +1719,67 @@
       "hero": "smuggler",
       "optional": true
     },
+    "simon_choice": {
+      "id": "simon_choice",
+      "act": 4,
+      "location": "LOC13",
+      "speaker": "Simón Vale",
+      "title": "SQ05 · La máquina de Simón",
+      "source": "El motor de presión funciona. Los trabajadores piden destruirlo, el propietario quiere ampliar la producción y la Orden pide prohibirlo. No hay una salida limpia.",
+      "prompt": "Decide qué apoyas.",
+      "answers": [
+        "Pido destruir el motor para proteger los empleos.",
+        "Apoyo ampliar la producción con el motor.",
+        "Apoyo la prohibición del motor que pide la Orden."
+      ],
+      "decision": true,
+      "classification": "declared",
+      "requires": [
+        "simon_demands"
+      ],
+      "min_block": 3,
+      "grammar": [],
+      "hero": "any",
+      "optional": true,
+      "outcomes": [
+        {
+          "id": "destroy",
+          "answer": "Pido destruir el motor para proteger los empleos.",
+          "title": "El motor destruido",
+          "text": "Los trabajadores rompen el motor. Ferraza conserva sus empleos y pierde su invento.",
+          "requires": [],
+          "effect": "engine_destroyed"
+        },
+        {
+          "id": "scale",
+          "answer": "Apoyo ampliar la producción con el motor.",
+          "title": "El motor ampliado",
+          "text": "El motor se copia en otros talleres. La producción crece y sobran trabajadores.",
+          "requires": [],
+          "effect": "engine_scaled",
+          "income": {
+            "gold": 100
+          }
+        },
+        {
+          "id": "ban",
+          "answer": "Apoyo la prohibición del motor que pide la Orden.",
+          "title": "El motor prohibido",
+          "text": "El obispo prohíbe el motor. Simón guarda los planos.",
+          "requires": [],
+          "declaration": {
+            "kind": "ban",
+            "authority": "bishop_veyra",
+            "procedure": "sealed_written_order",
+            "target": "pressure_engine",
+            "seal": "episcopal",
+            "witness": "hermano_cipriano",
+            "effect": "engine_banned",
+            "text": "El motor de presión de Simón queda prohibido."
+          }
+        }
+      ]
+    },
     "simon_review": {
       "id": "simon_review",
       "act": 7,
@@ -1646,7 +1854,7 @@
         "conditional"
       ],
       "hero": "inquisitor",
-      "epilogues": {"emergency_powers": "La autoridad de emergencia convirtió la descripción falsa en verdadera: Miralba y Ferraza se levantaron juntas contra las patrullas."},
+      "epilogues": {"emergency_powers": "La autoridad de emergencia convirtió la descripción falsa en verdadera: Miralba y Ferraza se levantaron juntas contra las patrullas.", "bakery_threatened": "En San Vélaro se recuerda que el Tribunal amenazó a una panadera por una escasez que ella no causó.", "fan_approved": "El ventilador de Bruma salvó pulmones y alargó turnos.", "fan_kept_banned": "En Bruma el aire siguió matando despacio mientras el ventilador esperaba una licencia.", "capacitor_destroyed": "Sin su santo eléctrico, Monte Ciego perdió a sus peregrinos y varias familias se marcharon.", "capacitor_silenced": "Monte Ciego siguió viviendo de un milagro que nadie explicó.", "engine_destroyed": "Ferraza conservó sus empleos y perdió el motor de Simón.", "engine_scaled": "El motor de Simón multiplicó la producción de Ferraza y dejó sin trabajo a muchos de los que pedían destruirlo.", "engine_banned": "La prohibición del motor mantuvo los empleos un tiempo; el invento de Simón se copió en secreto lejos de la provincia."},
       "outcomes": [
         {
           "id": "destroy",

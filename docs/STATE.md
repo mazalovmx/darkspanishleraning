@@ -1849,3 +1849,30 @@ by the agent and is not reviewed.
 
 Executed for this commit: the full non-live run, 50 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Side quests SQ01, SQ02, SQ05 and SQ06 end in decisions with consequences
+
+Bible 18. Four optional decision nodes (`"decision": true`; the journal hides the
+category, any category is ignored):
+- bakery_choice (SQ01, San Vélaro): investigate the supply, bargain for yesterday's
+  bread, or threaten to close the bakery. Threatening closes grain_review.
+- ventilation_choice (SQ02, Bruma): approve the fan with limits on shifts (+1 ore per
+  day) or keep the ban until a licence (closes ventilation_review).
+- capacitor_choice (SQ06, Monte Ciego): explain the object, destroy it as the Church
+  asks, or leave the cult as it is; the last two close capacitor_review.
+- simon_choice (SQ05, Taller Rojo): destroy the engine, scale it (+100 gold per day) or
+  support the Order's ban, a valid institutional act (bishop, sealed order, witness
+  Hermano Cipriano, effect `engine_banned`).
+The reviews require their decision and list `closed_by`; since the Charter needs the
+three reviews, the harsh choices close it. Every consequence adds an epilogue line to
+the ending. `campaign_state` gains `closed`, `income` and outcome `effect` flags;
+`strategy_economy.advance_day` adds decision income. No save change.
+
+Tests: simon_quest_test (three options, free text refused, only scaling adds gold,
+only the ban is an act, decisions survive a restart; 218 checks), council_endings_test
+(each harsh choice closes its review and the Charter, leaves another ending with its
+epilogue, a review recorded after a closing decision does not restore, the approved
+fan's ore, a bargain keeps the review; 319 checks).
+
+Executed for this commit: the full non-live run, 50 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

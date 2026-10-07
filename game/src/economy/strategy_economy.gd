@@ -360,6 +360,10 @@ func advance_day(world: RefCounted) -> Dictionary:
 		for id in buildings[location]:
 			for resource in catalog.buildings[id].income:
 				income[resource] = int(income.get(resource,0)) + int(catalog.buildings[id].income[resource])
+	# Decisions with lasting output (campaign outcomes with "income").
+	var decided: Dictionary = world.campaign.income(world)
+	for resource in decided:
+		income[resource] = int(income.get(resource,0)) + int(decided[resource])
 	for resource in income:
 		world.resources[resource] = mini(1000000000,int(world.resources[resource]) + int(income[resource]))
 	last_income_day = world.day

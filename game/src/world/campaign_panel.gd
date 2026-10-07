@@ -135,7 +135,8 @@ func _refresh_body() -> void:
 	var node: Dictionary = campaign.definitions[active_id]
 	if campaign.records.has(active_id):
 		var record: Dictionary = campaign.records[active_id]
-		body.text = "%s\n\n%s\n\nAnotación · día %d\n%s\nCategoría: %s" % [node.speaker,node.source,record.day,record.answer,LABELS[campaign.CLASSIFICATIONS.find(record.classification)]]
+		var kind: String = "Decisión" if node.get("decision",false) else "Categoría: " + LABELS[campaign.CLASSIFICATIONS.find(record.classification)]
+		body.text = "%s\n\n%s\n\nAnotación · día %d\n%s\n%s" % [node.speaker,node.source,record.day,record.answer,kind]
 		var decided: Dictionary = campaign.outcome_for(world_state,node,str(record.answer))
 		if active_id != "council_resolution" and not decided.is_empty():
 			body.text += "\n\n" + str(decided.title) + "\n" + str(decided.text)
@@ -152,7 +153,7 @@ func _refresh_body() -> void:
 		body.text += "\n\nPropuesta: " + str(outcome.answer)
 	question.text = node.prompt
 	answer.show()
-	category.show()
+	category.visible = not node.get("decision",false)
 	submit_button.disabled = false
 	hint_button.disabled = false
 	if not node.get("supports",[]).is_empty():
@@ -173,7 +174,7 @@ func _submit() -> void:
 	if not visible or submit_button.disabled or active_id.is_empty():
 		return
 	var campaign = world_state.campaign
-	var classification := "" if category.selected < 1 else str(campaign.CLASSIFICATIONS[category.selected - 1])
+	var classification := "" if category.selected < 1 or not category.visible else str(campaign.CLASSIFICATIONS[category.selected - 1])
 	var supports := []
 	if supports_row.visible:
 		supports = [support_a.get_selected_metadata(),support_b.get_selected_metadata()]

@@ -11,6 +11,8 @@ func _proof_day(world: RefCounted, id: String, progress: Dictionary) -> int:
 	return int(progress.get(id, {}).get("day", 0))
 
 func prerequisites(world: RefCounted, node: Dictionary, progress: Dictionary, day: int) -> bool:
+	if closed(world, node, progress):
+		return false
 	for id: String in node.requires + node.get("supports", []):
 		var found := _proof_day(world, id, progress)
 		if found < 1 or found > day:
@@ -89,7 +91,9 @@ func needs(node: Dictionary) -> Array[String]:
 func _answer_valid(world: RefCounted, node: Dictionary, answer: String, classification: String, supports: Array) -> bool:
 	# At the council a wrong category is recorded, not refused: it closes the Charter
 	# (bible 36, "wrong classification changes available endings").
-	if answer.length() > 300 or classification not in (CLASSIFICATIONS if node.get("council", false) else [node.classification]):
+	# A decision is chosen, not classified: its category is ignored.
+	var allowed: Array = [""] + CLASSIFICATIONS if node.get("decision", false) else CLASSIFICATIONS if node.get("council", false) else [node.classification]
+	if answer.length() > 300 or classification not in allowed:
 		return false
 	if not missing(world, node, answer).is_empty():
 		return false
@@ -125,11 +129,30 @@ func acts(world: RefCounted, progress: Variant = null) -> Array:
 				result.append(act)
 	return result
 
-## World consequences of the acts in force, as effect flags.
+## World consequences, as flags: acts in force and the effects of chosen outcomes.
 func effects(world: RefCounted, progress: Variant = null) -> Dictionary:
+	var ledger: Dictionary = records if progress == null else progress
 	var result := {}
-	for act: Dictionary in acts(world, progress):
+	for act: Dictionary in acts(world, ledger):
 		result[act.effect] = true
+	for id: String in ledger:
+		var effect: Variant = outcome_for(world, definitions[id], str(ledger[id].answer)).get("effect")
+		if effect is String:
+			result[effect] = true
+	return result
+
+## A node closed by an earlier decision (its `closed_by` effects).
+func closed(world: RefCounted, node: Dictionary, progress: Dictionary) -> bool:
+	var now := effects(world, progress)
+	return node.get("closed_by", []).any(func(effect: String) -> bool: return now.has(effect))
+
+## Daily resources granted by chosen outcomes (e.g. the licensed fan, the scaled engine).
+func income(world: RefCounted) -> Dictionary:
+	var result := {}
+	for id: String in records:
+		var gain: Dictionary = outcome_for(world, definitions[id], str(records[id].answer)).get("income", {})
+		for resource: String in gain:
+			result[resource] = int(result.get(resource, 0)) + int(gain[resource])
 	return result
 
 func reason(world: RefCounted, id: String) -> String:
@@ -140,6 +163,8 @@ func reason(world: RefCounted, id: String) -> String:
 	var node: Dictionary = definitions[id]
 	if records.has(id):
 		return "La conclusión ya está anotada."
+	if closed(world, node, records):
+		return "Una decisión anterior cerró esta vía."
 	if not prerequisites(world, node, records, world.day):
 		return "Primero reúne las pruebas anteriores."
 	if not language_ready(world, node, world.day):
