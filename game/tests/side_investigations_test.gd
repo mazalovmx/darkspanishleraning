@@ -2,7 +2,7 @@ extends "res://tests/campaign_test.gd"
 const Side = preload("res://src/world/side_investigations.gd")
 func run() -> void:
 	var state := World.new("province_160x120_v1")
-	var cases := Side.new()
+	var cases = state.side_cases
 	check(cases.quests.size() == 108 and cases.battles.size() == 108 and cases.branches.size() == 12,"Complete optional catalog indexed")
 	check(not cases.submit(state,"SX001",cases.models("SX001").access,"","","peaceful").ok,"Unpracticed grammar cannot start case")
 	check(not cases.reason(state,"SX009").is_empty(),"Branch final cannot skip prerequisites")
@@ -35,6 +35,7 @@ func run() -> void:
 		check(not cases.submit(state,id,models.recall).ok and state.equipment.instances.size() == count,"Completion cannot duplicate rewards")
 	check(state.equipment.instances.size() == 24,"All twenty-four unique components earned exactly once")
 	check(state.learner.grammar == scores,"Bounded authored exercises do not invent free-language mastery")
+	check(Save.decode(Save.snapshot(state)).has("state"),"Full world save restores all 108 cases and their rewards")
 	var saved: Dictionary = cases.snapshot()
 	var restored := Side.new()
 	check(restored.restore(saved,state) and restored.snapshot() == saved,"All 108 cases, choices and reward identities restore")

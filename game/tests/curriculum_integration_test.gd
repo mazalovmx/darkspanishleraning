@@ -86,6 +86,7 @@ func run() -> void:
 	old.erase("campaign")
 	old.strategy.erase("economy")
 	old.strategy.erase("equipment")
+	old.strategy.erase("side_cases")
 	old.learner.erase("curriculum")
 	old.learner.grammar.erase("future_simple")
 	var migrated := Save.decode(old)

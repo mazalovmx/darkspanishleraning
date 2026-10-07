@@ -59,6 +59,7 @@ func run() -> void:
 	old.version = 7
 	old.strategy.erase("economy")
 	old.strategy.erase("equipment")
+	old.strategy.erase("side_cases")
 	check(Save.decode(old).has("state") and Save.decode(old).state.economy.buildings.is_empty(),"V7 adds empty economy without invented purchases")
 	site = economy.site(state,"mine_sulfur")
 	state.hero_cell = Vector2i(site.position[0],site.position[1])

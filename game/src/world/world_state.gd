@@ -10,6 +10,7 @@ var map_id := "prototype_20x20_v1"
 var map_data: Dictionary = {}
 const VIEW_RADIUS := 5
 const MOVEMENT_MAX := 18
+var side_cases = preload("res://src/world/side_investigations.gd").new()
 var equipment = preload("res://src/world/equipment_state.gd").new()
 var economy = preload("res://src/economy/strategy_economy.gd").new()
 var party = preload("res://src/world/party_state.gd").new()
@@ -159,6 +160,8 @@ func end_turn() -> void:
 func begin_encounter(id: String) -> bool:
 	if active_battle != null or army.is_empty() or movement_remaining < 2 or not economy.pending.is_empty() or not trade.pending.is_empty():
 		return false
+	if side_cases.battles.has(id) and not side_cases.can_battle(self,id):
+		return false
 	var model := StackBattle.new()
 	var encounter := encounter_definition(id)
 	if encounter.is_empty():
@@ -232,6 +235,8 @@ func resource_at(cell: Vector2i) -> Dictionary:
 	return {}
 
 func encounter_definition(id: String) -> Dictionary:
+	if map_id == "province_160x120_v1" and side_cases.battles.has(id):
+		return side_cases.encounter_definition(id)
 	if id == "opening_road":
 		return StackBattle.new().data.opening.duplicate(true)
 	var entry: Dictionary = economy.site(self,id)

@@ -847,3 +847,21 @@ restore checks contiguous stages, chronology, prerequisite cases and reward iden
 Executed 1574 checks through all 108 cases and all component rewards: passed.
 Existing shutdown diagnostics persist. This controller is not yet connected to world
 saves or the investigation interface; its passing test is not a completed playthrough.
+## Optional cases connected to world combat and save v11
+
+The world now owns optional case progress and exposes all 108 encounter definitions.
+Battle entry checks the same location, branch and curriculum conditions as peaceful
+access. Settlement transfers actual survivors and grants no evidence or fragment by
+victory alone. Retreat leaves negotiations available. Save v11 preserves partial case
+stages, final choices, acrostics, custody and component identities; earlier saves migrate
+without invented optional progress. Encounter chronology is validated against the
+branch and language history. Recall accepts previously practised sentences as well
+as the authored recall variant, so it does not require guessing an unseen sentence.
+
+Executed 1575 full-catalog checks including a world-save round trip, 144 side-world
+checks including an actual won battle and retreat, 334 side-battle scene, 527 save,
+285 equipment integration, 43 market, 22 curriculum integration, 46 party integration,
+26 economy-world and 19 artifact-market checks: passed. One initial test incorrectly
+assumed the first grammar topic could not be practised on day one; replaced it with
+an actual unmet branch-prerequisite check and reran. Existing shutdown diagnostics
+persist. Player-facing optional case controls are the next integration step.

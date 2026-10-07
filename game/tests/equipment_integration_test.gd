@@ -55,6 +55,7 @@ func run() -> void:
 	var old := Save.snapshot(World.new())
 	old.version = 8
 	old.strategy.erase("equipment")
+	old.strategy.erase("side_cases")
 	restored = Save.decode(old)
 	check(restored.has("state") and restored.state.equipment.instances.is_empty(),"V8 migrates with empty equipment")
 	check(gear.unequip(state,boots),"Free feet slot for soul component")

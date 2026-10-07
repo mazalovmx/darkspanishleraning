@@ -65,6 +65,7 @@ func run() -> void:
 		check(not Save.decode(bad).has("state"),"Invalid acquisition rejected: " + fault)
 	var old: Dictionary = Save.snapshot(load("res://src/world/world_state.gd").new("province_160x120_v1"))
 	old.version = 9
+	old.strategy.erase("side_cases")
 	old.strategy.economy.erase("artifact_sales")
 	check(Save.decode(old).has("state"),"V9 migrates with empty merchant ledger")
 	select_offer("artifact","EQ041")

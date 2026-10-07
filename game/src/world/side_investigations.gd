@@ -139,7 +139,7 @@ func _valid(world: RefCounted,id: String,step: String,payload: Dictionary,ledger
 		"independent":
 			return _same(world,payload.answer,phrases.independent) or _same(world,payload.answer,phrases.alternative)
 		"recall":
-			return day > int(proof.get("independent",{}).get("day",day)) and _same(world,payload.answer,phrases.recall)
+			return day > int(proof.get("independent",{}).get("day",day)) and (_same(world,payload.answer,phrases.recall) or _same(world,payload.answer,phrases.supported) or _same(world,payload.answer,phrases.independent) or _same(world,payload.answer,phrases.alternative))
 		"choice":
 			return payload.rejected.is_empty() and payload.choice in node.final_choice and _same(world,payload.answer,choice_model(payload.choice))
 	return true
