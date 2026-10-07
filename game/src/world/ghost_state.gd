@@ -84,7 +84,7 @@ func _activate(world: RefCounted) -> void:
 				occupied = occupied or (actor.active and _cell(actor.cell) == cell)
 			if occupied:
 				continue
-			actors[id] = {"cell":[cell.x,cell.y],"next_day":world.day,"return_day":0,"active":true}
+			actors[id] = {"cell":[cell.x,cell.y],"next_day":world.day,"return_day":0,"active":true,"born_day":world.day}
 			count += 1
 			break
 
@@ -189,10 +189,10 @@ func prepare(world: RefCounted) -> bool:
 	plan = candidate
 	return true
 
-func _event(day: int,id: String,target: String,kind: String,expiry := 0) -> void:
+func _event(day: int,id: String,target: String,kind: String,expiry := 0,proof: Dictionary = {}) -> void:
 	event_count += 1
 	journal.append({"id":event_count,"day":day,"knight":id,"target":target,"kind":kind,
-		"trace":str(definitions[id].intervention.trace),"expiry":expiry})
+		"trace":str(definitions[id].intervention.trace),"expiry":expiry,"proof":proof.duplicate(true)})
 	if journal.size() > 100:
 		journal.pop_front()
 
@@ -298,7 +298,7 @@ func counter(world: RefCounted,id: String,target: String,answer: String,proof: A
 		effects.erase(branch)
 	if planned:
 		countered.append(id)
-	_event(world.day,id,target,"counter")
+	_event(world.day,id,target,"counter",0,{"answer":answer.strip_edges(),"sources":proof.duplicate(),"soul":use_soul,"hero":world.party.active_id})
 	return true
 
 func defeat(world: RefCounted,id: String) -> bool:
@@ -322,3 +322,185 @@ func encounter_definition(id: String) -> Dictionary:
 		enemies.append({"type":str(stack.unit),"count":int(stack.count)})
 	return {"id":id,"name":definitions[id].name,"position":actors[id].cell.duplicate(),
 		"enemies":enemies,"requires":"","reward":{},"script":definitions[id].battle.script.duplicate(true)}
+
+func snapshot() -> Dictionary:
+	return {"actors":actors.duplicate(true),"effects":effects.duplicate(true),"target_days":target_days.duplicate(),
+		"journal":journal.duplicate(true),"event_count":event_count,"last_resolved_day":last_resolved_day,
+		"plan":{} if plan == null else plan.snapshot(),"countered":countered.duplicate()}
+
+func _integer(value: Variant,low: int,high: int) -> bool:
+	return (value is int or value is float) and is_finite(value) and value == floor(value) and value >= low and value <= high
+
+func _counter_proof(world: RefCounted,id: String,target: String,day: int,proof: Variant) -> bool:
+	if not proof is Dictionary or proof.size() != 4 or not proof.get("answer") is String or proof.answer.length() > 300:
+		return false
+	if not proof.get("soul") is bool or proof.get("hero") not in world.party.heroes or not proof.get("sources") is Array:
+		return false
+	if not language_ready(world,id,day):
+		return false
+	var required := 2 if id in ["NK02","NK03","NK04","NK08"] and not proof.soul else 1
+	if proof.sources.size() != required or (required == 2 and proof.sources[0] == proof.sources[1]):
+		return false
+	var branch: String = world.side_cases.quests[target].branch_id
+	for artifact in proof.sources:
+		if not artifact is String or not world.side_cases.artifacts.has(artifact) or world.side_cases.artifacts[artifact].branch_id != branch:
+			return false
+		var quest: String = world.side_cases.artifacts[artifact].found_in
+		var inspection: Dictionary = world.side_cases.records.get(quest,{}).get("progress",{}).get("inspect",{})
+		if inspection.is_empty() or int(inspection.day) > day:
+			return false
+	if world.learner.curriculum.normalized(proof.answer) != world.learner.curriculum.normalized(counter_model(world,id,proof.sources[0])):
+		return false
+	if proof.soul:
+		var set_id: Variant = definitions[id].counter.soul_set
+		if not set_id is String:
+			return false
+		var consent_day: int = int(world.equipment.rituals.get(proof.hero,{}).get(set_id,{}).get("consent",{}).get("day",0))
+		if consent_day < 1 or consent_day > day or int(world.equipment.special_used.get(set_id,0)) < day:
+			return false
+	return true
+
+func restore(data: Variant,world: RefCounted) -> bool:
+	if not data is Dictionary or data.size() != 8:
+		return false
+	for key in ["actors","effects","target_days","plan"]:
+		if not data.get(key) is Dictionary:
+			return false
+	if not data.get("journal") is Array or not data.get("countered") is Array or data.countered.size() > 3:
+		return false
+	if not _integer(data.get("event_count"),0,1000000) or not _integer(data.get("last_resolved_day"),0,maxi(0,world.day-1)):
+		return false
+	if data.actors.size() > 8 or data.effects.size() > 4 or data.journal.size() != mini(100,int(data.event_count)):
+		return false
+	if world.map_id != "province_160x120_v1" and (not data.actors.is_empty() or not data.effects.is_empty() or not data.plan.is_empty() or data.event_count != 0 or not data.target_days.is_empty() or data.last_resolved_day != 0):
+		return false
+	var active := 0
+	for id in data.actors:
+		var actor: Variant = data.actors[id]
+		if not definitions.has(id) or not actor is Dictionary or actor.size() != 5 or not actor.get("active") is bool:
+			return false
+		if not actor.get("cell") is Array or actor.cell.size() != 2 or not _integer(actor.cell[0],0,world.grid.region.size.x-1) or not _integer(actor.cell[1],0,world.grid.region.size.y-1):
+			return false
+		if world.terrain_cost(_cell(actor.cell)) == 0 or not _integer(actor.get("born_day"),1,world.day) or not _integer(actor.get("next_day"),1,world.day+3) or not _integer(actor.get("return_day"),0,world.day+3):
+			return false
+		if not language_ready(world,id,int(actor.born_day)):
+			return false
+		var witnessed := false
+		for branch: String in definitions[id].spawn.branch_ids:
+			for quest: String in world.side_cases.branches[branch].quest_ids:
+				var access: Dictionary = world.side_cases.records.get(quest,{}).get("progress",{}).get("access",{})
+				witnessed = witnessed or (not access.is_empty() and int(access.day) <= actor.born_day)
+		if not witnessed:
+			return false
+		if actor.return_day > world.day:
+			var victory: Dictionary = world.encounters.get(id,{})
+			if victory.get("outcome","") != "victory" or int(victory.get("day",0))+3 != actor.return_day:
+				return false
+		active += 1 if actor.active else 0
+	if active > 3:
+		return false
+	for target in data.target_days:
+		if not world.side_cases.quests.has(target) or not _integer(data.target_days[target],1,world.day):
+			return false
+	var previous_day := 0
+	var counts := {}
+	var previous_targets := {}
+	var recent_effects := {}
+	var interrupted := {}
+	for index in data.journal.size():
+		var event: Variant = data.journal[index]
+		if not event is Dictionary or event.size() != 8 or not _integer(event.get("id"),int(data.event_count)-data.journal.size()+index+1,int(data.event_count)-data.journal.size()+index+1):
+			return false
+		if not _integer(event.get("day"),1,world.day) or event.day < previous_day or not definitions.has(event.get("knight")) or event.get("kind") not in ["intervention","expired","counter","defeated"]:
+			return false
+		if not data.actors.has(event.knight) or event.day < data.actors[event.knight].born_day or event.get("trace") != definitions[event.knight].intervention.trace or not event.get("proof") is Dictionary:
+			return false
+		if event.kind == "defeated":
+			if event.get("target") != "":
+				return false
+		elif not world.side_cases.quests.has(event.get("target")) or world.side_cases.quests[event.target].branch_id not in definitions[event.knight].spawn.branch_ids:
+			return false
+		if event.kind == "intervention":
+			var duration: int = int(catalog.effects[definitions[event.knight].orders.effect_id].max_turns)
+			if not _integer(event.get("expiry"),int(event.day)+duration,int(event.day)+duration) or not language_ready(world,event.knight,int(event.day)):
+				return false
+			counts[int(event.day)] = int(counts.get(int(event.day),0))+1
+			if counts[int(event.day)] > 2 or int(event.day)-int(previous_targets.get(event.target,-3)) < 3:
+				return false
+			previous_targets[event.target] = int(event.day)
+			recent_effects[event.knight+"/"+event.target] = event
+		elif event.get("expiry") != 0:
+			return false
+		if event.kind == "counter":
+			if not _counter_proof(world,event.knight,event.target,int(event.day),event.proof):
+				return false
+		elif not event.proof.is_empty():
+			return false
+		if event.kind in ["counter","expired"]:
+			recent_effects.erase(event.knight+"/"+event.target)
+		elif event.kind == "defeated":
+			for key: String in recent_effects.keys():
+				if key.begins_with(event.knight+"/"):
+					recent_effects.erase(key)
+		if event.kind in ["counter","defeated"] and event.day == world.day:
+			interrupted[event.knight] = true
+		previous_day = int(event.day)
+	for target in previous_targets:
+		if data.target_days.get(target,0) != previous_targets[target]:
+			return false
+	for branch in data.effects:
+		var effect: Variant = data.effects[branch]
+		if not world.side_cases.branches.has(branch) or not effect is Dictionary or effect.size() != 4 or not data.actors.has(effect.get("knight")) or not world.side_cases.quests.has(effect.get("target")):
+			return false
+		if world.side_cases.quests[effect.target].branch_id != branch or not _integer(effect.get("start"),1,world.day) or not _integer(effect.get("expiry"),world.day+1,world.day+2):
+			return false
+		var event: Dictionary = recent_effects.get(effect.knight+"/"+effect.target,{})
+		if event.is_empty() or effect.start != event.day or effect.expiry != event.expiry or data.target_days.get(effect.target,0) != effect.start:
+			return false
+		if data.actors[effect.knight].next_day < effect.start+3:
+			return false
+	var restored_plan: RefCounted
+	if not data.plan.is_empty():
+		restored_plan = Turn.new()
+		if not restored_plan.restore(data.plan,world):
+			return false
+		for id in data.actors:
+			if data.actors[id].active:
+				if not restored_plan.actors.has(id) or _cell(restored_plan.actors[id].cell) != _cell(data.actors[id].cell):
+					return false
+		for id in restored_plan.actors:
+			if restored_plan.actors[id].side == 1:
+				if not data.actors.has(id) or not data.actors[id].active:
+					return false
+				var target: String = restored_plan.orders[id].target
+				if not target.is_empty() and world.side_cases.quests[target].branch_id not in definitions[id].spawn.branch_ids:
+					return false
+	elif not data.countered.is_empty():
+		return false
+	var seen := {}
+	for id in data.countered:
+		if not id is String or seen.has(id) or not interrupted.has(id) or restored_plan == null or not restored_plan.orders.has(id):
+			return false
+		seen[id] = true
+	actors = data.actors.duplicate(true)
+	for id in actors:
+		var cell := _cell(actors[id].cell)
+		actors[id].cell = [cell.x,cell.y]
+		for field in ["born_day","next_day","return_day"]:
+			actors[id][field] = int(actors[id][field])
+	effects = data.effects.duplicate(true)
+	for effect: Dictionary in effects.values():
+		effect.start = int(effect.start)
+		effect.expiry = int(effect.expiry)
+	target_days = data.target_days.duplicate()
+	for id in target_days:
+		target_days[id] = int(target_days[id])
+	journal = data.journal.duplicate(true)
+	for event: Dictionary in journal:
+		for field in ["id","day","expiry"]:
+			event[field] = int(event[field])
+	event_count = int(data.event_count)
+	last_resolved_day = int(data.last_resolved_day)
+	plan = restored_plan
+	countered = data.countered.duplicate()
+	return true

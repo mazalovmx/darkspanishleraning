@@ -934,3 +934,19 @@ Initial checks found starvation on a shared target and a test that had already c
 the escrow component; fixed arbitration and the unclaimed-component fixture, then
 reran. Existing shutdown diagnostics persist. This is still a standalone controller;
 world persistence, travel planning UI and live intervention/counter controls remain next.
+## Ghost controller persistence validated
+
+Ghost snapshots now retain actor birth/cooldown/recovery dates, active effects,
+per-target cooldowns, bounded event history, frozen plans and interrupted orders.
+Spanish counter events retain their hero, typed answer, distinct source evidence and
+optional soul-use proof. Restore validates these against actual case inspections,
+curriculum history, consent and special-use dates. Active recovery requires a recorded
+victory. Removed effects cannot be resurrected by replaying an older intervention.
+
+Executed 325 persistence checks including exact JSON reload/re-resolution, forged-state
+rejection, a real tactical victory and a soul counter whose four parts were earned
+through actual case stages. The first test stopped one prerequisite quest too early
+for SP004; corrected it to the authored SX013 reward and reran. Also executed 1449
+strategy and 116 ghost-battle scene checks: passed. Existing shutdown diagnostics
+persist. The controller snapshot is ready; global save integration and replacement of
+the province travel loop still remain, so live strategic opponents are not yet claimed.
