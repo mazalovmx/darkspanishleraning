@@ -30,7 +30,11 @@ var site_textures: Dictionary = {}
 var knight_texture: Texture2D
 var sfx := AudioStreamPlayer.new()
 var vignette := ColorRect.new()
-const LOCATION_MUSIC := {"inn": "the_old_tower_inn.mp3", "ruin": "dungeon_ambience.ogg", "mine": "dungeon_ambience.ogg"}
+const LOCATION_MUSIC := {"inn": "the_old_tower_inn.mp3", "ruin": "dungeon_ambience.ogg", "mine": "dungeon_ambience.ogg",
+	"monastery": "../music_talon/plagued_peace.ogg", "archive": "../music_talon/personal_grace.ogg",
+	"hospital": "../music_talon/with_eyes_with_hearts.ogg", "university": "../music_talon/with_eyes_with_hearts.ogg",
+	"workshop": "../music_talon/clockwile.ogg", "industrial": "../music_talon/clockwile.ogg",
+	"town": "../music_talon/cloud_town.ogg", "customs": "../music_talon/cloud_town.ogg", "farm": "../music_talon/cloud_town.ogg"}
 var location_textures: Dictionary = {}
 var hero_textures: Dictionary = {}
 var music := AudioStreamPlayer.new()
@@ -333,6 +337,11 @@ func _build_ui() -> void:
 				if Vector2(x - 9.5, y - 6).length() < 5 or (y > 12 and absf(x - 9.5) < 8):
 					portrait.set_pixel(x, y, color)
 		button.icon = ImageTexture.create_from_image(portrait)
+		var face := "res://assets/third_party/claw_and_blade/portraits/%s.png" % id
+		if ResourceLoader.exists(face):
+			button.icon = load(face)
+			button.expand_icon = true
+			button.add_theme_constant_override("icon_max_width", 30)
 		button.pressed.connect(_switch_hero.bind(id))
 		portraits.add_child(button)
 		hero_buttons[id] = button

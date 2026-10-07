@@ -1,0 +1,56 @@
+MIT License
+
+Copyright (c) 2026 mazalovmx
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+THIRD-PARTY MATERIAL NOT COVERED BY THE MIT LICENSE ABOVE
+
+The MIT license above applies to the original code, content and documentation of
+this project. Parts of the repository come from other authors and keep their own
+licenses. Sources, authors and file locations are listed in game/CREDITS.md.
+
+1. GDQuest "Godot Open RPG" (code and demo assets under game/): MIT, copyright
+   GDQuest and contributors; see game/LICENSE and game/CREDITS.md.
+
+2. Assets under the Spirit Claw Free Asset License
+   Files: game/assets/third_party/claw_and_blade/ (a subset of "Claw & Blade -
+   Medieval Game Assets" by SPIRIT CLAW, https://spiritclaw.com/).
+   These files are NOT MIT-licensed. They may be used and modified in games and
+   other creative works, including commercially, but may not be resold,
+   redistributed or repackaged as a standalone asset pack, included in template or
+   asset bundles for sale, claimed as one's own, or used to train AI models or
+   datasets. The full terms are in
+   game/assets/third_party/claw_and_blade/LICENSE.txt. They are included here only
+   as part of this non-commercial, personal game; obtain the pack itself from
+   https://spirit-claw.itch.io/claw-and-blade .
+
+3. Assets under Creative Commons Attribution 4.0 (CC BY 4.0)
+   - game/assets/third_party/pixel_ui_fantasy/ : "Pixel UI Fantasy Free by
+     heyheythere - https://heyheythere.itch.io/pixel-ui-fantasy-free - CC BY 4.0"
+   - game/assets/third_party/music_talon/ : "Music: Talon Trueblood" (RPG Town and
+     Safezone Pack)
+
+4. Assets under Creative Commons Zero (CC0 1.0)
+   Kenney packs, music by RandomMind, ambience by JaggedStone, shaders from
+   godotshaders.com and the other items marked CC0 in game/CREDITS.md.
+
+5. The Dialogic addon under game/addons/dialogic is third-party software by the
+   Dialogic contributors (MIT; https://github.com/dialogic-godot/dialogic).

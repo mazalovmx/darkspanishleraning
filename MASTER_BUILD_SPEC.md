@@ -148,6 +148,14 @@ Introduce at most one new grammar/tense target per encounter, revisit it in seve
 purchases or quests, and keep a clear current learning objective for the player.
 This sequence is the game's chosen syllabus, not a claim that all courses share one order.
 
+Player level (user clarification, 2026-10-07): the player is at about B1 but has not
+studied grammar for a long time. Keep the ordered review of every block, but make the
+content of each task suitable for B1 from the first block: natural sentence length and
+vocabulary, meaningful investigative content, no trivial copying. Every grammar point
+comes with a short rule reminder, shown when the form is introduced and available
+again during independent practice and after an error. The ordered sequence is a
+structured refresher for this player, not a beginner course.
+
 ---
 
 ## 1.4 Canonical world is deterministic

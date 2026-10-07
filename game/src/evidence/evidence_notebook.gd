@@ -29,10 +29,14 @@ func _ready() -> void:
 	var background := StyleBoxFlat.new()
 	background.bg_color = Color("22252a")
 	panel.add_theme_stylebox_override("panel", background)
+	# The paper frame is taller than the flat one: start higher and tighten the inner margin.
+	var paper: bool = preload("res://src/common/parchment_theme.gd").apply(panel)
+	if paper:
+		panel.position.y = 8
 	add_child(panel)
 	var margin := MarginContainer.new()
 	for side in ["left", "top", "right", "bottom"]:
-		margin.add_theme_constant_override("margin_" + side, 20)
+		margin.add_theme_constant_override("margin_" + side, 6 if paper and side in ["top", "bottom"] else 20)
 	panel.add_child(margin)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 10)
@@ -49,7 +53,7 @@ func _ready() -> void:
 		_render())
 	body.bbcode_enabled = false
 	body.add_theme_font_size_override("normal_font_size", 16)
-	body.custom_minimum_size = Vector2(880, 340)
+	body.custom_minimum_size = Vector2(880, 300)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	box.add_child(body)
 	box.add_child(exercise)
@@ -137,7 +141,7 @@ func _render() -> void:
 	category.select(0)
 	support_row.hide()
 	compare_button.visible = not reasoning_mode
-	body.custom_minimum_size.y = 340
+	body.custom_minimum_size.y = 300
 	feedback.text = ""
 	exercise.hide()
 	if active_id.is_empty():

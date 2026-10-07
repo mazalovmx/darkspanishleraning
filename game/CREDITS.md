@@ -99,3 +99,23 @@ Author: GuoXiaoYao
 URL: https://godotshaders.com/shader/retro-parchment-paper/
 File: shaders/parchment.gdshader
 License: [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
+
+## Added from the Godot Asset Store (accessed 2026-10-07)
+
+Pixel UI Fantasy Free by heyheythere - https://heyheythere.itch.io/pixel-ui-fantasy-free - CC BY 4.0
+Files: assets/third_party/pixel_ui_fantasy/ (parchment theme art only; LICENSE.txt included)
+Store page: https://store.godotengine.org/asset/heyheythere/pixel-ui-fantasy-free/
+
+Music: Talon Trueblood
+Pack: RPG Town and Safezone Pack, CC BY 4.0
+Tracks used: Plagued Peace, Cloud Town, Clockwile, Personal Grace, With Eyes, With Hearts
+Files: assets/third_party/music_talon/ (renamed; original read-me included)
+Store page: https://store.godotengine.org/asset/talon-trueblood/rpg-town-and-safezone-pack/
+
+Claw & Blade - Medieval Game Assets
+Author: SPIRIT CLAW (https://spiritclaw.com/)
+License: Spirit Claw Free Asset License (free use and modification in games; no
+redistribution as a standalone asset pack; no AI training). LICENSE.txt included.
+Files: assets/third_party/claw_and_blade/portraits/ - 16 character portraits used as
+hero and NPC portraits, renamed. Only the files this game uses are included.
+Store page: https://store.godotengine.org/asset/spiritclaw/claw-blade-medieval-icon-pack/

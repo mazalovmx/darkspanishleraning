@@ -27,6 +27,7 @@ func _ready() -> void:
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("22252a")
 	panel.add_theme_stylebox_override("panel", style)
+	preload("res://src/common/parchment_theme.gd").apply(panel)
 	add_child(panel)
 	var margin := MarginContainer.new()
 	for side in ["left","top","right","bottom"]:

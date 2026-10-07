@@ -1445,3 +1445,35 @@ that unknown cells carry no fog tile (52 checks).
 
 Executed the full runner: 49 suites plus restart write/read, all passed, 56,163
 counted checks.
+## Portraits, parchment document panels, more music; licence notice; player level
+
+Assets from the Godot Asset Store, checked on 2026-10-07 (the awesome-godot list has
+no art assets, only tools and a link to godotshaders.com):
+- Claw & Blade by SPIRIT CLAW: 16 character portraits, used on the hero buttons and
+  beside the transcript for all 13 conversable NPCs. Its licence allows use in games
+  but not redistribution as an asset pack, so only the files the game uses are in the
+  repository, renamed, with the licence text and a note. The user chose to keep them
+  in the public repository and to state the licence there.
+- Pixel UI Fantasy Free by heyheythere (CC BY 4.0): the parchment art. A small helper,
+  `game/src/common/parchment_theme.gd`, gives the evidence notebook and the case
+  journal a paper page with dark ink, framed buttons and fields. Other panels are
+  unchanged.
+- RPG Town and Safezone Pack by Talon Trueblood (CC BY 4.0): five tracks, played in
+  the monastery, archive, hospital and university, workshop and industrial city,
+  and towns, customs and farm.
+A root LICENSE file now carries the project's MIT text followed by a section listing
+the third-party material and its licences; `game/CREDITS.md` has the credit lines.
+
+Player level (user, 2026-10-07): the player is about B1 but rusty on grammar. Both
+specification copies (section 1.3) and BACKLOG.md now say that the ordered blocks stay
+as a refresher, task content must suit B1 from the first block, and each grammar
+point carries a short rule reminder. The lessons themselves are not rewritten yet.
+
+Verification at the time of this commit: rendered and inspected at 1280x720 the
+monastery conversation with the abbot's portrait, the notebook and the journal. Three
+defects seen in the first render were fixed and re-inspected (stretched paper
+texture, oversized controls pushing the notebook off-screen, unreadable field text).
+The hero-button portraits and the other 12 NPC portraits were not inspected; the
+audio was not listened to. The full runner was still in progress when this was
+committed at the user's request: 14 of 51 runs had passed, none had failed. Its
+final result is recorded in the next entry.

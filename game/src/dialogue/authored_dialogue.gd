@@ -11,6 +11,9 @@ var histories: Dictionary = {}
 var location_id := ""
 var speaker := OptionButton.new()
 var transcript := RichTextLabel.new()
+# Speaker portrait (game/CREDITS.md); hidden when a character has none.
+const PORTRAITS := "res://assets/third_party/claw_and_blade/portraits/"
+var portrait := TextureRect.new()
 var input := LineEdit.new()
 var send_button := Button.new()
 var feedback := Label.new()
@@ -38,7 +41,16 @@ func _ready() -> void:
 	transcript.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	transcript.bbcode_enabled = false
 	transcript.scroll_following = true
-	add_child(transcript)
+	var talk := HBoxContainer.new()
+	talk.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	add_child(talk)
+	portrait.custom_minimum_size = Vector2(112, 112)
+	portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
+	portrait.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	talk.add_child(portrait)
+	transcript.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	talk.add_child(transcript)
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	hint.add_theme_font_size_override("font_size", 15)
 	add_child(hint)
@@ -75,6 +87,9 @@ func open_conversation(id: String) -> void:
 			if key == id:
 				speaker.select(speaker.item_count - 1)
 	speaker.disabled = client.busy
+	var face := PORTRAITS + str(conversations[id].npc_id) + ".png"
+	portrait.texture = load(face) if ResourceLoader.exists(face) else null
+	portrait.visible = portrait.texture != null
 	hint.text = "Objetivo: presente y peticiones sencillas. " + str(conversations[id].hint)
 	feedback.text = last_feedback.get(location_id, "Evaluación de español no disponible. Puede continuar la conversación.")
 	_render_history()
