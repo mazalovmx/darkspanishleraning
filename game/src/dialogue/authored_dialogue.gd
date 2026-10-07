@@ -21,6 +21,7 @@ var pending_message := ""
 var pending_fallback := ""
 var pending_day := 1
 var pending_unlocks: Array = []
+var pending_focus: Array = []
 var last_feedback: Dictionary = {}
 var world_state: RefCounted
 var grounding = preload("res://src/dialogue/npc_grounding.gd").new()
@@ -111,6 +112,8 @@ func submit(message: String) -> void:
 	context["npc_memory"] = {"conversation_count": int(memory.get("count", 0)), "last_talk_day": int(memory.get("last_day", 0)),
 		"discussed_topics": memory.get("topics", []).duplicate(), "revealed": revealed}
 	context["language_profile"] = world_state.learner.context()
+	var course = world_state.learner.curriculum
+	pending_focus = [course, course.cursor, course.recent_focus.duplicate()]
 	context["language_profile"]["focus"] = world_state.learner.curriculum.select_focus(world_state.learner.grammar, world_state.learner.errors)
 	request_started.emit()
 	client.request_reply(context)
@@ -134,6 +137,11 @@ func _on_reply(proposal: Dictionary) -> void:
 		if rejected:
 			proposal = {}
 	last_feedback[pending_location] = "Evaluación de español no disponible. Puede continuar la conversación."
+	# A turn without an applied proposal (offline, failed, refused) keeps its focus slot.
+	if proposal.is_empty() and not pending_focus.is_empty():
+		pending_focus[0].cursor = pending_focus[1]
+		pending_focus[0].recent_focus = pending_focus[2]
+	pending_focus = []
 	if not proposal.is_empty():
 		world_state.learner.observe(proposal.language, pending_message, npc_id, pending_day)
 		last_feedback[pending_location] = _language_feedback(proposal.language)
