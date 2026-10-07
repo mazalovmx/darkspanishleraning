@@ -3,7 +3,7 @@ extends RefCounted
 const WorldState = preload("res://src/world/world_state.gd")
 const Learner = preload("res://src/spanish/learner_profile.gd")
 const PATH := "user://savegame.json"
-const VERSION := 8
+const VERSION := 9
 const MAP_ID := "prototype_20x20_v1"
 const MAX_BYTES := 1048576
 
@@ -17,7 +17,7 @@ static func snapshot(state: WorldState) -> Dictionary:
 	var learner = state.learner
 	return {"version": VERSION, "map_id": state.map_id, "day": state.day,
 		"campaign": state.campaign.snapshot(), "party": state.party.snapshot(), "hero": {"cell": [state.hero_cell.x, state.hero_cell.y], "movement": state.movement_remaining},
-		"strategy": {"economy": state.economy.snapshot(), "trade": state.trade.snapshot(), "army": state.army.duplicate(true), "resources": state.resources.duplicate(true), "encounters": state.encounters.duplicate(true)}, "explored": explored, "evidence": state.evidence.progress(), "learner": {"block": learner.current_block, "curriculum": learner.curriculum.snapshot(),
+		"strategy": {"equipment": state.equipment.snapshot(), "economy": state.economy.snapshot(), "trade": state.trade.snapshot(), "army": state.army.duplicate(true), "resources": state.resources.duplicate(true), "encounters": state.encounters.duplicate(true)}, "explored": explored, "evidence": state.evidence.progress(), "learner": {"block": learner.current_block, "curriculum": learner.curriculum.snapshot(),
 		"grammar": learner.grammar.duplicate(true), "verbs": learner.verbs.duplicate(true),
 		"errors": learner.errors.duplicate(true), "vocabulary": learner.vocabulary.duplicate(),
 		"recent_messages": learner.recent_messages.duplicate(),
@@ -109,7 +109,7 @@ static func decode(data: Variant) -> Dictionary:
 	var cell: Variant = data.hero.get("cell")
 	if not cell is Array or cell.size() != 2 or not _integer(cell[0], 0, bounds.x - 1) or not _integer(cell[1], 0, bounds.y - 1):
 		return {"error": "invalid"}
-	if not _integer(data.hero.get("movement"), 0, WorldState.MOVEMENT_MAX):
+	if not _integer(data.hero.get("movement"), 0, WorldState.MOVEMENT_MAX + (6 if data.version >= 9 else 0)):
 		return {"error": "invalid"}
 	if not data.get("explored") is Array or data.explored.size() > bounds.x * bounds.y:
 		return {"error": "invalid"}
@@ -141,7 +141,7 @@ static func decode(data: Variant) -> Dictionary:
 			state.known_grid.set_point_solid(position, not explored.has(position) or state.terrain_cost(position) == 0)
 			state.known_grid.set_point_weight_scale(position, maxi(1, state.terrain_cost(position)))
 	if data.version >= 6:
-		if not state.party.restore(data.get("party"), state.grid.region, func(position: Vector2i): return state.terrain_cost(position) > 0):
+		if not state.party.restore(data.get("party"), state.grid.region, func(position: Vector2i): return state.terrain_cost(position) > 0, 6 if data.version >= 9 else 0):
 			return {"error": "invalid"}
 		if state.hero_cell != Vector2i(cell[0], cell[1]) or state.movement_remaining != int(data.hero.movement):
 			return {"error": "invalid"}
@@ -171,6 +171,12 @@ static func decode(data: Variant) -> Dictionary:
 		state.learner.curriculum.restore(learner.curriculum, int(data.day))
 	if not state.campaign.restore(data.get("campaign", {}), state):
 		return {"error": "invalid"}
+	if data.version >= 9:
+		if not state.equipment.restore(data.strategy.get("equipment"), state):
+			return {"error": "invalid"}
+		for id in state.party.heroes:
+			if state.party.heroes[id].movement_remaining > int(state.party.heroes[id].definition.movement_max) + int(state.equipment.bonuses(id).world_movement):
+				return {"error": "invalid"}
 	if data.version >= 8:
 		if not state.economy.restore(data.strategy.get("economy"), state):
 			return {"error": "invalid"}
@@ -219,7 +225,7 @@ static func write_save(state: WorldState, path := PATH) -> String:
 	return ""
 
 static func _restore_strategy(state: WorldState, data: Variant, day: int, version: int) -> bool:
-	if not data is Dictionary or data.size() != (5 if version >= 8 else 4 if version >= 4 else 3):
+	if not data is Dictionary or data.size() != (6 if version >= 9 else 5 if version >= 8 else 4 if version >= 4 else 3):
 		return false
 	if version >= 4 and not state.trade.restore(data.get("trade"), day):
 		return false

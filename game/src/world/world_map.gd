@@ -445,7 +445,7 @@ func _refresh() -> void:
 		hero_buttons[id].set_pressed_no_signal(id == state.party.active_id)
 		hero_buttons[id].disabled = not state.party.heroes[id].unlocked
 	status.text = "%s · Día %d\nMovimiento: %d / %d\n%s" % [state.party.active().definition.short_name, state.day,
-		state.movement_remaining, state.MOVEMENT_MAX,
+		state.movement_remaining, state.MOVEMENT_MAX + int(state.equipment.bonuses(state.party.active_id).world_movement),
 		"Héroe seleccionado" if selected else "Selecciona al héroe"]
 	queue_redraw()
 

@@ -769,3 +769,20 @@ and corrective-feedback cases, 498 passed. Covers all six sets, both owners' sep
 consents, reversibility, transfer, daily special limits and forged-save rejection.
 Existing shutdown diagnostics persist. Acquisition verification belongs to the upcoming
 purchase/quest callers; this model is not yet connected to world saves or battle stats.
+## Equipment connected to battles, travel and save v9
+
+Equipped owner bonuses now affect allied attack, defense, per-unit HP, initiative,
+ranged damage, seeded luck and at most one morale extra action per stack/round.
+Enhanced HP does not create soldiers. Movement bonuses apply on the next world day;
+removal clamps remaining points and re-equipping cannot refill them. The map displays
+the actual movement maximum. Combat and pending transactions lock equipment changes.
+Save v9 retains item identities, component slots, assemblies and staged soul consent;
+it rejects movement unsupported by currently worn items. V8 migrates with empty gear.
+
+Executed 285 equipment integration checks, 39 stack-battle scene, 527 save/load,
+26 economy-world, 64 battle integration, 46 party integration, 43 market,
+22 curriculum integration and 365 map checks: passed. The first integration run
+incorrectly tried to put a soul component over worn boots; corrected the test setup
+and reran. Existing shutdown leak/resource diagnostics persist.
+Acquisition and equipment controls remain the next task; knight-specific specials
+and balance are not yet integrated or playtested.

@@ -3,6 +3,8 @@ extends RefCounted
 const Stats = preload("res://src/combat/battlers/battler_stats.gd")
 const DATA_PATH := "res://content/combat/stacks.json"
 const MAX_STACKS := 7
+const BONUS_CAPS := {"army_attack":20,"army_defense":20,"army_hp_percent":50,"army_initiative":5,
+	"army_luck":3,"army_morale":3,"world_movement":6,"ranged_damage_percent":50}
 var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
 var stacks: Array = []
 var queue: Array = []
@@ -26,9 +28,13 @@ func valid_army(army: Variant) -> bool:
 			return false
 	return true
 
-func start(allies: Array, enemies: Array, seed_value: int = 1) -> bool:
+func start(allies: Array, enemies: Array, seed_value: int = 1, bonuses: Dictionary = {}) -> bool:
 	if not valid_army(allies) or not valid_army(enemies):
 		return false
+	for key in bonuses:
+		var value: Variant = bonuses[key]
+		if not BONUS_CAPS.has(key) or not (value is int or value is float) or not is_finite(value) or value != floor(value) or value < 0 or value > BONUS_CAPS[key]:
+			return false
 	stacks.clear()
 	queue.clear()
 	log.clear()
@@ -37,17 +43,19 @@ func start(allies: Array, enemies: Array, seed_value: int = 1) -> bool:
 	rng.seed = seed_value
 	for side in [0, 1]:
 		var army: Array = allies if side == 0 else enemies
+		var effects: Dictionary = bonuses if side == 0 else {}
 		for item: Dictionary in army:
 			var definition: Dictionary = data.units[item.type]
 			var stats := Stats.new()
-			stats.base_max_health = int(item.count) * int(definition.hp)
+			var unit_hp := maxi(1,roundi(int(definition.hp) * (1.0 + float(effects.get("army_hp_percent",0)) / 100.0)))
+			stats.base_max_health = int(item.count) * unit_hp
 			stats.max_health = stats.base_max_health
 			stats.initialize()
-			stats.base_attack = int(definition.attack)
-			stats.base_defense = int(definition.defense)
-			stats.base_speed = int(definition.initiative)
+			stats.base_attack = int(definition.attack) + int(effects.get("army_attack",0))
+			stats.base_defense = int(definition.defense) + int(effects.get("army_defense",0))
+			stats.base_speed = int(definition.initiative) + int(effects.get("army_initiative",0))
 			stacks.append({"type": item.type, "side": side, "stats": stats,
-				"defending": false, "ability_used": false, "retaliated": false})
+				"unit_hp":unit_hp,"luck":int(effects.get("army_luck",0)),"morale":int(effects.get("army_morale",0)),"morale_round":0,"ranged_bonus":int(effects.get("ranged_damage_percent",0)), "defending": false, "ability_used": false, "retaliated": false})
 	_new_round()
 	_run_enemies()
 	return true
@@ -55,7 +63,7 @@ func start(allies: Array, enemies: Array, seed_value: int = 1) -> bool:
 func count_at(index: int) -> int:
 	if index < 0 or index >= stacks.size():
 		return 0
-	return ceili(float(stacks[index].stats.health) / float(data.units[stacks[index].type].hp))
+	return ceili(float(stacks[index].stats.health) / float(stacks[index].unit_hp))
 
 func current() -> int:
 	return int(queue.front()) if not queue.is_empty() and outcome.is_empty() else -1
@@ -77,6 +85,11 @@ func act(command: String, target: int = -1) -> bool:
 		return true
 	if not _execute(actor, command, target):
 		return false
+	if command in ["attack","ability"] and stacks[actor].morale > 0 and count_at(actor) > 0 and not surviving_army(1).is_empty() and stacks[actor].morale_round != round_number:
+		if rng.randf() < float(stacks[actor].morale) * 0.05:
+			stacks[actor].morale_round = round_number
+			queue.insert(1,actor)
+			log.append(str(data.units[stacks[actor].type].name) + " gana una acción por moral.")
 	_advance()
 	_run_enemies()
 	return true
@@ -100,12 +113,17 @@ func _damage(actor: int, target: int, roll: bool = true) -> int:
 	var base: int = rng.randi_range(int(unit.damage_min), int(unit.damage_max)) if roll else int(unit.damage_min)
 	var delta: int = stacks[actor].stats.attack - stacks[target].stats.defense
 	var multiplier := 1.0 + 0.05 * clampi(delta, 0, 60) if delta >= 0 else 1.0 / (1.0 + 0.05 * mini(-delta, 60))
+	if unit.ranged:
+		multiplier *= 1.0 + float(stacks[actor].ranged_bonus) / 100.0
 	if stacks[target].defending:
 		multiplier *= 0.65
 	return maxi(1, roundi(count_at(actor) * base * multiplier))
 
 func _strike(actor: int, target: int, multiplier: float = 1.0) -> int:
 	var amount := maxi(1, roundi(_damage(actor, target) * multiplier))
+	if stacks[actor].luck > 0 and rng.randf() < float(stacks[actor].luck) * 0.05:
+		amount *= 2
+		log.append("La fortuna duplica el daño.")
 	stacks[target].stats.health -= amount
 	log.append("%s → %s: %d de daño; quedan %d." % [
 		data.units[stacks[actor].type].name, data.units[stacks[target].type].name,
@@ -138,7 +156,7 @@ func _execute(actor: int, command: String, target: int) -> bool:
 	if command == "ability" and unit.ability == "charge":
 		stacks[actor].stats.health -= maxi(1, roundi(amount * 0.2))
 	if command == "ability" and unit.ability == "drain":
-		var cap: int = count_at(actor) * int(unit.hp)
+		var cap: int = count_at(actor) * int(stacks[actor].unit_hp)
 		stacks[actor].stats.health = mini(cap, stacks[actor].stats.health + amount / 2)
 	if not unit.ranged and count_at(target) > 0 and count_at(actor) > 0 and not stacks[target].retaliated:
 		stacks[target].retaliated = true

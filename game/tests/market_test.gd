@@ -80,6 +80,7 @@ func run() -> void:
 	old.erase("party")
 	old.erase("campaign")
 	old.strategy.erase("economy")
+	old.strategy.erase("equipment")
 	old.learner.erase("curriculum")
 	old.learner.grammar.erase("future_simple")
 	old.strategy.erase("trade")

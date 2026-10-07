@@ -10,6 +10,7 @@ var map_id := "prototype_20x20_v1"
 var map_data: Dictionary = {}
 const VIEW_RADIUS := 5
 const MOVEMENT_MAX := 18
+var equipment = preload("res://src/world/equipment_state.gd").new()
 var economy = preload("res://src/economy/strategy_economy.gd").new()
 var party = preload("res://src/world/party_state.gd").new()
 var learner = preload("res://src/spanish/learner_profile.gd").new()
@@ -151,6 +152,8 @@ func end_turn() -> void:
 		return
 	day += 1
 	party.end_day()
+	for id in party.heroes:
+		party.heroes[id].movement_remaining += int(equipment.bonuses(id).world_movement)
 	economy.advance_day(self)
 
 func begin_encounter(id: String) -> bool:
@@ -168,7 +171,7 @@ func begin_encounter(id: String) -> bool:
 	if (not str(encounter.requires).is_empty() and not evidence.has_evidence(encounter.requires)) or encounters.get(id, {}).get("outcome", "") == "victory":
 		return false
 	model.data["opening"] = encounter
-	if not model.start(army, encounter.enemies, day * 1009 + hero_cell.x * 31 + hero_cell.y):
+	if not model.start(army, encounter.enemies, day * 1009 + hero_cell.x * 31 + hero_cell.y, equipment.bonuses(party.active_id)):
 		return false
 	active_battle = model
 	active_encounter = id

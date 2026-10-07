@@ -72,7 +72,7 @@ func snapshot() -> Dictionary:
 func _integer(value: Variant, low: int, high: int) -> bool:
 	return (value is int or value is float) and is_finite(value) and value == floor(value) and value >= low and value <= high
 
-func restore(data: Variant, bounds: Rect2i, passable: Callable) -> bool:
+func restore(data: Variant, bounds: Rect2i, passable: Callable, movement_bonus_cap := 0) -> bool:
 	if not data is Dictionary or data.size() != 2 or not data.get("active") is String or not definitions.has(data.active):
 		return false
 	if not data.get("heroes") is Dictionary or data.heroes.size() != definitions.size():
@@ -90,7 +90,7 @@ func restore(data: Variant, bounds: Rect2i, passable: Callable) -> bool:
 		var cell := Vector2i(entry.position[0], entry.position[1])
 		if not passable.call(cell):
 			return false
-		if not _integer(entry.get("movement"), 0, int(definitions[id].movement_max)) or not _integer(entry.get("health"), 0, 100):
+		if not _integer(entry.get("movement"), 0, int(definitions[id].movement_max) + movement_bonus_cap) or not _integer(entry.get("health"), 0, 100):
 			return false
 		if not entry.get("army") is Array or (not entry.army.is_empty() and not battle.valid_army(entry.army)):
 			return false
