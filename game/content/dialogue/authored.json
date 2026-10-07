@@ -116,6 +116,112 @@
                          "fallback":  "Necesito indicios físicos. Una sospecha no sustituye un examen.",
                          "npc_id":  "leonor_valera"
                      },
+    "LOC01_YSABEL": {
+      "location_id": "LOC01",
+      "requires": "ysabel_account",
+      "npc_id": "ysabel_de_la_sal",
+      "name": "Ysabel de la Sal",
+      "greeting": "Soy Ysabel de la Sal, lectora de la Última Luz. Pregunte con cuidado.",
+      "greeting_again": "Vuelve usted. Mis razones no cambian.",
+      "hint": "Puede preguntar por las restricciones.",
+      "branches": [
+        {
+          "keywords": [
+            "nombre",
+            "quien es",
+            "quien eres",
+            "lectora",
+            "archivera"
+          ],
+          "reply": "Me llamo Ysabel de la Sal. Soy lectora mayor de la Última Luz y archivera."
+        },
+        {
+          "keywords": [
+            "restricciones",
+            "restriccion",
+            "experimentos",
+            "protegen"
+          ],
+          "reply": "Las restricciones protegen a la provincia. Son una prevención."
+        },
+        {
+          "keywords": [
+            "guia",
+            "teme",
+            "miedo"
+          ],
+          "reply": "Temo una provincia sin guía. Por eso defiendo las restricciones."
+        },
+        {
+          "keywords": [
+            "gracias"
+          ],
+          "reply": "No me dé las gracias. Piense en la provincia."
+        },
+        {
+          "keywords": [
+            "hola",
+            "buenas",
+            "buenos dias"
+          ],
+          "reply": "Buenos días. Le escucho."
+        }
+      ],
+      "fallback": "De eso no hablo. Pregunte por las restricciones."
+    },
+    "LOC01_ESTEBAN": {
+      "location_id": "LOC01",
+      "requires": "esteban_choice",
+      "npc_id": "hermano_esteban",
+      "name": "Hermano Esteban",
+      "greeting": "Soy el hermano Esteban. Estoy vivo, como ve. ¿Qué desea preguntar?",
+      "greeting_again": "Usted otra vez. Sigo aquí y sigo vivo.",
+      "hint": "Puede preguntar por su desaparición o por la Orden.",
+      "branches": [
+        {
+          "keywords": [
+            "nombre",
+            "quien es",
+            "quien eres",
+            "roque",
+            "impresores"
+          ],
+          "reply": "Soy el hermano Esteban. No soy Esteban Roque, el agente de los impresores."
+        },
+        {
+          "keywords": [
+            "orden",
+            "voluntariamente",
+            "decision"
+          ],
+          "reply": "Estoy en la Orden por mi propia voluntad. Nadie me obliga."
+        },
+        {
+          "keywords": [
+            "desaparicion",
+            "desaparecido",
+            "muerto",
+            "vivo"
+          ],
+          "reply": "No estoy muerto. Mi desaparición es una decisión mía."
+        },
+        {
+          "keywords": [
+            "gracias"
+          ],
+          "reply": "De nada. Vaya con cuidado."
+        },
+        {
+          "keywords": [
+            "hola",
+            "buenas",
+            "buenos dias"
+          ],
+          "reply": "Buenos días. Pregunte, por favor."
+        }
+      ],
+      "fallback": "No voy a explicar eso. Pregunte por mi decisión."
+    },
     "LOC02": {
       "npc_id": "beatriz_orma",
       "name": "Jueza Beatriz Orma",
@@ -208,6 +314,104 @@
         }
       ],
       "fallback": "No voy a comentar eso. Pregunte por la provincia."
+    },
+    "LOC02_MENDANA": {
+      "location_id": "LOC02",
+      "npc_id": "rodrigo_mendana",
+      "name": "Comandante Rodrigo Mendaña",
+      "greeting": "Soy Rodrigo Mendaña, comandante de la guardia provincial. Hable claro.",
+      "greeting_again": "Usted otra vez. La guardia sigue en su puesto.",
+      "hint": "Puede preguntar por la guardia o por los soldados.",
+      "branches": [
+        {
+          "keywords": [
+            "nombre",
+            "quien es",
+            "quien eres",
+            "comandante"
+          ],
+          "reply": "Me llamo Rodrigo Mendaña. Soy el comandante de la guardia provincial."
+        },
+        {
+          "keywords": [
+            "soldados",
+            "discusion",
+            "filosofia",
+            "piensa"
+          ],
+          "reply": "Mi filosofía es sencilla: quien gana la discusión normalmente todavía necesita soldados."
+        },
+        {
+          "keywords": [
+            "guardia",
+            "guardias"
+          ],
+          "reply": "La guardia provincial está bajo mi mando."
+        },
+        {
+          "keywords": [
+            "gracias"
+          ],
+          "reply": "De nada. Siga su camino."
+        },
+        {
+          "keywords": [
+            "hola",
+            "buenas",
+            "buenos dias"
+          ],
+          "reply": "Buenos días. ¿Qué quiere de la guardia?"
+        }
+      ],
+      "fallback": "Eso no es asunto de la guardia. Pregunte por los soldados."
+    },
+    "LOC03": {
+      "npc_id": "selmo_oribe",
+      "name": "Maestro Selmo Oribe",
+      "greeting": "Bienvenido a Miralba. Soy el maestro Selmo Oribe, del gremio de boticarios. ¿En qué puedo servirle?",
+      "greeting_again": "Es un placer verle de nuevo. ¿En qué puedo servirle hoy?",
+      "hint": "Puede preguntar por el gremio o por la ciencia.",
+      "branches": [
+        {
+          "keywords": [
+            "nombre",
+            "quien es",
+            "quien eres",
+            "maestro"
+          ],
+          "reply": "Me llamo Selmo Oribe. Soy el maestro del gremio de boticarios."
+        },
+        {
+          "keywords": [
+            "ciencia",
+            "ciencias"
+          ],
+          "reply": "No odio la ciencia, se lo aseguro."
+        },
+        {
+          "keywords": [
+            "gremio",
+            "boticarios",
+            "boticario"
+          ],
+          "reply": "Dirijo el gremio de boticarios."
+        },
+        {
+          "keywords": [
+            "gracias"
+          ],
+          "reply": "No hay de qué. Es un placer."
+        },
+        {
+          "keywords": [
+            "hola",
+            "buenas",
+            "buenos dias"
+          ],
+          "reply": "Buenos días. Es un honor recibirle."
+        }
+      ],
+      "fallback": "Lo siento, de eso no puedo decirle nada. Pregunte por el gremio, por favor."
     },
     "LOC13": {
       "npc_id": "simon_vale",

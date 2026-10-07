@@ -8,6 +8,15 @@
                   "veyra_stability":  "El obispo considera que la estabilidad es el mayor bien de la provincia.",
                   "simon_identity":  "Simón Vale es un mecánico joven de Ferraza.",
                   "simon_engine":  "Simón trabaja en una máquina de presión mejorada. Puede aumentar la producción y también eliminar empleos.",
+                  "mendana_identity":  "Rodrigo Mendaña es el comandante de la guardia provincial.",
+                  "mendana_philosophy":  "La filosofía de Mendaña es sencilla: quien gana la discusión normalmente todavía necesita soldados.",
+                  "selmo_identity":  "Selmo Oribe es el maestro del gremio de boticarios. Es cortés y culto.",
+                  "selmo_science":  "Selmo Oribe no odia la ciencia.",
+                  "ysabel_identity":  "Ysabel de la Sal es lectora mayor de la Última Luz. Su papel público es el de archivera.",
+                  "ysabel_restrictions":  "Ysabel dice que las restricciones protegen a la provincia.",
+                  "ysabel_fear":  "Ysabel teme una provincia sin guía.",
+                  "esteban_identity":  "El hermano Esteban está vivo. No es Esteban Roque, el agente de los impresores.",
+                  "esteban_order":  "El hermano Esteban está en la Orden por decisión propia.",
                   "leonor_identity":  "Leonor Valera es médica en Miralba. Investiga la infección y la higiene.",
                   "leonor_transmission":  "Leonor cree que la enfermedad pasa de una persona a otra por contacto físico, no por corrupción moral.",
                   "inn_name":  "Esta es la Venta del Perro Negro. Por aquí pasan muchos viajeros.",
@@ -103,7 +112,11 @@
                     "ask_declaration":  ["declaracion","documento","sello","falso"],
                     "ask_stability":  ["estabilidad","provincia"],
                     "ask_machine":  ["maquina","presion","produccion"],
-                    "ask_illness":  ["enfermedad","infeccion","higiene"]
+                    "ask_illness":  ["enfermedad","infeccion","higiene"],
+                    "ask_guard":  ["guardia","soldados"],
+                    "ask_guild":  ["gremio","boticarios"],
+                    "ask_restrictions":  ["restricciones"],
+                    "ask_disappearance":  ["desaparicion","desaparecido"]
                 },
     "npcs":  {
     "beatriz_orma": {
@@ -177,6 +190,103 @@
         "evasion": "Puede negarse a responder; no inventa hechos."
       },
       "language_register": "neutral_colloquial"
+    },
+    "rodrigo_mendana": {
+      "id": "rodrigo_mendana",
+      "persona": {
+        "occupation": "comandante de la guardia provincial",
+        "traits": [
+          "directo",
+          "práctico"
+        ],
+        "goal": "Mantener la guardia necesaria para quien gane la discusión."
+      },
+      "knowledge": [
+        "mendana_identity",
+        "mendana_philosophy"
+      ],
+      "beliefs": [],
+      "false_beliefs": [],
+      "secrets": [],
+      "lie_policy": {
+        "can_lie": false,
+        "triggers": [],
+        "evasion": "Puede negarse a responder; no inventa hechos."
+      },
+      "language_register": "neutral_colloquial"
+    },
+    "selmo_oribe": {
+      "id": "selmo_oribe",
+      "persona": {
+        "occupation": "maestro del gremio de boticarios",
+        "traits": [
+          "cortés",
+          "culto"
+        ],
+        "goal": "Representar al gremio de boticarios con cortesía."
+      },
+      "knowledge": [
+        "selmo_identity",
+        "selmo_science"
+      ],
+      "beliefs": [],
+      "false_beliefs": [],
+      "secrets": [],
+      "lie_policy": {
+        "can_lie": false,
+        "triggers": [],
+        "evasion": "Puede negarse a responder; no inventa hechos."
+      },
+      "language_register": "formal"
+    },
+    "ysabel_de_la_sal": {
+      "id": "ysabel_de_la_sal",
+      "persona": {
+        "occupation": "lectora mayor de la Última Luz y archivera",
+        "traits": [
+          "serena",
+          "reservada"
+        ],
+        "goal": "Defender las restricciones como protección de la provincia."
+      },
+      "knowledge": [
+        "ysabel_identity",
+        "ysabel_restrictions",
+        "ysabel_fear"
+      ],
+      "beliefs": [],
+      "false_beliefs": [],
+      "secrets": [],
+      "lie_policy": {
+        "can_lie": false,
+        "triggers": [],
+        "evasion": "Puede negarse a responder; no inventa hechos."
+      },
+      "language_register": "formal"
+    },
+    "hermano_esteban": {
+      "id": "hermano_esteban",
+      "persona": {
+        "occupation": "hermano de la Orden",
+        "traits": [
+          "convencido",
+          "elocuente"
+        ],
+        "goal": "Explicar que su ingreso en la Orden es voluntario."
+      },
+      "knowledge": [
+        "esteban_identity",
+        "esteban_order"
+      ],
+      "beliefs": [],
+      "false_beliefs": [],
+      "secrets": [],
+      "lie_policy": {
+        "can_lie": false,
+        "triggers": [],
+        "evasion": "Puede negarse a responder; no inventa hechos."
+      },
+      "language_register": "formal"
     },
                  "innkeeper_prototype":  {
                                              "id":  "innkeeper_prototype",

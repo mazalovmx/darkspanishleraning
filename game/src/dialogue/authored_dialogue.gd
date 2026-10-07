@@ -59,7 +59,7 @@ func _ready() -> void:
 func open_conversation(id: String) -> void:
 	location_id = id
 	world_state.learner.curriculum.begin_conversation()
-	visible = conversations.has(id)
+	visible = available(id)
 	if not visible:
 		return
 	if not histories.has(id):
@@ -68,7 +68,7 @@ func open_conversation(id: String) -> void:
 	send_button.disabled = true
 	speaker.clear()
 	for key in conversations:
-		if scene_for(key) == scene_for(id):
+		if scene_for(key) == scene_for(id) and available(key):
 			speaker.add_item("Conversación · " + str(conversations[key].name))
 			speaker.set_item_metadata(speaker.item_count - 1, key)
 			if key == id:
@@ -79,7 +79,7 @@ func open_conversation(id: String) -> void:
 	_render_history()
 
 func submit(message: String) -> void:
-	if client.busy or not is_visible_in_tree() or not conversations.has(location_id):
+	if client.busy or not is_visible_in_tree() or not available(location_id):
 		return
 	var clean := message.strip_edges().left(MAX_MESSAGE_LENGTH)
 	if clean.is_empty():
@@ -225,3 +225,8 @@ func _short(text: String) -> String:
 
 func scene_for(conversation_id: String) -> String:
 	return str(conversations.get(conversation_id, {}).get("location_id", conversation_id))
+
+# A conversation with "requires" exists only after that campaign task is recorded.
+func available(id: String) -> bool:
+	var needed := str(conversations.get(id, {}).get("requires", ""))
+	return conversations.has(id) and (needed.is_empty() or world_state.campaign.records.has(needed))
