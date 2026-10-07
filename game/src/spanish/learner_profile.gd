@@ -23,7 +23,40 @@ func _init() -> void:
 func context() -> Dictionary:
 	return {"block": current_block, "grammar_mastery": grammar.duplicate(),
 		"verb_mastery": verbs.duplicate(), "allowed_grammar_tags": curriculum.allowed_grammar(), "curriculum": curriculum.context(),
-		"allowed_verb_tags": VERBS}
+		"allowed_verb_tags": VERBS, "focus_verbs": focus_verbs(), "recent_errors": recent_errors()}
+
+# Only verbs in the current or earlier course blocks are proposed for practice.
+# Scores and recorded errors rank candidates; selection never awards mastery.
+func focus_verbs() -> Array:
+	var candidates: Array = []
+	for block: Dictionary in curriculum.blocks.slice(0, curriculum.index() + 1):
+		for verb: String in block.verbs:
+			if verb in VERBS and verb not in candidates:
+				candidates.append(verb)
+	candidates.sort_custom(func(a: String, b: String):
+		var a_score: float = float(verbs[a]) - mini(int(errors.get("verb:" + a, {}).get("count", 0)), 10) * 0.01
+		var b_score: float = float(verbs[b]) - mini(int(errors.get("verb:" + b, {}).get("count", 0)), 10) * 0.01
+		return a_score < b_score if not is_equal_approx(a_score, b_score) else a < b)
+	return candidates.slice(0, 3)
+
+# Existing error records contain original examples, not verified corrected forms.
+func recent_errors() -> Array:
+	var tags: Array = []
+	for tag: String in errors:
+		if _taught(tag):
+			tags.append(tag)
+	tags.sort_custom(func(a: String, b: String):
+		var a_day: int = int(errors[a].last_seen_day)
+		var b_day: int = int(errors[b].last_seen_day)
+		return a_day > b_day if a_day != b_day else a < b)
+	var result: Array = []
+	for tag: String in tags.slice(0, 4):
+		var examples: Array = []
+		for example: String in errors[tag].examples.slice(-2):
+			examples.append(example.left(300))
+		result.append({"tag": tag, "count": int(errors[tag].count),
+			"last_seen_day": int(errors[tag].last_seen_day), "examples": examples})
+	return result
 
 func observe(language: Dictionary, message: String, npc_id: String, day: int) -> void:
 	if language.confidence < MIN_CONFIDENCE:

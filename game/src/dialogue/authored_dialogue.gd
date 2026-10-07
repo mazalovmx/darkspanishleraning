@@ -98,11 +98,15 @@ func submit(message: String) -> void:
 	var context: Dictionary = grounding.context_for(conversations[location_id].npc_id,
 		grounding.intent_for(clean), world_state.evidence.context_flags(), world_state.evidence.progress().keys())
 	pending_unlocks = context.get("eligible_unlock_ids", []).duplicate()
+	var place: Dictionary = world_state.location_at(world_state.hero_cell)
+	context["scene"] = {"map_id": world_state.map_id, "day": world_state.day,
+		"location_id": str(place.get("id", "")), "name": str(place.get("name", "")),
+		"conversation_location_id": scene_for(location_id)}
 	context["player_message"] = clean
 	var hero_definition: Dictionary = world_state.party.active().definition
 	context["player_hero"] = {"id": world_state.party.active_id, "name": hero_definition.name,
 		"role": hero_definition.role, "register": hero_definition.register}
-	context["recent_dialogue"] = histories[location_id].slice(-3)
+	context["recent_dialogue"] = histories[location_id].slice(-4).duplicate(true)
 	var npc_id: String = conversations[location_id].npc_id
 	var memory: Dictionary = world_state.npc_memory.get(npc_id, {})
 	var revealed: Array = []
