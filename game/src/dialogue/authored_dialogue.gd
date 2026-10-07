@@ -240,5 +240,18 @@ func scene_for(conversation_id: String) -> String:
 
 # A conversation with "requires" exists only after that campaign task is recorded.
 func available(id: String) -> bool:
-	var needed := str(conversations.get(id, {}).get("requires", ""))
-	return conversations.has(id) and (needed.is_empty() or world_state.campaign.records.has(needed))
+	if not conversations.has(id):
+		return false
+	var needed := str(conversations[id].get("requires", ""))
+	if not needed.is_empty() and not world_state.campaign.records.has(needed):
+		return false
+	var companion := str(conversations[id].get("companion_hero", ""))
+	if not companion.is_empty():
+		if companion == world_state.party.active_id or not world_state.party.heroes.has(companion):
+			return false
+		var hero = world_state.party.heroes[companion]
+		if not hero.unlocked or hero.cell != world_state.hero_cell:
+			return false
+		if world_state.location_at(world_state.hero_cell).get("id", "") != scene_for(id):
+			return false
+	return true

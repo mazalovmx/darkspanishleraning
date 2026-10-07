@@ -5,7 +5,7 @@ const Learner = preload("res://src/spanish/learner_profile.gd")
 const PATH := "user://savegame.json"
 const VERSION := 13
 const NPC_IDS := ["innkeeper_prototype", "lucio_salcedo", "hermano_gabriel", "leonor_valera", "beatriz_orma", "aureliano_veyra", "simon_vale",
-	"rodrigo_mendana", "selmo_oribe", "ysabel_de_la_sal", "hermano_esteban"]
+	"rodrigo_mendana", "selmo_oribe", "ysabel_de_la_sal", "hermano_esteban", "ines_vargas", "elias_venn"]
 const MAP_ID := "prototype_20x20_v1"
 const MAX_BYTES := 1048576
 

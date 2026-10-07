@@ -1,7 +1,13 @@
 {
     "version":  1,
     "facts":  {
-                  "beatriz_identity":  "Beatriz Orma es jueza en Valdora. Su especialidad es el derecho documental.",
+                    "ines_identity": "Inés Vargas, llamada la Urraca, es contrabandista y creció cerca de los muelles de Cárdena.",
+  "ines_contract": "Inés recibió un encargo para recuperar el cuaderno de Tomás. El contratante se presentó como estudioso; el pago procede de los impresores autorizados.",
+  "ines_trade": "Inés transporta libros y mercancía prohibida. Habla del comercio con humor y desconfianza.",
+  "elias_identity": "El hombre que comparece en Monte Ciego se presenta como Elias Venn.",
+  "elias_origin_claim": "Elias dice que procede de otro mundo. Este es su relato; todavía requiere contraste independiente.",
+  "elias_objects": "Elias porta objetos que no pueden fabricarse localmente. Son observables; no demuestran por sí solos su relato sobre el origen.",
+"beatriz_identity":  "Beatriz Orma es jueza en Valdora. Su especialidad es el derecho documental.",
                   "declaration_effect":  "Una declaración oficial cambia la situación legal de una persona o de un objeto. No demuestra un hecho físico.",
                   "forged_effect":  "Un documento falso puede producir una detención verdadera.",
                   "veyra_identity":  "Aureliano Veyra es el obispo de Valdora.",
@@ -119,7 +125,59 @@
                     "ask_disappearance":  ["desaparicion","desaparecido"]
                 },
     "npcs":  {
-    "beatriz_orma": {
+      "ines_vargas": {
+    "id": "ines_vargas",
+    "persona": {
+      "occupation": "contrabandista y mediadora",
+      "traits": [
+        "observadora",
+        "desconfiada",
+        "irónica"
+      ],
+      "goal": "Aclarar lo que sabe de su encargo sin confundir pago con prueba de homicidio."
+    },
+    "knowledge": [
+      "ines_identity",
+      "ines_contract",
+      "ines_trade"
+    ],
+    "beliefs": [],
+    "false_beliefs": [],
+    "secrets": [],
+    "lie_policy": {
+      "can_lie": false,
+      "triggers": [],
+      "evasion": "Puede negarse a responder. No adelanta revelaciones de otras investigaciones ni inventa hechos."
+    },
+    "language_register": "neutral_colloquial"
+  },
+  "elias_venn": {
+    "id": "elias_venn",
+    "persona": {
+      "occupation": "viajero de origen todavía no demostrado",
+      "traits": [
+        "inteligente",
+        "agotado",
+        "literal"
+      ],
+      "goal": "Distinguir sus objetos observables de su relato sobre el origen, sin anticipar otras investigaciones."
+    },
+    "knowledge": [
+      "elias_identity",
+      "elias_origin_claim",
+      "elias_objects"
+    ],
+    "beliefs": [],
+    "false_beliefs": [],
+    "secrets": [],
+    "lie_policy": {
+      "can_lie": false,
+      "triggers": [],
+      "evasion": "Puede negarse a responder. No adelanta revelaciones de otras investigaciones ni inventa hechos."
+    },
+    "language_register": "formal"
+  },
+"beatriz_orma": {
       "id": "beatriz_orma",
       "persona": {
         "occupation": "jueza",

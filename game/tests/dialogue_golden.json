@@ -996,5 +996,203 @@
     ]
    }
   }
- ]
+ ,
+  {
+    "name": "Ines introduces herself after the port task",
+    "map": "province_160x120_v1",
+    "conversation": "LOC05",
+    "campaign": [
+      "ines_arrival"
+    ],
+    "evidence": [],
+    "player": "¿Quién eres?",
+    "model": null,
+    "expect": {
+      "unlock": null,
+      "fallback": true,
+      "reply_contains": [
+        "Inés Vargas",
+        "muelles"
+      ]
+    }
+  },
+  {
+    "name": "Ines attributes the commission payment",
+    "map": "province_160x120_v1",
+    "conversation": "LOC05",
+    "campaign": [
+      "ines_arrival"
+    ],
+    "evidence": [],
+    "player": "¿Quién pagó el encargo? ",
+    "model": null,
+    "expect": {
+      "unlock": null,
+      "fallback": true,
+      "reply_contains": [
+        "impresores pagaron",
+        "se presentó"
+      ]
+    }
+  },
+  {
+    "name": "Ines does not infer murder from payment",
+    "map": "province_160x120_v1",
+    "conversation": "LOC05",
+    "campaign": [
+      "ines_arrival"
+    ],
+    "evidence": [],
+    "player": "Quiero preguntar por el cuaderno.",
+    "model": null,
+    "expect": {
+      "unlock": null,
+      "fallback": true,
+      "reply_contains": [
+        "no demuestra quién lo mató"
+      ]
+    }
+  },
+  {
+    "name": "Ines cannot disclose the monastery testimony",
+    "map": "province_160x120_v1",
+    "conversation": "LOC05",
+    "campaign": [
+      "ines_arrival"
+    ],
+    "evidence": [
+      "travel_food"
+    ],
+    "player": "¿Qué dice la comunidad sobre la muerte de Tomás?",
+    "model": {
+      "intent": "ask_death",
+      "unlock": "monastery_claim"
+    },
+    "expect": {
+      "unlock": null,
+      "reply_excludes": [
+        "Texto del modelo",
+        "queda anotada"
+      ]
+    }
+  },
+  {
+    "name": "Ines remains available on malformed model output",
+    "map": "province_160x120_v1",
+    "conversation": "LOC05",
+    "campaign": [
+      "ines_arrival"
+    ],
+    "evidence": [],
+    "player": "¿Qué transportas? Libros.",
+    "model": "{broken",
+    "expect": {
+      "unlock": null,
+      "fallback": true,
+      "reply_contains": [
+        "Transporto libros"
+      ]
+    }
+  },
+  {
+    "name": "Elias introduces himself without proving his origin",
+    "map": "province_160x120_v1",
+    "conversation": "LOC09",
+    "campaign": [
+      "elias_arrival"
+    ],
+    "evidence": [],
+    "player": "¿Quién es usted?",
+    "model": null,
+    "expect": {
+      "unlock": null,
+      "fallback": true,
+      "reply_contains": [
+        "Elias Venn",
+        "no demuestra"
+      ]
+    }
+  },
+  {
+    "name": "Elias labels his origin as testimony",
+    "map": "province_160x120_v1",
+    "conversation": "LOC09",
+    "campaign": [
+      "elias_arrival"
+    ],
+    "evidence": [],
+    "player": "¿De qué mundo viene?",
+    "model": null,
+    "expect": {
+      "unlock": null,
+      "fallback": true,
+      "reply_contains": [
+        "Es mi relato",
+        "no una prueba independiente"
+      ]
+    }
+  },
+  {
+    "name": "Elias separates objects and their explanation",
+    "map": "province_160x120_v1",
+    "conversation": "LOC09",
+    "campaign": [
+      "elias_arrival"
+    ],
+    "evidence": [],
+    "player": "Quiero examinar los objetos.",
+    "model": null,
+    "expect": {
+      "unlock": null,
+      "fallback": true,
+      "reply_contains": [
+        "Puedes observarlos",
+        "otra cosa"
+      ]
+    }
+  },
+  {
+    "name": "Elias cannot disclose the later archive revelation",
+    "map": "province_160x120_v1",
+    "conversation": "LOC09",
+    "campaign": [
+      "elias_arrival"
+    ],
+    "evidence": [],
+    "player": "¿Qué oculta el Índice sobre la catástrofe?",
+    "model": null,
+    "expect": {
+      "unlock": null,
+      "fallback": true,
+      "reply_excludes": [
+        "crisis",
+        "predicciones",
+        "archivo"
+      ],
+      "reply_contains": [
+        "otra investigación"
+      ]
+    }
+  },
+  {
+    "name": "Elias cannot grant opening medical evidence",
+    "map": "province_160x120_v1",
+    "conversation": "LOC09",
+    "campaign": [
+      "elias_arrival"
+    ],
+    "evidence": [],
+    "player": "¿Qué indica la herida?",
+    "model": {
+      "intent": "ask_wound",
+      "unlock": "medical_report"
+    },
+    "expect": {
+      "unlock": null,
+      "reply_excludes": [
+        "Texto del modelo",
+        "queda anotada"
+      ]
+    }
+  }]
 }
