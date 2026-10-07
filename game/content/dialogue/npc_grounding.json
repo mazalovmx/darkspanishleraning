@@ -1,6 +1,15 @@
 {
     "version":  1,
     "facts":  {
+                  "beatriz_identity":  "Beatriz Orma es jueza en Valdora. Su especialidad es el derecho documental.",
+                  "declaration_effect":  "Una declaración oficial cambia la situación legal de una persona o de un objeto. No demuestra un hecho físico.",
+                  "forged_effect":  "Un documento falso puede producir una detención verdadera.",
+                  "veyra_identity":  "Aureliano Veyra es el obispo de Valdora.",
+                  "veyra_stability":  "El obispo considera que la estabilidad es el mayor bien de la provincia.",
+                  "simon_identity":  "Simón Vale es un mecánico joven de Ferraza.",
+                  "simon_engine":  "Simón trabaja en una máquina de presión mejorada. Puede aumentar la producción y también eliminar empleos.",
+                  "leonor_identity":  "Leonor Valera es médica en Miralba. Investiga la infección y la higiene.",
+                  "leonor_transmission":  "Leonor cree que la enfermedad pasa de una persona a otra por contacto físico, no por corrupción moral.",
                   "inn_name":  "Esta es la Venta del Perro Negro. Por aquí pasan muchos viajeros.",
                   "route_to_monastery":  "Santa Lucerna está al noroeste de la venta: el camino va al norte y después al oeste. El monasterio está junto al camino.",
                   "lucio_identity":  "Lucio Salcedo es el abad de Santa Lucerna.",
@@ -90,9 +99,85 @@
                     "ask_wound":  [
                                       "herida",
                                       "lesion"
-                                  ]
+                                  ],
+                    "ask_declaration":  ["declaracion","documento","sello","falso"],
+                    "ask_stability":  ["estabilidad","provincia"],
+                    "ask_machine":  ["maquina","presion","produccion"],
+                    "ask_illness":  ["enfermedad","infeccion","higiene"]
                 },
     "npcs":  {
+    "beatriz_orma": {
+      "id": "beatriz_orma",
+      "persona": {
+        "occupation": "jueza",
+        "traits": [
+          "precisa",
+          "exigente"
+        ],
+        "goal": "Mantener clara la diferencia entre una declaración y un hecho."
+      },
+      "knowledge": [
+        "beatriz_identity",
+        "declaration_effect",
+        "forged_effect"
+      ],
+      "beliefs": [],
+      "false_beliefs": [],
+      "secrets": [],
+      "lie_policy": {
+        "can_lie": false,
+        "triggers": [],
+        "evasion": "Puede negarse a responder; no inventa hechos."
+      },
+      "language_register": "formal"
+    },
+    "aureliano_veyra": {
+      "id": "aureliano_veyra",
+      "persona": {
+        "occupation": "obispo de Valdora",
+        "traits": [
+          "político hábil"
+        ],
+        "goal": "Conservar la estabilidad de la provincia."
+      },
+      "knowledge": [
+        "veyra_identity",
+        "veyra_stability"
+      ],
+      "beliefs": [],
+      "false_beliefs": [],
+      "secrets": [],
+      "lie_policy": {
+        "can_lie": false,
+        "triggers": [],
+        "evasion": "Puede negarse a responder; no inventa hechos."
+      },
+      "language_register": "formal"
+    },
+    "simon_vale": {
+      "id": "simon_vale",
+      "persona": {
+        "occupation": "mecánico",
+        "traits": [
+          "idealista",
+          "torpe en política"
+        ],
+        "goal": "Terminar su máquina de presión."
+      },
+      "knowledge": [
+        "simon_identity",
+        "simon_engine"
+      ],
+      "beliefs": [],
+      "false_beliefs": [],
+      "secrets": [],
+      "lie_policy": {
+        "can_lie": false,
+        "triggers": [],
+        "evasion": "Puede negarse a responder; no inventa hechos."
+      },
+      "language_register": "neutral_colloquial"
+    },
                  "innkeeper_prototype":  {
                                              "id":  "innkeeper_prototype",
                                              "persona":  {
@@ -204,7 +289,7 @@
                                                          ],
                                        "id":  "leonor_valera",
                                        "knowledge":  [
-                                                         "medical_report"
+                                                         "leonor_identity", "leonor_transmission", "medical_report"
                                                      ],
                                        "beliefs":  [
 

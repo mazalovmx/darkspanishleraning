@@ -115,5 +115,197 @@
                          "hint":  "Examine el tubo, la sangre y la bota antes de preguntar por la herida.",
                          "fallback":  "Necesito indicios físicos. Una sospecha no sustituye un examen.",
                          "npc_id":  "leonor_valera"
-                     }
+                     },
+    "LOC02": {
+      "npc_id": "beatriz_orma",
+      "name": "Jueza Beatriz Orma",
+      "greeting": "Soy la jueza Beatriz Orma. Aquí las palabras tienen consecuencias. ¿Qué necesita?",
+      "greeting_again": "Usted de nuevo. ¿Qué documento le preocupa hoy?",
+      "hint": "Puede preguntar por una declaración o por un documento falso.",
+      "branches": [
+        {
+          "keywords": [
+            "nombre",
+            "quien es",
+            "quien eres",
+            "jueza"
+          ],
+          "reply": "Me llamo Beatriz Orma. Soy jueza y trabajo con documentos."
+        },
+        {
+          "keywords": [
+            "falso",
+            "falsa",
+            "falsos"
+          ],
+          "reply": "Un documento falso puede producir una detención verdadera. No confunda inventado con sin efectos."
+        },
+        {
+          "keywords": [
+            "declaracion",
+            "sello",
+            "documento",
+            "decreto"
+          ],
+          "reply": "Una declaración oficial cambia la situación legal. No demuestra un hecho físico."
+        },
+        {
+          "keywords": [
+            "gracias"
+          ],
+          "reply": "No hay de qué. Lea siempre quién firma."
+        },
+        {
+          "keywords": [
+            "hola",
+            "buenas",
+            "buenos dias"
+          ],
+          "reply": "Buenos días. Hable con precisión, por favor."
+        }
+      ],
+      "fallback": "Eso no consta en ningún documento que yo conozca. Pregunte por una declaración concreta."
+    },
+    "LOC02_VEYRA": {
+      "location_id": "LOC02",
+      "npc_id": "aureliano_veyra",
+      "name": "Obispo Aureliano Veyra",
+      "greeting": "Soy Aureliano Veyra, obispo de Valdora. Tengo poco tiempo. Le escucho.",
+      "greeting_again": "Vuelve usted. La provincia sigue necesitando calma.",
+      "hint": "Puede preguntar qué quiere el obispo para la provincia.",
+      "branches": [
+        {
+          "keywords": [
+            "nombre",
+            "quien es",
+            "quien eres",
+            "obispo"
+          ],
+          "reply": "Soy Aureliano Veyra. Soy el obispo de Valdora."
+        },
+        {
+          "keywords": [
+            "estabilidad",
+            "provincia",
+            "quiere",
+            "calma"
+          ],
+          "reply": "Quiero estabilidad. Una provincia tranquila protege a su gente."
+        },
+        {
+          "keywords": [
+            "gracias"
+          ],
+          "reply": "Vaya en paz."
+        },
+        {
+          "keywords": [
+            "hola",
+            "buenas",
+            "buenos dias"
+          ],
+          "reply": "Buenos días. Sea breve, por favor."
+        }
+      ],
+      "fallback": "No voy a comentar eso. Pregunte por la provincia."
+    },
+    "LOC13": {
+      "npc_id": "simon_vale",
+      "name": "Simón Vale",
+      "greeting": "Hola. Soy Simón. Cuidado con la máquina: está caliente.",
+      "greeting_again": "¡Otra vez aquí! La máquina todavía funciona.",
+      "hint": "Puede preguntar por la máquina de presión.",
+      "branches": [
+        {
+          "keywords": [
+            "nombre",
+            "quien es",
+            "quien eres"
+          ],
+          "reply": "Me llamo Simón Vale. Soy mecánico en Ferraza."
+        },
+        {
+          "keywords": [
+            "trabajo",
+            "empleos",
+            "trabajadores",
+            "obreros"
+          ],
+          "reply": "Ese es el problema. La máquina puede eliminar muchos empleos."
+        },
+        {
+          "keywords": [
+            "maquina",
+            "presion",
+            "motor",
+            "produccion"
+          ],
+          "reply": "Es una máquina de presión. Puede aumentar mucho la producción."
+        },
+        {
+          "keywords": [
+            "gracias"
+          ],
+          "reply": "De nada. Vuelva cuando quiera."
+        },
+        {
+          "keywords": [
+            "hola",
+            "buenas",
+            "buenos dias"
+          ],
+          "reply": "Hola. ¿Quiere ver la máquina?"
+        }
+      ],
+      "fallback": "No sé nada de eso. Yo solo entiendo de máquinas."
+    },
+    "LOC15": {
+      "npc_id": "leonor_valera",
+      "name": "Doctora Leonor Valera",
+      "greeting": "Bienvenido al hospital de Miralba. Soy la doctora Leonor Valera.",
+      "greeting_again": "Vuelve usted al hospital. ¿En qué puedo ayudarle?",
+      "hint": "Puede preguntar por la enfermedad o por la higiene.",
+      "branches": [
+        {
+          "keywords": [
+            "nombre",
+            "quien es",
+            "quien eres",
+            "doctora",
+            "medica"
+          ],
+          "reply": "Me llamo Leonor Valera. Soy médica en Miralba."
+        },
+        {
+          "keywords": [
+            "enfermedad",
+            "infeccion",
+            "contagio"
+          ],
+          "reply": "Creo que la enfermedad pasa de una persona a otra por contacto. No es un castigo moral."
+        },
+        {
+          "keywords": [
+            "higiene",
+            "limpieza"
+          ],
+          "reply": "La higiene salva vidas. Por eso investigo la limpieza."
+        },
+        {
+          "keywords": [
+            "gracias"
+          ],
+          "reply": "De nada. Cuídese."
+        },
+        {
+          "keywords": [
+            "hola",
+            "buenas",
+            "buenos dias"
+          ],
+          "reply": "Buenos días. ¿Está enfermo o tiene preguntas?"
+        }
+      ],
+      "fallback": "No puedo afirmar eso sin examinar los hechos. Pregunte por la enfermedad o la higiene."
+    }
 }

@@ -3,6 +3,7 @@ extends SceneTree
 ## model reply through the real parser, verifier, learner and dialogue panel.
 const Client = preload("res://src/claude/claude_client.gd")
 const World = preload("res://src/world/world_state.gd")
+const Save = preload("res://src/save/save_game.gd")
 const BASELINE := 0.5
 class FakeClient extends Client:
 	func _api_key() -> String:
@@ -49,12 +50,16 @@ func run() -> void:
 	panel.client = fake
 	panel.add_child(fake)
 	fake.completed.connect(panel._on_reply)
+	for id: String in panel.conversations:
+		var speaker: Dictionary = panel.conversations[id]
+		check(speaker.npc_id in Save.NPC_IDS and not panel.grounding.context_for(speaker.npc_id, "greeting", {}, []).is_empty(), "Conversable NPC is grounded and saveable: " + id)
+		check(speaker.has("greeting_again") and not str(speaker.fallback).is_empty() and not speaker.branches.is_empty(), "Conversable NPC has authored offline replies: " + id)
 	var names := {}
 	for case: Dictionary in data.cases:
 		var label: String = case.name
 		check(not names.has(label), "Unique case name: " + label)
 		names[label] = true
-		map._adopt(World.new())
+		map._adopt(World.new(case.get("map", "prototype_20x20_v1")))
 		panel.histories.clear()
 		var state = map.state
 		var proof := {}

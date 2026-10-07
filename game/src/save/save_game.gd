@@ -4,7 +4,7 @@ const WorldState = preload("res://src/world/world_state.gd")
 const Learner = preload("res://src/spanish/learner_profile.gd")
 const PATH := "user://savegame.json"
 const VERSION := 13
-const NPC_IDS := ["innkeeper_prototype", "lucio_salcedo", "hermano_gabriel", "leonor_valera"]
+const NPC_IDS := ["innkeeper_prototype", "lucio_salcedo", "hermano_gabriel", "leonor_valera", "beatriz_orma", "aureliano_veyra", "simon_vale"]
 const MAP_ID := "prototype_20x20_v1"
 const MAX_BYTES := 1048576
 
@@ -80,7 +80,7 @@ static func _learner_valid(data: Variant, day: int, version: int) -> bool:
 		if not tag is String or not profile._known(tag):
 			return false
 		var contexts: Variant = data.successful_contexts[tag]
-		if not _strings(contexts, 4, 100) or contexts.is_empty():
+		if not _strings(contexts, NPC_IDS.size(), 100) or contexts.is_empty():
 			return false
 		for npc_id: String in contexts:
 			if npc_id not in NPC_IDS:

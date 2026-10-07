@@ -175,7 +175,7 @@ func reply_for(id: String, message: String, disclose := true) -> String:
 	var context: Dictionary = grounding.context_for(conversations[id].npc_id,
 		grounding.intent_for(message), evidence.context_flags(), evidence.progress().keys())
 	for clue_id: String in context.get("npc_knowledge", {}):
-		if disclose and evidence.valid_note(clue_id, message):
+		if disclose and evidence.node(clue_id).get("location_id", "") == scene_for(id) and evidence.valid_note(clue_id, message):
 			return evidence.node(clue_id).claim + (" Esta declaración ya consta en el cuaderno." if evidence.has_evidence(clue_id) else "")
 	var normalized := message.to_lower()
 	var accents := {"á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u", "ü": "u"}

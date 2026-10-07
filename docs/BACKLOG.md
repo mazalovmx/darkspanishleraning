@@ -36,10 +36,13 @@ its own multi-session plan and scenario-bible review per NPC.
 
 ## P1 - Spanish as the control surface (sections 1.2, 20, 21, 34, 39, 43)
 
-- Conversable NPCs: 4 exist (innkeeper, Lucio, Gabriel, Leonor); the target is 30+.
-  Add grounding, authored fallback and free-text dialogue for the bible principals
-  first: Veyra, Beatriz Orma, Ysabel de la Sal, Simón Vale, Rodrigo Mendaña, Selmo
-  Oribe, Esteban, and Inés/Elias as speakers. `save_game.gd` hard-codes the four ids.
+- Conversable NPCs: 7 exist (innkeeper, Lucio, Gabriel, Leonor, Beatriz Orma, Bishop
+  Veyra, Simón Vale); the target is 30+. The three new ones and Leonor at her hospital
+  speak from public knowledge only and unlock nothing. Still without a voice: Ysabel
+  de la Sal, Rodrigo Mendaña, Selmo Oribe, Esteban, Inés and Elias as speakers, and
+  the minor task speakers. To add one: an entry in `authored.json` (keyed by location,
+  or with `location_id` for a second speaker), facts and an NPC record in
+  `npc_grounding.json`, the id in `SaveGame.NPC_IDS`, and golden cases.
 - Acts II-VII are sentence-entry cards. Each now accepts its model sentence or two
   authored paraphrases, but matching is still exact and a button shows the model.
   Move the investigative ones to grounded conversation plus inspection as in Act I.
@@ -53,7 +56,7 @@ its own multi-session plan and scenario-bible review per NPC.
   validated conversation summary.
 - Request context (section 17) lacks scene, relationship, focus_verbs, recent_errors
   and conversation_summary; recent dialogue is 3 exchanges instead of 4-6.
-- Golden conversation tests (section 39): 34 data-driven cases exist in
+- Golden conversation tests (section 39): 42 data-driven cases exist in
   `game/tests/dialogue_golden.json`, run offline with a fake transport. They cover the
   deterministic boundary only. A live variant that sends the same player lines to the
   real model and checks recasts and non-invention is still missing (paid, opt-in).

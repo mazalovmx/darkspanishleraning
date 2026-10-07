@@ -46,11 +46,11 @@ Done on 2026-10-07 (details in the dated entries at the end of this file):
 audit and backlog rewrite, test runner, frozen-plan guards, working docs and both
 specifications aligned with the runtime, innkeeper directions, new-game control,
 troop/supply handover tab, windowed review of those UI changes, two accepted
-paraphrases per campaign task, basic NPC memory with save v13, 34 golden
-conversation cases.
+paraphrases per campaign task, basic NPC memory with save v13, 42 golden
+conversation cases, three new conversable NPCs.
 
 What to do next, in order (BACKLOG.md has the full list):
-1. P1 conversation breadth: only 4 NPCs are conversable; acts II-VII and the 108
+1. P1 conversation breadth: 7 NPCs are conversable (target 30+); acts II-VII and the 108
    cases accept one exact sentence each. Start with accepted-answer variants and
    with grounding plus authored fallback for the bible principals.
 2. The rest of NPC memory (lies told, relationship, validated summary); a live,
@@ -1227,3 +1227,23 @@ clue already recorded says it "ya consta en el cuaderno".
 Executed the full runner: 46 suites plus restart write/read, all passed, 55,308
 counted checks (dialogue_golden 298). These are offline boundary tests; they do not
 evaluate real model prose, recasts or tone. That needs a paid, opt-in live variant.
+## Three more conversable NPCs and Leonor at her hospital
+
+Judge Beatriz Orma and Bishop Aureliano Veyra can be spoken to in Valdora (speaker
+selector), Simón Vale at Taller Rojo, and Leonor Valera at the Hospital de Miralba in
+addition to her monastery visit. Each has a grounding record, public facts taken from
+bible sections 13 and 33, an authored greeting, return greeting, keyword replies and
+fallback in present-tense Spanish, and uses the same free-text panel and Claude path
+as the opening NPCs. They hold no clue: talking to them unlocks nothing, and the
+campaign cards at those locations are unchanged. Four intents were added for topic
+memory (declaration, stability, machine, illness), appended after the existing ones
+so earlier keyword priorities are unchanged. A testimony clue is now only offered in
+the conversation at its own location, so the monastery medical report is not recited
+at the hospital. The save NPC whitelist has seven ids; no save version change.
+
+Executed the full runner: 46 suites plus restart write/read, all passed, 55,396
+counted checks (dialogue_golden 386 over 42 cases, including a generic check that
+every conversation has grounding, a saveable id and offline replies). Rendered the
+Valdora conversation with OpenGL at 1280x720 and inspected it: selector, transcript,
+hint and input are readable. The other three were not viewed. No live API call; no
+Spanish speaker reviewed the new lines.

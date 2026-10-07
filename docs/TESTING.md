@@ -29,7 +29,7 @@ later (campaign, economy, equipment, side cases, ghosts, province) follow the sa
 
 ## Golden conversations
 
-`game/tests/dialogue_golden_test.gd` reads `game/tests/dialogue_golden.json` (34 cases).
+`game/tests/dialogue_golden_test.gd` reads `game/tests/dialogue_golden.json` (42 cases).
 Each case names a conversation, the evidence already recorded, the player line and
 what the fake transport returns: null for an outage, a string for raw model text, or
 proposal fields. The reply goes through the production parser, grounding verifier,
