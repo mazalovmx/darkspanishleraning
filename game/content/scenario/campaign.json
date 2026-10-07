@@ -795,6 +795,7 @@
         {"need": "estar en imperfecto", "any": ["estaba"]},
         {"need": "su estado", "any": ["atada", "bloqueada", "sujeta", "amarrada"]}
       ],
+      "council": true,
       "classification": "observed",
       "requires": [
         "archive_bias"
@@ -824,6 +825,7 @@
         {"need": "qué lo convenció", "any": ["predicciones", "profecias"]},
         {"need": "convencer en pretérito", "any": ["convencieron", "persuadieron"]}
       ],
+      "council": true,
       "classification": "reported",
       "requires": [
         "archive_bias"
@@ -853,6 +855,7 @@
         {"need": "las muertes", "any": ["muertes"]},
         {"need": "a quién", "any": ["autor", "culpable", "asesino", "responsable"]}
       ],
+      "council": true,
       "classification": "inferred",
       "requires": [
         "archive_bias"
@@ -886,6 +889,7 @@
         {"need": "ser en subjuntivo", "any": ["sea"]},
         {"need": "culpable", "any": ["culpable"]}
       ],
+      "council": true,
       "classification": "declared",
       "requires": [
         "archive_bias"
@@ -916,6 +920,7 @@
         {"need": "un condicional (ocurriría…)", "any": ["ocurriria", "pasaria", "sucederia", "seria", "habria", "traeria"]},
         {"need": "cuándo", "any": ["largo plazo", "futuro", "despues"]}
       ],
+      "council": true,
       "classification": "unresolved",
       "requires": [
         "archive_bias"
@@ -1419,6 +1424,7 @@
           "title": "La Carta de las Pruebas",
           "text": "El Índice puede aconsejar, nunca declarar por sí mismo. Cada predicción incluye incertidumbre y alternativas. Las decisiones exigen pruebas independientes; las restricciones tienen revisión y caducidad. Cada acto identifica una autoridad humana responsable. Su cumplimiento sigue dependiendo de personas.",
           "characters": "Mateo limita la autoridad que ejerce. Inés distribuye libros y conocimiento médico. Elias admite lo que desconoce y elige enseñar en vez de convertirse en oráculo.",
+          "clean_council": true,
           "requires": [
             "grain_review",
             "ventilation_review",

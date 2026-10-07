@@ -1776,3 +1776,24 @@ a knight with a live intervention keeps its place (1,588 checks).
 
 Executed for this commit: the full non-live run, 49 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Council: a wrong classification is recorded and closes the Charter
+
+Bible 36: "Wrong classification changes available endings." The five council
+statements now carry `"council": true` in campaign.json. For them any of the five
+categories is accepted and recorded (an unknown category is still refused); the
+language check is unchanged. `campaign_state.misclassified(records)` counts council
+statements recorded under a category other than the authored one. The Charter outcome
+has `"clean_council": true`: it is available only with no misclassification (besides
+the three optional reviews it already needed); destroy, preserve and open remain
+available. Restore validates the same way, so a mistake survives a restart and the
+Charter cannot be forged after one. The journal gives no hint at the moment of the
+mistake; the refusal of the Charter says it needs "un consejo sin clasificaciones
+erróneas".
+
+Tests: council_endings_test (unknown category refused, wrong one recorded and kept
+across a restart, Charter refused with the message, another ending still reachable,
+only council nodes accept any category; 263 checks).
+
+Executed for this commit: the full non-live run, 49 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

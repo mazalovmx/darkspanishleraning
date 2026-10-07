@@ -86,7 +86,9 @@ func needs(node: Dictionary) -> Array[String]:
 	return result
 
 func _answer_valid(world: RefCounted, node: Dictionary, answer: String, classification: String, supports: Array) -> bool:
-	if answer.length() > 300 or classification != node.classification:
+	# At the council a wrong category is recorded, not refused: it closes the Charter
+	# (bible 36, "wrong classification changes available endings").
+	if answer.length() > 300 or classification not in (CLASSIFICATIONS if node.get("council", false) else [node.classification]):
 		return false
 	if not missing(world, node, answer).is_empty():
 		return false
@@ -146,7 +148,7 @@ func submit(world: RefCounted, id: String, answer: String, classification: Strin
 	if not _answer_valid(world, node, answer, classification, supports) or not _declaration_valid(node):
 		return {"ok":false, "message":"Revisa la fuente, la categoría y las pruebas. Escribe una frase completa en español."}
 	if not _outcome_ready(world, node, answer, records, world.day):
-		return {"ok":false, "message":"La Carta exige revisar los expedientes del grano, la ventilación y el condensador."}
+		return {"ok":false, "message":"La Carta exige revisar los expedientes del grano, la ventilación y el condensador, y un consejo sin clasificaciones erróneas."}
 	records[id] = {"day":world.day, "hero":world.party.active_id, "answer":answer.strip_edges(),
 		"classification":classification, "supports":supports.duplicate()}
 	if node.has("unlock_hero"):
@@ -206,7 +208,17 @@ func _outcome_ready(world: RefCounted, node: Dictionary, answer: String, progres
 				var found := _proof_day(world,id,progress)
 				if found < 1 or found > day:
 					return false
+			if outcome.get("clean_council", false) and misclassified(progress) > 0:
+				return false
 	return true
+
+## Council statements recorded under a category other than the authored one.
+func misclassified(progress: Dictionary) -> int:
+	var count := 0
+	for id: String in progress:
+		if definitions.has(id) and definitions[id].get("council", false) and progress[id].get("classification") != definitions[id].classification:
+			count += 1
+	return count
 
 func ending(world: RefCounted) -> Dictionary:
 	if not records.has("council_resolution"):

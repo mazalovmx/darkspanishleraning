@@ -68,6 +68,20 @@ func run() -> void:
 	check(not open.campaign.submit(open,letter.id,letter.answers[0],"inferred",["letter_seal","letter_seal"]).ok,"Claim needs a source other than the letter")
 	check(open.campaign.submit(open,letter.id,letter.variants[0],"inferred",letter.supports).ok,"Provenance separated from accuracy")
 	check(Save.decode(Save.snapshot(open)).has("state"),"Side lessons survive save")
+	# A wrong council category is recorded and closes the Charter, not the other endings.
+	var mistaken := base.duplicate(true)
+	mistaken.campaign.erase("council_inferred")
+	var council = Save.decode(mistaken).state
+	var inferred: Dictionary = defs.council_inferred
+	check(not council.campaign.submit(council,inferred.id,inferred.answers[0],"invented").ok,"An unknown category is still refused")
+	check(council.campaign.submit(council,inferred.id,inferred.answers[0],"observed").ok,"A wrong council category is recorded")
+	check(council.campaign.records.council_inferred.classification == "observed" and council.campaign.misclassified(council.campaign.records) == 1,"The mistake is kept")
+	var reloaded = Save.decode(Save.snapshot(council))
+	check(reloaded.has("state") and reloaded.state.campaign.misclassified(reloaded.state.campaign.records) == 1,"The mistake survives a restart")
+	var refused: Dictionary = council.campaign.submit(council,resolution.id,resolution.answers[3],"declared",resolution.supports)
+	check(not refused.ok and refused.message.contains("sin clasificaciones erróneas"),"A misclassified council closes the Charter")
+	check(council.campaign.submit(council,resolution.id,resolution.answers[1],"declared",resolution.supports).ok and council.campaign.ending(council).id == "preserve","Other endings stay open")
+	check(not defs.council_resolution.get("council",false) and not defs.sealed_order.get("council",false),"Only council statements accept any category")
 	var missing := base.duplicate(true)
 	missing.campaign.erase("council_unknown")
 	var incomplete = Save.decode(missing).state
