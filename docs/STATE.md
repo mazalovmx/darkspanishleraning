@@ -1304,4 +1304,24 @@ Relevant suites: campaign 523, campaign panel 346, council endings 253, Claude c
 made. Existing ObjectDB/26-resource shutdown diagnostics persist; the runner does not
 claim those are resolved. Updated BACKLOG.md and TESTING.md to reflect implemented
 work and retain remaining limitations. The four worktrees were checked clean before
-cleanup; retain their branch refs and merged history for traceability.
+cleanup; retain their branch refs and merged history for traceability.## Third-party art, music and shaders downloaded (not yet used by the game)
+
+At the user's request, CC0 material was added under `game/assets/third_party/` with
+sources and authors in `game/CREDITS.md` and a usage note in the folder's README:
+Kenney "Medieval RTS" default-size PNGs (126 tiles, structures, units, environment),
+Kenney "UI Pack: RPG Extension" PNGs (87), three medieval tracks by RandomMind and a
+dungeon ambience loop by JaggedStone (about 15 MB of audio), and three canvas shaders
+from godotshaders.com (vignette, fog overlay adapted to Godot 4 syntax, parchment).
+The licence shown on each source page was CC0 when accessed on 2026-10-07. The shader
+texts were retrieved through a page-reading tool because the site refused direct
+download; they were not diffed against the site byte for byte.
+
+Nothing is wired into gameplay: the map still draws coloured squares and the new
+game has no sound. `--headless --import` completed with exit 0 in a worktree and the
+`.import` files are committed. A windowed script loaded every shader, the four audio
+streams (lengths 94-139 s) and sprites from each folder without script or shader
+errors; the shader output itself was off-screen in that capture and was not judged
+visually. Executed afterwards on the main checkout: world_map 365, province_scene
+17, dialogue_golden 502: passed. Three other agents were working in worktrees
+(wt/next-context, wt/next-npcs, wt/next-quest) at the time; their work is not part
+of this entry.
