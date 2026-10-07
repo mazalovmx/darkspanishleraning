@@ -1,9 +1,11 @@
 # Project state
 
-Updated: 2026-10-06
+Updated: 2026-10-07
 Branch: implementation
-Current task: province mainline reaches four verified endings. Gates A-H passed; Gate I expansion underway.
-Next task: strategic resource economy, then optional cases, equipment and ghost-knight runtime.
+Current state: Gates A-H passed; Gate I open. Mainline, economy, equipment, optional
+cases and ghost knights run on the province map with save v12. Open work is listed in
+BACKLOG.md. Sections below are a chronological log; early entries describe the state
+at the time they were written and are superseded by later ones.
 
 ## Provenance
 
@@ -20,7 +22,7 @@ Retained turn-based combat, field/grid movement, inventory, UI, Dialogic, camera
 transitions and their required assets. See ARCHITECTURE.md for paths.
 No demo story assets removed: main.tscn directly references town/forest dialogue,
 quest interactions and battle scenes. Deletion is deferred until a replacement main
-scene isolates these dependencies. No investigation gameplay has been added.
+scene isolates these dependencies. (Bootstrap-time note; gameplay was added later.)
 
 ## Bootstrap changes
 
@@ -44,15 +46,13 @@ Editor shutdown reports ObjectDB instances leaked. Both timed runtime runs repor
 ObjectDB instances leaked and `26 resources still in use at exit`. These are unresolved
 shutdown diagnostics, not a clean all-errors-free result. They did not prevent startup.
 Original demo dialogue/combat, performance targets and export have not been tested.
-Claude transport and actual UI completion have now been verified against the live service. Learner model,
-canonical GameState, evidence and JSON save/load are not implemented. Runtime config
-now lives at game/config/game.json and is loaded by the client.
+Claude transport and UI completion were verified against the live service once, on
+2026-10-05, and not rerun since. Runtime config lives at game/config/game.json.
 
 ## Gates
 
 Bootstrap startup accepted with the documented nonfatal shutdown limitations.
-Gates A through D: passed. Gates E through I: not passed.
-Epics 2 and 4 are complete. Do not claim Claude dialogue or language evaluation yet.
+Gates A through H: passed (see the dated entries below). Gate I: not passed.
 
 ## Epic 1: minimal world map
 
@@ -1002,4 +1002,17 @@ test explicitly isolates its controller from live opposition before world-save v
 Executed 219 complete branch UI checks, 1575 catalog-controller, 145 side-world,
 1459 ghost-strategy and 331 ghost-persistence checks: passed. Initial branch runs
 exposed the previously unhandled access and final-choice counter steps; the final run
-passed all nine cases with actual counter controls. Shutdown diagnostics persist.
+passed all nine cases with actual counter controls. Shutdown diagnostics persist.## Audit, backlog rewrite and one-command test runner (2026-10-07)
+
+A read-only audit compared the repository with the master spec and the bible.
+BACKLOG.md was rewritten from its findings; it now lists only open work, ordered by
+priority, plus decisions that need the user. The stale STATE.md header and bootstrap
+leftovers above were corrected. No gameplay claim was changed by this entry.
+
+Added tools/run-tests.ps1: runs every non-live suite headless, then the two-process
+save restart check, and prints one line per suite. It clears the Anthropic key
+variables for its own process and never runs claude_live_test.
+
+Executed the runner on the working tree: 45 suites plus restart write/read, all
+passed, 54,880 counted checks, exit 0. Not run: windowed/OpenGL variants, editor
+import, live Claude test. Existing shutdown diagnostics persist in every log.

@@ -9,6 +9,24 @@ Run from repository root in PowerShell. Local engine binaries and logs are ignor
 & tools/local/godot/Godot_v4.6.2-stable_win64_console.exe --path game --quit-after 180 --log-file C:/dev/game/tools/local/bootstrap-window.log
 ```
 
+## All suites in one command
+
+```powershell
+./tools/run-tests.ps1                 # every non-live suite, headless
+./tools/run-tests.ps1 -Filter ghost   # only suites whose name contains "ghost"
+```
+
+The runner executes each `game/tests/*_test.gd` (the two catalog suites through their
+`.tscn`), then the two-process `save_restart_test`. It never runs `claude_live_test`
+and clears the Anthropic key variables for its own process, so no paid request is
+possible. A suite passes only with exit code 0, `failures: 0` and no script/parse
+error in its log. Logs go to `tools/local/test-logs` (ignored). It does not run the
+windowed/OpenGL variants, the editor import or the live check; run those by hand as
+described below. A full run takes roughly a quarter of an hour on this machine.
+Sections below describe individual suites as they were when added; suites added
+later (campaign, economy, equipment, side cases, ghosts, province) follow the same
+`--script res://tests/<name>.gd` form and are all covered by the runner.
+
 Inspect logs as well as exit codes: Godot may return zero despite script errors.
 `--quit-after` counts frames, not seconds. The windowed smoke run checks graphics
 initialization and main-scene startup, not interactive playability or FPS.
