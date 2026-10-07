@@ -1018,6 +1018,85 @@
         "notebook_route"
       ]
     },
+    "simon_engine": {
+      "id": "simon_engine",
+      "act": 4,
+      "location": "LOC13",
+      "speaker": "Simón Vale",
+      "title": "La máquina de Simón · la demostración",
+      "source": "Simón pone en marcha su motor de presión ante el grupo. El mecanismo funciona. Una demostración prueba que la máquina funciona; no dice quién gana con su uso ni qué ocurre con los puestos de trabajo.",
+      "prompt": "Describe lo que observas sin atribuir todavía beneficios a todos.",
+      "answers": [
+        "El motor de presión de Simón funciona."
+      ],
+      "variants": [
+        "La máquina de presión de Simón funciona.",
+        "El motor de Simón funciona."
+      ],
+      "classification": "observed",
+      "requires": [
+        "leon_cause"
+      ],
+      "min_block": 3,
+      "grammar": [],
+      "hero": "any",
+      "optional": true
+    },
+    "simon_demands": {
+      "id": "simon_demands",
+      "act": 4,
+      "location": "LOC04",
+      "speaker": "Trabajadores, propietario y emisario de la Orden",
+      "title": "La máquina de Simón · tres peticiones",
+      "source": "Los trabajadores piden destruir la máquina: temen perder sus empleos. El propietario quiere ampliar la producción. Un emisario de la Orden pide prohibir el motor. Son peticiones incompatibles, no pruebas de sabotaje ni una prohibición ya válida.",
+      "prompt": "Recoge las tres peticiones sin convertirlas en decisiones tomadas.",
+      "answers": [
+        "Los trabajadores piden destruir la máquina, el propietario quiere ampliar la producción y la Orden pide prohibirla."
+      ],
+      "variants": [
+        "Los trabajadores quieren destruir la máquina, el propietario pide ampliar la producción y la Orden pide prohibirla.",
+        "Los trabajadores piden destruir el motor, el propietario quiere ampliar la producción y la Orden pide prohibirlo."
+      ],
+      "classification": "reported",
+      "requires": [
+        "simon_engine"
+      ],
+      "min_block": 3,
+      "grammar": [],
+      "hero": "smuggler",
+      "optional": true
+    },
+    "simon_review": {
+      "id": "simon_review",
+      "act": 7,
+      "location": "LOC13",
+      "speaker": "Elias Venn y Simón Vale",
+      "title": "La máquina de Simón · capacidad y coste",
+      "source": "Elias compara la demostración con las tres peticiones. El motor funciona y permite aumentar la producción; el temor de los trabajadores señala el riesgo de perder empleos. Destruirlo elimina esa posibilidad de producción; ampliarlo no garantiza protección para los trabajadores. El grupo registra un conflicto sin prometer una solución sin pérdidas. Aquí no se ejecuta una destrucción ni una prohibición.",
+      "prompt": "Formula una consecuencia posible con el condicional. Apoya tu inferencia en la demostración y en las peticiones.",
+      "answers": [
+        "La máquina aumentaría la producción, pero pondría en riesgo los empleos."
+      ],
+      "variants": [
+        "El motor aumentaría la producción, pero pondría en riesgo los empleos.",
+        "La máquina permitiría aumentar la producción, pero pondría en riesgo los empleos."
+      ],
+      "classification": "inferred",
+      "requires": [
+        "simon_demands",
+        "elias_arrival"
+      ],
+      "supports": [
+        "simon_engine",
+        "simon_demands"
+      ],
+      "min_block": 6,
+      "grammar": [
+        "conditional"
+      ],
+      "hero": "survivor",
+      "optional": true
+    },
     "council_resolution": {
       "id": "council_resolution",
       "act": 7,
