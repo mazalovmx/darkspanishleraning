@@ -2833,12 +2833,16 @@ the ordered blocks in section 1.3; quest completion never independently unlocks 
 tense. Earlier learning must be consolidated before later tasks become available.
 All purchases still require language practice as specified in section 1.2.
 
-This authoring addition does not unlock later implementation epics. Runtime integration
-requires Gate I and implemented save/load, stack battles and curriculum prerequisites.
-Until then the catalog remains authored_not_integrated and balance unplaytested.
-The original vertical slice and main plot remain the development priority. Playing
-every optional case is additional content, not part of the original campaign-duration
-estimate. Do not claim authored encounters are playable or balanced.
+Status update (2026-10-07, user decision): the catalog is integrated at runtime. All
+108 cases are reachable from the province map with peaceful and battle custody,
+written Spanish stages, later-day recall and save persistence; the catalog status is
+runtime_integrated_unbalanced. This was built after steps 01-20 and before the
+remaining full-game criteria of section 43; the user accepted that ordering after the
+fact. Not implemented: the twelve cross-branch links, world consequences of the 24
+disclosure outcomes, and per-quest language prompts (nine shared templates are used).
+Balance is unplaytested. The main plot and section 43 remain the development priority.
+Playing every optional case is additional content, not part of the original
+campaign-duration estimate. Do not claim the encounters are balanced.
 
 # 50. Equipment, soul assemblies and simultaneous ghost opponents (2026-10-05)
 
@@ -2858,17 +2862,23 @@ All purchases still require active Spanish. Components/evidence cannot be consum
 duplicated or lost during assembly. Another hero needs their own consent for full power.
 
 Eight distinct knight profiles choose different targets and bounded interventions.
-Future strategic turns use simultaneous planning from a shared snapshot, frozen AI
+Province strategic turns use simultaneous planning from a shared snapshot, frozen AI
 orders before player commit, deterministic collision resolution and an atomic save.
 Typing and language feedback never advance hostile turns. Keep at most three active
 knights, two interventions per day and one active effect per branch, lasting at most
 two turns. Every effect has traces, counterplay and recovery; owned evidence/equipment,
 soul consent and canonical main mystery cannot be rewritten by an opponent or model.
 
-This expands authored scope only, not the current implementation gate. Catalogs remain
-authored_not_integrated; balance and simultaneous resolution are unplaytested. Runtime
-integration needs Gate I, persistence, equipment, stack combat and ordered curriculum.
-Do not replace the current map/day loop until that integration is explicitly reached.
+Status update (2026-10-07, user decision): equipment, soul assemblies and ghost knights
+are integrated at runtime (save v12). The province day loop is the simultaneous one:
+routes are queued against frozen knight orders and resolved together; the 20x20
+development map keeps the immediate-move loop. While orders are frozen, purchases,
+construction, case steps, campaign tasks, equipment changes and hero handovers are
+refused until the day is resolved. Not implemented: sources for the 90
+optional-treasure items, the per-set soul special actions (every set currently reduces
+a counter from two evidence sources to one), and any balance playtest. Catalog
+statuses: equipment runtime_integrated_partial_acquisition, ghost knights
+runtime_integrated_unbalanced.
 
 ## Ordered curriculum implementation thresholds (2026-10-06)
 

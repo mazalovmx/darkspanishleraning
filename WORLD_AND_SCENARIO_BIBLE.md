@@ -2615,8 +2615,9 @@ production and delayed recall. Blocks progress 1,1,2,2,3,4,5,6,7, subject to act
 mastery. All advanced tasks remain unavailable until their language prerequisites are
 consolidated. Rule-based cipher solutions require no outside literary knowledge.
 
-Status: authored data only. The bible's slice-first sequence remains in force; runtime
-population waits for Gate I and required systems. Combat values are unplaytested.
+Status (updated 2026-10-07): integrated at runtime on the province map. The twelve
+optional comparisons and the local consequences of publication or protected disclosure
+are authored but not yet implemented in play. Combat values are unplaytested.
 Full optional completion is outside the original campaign-duration estimate.
 
 # 43. Fragmented souls and ghost knights (2026-10-05)
@@ -2647,8 +2648,9 @@ rewards. Ghost victories never establish truth or forge consent. The soul artifa
 offer additional counters, but no case requires owning one to remain solvable.
 
 Canonical expansion data: game/content/scenario/equipment.json and ghost_knights.json.
-Author guide: docs/EQUIPMENT_AND_GHOST_KNIGHTS.md. Runtime remains gated; no playable
-equipment, soul dialogue, knight AI or simultaneous world-turn integration is claimed.
+Author guide: docs/EQUIPMENT_AND_GHOST_KNIGHTS.md. Status (updated 2026-10-07): equipment,
+soul dialogues, knight strategy and simultaneous world turns are integrated at runtime.
+The per-set soul actions are not yet distinct in play and balance is unplaytested.
 
 ## Opening investigation staging and strategic economy (2026-10-05)
 

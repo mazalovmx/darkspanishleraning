@@ -1097,3 +1097,12 @@ Six commits after c4321a0: backlog and test runner, frozen-plan guards, working-
 alignment, innkeeper directions, new-game control, troop/supply handover. Open work
 and user decisions are in BACKLOG.md. Next: windowed review of today's three UI
 changes, then the P1 conversation work (more grounded NPCs, NPC memory, golden tests).
+## Specifications record the integrated expansion (user decision 2026-10-07)
+
+The user chose to update the specifications to the actual state. Sections 49 and 50 of
+MASTER_BUILD_SPEC.md and the two expansion status notes in the scenario bible now say
+that optional cases, equipment, soul assemblies, ghost knights and simultaneous
+province turns are integrated, and list what is still not implemented. Root and docs
+copies were patched identically and compare byte-for-byte equal. No other section was
+changed; the four-versus-seven stack wording in section 13 is still open in BACKLOG.md.
+The user also chose to keep the repository on this machine without a remote for now.

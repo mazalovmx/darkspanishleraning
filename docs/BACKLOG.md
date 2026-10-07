@@ -121,10 +121,8 @@ its own multi-session plan and scenario-bible review per NPC.
 
 ## Decisions needed from the user
 
-- Sections 49-50 of the master spec and the bible's expansion notes still say the
-  side-case, equipment and ghost catalogs are authored only and must not replace the
-  map/day loop. The runtime now does exactly that. Either update both spec copies to
-  record the decision, or treat the expansion as out of sequence. Not edited here.
+- (Resolved 2026-10-07: both spec and bible copies now record the expansion as
+  integrated; the repository stays on this machine without a remote for now.)
 - Section 13 says four stacks per side; section 12 says seven. Code follows seven.
 - Section 33 names one save file; the province uses `user://province_savegame.json`
   next to the prototype's `user://savegame.json`.
