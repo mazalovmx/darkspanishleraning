@@ -817,3 +817,17 @@ Executed 157 equipment-scene checks headless and OpenGL; after visual improvemen
 integration checks: passed. Reviewed inventory and soul screenshots. The scene test
 uses explicitly granted component fixtures; live quest acquisition remains next.
 Existing shutdown diagnostics persist. No knight-counter special is exposed yet.
+## Optional encounter combat definitions prepared
+
+Added the four authored optional-investigation troop types using their existing HP,
+damage and initiative values. Since that catalog has no attack/defense modifiers,
+these start at zero modifiers rather than silently borrowing another unit's stats.
+Temporary brace halves incoming damage until the next actor turn; feint bypasses
+active defensive reductions once, and crossbow guards can use aimed shots. Existing
+militia brace behavior is unchanged. Enemy choices use these abilities when applicable.
+
+Executed 334 side-battle checks covering all 108 authored stack configurations,
+retreat preservation, abilities and an expanded battle scene; 39 existing battle-scene
+and 285 equipment-integration checks: passed. Existing shutdown diagnostics persist.
+This validates battle execution, not encounter balance or availability on the map.
+Quest custody, language stages and rewards still require their runtime controller.

@@ -55,7 +55,7 @@ func start(allies: Array, enemies: Array, seed_value: int = 1, bonuses: Dictiona
 			stats.base_defense = int(definition.defense) + int(effects.get("army_defense",0))
 			stats.base_speed = int(definition.initiative) + int(effects.get("army_initiative",0))
 			stacks.append({"type": item.type, "side": side, "stats": stats,
-				"unit_hp":unit_hp,"luck":int(effects.get("army_luck",0)),"morale":int(effects.get("army_morale",0)),"morale_round":0,"ranged_bonus":int(effects.get("ranged_damage_percent",0)), "defending": false, "ability_used": false, "retaliated": false})
+				"unit_hp":unit_hp,"luck":int(effects.get("army_luck",0)),"morale":int(effects.get("army_morale",0)),"morale_round":0,"ranged_bonus":int(effects.get("ranged_damage_percent",0)), "defending": false, "brace_active":false, "ability_used": false, "retaliated": false})
 	_new_round()
 	_run_enemies()
 	return true
@@ -107,20 +107,24 @@ func _new_round() -> void:
 		return stacks[a].stats.speed > stacks[b].stats.speed)
 	if not queue.is_empty():
 		stacks[queue.front()].defending = false
+		stacks[queue.front()].brace_active = false
 
-func _damage(actor: int, target: int, roll: bool = true) -> int:
+func _damage(actor: int, target: int, roll: bool = true, ignore_defend: bool = false) -> int:
 	var unit: Dictionary = data.units[stacks[actor].type]
 	var base: int = rng.randi_range(int(unit.damage_min), int(unit.damage_max)) if roll else int(unit.damage_min)
 	var delta: int = stacks[actor].stats.attack - stacks[target].stats.defense
 	var multiplier := 1.0 + 0.05 * clampi(delta, 0, 60) if delta >= 0 else 1.0 / (1.0 + 0.05 * mini(-delta, 60))
 	if unit.ranged:
 		multiplier *= 1.0 + float(stacks[actor].ranged_bonus) / 100.0
-	if stacks[target].defending:
-		multiplier *= 0.65
+	if not ignore_defend:
+		if stacks[target].defending:
+			multiplier *= 0.65
+		if stacks[target].brace_active:
+			multiplier *= 0.5
 	return maxi(1, roundi(count_at(actor) * base * multiplier))
 
-func _strike(actor: int, target: int, multiplier: float = 1.0) -> int:
-	var amount := maxi(1, roundi(_damage(actor, target) * multiplier))
+func _strike(actor: int, target: int, multiplier: float = 1.0, ignore_defend: bool = false) -> int:
+	var amount := maxi(1, roundi(_damage(actor, target, true, ignore_defend) * multiplier))
 	if stacks[actor].luck > 0 and rng.randf() < float(stacks[actor].luck) * 0.05:
 		amount *= 2
 		log.append("La fortuna duplica el daño.")
@@ -140,6 +144,11 @@ func _execute(actor: int, command: String, target: int) -> bool:
 		return false
 	if command == "ability" and stacks[actor].ability_used:
 		return false
+	if command == "ability" and unit.ability == "temporary_brace":
+		stacks[actor].ability_used = true
+		stacks[actor].brace_active = true
+		log.append(str(unit.name) + " cierra filas hasta su próximo turno.")
+		return true
 	if command == "ability" and unit.ability == "brace":
 		stacks[actor].ability_used = true
 		stacks[actor].defending = true
@@ -152,7 +161,7 @@ func _execute(actor: int, command: String, target: int) -> bool:
 	if command == "ability":
 		stacks[actor].ability_used = true
 		multiplier = 1.5 if unit.ability == "aim" else 2.0 if unit.ability == "charge" else 1.0
-	var amount := _strike(actor, target, multiplier)
+	var amount := _strike(actor, target, multiplier, command == "ability" and unit.ability == "feint")
 	if command == "ability" and unit.ability == "charge":
 		stacks[actor].stats.health -= maxi(1, roundi(amount * 0.2))
 	if command == "ability" and unit.ability == "drain":
@@ -179,6 +188,7 @@ func _advance() -> void:
 		_new_round()
 	else:
 		stacks[queue.front()].defending = false
+		stacks[queue.front()].brace_active = false
 
 func _run_enemies() -> void:
 	while current() >= 0 and stacks[current()].side == 1:
@@ -192,7 +202,21 @@ func _run_enemies() -> void:
 			if _damage(actor, i, false) >= stacks[i].stats.health:
 				target = i
 				break
-		_execute(actor, "attack", target)
+		_execute(actor, _enemy_command(actor,target), target)
 		_advance()
 	if log.size() > 80:
 		log = log.slice(-80)
+
+func _enemy_command(actor: int,target: int) -> String:
+	if stacks[actor].ability_used or _damage(actor,target,false) >= stacks[target].stats.health:
+		return "attack"
+	var unit: Dictionary = data.units[stacks[actor].type]
+	if unit.ability == "feint" and (stacks[target].defending or stacks[target].brace_active):
+		return "ability"
+	if stacks[actor].type == "crossbow_guard":
+		return "ability"
+	if unit.ability == "temporary_brace" and surviving_army(1).size() > 1:
+		for i in stacks.size():
+			if stacks[i].side == 0 and count_at(i) > 0 and _damage(i,actor,false) >= stacks[actor].stats.health / 2:
+				return "ability"
+	return "attack"

@@ -71,7 +71,55 @@
                                         "ability":  "brace",
                                         "ability_name":  "Formar escudos",
                                         "ranged":  false
-                                    }
+                                    },
+                  "watchman":  {
+                                   "name":  "Vigilantes",
+                                   "hp":  9,
+                                   "damage_min":  2,
+                                   "damage_max":  3,
+                                   "initiative":  5,
+                                   "ability":  "temporary_brace",
+                                   "ability_name":  "Cerrar filas",
+                                   "attack":  0,
+                                   "defense":  0,
+                                   "ranged":  false
+                               },
+                  "hired_blade":  {
+                                      "name":  "Espadas contratadas",
+                                      "hp":  7,
+                                      "damage_min":  2,
+                                      "damage_max":  4,
+                                      "initiative":  7,
+                                      "ability":  "feint",
+                                      "ability_name":  "Finta",
+                                      "attack":  0,
+                                      "defense":  0,
+                                      "ranged":  false
+                                  },
+                  "crossbow_guard":  {
+                                         "name":  "Guardias con ballesta",
+                                         "hp":  6,
+                                         "damage_min":  3,
+                                         "damage_max":  4,
+                                         "initiative":  4,
+                                         "ability":  "aim",
+                                         "ability_name":  "Disparo preciso",
+                                         "attack":  0,
+                                         "defense":  0,
+                                         "ranged":  true
+                                     },
+                  "enforcer":  {
+                                   "name":  "Ejecutores",
+                                   "hp":  12,
+                                   "damage_min":  2,
+                                   "damage_max":  5,
+                                   "initiative":  3,
+                                   "ability":  "temporary_brace",
+                                   "ability_name":  "Cerrar filas",
+                                   "attack":  0,
+                                   "defense":  0,
+                                   "ranged":  false
+                               }
               },
     "opening":  {
                     "id":  "opening_road",
