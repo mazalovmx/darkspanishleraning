@@ -50,11 +50,21 @@ func run() -> void:
 	check(resources.size() == 7, "All seven strategic resources have sites")
 	# Actually walk the discovered route to the port, spending daily movement.
 	var route := state.path_to(Vector2i(126, 105))
-	for i in range(1, route.size()):
-		var cell: Vector2i = route[i]
-		if state.movement_remaining < state.terrain_cost(cell):
-			state.end_turn()
-		check(state.move_to(cell, true), "Continuous discovered travel to Cardena")
+	var index := 0
+	while index < route.size()-1:
+		var next := index
+		var cost := 0
+		while next+1 < route.size() and state.fog_at(route[next+1]) != World.Fog.UNKNOWN:
+			cost += state.terrain_cost(route[next+1])
+			if cost > state.movement_remaining:
+				break
+			next += 1
+		check(next > index and state.move_to(route[next],true), "Queue discovered travel to Cardena")
+		if next == index:
+			break
+		state.end_turn()
+		check(state.hero_cell == route[next], "Daily orders move to planned destination")
+		index = next
 	check(state.hero_cell == Vector2i(126, 105) and state.day > 1, "Long travel consumes world days")
 	var result := Save.decode(Save.snapshot(state))
 	check(result.has("state"), "Province snapshot restores")

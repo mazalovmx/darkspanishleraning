@@ -3,7 +3,7 @@ extends RefCounted
 const WorldState = preload("res://src/world/world_state.gd")
 const Learner = preload("res://src/spanish/learner_profile.gd")
 const PATH := "user://savegame.json"
-const VERSION := 11
+const VERSION := 12
 const MAP_ID := "prototype_20x20_v1"
 const MAX_BYTES := 1048576
 
@@ -17,7 +17,7 @@ static func snapshot(state: WorldState) -> Dictionary:
 	var learner = state.learner
 	return {"version": VERSION, "map_id": state.map_id, "day": state.day,
 		"campaign": state.campaign.snapshot(), "party": state.party.snapshot(), "hero": {"cell": [state.hero_cell.x, state.hero_cell.y], "movement": state.movement_remaining},
-		"strategy": {"side_cases":state.side_cases.snapshot(), "equipment": state.equipment.snapshot(), "economy": state.economy.snapshot(), "trade": state.trade.snapshot(), "army": state.army.duplicate(true), "resources": state.resources.duplicate(true), "encounters": state.encounters.duplicate(true)}, "explored": explored, "evidence": state.evidence.progress(), "learner": {"block": learner.current_block, "curriculum": learner.curriculum.snapshot(),
+		"strategy": {"ghosts": state.ghosts.snapshot(), "side_cases":state.side_cases.snapshot(), "equipment": state.equipment.snapshot(), "economy": state.economy.snapshot(), "trade": state.trade.snapshot(), "army": state.army.duplicate(true), "resources": state.resources.duplicate(true), "encounters": state.encounters.duplicate(true)}, "explored": explored, "evidence": state.evidence.progress(), "learner": {"block": learner.current_block, "curriculum": learner.curriculum.snapshot(),
 		"grammar": learner.grammar.duplicate(true), "verbs": learner.verbs.duplicate(true),
 		"errors": learner.errors.duplicate(true), "vocabulary": learner.vocabulary.duplicate(),
 		"recent_messages": learner.recent_messages.duplicate(),
@@ -199,6 +199,13 @@ static func decode(data: Variant) -> Dictionary:
 			var access: Dictionary = state.side_cases.records.get(quest_id,{}).get("progress",{}).get("access",{})
 			if not access.is_empty() and encounter_day > int(access.day):
 				return {"error":"invalid"}
+	if data.version >= 12:
+		if not state.ghosts.restore(data.strategy.get("ghosts"), state):
+			return {"error":"invalid"}
+		for id in state.encounters:
+			if state.ghosts.definitions.has(id):
+				if not state.ghosts.actors.has(id) or state.encounters[id].day < state.ghosts.actors[id].born_day or not state.ghosts.language_ready(state,id,int(state.encounters[id].day)):
+					return {"error":"invalid"}
 	return {"state": state, "error": ""}
 
 static func read_save(path := PATH) -> Dictionary:
@@ -242,7 +249,7 @@ static func write_save(state: WorldState, path := PATH) -> String:
 	return ""
 
 static func _restore_strategy(state: WorldState, data: Variant, day: int, version: int) -> bool:
-	if not data is Dictionary or data.size() != (7 if version >= 11 else 6 if version >= 9 else 5 if version >= 8 else 4 if version >= 4 else 3):
+	if not data is Dictionary or data.size() != (8 if version >= 12 else 7 if version >= 11 else 6 if version >= 9 else 5 if version >= 8 else 4 if version >= 4 else 3):
 		return false
 	if version >= 4 and not state.trade.restore(data.get("trade"), day):
 		return false
@@ -253,10 +260,15 @@ static func _restore_strategy(state: WorldState, data: Variant, day: int, versio
 	for resource in state.resources:
 		if not _integer(data.resources.get(resource), 0, 1000000000):
 			return false
-	if not data.get("encounters") is Dictionary or data.encounters.size() > 1 + state.map_data.get("resource_sites", []).size() + (108 if version >= 11 else 0):
+	if not data.get("encounters") is Dictionary or data.encounters.size() > 1 + state.map_data.get("resource_sites", []).size() + (108 if version >= 11 else 0) + (8 if version >= 12 else 0):
 		return false
 	for id in data.encounters:
-		if not id is String or state.encounter_definition(id).is_empty():
+		if not id is String:
+			return false
+		if state.ghosts.definitions.has(id):
+			if version < 12 or state.map_id != "province_160x120_v1":
+				return false
+		elif state.encounter_definition(id).is_empty():
 			return false
 		if state.side_cases.battles.has(id) and version < 11:
 			return false

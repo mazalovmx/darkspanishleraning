@@ -79,6 +79,7 @@ func run() -> void:
 	legacy.strategy.erase("economy")
 	legacy.strategy.erase("equipment")
 	legacy.strategy.erase("side_cases")
+	legacy.strategy.erase("ghosts")
 	var migrated := Save.decode(legacy)
 	check(migrated.has("state"), "V5 migration accepted")
 	if migrated.has("state"):

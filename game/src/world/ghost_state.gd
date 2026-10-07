@@ -11,6 +11,7 @@ var event_count := 0
 var last_resolved_day := 0
 var plan: RefCounted
 var countered: Array = []
+var pending_encounter: Dictionary = {}
 const COUNTER_TAGS := [["hay"],["present"],["preterite"],["imperfect"],["relative_clauses"],["perfect"],["conditional","subjunctive_basic"]]
 const REPLIES := {
 	"NK01":"Veo la etiqueta original en «%s».",
@@ -324,7 +325,7 @@ func encounter_definition(id: String) -> Dictionary:
 		"enemies":enemies,"requires":"","reward":{},"script":definitions[id].battle.script.duplicate(true)}
 
 func snapshot() -> Dictionary:
-	return {"actors":actors.duplicate(true),"effects":effects.duplicate(true),"target_days":target_days.duplicate(),
+	return {"pending_encounter":pending_encounter.duplicate(true),"actors":actors.duplicate(true),"effects":effects.duplicate(true),"target_days":target_days.duplicate(),
 		"journal":journal.duplicate(true),"event_count":event_count,"last_resolved_day":last_resolved_day,
 		"plan":{} if plan == null else plan.snapshot(),"countered":countered.duplicate()}
 
@@ -361,9 +362,9 @@ func _counter_proof(world: RefCounted,id: String,target: String,day: int,proof: 
 	return true
 
 func restore(data: Variant,world: RefCounted) -> bool:
-	if not data is Dictionary or data.size() != 8:
+	if not data is Dictionary or data.size() != 9:
 		return false
-	for key in ["actors","effects","target_days","plan"]:
+	for key in ["actors","effects","target_days","plan","pending_encounter"]:
 		if not data.get(key) is Dictionary:
 			return false
 	if not data.get("journal") is Array or not data.get("countered") is Array or data.countered.size() > 3:
@@ -482,6 +483,25 @@ func restore(data: Variant,world: RefCounted) -> bool:
 		if not id is String or seen.has(id) or not interrupted.has(id) or restored_plan == null or not restored_plan.orders.has(id):
 			return false
 		seen[id] = true
+	if not data.pending_encounter.is_empty():
+		var contact: Dictionary = data.pending_encounter
+		if contact.size() != 7 or contact.get("hero") not in world.party.heroes or contact.get("knight") not in data.actors or contact.get("kind") not in ["edge","destination"] or not _integer(contact.get("tick"),1,24) or not data.plan.is_empty():
+			return false
+		for key in ["hero_cell","knight_cell","hero_previous"]:
+			var position: Variant = contact.get(key)
+			if not position is Array or position.size() != 2 or not _integer(position[0],0,world.grid.region.size.x-1) or not _integer(position[1],0,world.grid.region.size.y-1) or world.terrain_cost(_cell(position)) == 0:
+				return false
+		if world.party.active_id != contact.hero or world.hero_cell != _cell(contact.hero_cell) or _cell(data.actors[contact.knight].cell) != _cell(contact.knight_cell):
+			return false
+		var distance: int = absi(int(contact.hero_cell[0])-int(contact.knight_cell[0]))+absi(int(contact.hero_cell[1])-int(contact.knight_cell[1]))
+		var previous_distance: int = absi(int(contact.hero_cell[0])-int(contact.hero_previous[0]))+absi(int(contact.hero_cell[1])-int(contact.hero_previous[1]))
+		if distance != (0 if contact.kind == "destination" else 1) or previous_distance > 1 or not data.actors[contact.knight].active:
+			return false
+	pending_encounter = data.pending_encounter.duplicate(true)
+	for key in ["hero_cell","knight_cell","hero_previous"]:
+		if pending_encounter.has(key):
+			var position := _cell(pending_encounter[key])
+			pending_encounter[key] = [position.x,position.y]
 	actors = data.actors.duplicate(true)
 	for id in actors:
 		var cell := _cell(actors[id].cell)

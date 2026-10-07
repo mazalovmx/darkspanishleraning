@@ -197,6 +197,7 @@ func resolve(world: RefCounted) -> Dictionary:
 				stopped[contact.knight] = true
 			if encounter.is_empty():
 				encounter = contacts[0].duplicate()
+				encounter["hero_previous"] = positions[encounter.hero].duplicate()
 				if encounter.kind == "destination":
 					for id: String in [encounter.hero,encounter.knight]:
 						if proposed[id] != positions[id]:

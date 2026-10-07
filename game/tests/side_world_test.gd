@@ -46,6 +46,7 @@ func run() -> void:
 	var old := Save.snapshot(World.new("province_160x120_v1"))
 	old.version = 10
 	old.strategy.erase("side_cases")
+	old.strategy.erase("ghosts")
 	var restored := Save.decode(old)
 	check(restored.has("state") and restored.state.side_cases.records.is_empty(),"V10 migration invents no optional progress")
 	print("Side world checks: %d, failures: %d" % [checks,failures])

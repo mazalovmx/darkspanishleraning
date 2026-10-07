@@ -10,6 +10,8 @@ var map_id := "prototype_20x20_v1"
 var map_data: Dictionary = {}
 const VIEW_RADIUS := 5
 const MOVEMENT_MAX := 18
+var ghosts = preload("res://src/world/ghost_state.gd").new()
+var turn_notice := ""
 var side_cases = preload("res://src/world/side_investigations.gd").new()
 var equipment = preload("res://src/world/equipment_state.gd").new()
 var economy = preload("res://src/economy/strategy_economy.gd").new()
@@ -134,8 +136,10 @@ func path_cost(path: Array[Vector2i]) -> int:
 	return cost
 
 func move_to(destination: Vector2i, discovered_only := false) -> bool:
-	if active_battle != null:
+	if active_battle != null or not ghosts.pending_encounter.is_empty() or not trade.pending.is_empty() or not economy.pending.is_empty():
 		return false
+	if map_id == "province_160x120_v1":
+		return ghosts.prepare(self) and ghosts.plan.plan_move(self,party.active_id,destination)
 	var path := path_to(destination, discovered_only)
 	if path.size() < 2:
 		return false
@@ -148,17 +152,52 @@ func move_to(destination: Vector2i, discovered_only := false) -> bool:
 	movement_remaining -= cost
 	return true
 
+func planning_active() -> bool:
+	return ghosts.plan != null or not ghosts.pending_encounter.is_empty()
+
 func end_turn() -> void:
-	if active_battle != null:
+	turn_notice = ""
+	if active_battle != null or not ghosts.pending_encounter.is_empty() or not trade.pending.is_empty() or not economy.pending.is_empty():
 		return
+	if map_id == "province_160x120_v1":
+		if not ghosts.prepare(self):
+			turn_notice = "No se pudo preparar el turno."
+			return
+		var routes: Dictionary = ghosts.plan.orders.duplicate(true)
+		var resolved: Dictionary = ghosts.resolve(self)
+		if not resolved.ok:
+			turn_notice = resolved.get("error","Revisa las órdenes antes de resolver.")
+			return
+		for id: String in party.heroes:
+			if resolved.positions.has(id):
+				party.heroes[id].cell = Vector2i(resolved.positions[id][0],resolved.positions[id][1])
+		for id: String in party.heroes:
+			if not routes.has(id):
+				continue
+			var last: int = routes[id].path.find(resolved.positions[id])
+			for index in range(last+1):
+				_reveal_from(Vector2i(routes[id].path[index][0],routes[id].path[index][1]))
+		ghosts.pending_encounter = resolved.encounter.duplicate(true)
+		if not ghosts.pending_encounter.is_empty():
+			party.select(ghosts.pending_encounter.hero)
+			trade.inventory = party.active().inventory
+		_reveal_from(hero_cell)
 	day += 1
 	party.end_day()
 	for id in party.heroes:
 		party.heroes[id].movement_remaining += int(equipment.bonuses(id).world_movement)
 	economy.advance_day(self)
+	if not ghosts.pending_encounter.is_empty() and army.is_empty():
+		encounters[ghosts.pending_encounter.knight] = {"outcome":"defeat","day":day}
+		_retreat_from_ghost()
+		turn_notice = "Sin escolta, el héroe cede el paso y pierde su movimiento de hoy."
 
 func begin_encounter(id: String) -> bool:
-	if active_battle != null or army.is_empty() or movement_remaining < 2 or not economy.pending.is_empty() or not trade.pending.is_empty():
+	var is_ghost: bool = ghosts.definitions.has(id)
+	var forced: bool = not ghosts.pending_encounter.is_empty() and ghosts.pending_encounter.knight == id
+	if ghosts.plan != null or (not ghosts.pending_encounter.is_empty() and not forced):
+		return false
+	if active_battle != null or army.is_empty() or (movement_remaining < 2 and not forced) or not economy.pending.is_empty() or not trade.pending.is_empty():
 		return false
 	if side_cases.battles.has(id) and not side_cases.can_battle(self,id):
 		return false
@@ -166,19 +205,23 @@ func begin_encounter(id: String) -> bool:
 	var encounter := encounter_definition(id)
 	if encounter.is_empty():
 		return false
-	if encounter.has("location_id"):
+	if is_ghost:
+		if not ghosts.actors[id].active or ghosts.actors[id].return_day > day or hero_cell.distance_squared_to(Vector2i(encounter.position[0],encounter.position[1])) > 4:
+			return false
+	elif encounter.has("location_id"):
 		if location_at(hero_cell).get("id", "") != encounter.location_id:
 			return false
 	elif hero_cell != Vector2i(encounter.position[0],encounter.position[1]):
 		return false
-	if (not str(encounter.requires).is_empty() and not evidence.has_evidence(encounter.requires)) or encounters.get(id, {}).get("outcome", "") == "victory":
+	if (not str(encounter.requires).is_empty() and not evidence.has_evidence(encounter.requires)) or (not is_ghost and encounters.get(id, {}).get("outcome", "") == "victory"):
 		return false
 	model.data["opening"] = encounter
-	if not model.start(army, encounter.enemies, day * 1009 + hero_cell.x * 31 + hero_cell.y, equipment.bonuses(party.active_id)):
+	if not model.start(army, encounter.enemies, day * 1009 + hero_cell.x * 31 + hero_cell.y, equipment.bonuses(party.active_id),encounter.get("script",{})):
 		return false
 	active_battle = model
 	active_encounter = id
-	movement_remaining -= 2
+	if not forced:
+		movement_remaining -= 2
 	return true
 
 func settle_encounter() -> bool:
@@ -193,12 +236,18 @@ func settle_encounter() -> bool:
 	elif result in ["defeat", "retreated"]:
 		movement_remaining = 0
 	encounters[active_encounter] = {"outcome": result, "day": day}
+	if ghosts.definitions.has(active_encounter):
+		if result == "victory":
+			ghosts.defeat(self,active_encounter)
+			ghosts.pending_encounter.clear()
+		elif not ghosts.pending_encounter.is_empty():
+			_retreat_from_ghost()
 	active_battle = null
 	active_encounter = ""
 	return true
 
 func select_hero(id: String) -> bool:
-	if active_battle != null or not trade.pending.is_empty() or not economy.pending.is_empty() or not party.select(id):
+	if active_battle != null or not ghosts.pending_encounter.is_empty() or not trade.pending.is_empty() or not economy.pending.is_empty() or not party.select(id):
 		return false
 	trade.inventory = party.active().inventory
 	_reveal_from(hero_cell)
@@ -235,6 +284,8 @@ func resource_at(cell: Vector2i) -> Dictionary:
 	return {}
 
 func encounter_definition(id: String) -> Dictionary:
+	if map_id == "province_160x120_v1" and ghosts.definitions.has(id):
+		return ghosts.encounter_definition(id)
 	if map_id == "province_160x120_v1" and side_cases.battles.has(id):
 		return side_cases.encounter_definition(id)
 	if id == "opening_road":
@@ -245,3 +296,23 @@ func encounter_definition(id: String) -> Dictionary:
 	return {"id":id,"name":"Guardianes de la mina de " + str(economy.catalog.resource_names[entry.resource]),
 		"position":entry.position.duplicate(),"enemies":economy.catalog.mine_guards[entry.resource].duplicate(true),
 		"requires":"","reward":{}}
+func _retreat_from_ghost() -> void:
+	var preferred: Array = ghosts.pending_encounter.get("hero_previous",[hero_cell.x,hero_cell.y])
+	var frontier: Array[Vector2i] = [Vector2i(preferred[0],preferred[1]),hero_cell]
+	var visited := {}
+	while not frontier.is_empty():
+		var cell: Vector2i = frontier.pop_front()
+		if visited.has(cell) or terrain_cost(cell) == 0 or fog_at(cell) == Fog.UNKNOWN or gate_at(cell).get("closed",false):
+			continue
+		visited[cell] = true
+		var occupied := false
+		for actor in ghosts.actors.values():
+			occupied = occupied or (actor.active and actor.return_day <= day and cell == Vector2i(actor.cell[0],actor.cell[1]))
+		if not occupied:
+			hero_cell = cell
+			break
+		for offset in [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN]:
+			frontier.append(cell+offset)
+	movement_remaining = 0
+	ghosts.pending_encounter.clear()
+	_reveal_from(hero_cell)

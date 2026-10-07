@@ -950,3 +950,18 @@ for SP004; corrected it to the authored SX013 reward and reran. Also executed 14
 strategy and 116 ghost-battle scene checks: passed. Existing shutdown diagnostics
 persist. The controller snapshot is ready; global save integration and replacement of
 the province travel loop still remain, so live strategic opponents are not yet claimed.
+## Province simultaneous turns and save v12
+
+Province movement now queues a route against frozen knight orders; ending the day
+applies hero and knight positions together, reveals the travelled route and advances
+income once. Contacts retain their previous hero position, force the next encounter,
+and block further travel until settlement. Retreat separates actors and consumes the
+hero's movement; an unescorted hero yields automatically. Ghost battles use their
+individual tactical scripts and victory disperses the opponent.
+
+Save v12 restores the controller after case, curriculum and equipment proofs, including
+queued routes and pending contacts. Earlier versions migrate with empty ghost state.
+Executed 146 world integration, 38669 province map, 527 save, 325 ghost persistence,
+144 side-world and 17 province-scene checks: passed. JSON comparisons normalize numeric
+representations. Existing shutdown resource diagnostics persist. Map controls and
+intervention counter UI remain the next integration step.
