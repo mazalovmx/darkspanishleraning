@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "status": "authored_not_integrated",
+  "status": "runtime_integrated_partial_acquisition",
   "activation_requires": [
     "gate_i",
     "save_load",

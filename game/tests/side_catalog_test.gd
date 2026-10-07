@@ -22,7 +22,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	var data: Dictionary = parser.data
-	check(data.status == "authored_not_integrated", "Catalog does not claim runtime availability")
+	check(data.status == "runtime_integrated_unbalanced", "Runtime connected; balance remains untested")
 	check("gate_i" in data.activation_requires, "Expansion remains gated")
 	check(data.quests.size() == 108 and data.battles.size() == 108, "Requested quest and battle counts")
 	check(data.artifacts.size() == 108 and data.branches.size() == 12, "Artifact and branch counts")

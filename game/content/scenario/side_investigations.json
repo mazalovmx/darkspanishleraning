@@ -1,6 +1,6 @@
 {
     "version":  1,
-    "status":  "authored_not_integrated",
+    "status":  "runtime_integrated_unbalanced",
     "activation_requires":  [
                                 "gate_i",
                                 "battle_stack_integration",

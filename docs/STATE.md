@@ -865,3 +865,21 @@ checks including an actual won battle and retreat, 334 side-battle scene, 527 sa
 assumed the first grammar topic could not be practised on day one; replaced it with
 an actual unmet branch-prerequisite check and reran. Existing shutdown diagnostics
 persist. Player-facing optional case controls are the next integration step.
+## All optional cases exposed on the map
+
+Investigaciones locales lists prerequisite-ready cases at the hero's actual location.
+The panel implements peaceful requests, the optional battle route, inspections,
+supported/rejected comparisons, access acrostics, written grammar practice, changed
+sentence frames, later-day recall and final publication/privacy choices. It shows
+local consequences and separately awarded equipment components. Battle completion
+returns to the custody step; every accepted investigation step autosaves. Modals block
+travel and day changes, and loading rebinds the panel. Authored catalog status now
+reflects runtime availability while retaining untested balance labels.
+
+Executed a nine-case branch through actual interface controls: 215 checks headless
+and 215 OpenGL, including a won battle, retries, an acrostic, later recall, rewards,
+protected-copy outcome and autosaves. Reviewed both screenshots. Regressions: 365 map,
+157 equipment-scene, 20 economy-scene and 31 vertical-slice checks passed. Catalog
+validation: 5341 side and 1886 equipment/ghost checks passed. Existing shutdown
+resource/leak diagnostics persist. All 108 controllers were separately checked, but
+human playtime, combat balance, broader NPC dialogue and ghost turns remain unfinished.
