@@ -19,7 +19,7 @@ Runtime modules, all under `game/src`:
 - `evidence/evidence_graph.gd`, `spanish/learner_profile.gd`, `spanish/curriculum.gd`.
 - `dialogue/authored_dialogue.gd`, `dialogue/npc_grounding.gd`, `claude/claude_client.gd`.
 - `combat/stack_battle.gd` and `stack_arena.gd`: seven-slot stack battles.
-- `save/save_game.gd`: versioned JSON save (v12) with migration from v1.
+- `save/save_game.gd`: versioned JSON save (v13) with migration from v1.
 - Panels (`*_panel.gd`, `evidence_notebook.gd`) are views; they call the controllers
   above and never hold canonical facts.
 Sections below the authority boundary are a historical description of the first

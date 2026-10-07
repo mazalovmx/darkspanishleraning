@@ -46,6 +46,7 @@ func run() -> void:
 	check(not Save.decode(bad).has("state"),"Encounter cannot predate branch prerequisites")
 	var old := Save.snapshot(World.new("province_160x120_v1"))
 	old.version = 10
+	old.erase("npc_memory")
 	old.strategy.erase("side_cases")
 	old.strategy.erase("ghosts")
 	var restored := Save.decode(old)

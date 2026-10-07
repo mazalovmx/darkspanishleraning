@@ -47,6 +47,7 @@ func run() -> void:
 	check(not state.evidence.restore({"unknown": {}}, 1) and state.evidence.progress() == progress, "Invalid restore is transactional")
 	var old := saved.duplicate(true)
 	old.version = 1
+	old.erase("npc_memory")
 	old.erase("party")
 	old.erase("campaign")
 	old.learner.erase("curriculum")

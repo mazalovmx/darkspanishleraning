@@ -3,7 +3,8 @@ extends RefCounted
 const WorldState = preload("res://src/world/world_state.gd")
 const Learner = preload("res://src/spanish/learner_profile.gd")
 const PATH := "user://savegame.json"
-const VERSION := 12
+const VERSION := 13
+const NPC_IDS := ["innkeeper_prototype", "lucio_salcedo", "hermano_gabriel", "leonor_valera"]
 const MAP_ID := "prototype_20x20_v1"
 const MAX_BYTES := 1048576
 
@@ -15,7 +16,7 @@ static func snapshot(state: WorldState) -> Dictionary:
 			if state.fog_at(cell) != WorldState.Fog.UNKNOWN:
 				explored.append([x, y])
 	var learner = state.learner
-	return {"version": VERSION, "map_id": state.map_id, "day": state.day,
+	return {"version": VERSION, "map_id": state.map_id, "day": state.day, "npc_memory": state.npc_memory.duplicate(true),
 		"campaign": state.campaign.snapshot(), "party": state.party.snapshot(), "hero": {"cell": [state.hero_cell.x, state.hero_cell.y], "movement": state.movement_remaining},
 		"strategy": {"ghosts": state.ghosts.snapshot(), "side_cases":state.side_cases.snapshot(), "equipment": state.equipment.snapshot(), "economy": state.economy.snapshot(), "trade": state.trade.snapshot(), "army": state.army.duplicate(true), "resources": state.resources.duplicate(true), "encounters": state.encounters.duplicate(true)}, "explored": explored, "evidence": state.evidence.progress(), "learner": {"block": learner.current_block, "curriculum": learner.curriculum.snapshot(),
 		"grammar": learner.grammar.duplicate(true), "verbs": learner.verbs.duplicate(true),
@@ -82,7 +83,7 @@ static func _learner_valid(data: Variant, day: int, version: int) -> bool:
 		if not _strings(contexts, 4, 100) or contexts.is_empty():
 			return false
 		for npc_id: String in contexts:
-			if npc_id not in ["innkeeper_prototype", "lucio_salcedo", "hermano_gabriel", "leonor_valera"]:
+			if npc_id not in NPC_IDS:
 				return false
 	for message: String in data.recent_messages:
 		if message != message.strip_edges().to_lower():
@@ -94,7 +95,7 @@ static func decode(data: Variant) -> Dictionary:
 		return {"error": "invalid"}
 	if not _integer(data.get("version"), 1, VERSION):
 		return {"error": "version"}
-	if data.size() != (6 if data.version == 1 else 7 if data.version == 2 else 8 if data.version < 6 else 9 if data.version == 6 else 10):
+	if data.size() != (6 if data.version == 1 else 7 if data.version == 2 else 8 if data.version < 6 else 9 if data.version == 6 else 10 if data.version < 13 else 11):
 		return {"error": "invalid"}
 	if data.version >= 7 and not data.has("campaign"):
 		return {"error": "invalid"}
@@ -206,6 +207,23 @@ static func decode(data: Variant) -> Dictionary:
 			if state.ghosts.definitions.has(id):
 				if not state.ghosts.actors.has(id) or state.encounters[id].day < state.ghosts.actors[id].born_day or not state.ghosts.language_ready(state,id,int(state.encounters[id].day)):
 					return {"error":"invalid"}
+	if data.version >= 13:
+		var memory: Variant = data.get("npc_memory")
+		if not memory is Dictionary:
+			return {"error": "invalid"}
+		var intents: Array = state.evidence.grounding.intents()
+		for npc_id: Variant in memory:
+			var entry: Variant = memory[npc_id]
+			if npc_id not in NPC_IDS or not entry is Dictionary or entry.size() != 3:
+				return {"error": "invalid"}
+			if not _integer(entry.get("count"), 1, 100000) or not _integer(entry.get("last_day"), 1, int(data.day)) or not _strings(entry.get("topics"), intents.size(), 40):
+				return {"error": "invalid"}
+			var topics: Array = []
+			for topic: String in entry.topics:
+				if topic not in intents or topic in topics:
+					return {"error": "invalid"}
+				topics.append(topic)
+			state.npc_memory[npc_id] = {"count": int(entry.count), "last_day": int(entry.last_day), "topics": topics}
 	return {"state": state, "error": ""}
 
 static func read_save(path := PATH) -> Dictionary:

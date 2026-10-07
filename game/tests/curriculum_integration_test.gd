@@ -82,6 +82,7 @@ func run() -> void:
 	check(not Save.decode(bad).has("state"), "Saved recall must occur on later day")
 	var old := Save.snapshot(World.new())
 	old.version = 4
+	old.erase("npc_memory")
 	old.erase("party")
 	old.erase("campaign")
 	old.strategy.erase("economy")

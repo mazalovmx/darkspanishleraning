@@ -64,6 +64,7 @@ func run() -> void:
 		check(not Save.decode(bad).has("state"), "Invalid army rejected")
 	var old := saved.duplicate(true)
 	old.version = 2
+	old.erase("npc_memory")
 	old.erase("party")
 	old.erase("campaign")
 	old.learner.erase("curriculum")

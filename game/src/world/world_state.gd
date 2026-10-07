@@ -17,6 +17,8 @@ var equipment = preload("res://src/world/equipment_state.gd").new()
 var economy = preload("res://src/economy/strategy_economy.gd").new()
 var party = preload("res://src/world/party_state.gd").new()
 var learner = preload("res://src/spanish/learner_profile.gd").new()
+# npc id -> {count, last_day, topics}; facts about past talks, never generated prose.
+var npc_memory: Dictionary = {}
 var trade = preload("res://src/economy/trade_state.gd").new()
 var campaign = preload("res://src/world/campaign_state.gd").new()
 var evidence = preload("res://src/evidence/evidence_graph.gd").new()
@@ -167,6 +169,14 @@ func transfer(kind: String, to_id: String, key: Variant, quantity: int) -> bool:
 	if kind == "stack":
 		return party.transfer_stack(party.active_id, to_id, int(key), quantity)
 	return party.transfer_supply(party.active_id, to_id, str(key), quantity)
+
+func remember(npc_id: String, intent: String, on_day: int) -> void:
+	var entry: Dictionary = npc_memory.get(npc_id, {"count": 0, "last_day": on_day, "topics": []})
+	entry.count = mini(int(entry.count) + 1, 100000)
+	entry.last_day = on_day
+	if intent != "unknown" and intent not in entry.topics:
+		entry.topics.append(intent)
+	npc_memory[npc_id] = entry
 
 func planning_active() -> bool:
 	return ghosts.plan != null or not ghosts.pending_encounter.is_empty()

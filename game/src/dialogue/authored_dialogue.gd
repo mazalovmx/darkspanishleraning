@@ -102,6 +102,14 @@ func submit(message: String) -> void:
 	context["player_hero"] = {"id": world_state.party.active_id, "name": hero_definition.name,
 		"role": hero_definition.role, "register": hero_definition.register}
 	context["recent_dialogue"] = histories[location_id].slice(-3)
+	var npc_id: String = conversations[location_id].npc_id
+	var memory: Dictionary = world_state.npc_memory.get(npc_id, {})
+	var revealed: Array = []
+	for clue_id: String in world_state.evidence.progress():
+		if world_state.evidence.node(clue_id).get("npc_id", "") == npc_id:
+			revealed.append(clue_id)
+	context["npc_memory"] = {"conversation_count": int(memory.get("count", 0)), "last_talk_day": int(memory.get("last_day", 0)),
+		"discussed_topics": memory.get("topics", []).duplicate(), "revealed": revealed}
 	context["language_profile"] = world_state.learner.context()
 	context["language_profile"]["focus"] = world_state.learner.curriculum.select_focus(world_state.learner.grammar, world_state.learner.errors)
 	request_started.emit()
@@ -139,6 +147,7 @@ func _on_reply(proposal: Dictionary) -> void:
 				break
 	var history: Array = histories[pending_location]
 	history.append({"player": pending_message, "reply": reply})
+	world_state.remember(npc_id, intent, pending_day)
 	while history.size() > MAX_EXCHANGES:
 		history.pop_front()
 	input.editable = true
@@ -190,7 +199,9 @@ func _render_history() -> void:
 			hint.text = "Pregunta: " + sample
 			break
 	var npc: Dictionary = conversations[location_id]
-	var lines: Array[String] = [str(npc.name) + ": " + str(npc.greeting)]
+	# A returning visitor is greeted as one once the earlier transcript is gone.
+	var returning: bool = histories[location_id].is_empty() and world_state.npc_memory.has(npc.npc_id)
+	var lines: Array[String] = [str(npc.name) + ": " + str(npc.get("greeting_again", npc.greeting) if returning else npc.greeting)]
 	for exchange: Dictionary in histories[location_id]:
 		lines.append("Tú: " + str(exchange.player))
 		lines.append(str(npc.name) + ": " + str(exchange.reply))

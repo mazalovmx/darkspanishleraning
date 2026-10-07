@@ -77,6 +77,7 @@ func run() -> void:
 	check(not Save.decode(bad).has("state"), "Negative stock rejected")
 	var old := saved.duplicate(true)
 	old.version = 3
+	old.erase("npc_memory")
 	old.erase("party")
 	old.erase("campaign")
 	old.strategy.erase("economy")

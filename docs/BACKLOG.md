@@ -47,9 +47,10 @@ its own multi-session plan and scenario-bible review per NPC.
   `language.prompt/model_frame/independent_task/recall_task` fields are not read.
 - Rejection messages for purchases print the full expected sentence; soul rituals
   return the retry text. Gated Spanish can be passed by copying.
-- NPC memory (Epic 19): conversation count, discussed topics, revealed clues, lies
-  told, relationship, bounded validated summary; persist them (section 33).
-  `npc_attitude_delta` is currently forced to zero.
+- NPC memory (Epic 19): conversation count, last day and discussed topics are stored
+  per NPC, saved (v13), sent to Claude and shown as a return greeting. Still missing:
+  lies told, relationship (`npc_attitude_delta` is forced to zero) and a bounded,
+  validated conversation summary.
 - Request context (section 17) lacks scene, relationship, focus_verbs, recent_errors
   and conversation_summary; recent dialogue is 3 exchanges instead of 4-6.
 - Golden conversation tests (section 39): none of the required 30 exist.

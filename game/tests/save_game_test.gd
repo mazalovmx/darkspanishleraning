@@ -87,6 +87,14 @@ func run() -> void:
 		var bad := original.duplicate(true)
 		bad.erase(field)
 		check(not Save.decode(bad).has("state"), "Missing field rejected")
+	var remembered := original.duplicate(true)
+	remembered.npc_memory = {"lucio_salcedo": {"count": 2, "last_day": 1, "topics": ["ask_identity"]}}
+	var recalled := Save.decode(JSON.parse_string(JSON.stringify(remembered)))
+	check(recalled.has("state") and recalled.state.npc_memory.lucio_salcedo.count == 2 and typeof(recalled.state.npc_memory.lucio_salcedo.count) == TYPE_INT and Save.snapshot(recalled.state).npc_memory == remembered.npc_memory, "NPC memory survives a JSON round trip")
+	for forged: Variant in [null, [], {"stranger": {"count": 1, "last_day": 1, "topics": []}}, {"lucio_salcedo": {"count": 0, "last_day": 1, "topics": []}}, {"lucio_salcedo": {"count": 1, "last_day": 99, "topics": []}}, {"lucio_salcedo": {"count": 1, "last_day": 1, "topics": ["invented_topic"]}}, {"lucio_salcedo": {"count": 1, "last_day": 1, "topics": [], "summary": "x"}}]:
+		var bad := original.duplicate(true)
+		bad.npc_memory = forged
+		check(not Save.decode(bad).has("state"), "Forged NPC memory rejected")
 	for value in [true, "1", 0, Save.VERSION + 1, 1.5]:
 		var bad := original.duplicate(true)
 		bad.version = value

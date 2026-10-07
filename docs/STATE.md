@@ -3,7 +3,7 @@
 Updated: 2026-10-07
 Branch: implementation
 Current state: Gates A-H passed; Gate I open. Mainline, economy, equipment, optional
-cases and ghost knights run on the province map with save v12. Open work is listed in
+cases and ghost knights run on the province map with save v13. Open work is listed in
 BACKLOG.md. Sections below are a chronological log; early entries describe the state
 at the time they were written and are superseded by later ones.
 
@@ -45,13 +45,15 @@ Working rules that are easy to miss:
 Done on 2026-10-07 (details in the dated entries at the end of this file):
 audit and backlog rewrite, test runner, frozen-plan guards, working docs and both
 specifications aligned with the runtime, innkeeper directions, new-game control,
-troop/supply handover tab, windowed review of those UI changes.
+troop/supply handover tab, windowed review of those UI changes, two accepted
+paraphrases per campaign task, basic NPC memory with save v13.
 
 What to do next, in order (BACKLOG.md has the full list):
 1. P1 conversation breadth: only 4 NPCs are conversable; acts II-VII and the 108
    cases accept one exact sentence each. Start with accepted-answer variants and
    with grounding plus authored fallback for the bible principals.
-2. NPC memory (Epic 19) and its persistence; golden conversation tests (section 39).
+2. Golden conversation tests (section 39); the rest of NPC memory (lies told,
+   relationship, validated summary). Count, day and topics are done (save v13).
 3. Missing scenario content: SQ03-SQ05, MQ10, Act VII crisis.
 4. Release basics: export preset, title/menu, removal of the unused demo and Dialogic.
 Open user decisions are listed at the end of BACKLOG.md.
@@ -1184,3 +1186,25 @@ Executed the full runner: 45 suites plus restart write/read, all passed, 54,996
 counted checks (campaign_test 482: every task is completed through a paraphrase,
 paraphrases are distinct from the model, and a paraphrase with an added claim is
 refused). No Spanish speaker reviewed the paraphrases.
+## Basic NPC memory and save v13 (Epic 19, partial)
+
+WorldState keeps, for each conversable NPC, how many exchanges were completed, the
+day of the last one and which locally recognised topics came up. It is updated only
+after a completed turn, online or offline, from the locally derived intent; model
+output cannot write it. The request context now carries `npc_memory` (count, last
+day, topics and the clue ids this NPC already gave, derived from the evidence
+graph), and the system prompt tells the model it may acknowledge a return visit but
+must not invent what was said. Offline, each NPC has an authored `greeting_again`
+shown when the player returns after the earlier transcript is gone (for example
+after loading).
+
+Save v13 stores the memory and validates NPC ids, bounded counts, days not in the
+future and topics from the authored intent list; v1-v12 migrate with empty memory.
+Not implemented from Epic 19: lies told, relationship values, a generated and
+validated conversation summary. The memory does not change NPC behaviour offline
+beyond the greeting.
+
+Executed the full runner: 45 suites plus restart write/read, all passed, 55,010
+counted checks (save_game 540, authored_dialogue 29, dialogue_clue 40). Nine
+migration fixtures in other suites now drop the new key when imitating old saves.
+No live API call was made, so the model's use of `npc_memory` is unverified.

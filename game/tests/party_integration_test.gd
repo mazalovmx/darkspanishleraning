@@ -74,6 +74,7 @@ func run() -> void:
 	state.select_hero("inquisitor")
 	var legacy := Save.snapshot(state)
 	legacy.version = 5
+	legacy.erase("npc_memory")
 	legacy.erase("party")
 	legacy.erase("campaign")
 	legacy.strategy.erase("economy")

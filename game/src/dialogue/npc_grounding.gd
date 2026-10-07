@@ -38,6 +38,9 @@ func _known_ids(npc: Dictionary, states: Dictionary) -> Array:
 					ids.append(secret.id)
 	return ids
 
+func intents() -> Array:
+	return _data.get("intents", {}).keys()
+
 func intent_for(message: String) -> String:
 	var normalized := message.to_lower()
 	for pair in [["á", "a"], ["é", "e"], ["í", "i"], ["ó", "o"], ["ú", "u"], ["ü", "u"]]:

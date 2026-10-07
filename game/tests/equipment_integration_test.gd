@@ -54,6 +54,7 @@ func run() -> void:
 	check(gear.equip(state,boots,"feet") and state.movement_remaining == 18,"Re-equipping cannot restore removed movement")
 	var old := Save.snapshot(World.new())
 	old.version = 8
+	old.erase("npc_memory")
 	old.strategy.erase("equipment")
 	old.strategy.erase("side_cases")
 	old.strategy.erase("ghosts")

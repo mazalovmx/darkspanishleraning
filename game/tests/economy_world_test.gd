@@ -57,6 +57,7 @@ func run() -> void:
 	check(not Save.decode(bad).has("state"),"Cannot invent encounter on unguarded site")
 	var old := Save.snapshot(World.new("province_160x120_v1"))
 	old.version = 7
+	old.erase("npc_memory")
 	old.strategy.erase("economy")
 	old.strategy.erase("equipment")
 	old.strategy.erase("side_cases")

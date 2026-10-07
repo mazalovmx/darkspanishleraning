@@ -89,6 +89,7 @@ func run() -> void:
 	panel.submit(QUESTION)
 	sent = JSON.parse_string(JSON.parse_string(fake.payload).messages[0].content)
 	check(sent.eligible_unlock_ids == ["monastery_claim"], "Actual prompt contains only eligible clue")
+	check(sent.npc_memory.conversation_count >= 1 and sent.npc_memory.revealed.is_empty() and sent.npc_memory.size() == 4, "Prompt carries bounded memory of earlier talks")
 	check(sent.npc_knowledge.monastery_claim.contains("afirmación"), "Prompt keeps claim attributed")
 	# Late response belongs to the abbot even after the player returns to the inn.
 	map._close_poi()

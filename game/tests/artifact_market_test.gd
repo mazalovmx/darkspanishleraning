@@ -65,6 +65,7 @@ func run() -> void:
 		check(not Save.decode(bad).has("state"),"Invalid acquisition rejected: " + fault)
 	var old: Dictionary = Save.snapshot(load("res://src/world/world_state.gd").new("province_160x120_v1"))
 	old.version = 9
+	old.erase("npc_memory")
 	old.strategy.erase("side_cases")
 	old.strategy.erase("ghosts")
 	old.strategy.economy.erase("artifact_sales")

@@ -29,7 +29,9 @@ When possible recast the corrected form naturally in npc_reply while answering t
 Grammar/vocabulary entries are strings. suggested_unlock is null or one exact ID from
 eligible_unlock_ids, only when the player asks about it. Do not claim it was unlocked.
 Use verified_intent for a suggested unlock. Attitude delta must be 0.
-Never claim a purchase, quest, clue or institutional act has occurred."""
+Never claim a purchase, quest, clue or institutional act has occurred.
+npc_memory lists earlier talks with this NPC (count, day, topics, clues already given).
+The NPC may acknowledge a return visit; never invent what was said before."""
 var config: Dictionary = {}
 var http := HTTPRequest.new()
 var busy := false
