@@ -9,6 +9,8 @@ param(
 
 $root = Split-Path -Parent $PSScriptRoot
 $godot = Join-Path $root "tools/local/godot/Godot_v4.6.2-stable_win64_console.exe"
+# A git worktree has no tools/local; GODOT_BIN names the engine binary to use instead.
+if (-not (Test-Path $godot) -and $env:GODOT_BIN) { $godot = $env:GODOT_BIN }
 if (-not (Test-Path $godot)) {
     Write-Error "Godot binary not found: $godot"
     exit 2
