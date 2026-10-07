@@ -59,10 +59,12 @@ its own multi-session plan and scenario-bible review per NPC.
   sentence; it shows the facts to express and a rule reminder, accepts the player's
   own wording when the tier's verb form and the required content are present, and a
   rejection names the missing element. Town building/recruit/upgrade/artifact orders
-  and mine claims (strategy panel) now work the same way. Still showing a "Modelo:"
-  before the first attempt, so passable by copying: soul rituals (equipment panel; their rejection returns the
-  retry text), optional cases (side panel), campaign cards and evidence-notebook
-  conclusions. Apply the same cue + reminder + element check to each.
+  and mine claims (strategy panel) now work the same way. Soul rituals accept free
+  answers against authored keys and name the missing need; their listen, compare and
+  supported stages still show a model by design (introduction and supported practice).
+  Still showing a "Modelo:" before the first attempt, so passable by copying: optional
+  cases (side panel), campaign cards and evidence-notebook conclusions. Apply the same
+  cue + reminder + element check to each.
 - NPC memory (Epic 19): conversation count, last day and discussed topics are stored
   per NPC, saved (v13), sent to Claude and shown as a return greeting. Still missing:
   lies told, relationship (`npc_attitude_delta` is forced to zero) and a bounded,

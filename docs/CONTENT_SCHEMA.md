@@ -99,6 +99,15 @@ Recipes bind exact part IDs to slots, memory sources to components and soul task
 curriculum blocks. Persist consent by hero/set and retain exact component instances.
 The catalog's assembly/economy rules are requirements for a future local verifier.
 
+content/spanish/soul_rituals.json holds the Spanish of each soul conversation: the
+model per stage, `alternatives` (understood near-misses that receive a "Forma
+sugerida") and `keys`. `keys.<stage>` is a list of needs `{"need": label, "any":
+[forms]}`; a free answer passes when, for every need, it contains one of the forms as
+whole words (lower case, accents ignored). The label is shown when a need is missing,
+so it describes the form without giving the answer. Listening uses keys in code;
+consent has none and stays exact. Every model must meet its own keys
+(equipment_state_test checks this).
+
 ghost_knights.json reserves NK01-NK08 and defines eight reversible local effect types.
 Profiles reference SB branches, optional SA counters and existing battle unit IDs.
 They include exact first/second-round commands and target rules, but no runtime AI

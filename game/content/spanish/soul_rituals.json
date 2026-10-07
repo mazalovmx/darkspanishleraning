@@ -1,95 +1,238 @@
 {
-    "SA01":  {
-                 "grammar":  [
-                                 "present"
-                             ],
-                 "fear":  "No quiero imponer una sola versión.",
-                 "comparison":  "Las dos memorias piden escuchar y comprobar.",
-                 "independent":  "Protejo al testigo cuando escucho su versión.",
-                 "objection":  "No uso tu fuerza como prueba de mi versión.",
-                 "recall":  "Quiero tu ayuda para escuchar al testigo y comprobar su relato.",
-                 "alternatives":  {
-                                      "answer_objection":  [
-                                                               "No uso tu fuerza como pruebas de mi versión."
-                                                           ]
-                                  }
-             },
-    "SA02":  {
-                 "grammar":  [
-                                 "preterite"
-                             ],
-                 "fear":  "No quiero ocultar los traslados.",
-                 "comparison":  "El registro incluyó ocho curaciones y dos traslados.",
-                 "independent":  "Trasladaste a dos personas y anotaste ocho curaciones.",
-                 "objection":  "Los dos traslados no fueron curaciones.",
-                 "recall":  "Anotaste los nombres de todos y no ocultaste los dos traslados.",
-                 "alternatives":  {
-                                      "answer_objection":  [
-                                                               "Los dos traslados no fue curaciones."
-                                                           ]
-                                  }
-             },
-    "SA03":  {
-                 "grammar":  [
-                                 "preterite",
-                                 "imperfect"
-                             ],
-                 "fear":  "Muchas voces no siempre son muchos testigos.",
-                 "comparison":  "Las tres voces repetían el mismo pregón.",
-                 "independent":  "Al principio parecían tres testigos, pero encontramos una sola fuente.",
-                 "objection":  "Las voces repetían un relato; no eran pruebas independientes.",
-                 "recall":  "Oías tres voces cada noche y una noche descubriste su fuente común.",
-                 "alternatives":  {
-                                      "answer_objection":  [
-                                                               "Las voces repetía un relato; no eran pruebas independientes."
-                                                           ]
-                                  }
-             },
-    "SA04":  {
-                 "grammar":  [
-                                 "relative_clauses"
-                             ],
-                 "fear":  "Una promesa no permite mentir.",
-                 "comparison":  "La orden que exigía acusar sin pruebas contradecía la promesa.",
-                 "independent":  "Defiendo una promesa que protege a los vecinos sin inventar acusaciones.",
-                 "objection":  "Rechazo la orden que exige acusar sin pruebas.",
-                 "recall":  "La promesa que protege a los vecinos no permite mentir sobre ellos.",
-                 "alternatives":  {
-                                      "answer_objection":  [
-                                                               "Rechazo la orden que exigen acusar sin pruebas."
-                                                           ]
-                                  }
-             },
-    "SA05":  {
-                 "grammar":  [
-                                 "perfect",
-                                 "ir_a_future"
-                             ],
-                 "fear":  "No quiero inventar el contenido de una página.",
-                 "comparison":  "Hemos comparado dos copias y falta una página.",
-                 "independent":  "He comprobado la ausencia y voy a consultar otro registro.",
-                 "objection":  "No hemos encontrado una confesión en la página ausente.",
-                 "recall":  "Hemos visto que falta una página y vamos a buscar otra copia.",
-                 "alternatives":  {
-                                      "answer_objection":  [
-                                                               "No hemos encontrado una confesión en las página ausente."
-                                                           ]
-                                  }
-             },
-    "SA06":  {
-                 "grammar":  [
-                                 "conditional",
-                                 "subjunctive_basic"
-                             ],
-                 "fear":  "Temo que entregar una carta permita perseguir a quien quiere guardar silencio.",
-                 "comparison":  "Una entrega no debería autorizar la publicación de la dirección.",
-                 "independent":  "Si acepta recibirla, ofrecería una entrega privada para que conserve su libertad.",
-                 "objection":  "Aunque no responda, no deberíamos publicar su dirección.",
-                 "recall":  "Propondría entregar la carta en privado si acepta, para que pueda decidir sin presión.",
-                 "alternatives":  {
-                                      "answer_objection":  [
-                                                               "Aunque no responda, no deberíamos publicar sus dirección."
-                                                           ]
-                                  }
-             }
+  "SA01": {
+    "grammar": ["present"],
+    "fear": "No quiero imponer una sola versión.",
+    "comparison": "Las dos memorias piden escuchar y comprobar.",
+    "independent": "Protejo al testigo cuando escucho su versión.",
+    "objection": "No uso tu fuerza como prueba de mi versión.",
+    "recall": "Quiero tu ayuda para escuchar al testigo y comprobar su relato.",
+    "alternatives": {
+      "answer_objection": ["No uso tu fuerza como pruebas de mi versión."]
+    },
+    "keys": {
+      "compare_memories": [
+        {"need": "las dos memorias o los dos recuerdos", "any": ["dos memorias", "dos recuerdos", "ambas memorias", "ambos recuerdos", "las dos", "los dos"]},
+        {"need": "un verbo en presente (piden, dicen, muestran…)", "any": ["piden", "dicen", "muestran", "coinciden", "hablan", "defienden", "exigen", "recuerdan", "ensenan"]},
+        {"need": "la idea común: escuchar, preguntar o comprobar", "any": ["escuchar", "comprobar", "preguntar", "verdad"]}
+      ],
+      "supported_production": [
+        {"need": "tu deseo en presente (quiero, necesito…)", "any": ["quiero", "necesito", "deseo"]},
+        {"need": "proteger", "any": ["proteger"]},
+        {"need": "los testigos", "any": ["testigo", "testigos"]},
+        {"need": "escuchar otra versión", "any": ["escuchar", "oir"]}
+      ],
+      "independent_argument": [
+        {"need": "proteger en presente, primera persona (yo protejo)", "any": ["protejo"]},
+        {"need": "el testigo", "any": ["testigo", "testigos"]},
+        {"need": "cómo lo haces: otra acción en presente (escucho, pregunto, compruebo…)", "any": ["escucho", "pregunto", "compruebo", "oigo", "comparo", "respeto", "dejo", "permito"]}
+      ],
+      "answer_objection": [
+        {"need": "una negación (no, nunca)", "any": ["no", "nunca"]},
+        {"need": "su fuerza o su poder", "any": ["fuerza", "poder"]},
+        {"need": "la idea de prueba", "any": ["prueba", "pruebas", "demuestra", "demostrar", "probar"]}
+      ],
+      "delayed_recall": [
+        {"need": "pedir ayuda", "any": ["ayuda", "ayudame"]},
+        {"need": "un propósito (para + infinitivo, o porque…)", "any": ["para", "porque"]},
+        {"need": "escuchar o comprobar", "any": ["escuchar", "escucho", "comprobar", "compruebo", "oir", "oigo"]}
+      ]
+    }
+  },
+  "SA02": {
+    "grammar": ["preterite"],
+    "fear": "No quiero ocultar los traslados.",
+    "comparison": "El registro incluyó ocho curaciones y dos traslados.",
+    "independent": "Trasladaste a dos personas y anotaste ocho curaciones.",
+    "objection": "Los dos traslados no fueron curaciones.",
+    "recall": "Anotaste los nombres de todos y no ocultaste los dos traslados.",
+    "alternatives": {
+      "answer_objection": ["Los dos traslados no fue curaciones."]
+    },
+    "keys": {
+      "compare_memories": [
+        {"need": "un verbo en pretérito (incluyó, anotó…)", "any": ["incluyo", "anoto", "conto", "mostro", "dejo", "guardo", "recogio", "tuvo", "anote"]},
+        {"need": "las ocho curaciones", "any": ["ocho curaciones", "8 curaciones"]},
+        {"need": "los dos traslados", "any": ["dos traslados", "2 traslados"]}
+      ],
+      "supported_production": [
+        {"need": "anotar en pretérito, segunda persona (tú anotaste)", "any": ["anotaste", "escribiste", "registraste", "dejaste", "guardaste"]},
+        {"need": "no + pretérito (no borraste…)", "any": ["no borraste", "no quitaste", "no eliminaste", "no tachaste", "no ocultaste"]},
+        {"need": "los trasladados", "any": ["trasladados", "traslados", "trasladaron", "trasladaste"]}
+      ],
+      "independent_argument": [
+        {"need": "un verbo en pretérito", "any": ["trasladaste", "anotaste", "registraste", "curaste", "escribiste", "trasladaron", "curaron", "hubo", "anote", "traslade"]},
+        {"need": "las ocho curaciones", "any": ["ocho curaciones", "8 curaciones", "ocho personas", "ocho pacientes", "ocho enfermos"]},
+        {"need": "los dos traslados", "any": ["dos personas", "dos pacientes", "dos traslados", "2 traslados", "2 personas", "dos enfermos"]}
+      ],
+      "answer_objection": [
+        {"need": "una negación", "any": ["no", "nunca"]},
+        {"need": "ser en pretérito plural (fueron)", "any": ["fueron"]},
+        {"need": "los traslados", "any": ["traslados", "trasladados"]},
+        {"need": "las curaciones", "any": ["curaciones", "curados", "curas"]}
+      ],
+      "delayed_recall": [
+        {"need": "un verbo en pretérito (anotaste, dejaste…)", "any": ["anotaste", "escribiste", "registraste", "dejaste", "guardaste", "anote", "escribi", "deje"]},
+        {"need": "los nombres de todos", "any": ["nombres", "todos"]},
+        {"need": "no + pretérito (no ocultaste…)", "any": ["no ocultaste", "no borraste", "no escondiste", "no quitaste", "no oculte", "no borre"]},
+        {"need": "los traslados", "any": ["traslados", "trasladados"]}
+      ]
+    }
+  },
+  "SA03": {
+    "grammar": ["preterite", "imperfect"],
+    "fear": "Muchas voces no siempre son muchos testigos.",
+    "comparison": "Las tres voces repetían el mismo pregón.",
+    "independent": "Al principio parecían tres testigos, pero encontramos una sola fuente.",
+    "objection": "Las voces repetían un relato; no eran pruebas independientes.",
+    "recall": "Oías tres voces cada noche y una noche descubriste su fuente común.",
+    "alternatives": {
+      "answer_objection": ["Las voces repetía un relato; no eran pruebas independientes."]
+    },
+    "keys": {
+      "compare_memories": [
+        {"need": "un verbo en imperfecto (repetían, decían…)", "any": ["repetian", "decian", "cantaban", "contaban", "anunciaban", "eran", "repetia", "decia"]},
+        {"need": "las tres voces", "any": ["tres voces", "3 voces", "las voces"]},
+        {"need": "la misma fuente o el mismo pregón", "any": ["pregon", "mismo", "misma", "una sola", "fuente"]}
+      ],
+      "supported_production": [
+        {"need": "un hábito en imperfecto (oías…)", "any": ["oias", "escuchabas", "oia", "escuchaba"]},
+        {"need": "un hecho único en pretérito (descubriste…)", "any": ["descubriste", "encontraste", "supiste", "viste", "descubri", "encontre"]},
+        {"need": "la fuente", "any": ["fuente", "pregon", "origen"]}
+      ],
+      "independent_argument": [
+        {"need": "lo que parecía antes, en imperfecto", "any": ["parecian", "parecia", "creiamos", "creia", "pensaba", "pensabamos", "eran", "oiamos", "oia"]},
+        {"need": "el descubrimiento, en pretérito", "any": ["encontramos", "encontre", "descubrimos", "descubri", "vimos", "supimos", "encontraste", "descubriste"]},
+        {"need": "los testigos o las pruebas", "any": ["testigos", "testigo", "pruebas"]},
+        {"need": "la fuente común", "any": ["fuente", "origen"]}
+      ],
+      "answer_objection": [
+        {"need": "no + ser en imperfecto (no eran…)", "any": ["no eran", "no era"]},
+        {"need": "las pruebas o los testigos", "any": ["pruebas", "testigos"]},
+        {"need": "la repetición de un relato", "any": ["repetian", "repetia", "mismo relato", "un relato", "misma fuente", "una fuente", "una sola fuente"]}
+      ],
+      "delayed_recall": [
+        {"need": "el hábito en imperfecto", "any": ["oias", "oia", "escuchabas", "escuchaba", "oiamos"]},
+        {"need": "la frecuencia (cada noche, siempre…)", "any": ["cada noche", "todas las noches", "siempre", "antes"]},
+        {"need": "el hecho único en pretérito", "any": ["descubriste", "descubri", "encontraste", "encontre", "supiste", "descubrimos", "encontramos"]},
+        {"need": "cuándo pasó una vez (una noche, aquella noche…)", "any": ["una noche", "aquella noche", "un dia", "una vez", "esa noche"]}
+      ]
+    }
+  },
+  "SA04": {
+    "grammar": ["relative_clauses"],
+    "fear": "Una promesa no permite mentir.",
+    "comparison": "La orden que exigía acusar sin pruebas contradecía la promesa.",
+    "independent": "Defiendo una promesa que protege a los vecinos sin inventar acusaciones.",
+    "objection": "Rechazo la orden que exige acusar sin pruebas.",
+    "recall": "La promesa que protege a los vecinos no permite mentir sobre ellos.",
+    "alternatives": {
+      "answer_objection": ["Rechazo la orden que exigen acusar sin pruebas."]
+    },
+    "keys": {
+      "compare_memories": [
+        {"need": "una oración con que", "any": ["que"]},
+        {"need": "la orden", "any": ["orden"]},
+        {"need": "la promesa o el juramento", "any": ["promesa", "juramento"]},
+        {"need": "sin pruebas", "any": ["sin pruebas"]}
+      ],
+      "supported_production": [
+        {"need": "promesa o juramento + que", "any": ["promesa que", "juramento que"]},
+        {"need": "los vecinos", "any": ["vecinos"]},
+        {"need": "sin pruebas", "any": ["sin pruebas"]}
+      ],
+      "independent_argument": [
+        {"need": "tu acción en primera persona (defiendo, cumplo…)", "any": ["defiendo", "mantengo", "cumplo", "respeto", "sigo", "guardo", "hice", "acepto"]},
+        {"need": "una oración con que", "any": ["que"]},
+        {"need": "los vecinos", "any": ["vecinos"]},
+        {"need": "el límite (sin inventar, sin mentir…)", "any": ["sin inventar", "no invento", "sin mentir", "no miento", "sin acusar", "no acuso", "sin pruebas"]}
+      ],
+      "answer_objection": [
+        {"need": "tu rechazo en primera persona (rechazo, no acepto…)", "any": ["rechazo", "no acepto", "no cumplo", "no obedezco", "no sigo"]},
+        {"need": "la orden + que", "any": ["orden que"]},
+        {"need": "sin pruebas", "any": ["sin pruebas"]}
+      ],
+      "delayed_recall": [
+        {"need": "promesa o juramento + que", "any": ["promesa que", "juramento que"]},
+        {"need": "los vecinos", "any": ["vecinos"]},
+        {"need": "lo que no permite", "any": ["no permite", "no autoriza", "prohibe", "no deja"]}
+      ]
+    }
+  },
+  "SA05": {
+    "grammar": ["perfect", "ir_a_future"],
+    "fear": "No quiero inventar el contenido de una página.",
+    "comparison": "Hemos comparado dos copias y falta una página.",
+    "independent": "He comprobado la ausencia y voy a consultar otro registro.",
+    "objection": "No hemos encontrado una confesión en la página ausente.",
+    "recall": "Hemos visto que falta una página y vamos a buscar otra copia.",
+    "alternatives": {
+      "answer_objection": ["No hemos encontrado una confesión en las página ausente."]
+    },
+    "keys": {
+      "compare_memories": [
+        {"need": "pretérito perfecto (hemos comparado…)", "any": ["he comparado", "hemos comparado", "has comparado", "he comprobado", "hemos comprobado", "has comprobado", "he visto", "hemos visto", "has visto", "he revisado", "hemos revisado", "has revisado", "he confirmado", "hemos confirmado"]},
+        {"need": "la página", "any": ["pagina"]},
+        {"need": "que falta", "any": ["falta", "no esta", "ausente"]}
+      ],
+      "supported_production": [
+        {"need": "pretérito perfecto (has comparado…)", "any": ["he comparado", "hemos comparado", "has comparado", "he comprobado", "hemos comprobado", "has comprobado", "he visto", "hemos visto", "has visto", "he revisado", "hemos revisado", "has revisado", "he confirmado", "hemos confirmado"]},
+        {"need": "ir a + infinitivo", "any": ["voy a", "vamos a", "vas a"]},
+        {"need": "sin inventar", "any": ["sin inventar", "no inventar", "no vamos a inventar", "no voy a inventar"]}
+      ],
+      "independent_argument": [
+        {"need": "lo comprobado, en pretérito perfecto", "any": ["he comparado", "hemos comparado", "has comparado", "he comprobado", "hemos comprobado", "has comprobado", "he visto", "hemos visto", "has visto", "he revisado", "hemos revisado", "has revisado", "he confirmado", "hemos confirmado"]},
+        {"need": "lo pendiente, con ir a + infinitivo", "any": ["voy a", "vamos a", "vas a"]},
+        {"need": "otra fuente que consultar", "any": ["otro registro", "otra copia", "otra fuente", "otro archivo", "otro libro"]}
+      ],
+      "answer_objection": [
+        {"need": "no + pretérito perfecto (no hemos encontrado…)", "any": ["no hemos encontrado", "no he encontrado", "no hemos visto", "no he visto", "no hemos leido", "no he leido"]},
+        {"need": "la confesión", "any": ["confesion"]}
+      ],
+      "delayed_recall": [
+        {"need": "lo comprobado, en pretérito perfecto", "any": ["he comparado", "hemos comparado", "has comparado", "he comprobado", "hemos comprobado", "has comprobado", "he visto", "hemos visto", "has visto", "he revisado", "hemos revisado", "has revisado", "he confirmado", "hemos confirmado"]},
+        {"need": "lo pendiente, con ir a + infinitivo", "any": ["voy a", "vamos a", "vas a"]},
+        {"need": "la página o la copia", "any": ["pagina", "copia", "registro"]}
+      ]
+    }
+  },
+  "SA06": {
+    "grammar": ["conditional", "subjunctive_basic"],
+    "fear": "Temo que entregar una carta permita perseguir a quien quiere guardar silencio.",
+    "comparison": "Una entrega no debería autorizar la publicación de la dirección.",
+    "independent": "Si acepta recibirla, ofrecería una entrega privada para que conserve su libertad.",
+    "objection": "Aunque no responda, no deberíamos publicar su dirección.",
+    "recall": "Propondría entregar la carta en privado si acepta, para que pueda decidir sin presión.",
+    "alternatives": {
+      "answer_objection": ["Aunque no responda, no deberíamos publicar sus dirección."]
+    },
+    "keys": {
+      "compare_memories": [
+        {"need": "un condicional (debería, podría…)", "any": ["deberia", "podria", "seria", "permitiria", "autorizaria"]},
+        {"need": "la dirección", "any": ["direccion"]},
+        {"need": "la entrega o la carta", "any": ["entrega", "entregar", "carta"]}
+      ],
+      "supported_production": [
+        {"need": "tu propuesta en condicional (propondría…)", "any": ["propondria", "ofreceria", "haria", "sugeriria"]},
+        {"need": "para que", "any": ["para que"]},
+        {"need": "un verbo en subjuntivo (pueda, decida…)", "any": ["pueda", "puedan", "decida", "elija", "conserve", "mantenga", "acepte", "tenga", "este", "responda", "quiera"]}
+      ],
+      "independent_argument": [
+        {"need": "una condición con si", "any": ["si"]},
+        {"need": "tu oferta en condicional (ofrecería…)", "any": ["ofreceria", "propondria", "haria", "daria", "llevaria", "sugeriria", "entregaria", "podria"]},
+        {"need": "para que", "any": ["para que"]},
+        {"need": "un verbo en subjuntivo", "any": ["pueda", "puedan", "decida", "elija", "conserve", "mantenga", "acepte", "tenga", "este", "responda", "quiera"]}
+      ],
+      "answer_objection": [
+        {"need": "aunque", "any": ["aunque"]},
+        {"need": "un verbo en subjuntivo (responda…)", "any": ["responda", "conteste", "acepte", "quiera"]},
+        {"need": "no publicar la dirección", "any": ["no deberiamos publicar", "no deberia publicar", "no publicariamos", "no publicaria", "no podemos publicar", "no debemos publicar"]}
+      ],
+      "delayed_recall": [
+        {"need": "tu propuesta en condicional", "any": ["propondria", "ofreceria", "haria", "sugeriria", "entregaria", "llevaria"]},
+        {"need": "una condición con si", "any": ["si"]},
+        {"need": "para que", "any": ["para que"]},
+        {"need": "un verbo en subjuntivo", "any": ["pueda", "puedan", "decida", "elija", "conserve", "mantenga", "acepte", "tenga", "este", "responda", "quiera"]}
+      ]
+    }
+  }
 }

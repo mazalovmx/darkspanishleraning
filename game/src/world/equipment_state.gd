@@ -132,14 +132,41 @@ func expected(set_id: String, stage: String) -> String:
 		"consent": return "Acepto este pacto."
 	return ""
 
+const LISTEN_KEYS := [{"need":"pedir en presente (quiero, necesito…)","any":["quiero","necesito","deseo","pido","puedo"]},
+	{"need":"escuchar","any":["escuchar","oir","conocer"]},{"need":"los recuerdos","any":["recuerdos","memorias"]}]
+
+var _separators := RegEx.create_from_string("[^\\p{L}\\p{N}]+")
+
+func _words(answer: String) -> String:
+	var text: String = _separators.sub(answer.to_lower(), " ", true)
+	for pair in [["á","a"],["é","e"],["í","i"],["ó","o"],["ú","u"]]:
+		text = text.replace(pair[0], pair[1])
+	return " " + " ".join(text.split(" ", false)) + " "
+
+## Authored needs a free answer still lacks; consent has no keys and stays exact.
+func missing(set_id: String, stage: String, answer: String) -> Array[String]:
+	var keys: Array = LISTEN_KEYS if stage == "listen" else language[set_id].get("keys",{}).get(stage,[])
+	var result: Array[String] = []
+	if keys.is_empty():
+		result.append("la frase completa")
+		return result
+	var text := _words(answer)
+	for group: Dictionary in keys:
+		if not group.any.any(func(form: String) -> bool: return text.contains(" %s " % form)):
+			result.append(str(group.need))
+	return result
+
+func _near_miss(world: RefCounted,set_id: String,stage: String,answer: String) -> bool:
+	for phrase: String in language[set_id].get("alternatives",{}).get(stage,[]):
+		if world.learner.curriculum.normalized(answer) == world.learner.curriculum.normalized(phrase):
+			return true
+	return false
+
 func _valid_response(world: RefCounted,set_id: String,stage: String,answer: String,memories: Array) -> bool:
 	if answer.length() > 300:
 		return false
-	var accepted: Array = [expected(set_id,stage)] + language[set_id].get("alternatives",{}).get(stage,[])
-	var matched := false
-	for phrase: String in accepted:
-		matched = matched or world.learner.curriculum.normalized(answer) == world.learner.curriculum.normalized(phrase)
-	if not matched:
+	var exact: bool = world.learner.curriculum.normalized(answer) == world.learner.curriculum.normalized(expected(set_id,stage))
+	if not exact and not _near_miss(world,set_id,stage,answer) and not missing(set_id,stage,answer).is_empty():
 		return false
 	if stage != "compare_memories":
 		return memories.is_empty()
@@ -159,13 +186,21 @@ func persuade(world: RefCounted,set_id: String,answer: String,memories: Array = 
 	if stage == "delayed_recall" and world.day <= progress.answer_objection.day:
 		return {"ok":false,"message":"Vuelve en un día posterior para recordar sin el modelo."}
 	if not _valid_response(world,set_id,stage,answer,memories):
-		return {"ok":false,"message":str(sets[set_id].ritual.retry_response)}
+		var hint := "Elige dos recuerdos distintos que el alma reconozca."
+		var gaps := missing(set_id,stage,answer)
+		if answer.length() > 300:
+			hint = "Usa una frase más corta."
+		elif stage == "consent":
+			hint = "Confirma con la frase del pacto."
+		elif not gaps.is_empty() and not _near_miss(world,set_id,stage,answer) and world.learner.curriculum.normalized(answer) != world.learner.curriculum.normalized(expected(set_id,stage)):
+			hint = "Tu frase necesita: " + "; ".join(gaps) + "."
+		return {"ok":false,"message":str(sets[set_id].ritual.retry_response) + "\n" + hint}
 	if not rituals.has(owner):
 		rituals[owner] = {}
 	if not rituals[owner].has(set_id):
 		rituals[owner][set_id] = {}
 	rituals[owner][set_id][stage] = {"day":world.day,"answer":answer.strip_edges(),"memories":memories.duplicate()}
-	if world.learner.curriculum.normalized(answer) != world.learner.curriculum.normalized(expected(set_id,stage)):
+	if _near_miss(world,set_id,stage,answer):
 		return {"ok":true,"message":"Se entiende. Forma sugerida: " + expected(set_id,stage)}
 	return {"ok":true,"message":"El alma reconoce tu argumento." if stage == "consent" else "La conversación continúa."}
 

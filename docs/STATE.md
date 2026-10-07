@@ -1569,3 +1569,33 @@ then survives the save round trip). Results are in the next entry.
 
 Executed for this commit: the full non-live run, 49 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Soul rituals: free answers checked against authored keys
+
+The independent stages of a soul conversation (independent argument, answer to the
+objection, delayed recall) accepted only one exact authored sentence, plus one
+near-miss for the objection, which the player never sees, so they could only be passed
+by guessing. `content/spanish/soul_rituals.json` now gives each set, for every stage
+except listening (keys in code) and consent (still exact), a list of needs: a label and
+the whole-word forms that satisfy it, for example for SA01's independent argument
+"protejo", the witness, and a second present-tense action. An answer passes when it is
+the model, a near-miss alternative, or meets every need. A near-miss still gets
+"Se entiende. Forma sugerida: …"; an own answer that meets the needs gets no
+correction. A rejection keeps the soul's retry line and adds "Tu frase necesita: …" with
+the missing labels, never the answer. The keys are authored so that the supported
+frame does not pass the independent argument and the soul's false reason does not pass
+the objection; a remembered supported frame may pass the delayed recall, which is the
+point of that stage. Listen, compare and supported stages still show their model, as
+the curriculum's introduction and supported practice require. Saved ritual answers
+validate through the same check. Limitation: a list of the right words is accepted
+regardless of grammar; the near-miss alternatives in the data are deliberate errors.
+
+Tests: equipment_state_test checks for all six sets that every model meets its own
+keys, that the copied supported frame is rejected with a "Tu frase necesita" hint that
+does not contain the answer, that the false reason is rejected, and that an own SA01
+independent argument is accepted without correction (584 checks). The keys and labels
+were written by the agent and are not reviewed by a Spanish speaker. Results in the
+next entry.
+
+Executed for this commit: the full non-live run, 49 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

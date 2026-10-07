@@ -1,18 +1,28 @@
 extends "res://tests/campaign_test.gd"
 const Equipment = preload("res://src/world/equipment_state.gd")
 func ritual(gear: RefCounted,state: RefCounted,set_id: String) -> void:
+	for need_stage: String in gear.language[set_id].keys:
+		check(gear.missing(set_id,need_stage,gear.expected(set_id,need_stage)).is_empty(),"Authored model meets its own keys")
 	for stage: String in gear.STAGES:
 		if stage == "delayed_recall":
 			check(not gear.persuade(state,set_id,gear.expected(set_id,stage)).ok,"Recall cannot happen on the same day")
 			state.end_turn()
 		var memories: Array = gear.sets[set_id].ritual.required_memories if stage == "compare_memories" else []
 		if stage == "independent_argument":
-			check(not gear.persuade(state,set_id,gear.sets[set_id].ritual.supported_frame).ok,"Copied model cannot replace independent argument")
+			var copied: Dictionary = gear.persuade(state,set_id,gear.sets[set_id].ritual.supported_frame)
+			check(not copied.ok,"Copied model cannot replace independent argument")
+			check(copied.message.contains("Tu frase necesita:") and not copied.message.contains(gear.expected(set_id,stage)),"Rejection names the missing need, not the answer")
+		if stage == "answer_objection":
+			check(not gear.persuade(state,set_id,gear.sets[set_id].ritual.wrong_reason).ok,"The soul's false reason is not an answer")
 		if stage == "compare_memories":
 			check(not gear.persuade(state,set_id,gear.expected(set_id,stage),[memories[0],memories[0]]).ok,"Same memory cannot stand for two sources")
 		var answer: String = gear.language[set_id].alternatives.answer_objection[0] if stage == "answer_objection" else gear.expected(set_id,stage)
+		if set_id == "SA01" and stage == "independent_argument":
+			answer = "Cuando llega un testigo, lo protejo: escucho su relato antes de juzgar."
 		var result: Dictionary = gear.persuade(state,set_id,answer,memories)
 		check(result.ok,"Distinct ritual stage: " + stage)
+		if set_id == "SA01" and stage == "independent_argument":
+			check(result.message == "La conversación continúa.","Own independent argument accepted without a correction")
 		if stage == "answer_objection":
 			check(result.message.contains("Forma sugerida"),"Understood grammatical error receives correction")
 func run() -> void:
