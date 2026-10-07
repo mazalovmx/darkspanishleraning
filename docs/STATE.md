@@ -1106,3 +1106,18 @@ province turns are integrated, and list what is still not implemented. Root and 
 copies were patched identically and compare byte-for-byte equal. No other section was
 changed; the four-versus-seven stack wording in section 13 is still open in BACKLOG.md.
 The user also chose to keep the repository on this machine without a remote for now.
+## Windowed review of the three UI changes
+
+Rendered the province map with OpenGL (Radeon Vega 8, accessibility disabled for the
+process) and inspected three 1280x720 screenshots. Findings and fixes:
+- The frozen-orders status line was clipped and widened the sidebar. Shortened to
+  "Órdenes congeladas: / resuelve el día primero"; it now fits.
+- Confirmation dialogs inherited the demo theme's oversized pixel font: the text was
+  cut off and only one button was visible. Both dialogs (replace unreadable save, new
+  game) now wrap their text, use a 24 px font and Sí/No buttons, and fit on screen.
+- The Tropas tab renders correctly with stacks, supplies, quantity and the button.
+Remaining observations, not changed: "Nueva partida" sits below the fold of the
+scrolling sidebar; the recipient selector shows a locked hero by default.
+
+Executed after the fixes: save_game 531, world_map 365, province_scene 17,
+ghost_scene 155: passed. The review script was a throwaway outside the repository.

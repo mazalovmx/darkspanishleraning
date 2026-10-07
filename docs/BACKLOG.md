@@ -28,7 +28,7 @@ Small, verifiable tasks first; each ends with tests, a STATE.md entry and one co
 6. [x] "Nueva partida" control with confirmation (P2 below).
 7. [x] Troop/supply handover between co-located heroes (Tropas tab of the equipment panel).
 
-Next session: start with a windowed review of the three UI changes made today (frozen-
+Done: windowed review of the three UI changes (frozen-
 orders status line, Nueva partida, Tropas tab), which were verified headless only.
 
 Not attempted today: the P1 conversation work below. It is the largest gap and needs

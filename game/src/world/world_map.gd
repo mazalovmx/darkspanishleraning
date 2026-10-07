@@ -326,6 +326,15 @@ func _build_ui() -> void:
 	new_confirm.title = "Nueva partida"
 	new_confirm.dialog_text = "¿Empezar desde el principio? La partida guardada se reemplaza; se conserva una copia anterior."
 	new_confirm.confirmed.connect(_new_game)
+	# The inherited demo theme gives dialogs a very large font; keep them readable at 1280x720.
+	for dialog: ConfirmationDialog in [save_confirm, new_confirm]:
+		dialog.get_label().autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		dialog.get_label().custom_minimum_size = Vector2(460, 0)
+		for control in [dialog.get_label(), dialog.get_ok_button(), dialog.get_cancel_button()]:
+			control.add_theme_font_size_override("font_size", 24)
+		dialog.add_theme_font_size_override("title_font_size", 24)
+		dialog.ok_button_text = "Sí"
+		dialog.cancel_button_text = "No"
 	dialogue.request_started.connect(func():
 		save_button.disabled = true
 		load_button.disabled = true)
@@ -547,7 +556,7 @@ func _refresh() -> void:
 	end_button.text = "Resolver órdenes" if state.map_id == "province_160x120_v1" else "Terminar turno"
 	status.text = "%s · Día %d\nMovimiento: %d / %d\n%s" % [state.party.active().definition.short_name, state.day,
 		state.movement_remaining, state.MOVEMENT_MAX + int(state.equipment.bonuses(state.party.active_id).world_movement),
-		"Órdenes congeladas: resuelve el día\nantes de comerciar o investigar" if state.ghosts.plan != null else "Héroe seleccionado" if selected else "Selecciona al héroe"]
+		"Órdenes congeladas:\nresuelve el día primero" if state.ghosts.plan != null else "Héroe seleccionado" if selected else "Selecciona al héroe"]
 	queue_redraw()
 
 func _update_preview() -> void:
