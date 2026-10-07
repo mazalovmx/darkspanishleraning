@@ -46,14 +46,16 @@ Done on 2026-10-07 (details in the dated entries at the end of this file):
 audit and backlog rewrite, test runner, frozen-plan guards, working docs and both
 specifications aligned with the runtime, innkeeper directions, new-game control,
 troop/supply handover tab, windowed review of those UI changes, two accepted
-paraphrases per campaign task, basic NPC memory with save v13.
+paraphrases per campaign task, basic NPC memory with save v13, 34 golden
+conversation cases.
 
 What to do next, in order (BACKLOG.md has the full list):
 1. P1 conversation breadth: only 4 NPCs are conversable; acts II-VII and the 108
    cases accept one exact sentence each. Start with accepted-answer variants and
    with grounding plus authored fallback for the bible principals.
-2. Golden conversation tests (section 39); the rest of NPC memory (lies told,
-   relationship, validated summary). Count, day and topics are done (save v13).
+2. The rest of NPC memory (lies told, relationship, validated summary); a live,
+   opt-in variant of the golden conversations. To add an offline golden case, append
+   to `game/tests/dialogue_golden.json`; no code change is needed.
 3. Missing scenario content: SQ03-SQ05, MQ10, Act VII crisis.
 4. Release basics: export preset, title/menu, removal of the unused demo and Dialogic.
 Open user decisions are listed at the end of BACKLOG.md.
@@ -1208,3 +1210,20 @@ Executed the full runner: 45 suites plus restart write/read, all passed, 55,010
 counted checks (save_game 540, authored_dialogue 29, dialogue_clue 40). Nine
 migration fixtures in other suites now drop the new key when imitating old saves.
 No live API call was made, so the model's use of `npc_memory` is unverified.
+## Golden conversations and a refused-proposal fix (section 39)
+
+Added game/tests/dialogue_golden.json with 34 cases and dialogue_golden_test.gd,
+which runs each through the production response parser, grounding verifier, learner
+and dialogue panel with a fake transport. Cases cover clue unlocks and every refusal
+path (missing prerequisite, invented or physical id, wrong NPC, wrong location,
+model-claimed intent, keyword-only message, repeat), outage and malformed output,
+correction display, mastery credit and its limits, and withheld secrets.
+
+The suite found a defect: when a model proposal was refused, the fallback reply still
+printed the clue's canonical text and said it "queda anotada", although nothing was
+recorded. A refused proposal now gets the plain authored reply. Asking again about a
+clue already recorded says it "ya consta en el cuaderno".
+
+Executed the full runner: 46 suites plus restart write/read, all passed, 55,308
+counted checks (dialogue_golden 298). These are offline boundary tests; they do not
+evaluate real model prose, recasts or tone. That needs a paid, opt-in live variant.

@@ -138,6 +138,9 @@ func _on_reply(proposal: Dictionary) -> void:
 		world_state.learner.observe(proposal.language, pending_message, npc_id, pending_day)
 		last_feedback[pending_location] = _language_feedback(proposal.language)
 	var reply: String = proposal.get("npc_reply", pending_fallback)
+	# A refused proposal must not show clue text or claim that anything was recorded.
+	if rejected:
+		reply = reply_for(pending_location, pending_message, false)
 	# Authored disclosure also works without API. Rejected proposals never unlock it.
 	if not rejected:
 		for id: String in pending_unlocks:
@@ -164,15 +167,16 @@ func _on_reply(proposal: Dictionary) -> void:
 	pending_unlocks.clear()
 	turn_finished.emit()
 
-func reply_for(id: String, message: String) -> String:
+# disclose=false gives the plain authored reply, without any clue text.
+func reply_for(id: String, message: String, disclose := true) -> String:
 	if not conversations.has(id):
 		return ""
 	var evidence = world_state.evidence
 	var context: Dictionary = grounding.context_for(conversations[id].npc_id,
 		grounding.intent_for(message), evidence.context_flags(), evidence.progress().keys())
 	for clue_id: String in context.get("npc_knowledge", {}):
-		if evidence.valid_note(clue_id, message):
-			return evidence.node(clue_id).claim + " Esta declaración queda anotada con su fuente."
+		if disclose and evidence.valid_note(clue_id, message):
+			return evidence.node(clue_id).claim + (" Esta declaración ya consta en el cuaderno." if evidence.has_evidence(clue_id) else "")
 	var normalized := message.to_lower()
 	var accents := {"á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u", "ü": "u"}
 	for letter in accents:

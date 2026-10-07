@@ -27,6 +27,17 @@ Sections below describe individual suites as they were when added; suites added
 later (campaign, economy, equipment, side cases, ghosts, province) follow the same
 `--script res://tests/<name>.gd` form and are all covered by the runner.
 
+## Golden conversations
+
+`game/tests/dialogue_golden_test.gd` reads `game/tests/dialogue_golden.json` (34 cases).
+Each case names a conversation, the evidence already recorded, the player line and
+what the fake transport returns: null for an outage, a string for raw model text, or
+proposal fields. The reply goes through the production parser, grounding verifier,
+learner and dialogue panel. Every case asserts the exact evidence change, that a
+record is announced only when one was made, and that no other canonical state moved;
+cases may add reply, feedback and mastery expectations. It makes no API call and
+does not judge real model prose.
+
 Inspect logs as well as exit codes: Godot may return zero despite script errors.
 `--quit-after` counts frames, not seconds. The windowed smoke run checks graphics
 initialization and main-scene startup, not interactive playability or FPS.

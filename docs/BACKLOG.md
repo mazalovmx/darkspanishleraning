@@ -53,7 +53,10 @@ its own multi-session plan and scenario-bible review per NPC.
   validated conversation summary.
 - Request context (section 17) lacks scene, relationship, focus_verbs, recent_errors
   and conversation_summary; recent dialogue is 3 exchanges instead of 4-6.
-- Golden conversation tests (section 39): none of the required 30 exist.
+- Golden conversation tests (section 39): 34 data-driven cases exist in
+  `game/tests/dialogue_golden.json`, run offline with a fake transport. They cover the
+  deterministic boundary only. A live variant that sends the same player lines to the
+  real model and checks recasts and non-invention is still missing (paid, opt-in).
 - Transactional archetypes (Epic 13): only the merchant exists, at LOC11 only.
   Missing innkeeper/room, healer, stable master, guard, toll collector, food seller,
   smuggler, each in three difficulty versions; survival dialogues of section 30
