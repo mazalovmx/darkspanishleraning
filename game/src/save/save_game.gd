@@ -245,11 +245,11 @@ static func read_save(path := PATH) -> Dictionary:
 static func write_save(state: WorldState, path := PATH) -> String:
 	if state.active_battle != null:
 		return "battle_active"
-	var data := snapshot(state)
-	if not decode(data).has("state"):
-		return "invalid_state"
-	var text := JSON.stringify(data, "", true, true)
-	if text.to_utf8_buffer().size() > MAX_BYTES:
+	var text := JSON.stringify(snapshot(state), "", true, true)
+	var bytes := text.to_utf8_buffer()
+	# Validate once, and validate the parsed text: that is exactly what a later load decodes.
+	var parser := JSON.new()
+	if bytes.size() > MAX_BYTES or parser.parse(text) != OK or not decode(parser.data).has("state"):
 		return "invalid_state"
 	var temporary := path + ".tmp"
 	var file := FileAccess.open(temporary, FileAccess.WRITE)
@@ -259,7 +259,8 @@ static func write_save(state: WorldState, path := PATH) -> String:
 	file.flush()
 	var error := file.get_error()
 	file.close()
-	if error != OK or not read_save(temporary).has("state"):
+	# The file must hold the validated text byte for byte.
+	if error != OK or FileAccess.get_file_as_bytes(temporary) != bytes:
 		return "write"
 	# Same-directory replacement, never truncate the existing save in place.
 	if DirAccess.rename_absolute(temporary, path) != OK:
