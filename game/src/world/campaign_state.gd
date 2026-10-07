@@ -53,7 +53,8 @@ func _answer_valid(world: RefCounted, node: Dictionary, answer: String, classifi
 	if answer.length() > 300 or classification != node.classification:
 		return false
 	var matched := false
-	for accepted: String in node.answers:
+	# variants are authored paraphrases of the same claim in the same taught grammar.
+	for accepted: String in node.answers + node.get("variants", []):
 		if world.learner.curriculum.normalized(answer) == world.learner.curriculum.normalized(accepted):
 			matched = true
 	if not matched:

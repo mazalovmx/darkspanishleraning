@@ -67,7 +67,17 @@ func run() -> void:
 			state._reveal_from(state.hero_cell)
 		if not supports.is_empty():
 			check(not campaign.submit(state,id,node.answers[0],node.classification,[supports[0],supports[0]]).ok, "Distinct supporting evidence required")
-		check(campaign.submit(state,id,node.answers[0],node.classification,supports).ok, "Canonical act task completes: " + id)
+		var variants: Array = node.get("variants", [])
+		check(variants.size() == (0 if id == "council_resolution" else 2), "Two authored paraphrases per task: " + id)
+		var wording: String = node.answers[0]
+		if not variants.is_empty():
+			wording = variants[checks % 2]
+			var distinct := {state.learner.curriculum.normalized(node.answers[0]): true}
+			for variant: String in variants:
+				distinct[state.learner.curriculum.normalized(variant)] = true
+			check(distinct.size() == 3, "Paraphrases differ from the model: " + id)
+			check(not campaign.submit(state,id,wording + " Además, la Orden mató a todos.",node.classification,supports).ok, "Added claim is not a paraphrase: " + id)
+		check(campaign.submit(state,id,wording,node.classification,supports).ok, "Canonical act task completes: " + id)
 		check(not campaign.submit(state,id,node.answers[0],node.classification,supports).ok, "Task cannot grant duplicate progress")
 		check(Save.decode(Save.snapshot(state)).has("state"), "Every intermediate campaign state restores: " + id)
 	check(state.party.heroes.smuggler.unlocked and state.party.heroes.survivor.unlocked, "Both story introductions earned")

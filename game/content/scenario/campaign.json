@@ -12,6 +12,10 @@
       "answers": [
         "El documento cambia la situación legal de los cuadernos."
       ],
+      "variants": [
+        "Este documento cambia la situación legal de los cuadernos.",
+        "La orden cambia la situación legal de los cuadernos."
+      ],
       "classification": "declared",
       "requires": [
         "e:opening_conclusion"
@@ -38,6 +42,10 @@
       "answers": [
         "El obispo quiere estabilidad."
       ],
+      "variants": [
+        "El obispo busca estabilidad.",
+        "El obispo desea estabilidad."
+      ],
       "classification": "reported",
       "requires": [
         "sealed_order"
@@ -56,6 +64,10 @@
       "prompt": "Distingue la autoridad legal de la prueba causal.",
       "answers": [
         "Una declaración no demuestra la causa de la muerte."
+      ],
+      "variants": [
+        "Una declaración no prueba la causa de la muerte.",
+        "La declaración no demuestra la causa de la muerte."
       ],
       "classification": "inferred",
       "requires": [
@@ -81,6 +93,10 @@
       "answers": [
         "Los impresores pagaron el encargo."
       ],
+      "variants": [
+        "Los impresores pagaron por el encargo.",
+        "Los impresores pagaron este encargo."
+      ],
       "classification": "observed",
       "requires": [
         "legal_distinction"
@@ -103,6 +119,10 @@
       "answers": [
         "El mensajero llevó el cuaderno al depósito de los impresores."
       ],
+      "variants": [
+        "Un mensajero llevó el cuaderno al depósito de los impresores.",
+        "El mensajero entregó el cuaderno en el depósito de los impresores."
+      ],
       "classification": "observed",
       "requires": [
         "ines_arrival"
@@ -123,6 +143,10 @@
       "prompt": "Relaciona el pago documentado con su finalidad.",
       "answers": [
         "Esteban Roque pagó para destruir los planos."
+      ],
+      "variants": [
+        "Esteban Roque pagó por destruir los planos.",
+        "Roque pagó para destruir los planos."
       ],
       "classification": "observed",
       "requires": [
@@ -145,6 +169,10 @@
       "answers": [
         "Gabriel vio a Esteban Roque junto a la torre."
       ],
+      "variants": [
+        "Gabriel vio a Roque junto a la torre.",
+        "Gabriel vio a Esteban Roque al lado de la torre."
+      ],
       "classification": "reported",
       "requires": [
         "copying_method"
@@ -165,6 +193,10 @@
       "prompt": "Concluye quién mató a Tomás con las pruebas reunidas.",
       "answers": [
         "Esteban Roque mató a Tomás durante una disputa."
+      ],
+      "variants": [
+        "Roque mató a Tomás durante una disputa.",
+        "Esteban Roque mató a Tomás durante una pelea."
       ],
       "classification": "inferred",
       "requires": [
@@ -191,6 +223,10 @@
       "answers": [
         "León anulaba la válvula de seguridad."
       ],
+      "variants": [
+        "León desactivaba la válvula de seguridad.",
+        "El hermano León anulaba la válvula de seguridad."
+      ],
       "classification": "observed",
       "requires": [
         "tomas_cause"
@@ -212,6 +248,10 @@
       "answers": [
         "La Orden exigía detener los experimentos."
       ],
+      "variants": [
+        "La Orden exigía parar los experimentos.",
+        "La Orden exigía el fin de los experimentos."
+      ],
       "classification": "reported",
       "requires": [
         "tomas_cause"
@@ -232,6 +272,10 @@
       "prompt": "Distingue accidente y amenaza.",
       "answers": [
         "León anulaba la protección cuando ocurrió el accidente."
+      ],
+      "variants": [
+        "León anulaba la protección cuando sucedió el accidente.",
+        "Cuando ocurrió el accidente, León anulaba la protección."
       ],
       "classification": "inferred",
       "requires": [
@@ -260,6 +304,10 @@
       "answers": [
         "El tratamiento amenazaba el monopolio del gremio."
       ],
+      "variants": [
+        "El tratamiento ponía en peligro el monopolio del gremio.",
+        "El nuevo tratamiento amenazaba el monopolio del gremio."
+      ],
       "classification": "observed",
       "requires": [
         "tomas_cause"
@@ -280,6 +328,10 @@
       "prompt": "Describe la acción durante la preparación.",
       "answers": [
         "Selmo sustituyó el frasco mientras la ayudante trabajaba."
+      ],
+      "variants": [
+        "Selmo cambió el frasco mientras la ayudante trabajaba.",
+        "Mientras la ayudante trabajaba, Selmo sustituyó el frasco."
       ],
       "classification": "reported",
       "requires": [
@@ -302,6 +354,10 @@
       "prompt": "Formula la conclusión sobre Gaspar.",
       "answers": [
         "Selmo mató a Gaspar porque el tratamiento amenazaba su negocio."
+      ],
+      "variants": [
+        "Selmo Oribe mató a Gaspar porque el tratamiento amenazaba su negocio.",
+        "Selmo mató a Gaspar porque el tratamiento ponía en peligro su negocio."
       ],
       "classification": "inferred",
       "requires": [
@@ -329,6 +385,10 @@
       "answers": [
         "La Orden autorizó la muerte de Beltrán."
       ],
+      "variants": [
+        "La Orden aprobó la muerte de Beltrán.",
+        "La Orden autorizó el asesinato de Beltrán."
+      ],
       "classification": "observed",
       "requires": [
         "leon_cause",
@@ -351,6 +411,10 @@
       "answers": [
         "El hermano Esteban ingresó voluntariamente en la Orden."
       ],
+      "variants": [
+        "El hermano Esteban entró voluntariamente en la Orden.",
+        "Esteban ingresó voluntariamente en la Orden."
+      ],
       "classification": "reported",
       "requires": [
         "beltran_order"
@@ -371,6 +435,10 @@
       "prompt": "Explica el error de atribuir todas las muertes a un solo culpable.",
       "answers": [
         "Las muertes tenían causas diferentes."
+      ],
+      "variants": [
+        "Las muertes tenían causas distintas.",
+        "Las muertes no tenían la misma causa."
       ],
       "classification": "inferred",
       "requires": [
@@ -397,6 +465,10 @@
       "answers": [
         "Elias dice que viene de otro mundo."
       ],
+      "variants": [
+        "Elias afirma que viene de otro mundo.",
+        "Elias dice que llega de otro mundo."
+      ],
       "classification": "reported",
       "requires": [
         "separate_causes"
@@ -417,6 +489,10 @@
       "answers": [
         "Elias dice que una respuesta plausible no demuestra una causa."
       ],
+      "variants": [
+        "Elias afirma que una respuesta plausible no demuestra una causa.",
+        "Elias dice que una respuesta plausible no prueba una causa."
+      ],
       "classification": "reported",
       "requires": [
         "elias_arrival"
@@ -436,6 +512,10 @@
       "answers": [
         "Ysabel dice que las restricciones protegen a la provincia."
       ],
+      "variants": [
+        "Ysabel afirma que las restricciones protegen a la provincia.",
+        "Ysabel dice que las restricciones protegen la provincia."
+      ],
       "classification": "reported",
       "requires": [
         "relay_comparison"
@@ -454,6 +534,10 @@
       "prompt": "Expresa el propósito de la entrada conjunta.",
       "answers": [
         "Vamos a examinar el archivo juntos."
+      ],
+      "variants": [
+        "Vamos a examinar juntos el archivo.",
+        "Vamos a revisar el archivo juntos."
       ],
       "classification": "declared",
       "requires": [
@@ -477,6 +561,10 @@
       "answers": [
         "He consultado un archivo de crisis."
       ],
+      "variants": [
+        "Hemos consultado un archivo de crisis.",
+        "He examinado un archivo de crisis."
+      ],
       "classification": "observed",
       "requires": [
         "archive_meeting"
@@ -498,6 +586,10 @@
       "answers": [
         "No hemos encontrado suficientes registros de días corrientes."
       ],
+      "variants": [
+        "No hemos encontrado bastantes registros de días corrientes.",
+        "No hemos encontrado suficientes registros de días normales."
+      ],
       "classification": "observed",
       "requires": [
         "index_crisis"
@@ -518,6 +610,10 @@
       "prompt": "Explica lo que ha hecho la Orden con las asociaciones.",
       "answers": [
         "La Orden ha convertido asociaciones en leyes."
+      ],
+      "variants": [
+        "La Orden ha transformado asociaciones en leyes.",
+        "La Orden ha convertido las asociaciones en leyes."
       ],
       "classification": "inferred",
       "requires": [
@@ -544,6 +640,10 @@
       "answers": [
         "La válvula estaba atada."
       ],
+      "variants": [
+        "La válvula de seguridad estaba atada.",
+        "La válvula estaba atada a mano."
+      ],
       "classification": "observed",
       "requires": [
         "archive_bias"
@@ -563,6 +663,10 @@
       "answers": [
         "Esteban dice que las predicciones lo convencieron."
       ],
+      "variants": [
+        "Esteban afirma que las predicciones lo convencieron.",
+        "Esteban dice que lo convencieron las predicciones."
+      ],
       "classification": "reported",
       "requires": [
         "archive_bias"
@@ -581,6 +685,10 @@
       "prompt": "Corrige esa conclusión.",
       "answers": [
         "No se deberían atribuir todas las muertes al mismo autor."
+      ],
+      "variants": [
+        "No deberíamos atribuir todas las muertes al mismo autor.",
+        "No se deberían atribuir todas las muertes a un solo autor."
       ],
       "classification": "inferred",
       "requires": [
@@ -603,6 +711,10 @@
       "answers": [
         "La declaración no prueba que Tomás sea culpable."
       ],
+      "variants": [
+        "La declaración no demuestra que Tomás sea culpable.",
+        "Esa declaración no prueba que Tomás sea culpable."
+      ],
       "classification": "declared",
       "requires": [
         "archive_bias"
@@ -623,6 +735,10 @@
       "prompt": "Formula esa incertidumbre.",
       "answers": [
         "No sabemos qué ocurriría a largo plazo."
+      ],
+      "variants": [
+        "No sabemos qué pasaría a largo plazo.",
+        "No sabemos qué sucedería a largo plazo."
       ],
       "classification": "unresolved",
       "requires": [
@@ -645,6 +761,10 @@
       "answers": [
         "Los carros de grano no llegaron."
       ],
+      "variants": [
+        "Los carros con grano no llegaron.",
+        "No llegaron los carros de grano."
+      ],
       "classification": "observed",
       "requires": [
         "legal_distinction"
@@ -666,6 +786,10 @@
       "prompt": "Relaciona el transporte y la escasez sin inventar una intención.",
       "answers": [
         "La interrupción de la ruta causó la escasez."
+      ],
+      "variants": [
+        "La interrupción de la ruta provocó la escasez.",
+        "El corte de la ruta causó la escasez."
       ],
       "classification": "inferred",
       "requires": [
@@ -693,6 +817,10 @@
       "answers": [
         "Los propietarios prolongaban los turnos cuando aumentaba la producción."
       ],
+      "variants": [
+        "Los propietarios alargaban los turnos cuando aumentaba la producción.",
+        "Cuando aumentaba la producción, los propietarios prolongaban los turnos."
+      ],
       "classification": "observed",
       "requires": [
         "leon_cause"
@@ -714,6 +842,10 @@
       "prompt": "Expresa las dos condiciones del permiso.",
       "answers": [
         "El permiso exige ventilación y límites de jornada."
+      ],
+      "variants": [
+        "El permiso requiere ventilación y límites de jornada.",
+        "El permiso exige ventilación y límites a la jornada."
       ],
       "classification": "declared",
       "requires": [
@@ -739,6 +871,10 @@
       "answers": [
         "El objeto es un condensador."
       ],
+      "variants": [
+        "Este objeto es un condensador.",
+        "El objeto es un condensador antiguo."
+      ],
       "classification": "observed",
       "requires": [
         "elias_arrival"
@@ -758,6 +894,10 @@
       "prompt": "Expresa lo que se conserva y lo que cambia.",
       "answers": [
         "Hemos conservado el objeto y explicado su funcionamiento."
+      ],
+      "variants": [
+        "Hemos conservado el objeto y hemos explicado su funcionamiento.",
+        "Hemos conservado el objeto y explicado cómo funciona."
       ],
       "classification": "inferred",
       "requires": [

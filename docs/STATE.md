@@ -1170,3 +1170,17 @@ scrolling sidebar; the recipient selector shows a locked hero by default.
 
 Executed after the fixes: save_game 531, world_map 365, province_scene 17,
 ghost_scene 155: passed. The review script was a throwaway outside the repository.
+## Campaign tasks accept authored paraphrases
+
+Each of the 35 act and optional-review tasks now has two `variants` in campaign.json:
+paraphrases of the same claim in the same taught grammar, adding no fact (the full
+bible was read before authoring them). The council resolution has none because its
+four sentences select the ending. Matching is still exact after normalisation, so
+this widens what is accepted from one sentence to three; it is not free-form
+evaluation. "Ver un modelo" still shows the first sentence. Recorded variants pass
+save validation because restore uses the same check.
+
+Executed the full runner: 45 suites plus restart write/read, all passed, 54,996
+counted checks (campaign_test 482: every task is completed through a paraphrase,
+paraphrases are distinct from the model, and a paraphrase with an added claim is
+refused). No Spanish speaker reviewed the paraphrases.

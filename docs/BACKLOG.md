@@ -40,9 +40,9 @@ its own multi-session plan and scenario-bible review per NPC.
   Add grounding, authored fallback and free-text dialogue for the bible principals
   first: Veyra, Beatriz Orma, Ysabel de la Sal, Simón Vale, Rodrigo Mendaña, Selmo
   Oribe, Esteban, and Inés/Elias as speakers. `save_game.gd` hard-codes the four ids.
-- Acts II-VII are sentence-entry cards with one accepted sentence and a button that
-  shows it. Give each task several accepted variants at minimum, and move the
-  investigative ones to grounded conversation plus inspection as in Act I.
+- Acts II-VII are sentence-entry cards. Each now accepts its model sentence or two
+  authored paraphrases, but matching is still exact and a button shows the model.
+  Move the investigative ones to grounded conversation plus inspection as in Act I.
 - The 108 optional cases reuse nine sentence templates; the per-quest
   `language.prompt/model_frame/independent_task/recall_task` fields are not read.
 - Rejection messages for purchases print the full expected sentence; soul rituals
