@@ -42,6 +42,8 @@ func record(state: RefCounted, id: String) -> void:
 	var node: Dictionary = state.campaign.definitions[id]
 	state.campaign.records[id] = {"day": state.day, "hero": state.party.active_id, "answer": node.answers[0],
 		"classification": node.classification, "supports": []}
+	if node.has("unlock_hero"):
+		state.party.heroes[node.unlock_hero].unlocked = true
 
 func speakers(panel: Node) -> Array:
 	var ids: Array = []
@@ -55,6 +57,10 @@ func enter(map: Node, scene: String) -> void:
 	for location: Dictionary in state.locations:
 		if location.id == scene:
 			state.hero_cell = Vector2i(location.position[0], location.position[1])
+	# Companions are physically present at their canonical introduction sites.
+	for pair in [["LOC05", "smuggler", "ines_arrival"], ["LOC09", "survivor", "elias_arrival"]]:
+		if scene == pair[0] and state.campaign.records.has(pair[2]):
+			state.party.heroes[pair[1]].cell = state.hero_cell
 	state._reveal_from(state.hero_cell)
 	map._open_poi(state.hero_cell)
 
@@ -83,18 +89,35 @@ func run() -> void:
 			continue
 		map._adopt(World.new("province_160x120_v1"))
 		enter(map, panel.scene_for(id))
-		check(panel.visible and panel.scene_for(id) in speakers(panel) and id not in speakers(panel), "Speaker is absent from the selector before the task: " + id)
+		check(not panel.visible or id not in speakers(panel), "Speaker is absent from the selector before the task: " + id)
 		panel.open_conversation(id)
 		check(not panel.visible and not panel.histories.has(id), "Speaker cannot be opened before the task: " + id)
 		panel.show()
 		panel.submit("Hola")
 		check(not fake.busy, "Nothing is sent to a speaker who is not there yet: " + id)
 		record(map.state, needed)
+		enter(map, panel.scene_for(id))
 		panel.open_conversation(panel.scene_for(id))
 		check(id in speakers(panel), "Speaker is in the selector after the task: " + id)
 		panel.open_conversation(id)
 		check(panel.visible and panel.transcript.text.contains(str(panel.conversations[id].greeting)), "Speaker can be opened after the task: " + id)
+		var companion := str(panel.conversations[id].get("companion_hero", ""))
+		if not companion.is_empty():
+			var member = map.state.party.heroes[companion]
+			var original: Vector2i = member.cell
+			member.cell += Vector2i.RIGHT
+			check(not panel.available(id), "Absent companion cannot converse: " + id)
+			panel.submit("Hola")
+			check(not fake.busy, "Absent companion cannot receive a message: " + id)
+			member.cell = original
+			member.unlocked = false
+			check(not panel.available(id), "Locked companion cannot converse: " + id)
+			member.unlocked = true
+			check(map.state.select_hero(companion), "Select introduced companion: " + id)
+			check(not panel.available(id), "Companion cannot converse with self: " + id)
+			check(map.state.select_hero("inquisitor") and panel.available(id), "Return to the other hero restores conversation: " + id)
 		map._close_poi()
+	check(panel.conversations.LOC05.get("requires") == "ines_arrival" and panel.conversations.LOC09.get("requires") == "elias_arrival", "Companions wait for canonical introductions")
 	var names := {}
 	for case: Dictionary in data.cases:
 		var label: String = case.name
@@ -147,5 +170,11 @@ func run() -> void:
 		if expect.has("player_max"):
 			check(str(history.back().player).length() <= int(expect.player_max), "Stored message is bounded: " + label)
 		map._close_poi()
+	# Save whitelist and topic memory roundtrip without fabricated campaign records.
+	var remembered = World.new()
+	remembered.remember("ines_vargas", "ask_identity", remembered.day)
+	remembered.remember("elias_venn", "unknown", remembered.day)
+	var loaded := Save.decode(Save.snapshot(remembered))
+	check(loaded.has("state") and loaded.state.npc_memory == remembered.npc_memory, "Both companions' memory survives save")
 	print("Golden conversation checks: %d, failures: %d" % [checks, failures])
 	quit(1 if failures else 0)

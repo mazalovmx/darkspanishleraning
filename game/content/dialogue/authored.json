@@ -116,7 +116,124 @@
                          "fallback":  "Necesito indicios físicos. Una sospecha no sustituye un examen.",
                          "npc_id":  "leonor_valera"
                      },
-    "LOC01_YSABEL": {
+      "LOC05": {
+    "requires": "ines_arrival",
+    "companion_hero": "smuggler",
+    "npc_id": "ines_vargas",
+    "name": "Inés Vargas",
+    "greeting": "Soy Inés Vargas. Me llaman la Urraca. Hablemos del encargo.",
+    "greeting_again": "Otra vez tú. El encargo sigue siendo el mismo.",
+    "hint": "Pregunta por el encargo, el pago o los libros.",
+    "branches": [
+      {
+        "keywords": [
+          "nombre",
+          "quien es",
+          "quien eres",
+          "urraca"
+        ],
+        "reply": "Soy Inés Vargas, la Urraca. Conozco los muelles de Cárdena."
+      },
+      {
+        "keywords": [
+          "pago",
+          "pagaron",
+          "impresores"
+        ],
+        "reply": "Los impresores pagaron el encargo. Mi contratante se presentó como un estudioso."
+      },
+      {
+        "keywords": [
+          "encargo",
+          "cuaderno"
+        ],
+        "reply": "Me contrataron para recuperar el cuaderno de Tomás. Eso no demuestra quién lo mató."
+      },
+      {
+        "keywords": [
+          "libros",
+          "mercancia",
+          "contrabando"
+        ],
+        "reply": "Transporto libros y mercancía prohibida. El Estado la hace cara; otros pagan por llevarla."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada. Las gracias no pagan el transporte."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Hola. ¿Qué necesitas?"
+      }
+    ],
+    "fallback": "No tengo pruebas de eso. Pregunta por mi encargo."
+  },
+  "LOC09": {
+    "requires": "elias_arrival",
+    "companion_hero": "survivor",
+    "npc_id": "elias_venn",
+    "name": "Elias Venn",
+    "greeting": "Me llamo Elias Venn. Digo que vengo de otro mundo. Sé que mi relato necesita pruebas.",
+    "greeting_again": "Has vuelto. Mi relato sigue necesitando pruebas.",
+    "hint": "Pregunta por su origen o por sus objetos; distingue relato y observación.",
+    "branches": [
+      {
+        "keywords": [
+          "nombre",
+          "quien es",
+          "quien eres"
+        ],
+        "reply": "Me llamo Elias Venn. Puedes examinar mis objetos; mi nombre no demuestra su origen."
+      },
+      {
+        "keywords": [
+          "origen",
+          "mundo",
+          "procede",
+          "viene"
+        ],
+        "reply": "Digo que vengo de otro mundo. Es mi relato, no una prueba independiente."
+      },
+      {
+        "keywords": [
+          "objetos",
+          "instrumentos",
+          "prueba"
+        ],
+        "reply": "Mis objetos están aquí. Puedes observarlos. Mi explicación de su origen es otra cosa."
+      },
+      {
+        "keywords": [
+          "profeta",
+          "demonio",
+          "oraculo"
+        ],
+        "reply": "Llamarme profeta o demonio no explica mis objetos. Primero examina lo que tienes delante."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada. Sigue examinando las pruebas."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunta una cosa cada vez."
+      }
+    ],
+    "fallback": "Eso requiere otra investigación. Por ahora, separa mis objetos de mi relato."
+  },
+"LOC01_YSABEL": {
       "location_id": "LOC01",
       "requires": "ysabel_account",
       "npc_id": "ysabel_de_la_sal",
