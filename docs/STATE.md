@@ -912,3 +912,25 @@ The initial JSON test exposed int/float coordinate differences; normalized resto
 coordinates and reran successfully. Existing shutdown diagnostics persist. This is a
 prepared resolver, not yet the live map's travel loop; spawning, AI target policy,
 interventions, strategic UI and world-save integration remain next.
+## Ghost strategy and bounded interventions prepared
+
+Added eight distinct target preferences, curriculum/branch-gated activation, a maximum
+of three active profiles and frozen move/intervene/guard/recover orders. Perception
+uses the current nearest discovered location and its two nearest discovered neighbors.
+At most two interventions resolve per day and one effect per branch; effects expire
+within one or two turns and repeated targets have a three-turn cooldown. More recently
+served knights yield intervention priority to longer-waiting profiles, with fixed
+initiative/ID ties, preventing one profile from permanently excluding another.
+
+Effects gate only their designated optional-case stage. Typed Spanish counters cite
+owned branch evidence; some require two distinct sources. Optional consenting soul
+countermeasures still require Spanish and evidence. Counters may interrupt telegraphed
+orders; defeats disperse a knight for three turns. Recovery actors do not block routes.
+Owned evidence, equipment and mainline claims are not mutated by these effects.
+
+Executed 1449 ghost-strategy checks covering all eight profiles, expiry, counters,
+recovery and invariants; 33 route-resolver and 116 ghost-battle scene checks passed.
+Initial checks found starvation on a shared target and a test that had already claimed
+the escrow component; fixed arbitration and the unclaimed-component fixture, then
+reran. Existing shutdown diagnostics persist. This is still a standalone controller;
+world persistence, travel planning UI and live intervention/counter controls remain next.

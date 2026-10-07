@@ -181,7 +181,7 @@ func resolve(world: RefCounted) -> Dictionary:
 			if actors[hero].side != 0:
 				continue
 			for knight in actors:
-				if actors[knight].side != 1 or (stopped.has(hero) and stopped.has(knight)):
+				if actors[knight].side != 1 or orders[knight].kind == "recover" or (stopped.has(hero) and stopped.has(knight)):
 					continue
 				var same: bool = proposed[hero] == proposed[knight]
 				var edge: bool = positions[hero] == proposed[knight] and positions[knight] == proposed[hero] and positions[hero] != positions[knight]
