@@ -1100,6 +1100,31 @@ She teaches Mateo that:
 
 ---
 
+## 13.11 Minor named speakers (user request, 2026-10-07)
+
+Names given at the user's request to campaign speakers that had only a role. Each knows
+only what the source text of their campaign task states; none can lie or unlock clues.
+
+- Fermín Cuesta — officer of the Archivo Episcopal; applies the sealed order.
+- Clara Ibarra — custodian at the Archivo Episcopal; keeps Beltrán's papers.
+- Nicolás Ferrer — customs scribe at Puente Seco.
+- Julián Pardo — officer of the Casa de Impresores.
+- Remedios Galán — doorkeeper of the Ferraza workshop; kept the Order's warning.
+- Marta Ugarte — apothecary's assistant in Miralba; saw Selmo replace the vial.
+- Baltasar Quiroga — representative of the Liga de Oficios before the council.
+- Catalina Rius — baker of San Vélaro.
+- Damián Soler — carter of Granja Arce.
+- Pilar Montoya — delegate of the Bruma miners.
+- Águeda Llorente — keeper of the pilgrimages at Monte Ciego.
+- Anselmo Vidal — guard of the Tribunal in Valdora.
+- Hernando Ruiz — scribe of the Tribunal in Valdora.
+- Tobías Marín — courier of the Hermandad del Puente.
+- Lorenzo Villar — spokesman of the Ferraza workers.
+- Gonzalo Ferrán — workshop owner in Ferraza.
+- Hermano Cipriano — envoy of the Orden de la Última Luz in Ferraza.
+
+---
+
 # 14. The deaths
 
 A fundamental design rule:

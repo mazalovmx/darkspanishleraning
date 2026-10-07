@@ -70,6 +70,12 @@ func _ready() -> void:
 	add_child(feedback)
 
 func open_conversation(id: String) -> void:
+	# A place whose own speaker is absent (or who has none) opens the first one present.
+	if not available(id):
+		for key: String in conversations:
+			if scene_for(key) == id and available(key):
+				id = key
+				break
 	location_id = id
 	world_state.learner.curriculum.begin_conversation()
 	visible = available(id)
@@ -258,13 +264,15 @@ func _short(text: String) -> String:
 func scene_for(conversation_id: String) -> String:
 	return str(conversations.get(conversation_id, {}).get("location_id", conversation_id))
 
-# A conversation with "requires" exists only after that campaign task is recorded.
+# A conversation with "requires" exists only after those campaign tasks or evidence are recorded.
 func available(id: String) -> bool:
 	if not conversations.has(id):
 		return false
-	var needed := str(conversations[id].get("requires", ""))
-	if not needed.is_empty() and not world_state.campaign.records.has(needed):
-		return false
+	var required: Variant = conversations[id].get("requires", [])
+	for needed: String in (required if required is Array else [required]):
+		# "e:<id>" names canonical evidence; anything else a recorded campaign task.
+		if not (world_state.evidence.has_evidence(needed.substr(2)) if needed.begins_with("e:") else world_state.campaign.records.has(needed)):
+			return false
 	var companion := str(conversations[id].get("companion_hero", ""))
 	if not companion.is_empty():
 		if companion == world_state.party.active_id or not world_state.party.heroes.has(companion):

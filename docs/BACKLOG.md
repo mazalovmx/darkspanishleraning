@@ -51,15 +51,17 @@ its own multi-session plan and scenario-bible review per NPC.
   do: review the campaign, market, strategy, optional-case and soul sentences against
   the same requirement; let the early blocks be consolidated faster than one game
   day per recall; have a Spanish speaker check the lesson texts.
-- Conversable NPCs: 13 exist (innkeeper, Lucio, Gabriel, Leonor, Beatriz Orma,
-  Bishop Veyra, Simón Vale, Rodrigo Mendaña, Selmo Oribe, Ysabel, Esteban, Inés and
-  Elias); the target is 30+. All but the four opening NPCs speak from bounded public
-  knowledge and unlock no clue. Ysabel and Esteban need their campaign record; Inés
-  and Elias need their introduction, must stand on the same cell at Cárdena / Monte
-  Ciego and cannot be the active hero. Still missing: the minor task speakers, and
-  any conversation with a companion away from the place of introduction. To add one:
-  an entry in `authored.json`, grounding facts and NPC record, a save whitelist id,
-  and golden cases.
+- Conversable NPCs: 30 exist: the 13 principal ones (innkeeper, Lucio, Gabriel,
+  Leonor, Beatriz Orma, Bishop Veyra, Simón Vale, Rodrigo Mendaña, Selmo Oribe, Ysabel,
+  Esteban, Inés and Elias) and the 17 named task speakers of bible 13.11. All but the
+  four opening NPCs speak from bounded public knowledge and unlock no clue. Speakers
+  with "requires" (one id or a list; "e:<id>" for evidence) appear only after those
+  records. Inés and Elias must stand on the same cell at Cárdena / Monte Ciego and
+  cannot be the active hero. Still missing: any conversation with a companion away
+  from the place of introduction; a conversation changing a campaign card's outcome
+  (the cards are still written separately after talking). To add one: an entry in
+  `authored.json`, grounding facts and NPC record, a save whitelist id, and golden
+  cases.
 - Acts II-VII are sentence-entry cards. Each accepts its model, two authored
   paraphrases or the player's own sentence that meets the card's authored keys; the
   hint button names the needs instead of showing the model. The council resolution

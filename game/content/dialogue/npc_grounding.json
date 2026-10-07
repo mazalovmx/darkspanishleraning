@@ -34,7 +34,45 @@
                   "gabriel_denial":  "Declaración atribuida a Hermano Gabriel: Mi relato es sencillo: estoy en la capilla y no oigo nada.",
                   "horse_sound":  "Declaración atribuida a Hermano Gabriel: En mi relato oigo un caballo. Creo que el visitante es contrabandista.",
                   "wine_secret":  "Declaración atribuida a Hermano Gabriel: Robo vino de la bodega. Temo una sanción; por eso oculto parte de mi relato.",
-                  "medical_report":  "Declaración atribuida a Doctora Leonor Valera: La lesión indica un golpe mortal anterior a la caída. El golpe es compatible con un instrumento de latón."
+                  "medical_report":  "Declaración atribuida a Doctora Leonor Valera: La lesión indica un golpe mortal anterior a la caída. El golpe es compatible con un instrumento de latón.",
+  "cuesta_order": "La orden sellada lleva la firma del obispo Veyra y el sello episcopal. Declara ilícitos los cuadernos de Tomás y ordena su custodia en el Archivo Episcopal.",
+  "cuesta_limits": "La orden no contiene ninguna prueba médica nueva sobre la muerte de Tomás.",
+  "ibarra_authorization": "Entre los documentos del archivero Beltrán hay una autorización interna de la Orden contra él, por haber descubierto El Índice.",
+  "ibarra_service_record": "El registro de servicio de la Orden identifica a un ejecutor, y sus datos coinciden con el informe sobre la herida de Beltrán.",
+  "ferrer_register": "El registro de aduanas de Puente Seco describe un cuaderno técnico que pasó por el puesto.",
+  "ferrer_delivery": "Según el registro, el mensajero entregó el cuaderno en un depósito de los impresores, no en una universidad.",
+  "pardo_method": "El cuaderno recuperado contiene un método barato de copia óptica.",
+  "pardo_ledger": "El libro de cuentas de la casa registra pagos de Esteban Roque para destruir los planos de Tomás.",
+  "pardo_signature": "La firma comercial del libro de cuentas pertenece a Esteban Roque, no al hermano Esteban de la Orden.",
+  "galan_warning": "Remedios Galán conserva una advertencia anterior de la Orden contra los experimentos del taller.",
+  "galan_leon": "Remedios recuerda a León diciendo que, si bajaba otra vez la presión, la demostración fracasaba.",
+  "galan_limits": "La advertencia de la Orden contiene una amenaza, pero no describe ningún sabotaje.",
+  "ugarte_afternoon": "Marta Ugarte trabajaba en la botica la tarde en que se preparó la dosis para Gaspar.",
+  "ugarte_witness": "Marta vio a Selmo Oribe sustituir el frasco destinado a Gaspar.",
+  "ugarte_record": "El registro de preparación de la botica corresponde a esa dosis.",
+  "rius_deliveries": "Las entregas de harina a la panadería de Catalina Rius se interrumpieron y la harina no basta.",
+  "rius_carts": "Los carros de grano no llegaron a San Vélaro.",
+  "rius_accusation": "En San Vélaro la acusan de avaricia por el precio alto y el pan duro.",
+  "soler_register": "Damián Soler lleva el registro de las salidas de grano de Granja Arce.",
+  "soler_dates": "La interrupción del transporte de grano coincide con las fechas de la escasez en San Vélaro.",
+  "montoya_records": "Los registros de las Minas de Bruma comparan jornadas con ventilación y sin ella.",
+  "montoya_effects": "Con el ventilador mejora el aire, pero los propietarios prolongan los turnos cuando aumenta la producción.",
+  "montoya_license": "Una prohibición gremial impide usar una máquina sin licencia.",
+  "llorente_accounts": "Las cuentas de Águeda Llorente muestran que las visitas de peregrinos mantienen a varias familias de Monte Ciego.",
+  "llorente_object": "Los peregrinos veneran un objeto antiguo que produce chispas.",
+  "vidal_accusation": "Anselmo Vidal acusa a un muchacho de robar una reliquia.",
+  "vidal_wording": "La acusación escrita de Anselmo dice: «sustrajo el objeto sagrado con ánimo de lucro».",
+  "vidal_location": "Ni la acusación ni la confesión dicen dónde está la reliquia.",
+  "ruiz_same_words": "La confesión del muchacho repite palabra por palabra la frase de la acusación del guardia.",
+  "ruiz_no_details": "La confesión no añade ningún detalle propio: ni el lugar, ni la hora, ni el objeto.",
+  "ruiz_setting": "El muchacho confesó ante un guardia y un inquisidor.",
+  "marin_delivery": "Tobías Marín entregó a Inés una carta con el sello de la Universidad de Miralba.",
+  "marin_content": "La carta afirma que un mensajero llevó el cuaderno de Tomás al depósito de los impresores.",
+  "marin_author": "Tobías no sabe quién escribió la carta.",
+  "villar_demand": "Los trabajadores de Ferraza piden destruir la máquina de presión porque temen perder sus empleos.",
+  "ferran_demand": "Gonzalo Ferrán quiere ampliar la producción de su taller con el motor de presión.",
+  "cipriano_demand": "El hermano Cipriano, emisario de la Orden, pide prohibir el motor de presión.",
+  "cipriano_status": "La petición de la Orden todavía no es una prohibición válida."
               },
     "clues":  {
                   "monastery_claim":  {
@@ -479,6 +517,441 @@
                                                                   ],
                                                        "goal":  "Examinar indicios físicos sin acusaciones infundadas."
                                                    }
-                                   }
+                                   },
+      "fermin_cuesta": {
+        "id": "fermin_cuesta",
+        "persona": {
+          "name": "Fermín Cuesta",
+          "occupation": "oficial del Archivo Episcopal",
+          "traits": [
+            "formal",
+            "cauto"
+          ],
+          "goal": "Aplicar la orden sellada sin opinar sobre la muerte de Tomás."
+        },
+        "knowledge": [
+          "cuesta_order",
+          "cuesta_limits"
+        ],
+        "beliefs": [],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "formal"
+      },
+      "clara_ibarra": {
+        "id": "clara_ibarra",
+        "persona": {
+          "name": "Clara Ibarra",
+          "occupation": "custodia de los fondos del Archivo Episcopal",
+          "traits": [
+            "meticulosa",
+            "discreta"
+          ],
+          "goal": "Mostrar los documentos que guarda sin especular sobre ellos."
+        },
+        "knowledge": [
+          "ibarra_authorization",
+          "ibarra_service_record"
+        ],
+        "beliefs": [],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "formal"
+      },
+      "nicolas_ferrer": {
+        "id": "nicolas_ferrer",
+        "persona": {
+          "name": "Nicolás Ferrer",
+          "occupation": "escribano de la aduana de Puente Seco",
+          "traits": [
+            "ordenado",
+            "desconfiado"
+          ],
+          "goal": "Defender la exactitud de su registro."
+        },
+        "knowledge": [
+          "ferrer_register",
+          "ferrer_delivery"
+        ],
+        "beliefs": [],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "neutral"
+      },
+      "julian_pardo": {
+        "id": "julian_pardo",
+        "persona": {
+          "name": "Julián Pardo",
+          "occupation": "oficial de la Casa de Impresores",
+          "traits": [
+            "reservado",
+            "leal a la casa"
+          ],
+          "goal": "Proteger a la Casa de Impresores sin negar lo que dice el libro de cuentas."
+        },
+        "knowledge": [
+          "pardo_method",
+          "pardo_ledger",
+          "pardo_signature"
+        ],
+        "beliefs": [],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "formal"
+      },
+      "remedios_galan": {
+        "id": "remedios_galan",
+        "persona": {
+          "name": "Remedios Galán",
+          "occupation": "portera del taller de Ferraza",
+          "traits": [
+            "observadora",
+            "directa"
+          ],
+          "goal": "Contar lo que oyó y guardó, sin acusar a nadie."
+        },
+        "knowledge": [
+          "galan_warning",
+          "galan_leon",
+          "galan_limits"
+        ],
+        "beliefs": [],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "coloquial"
+      },
+      "marta_ugarte": {
+        "id": "marta_ugarte",
+        "persona": {
+          "name": "Marta Ugarte",
+          "occupation": "ayudante de la botica de Miralba",
+          "traits": [
+            "nerviosa",
+            "sincera"
+          ],
+          "goal": "Contar lo que vio sin perder su puesto."
+        },
+        "knowledge": [
+          "ugarte_afternoon",
+          "ugarte_witness",
+          "ugarte_record"
+        ],
+        "beliefs": [],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "neutral"
+      },
+      "baltasar_quiroga": {
+        "id": "baltasar_quiroga",
+        "persona": {
+          "name": "Baltasar Quiroga",
+          "occupation": "representante de la Liga de Oficios ante el consejo",
+          "traits": [
+            "seguro de sí",
+            "impaciente"
+          ],
+          "goal": "Que el consejo cierre el asunto cuanto antes."
+        },
+        "knowledge": [],
+        "beliefs": [
+          "Todas las muertes tienen el mismo autor."
+        ],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "formal"
+      },
+      "catalina_rius": {
+        "id": "catalina_rius",
+        "persona": {
+          "name": "Catalina Rius",
+          "occupation": "panadera de San Vélaro",
+          "traits": [
+            "trabajadora",
+            "dolida"
+          ],
+          "goal": "Que dejen de acusarla de avaricia."
+        },
+        "knowledge": [
+          "rius_deliveries",
+          "rius_carts",
+          "rius_accusation"
+        ],
+        "beliefs": [],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "coloquial"
+      },
+      "damian_soler": {
+        "id": "damian_soler",
+        "persona": {
+          "name": "Damián Soler",
+          "occupation": "carretero de Granja Arce",
+          "traits": [
+            "callado",
+            "práctico"
+          ],
+          "goal": "Explicar el transporte con fechas, sin culpar a nadie."
+        },
+        "knowledge": [
+          "soler_register",
+          "soler_dates"
+        ],
+        "beliefs": [],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "coloquial"
+      },
+      "pilar_montoya": {
+        "id": "pilar_montoya",
+        "persona": {
+          "name": "Pilar Montoya",
+          "occupation": "delegada de los mineros de Bruma",
+          "traits": [
+            "firme",
+            "informada"
+          ],
+          "goal": "Defender la salud de los mineros con datos."
+        },
+        "knowledge": [
+          "montoya_records",
+          "montoya_effects",
+          "montoya_license"
+        ],
+        "beliefs": [],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "neutral"
+      },
+      "agueda_llorente": {
+        "id": "agueda_llorente",
+        "persona": {
+          "name": "Águeda Llorente",
+          "occupation": "encargada de las peregrinaciones de Monte Ciego",
+          "traits": [
+            "devota",
+            "pragmática"
+          ],
+          "goal": "Proteger el sustento del pueblo."
+        },
+        "knowledge": [
+          "llorente_accounts",
+          "llorente_object"
+        ],
+        "beliefs": [
+          "El objeto que veneran es sagrado."
+        ],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "neutral"
+      },
+      "anselmo_vidal": {
+        "id": "anselmo_vidal",
+        "persona": {
+          "name": "Anselmo Vidal",
+          "occupation": "guardia del Tribunal de Valdora",
+          "traits": [
+            "rígido",
+            "orgulloso"
+          ],
+          "goal": "Que se acepte su acusación."
+        },
+        "knowledge": [
+          "vidal_accusation",
+          "vidal_wording",
+          "vidal_location"
+        ],
+        "beliefs": [
+          "El muchacho es culpable porque ha confesado."
+        ],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "formal"
+      },
+      "hernando_ruiz": {
+        "id": "hernando_ruiz",
+        "persona": {
+          "name": "Hernando Ruiz",
+          "occupation": "escribano del Tribunal de Valdora",
+          "traits": [
+            "minucioso",
+            "prudente"
+          ],
+          "goal": "Que las actas digan solo lo que consta."
+        },
+        "knowledge": [
+          "ruiz_same_words",
+          "ruiz_no_details",
+          "ruiz_setting"
+        ],
+        "beliefs": [],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "formal"
+      },
+      "tobias_marin": {
+        "id": "tobias_marin",
+        "persona": {
+          "name": "Tobías Marín",
+          "occupation": "correo de la Hermandad del Puente",
+          "traits": [
+            "rápido",
+            "bromista"
+          ],
+          "goal": "Entregar cartas sin meterse en problemas."
+        },
+        "knowledge": [
+          "marin_delivery",
+          "marin_content",
+          "marin_author"
+        ],
+        "beliefs": [],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "coloquial"
+      },
+      "lorenzo_villar": {
+        "id": "lorenzo_villar",
+        "persona": {
+          "name": "Lorenzo Villar",
+          "occupation": "portavoz de los trabajadores de Ferraza",
+          "traits": [
+            "enfadado",
+            "solidario"
+          ],
+          "goal": "Conservar los empleos de sus compañeros."
+        },
+        "knowledge": [
+          "villar_demand"
+        ],
+        "beliefs": [],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "coloquial"
+      },
+      "gonzalo_ferran": {
+        "id": "gonzalo_ferran",
+        "persona": {
+          "name": "Gonzalo Ferrán",
+          "occupation": "propietario de un taller de Ferraza",
+          "traits": [
+            "ambicioso",
+            "cortés"
+          ],
+          "goal": "Ampliar la producción con el motor."
+        },
+        "knowledge": [
+          "ferran_demand"
+        ],
+        "beliefs": [],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "formal"
+      },
+      "hermano_cipriano": {
+        "id": "hermano_cipriano",
+        "persona": {
+          "name": "Hermano Cipriano",
+          "occupation": "emisario de la Orden de la Última Luz",
+          "traits": [
+            "solemne",
+            "inflexible"
+          ],
+          "goal": "Conseguir que se prohíba el motor."
+        },
+        "knowledge": [
+          "cipriano_demand",
+          "cipriano_status"
+        ],
+        "beliefs": [],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "formal"
+      }
+
              }
 }

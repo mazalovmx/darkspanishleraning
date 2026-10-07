@@ -45,6 +45,17 @@ func record(state: RefCounted, id: String) -> void:
 	if node.has("unlock_hero"):
 		state.party.heroes[node.unlock_hero].unlocked = true
 
+# Fixture: a "requires" entry, either a campaign task or "e:<id>" (the whole verified opening).
+func satisfy(state: RefCounted, needed: String) -> void:
+	if not needed.begins_with("e:"):
+		record(state, needed)
+		return
+	var proof := {}
+	for id: String in state.evidence.definitions:
+		var node: Dictionary = state.evidence.definitions[id]
+		proof[id] = {"found_day": 1, "classification": node.classification, "spanish_note": node.language.sample}
+	check(state.evidence.restore(proof, state.day) and state.evidence.has_evidence(needed.substr(2)), "Opening fixture is canonical: " + needed)
+
 func speakers(panel: Node) -> Array:
 	var ids: Array = []
 	for index in panel.speaker.item_count:
@@ -84,8 +95,9 @@ func run() -> void:
 	# Speakers with "requires" are offered only after that campaign task is recorded.
 	check(panel.conversations.LOC01_YSABEL.get("requires") == "ysabel_account" and panel.conversations.LOC01_ESTEBAN.get("requires") == "esteban_choice", "Ysabel and Esteban wait for their campaign tasks")
 	for id: String in panel.conversations:
-		var needed := str(panel.conversations[id].get("requires", ""))
-		if needed.is_empty():
+		var required: Variant = panel.conversations[id].get("requires", [])
+		var needs: Array = required if required is Array else [required]
+		if needs.is_empty():
 			continue
 		map._adopt(World.new("province_160x120_v1"))
 		enter(map, panel.scene_for(id))
@@ -95,7 +107,10 @@ func run() -> void:
 		panel.show()
 		panel.submit("Hola")
 		check(not fake.busy, "Nothing is sent to a speaker who is not there yet: " + id)
-		record(map.state, needed)
+		for index in needs.size() - 1:
+			satisfy(map.state, needs[index])
+			check(not panel.available(id), "Every requirement is needed: " + id)
+		satisfy(map.state, needs.back())
 		enter(map, panel.scene_for(id))
 		panel.open_conversation(panel.scene_for(id))
 		check(id in speakers(panel), "Speaker is in the selector after the task: " + id)
@@ -127,7 +142,7 @@ func run() -> void:
 		panel.histories.clear()
 		var state = map.state
 		for id: String in case.get("campaign", []):
-			record(state, id)
+			satisfy(state, id)
 		var recorded: Dictionary = state.campaign.records.duplicate(true)
 		var proof := {}
 		for id: String in case.evidence:

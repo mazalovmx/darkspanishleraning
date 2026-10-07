@@ -1666,3 +1666,34 @@ next entry. The live prompt change has not been exercised against the real API.
 
 Executed for this commit: the full non-live run, 49 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Seventeen named task speakers become conversable (30 NPCs)
+
+User request (2026-10-07): as many Claude conversations as possible, and fictional names
+for the speakers that had only a role. The 17 campaign speakers without a conversation
+received names, recorded in both bible copies as section 13.11 (Fermín Cuesta, Clara
+Ibarra, Nicolás Ferrer, Julián Pardo, Remedios Galán, Marta Ugarte, Baltasar Quiroga,
+Catalina Rius, Damián Soler, Pilar Montoya, Águeda Llorente, Anselmo Vidal, Hernando
+Ruiz, Tobías Marín, Lorenzo Villar, Gonzalo Ferrán, Hermano Cipriano). The campaign cards
+show the new names as speaker.
+
+Each has an `authored.json` entry (greeting, return greeting, hint, keyword replies for
+offline play, fallback), an NPC record and facts in `npc_grounding.json` taken only from
+the source text of their campaign card, no secrets, `can_lie: false`, and a save
+whitelist id. Quiroga holds the council's claim "Todas las muertes tienen el mismo
+autor" as a belief, not a fact; Llorente believes the object is sacred; Vidal believes
+the confession proves guilt. Each appears only once the prerequisite of their card is
+recorded: `requires` now accepts a list (Clara Ibarra needs leon_cause and gaspar_cause)
+and "e:<id>" evidence (Fermín Cuesta needs the opening conclusion). Opening a place
+whose own speaker is absent, or that has none (Archivo, Puente Seco, San Vélaro…), now
+opens the first speaker present instead of nothing.
+
+Tests: dialogue_golden_test checks for every new speaker grounding, save id, offline
+replies, absence before each requirement and presence after all of them; 20 new
+golden cases (an offline keyword answer per speaker, and three boundary cases showing
+that a minor speaker cannot hand out the monastery claim): 83 cases, 940 checks. The
+replies were written by the agent and are not reviewed by a Spanish speaker; no live
+model call was made.
+
+Executed for this commit: the full non-live run, 49 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
