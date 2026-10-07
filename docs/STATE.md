@@ -1247,3 +1247,22 @@ every conversation has grounding, a saveable id and offline replies). Rendered t
 Valdora conversation with OpenGL at 1280x720 and inspected it: selector, transcript,
 hint and input are readable. The other three were not viewed. No live API call; no
 Spanish speaker reviewed the new lines.
+## Four unmerged agent branches (2026-10-07, session ended at the usage limit)
+
+Four parallel agents each finished and committed one task on its own local branch,
+in worktrees under C:/dev/gwt/. None is merged into `implementation`, none is pushed,
+and the full runner has NOT been run on any of them or on their combination. Each
+agent ran only its own suites and reported them passing; the coordinator did not
+review the diffs.
+- wt/npcs 882d033: Mendaña, Selmo Oribe, Ysabel, Esteban conversable; `requires`
+  field gates a conversation on a campaign record; 52 golden cases.
+- wt/quests 9286f9d: SQ03 and SQ04 as four optional campaign nodes.
+- wt/client efd9480: retry policy, fenced JSON, focus slot not consumed on failure,
+  in-memory usage counter.
+- wt/perf 352a12b: performance_test.gd, incremental tile repaint, single save
+  validation.
+Next agent: review each diff, merge into `implementation` one at a time (npcs and
+client both touch authored_dialogue.gd), run `./tools/run-tests.ps1` on the result,
+write the STATE.md entries and BACKLOG.md updates from the agents' reports in
+the workflow journal or by reading the commits, push, then remove the worktrees with
+`git worktree remove`. Do not treat these four tasks as verified until then.
