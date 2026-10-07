@@ -51,6 +51,14 @@ func run() -> void:
 			choose(panel.support_b,supports[1])
 		panel.submit_button.pressed.emit()
 		check(map.state.campaign.records.has(id), "Task submitted through interface: " + id)
+		if id == "sealed_order":
+			var shown: String = panel.feedback.text
+			panel.reviewed_id = id
+			panel._on_review({"meaning_understood": true, "confidence": 0.9, "successful_grammar": [], "new_vocabulary": [],
+				"errors": [{"type": "present", "original": "la situacion", "better": "la situación", "severity": "minor"},
+				{"type": "present", "original": "los cuaderno", "better": "los cuadernos", "severity": "minor"}]})
+			check(panel.feedback.text.begins_with(shown) and panel.feedback.text.contains("los cuaderno → los cuadernos") and not panel.feedback.text.contains("situación"), "Review adds grammar feedback, drops tilde-only notes before the last block")
+			check(map.state.campaign.records.has(id) and panel.reviewed_id.is_empty(), "Review never changes the record")
 		check(Save.read_save(map.save_path).state.campaign.records.has(id), "Task autosaved: " + id)
 		if id == "ines_arrival":
 			check(not map.hero_buttons.smuggler.disabled, "Ines portrait enabled immediately")

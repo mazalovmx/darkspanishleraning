@@ -218,6 +218,36 @@ func run() -> void:
 	check(course.cursor == slot + 1, "Two failed attempts return the focus slot")
 	check(panel.histories.LOC01.back().reply == panel.conversations.LOC01.fallback, "UI recovers with authored fallback")
 	check(panel.input.editable and not fake.busy, "Fallback restores input")
+	# Review mode: one gated sentence, language part only, feedback never state.
+	var language: Dictionary = valid().language
+	language.errors = [{"type": "present", "original": "los cuaderno", "better": "los cuadernos", "severity": "minor"},
+		{"type": "present", "original": "Tomas", "better": "Tomás", "severity": "minor"}]
+	check(not Client.parse_review(envelope(language)).is_empty(), "Valid review accepted")
+	check(Client.parse_review(envelope(valid())).is_empty(), "A full NPC proposal is not a review")
+	var bad_review: Dictionary = language.duplicate(true)
+	bad_review.errors[0].severity = "fatal"
+	check(Client.parse_review(envelope(bad_review)).is_empty(), "Invalid review rejected")
+	var lenient: String = Client.review_text(language, false)
+	check(lenient.contains("los cuaderno → los cuadernos") and not lenient.contains("Tomás"), "Tilde-only correction dropped outside the last block")
+	check(Client.review_text(language, true).contains("Tomas → Tomás"), "Tilde correction kept in the last block")
+	check(Client.review_text({}, false).is_empty(), "No review, no feedback line")
+	var reviewer := FakeClient.new()
+	root.add_child(reviewer)
+	await process_frame
+	reviewer.config.dev_flags.offline_mode = false
+	reviewer.config["claude_model"] = "test-model"
+	var reviews: Array = []
+	reviewer.reviewed.connect(func(data: Dictionary): reviews.append(data))
+	reviewer.completed.connect(func(_data: Dictionary): reviews.append("wrong signal"))
+	reviewer.request_review("Los cuaderno son ilícitos.", "Explica qué cambia el documento.", {})
+	var sent: Dictionary = JSON.parse_string(reviewer.payload)
+	check(reviewer.busy and sent.system == Client.REVIEW_PROMPT and sent.messages[0].content.contains("learner_sentence"), "Review uses its own prompt")
+	reviewer.http.request_completed.emit(HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), envelope(language))
+	check(reviews.size() == 1 and reviews[0] is Dictionary and reviews[0].errors.size() == 2 and not reviewer.busy, "Review answered on its own signal")
+	reviewer.key = ""
+	reviewer.request_review("Hola.", "Saluda.", {})
+	check(reviews.size() == 2 and reviews[1].is_empty() and not reviewer.busy, "Offline review returns nothing at once")
+	reviewer.queue_free()
 	map.queue_free()
 	await process_frame
 	print("Claude client checks: %d, failures: %d" % [checks, failures])

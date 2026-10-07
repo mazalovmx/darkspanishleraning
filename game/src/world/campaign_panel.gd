@@ -16,8 +16,13 @@ var submit_button := Button.new()
 var hint_button := Button.new()
 var close_button := Button.new()
 var feedback := Label.new()
+## Optional Claude review of an accepted conclusion: feedback only, never progress.
+var reviewer: Node = preload("res://src/claude/claude_client.gd").new()
+var reviewed_id := ""
 const LABELS := ["Observado", "Referido por una fuente", "Inferido", "Declarado por una institución", "No resuelto"]
 func _ready() -> void:
+	add_child(reviewer)
+	reviewer.reviewed.connect(_on_review)
 	color = Color(0,0,0,0.85)
 	z_index = 27
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -161,11 +166,25 @@ func _submit() -> void:
 	var supports := []
 	if supports_row.visible:
 		supports = [support_a.get_selected_metadata(),support_b.get_selected_metadata()]
-	var result: Dictionary = campaign.submit(world_state,active_id,answer.text,classification,supports)
+	var typed := answer.text
+	var submitted := active_id
+	var result: Dictionary = campaign.submit(world_state,active_id,typed,classification,supports)
 	feedback.text = result.message
 	if result.ok:
 		refresh()
 		progressed.emit()
+		if not reviewer.busy:
+			reviewed_id = submitted
+			reviewer.request_review(typed,str(campaign.definitions[submitted].prompt),world_state.learner.context())
+
+func _on_review(language: Dictionary) -> void:
+	if not visible or reviewed_id.is_empty() or not world_state.campaign.records.has(reviewed_id):
+		return
+	var strict: bool = world_state.learner.curriculum.is_last_block(int(world_state.campaign.definitions[reviewed_id].min_block))
+	var text: String = reviewer.review_text(language,strict)
+	reviewed_id = ""
+	if not text.is_empty():
+		feedback.text += "\n" + text
 
 func close() -> void:
 	hide()

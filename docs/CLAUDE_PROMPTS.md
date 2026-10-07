@@ -100,3 +100,15 @@ Model default: claude-sonnet-5-5, stored only in runtime configuration (not scri
 Language context now includes observed grammar/verb mastery and allowed tag lists.
 The runtime prompt requests current-block corrections and natural NPC recasts, and
 forbids crediting the NPC's wording as player success. Only four NPCs use this path.
+
+Update 2026-10-07: 30 NPCs use the conversation path. The learner context carries
+`curriculum.orthography` ("ignore" before the last block, "check" in it); the system
+prompt tells Claude to ignore tilde, ü and apostrophe differences when "ignore" and to
+judge naturalness. Before the last block the game also drops such corrections itself.
+
+Review prompt (`REVIEW_PROMPT`, `request_review`): after the campaign journal accepts a
+conclusion, the typed sentence, the card's prompt and the learner context are sent for a
+review that returns only the `language` object of the response schema (validated by
+`valid_language`). Its corrections are shown under the journal feedback; it changes no
+record and no mastery, and offline it is skipped without a request. It uses its own
+client instance, so the map is not locked while it runs.

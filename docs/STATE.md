@@ -1722,3 +1722,23 @@ answer, and for SX009 a proposal without its tilde and one without a conditional
 
 Executed for this commit: the full non-live run, 49 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Claude review of accepted campaign conclusions (feedback only)
+
+Toward the user's "grammar and naturalness are checked": the key checks accept
+agreement and word-order errors, so an accepted campaign conclusion is now sent, when
+the API is configured, to a review prompt (`claude_client.gd`: `REVIEW_PROMPT`,
+`request_review`, `reviewed` signal, `parse_review`, `valid_language` shared with the NPC
+schema, `review_text`). The journal appends "Revisión de español: Mejor: … → …" under
+its feedback; outside the last block tilde/ü/apostrophe-only corrections are dropped.
+The review changes no record and no mastery and never gates progress; offline it emits
+an empty result at once. The journal owns a separate client instance, so a review does
+not lock the map the way a conversation does.
+
+Tests: claude_client_test (valid and invalid reviews, a full proposal is not a review,
+own prompt and signal, offline path, tilde filtering; 156 checks), campaign_panel_test
+(the review line is appended, tilde-only notes dropped, record unchanged; 365 checks).
+Not exercised against the real API: the live smoke test needs the user's consent.
+
+Executed for this commit: the full non-live run, 49 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

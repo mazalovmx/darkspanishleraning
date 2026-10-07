@@ -45,6 +45,8 @@ its own multi-session plan and scenario-bible review per NPC.
   keys, but keys check content and target forms, not full grammar: agreement and word
   order errors pass. Open: route more gated tasks through conversation (see the next
   items), and a grammar check for gated free answers that does not depend on the API.
+  With the API, accepted campaign conclusions get a Claude review (feedback only);
+  market, strategy, soul and side-case answers do not yet.
 
 - Player level (user, 2026-10-07; master spec 1.3): the player is B1 but rusty on
   grammar. The 31 lessons are rewritten at that level with rule reminders. Still to
