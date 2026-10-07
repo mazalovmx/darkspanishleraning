@@ -1876,3 +1876,23 @@ fan's ore, a bargain keeps the review; 319 checks).
 
 Executed for this commit: the full non-live run, 50 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## El Índice becomes a queryable text interface (Act VI)
+
+Bible, Act VI: "The interface is textual. The machine can be queried. It gives
+frighteningly plausible answers", and Elias's "ordinary Tuesday" question that it
+cannot answer. `LOC01_INDICE` (npc `el_indice`) is a conversation at Santa Lucerna
+available once archive_meeting is recorded (the crypt is open). Grounding: three facts
+(an archive of events recorded as important; answers by patterns; almost no records of
+ordinary days) and the false belief that the patterns describe the world; it cannot
+lie and says when it has no pattern. Persona: impersonal, answers in capitals with
+short lists. Offline replies: printing (propaganda, sectarian conflict, administrative
+destabilisation, mass mobilisation, as in the bible), pressure machines, cheap
+medicine, crises, identity, and "CONSULTA: DÍA ORDINARIO. REGISTROS INSUFICIENTES…"
+for an ordinary day. Save whitelist id added.
+
+Tests: four golden cases (absent before the crypt, printing patterns, the ordinary
+Tuesday, cannot hand out a clue): 89 cases, 1,002 checks.
+
+Executed for this commit: the full non-live run, 50 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

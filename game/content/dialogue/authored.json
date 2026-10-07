@@ -1466,5 +1466,92 @@
         }
       ],
       "fallback": "La Orden no discute eso con usted."
+    },
+    "LOC01_INDICE": {
+      "location_id": "LOC01",
+      "requires": "archive_meeting",
+      "npc_id": "el_indice",
+      "name": "El Índice",
+      "greeting": "ÍNDICE DE CENIZA. FORMULE SU CONSULTA.",
+      "greeting_again": "ÍNDICE DE CENIZA. NUEVA CONSULTA.",
+      "hint": "Pregunte por un suceso (la imprenta, las máquinas, la medicina) o por un día corriente.",
+      "branches": [
+        {
+          "keywords": [
+            "martes",
+            "corriente",
+            "normal",
+            "ordinario",
+            "tranquilo",
+            "cotidiano",
+            "continuidad"
+          ],
+          "reply": "CONSULTA: DÍA ORDINARIO. REGISTROS INSUFICIENTES. EL ARCHIVO CONTIENE SUCESOS IMPORTANTES. NO PUEDO DESCRIBIR LA CONTINUIDAD."
+        },
+        {
+          "keywords": [
+            "imprenta",
+            "impresion",
+            "libros",
+            "copias",
+            "copia"
+          ],
+          "reply": "CONSULTA: IMPRENTA UNIVERSAL. PATRONES ASOCIADOS: PROPAGANDA. CONFLICTO SECTARIO. DESESTABILIZACIÓN ADMINISTRATIVA. MOVILIZACIÓN DE MASAS."
+        },
+        {
+          "keywords": [
+            "maquina",
+            "maquinas",
+            "motor",
+            "presion",
+            "industria",
+            "vapor"
+          ],
+          "reply": "CONSULTA: MÁQUINAS DE PRESIÓN. PATRONES ASOCIADOS: CONCENTRACIÓN INDUSTRIAL. HUELGAS. RUINA DE LOS GREMIOS."
+        },
+        {
+          "keywords": [
+            "medicina",
+            "alcohol",
+            "hospital",
+            "tratamiento",
+            "enfermedad"
+          ],
+          "reply": "CONSULTA: TRATAMIENTO BARATO. PATRONES ASOCIADOS: CRECIMIENTO DE LA POBLACIÓN. ESCASEZ. CONFLICTO POR LA TIERRA."
+        },
+        {
+          "keywords": [
+            "crisis",
+            "colapso",
+            "guerra",
+            "hambre"
+          ],
+          "reply": "CONSULTA: CRISIS. COINCIDENCIAS: MUY NUMEROSAS. EL ARCHIVO ESTÁ FORMADO POR CRISIS."
+        },
+        {
+          "keywords": [
+            "quien",
+            "eres",
+            "que eres",
+            "nombre"
+          ],
+          "reply": "ÍNDICE DE CENIZA. ARCHIVO DE ACONTECIMIENTOS REGISTRADOS COMO IMPORTANTES. RESPONDO CON PATRONES."
+        },
+        {
+          "keywords": [
+            "gracias"
+          ],
+          "reply": "CONSULTA CERRADA."
+        },
+        {
+          "keywords": [
+            "hola",
+            "buenas",
+            "buenos dias"
+          ],
+          "reply": "CONSULTA VACÍA. FORMULE UNA PREGUNTA."
+        }
+      ],
+      "fallback": "SIN PATRÓN. REFORMULE LA CONSULTA CON UN SUCESO."
     }
 }

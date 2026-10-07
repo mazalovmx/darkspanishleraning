@@ -53,7 +53,7 @@ its own multi-session plan and scenario-bible review per NPC.
   do: review the campaign, market, strategy, optional-case and soul sentences against
   the same requirement; let the early blocks be consolidated faster than one game
   day per recall; have a Spanish speaker check the lesson texts.
-- Conversable NPCs: 30 exist: the 13 principal ones (innkeeper, Lucio, Gabriel,
+- Conversable NPCs: 31 speakers exist (30 people and El Índice): the 13 principal ones (innkeeper, Lucio, Gabriel,
   Leonor, Beatriz Orma, Bishop Veyra, Simón Vale, Rodrigo Mendaña, Selmo Oribe, Ysabel,
   Esteban, Inés and Elias) and the 17 named task speakers of bible 13.11. All but the
   four opening NPCs speak from bounded public knowledge and unlock no clue. Speakers
@@ -116,7 +116,9 @@ its own multi-session plan and scenario-bible review per NPC.
   Charter and adds an epilogue to every ending. SQ03, SQ04 and SQ05 are
   optional sentence-entry tasks (four, four and three nodes); none is required for an
   ending. SQ05 ends in a destroy/scale/ban decision with consequences.
-- El Índice is not a queryable text interface (Act VI).
+- El Índice is a conversable machine in the crypt (after archive_meeting): crisis
+  patterns for printing, machines and medicine; "REGISTROS INSUFICIENTES" for an
+  ordinary day. Its answers do not yet feed the index_crisis/ordinary_tuesday cards.
 - Council: a wrong classification is recorded and closes the Charter. Ysabel, Inés
   and Elias have council statements; the commander speaks through council_unknown.
 - SQ01 (threaten/bargain/investigate), SQ02 (approve/keep the ban) and SQ06
