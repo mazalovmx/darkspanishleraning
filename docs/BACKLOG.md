@@ -67,8 +67,9 @@ its own multi-session plan and scenario-bible review per NPC.
   hint button names the needs instead of showing the model. The council resolution
   is still an exact choice among the proposals shown. Move the investigative cards to
   grounded conversation plus inspection as in Act I.
-- The 108 optional cases reuse nine sentence templates; the per-quest
-  `language.prompt/model_frame/independent_task/recall_task` fields are not read.
+- The 108 optional cases still check grammar through nine templates (one target form
+  each); their per-quest `independent_task`, `recall_task` and `model_frame` are now
+  shown.
 - Copying the model: the inn market (LOC11) no longer shows or prints its model
   sentence; it shows the facts to express and a rule reminder, accepts the player's
   own wording when the tier's verb form and the required content are present, and a
@@ -76,9 +77,11 @@ its own multi-session plan and scenario-bible review per NPC.
   and mine claims (strategy panel) now work the same way. Soul rituals accept free
   answers against authored keys and name the missing need; their listen, compare and
   supported stages still show a model by design (introduction and supported practice).
-  Still showing a "Modelo:" before the first attempt, so passable by copying: optional
-  cases (side panel) and evidence-notebook conclusions. Apply the same
-  cue + reminder + element check to each.
+  The 108 optional cases now read their own `language.independent_task` and
+  `recall_task`, accept free answers (target form by template, a content word of the
+  case, no sentence shown on screen copied whole) and name what is missing. Still
+  showing a "Modelo:": the Act I evidence-notebook notes (the opening is the block-1
+  introduction, where the curriculum shows a model) and the supported stages.
 - NPC memory (Epic 19): conversation count, last day and discussed topics are stored
   per NPC, saved (v13), sent to Claude and shown as a return greeting. Still missing:
   lies told, relationship (`npc_attitude_delta` is forced to zero) and a bounded,

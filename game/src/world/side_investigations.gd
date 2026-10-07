@@ -101,6 +101,80 @@ func encounter_definition(id: String) -> Dictionary:
 func can_battle(world: RefCounted,id: String) -> bool:
 	return battles.has(id) and reason(world,battles[id].quest_id).is_empty() and stage(battles[id].quest_id) == "access" and world.encounters.get(id,{}).get("outcome","") != "victory"
 
+const ACCESS_KEYS := [{"need":"una petición (quiero, necesito, pido…)","any":["quiero","necesito","pido","puedo","solicito","querria","me gustaria"]},
+	{"need":"examinar, revisar o ver","any":["examinar","revisar","ver","inspeccionar","estudiar","consultar","mirar","comparar"]}]
+const CHOICE_KEYS := {"public":{"need":"publicar el expediente","any":["publicar","publicaria","publicacion","publico","hacer publico"]},
+	"private":{"need":"proteger los datos personales","any":["proteger","protegeria","proteccion","ocultar","ocultaria","reservar"]}}
+const CONDITIONAL := {"need":"un condicional (propondría…)","match":" \\w+(ria|rias|riamos|rian) "}
+
+func template(id: String) -> Dictionary:
+	return practice[(int(id.trim_prefix("SX"))-1) % 9]
+
+## Sentences the panel shows for this case; reproducing one whole is copying, not production.
+func shown(id: String) -> Array:
+	var node: Dictionary = quests[id]
+	return [node.hook,node.investigation.observation,node.investigation.supported_interpretation,
+		node.investigation.misleading_claim,node.language.model_frame,models(id).supported]
+
+func _needs(keys: Array,text: String) -> Array[String]:
+	var result: Array[String] = []
+	for group: Dictionary in keys:
+		var found := false
+		if group.has("match"):
+			found = RegEx.create_from_string(str(group.match)).search(text) != null
+		else:
+			found = group.any.any(func(form: String) -> bool: return text.contains(" %s " % form))
+		if not found:
+			result.append(str(group.need))
+	return result
+
+## What a free answer still lacks, by step. Authored model sentences always pass.
+func missing(world: RefCounted,id: String,step: String,answer: String,choice := "") -> Array[String]:
+	var course = world.learner.curriculum
+	var phrases := models(id)
+	var result: Array[String] = []
+	var text: String = course.words(answer)
+	match step:
+		"access":
+			if _same(world,answer,phrases.access):
+				return result
+			result = _needs(ACCESS_KEYS,text)
+			var piece: String = course.words(artifacts[quests[id].artifact_id].name)
+			if not text.contains(piece) and not [" pieza "," prueba "," objeto "].any(func(word: String) -> bool: return text.contains(word)):
+				result.append("la pieza")
+			return result
+		"choice":
+			if choice in quests[id].final_choice and _same(world,answer,choice_model(choice)):
+				return result
+			return _needs([CONDITIONAL,CHOICE_KEYS["public" if choice.ends_with("_public") else "private"]],text)
+	var accepted: Array = [phrases.supported] if step == "supported" else [phrases.independent,phrases.alternative]
+	if step == "recall":
+		accepted = [phrases.recall,phrases.supported,phrases.independent,phrases.alternative]
+	for phrase: String in accepted:
+		if _same(world,answer,phrase):
+			return result
+	result = _needs(template(id).keys,text)
+	if text.split(" ",false).size() < 4:
+		result.append("una frase completa")
+	# Relevance: one content word of five letters or more from this case.
+	var node: Dictionary = quests[id]
+	var case_words := {}
+	for sentence: String in [node.hook,node.investigation.observation,node.investigation.supported_interpretation,node.language.prompt,artifacts[node.artifact_id].name]:
+		for word in course.words(sentence).split(" ",false):
+			if word.length() >= 5:
+				case_words[word] = true
+	if not Array(text.split(" ",false)).any(func(word: String) -> bool: return case_words.has(word)):
+		result.append("algo concreto de este caso")
+	if step == "independent":
+		var copied := false
+		for shown_text: String in shown(id):
+			for sentence in RegEx.create_from_string("[.?!…;]").sub(shown_text,"|",true).split("|",false):
+				var shown_words: String = course.words(sentence)
+				copied = copied or (shown_words.split(" ",false).size() >= 3 and text.contains(shown_words))
+		if copied:
+			result.append("tus propias palabras, no una frase ya mostrada")
+	return result
+
 func _same(world: RefCounted,a: String,b: String) -> bool:
 	return world.learner.curriculum.normalized(a) == world.learner.curriculum.normalized(b)
 
@@ -115,7 +189,7 @@ func _valid(world: RefCounted,id: String,step: String,payload: Dictionary,ledger
 	var phrases := models(id)
 	match step:
 		"access":
-			if payload.route not in ["peaceful","battle"] or not _same(world,payload.answer,phrases.access):
+			if payload.route not in ["peaceful","battle"] or not missing(world,id,"access",payload.answer).is_empty():
 				return false
 			if node.has("access_puzzle"):
 				if not _same(world,payload.cipher,node.access_puzzle.answer):
@@ -137,14 +211,12 @@ func _valid(world: RefCounted,id: String,step: String,payload: Dictionary,ledger
 			return payload.answer.is_empty()
 		"puzzle":
 			return payload.answer.is_empty() and payload.choice == node.puzzle.answer_id and payload.rejected == node.puzzle.reject_id
-		"supported":
-			return _same(world,payload.answer,phrases.supported)
-		"independent":
-			return _same(world,payload.answer,phrases.independent) or _same(world,payload.answer,phrases.alternative)
+		"supported","independent":
+			return missing(world,id,step,payload.answer).is_empty()
 		"recall":
-			return day > int(proof.get("independent",{}).get("day",day)) and (_same(world,payload.answer,phrases.recall) or _same(world,payload.answer,phrases.supported) or _same(world,payload.answer,phrases.independent) or _same(world,payload.answer,phrases.alternative))
+			return day > int(proof.get("independent",{}).get("day",day)) and missing(world,id,step,payload.answer).is_empty()
 		"choice":
-			return payload.rejected.is_empty() and payload.choice in node.final_choice and _same(world,payload.answer,choice_model(payload.choice))
+			return payload.rejected.is_empty() and payload.choice in node.final_choice and missing(world,id,step,payload.answer,payload.choice).is_empty()
 	return true
 
 func submit(world: RefCounted,id: String,answer := "",choice := "",rejected := "",route := "",cipher := "") -> Dictionary:
@@ -155,6 +227,15 @@ func submit(world: RefCounted,id: String,answer := "",choice := "",rejected := "
 		return {"ok":false,"message":"Revisa la extensión de la respuesta."}
 	var step := stage(id)
 	var payload := {"day":world.day,"hero":world.party.active_id,"answer":answer.strip_edges(),"choice":choice,"rejected":rejected,"route":route,"cipher":cipher.strip_edges()}
+	if step in ["access","supported","independent","recall","choice"]:
+		var gaps := missing(world,id,step,payload.answer,choice)
+		if not gaps.is_empty():
+			return {"ok":false,"message":"Tu frase necesita: " + "; ".join(gaps) + "."}
+		if world.learner.curriculum.is_last_block(int(quests[id].language.block) - 1):
+			var authored: Array = models(id).values() + [choice_model(choice),quests[id].language.model_frame,quests[id].language.prompt]
+			var spelling: PackedStringArray = world.learner.curriculum.orthography_errors(payload.answer,authored)
+			if not spelling.is_empty():
+				return {"ok":false,"message":"En este nivel cuentan las tildes: " + ", ".join(spelling) + "."}
 	if not _valid(world,id,step,payload,records):
 		return {"ok":false,"message":"Revisa la prueba, la comparación y la forma de la frase. El recuerdo requiere un día posterior."}
 	var final: bool = step == stages(id).back()

@@ -142,7 +142,7 @@ func refresh() -> void:
 			if node.has("access_puzzle"):
 				body.text += "\n\n" + str(node.access_puzzle.clue)
 				cipher.show()
-			prompt.text = "Solicita una inspección: " + str(models.access)
+			prompt.text = "Solicita en español una inspección de la pieza «%s»." % cases.artifacts[node.artifact_id].name
 			send_button.text = "Registrar acceso" if won else "Solicitar acceso pacífico"
 			battle_button.visible = cases.can_battle(world_state,node.encounter_id)
 		"inspect":
@@ -161,11 +161,10 @@ func refresh() -> void:
 			prompt.text = "Practica una frase completa. Modelo: " + str(models.supported)
 			send_button.text = "Registrar frase"
 		"independent":
-			var index: int = (int(id.trim_prefix("SX"))-1) % 9
-			prompt.text = "Cambia la estructura y completa el nombre de la pieza: " + str(cases.practice[index].independent[0] % "____")
+			prompt.text = str(node.language.independent_task) + "\nMarco: " + str(node.language.model_frame)
 			send_button.text = "Registrar reformulación"
 		"recall":
-			prompt.text = "Sin el modelo, recuerda una de tus frases completas sobre esta pieza."
+			prompt.text = str(node.language.recall_task)
 			send_button.text = "Recordar la frase"
 			if world_state.day <= cases.records[id].progress.independent.day:
 				send_button.disabled = true
@@ -176,7 +175,7 @@ func refresh() -> void:
 				choice.add_item(str(outcome.label))
 				choice.set_item_metadata(choice.item_count-1,outcome.id)
 			choice.show()
-			prompt.text = "Formula tu propuesta: " + cases.choice_model(choice.get_selected_metadata())
+			prompt.text = "Elige una salida y formula tu propuesta con un condicional (propondría…)."
 			send_button.text = "Cerrar el expediente"
 
 func _submit() -> void:

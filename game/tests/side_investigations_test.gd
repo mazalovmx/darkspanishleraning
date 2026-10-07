@@ -17,20 +17,38 @@ func run() -> void:
 		if not cipher.is_empty():
 			check(not cases.submit(state,id,models.access,"","","peaceful","WRONG").ok,"Acrostic must be solved")
 		check(not cases.submit(state,id,models.access,"","","battle",cipher).ok,"Battle route requires an actual recorded victory")
-		check(cases.submit(state,id,models.access,"","","peaceful",cipher).ok,"Spanish request secures peaceful custody: " + id)
+		var access: String = models.access
+		var independent: String = models.independent
+		if id == "SX001":
+			var gap: Dictionary = cases.submit(state,id,"Hola, buenos días.","","","peaceful",cipher)
+			check(not gap.ok and gap.message.contains("examinar") and not gap.message.contains(models.access),"Access rejection names the need, not the model")
+			access = "Necesito revisar esa pieza ahora, por favor."
+			independent = "En la hoja hay doce nombres debajo de la oración."
+		check(cases.submit(state,id,access,"","","peaceful",cipher).ok,"Spanish request secures peaceful custody: " + id)
 		check(cases.submit(state,id).ok,"Physical inspection recorded separately")
 		check(not cases.submit(state,id,"","overreach","supported").ok,"Overreach cannot become supported fact")
 		check(cases.submit(state,id,"","supported","overreach").ok,"Supported and rejected explanations compared")
 		check(not cases.complete(id,cases.records),"Selecting a puzzle answer cannot finish case")
 		check(cases.submit(state,id,models.supported).ok,"Supported Spanish production")
 		check(not cases.submit(state,id,models.supported).ok,"Copy of guided sentence cannot pass changed task")
-		check(cases.submit(state,id,models.independent).ok,"Changed structure required")
+		if id == "SX001":
+			var copied: Dictionary = cases.submit(state,id,"Creo que hay un texto anterior bajo la oración.")
+			check(not copied.ok and copied.message.contains("tus propias palabras"),"A sentence shown on screen is not independent production")
+			check(not cases.submit(state,id,"La hoja tiene doce nombres debajo de la oración.").ok,"The target form is required")
+			check(not cases.submit(state,id,"Hay muchas cosas hoy.").ok,"An answer must concern this case")
+		check(cases.submit(state,id,independent).ok,"Changed structure required")
 		check(not cases.submit(state,id,models.recall).ok,"Recall requires a later world day")
 		state.end_turn()
 		check(cases.submit(state,id,models.recall).ok,"Later recall accepted")
 		if not node.final_choice.is_empty():
 			var choice: String = node.final_choice[int(id.trim_prefix("SX")) % 2]
-			check(cases.submit(state,id,cases.choice_model(choice),choice).ok,"Branch conclusion chosen through Spanish proposal")
+			var proposal: String = cases.choice_model(choice)
+			if id == "SX009":
+				proposal = "Yo propondría publicar todo el expediente." if choice.ends_with("_public") else "Propondría proteger los datos de las familias."
+				var bare: Dictionary = cases.submit(state,id,state.learner.curriculum.fold(proposal),choice)
+				check(not bare.ok and bare.message.contains("propondria → propondría"),"Last-block proposal needs its tilde")
+				check(not cases.submit(state,id,"Quiero cerrar el caso.",choice).ok,"A proposal needs a conditional and the chosen outcome")
+			check(cases.submit(state,id,proposal,choice).ok,"Branch conclusion chosen through Spanish proposal")
 		check(cases.complete(id,cases.records),"Case fully completed: " + id)
 		var count: int = state.equipment.instances.size()
 		check(not cases.submit(state,id,models.recall).ok and state.equipment.instances.size() == count,"Completion cannot duplicate rewards")

@@ -5,7 +5,15 @@
       "Aquí hay una prueba: «%s».",
       "Veo una pieza: «%s». Aquí hay una prueba."
     ],
-    "recall": "Recuerdo una prueba: «%s». Hay una pieza con ese nombre."
+    "recall": "Recuerdo una prueba: «%s». Hay una pieza con ese nombre.",
+    "keys": [
+      {
+        "need": "hay",
+        "any": [
+          "hay"
+        ]
+      }
+    ]
   },
   {
     "supported": "La pieza «%s» es una prueba y está aquí.",
@@ -13,7 +21,23 @@
       "Aquí está «%s». Es una pieza del expediente.",
       "«%s» está aquí y es una prueba del expediente."
     ],
-    "recall": "La prueba se llama «%s»; es una pieza del expediente y está aquí."
+    "recall": "La prueba se llama «%s»; es una pieza del expediente y está aquí.",
+    "keys": [
+      {
+        "need": "ser (es, son)",
+        "any": [
+          "es",
+          "son"
+        ]
+      },
+      {
+        "need": "estar (está, están)",
+        "any": [
+          "esta",
+          "estan"
+        ]
+      }
+    ]
   },
   {
     "supported": "Necesito examinar «%s», por favor.",
@@ -21,7 +45,19 @@
       "Por favor, pido acceso a «%s» para examinar la pieza.",
       "Pido permiso para examinar «%s», por favor."
     ],
-    "recall": "Pido acceso a la pieza «%s» porque necesito examinar la prueba."
+    "recall": "Pido acceso a la pieza «%s» porque necesito examinar la prueba.",
+    "keys": [
+      {
+        "need": "una petición en presente (necesito, pido, quiero…)",
+        "any": [
+          "necesito",
+          "pido",
+          "quiero",
+          "puedo",
+          "solicito"
+        ]
+      }
+    ]
   },
   {
     "supported": "Pido otra lectura de «%s» porque necesito comparar las versiones.",
@@ -29,7 +65,26 @@
       "Necesito comparar las versiones; por eso pido otra lectura de «%s».",
       "Para comparar las versiones, pido otra lectura de «%s»."
     ],
-    "recall": "Necesito otra lectura de «%s» para comparar las versiones."
+    "recall": "Necesito otra lectura de «%s» para comparar las versiones.",
+    "keys": [
+      {
+        "need": "una petición en presente (pido, necesito…)",
+        "any": [
+          "pido",
+          "necesito",
+          "quiero",
+          "solicito",
+          "puedo"
+        ]
+      },
+      {
+        "need": "un motivo (porque, para…)",
+        "any": [
+          "porque",
+          "para"
+        ]
+      }
+    ]
   },
   {
     "supported": "Examiné «%s» y después comparé los datos.",
@@ -37,7 +92,13 @@
       "Comparé los datos de «%s» después de examinar la pieza.",
       "Primero examiné «%s»; después comparé los datos."
     ],
-    "recall": "Examiné la pieza «%s» antes de comparar los datos."
+    "recall": "Examiné la pieza «%s» antes de comparar los datos.",
+    "keys": [
+      {
+        "need": "un verbo en pretérito (ocurrió, examiné…)",
+        "match": " (\\w+(aron|ieron|yeron|aste|iste|io)|fue|fueron|hubo|dijo|dijeron|hizo|hicieron|tuvo|tuvieron|estuvo|estuvieron|pudo|puso|supo|quiso|trajo|vino|vio|vieron|dio|dieron|examine|compare|encontre|comprobe|observe|mire|lei) "
+      }
+    ]
   },
   {
     "supported": "Antes leía «%s» sin contrastar las versiones; después comparé los datos.",
@@ -45,7 +106,13 @@
       "Leía «%s» sin comparar las versiones, pero después contrasté los datos.",
       "Antes no contrastaba «%s»; después comparé las versiones."
     ],
-    "recall": "Antes leía «%s» sin contrastar; después examiné las diferencias."
+    "recall": "Antes leía «%s» sin contrastar; después examiné las diferencias.",
+    "keys": [
+      {
+        "need": "un verbo en imperfecto (era, leía, contaban…)",
+        "match": " (\\w+(aba|aban|abas|abamos|ia|ian|ias|iamos)|era|eran|eras|iba|iban) "
+      }
+    ]
   },
   {
     "supported": "La pieza que examino se llama «%s» y permite comparar las versiones.",
@@ -53,7 +120,20 @@
       "«%s» es la pieza que examino para comparar las versiones.",
       "Comparo las versiones con la pieza que se llama «%s»."
     ],
-    "recall": "La pieza que uso para comparar las versiones se llama «%s»."
+    "recall": "La pieza que uso para comparar las versiones se llama «%s».",
+    "keys": [
+      {
+        "need": "una oración de relativo (que, quien, donde…)",
+        "any": [
+          "que",
+          "quien",
+          "quienes",
+          "donde",
+          "cuyo",
+          "cuya"
+        ]
+      }
+    ]
   },
   {
     "supported": "He examinado «%s» y voy a contrastar la interpretación.",
@@ -61,7 +141,13 @@
       "Voy a contrastar la interpretación de «%s», que ya he examinado.",
       "Ya he examinado «%s»; ahora voy a contrastar la interpretación."
     ],
-    "recall": "He comparado las versiones sobre «%s» y voy a revisar la conclusión."
+    "recall": "He comparado las versiones sobre «%s» y voy a revisar la conclusión.",
+    "keys": [
+      {
+        "need": "pretérito perfecto (he comprobado, hemos visto…)",
+        "match": " (he|has|ha|hemos|habeis|han) \\w+(ado|ido|to|cho|so) "
+      }
+    ]
   },
   {
     "supported": "Propondría revisar «%s» antes de aceptar una acusación.",
@@ -69,6 +155,12 @@
       "Antes de aceptar una acusación, propondría revisar «%s».",
       "Revisaría «%s» antes de aceptar una acusación."
     ],
-    "recall": "No aceptaría una acusación sin revisar primero «%s»."
+    "recall": "No aceptaría una acusación sin revisar primero «%s».",
+    "keys": [
+      {
+        "need": "un condicional (propondría, revisaría…)",
+        "match": " \\w+(ria|rias|riamos|rian) "
+      }
+    ]
   }
 ]

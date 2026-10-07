@@ -1697,3 +1697,28 @@ model call was made.
 
 Executed for this commit: the full non-live run, 49 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Optional cases: free answers and their own prompts
+
+The 108 optional cases (`world/side_investigations.gd`, `world/side_panel.gd`) no longer
+show their model before access, independent production or the final proposal. Access
+asks for an inspection of the named piece and accepts a request verb, an examining verb
+and the piece (its name, "pieza", "prueba" or "objeto"). Independent production and
+recall show the case's own `language.independent_task` / `recall_task` (until now
+unread) plus its `model_frame` as a frame with gaps. A free answer passes with the
+template's target form (`side_practice.json` gains `keys`; tenses are recognised by
+regular expressions over endings and frequent irregular forms, so a tense written
+without its tilde and identical to another form, such as "examino", is not recognised),
+at least four words, one word of five letters or more from this case, and, at the
+independent stage, no sentence of three words or more that the panel showed. The
+final proposal needs a conditional and the chosen outcome. The authored sentences
+still pass, so old saves restore. Rejections name what is missing; block-7 cases
+apply the last-block tilde rule.
+
+Tests: side_investigations_test adds an own-words access and independent answer for
+SX001, rejects a copied on-screen sentence, a missing target form and an irrelevant
+answer, and for SX009 a proposal without its tilde and one without a conditional
+(1,581 checks). The patterns and labels were written by the agent.
+
+Executed for this commit: the full non-live run, 49 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
