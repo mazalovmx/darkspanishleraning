@@ -44,6 +44,8 @@ var pointer := Vector2.ZERO
 var preview: Array[Vector2i] = []
 var hovered := Vector2i(-1, -1)
 var tiles := TileMapLayer.new()
+var painted_state: WorldState
+var painted := 0
 var camera := Camera2D.new()
 var hero := Sprite2D.new()
 var status := Label.new()
@@ -96,8 +98,6 @@ func _build_tiles() -> void:
 	tiles.tile_set = tile_set
 	tiles.z_index = -1
 	add_child(tiles)
-	for cell: Vector2i in state.fog:
-		tiles.set_cell(cell, 0, Vector2i(names.find(state.terrain[cell.y][cell.x]), 0))
 
 func _build_ui() -> void:
 	var layer := CanvasLayer.new()
@@ -544,9 +544,18 @@ func _resume_contact() -> void:
 		_start_battle(state.ghosts.pending_encounter.knight)
 
 func _refresh() -> void:
-	var names := COLORS.keys()
-	for cell: Vector2i in state.fog:
-		tiles.set_cell(cell, 0, Vector2i(names.find(state.terrain[cell.y][cell.x]), 0))
+	# A tile shows terrain only, and explored cells are only ever added within one state:
+	# repaint everything for a new state, otherwise only the cells that have no tile yet.
+	if painted_state != state or painted > state.fog.size():
+		tiles.clear()
+		painted_state = state
+		painted = 0
+	if painted != state.fog.size():
+		var names := COLORS.keys()
+		for cell: Vector2i in state.fog:
+			if painted == 0 or tiles.get_cell_source_id(cell) == -1:
+				tiles.set_cell(cell, 0, Vector2i(names.find(state.terrain[cell.y][cell.x]), 0))
+		painted = state.fog.size()
 	army_notice.text = "Oro: %d · Madera: %d · Mineral: %d\nMercurio: %d · Azufre: %d\nCristal: %d · Gemas: %d · Ejército: %d/7" % [state.resources.gold,state.resources.wood,state.resources.ore,state.resources.mercury,state.resources.sulfur,state.resources.crystal,state.resources.gems,state.army.size()]
 	hero.position = tiles.map_to_local(state.hero_cell)
 	hero.modulate = Color(state.party.active().definition.color)
@@ -704,7 +713,7 @@ func _new_game() -> void:
 
 func _adopt(next: WorldState) -> void:
 	state = next
-	tiles.clear()
+	painted_state = null
 	camera.offset = Vector2(160, 0) if state.map_id == "province_160x120_v1" else Vector2.ZERO
 	dialogue.world_state = state
 	notebook.hide()
