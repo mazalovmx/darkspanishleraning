@@ -189,6 +189,18 @@ func run() -> void:
 	map._load_game()
 	check(map.dialogue.histories.is_empty() and map.dialogue.last_feedback.is_empty(), "Load clears future transcript and stale feedback")
 	check(not FileAccess.get_file_as_string(path).contains("private turn"), "Raw dialogue not saved")
+	disk = FileAccess.get_file_as_string(path)
+	kept = map.state
+	map.new_button.pressed.emit()
+	check(map.new_confirm.visible and map.state == kept and FileAccess.get_file_as_string(path) == disk, "New game asks before replacing progress")
+	map.new_confirm.hide()
+	map.dialogue.client.busy = true
+	map._new_game()
+	check(map.state == kept, "In-flight reply blocks new game")
+	map.dialogue.client.busy = false
+	map.new_confirm.confirmed.emit()
+	check(map.state != kept and map.state.day == 1 and map.state.evidence.progress().is_empty() and map.dialogue.world_state == map.state, "Confirmed new game starts from the beginning")
+	check(Save.read_save(path).state.day == 1 and FileAccess.get_file_as_string(path + ".bak") == disk, "New game saves itself and keeps the previous file")
 	kept = map.state
 	map.queue_free()
 	await process_frame
@@ -204,7 +216,7 @@ func run() -> void:
 	restarted.queue_free()
 	await process_frame
 	# Remove only explicitly owned test files, never the user's save slot.
-	for target in [path, path + ".tmp", test_dir + "/blocked.tmp"]:
+	for target in [path, path + ".tmp", path + ".bak", test_dir + "/blocked.tmp"]:
 		if FileAccess.file_exists(target):
 			DirAccess.remove_absolute(target)
 	DirAccess.remove_absolute(test_dir + "/blocked")

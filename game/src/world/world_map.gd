@@ -16,6 +16,8 @@ var save_button := Button.new()
 var load_button := Button.new()
 var save_notice := Label.new()
 var save_confirm := ConfirmationDialog.new()
+var new_button := Button.new()
+var new_confirm := ConfirmationDialog.new()
 var notebook = preload("res://src/evidence/evidence_notebook.gd").new()
 var notebook_button := Button.new()
 var language_button := Button.new()
@@ -314,6 +316,16 @@ func _build_ui() -> void:
 	save_confirm.title = "Reemplazar archivo"
 	save_confirm.dialog_text = "El archivo no se puede cargar. ¿Guardar esta partida en su lugar?"
 	save_confirm.confirmed.connect(func(): _save_game(false, true))
+	new_button.text = "Nueva partida"
+	new_button.add_theme_font_size_override("font_size", 13)
+	new_button.pressed.connect(func():
+		if _can_restart():
+			new_confirm.popup_centered())
+	box.add_child(new_button)
+	layer.add_child(new_confirm)
+	new_confirm.title = "Nueva partida"
+	new_confirm.dialog_text = "¿Empezar desde el principio? La partida guardada se reemplaza; se conserva una copia anterior."
+	new_confirm.confirmed.connect(_new_game)
 	dialogue.request_started.connect(func():
 		save_button.disabled = true
 		load_button.disabled = true)
@@ -664,7 +676,25 @@ func _load_game(startup := false) -> void:
 		elif not startup:
 			save_notice.text = "Todavía no hay una partida guardada."
 		return
-	state = result.state
+	_adopt(result.state)
+	save_notice.text = "Partida cargada."
+	_resume_contact()
+
+func _can_restart() -> bool:
+	return not (arena.visible or dialogue.client.busy or not dialogue.pending_location.is_empty() or poi_modal.visible or notebook.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible)
+
+func _new_game() -> void:
+	if not _can_restart():
+		return
+	# Keep the replaced save beside the slot; a failed copy must not block restarting.
+	if persistence_enabled and FileAccess.file_exists(save_path):
+		DirAccess.copy_absolute(ProjectSettings.globalize_path(save_path), ProjectSettings.globalize_path(save_path + ".bak"))
+	_adopt(WorldState.new(state.map_id))
+	_save_game(false, true)
+	save_notice.text = "Partida nueva."
+
+func _adopt(next: WorldState) -> void:
+	state = next
 	tiles.clear()
 	camera.offset = Vector2(160, 0) if state.map_id == "province_160x120_v1" else Vector2.ZERO
 	dialogue.world_state = state
@@ -701,8 +731,6 @@ func _load_game(startup := false) -> void:
 	_clamp_camera()
 	_refresh()
 	_update_preview()
-	save_notice.text = "Partida cargada."
-	_resume_contact()
 
 func _on_dialogue_finished() -> void:
 	save_button.disabled = false

@@ -25,7 +25,7 @@ Small, verifiable tasks first; each ends with tests, a STATE.md entry and one co
    CLAUDE_PROMPTS.md, CONTENT_SCHEMA.md, EQUIPMENT_AND_GHOST_KNIGHTS.md header,
    TESTING.md suite list, `ghost_knights.json` status label.
 5. [x] Innkeeper directions follow the actual map (wrong on the province).
-6. [ ] If budget remains: "Nueva partida" control with confirmation (P2 below).
+6. [x] "Nueva partida" control with confirmation (P2 below).
 7. [ ] If budget remains: troop/supply transfer panel over the existing model.
 
 Not attempted today: the P1 conversation work below. It is the largest gap and needs
@@ -96,8 +96,8 @@ its own multi-session plan and scenario-bible review per NPC.
 ## P2 - Release readiness (sections 33, 35, 42, Epic 14.3, Epic 20)
 
 - No `export_presets.cfg`; no Windows build has been produced or run.
-- No title screen, main menu, settings, quit, or new-game/reset; the save auto-loads
-  and a finished game can only be restarted by deleting the file.
+- No title screen, main menu, settings or quit. (A confirmed "Nueva partida" control
+  on the map now restarts the game and keeps the previous save as `.bak`.)
 - No FPS measurement. `_refresh()` rewrites all 19,200 tiles per UI update and each
   autosave takes about half a second on the province.
 - Upstream demo still shipped: `game/src/main.tscn`, `game/overworld`, `game/combat`,

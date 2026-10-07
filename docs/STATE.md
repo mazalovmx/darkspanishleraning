@@ -1064,3 +1064,15 @@ this wording is inaccurate; that map is a test fixture, not the shipped game.
 Executed: authored_dialogue 25, dialogue_clue 39, npc_grounding 54, claude_client 72,
 vertical_slice 31: passed. The bible was consulted only for the location table
 (coordinates of LOC01 and LOC11), not reread in full for this one-line change.
+## New game control
+
+The map sidebar has "Nueva partida". It asks for confirmation, copies the current save
+to `<save>.bak`, replaces the running state with a fresh one for the same map, rebinds
+every panel and saves it. It is refused while a battle, a pending reply or any modal
+panel is open. Loading and restarting now share one state-adoption routine.
+There is still no title screen or menu; restoring the `.bak` file is manual.
+
+Executed the full runner after the change: 45 suites plus restart write/read, all
+passed, 54,884 counted checks (save_game_test 531, four new). The first run of the
+new assertions failed on a wrong accessor in the test itself; corrected and reran.
+Headless only: the dialog and the new sidebar button were not viewed in a window.
