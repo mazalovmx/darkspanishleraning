@@ -23,6 +23,10 @@ var send_button := Button.new()
 var assemble_button := Button.new()
 var disassemble_button := Button.new()
 var transfer_set_button := Button.new()
+var cargo := ItemList.new()
+var amount := SpinBox.new()
+var give_button := Button.new()
+var units: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/combat/stacks.json")).units
 var feedback := Label.new()
 var close_button := Button.new()
 
@@ -97,6 +101,20 @@ func _ready() -> void:
 	_button(actions,assemble_button,"Reunir las cuatro partes",func(): _action("assemble"))
 	_button(actions,disassemble_button,"Separar el conjunto",func(): _action("disassemble"))
 	_button(actions,transfer_set_button,"Entregar el conjunto",func(): _action("transfer_set"))
+	var troops := VBoxContainer.new()
+	troops.name = "Tropas"
+	tabs.add_child(troops)
+	cargo.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	cargo.item_selected.connect(func(_index: int): _cargo_limit())
+	troops.add_child(cargo)
+	var giving := HBoxContainer.new()
+	var count_label := Label.new()
+	count_label.text = "Cantidad:"
+	giving.add_child(count_label)
+	amount.min_value = 1
+	giving.add_child(amount)
+	troops.add_child(giving)
+	_button(troops,give_button,"Entregar al destinatario",_give)
 	feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	feedback.custom_minimum_size.y = 42
 	box.add_child(feedback)
@@ -144,6 +162,38 @@ func refresh() -> void:
 		inventory.select(0)
 	_item_details()
 	_soul_details()
+	var chosen := cargo.get_selected_items()
+	cargo.clear()
+	for index in world_state.army.size():
+		var stack: Dictionary = world_state.army[index]
+		cargo.add_item("Tropa · %s · %d" % [units[stack.type].name,stack.count])
+		cargo.set_item_metadata(cargo.item_count-1,{"kind":"stack","key":index,"count":int(stack.count)})
+	var goods: Dictionary = world_state.trade.goods
+	for item: String in goods:
+		var held := int(world_state.party.active().inventory.get(item,0))
+		if goods[item].kind == "supply" and held > 0:
+			cargo.add_item("Provisión · %s · %d" % [goods[item].name,held])
+			cargo.set_item_metadata(cargo.item_count-1,{"kind":"supply","key":item,"count":held})
+	if cargo.item_count > 0:
+		cargo.select(mini(chosen[0],cargo.item_count-1) if not chosen.is_empty() else 0)
+	_cargo_limit()
+
+func _cargo_limit() -> void:
+	var chosen := cargo.get_selected_items()
+	give_button.disabled = chosen.is_empty() or target.item_count == 0
+	if not chosen.is_empty():
+		amount.max_value = cargo.get_item_metadata(chosen[0]).count
+
+func _give() -> void:
+	var chosen := cargo.get_selected_items()
+	if not visible or chosen.is_empty() or target.item_count == 0:
+		return
+	var entry: Dictionary = cargo.get_item_metadata(chosen[0])
+	var ok: bool = world_state.transfer(entry.kind,str(target.get_selected_metadata()),entry.key,int(amount.value))
+	feedback.text = "Entrega hecha." if ok else "No se puede entregar: los héroes deben estar en la misma casilla, sin órdenes preparadas, y con espacio en el ejército."
+	if ok:
+		refresh()
+		changed.emit()
 
 func _instance() -> String:
 	var selection := inventory.get_selected_items()

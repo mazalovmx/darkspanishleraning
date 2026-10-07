@@ -26,7 +26,10 @@ Small, verifiable tasks first; each ends with tests, a STATE.md entry and one co
    TESTING.md suite list, `ghost_knights.json` status label.
 5. [x] Innkeeper directions follow the actual map (wrong on the province).
 6. [x] "Nueva partida" control with confirmation (P2 below).
-7. [ ] If budget remains: troop/supply transfer panel over the existing model.
+7. [x] Troop/supply handover between co-located heroes (Tropas tab of the equipment panel).
+
+Next session: start with a windowed review of the three UI changes made today (frozen-
+orders status line, Nueva partida, Tropas tab), which were verified headless only.
 
 Not attempted today: the P1 conversation work below. It is the largest gap and needs
 its own multi-session plan and scenario-bible review per NPC.
@@ -78,7 +81,6 @@ its own multi-session plan and scenario-bible review per NPC.
 
 ## P2 - Strategic layer
 
-- Troop/supply transfer between co-located heroes has a model and tests but no panel.
 - Supplies and hero health have no effect on play.
 - 90 `optional_treasure` equipment items have no source; no map pickups or guarded
   treasures (section 12).
@@ -91,7 +93,6 @@ its own multi-session plan and scenario-bible review per NPC.
 - Ghost activation takes the first three eligible ids, so NK07/NK08 may never appear.
 - Balance: every battle, knight and equipment rule is `authored_unplaytested`;
   side-case enemy units have zero attack/defense modifiers; gold income looks high.
-- Frozen-plan guard does not cover `party_state.transfer_*` (no caller yet).
 
 ## P2 - Release readiness (sections 33, 35, 42, Epic 14.3, Epic 20)
 

@@ -27,6 +27,29 @@ func run() -> void:
 	panel.transfer_button.pressed.emit()
 	check(gear.instances[boots].owner == "smuggler" and panel.inventory.item_count == 0,"Co-located delivery updates both inventory owners")
 	check(panel.equip_button.disabled,"Empty inventory cannot equip")
+	var unit: String = state.army[0].type
+	var held: int = state.army[0].count
+	var count_of := func(army: Array) -> int:
+		var total := 0
+		for stack: Dictionary in army:
+			if stack.type == unit:
+				total += int(stack.count)
+		return total
+	var other: int = count_of.call(state.party.heroes.smuggler.army)
+	check(panel.cargo.item_count == state.army.size() and panel.amount.max_value == held,"Troops tab lists the active army with its limit")
+	panel.amount.value = 3
+	panel.give_button.pressed.emit()
+	check(state.army[0].count == held-3 and count_of.call(state.party.heroes.smuggler.army) == other+3,"UI hands troops to the co-located hero without loss")
+	check(count_of.call(Save.read_save(map.save_path).state.party.heroes.smuggler.army) == other+3,"Troop delivery autosaves")
+	state.party.active().inventory.bread = 5
+	panel.refresh()
+	panel.cargo.select(panel.cargo.item_count-1)
+	panel._cargo_limit()
+	panel.amount.value = 9
+	check(panel.amount.value == 5,"Quantity cannot exceed supplies held")
+	panel.amount.value = 2
+	panel.give_button.pressed.emit()
+	check(state.party.active().inventory.bread == 3 and state.party.heroes.smuggler.inventory.bread == 2,"UI hands supplies to the co-located hero")
 	panel.close_button.pressed.emit()
 	map._switch_hero("smuggler")
 	map.equipment_button.pressed.emit()

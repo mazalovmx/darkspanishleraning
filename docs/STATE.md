@@ -1076,3 +1076,24 @@ Executed the full runner after the change: 45 suites plus restart write/read, al
 passed, 54,884 counted checks (save_game_test 531, four new). The first run of the
 new assertions failed on a wrong accessor in the test itself; corrected and reran.
 Headless only: the dialog and the new sidebar button were not viewed in a window.
+## Troop and supply handover between heroes
+
+The equipment panel has a third tab, Tropas. It lists the active hero's stacks and held
+supplies, limits the quantity to what is held and hands the chosen amount to the
+recipient already selected at the top of the panel. It calls WorldState.transfer, which
+refuses during frozen orders, a battle or a pending quote and then uses the existing
+party model (same cell, seven-slot limit, stack merge, conservation). Accepted
+handovers autosave through the panel's existing change signal. Handing over troops or
+supplies between the player's own heroes is not a purchase and needs no Spanish.
+
+Executed the full runner: 45 suites plus restart write/read, all passed, 54,890
+counted checks (equipment_scene_test 162, five new; ghost_world_test 155, one new).
+Headless only; the tab layout was not viewed in a window. Supplies still have no
+gameplay effect, so moving them is currently bookkeeping.
+
+## Session summary 2026-10-07
+
+Six commits after c4321a0: backlog and test runner, frozen-plan guards, working-doc
+alignment, innkeeper directions, new-game control, troop/supply handover. Open work
+and user decisions are in BACKLOG.md. Next: windowed review of today's three UI
+changes, then the P1 conversation work (more grounded NPCs, NPC memory, golden tests).

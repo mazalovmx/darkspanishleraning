@@ -13,6 +13,8 @@ func run() -> void:
 	check(state.economy.reason(state,"build","hall",1).contains("órdenes"),"Frozen plan blocks building and recruitment")
 	check(not state.trade.submit(state,"bread",1,"Quiero pan.").ok and state.trade.pending.is_empty(),"Frozen plan blocks new trade quote")
 	check(state.side_cases.reason(state,"SX001").contains("órdenes"),"Frozen plan blocks case mutation")
+	var army: Array = state.army.duplicate(true)
+	check(not state.transfer("stack","smuggler",0,1) and state.army == army,"Frozen plan blocks troop handover")
 	var loaded := Save.decode(JSON.parse_string(JSON.stringify(Save.snapshot(state))))
 	check(loaded.has("state"),"Whole-world planned route restores")
 	if loaded.has("state"):

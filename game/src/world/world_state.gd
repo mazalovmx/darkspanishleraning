@@ -160,6 +160,14 @@ func move_to(destination: Vector2i, discovered_only := false) -> bool:
 	movement_remaining -= cost
 	return true
 
+# Hands troops (key = army index) or supplies (key = item id) to a hero on the same cell.
+func transfer(kind: String, to_id: String, key: Variant, quantity: int) -> bool:
+	if planning_active() or active_battle != null or not trade.pending.is_empty() or not economy.pending.is_empty():
+		return false
+	if kind == "stack":
+		return party.transfer_stack(party.active_id, to_id, int(key), quantity)
+	return party.transfer_supply(party.active_id, to_id, str(key), quantity)
+
 func planning_active() -> bool:
 	return ghosts.plan != null or not ghosts.pending_encounter.is_empty()
 
