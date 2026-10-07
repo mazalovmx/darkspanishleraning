@@ -978,3 +978,16 @@ new quote guard changed prototype day advancement; scoped that guard to the prov
 and reran the market checks. Additional migration regressions passed: 19 artifact
 market, 22 curriculum, 26 economy-world, 285 equipment, 46 party and 33 resolver checks.
 Existing shutdown diagnostics persist. Spanish counter controls remain next.
+## Spanish ghost-counter controls on the map
+
+Caballeros y pruebas presents visible opponents and traces of active interventions,
+freezes daily orders explicitly, offers inspected branch sources and guided Spanish
+counterproduction, and allows the consenting soul route. Accepted counters autosave
+their proofs. Nearby manual combat is available before orders are frozen. The modal
+blocks overlapping panels and day changes and rebinds after loading.
+
+Executed 152 scene checks headless and OpenGL, 147 ghost-world and 365 map checks:
+passed. Reviewed the OpenGL screenshot. The initial scene fixture inherited an already
+active effect instead of the intended fresh telegraphed order; isolated fresh opposition
+while retaining real case/language progress and reran. Existing shutdown diagnostics
+persist. The next task is enforcing live case-stage effects and frozen-plan action guards.
