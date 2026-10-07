@@ -3,7 +3,12 @@
   "language": "es",
   "audio": {
     "music": true,
-    "music_db": -16.0
+    "music_db": -16.0,
+    "sfx": true,
+    "sfx_db": -8.0
+  },
+  "effects": {
+    "vignette": false
   },
   "dev_flags": {
     "debug_logging": false,

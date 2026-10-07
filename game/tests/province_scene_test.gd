@@ -57,6 +57,28 @@ func run() -> void:
 		await process_frame
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("C:/dev/game/tools/local/province-preview.png")
+	var kinds := {}
+	for location: Dictionary in map.state.locations:
+		kinds[location.kind] = true
+	for kind: String in kinds:
+		check(map.location_textures.has(kind), "Every location kind has a sprite: " + kind)
+	for site: Dictionary in map.state.map_data.resource_sites:
+		check(map.site_textures.has(site.resource), "Every resource site has a sprite: " + str(site.resource))
+	for id: String in map.state.party.heroes:
+		check(map.hero_textures.has(id), "Every hero has a sprite: " + id)
+	check(map.hero.texture == map.hero_textures[map.state.party.active_id] and map.knight_texture != null, "Active hero and knights use sprites")
+	var atlas: Image = map.tiles.tile_set.get_source(0).texture.get_image()
+	var cell_colours := {}
+	for index in map.COLORS.size():
+		cell_colours[atlas.get_pixel(index * map.CELL_SIZE + 16, 16).to_html()] = true
+	check(cell_colours.size() >= 7, "Terrain cells are baked from distinct art")
+	check(map.music_track == "minstrel_dance.mp3" and map.music.stream != null, "Travel music is selected on the map")
+	map._open_poi(map.state.hero_cell)
+	check(map.music_track == "kings_feast.mp3", "Entering a location changes the track")
+	map._play_sfx("no_such_event")
+	map._close_poi()
+	check(map.music_track == "minstrel_dance.mp3" and map.sfx.stream != null, "Leaving restores travel music and plays a sound")
+	check(map.vignette.get_parent() == null, "Full-screen shader stays off by default")
 	var path: String = map.save_path
 	map.queue_free()
 	await process_frame

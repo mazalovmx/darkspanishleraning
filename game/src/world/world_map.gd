@@ -19,6 +19,17 @@ const LOCATION_ART := {"monastery": 4, "capital": 6, "university": 20, "industri
 	"town": 17, "mine": 8, "ruin": 12, "marsh": 23, "inn": 9, "farm": 13, "workshop": 21, "archive": 11,
 	"hospital": 19, "guildhouse": 3, "camp": 10}
 const HERO_ART := {"inquisitor": 4, "smuggler": 11, "survivor": 19}
+# Resource sites by what they yield; knights share one armoured figure.
+const SITE_ART := {"wood": "Environment/medievalEnvironment_06", "ore": "Environment/medievalEnvironment_10",
+	"gold": "Environment/medievalEnvironment_19", "mercury": "Environment/medievalEnvironment_12",
+	"sulfur": "Environment/medievalEnvironment_17", "crystal": "Environment/medievalEnvironment_11", "gems": "Environment/medievalEnvironment_18"}
+const KNIGHT_ART := "Unit/medievalUnit_21"
+const SFX := {"route": "drop_002.ogg", "day": "confirmation_002.ogg", "denied": "error_006.ogg",
+	"enter": "doorOpen_2.ogg", "leave": "doorClose_1.ogg"}
+var site_textures: Dictionary = {}
+var knight_texture: Texture2D
+var sfx := AudioStreamPlayer.new()
+var vignette := ColorRect.new()
 const LOCATION_MUSIC := {"inn": "the_old_tower_inn.mp3", "ruin": "dungeon_ambience.ogg", "mine": "dungeon_ambience.ogg"}
 var location_textures: Dictionary = {}
 var hero_textures: Dictionary = {}
@@ -101,7 +112,24 @@ func _ready() -> void:
 		if ResourceLoader.exists(path):
 			location_textures[kind] = load(path)
 	add_child(music)
+	add_child(sfx)
+	for resource: String in SITE_ART:
+		if ResourceLoader.exists(ART + SITE_ART[resource] + ".png"):
+			site_textures[resource] = load(ART + SITE_ART[resource] + ".png")
+	if ResourceLoader.exists(ART + KNIGHT_ART + ".png"):
+		knight_texture = load(ART + KNIGHT_ART + ".png")
 	_build_ui()
+	# Optional darkened screen edges between the map and the interface. Off unless configured.
+	if dialogue.client.config.get("effects", {}).get("vignette", false) and ResourceLoader.exists("res://assets/third_party/shaders/vignette.gdshader"):
+		var under := CanvasLayer.new()
+		under.layer = 0
+		add_child(under)
+		var shade := ShaderMaterial.new()
+		shade.shader = load("res://assets/third_party/shaders/vignette.gdshader")
+		vignette.material = shade
+		vignette.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		vignette.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		under.add_child(vignette)
 	_refresh()
 	_update_preview()
 	_play_music("minstrel_dance.mp3")
@@ -164,6 +192,16 @@ func _play_music(track: String) -> void:
 	music.volume_db = float(settings.get("music_db", -16.0))
 	music.play()
 	music_track = track
+
+# Short interface sound; missing files and a disabled setting are silent.
+func _play_sfx(event: String) -> void:
+	var settings: Dictionary = dialogue.client.config.get("audio", {})
+	var path := "res://assets/sfx/" + str(SFX.get(event, ""))
+	if not settings.get("sfx", true) or not SFX.has(event) or not ResourceLoader.exists(path):
+		return
+	sfx.stream = load(path)
+	sfx.volume_db = float(settings.get("sfx_db", -8.0))
+	sfx.play()
 
 func _build_ui() -> void:
 	var layer := CanvasLayer.new()
@@ -485,6 +523,7 @@ func _open_poi(cell: Vector2i) -> void:
 	poi_title.text = location.name
 	poi_description.text = location.description
 	dialogue.open_conversation(location.id)
+	_play_sfx("enter")
 	_play_music(LOCATION_MUSIC.get(location.kind, "kings_feast.mp3"))
 	preview.clear()
 	end_button.disabled = true
@@ -493,6 +532,8 @@ func _open_poi(cell: Vector2i) -> void:
 	queue_redraw()
 
 func _close_poi() -> void:
+	if poi_modal.visible:
+		_play_sfx("leave")
 	poi_modal.hide()
 	_play_music("minstrel_dance.mp3")
 	end_button.disabled = false
@@ -578,6 +619,9 @@ func _unhandled_input(event: InputEvent) -> void:
 				elif selected:
 					if state.move_to(cell, true):
 						_save_game(true)
+						_play_sfx("route")
+					else:
+						_play_sfx("denied")
 				_refresh()
 				_update_preview()
 				_open_poi(cell)
@@ -598,7 +642,9 @@ func _clamp_camera() -> void:
 func _end_turn() -> void:
 	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible:
 		return
+	var day_before: int = state.day
 	state.end_turn()
+	_play_sfx("day" if state.day > day_before else "denied")
 	_save_game(true)
 	_refresh()
 	_update_preview()
@@ -695,7 +741,15 @@ func _draw() -> void:
 		if state.fog_at(cell) == WorldState.Fog.UNKNOWN:
 			continue
 		var center := tiles.map_to_local(cell)
-		draw_colored_polygon(PackedVector2Array([center + Vector2(0,-8), center + Vector2(8,0), center + Vector2(0,8), center + Vector2(-8,0)]), Color("72c9b0") if state.economy.mines.has(site.id) else Color("bf9670"))
+		var owned: bool = state.economy.mines.has(site.id)
+		if site_textures.has(site.resource):
+			var texture: Texture2D = site_textures[site.resource]
+			var size: Vector2 = texture.get_size() * (28.0 / maxf(texture.get_width(), texture.get_height()))
+			draw_texture_rect(texture, Rect2(center - size / 2, size), false, Color.WHITE if state.fog_at(cell) == WorldState.Fog.VISIBLE else Color(0.55, 0.55, 0.6))
+			if owned:
+				draw_rect(Rect2(center - Vector2(15, 15), Vector2(30, 30)), Color("72c9b0"), false, 2)
+			continue
+		draw_colored_polygon(PackedVector2Array([center + Vector2(0,-8), center + Vector2(8,0), center + Vector2(0,8), center + Vector2(-8,0)]), Color("72c9b0") if owned else Color("bf9670"))
 	for gate: Dictionary in state.map_data.get("gates", []):
 		var cell := Vector2i(gate.position[0], gate.position[1])
 		if state.fog_at(cell) != WorldState.Fog.UNKNOWN and state.gate_at(cell).closed:
@@ -707,6 +761,10 @@ func _draw() -> void:
 		if not actor.active or actor.return_day > state.day or state.fog_at(cell) != WorldState.Fog.VISIBLE:
 			continue
 		var center := tiles.map_to_local(cell)
+		if knight_texture != null:
+			draw_texture_rect(knight_texture, Rect2(center - Vector2(13, 20), knight_texture.get_size() * 1.3), false, Color("b8c6ff"))
+			draw_string(ThemeDB.fallback_font,center+Vector2(4,-8),id.right(2),HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color.WHITE)
+			continue
 		draw_circle(center,11,Color("a9badf"),false,3)
 		draw_string(ThemeDB.fallback_font,center+Vector2(-9,5),id.right(2),HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color.WHITE)
 	if state.ghosts.plan != null:
@@ -727,6 +785,10 @@ func _draw() -> void:
 		if member.cell == state.hero_cell:
 			center += Vector2(-12 + marker_index * 24, 12)
 		var color := Color(member.definition.color)
+		if hero_textures.has(id):
+			draw_texture(hero_textures[id], center - hero_textures[id].get_size() / 2, Color(0.8, 0.8, 0.85))
+			marker_index += 1
+			continue
 		draw_circle(center, 8, color)
 		draw_string(ThemeDB.fallback_font, center + Vector2(-5, 5), str(member.definition.short_name).left(1), HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("17202b"))
 		marker_index += 1

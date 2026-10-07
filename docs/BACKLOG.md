@@ -113,18 +113,23 @@ its own multi-session plan and scenario-bible review per NPC.
 - No `export_presets.cfg`; no Windows build has been produced or run.
 - No title screen, main menu, settings or quit. (A confirmed "Nueva partida" control
   on the map now restarts the game and keeps the previous save as `.bak`.)
-- No rendered FPS or weak-hardware acceptance measurement. Incremental terrain
+- Frame rate: one windowed run on the development machine measured 81 fps idle and
+  36 fps with the pointer moving (whole province explored, zoomed out); the vignette
+  lowers that to 72 and 30. No weak-hardware acceptance measurement. Reduce the
+  moving-pointer cost: recompute the route preview only when the hovered cell
+  changes, and draw fog from a tile layer instead of per-cell rectangles each redraw.
+  Earlier note: No rendered FPS or weak-hardware acceptance measurement. Incremental terrain
   repaint and single-decode save validation are implemented; the headless benchmark
   measures logic timings only.
 - Upstream demo still shipped: `game/src/main.tscn`, `game/overworld`, `game/combat`,
   Dialogic, eight demo autoloads, demo README/CHANGELOG/icon. The standing
   "26 resources still in use" shutdown error comes from the unused Dialogic autoload.
-- Art and audio (Epic 20): terrain, location sprites, hero token and looping music are
-  wired into the map from `game/assets/third_party/`. Still placeholder or missing:
-  other heroes, mines, gates and knights on the map; battle arena; UI panels (the
-  `kenney_ui_rpg` pack is unused); sound effects; a volume setting in the UI; movement
-  animation; road tiles that follow road shape. The three shaders are unused: measure
-  before enabling any full-screen one (section 35). Nobody has listened to the audio.
+- Art and audio (Epic 20): terrain, locations, heroes, resource sites, knights, looping
+  music and interface sounds are wired into the map. Still placeholder or missing:
+  gates; battle arena; UI panels (the `kenney_ui_rpg` pack is unused); a volume
+  setting in the UI; movement animation; road tiles that follow road shape. The fog
+  and parchment shaders are unused; the vignette is optional and off. Nobody has
+  listened to the audio.
 - No project README; no CI. Screenshot paths in about 28 test lines are absolute.
 - Autosave failure shows only a small label; save validation hard-codes key counts
   and the NPC whitelist, so adding state requires touching those lines.

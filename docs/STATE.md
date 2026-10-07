@@ -1402,3 +1402,27 @@ Executed the full runner on the merged branch: 49 suites plus restart write/read
 628 over 62 cases, simon_quest 190, campaign 553, council_endings 256. Headless only.
 No live API call was made, so how the real model uses the new context fields and
 voices Inés and Elias is unverified; no Spanish speaker reviewed the new lines.
+## Map art step two, interface sounds and the first frame-rate measurement
+
+Resource sites are drawn with a sprite per resource (owned ones get a frame), ghost
+knights with a tinted armoured figure and their number, and the non-active heroes
+with their unit sprites. Interface sounds from the existing `game/assets/sfx` play
+when a route is queued or refused, when the day resolves or is refused, and on
+entering and leaving a location. The vignette shader can be enabled with
+`effects.vignette` in game.json; it is off by default. Gates are still a drawn line.
+province_scene_test now asserts that every location kind, resource and hero has a
+sprite, that terrain cells are baked from distinct art, that music changes on entering
+and leaving a location, and that the shader is off by default (50 checks).
+
+First windowed frame-rate measurement (throwaway script, Radeon Vega 8, 1280x720,
+vsync off, whole province explored, camera zoomed out, hero selected): 81 fps idle
+and 36 fps while the pointer moves every frame; with the vignette 72 and 30. The
+30 fps floor of section 35 therefore holds in this worst case only without the
+shader, and with little margin while the pointer moves. This is one run on the
+development machine, not a weak-hardware acceptance test. The moving-pointer cost
+comes from recomputing the route preview and redrawing fog for every visible cell
+on each motion event.
+
+Executed the full runner: 49 suites plus restart write/read, all passed, 56,161
+counted checks. Inspected one screenshot with the vignette on. Sounds were not
+listened to.
