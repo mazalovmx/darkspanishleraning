@@ -1515,3 +1515,29 @@ Executed the full runner on an idle machine: 49 suites plus restart write/read, 
 passed, 56,416 counted checks. Rendered and inspected the lesson screen in the
 independent stage with an error shown: prompt, reminder and feedback fit. The Spanish
 was written by the agent and not reviewed by a Spanish speaker.
+
+## Inn market: cue and rule reminder instead of a model sentence to copy
+
+Backlog P1 "gated Spanish can be passed by copying", first slice: the LOC11 market
+(`economy/trade_state.gd`, `economy/market_panel.gd`). The panel no longer shows
+"Modelo: <sentence>". It shows the facts to express (product with quantity, total in
+coins) and a rule reminder for the current tier and stage. A sentence is accepted when
+it equals the old model or, in the player's own word order, contains one accepted verb
+form for the tier (for example quiero / necesito; decidí; voy a; querría / me gustaría),
+any required word (si for the hypothesis, porque for the argued confirmation), the
+quantity with the product (digits or number words up to veinte, un / una by gender)
+and, where needed, the total in coins. A rejection names what is missing and repeats
+the rule reminder; it never prints the model or the correct total. Old receipts still
+validate because the model sentences satisfy the same check. Limitation: this is a
+content check, not a grammar parser; a list of the right words in a strange order is
+accepted. Strategy orders, soul rituals, optional cases, campaign cards and notebook
+conclusions still show their model (BACKLOG.md).
+
+Tests: market_test gained 10 checks (own wording with number words, rejections name
+the gap without the model or total, gendered "one", panel shows cue and reminder);
+market_curriculum_test's two prompt checks now look for the tier reminder and the
+absence of the model. Executed on Linux with Godot 4.6.2 headless: market_test 53/0,
+market_curriculum_test 38/0, party_integration_test 46/0, vertical_slice_test 31/0,
+save_game_test 540/0, save_restart write/read PASS. The full non-live run was still in
+progress at this commit; its result is recorded in the next entry. Not rendered in a
+window; the Spanish of the reminders was written by the agent and is not reviewed.

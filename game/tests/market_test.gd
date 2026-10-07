@@ -38,6 +38,21 @@ func run() -> void:
 	check(not trade.submit(state, "bread", 2, models.confirm).ok, "Repeated confirmation cannot duplicate purchase")
 	check(trade.purchase_count == 1, "Receipt count changes once")
 	check(trade.models("water", 1).price == "Es 1 moneda.", "Singular money grammar")
+	# Own wording is accepted on content; rejections name the gap, never the sentence.
+	var rejected: Dictionary = trade.submit(state, "bread", 3, "Quiero comprar pan.")
+	check(not rejected.ok and rejected.message.contains("la cantidad con el producto"), "Rejection names the missing element")
+	check(not rejected.message.contains(trade.models("bread", 3).request), "Rejection does not print the model sentence")
+	check(trade.submit(state, "bread", 3, "Buenas tardes, necesito tres panes para el camino.").ok, "Own request with a number word accepted")
+	rejected = trade.submit(state, "bread", 3, "Cuestan 3 monedas.")
+	check(not rejected.ok and rejected.message.contains("el total en monedas") and not rejected.message.contains("6"), "Wrong total named without revealing it")
+	check(trade.submit(state, "bread", 3, "Entonces cuestan seis monedas en total.").ok, "Own price sentence accepted")
+	rejected = trade.submit(state, "bread", 3, "Confirmo la compra.")
+	check(not rejected.ok and rejected.message.contains("Recuerda:") and not rejected.message.contains(trade.models("bread", 3).confirm), "Confirmation rejection gives a rule reminder only")
+	check(trade.submit(state, "bread", 3, "Vale, confirmo: 3 panes por 6 monedas.").get("committed", false), "Own confirmation commits")
+	check(not trade.submit(state, "bread", 1, "Quiero comprar una pan.").ok and trade.submit(state, "bread", 1, "Quiero un pan.").ok, "Article for one item follows gender")
+	trade.cancel()
+	check(trade.submit(state, "water", 1, "Necesito una botella de agua.").ok, "Feminine one accepted")
+	trade.cancel()
 	check(purchase(state, "water", 1).get("committed", false), "Second product works")
 	var army_before: int = state.army[0].count
 	check(purchase(state, "militia", 2).get("committed", false), "Spanish recruitment works")
@@ -54,7 +69,7 @@ func run() -> void:
 	trade.submit(state, "bread", 2, models.price)
 	state.resources.gold = 0
 	check(not trade.submit(state, "bread", 2, models.confirm).ok, "Insufficient funds rechecked at commit")
-	check(trade.inventory.bread == 2 and trade.stock.bread == 28, "Failed transaction leaves goods intact")
+	check(trade.inventory.bread == 5 and trade.stock.bread == 25, "Failed transaction leaves goods intact")
 	state.resources.gold = gold
 	trade.submit(state, "bread", 2, models.request)
 	check(not trade.submit(state, "water", 2, models.price).ok and trade.phase == "request", "Changed basket invalidates quote")
@@ -99,6 +114,7 @@ func run() -> void:
 	map.market_button.pressed.emit()
 	var panel = map.market
 	check(panel.visible and panel.products.item_count == 6, "Shop displays all supplies and recruits")
+	check(panel.prompt.text.contains("Recuerda:") and not panel.prompt.text.contains(map.state.trade.models("bread", 1).request), "Shop shows a cue and a rule, not the model")
 	panel.quantity.value = 2
 	models = map.state.trade.models("bread", 2)
 	for stage in ["request", "price"]:

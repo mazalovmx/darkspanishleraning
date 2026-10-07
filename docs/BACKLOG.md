@@ -55,8 +55,14 @@ its own multi-session plan and scenario-bible review per NPC.
   Move the investigative ones to grounded conversation plus inspection as in Act I.
 - The 108 optional cases reuse nine sentence templates; the per-quest
   `language.prompt/model_frame/independent_task/recall_task` fields are not read.
-- Rejection messages for purchases print the full expected sentence; soul rituals
-  return the retry text. Gated Spanish can be passed by copying.
+- Copying the model: the inn market (LOC11) no longer shows or prints its model
+  sentence; it shows the facts to express and a rule reminder, accepts the player's
+  own wording when the tier's verb form and the required content are present, and a
+  rejection names the missing element. Still showing a "Modelo:" before the first
+  attempt, so passable by copying: town building/recruit/artifact orders and resource
+  claims (strategy panel), soul rituals (equipment panel; their rejection returns the
+  retry text), optional cases (side panel), campaign cards and evidence-notebook
+  conclusions. Apply the same cue + reminder + element check to each.
 - NPC memory (Epic 19): conversation count, last day and discussed topics are stored
   per NPC, saved (v13), sent to Claude and shown as a return greeting. Still missing:
   lies told, relationship (`npc_attitude_delta` is forced to zero) and a bounded,

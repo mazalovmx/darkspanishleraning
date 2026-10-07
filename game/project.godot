@@ -76,35 +76,8 @@ animations/join_default="Instant In"
 animations/leave_default="Instant Out"
 text/autocolor_names=true
 settings/text_speed=1.0
-directories/dch_directory={
-"enemy_ghost": "res://overworld/maps/town/enemy_ghost.dch",
-"fan_of_four": "res://overworld/maps/town/fan_of_four.dch",
-"ghost": "res://overworld/maps/forest/ghost.dch",
-"monk": "res://overworld/maps/town/monk.dch",
-"runner": "res://overworld/maps/town/runner.dch",
-"smith": "res://overworld/maps/town/smith.dch",
-"thief": "res://overworld/maps/town/thief.dch",
-"warrior": "res://overworld/maps/town/warrior.dch",
-"wizard": "res://overworld/maps/town/wizard.dch"
-}
-directories/dtl_directory={
-"encounter_before_combat": "res://overworld/maps/town/encounter_before_combat.dtl",
-"encounter_on_loss": "res://overworld/maps/town/encounter_on_loss.dtl",
-"encounter_on_victory": "res://overworld/maps/town/encounter_on_victory.dtl",
-"fan_of_four": "res://overworld/maps/town/fan_of_four.dtl",
-"ghost": "res://overworld/maps/forest/ghost.dtl",
-"monk": "res://overworld/maps/town/monk.dtl",
-"opening_cutscene": "res://overworld/maps/opening_cutscene.dtl",
-"runner": "res://overworld/maps/town/runner.dtl",
-"sign": "res://overworld/maps/town/sign.dtl",
-"smith": "res://overworld/maps/town/smith.dtl",
-"strange_tree": "res://overworld/maps/town/strange_tree.dtl",
-"thief": "res://overworld/maps/town/thief.dtl",
-"wand_pedestal": "res://overworld/maps/house/wand_pedestal.dtl",
-"wand_pedestal_occupied": "res://overworld/maps/house/wand_pedestal_occupied.dtl",
-"warrior": "res://overworld/maps/town/warrior.dtl",
-"wizard": "res://overworld/maps/town/wizard.dtl"
-}
+directories/dch_directory={}
+directories/dtl_directory={}
 text/initial_text_reveal_skippable=true
 text/text_reveal_skip_delay=0.05
 text/autoadvance_per_character_delay=0.1

@@ -57,16 +57,100 @@ func current_models(state: RefCounted, id: String, quantity: int) -> Dictionary:
 func money(amount: int) -> String:
 	return "%d %s" % [amount, "moneda" if amount == 1 else "monedas"]
 
-func _matches(id: String, quantity: int, message: String, stage: String, tier: String = "basic") -> bool:
-	if message.length() > 300:
-		return false
-	var normalized := normalize(message)
-	var expected: Dictionary = models(id, quantity, tier)
-	if normalized == normalize(expected[stage]):
-		return true
-	if stage == "request" and tier == "basic":
-		return normalized in [normalize("necesito " + phrase(id, quantity)), normalize("quiero " + phrase(id, quantity))]
+const NUMBER_WORDS := ["", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez",
+	"once", "doce", "trece", "catorce", "quince", "dieciseis", "diecisiete", "dieciocho", "diecinueve", "veinte"]
+const PRICE_VERBS := ["es", "son", "cuesta", "cuestan", "vale", "valen"]
+# Per stage and tier: accepted verb forms, other required words, and whether the
+# quantity + product and the total in coins must appear. Word order is free.
+const RULES := {
+	"request": {"basic": {"verbs": ["quiero", "necesito"], "items": true},
+		"past": {"verbs": ["decidi"], "items": true},
+		"plans": {"verbs": ["voy a"], "items": true},
+		"argument": {"verbs": ["querria", "me gustaria"], "items": true}},
+	"price": {"basic": {"verbs": PRICE_VERBS, "total": true},
+		"past": {"verbs": PRICE_VERBS, "total": true, "items": true},
+		"plans": {"verbs": PRICE_VERBS, "total": true},
+		"argument": {"verbs": PRICE_VERBS, "words": ["si"], "total": true, "items": true}},
+	"confirm": {"basic": {"verbs": ["confirmo"], "total": true, "items": true},
+		"past": {"verbs": ["confirmo"], "total": true, "items": true},
+		"plans": {"verbs": ["voy a"], "total": true, "items": true},
+		"argument": {"verbs": ["acepto", "pagaria"], "words": ["porque"], "total": true, "items": true}}}
+const REMINDERS := {
+	"request": {"basic": "Pide en presente: quiero / necesito + cantidad + producto. Tras «quiero» puedes poner un infinitivo (comprar, contratar).",
+		"past": "Pretérito de decidir: yo decidí. Cuenta lo que decidiste: decidí + infinitivo + cantidad + producto.",
+		"plans": "Plan con ir a + infinitivo: yo voy a + comprar / contratar + cantidad + producto.",
+		"argument": "Condicional de cortesía: querer → querría (o me gustaría) + infinitivo + cantidad + producto."},
+	"price": {"basic": "Precio: ser → es (una moneda) / son (varias), o costar → cuesta / cuestan + el total en monedas.",
+		"past": "Resume el total: el total es + monedas + por + cantidad + producto.",
+		"plans": "Precio: ser → es / son, o costar → cuesta / cuestan + el total en monedas.",
+		"argument": "Hipótesis: si + presente (pedir → pido) + cantidad + producto; luego el total con es / son + monedas."},
+	"confirm": {"basic": "Confirma en primera persona: confirmar → confirmo + la compra de + cantidad + producto + por + total.",
+		"past": "Confirma en primera persona: confirmar → confirmo + la compra de + cantidad + producto + por + total.",
+		"plans": "Plan con ir a: voy a pagar + total + por + cantidad + producto.",
+		"argument": "Acepta y da una razón: acepto pagar + total + porque + necesitar → necesito + cantidad + producto."}}
+
+func words(message: String) -> String:
+	var text := normalize(message)
+	for mark in [",", ".", ";", ":", "!", "¡", "?", "¿", "\"", "«", "»"]:
+		text = text.replace(mark, " ")
+	return " " + " ".join(text.split(" ", false)) + " "
+
+func _numbers(amount: int, feminine: bool) -> Array:
+	var result := [str(amount)]
+	if amount == 1:
+		result.append_array(["una"] if feminine else ["un", "uno"])
+	elif amount < NUMBER_WORDS.size():
+		result.append(NUMBER_WORDS[amount])
+	return result
+
+func _has_items(text: String, id: String, quantity: int) -> bool:
+	var noun: String = words(goods[id].singular if quantity == 1 else goods[id].plural).strip_edges()
+	var head: String = words(goods[id].singular).strip_edges().get_slice(" ", 0)
+	for number in _numbers(quantity, head.ends_with("a") or head.ends_with("on")):
+		if text.contains(" %s %s " % [number, noun]):
+			return true
 	return false
+
+func _has_total(text: String, total: int) -> bool:
+	for number in _numbers(total, true):
+		if text.contains(" %s %s " % [number, "moneda" if total == 1 else "monedas"]):
+			return true
+	return false
+
+## Names what a sentence still lacks; empty when it is accepted.
+func missing(id: String, quantity: int, message: String, stage: String, tier: String = "basic") -> Array[String]:
+	var result: Array[String] = []
+	if message.length() > 300:
+		result.append("una frase más corta")
+		return result
+	if normalize(message) == normalize(models(id, quantity, tier)[stage]):
+		return result
+	var rule: Dictionary = RULES[stage][tier]
+	var text := words(message)
+	if not rule.verbs.any(func(verb: String) -> bool: return text.contains(" %s " % verb)):
+		result.append("la forma verbal")
+	for word in rule.get("words", []):
+		if not text.contains(" %s " % word):
+			result.append("«%s»" % word)
+	if rule.get("items", false) and not _has_items(text, id, quantity):
+		result.append("la cantidad con el producto")
+	if rule.get("total", false) and not _has_total(text, int(goods[id].price) * quantity):
+		result.append("el total en monedas")
+	return result
+
+func _matches(id: String, quantity: int, message: String, stage: String, tier: String = "basic") -> bool:
+	return missing(id, quantity, message, stage, tier).is_empty()
+
+## The cue shown instead of a model sentence: facts to express, never the sentence.
+func cue(state: RefCounted, id: String, quantity: int) -> String:
+	var tier := str(pending.get("tier", tier_for(state)))
+	var facts := "Producto: %s · Total: %s" % [phrase(id, quantity), money(int(goods[id].price) * quantity)]
+	return facts + "\nRecuerda: " + str(REMINDERS[phase][tier])
+
+func _rejection(id: String, quantity: int, message: String, tier: String) -> String:
+	var gaps := missing(id, quantity, message, phase, tier)
+	var text := "Falta " + (", ".join(gaps.slice(0, gaps.size() - 1)) + " y " + gaps[-1] if gaps.size() > 1 else gaps[0]) + "."
+	return text + "\nRecuerda: " + str(REMINDERS[phase][tier])
 
 func cancel() -> void:
 	pending.clear()
@@ -82,7 +166,7 @@ func submit(state: RefCounted, id: String, quantity: int, message: String) -> Di
 		return {"ok": false, "message": "Visita la venta para comprar."}
 	if phase == "request":
 		if not _matches(id, quantity, message, "request", tier_for(state)):
-			return {"ok": false, "message": "Pide el producto y la cantidad: " + current_models(state, id, quantity).request}
+			return {"ok": false, "message": _rejection(id, quantity, message, tier_for(state))}
 		if int(stock[id]) < quantity:
 			return {"ok": false, "message": "No hay existencias suficientes."}
 		pending = {"id": id, "quantity": quantity, "total": int(goods[id].price) * quantity,
@@ -94,12 +178,12 @@ func submit(state: RefCounted, id: String, quantity: int, message: String) -> Di
 		return {"ok": false, "message": "El pedido cambia. Empieza de nuevo."}
 	if phase == "price":
 		if not _matches(id, quantity, message, "price", pending.tier):
-			return {"ok": false, "message": "Revisa la cantidad por el precio: " + current_models(state, id, quantity).price}
+			return {"ok": false, "message": _rejection(id, quantity, message, pending.tier)}
 		pending["price"] = message
 		phase = "confirm"
 		return {"ok": true, "message": "Correcto. Confirma producto, cantidad y precio."}
 	if not _matches(id, quantity, message, "confirm", pending.tier):
-		return {"ok": false, "message": "Confirma el pedido completo: " + current_models(state, id, quantity).confirm}
+		return {"ok": false, "message": _rejection(id, quantity, message, pending.tier)}
 	var total: int = int(goods[id].price) * quantity
 	if pending.total != total or int(stock[id]) < quantity or int(state.resources.gold) < total:
 		cancel()

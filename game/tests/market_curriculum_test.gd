@@ -55,10 +55,10 @@ func run() -> void:
 	map.dialogue.world_state = state
 	map._open_poi(state.hero_cell)
 	map.market_button.pressed.emit()
-	check(map.market.prompt.text.contains("Querría"), "Shop scaffold follows advanced curriculum")
+	check(map.market.prompt.text.contains("querría") and not map.market.prompt.text.contains(trade.current_models(state, "bread", 1).request), "Shop reminder follows advanced curriculum without the model")
 	map.market.input.text = trade.current_models(state, "bread", 1).request
 	map.market.send_button.pressed.emit()
-	check(map.market.prompt.text.contains("Si pido"), "Advanced price comprehension shown")
+	check(map.market.prompt.text.contains("si + presente") and not map.market.prompt.text.contains(trade.current_models(state, "bread", 1).price), "Advanced price reminder shown without the model")
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw

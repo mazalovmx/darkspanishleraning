@@ -88,7 +88,7 @@ func _refresh() -> void:
 	var item: Dictionary = trade.goods[id]
 	description.text = "%s · Precio: %d monedas · Existencias: %d · Tu oro: %d" % [item.name, item.price, trade.stock[id], world_state.resources.gold]
 	var phase_name: String = {"request": "1. Pide producto y cantidad", "price": "2. Comprueba el precio", "confirm": "3. Confirma la compra"}[trade.phase]
-	prompt.text = phase_name + "\nModelo: " + str(trade.current_models(world_state, id, int(quantity.value))[trade.phase])
+	prompt.text = phase_name + "\n" + trade.cue(world_state, id, int(quantity.value))
 	products.disabled = trade.phase != "request"
 	quantity.editable = trade.phase == "request"
 	var items: Array[String] = []
