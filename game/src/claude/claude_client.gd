@@ -1,5 +1,6 @@
 extends Node
 ## One in-flight turn, at most two attempts. Never logs credentials or response bodies.
+## Worst case for one turn: two 20 s timeouts plus RETRY_DELAY.
 signal completed(proposal: Dictionary)
 const ENDPOINT := "https://api.anthropic.com/v1/messages"
 const SYSTEM_PROMPT := """Portray the supplied NPC in a Spanish investigation game.
@@ -32,8 +33,12 @@ Use verified_intent for a suggested unlock. Attitude delta must be 0.
 Never claim a purchase, quest, clue or institutional act has occurred.
 npc_memory lists earlier talks with this NPC (count, day, topics, clues already given).
 The NPC may acknowledge a return visit; never invent what was said before."""
+const RETRY_DELAY := 1.5
 var config: Dictionary = {}
 var http := HTTPRequest.new()
+var retry_timer := Timer.new()
+# Session counters only: never saved, never logged, numbers only.
+var usage := {"requests": 0, "output_tokens": 0}
 var busy := false
 var attempts := 0
 var payload := ""
@@ -47,6 +52,10 @@ func _ready() -> void:
 	http.max_redirects = 0
 	add_child(http)
 	http.request_completed.connect(_on_response)
+	retry_timer.one_shot = true
+	retry_timer.wait_time = RETRY_DELAY
+	add_child(retry_timer)
+	retry_timer.timeout.connect(_retry)
 
 func _api_key() -> String:
 	return OS.get_environment("ANTHROPIC_API_KEY").strip_edges()
@@ -75,32 +84,57 @@ func _on_response(result: int, code: int, _headers: PackedStringArray, body: Pac
 	if not busy:
 		return
 	if result == HTTPRequest.RESULT_SUCCESS and code == 200:
-		var proposal := parse_response(body)
+		var envelope := _envelope(body)
+		_count(envelope)
+		var proposal := _proposal(envelope)
 		if not proposal.is_empty():
 			_finish(proposal)
 			return
-	_failed()
+	# A client error (bad request, key, permission, model) cannot succeed on a second try.
+	_failed(result != HTTPRequest.RESULT_SUCCESS or code < 400 or code >= 500 or code in [408, 429])
 
-func _failed() -> void:
+func _failed(retryable := true) -> void:
 	if not busy:
 		return
-	if attempts < 2:
-		_send.call_deferred()
+	if retryable and attempts < 2:
+		retry_timer.start()
 	else:
 		_finish({})
 
+# busy stays true during the delay, so the reply still routes to the original turn.
+func _retry() -> void:
+	if busy and attempts < 2:
+		_send()
+
 func _finish(proposal: Dictionary) -> void:
+	retry_timer.stop()
 	busy = false
 	payload = ""
 	completed.emit(proposal)
 
+func usage_stats() -> Dictionary:
+	return usage.duplicate()
+
+func _count(envelope: Dictionary) -> void:
+	if envelope.is_empty():
+		return
+	usage.requests += 1
+	var tokens: Variant = envelope.usage.get("output_tokens") if envelope.get("usage") is Dictionary else null
+	if (tokens is int or tokens is float) and is_finite(tokens) and tokens >= 0 and tokens <= 100000:
+		usage.output_tokens += int(tokens)
+
 static func parse_response(body: PackedByteArray) -> Dictionary:
+	return _proposal(_envelope(body))
+
+static func _envelope(body: PackedByteArray) -> Dictionary:
 	if body.size() > 65536:
 		return {}
 	var parser := JSON.new()
 	if parser.parse(body.get_string_from_utf8()) != OK or not parser.data is Dictionary:
 		return {}
-	var envelope: Dictionary = parser.data
+	return parser.data
+
+static func _proposal(envelope: Dictionary) -> Dictionary:
 	if envelope.get("stop_reason") != "end_turn" or not envelope.get("content") is Array:
 		return {}
 	var text := ""
@@ -108,9 +142,20 @@ static func parse_response(body: PackedByteArray) -> Dictionary:
 		if not block is Dictionary or block.get("type") != "text" or not block.get("text") is String:
 			return {}
 		text += block.text
-	if parser.parse(text) != OK or not parser.data is Dictionary:
+	var parser := JSON.new()
+	if parser.parse(_unfenced(text)) != OK or not parser.data is Dictionary:
 		return {}
 	return parser.data if valid_proposal(parser.data) else {}
+
+# Surrounding whitespace and one whole-text markdown fence are tolerated; prose is not.
+static func _unfenced(text: String) -> String:
+	text = text.strip_edges()
+	if not text.begins_with("```"):
+		return text
+	var newline := text.find("\n")
+	if newline < 0 or not text.ends_with("```") or text.substr(3, newline - 3).strip_edges().to_lower() not in ["", "json"]:
+		return ""
+	return text.substr(newline + 1, text.length() - newline - 4).strip_edges()
 
 static func _text(value: Variant, limit := 2000) -> bool:
 	return value is String and not value.strip_edges().is_empty() and value.length() <= limit
