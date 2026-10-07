@@ -37,7 +37,14 @@ func run() -> void:
 	var day: int = state.day
 	state.end_turn()
 	check(state.day == day and not state.move_to(origin,true),"Unsettled contact blocks another travel turn")
-	check(state.begin_encounter("NK01"),"Contact starts authored ghost battle")
+	var map = load("res://src/world/province_map.tscn").instantiate()
+	map.persistence_enabled = false
+	map.state = state
+	root.add_child(map)
+	await process_frame
+	map._resume_contact()
+	check(map.arena.visible,"Map automatically presents forced ghost battle")
+	check(state.active_encounter == "NK01","Contact starts authored ghost battle")
 	check(state.active_battle != null,"Tactical model created")
 	if state.active_battle != null:
 		state.active_battle.act("retreat")
@@ -45,5 +52,14 @@ func run() -> void:
 	check(state.ghosts.pending_encounter.is_empty() and state.movement_remaining == 0,"Retreat clears contact and spends movement")
 	check(state.hero_cell != Vector2i(positions.NK01[0],positions.NK01[1]),"Retreat separates opposing actors")
 	check(Save.decode(Save.snapshot(state)).has("state"),"Retreat outcome and ghost state save together")
+	map.arena.hide()
+	map._refresh()
+	if DisplayServer.get_name() != "headless":
+		root.size = Vector2i(1280,720)
+		await process_frame
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("C:/dev/game/tools/local/ghost-world-preview.png")
+	map.queue_free()
+	await process_frame
 	print("Ghost world checks: %d, failures: %d" % [checks,failures])
 	quit(1 if failures else 0)

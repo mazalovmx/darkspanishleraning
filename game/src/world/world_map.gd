@@ -209,18 +209,27 @@ func _build_ui() -> void:
 	army_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(army_notice)
 	var instructions := Label.new()
-	instructions.text = "Clic en el héroe: seleccionar\nClic en una casilla: mover\nBotón derecho: deseleccionar\nArrastrar botón central: cámara\nRueda: acercar / alejar"
+	instructions.text = "Clic en el héroe: seleccionar\nClic en una casilla: preparar ruta\nBotón derecho: deseleccionar\nArrastrar botón central: cámara\nRueda: acercar / alejar"
 	instructions.add_theme_font_size_override("font_size", 15)
 	box.add_child(instructions)
 	box.add_child(route_info)
 	route_info.custom_minimum_size = Vector2(260, 60)
 	route_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	end_button.text = "Terminar turno"
+	end_button.text = "Resolver órdenes" if state.map_id == "province_160x120_v1" else "Terminar turno"
 	end_button.pressed.connect(_end_turn)
 	var turns := HBoxContainer.new()
 	end_button.add_theme_font_size_override("font_size",15)
 	end_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	turns.add_child(end_button)
+	var cancel_route := Button.new()
+	cancel_route.text = "Cancelar ruta"
+	cancel_route.visible = state.map_id == "province_160x120_v1"
+	cancel_route.pressed.connect(func():
+		if state.ghosts.plan != null and not arena.visible:
+			state.ghosts.plan.cancel_move(state.party.active_id)
+			_save_game(true)
+			_refresh())
+	box.add_child(cancel_route)
 	campaign_button.text = "Expedientes"
 	campaign_button.add_theme_font_size_override("font_size",15)
 	campaign_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -454,7 +463,8 @@ func _unhandled_input(event: InputEvent) -> void:
 				if cell == state.hero_cell:
 					selected = true
 				elif selected:
-					state.move_to(cell, true)
+					if state.move_to(cell, true):
+						_save_game(true)
 				_refresh()
 				_update_preview()
 				_open_poi(cell)
@@ -479,6 +489,14 @@ func _end_turn() -> void:
 	_save_game(true)
 	_refresh()
 	_update_preview()
+	if not state.turn_notice.is_empty():
+		save_notice.text = state.turn_notice
+	_resume_contact()
+
+func _resume_contact() -> void:
+	if not state.ghosts.pending_encounter.is_empty() and state.active_battle == null:
+		camera.position = tiles.map_to_local(state.hero_cell)
+		_start_battle(state.ghosts.pending_encounter.knight)
 
 func _refresh() -> void:
 	var names := COLORS.keys()
@@ -490,9 +508,10 @@ func _refresh() -> void:
 	for id in hero_buttons:
 		hero_buttons[id].set_pressed_no_signal(id == state.party.active_id)
 		hero_buttons[id].disabled = not state.party.heroes[id].unlocked
+	end_button.text = "Resolver órdenes" if state.map_id == "province_160x120_v1" else "Terminar turno"
 	status.text = "%s · Día %d\nMovimiento: %d / %d\n%s" % [state.party.active().definition.short_name, state.day,
 		state.movement_remaining, state.MOVEMENT_MAX + int(state.equipment.bonuses(state.party.active_id).world_movement),
-		"Héroe seleccionado" if selected else "Selecciona al héroe"]
+		"Ruta preparada · resuelve las órdenes" if state.ghosts.plan != null else "Héroe seleccionado" if selected else "Selecciona al héroe"]
 	queue_redraw()
 
 func _update_preview() -> void:
@@ -554,6 +573,23 @@ func _draw() -> void:
 		if state.fog_at(cell) != WorldState.Fog.UNKNOWN and state.gate_at(cell).closed:
 			var center := tiles.map_to_local(cell)
 			draw_line(center - Vector2(12,0), center + Vector2(12,0), Color("df8571"), 4)
+	for id: String in state.ghosts.actors:
+		var actor: Dictionary = state.ghosts.actors[id]
+		var cell := Vector2i(actor.cell[0],actor.cell[1])
+		if not actor.active or actor.return_day > state.day or state.fog_at(cell) != WorldState.Fog.VISIBLE:
+			continue
+		var center := tiles.map_to_local(cell)
+		draw_circle(center,11,Color("a9badf"),false,3)
+		draw_string(ThemeDB.fallback_font,center+Vector2(-9,5),id.right(2),HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color.WHITE)
+	if state.ghosts.plan != null:
+		for id: String in state.party.heroes:
+			if not state.ghosts.plan.orders.has(id):
+				continue
+			var points := PackedVector2Array()
+			for pair: Array in state.ghosts.plan.orders[id].path:
+				points.append(tiles.map_to_local(Vector2i(pair[0],pair[1])))
+			if points.size() > 1:
+				draw_polyline(points,Color(state.party.heroes[id].definition.color),5)
 	var marker_index := 0
 	for id in state.party.heroes:
 		var member = state.party.heroes[id]
@@ -639,6 +675,7 @@ func _load_game(startup := false) -> void:
 	_refresh()
 	_update_preview()
 	save_notice.text = "Partida cargada."
+	_resume_contact()
 
 func _on_dialogue_finished() -> void:
 	save_button.disabled = false

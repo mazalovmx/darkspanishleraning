@@ -136,7 +136,7 @@ func path_cost(path: Array[Vector2i]) -> int:
 	return cost
 
 func move_to(destination: Vector2i, discovered_only := false) -> bool:
-	if active_battle != null or not ghosts.pending_encounter.is_empty() or not trade.pending.is_empty() or not economy.pending.is_empty():
+	if active_battle != null or not ghosts.pending_encounter.is_empty() or (map_id == "province_160x120_v1" and (not trade.pending.is_empty() or not economy.pending.is_empty())):
 		return false
 	if map_id == "province_160x120_v1":
 		return ghosts.prepare(self) and ghosts.plan.plan_move(self,party.active_id,destination)
@@ -157,7 +157,7 @@ func planning_active() -> bool:
 
 func end_turn() -> void:
 	turn_notice = ""
-	if active_battle != null or not ghosts.pending_encounter.is_empty() or not trade.pending.is_empty() or not economy.pending.is_empty():
+	if active_battle != null or not ghosts.pending_encounter.is_empty() or (map_id == "province_160x120_v1" and (not trade.pending.is_empty() or not economy.pending.is_empty())):
 		return
 	if map_id == "province_160x120_v1":
 		if not ghosts.prepare(self):

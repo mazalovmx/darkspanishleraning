@@ -965,3 +965,16 @@ Executed 146 world integration, 38669 province map, 527 save, 325 ghost persiste
 144 side-world and 17 province-scene checks: passed. JSON comparisons normalize numeric
 representations. Existing shutdown resource diagnostics persist. Map controls and
 intervention counter UI remain the next integration step.
+## Map presents planned travel and forced contacts
+
+The province button now resolves orders, queued routes persist and are drawn in hero
+colors, and an explicit cancel control removes the selected hero's route. Visible
+non-dispersed knights have numbered map markers. End-turn and load reopen a pending
+contact in the battle arena after saving the strategic state. Updated travel help.
+
+Executed 147 ghost-world checks headless and OpenGL (screenshot reviewed), 365 map,
+17 province scene and 43 market checks: passed. Regression testing had found that the
+new quote guard changed prototype day advancement; scoped that guard to the province
+and reran the market checks. Additional migration regressions passed: 19 artifact
+market, 22 curriculum, 26 economy-world, 285 equipment, 46 party and 33 resolver checks.
+Existing shutdown diagnostics persist. Spanish counter controls remain next.
