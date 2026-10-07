@@ -1759,3 +1759,20 @@ two golden cases before and after the account (85 cases, 958 checks).
 
 Executed for this commit: the full non-live run, 49 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Ghost knights: activation follows the player's latest cases (NK07/NK08 reachable)
+
+`ghost_state._activate` took the first three eligible knights in ID order every day,
+so with NK01-NK03 eligible, NK07 (branches SB11/SB12) and NK08 never appeared. Now the
+three places go first to knights holding a live intervention (so it can still be
+countered), then to the knights of the branches in which the player advanced a case
+most recently (`_activity`, latest progress day), then to a knight already on the map,
+then ID order. Defeat semantics are unchanged: a beaten knight stays on the map and
+recovers. Save format is unchanged.
+
+Tests: ghost_state_test adds a rotation scenario with every branch open: equal
+activity gives NK01-NK03 and keeps them; advancing SB11 and SB03 brings NK07 and NK08;
+a knight with a live intervention keeps its place (1,588 checks).
+
+Executed for this commit: the full non-live run, 49 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

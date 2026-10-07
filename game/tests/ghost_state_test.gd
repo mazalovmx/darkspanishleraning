@@ -21,7 +21,29 @@ func finish_case(state: RefCounted,id: String) -> void:
 	state.end_turn()
 	clear_intervention(state,id)
 	check(cases.submit(state,id,phrases.recall).ok,"Case prerequisite complete")
+# Every branch open at once: the cap holds and the knights follow the player's latest case.
+func rotation() -> void:
+	var state := World.new("province_160x120_v1")
+	var ghosts := Ghosts.new()
+	learn(state)
+	for branch: String in state.side_cases.branches:
+		state.side_cases.records[state.side_cases.branches[branch].quest_ids[0]] = {"progress": {"access": {"day": 1}}, "reward": ""}
+	ghosts._activate(state)
+	var active := func() -> Array: return ghosts.actors.keys().filter(func(id): return ghosts.actors[id].active)
+	check(active.call() == ["NK01", "NK02", "NK03"], "Equal activity: three knights in ID order")
+	ghosts._activate(state)
+	check(active.call() == ["NK01", "NK02", "NK03"], "Knights keep their places while nothing changes")
+	for branch in ["SB11", "SB03"]:
+		state.side_cases.records[state.side_cases.branches[branch].quest_ids[0]].progress["inspect"] = {"day": 4}
+	ghosts._activate(state)
+	var now: Array = active.call()
+	check(now.size() == 3 and "NK07" in now and "NK08" in now, "Knights of the latest cases appear: NK07 (SB11) and NK08 (SB03)")
+	ghosts.effects["SB01"] = {"knight": "NK01", "start": 1, "expiry": 3}
+	ghosts._activate(state)
+	check("NK01" in active.call() and active.call().size() == 3, "A knight with a live intervention keeps its place")
+
 func run() -> void:
+	rotation()
 	var source := Ghosts.new()
 	for knight_id: String in source.definitions:
 		var state := World.new("province_160x120_v1")

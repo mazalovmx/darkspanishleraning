@@ -55,12 +55,41 @@ func _eligible(world: RefCounted,id: String) -> bool:
 			return true
 	return false
 
+## Latest world day the player advanced any case of this knight's branches.
+func _activity(world: RefCounted,id: String) -> int:
+	var latest := 0
+	for branch: String in definitions[id].spawn.branch_ids:
+		for quest: String in world.side_cases.branches[branch].quest_ids:
+			for step: Dictionary in world.side_cases.records.get(quest,{}).get("progress",{}).values():
+				latest = maxi(latest,int(step.get("day",0)))
+	return latest
+
 func _activate(world: RefCounted) -> void:
+	var was_active: Array = []
 	for id in actors:
+		if actors[id].active:
+			was_active.append(id)
 		actors[id].active = false
+	# At most three: knights holding a live intervention, then those of the branches the
+	# player advanced most recently, so
+	# every knight (NK07/NK08 included) can appear; ties keep a knight already on the
+	# map, then stable ID order.
+	var order: Array = definitions.keys()
+	var activity := {}
+	for id: String in order:
+		activity[id] = _activity(world,id)
+	# A knight whose intervention is still live stays, so it can still be countered.
+	var holding: Array = effects.values().map(func(effect: Dictionary) -> String: return str(effect.knight))
+	order.sort_custom(func(a: String,b: String) -> bool:
+		if (a in holding) != (b in holding):
+			return a in holding
+		if activity[a] != activity[b]:
+			return activity[a] > activity[b]
+		if (a in was_active) != (b in was_active):
+			return a in was_active
+		return a < b)
 	var count := 0
-	# Activate at most three eligible profiles in stable ID order.
-	for id: String in definitions:
+	for id: String in order:
 		if count >= 3:
 			break
 		if not _eligible(world,id) or (actors.has(id) and actors[id].active):
