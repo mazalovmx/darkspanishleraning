@@ -1325,3 +1325,23 @@ visually. Executed afterwards on the main checkout: world_map 365, province_scen
 17, dialogue_golden 502: passed. Three other agents were working in worktrees
 (wt/next-context, wt/next-npcs, wt/next-quest) at the time; their work is not part
 of this entry.
+## Map art and music wired in (Epic 20, first step)
+
+The map now bakes its nine terrain cells from the Kenney tiles at startup (grass,
+sand road, dense forest, dirt field, stone mountain and ruins with rock overlays,
+water, snow, tinted marsh) instead of flat colours; the tile atlas layout and atlas
+coordinates are unchanged. Locations are drawn as a structure sprite chosen by their
+`kind` (dimmed when only explored), and the active hero token is a unit sprite per
+hero. Every use falls back to the earlier drawn placeholder if its file is missing.
+A looping music player starts a travel track, switches to an inn, ruin/mine or town
+track when a location opens and back when it closes. `game/config/game.json` has an
+`audio` block (`music`, `music_db`); there is no in-game volume control. Other
+heroes, mines, gates and knights are still drawn as shapes; battles and panels are
+unchanged; the three shaders and the UI pack are still unused.
+
+Rendered the province with OpenGL at 1280x720 and inspected two screenshots (start
+view and a zoomed-out view with fields, forest, roads and four location sprites):
+terrain, markers and hero draw correctly and music reported playing. Sound was not
+listened to, and track changes were not exercised in that run. Executed the full
+runner afterwards: 47 suites plus restart write/read, all passed, 55,739 counted
+checks. No FPS measurement was taken with the new art.

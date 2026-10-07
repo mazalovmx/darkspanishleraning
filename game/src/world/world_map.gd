@@ -7,6 +7,23 @@ const COLORS := {"road": Color("bda474"), "grass": Color("69764b"),
 	"forest": Color("304a37"), "marsh": Color("64716b"), "mountain": Color("555660"),
 	"water": Color("365f80"), "field": Color("a29446"), "ruins": Color("80716a"),
 	"snow": Color("ccd7d7")}
+# CC0 art and music (game/CREDITS.md). Each use falls back to the drawn placeholder
+# when its file is missing. Terrain: tile number, centred overlay sprite, tint.
+const ART := "res://assets/third_party/kenney_medieval_rts/"
+const MUSIC := "res://assets/third_party/music/"
+const TERRAIN_ART := {"road": [1, "", Color.WHITE], "grass": [57, "", Color.WHITE], "forest": [48, "", Color.WHITE],
+	"marsh": [57, "Environment/medievalEnvironment_13", Color(0.55, 0.72, 0.64)], "mountain": [15, "Environment/medievalEnvironment_10", Color.WHITE],
+	"water": [27, "", Color(0.72, 0.84, 1.0)], "field": [13, "", Color.WHITE],
+	"ruins": [16, "Environment/medievalEnvironment_09", Color(0.86, 0.8, 0.74)], "snow": [29, "", Color.WHITE]}
+const LOCATION_ART := {"monastery": 4, "capital": 6, "university": 20, "industrial": 5, "port": 18, "customs": 1,
+	"town": 17, "mine": 8, "ruin": 12, "marsh": 23, "inn": 9, "farm": 13, "workshop": 21, "archive": 11,
+	"hospital": 19, "guildhouse": 3, "camp": 10}
+const HERO_ART := {"inquisitor": 4, "smuggler": 11, "survivor": 19}
+const LOCATION_MUSIC := {"inn": "the_old_tower_inn.mp3", "ruin": "dungeon_ambience.ogg", "mine": "dungeon_ambience.ogg"}
+var location_textures: Dictionary = {}
+var hero_textures: Dictionary = {}
+var music := AudioStreamPlayer.new()
+var music_track := ""
 @export var initial_map_id := "prototype_20x20_v1"
 var state: WorldState = WorldState.new()
 var persistence_enabled := true
@@ -74,9 +91,20 @@ func _ready() -> void:
 				token.set_pixel(x, y, Color("f7df9a") if x > 5 else Color("9b653e"))
 	hero.texture = ImageTexture.create_from_image(token)
 	add_child(hero)
+	hero_textures[""] = hero.texture
+	for id: String in HERO_ART:
+		var path := ART + "Unit/medievalUnit_%02d.png" % HERO_ART[id]
+		if ResourceLoader.exists(path):
+			hero_textures[id] = load(path)
+	for kind: String in LOCATION_ART:
+		var path := ART + "Structure/medievalStructure_%02d.png" % LOCATION_ART[kind]
+		if ResourceLoader.exists(path):
+			location_textures[kind] = load(path)
+	add_child(music)
 	_build_ui()
 	_refresh()
 	_update_preview()
+	_play_music("minstrel_dance.mp3")
 
 	if persistence_enabled:
 		_load_game(true)
@@ -87,6 +115,9 @@ func _build_tiles() -> void:
 	for i in names.size():
 		atlas_image.fill_rect(Rect2i(i * CELL_SIZE, 0, CELL_SIZE, CELL_SIZE), COLORS[names[i]].darkened(0.2))
 		atlas_image.fill_rect(Rect2i(i * CELL_SIZE + 1, 1, CELL_SIZE - 2, CELL_SIZE - 2), COLORS[names[i]])
+		var art := _terrain_image(names[i])
+		if art != null:
+			atlas_image.blit_rect(art, Rect2i(0, 0, CELL_SIZE, CELL_SIZE), Vector2i(i * CELL_SIZE, 0))
 	var atlas := TileSetAtlasSource.new()
 	atlas.texture = ImageTexture.create_from_image(atlas_image)
 	atlas.texture_region_size = Vector2i(CELL_SIZE, CELL_SIZE)
@@ -98,6 +129,41 @@ func _build_tiles() -> void:
 	tiles.tile_set = tile_set
 	tiles.z_index = -1
 	add_child(tiles)
+
+# One baked 32 px cell per terrain; null keeps the flat placeholder colour.
+func _terrain_image(terrain: String) -> Image:
+	var art: Array = TERRAIN_ART.get(terrain, [])
+	if art.is_empty() or not ResourceLoader.exists(ART + "Tile/medievalTile_%02d.png" % art[0]):
+		return null
+	var image: Image = load(ART + "Tile/medievalTile_%02d.png" % art[0]).get_image()
+	if image == null or image.is_empty():
+		return null
+	image.convert(Image.FORMAT_RGBA8)
+	var overlay := ART + str(art[1]) + ".png"
+	if not str(art[1]).is_empty() and ResourceLoader.exists(overlay):
+		var extra: Image = load(overlay).get_image()
+		if extra != null and not extra.is_empty():
+			extra.convert(Image.FORMAT_RGBA8)
+			image.blend_rect(extra, Rect2i(Vector2i.ZERO, extra.get_size()), (image.get_size() - extra.get_size()) / 2)
+	image.resize(CELL_SIZE, CELL_SIZE, Image.INTERPOLATE_BILINEAR)
+	var tint: Color = art[2]
+	if tint != Color.WHITE:
+		for y in CELL_SIZE:
+			for x in CELL_SIZE:
+				image.set_pixel(x, y, image.get_pixel(x, y) * tint)
+	return image
+
+# Loops one track; an unknown or missing file leaves the current one playing.
+func _play_music(track: String) -> void:
+	var settings: Dictionary = dialogue.client.config.get("audio", {})
+	if track == music_track or not settings.get("music", true) or not ResourceLoader.exists(MUSIC + track):
+		return
+	var stream: AudioStream = load(MUSIC + track)
+	stream.loop = true
+	music.stream = stream
+	music.volume_db = float(settings.get("music_db", -16.0))
+	music.play()
+	music_track = track
 
 func _build_ui() -> void:
 	var layer := CanvasLayer.new()
@@ -419,6 +485,7 @@ func _open_poi(cell: Vector2i) -> void:
 	poi_title.text = location.name
 	poi_description.text = location.description
 	dialogue.open_conversation(location.id)
+	_play_music(LOCATION_MUSIC.get(location.kind, "kings_feast.mp3"))
 	preview.clear()
 	end_button.disabled = true
 	poi_modal.show()
@@ -427,6 +494,7 @@ func _open_poi(cell: Vector2i) -> void:
 
 func _close_poi() -> void:
 	poi_modal.hide()
+	_play_music("minstrel_dance.mp3")
 	end_button.disabled = false
 	poi_close.release_focus()
 	_update_preview()
@@ -558,7 +626,8 @@ func _refresh() -> void:
 		painted = state.fog.size()
 	army_notice.text = "Oro: %d · Madera: %d · Mineral: %d\nMercurio: %d · Azufre: %d\nCristal: %d · Gemas: %d · Ejército: %d/7" % [state.resources.gold,state.resources.wood,state.resources.ore,state.resources.mercury,state.resources.sulfur,state.resources.crystal,state.resources.gems,state.army.size()]
 	hero.position = tiles.map_to_local(state.hero_cell)
-	hero.modulate = Color(state.party.active().definition.color)
+	hero.texture = hero_textures.get(state.party.active_id, hero_textures[""])
+	hero.modulate = Color.WHITE if hero_textures.has(state.party.active_id) else Color(state.party.active().definition.color)
 	for id in hero_buttons:
 		hero_buttons[id].set_pressed_no_signal(id == state.party.active_id)
 		hero_buttons[id].disabled = not state.party.heroes[id].unlocked
@@ -614,6 +683,11 @@ func _draw() -> void:
 		var color := Color("d9b875") if location.kind == "inn" else Color("cbd3eb")
 		if state.fog_at(cell) == WorldState.Fog.EXPLORED:
 			color = color.darkened(0.4)
+		if location_textures.has(location.kind):
+			var texture: Texture2D = location_textures[location.kind]
+			var size: Vector2 = texture.get_size() * (40.0 / maxf(texture.get_width(), texture.get_height()))
+			draw_texture_rect(texture, Rect2(center - size / 2, size), false, Color.WHITE if state.fog_at(cell) == WorldState.Fog.VISIBLE else Color(0.55, 0.55, 0.6))
+			continue
 		draw_rect(Rect2(center - Vector2(12, 12), Vector2(24, 24)), color, false, 2)
 		draw_string(ThemeDB.fallback_font, center + Vector2(-6, 6), str(location.name).left(1), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, color)
 	for site: Dictionary in state.map_data.get("resource_sites", []):

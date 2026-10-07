@@ -1,6 +1,10 @@
 {
   "claude_model": "claude-sonnet-5-5",
   "language": "es",
+  "audio": {
+    "music": true,
+    "music_db": -16.0
+  },
   "dev_flags": {
     "debug_logging": false,
     "offline_mode": false
