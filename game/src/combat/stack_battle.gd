@@ -12,6 +12,7 @@ var round_number := 0
 var outcome := ""
 var log: Array[String] = []
 var rng := RandomNumberGenerator.new()
+var enemy_script: Dictionary = {}
 
 func valid_army(army: Variant) -> bool:
 	if not army is Array or army.is_empty() or army.size() > MAX_STACKS:
@@ -28,13 +29,14 @@ func valid_army(army: Variant) -> bool:
 			return false
 	return true
 
-func start(allies: Array, enemies: Array, seed_value: int = 1, bonuses: Dictionary = {}) -> bool:
-	if not valid_army(allies) or not valid_army(enemies):
+func start(allies: Array, enemies: Array, seed_value: int = 1, bonuses: Dictionary = {}, script: Dictionary = {}) -> bool:
+	if not valid_army(allies) or not valid_army(enemies) or not _valid_script(script):
 		return false
 	for key in bonuses:
 		var value: Variant = bonuses[key]
 		if not BONUS_CAPS.has(key) or not (value is int or value is float) or not is_finite(value) or value != floor(value) or value < 0 or value > BONUS_CAPS[key]:
 			return false
+	enemy_script = script.duplicate(true)
 	stacks.clear()
 	queue.clear()
 	log.clear()
@@ -55,7 +57,7 @@ func start(allies: Array, enemies: Array, seed_value: int = 1, bonuses: Dictiona
 			stats.base_defense = int(definition.defense) + int(effects.get("army_defense",0))
 			stats.base_speed = int(definition.initiative) + int(effects.get("army_initiative",0))
 			stacks.append({"type": item.type, "side": side, "stats": stats,
-				"unit_hp":unit_hp,"luck":int(effects.get("army_luck",0)),"morale":int(effects.get("army_morale",0)),"morale_round":0,"ranged_bonus":int(effects.get("ranged_damage_percent",0)), "defending": false, "brace_active":false, "ability_used": false, "retaliated": false})
+				"unit_hp":unit_hp,"luck":int(effects.get("army_luck",0)),"morale":int(effects.get("army_morale",0)),"morale_round":0,"ranged_bonus":int(effects.get("ranged_damage_percent",0)), "defending": false, "brace_active":false, "last_attacker":-1, "ability_used": false, "retaliated": false})
 	_new_round()
 	_run_enemies()
 	return true
@@ -128,6 +130,7 @@ func _strike(actor: int, target: int, multiplier: float = 1.0, ignore_defend: bo
 	if stacks[actor].luck > 0 and rng.randf() < float(stacks[actor].luck) * 0.05:
 		amount *= 2
 		log.append("La fortuna duplica el daño.")
+	stacks[target].last_attacker = actor
 	stacks[target].stats.health -= amount
 	log.append("%s → %s: %d de daño; quedan %d." % [
 		data.units[stacks[actor].type].name, data.units[stacks[target].type].name,
@@ -202,7 +205,12 @@ func _run_enemies() -> void:
 			if _damage(actor, i, false) >= stacks[i].stats.health:
 				target = i
 				break
-		_execute(actor, _enemy_command(actor,target), target)
+		if not enemy_script.is_empty():
+			target = _script_target(actor)
+			if not _execute(actor,_script_command(actor,target),target):
+				_execute(actor,"attack",target)
+		else:
+			_execute(actor, _enemy_command(actor,target), target)
 		_advance()
 	if log.size() > 80:
 		log = log.slice(-80)
@@ -220,3 +228,47 @@ func _enemy_command(actor: int,target: int) -> String:
 			if stacks[i].side == 0 and count_at(i) > 0 and _damage(i,actor,false) >= stacks[actor].stats.health / 2:
 				return "ability"
 	return "attack"
+
+const SCRIPT_TARGETS := ["lowest_defense_then_stack_index","highest_attack_then_stack_index","fastest_then_stack_index","lowest_remaining_hp_then_stack_index","highest_initiative_then_stack_index","highest_ranged_damage_then_stack_index","last_attacker_else_lowest_hp","highest_expected_damage_then_stack_index"]
+
+func _valid_script(script: Dictionary) -> bool:
+	if script.is_empty():
+		return true
+	if script.size() != 7 or script.get("target") not in SCRIPT_TARGETS:
+		return false
+	for field in ["first_round","second_round","later_rounds"]:
+		if script.get(field) not in ["ATTACK","DEFEND","ABILITY"]:
+			return false
+	return script.get("invalid_or_spent_ability") == "ATTACK" and script.get("no_legal_target") == "DEFEND" and (script.get("ability_uses") is int or script.get("ability_uses") is float) and script.ability_uses == 1
+
+func _script_target(actor: int) -> int:
+	var rule: String = enemy_script.target
+	if rule == "last_attacker_else_lowest_hp":
+		var previous: int = stacks[actor].last_attacker
+		if previous >= 0 and count_at(previous) > 0 and stacks[previous].side == 0:
+			return previous
+	var best := -1
+	var best_score := INF
+	for i in stacks.size():
+		if stacks[i].side != 0 or count_at(i) == 0:
+			continue
+		var score: float = stacks[i].stats.health
+		match rule:
+			"lowest_defense_then_stack_index": score = stacks[i].stats.defense
+			"highest_attack_then_stack_index": score = -stacks[i].stats.attack
+			"fastest_then_stack_index","highest_initiative_then_stack_index": score = -stacks[i].stats.speed
+			"highest_ranged_damage_then_stack_index": score = -_damage(i,actor,false) if data.units[stacks[i].type].ranged else 0
+			"highest_expected_damage_then_stack_index": score = -_damage(i,actor,false)
+		if best == -1 or score < best_score:
+			best = i
+			best_score = score
+	return best
+
+func _script_command(actor: int,target: int) -> String:
+	if target < 0:
+		return "defend"
+	var key := "first_round" if round_number == 1 else "second_round" if round_number == 2 else "later_rounds"
+	var command: String = str(enemy_script[key]).to_lower()
+	if command == "ability" and stacks[actor].ability_used:
+		return "attack"
+	return command

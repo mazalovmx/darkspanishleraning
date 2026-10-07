@@ -883,3 +883,17 @@ protected-copy outcome and autosaves. Reviewed both screenshots. Regressions: 36
 validation: 5341 side and 1886 equipment/ghost checks passed. Existing shutdown
 resource/leak diagnostics persist. All 108 controllers were separately checked, but
 human playtime, combat balance, broader NPC dialogue and ghost turns remain unfinished.
+## Distinct ghost-knight combat tactics prepared
+
+The battle model accepts validated authored enemy scripts. All eight knight profiles
+have their specified opening/second-round actions and target rules: weakest defense,
+highest attack, fastest stack, lowest health, highest initiative, strongest ranged
+threat, last attacker or highest expected damage. Last-attacker tracking uses actual
+strikes. Spent or invalid abilities fall back to attack, and ordinary battle startup
+clears a previous script. No script can write campaign or equipment state.
+
+Executed 116 ghost-battle checks including all eight tactics and the arena scene,
+39 standard battle, 334 optional battle and 285 equipment-integration checks: passed.
+Existing shutdown diagnostics persist. This prepares their tactical behavior; knight
+map spawning, frozen simultaneous strategic orders, bounded interventions and counters
+are still not connected to live play.
