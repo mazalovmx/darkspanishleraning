@@ -31,18 +31,18 @@ Small, verifiable tasks first; each ends with tests, a STATE.md entry and one co
 Done: windowed review of the three UI changes (frozen-
 orders status line, Nueva partida, Tropas tab), which were verified headless only.
 
-Not attempted today: the P1 conversation work below. It is the largest gap and needs
+P1 conversation work has started with eleven speakers. The remaining gap needs
 its own multi-session plan and scenario-bible review per NPC.
 
 ## P1 - Spanish as the control surface (sections 1.2, 20, 21, 34, 39, 43)
 
-- Conversable NPCs: 7 exist (innkeeper, Lucio, Gabriel, Leonor, Beatriz Orma, Bishop
-  Veyra, Simón Vale); the target is 30+. The three new ones and Leonor at her hospital
-  speak from public knowledge only and unlock nothing. Still without a voice: Ysabel
-  de la Sal, Rodrigo Mendaña, Selmo Oribe, Esteban, Inés and Elias as speakers, and
-  the minor task speakers. To add one: an entry in `authored.json` (keyed by location,
-  or with `location_id` for a second speaker), facts and an NPC record in
-  `npc_grounding.json`, the id in `SaveGame.NPC_IDS`, and golden cases.
+- Conversable NPCs: 11 exist (innkeeper, Lucio, Gabriel, Leonor, Beatriz Orma,
+  Bishop Veyra, Simón Vale, Rodrigo Mendaña, Selmo Oribe, Ysabel and Esteban);
+  the target is 30+. The added speakers use bounded public knowledge and unlock no
+  new clues. Ysabel and Esteban require their canonical campaign records. Still
+  missing: Inés and Elias as speakers and the minor task speakers. To add one:
+  an entry in `authored.json`, grounding facts and NPC record, a save whitelist id,
+  and golden cases.
 - Acts II-VII are sentence-entry cards. Each now accepts its model sentence or two
   authored paraphrases, but matching is still exact and a button shows the model.
   Move the investigative ones to grounded conversation plus inspection as in Act I.
@@ -56,7 +56,7 @@ its own multi-session plan and scenario-bible review per NPC.
   validated conversation summary.
 - Request context (section 17) lacks scene, relationship, focus_verbs, recent_errors
   and conversation_summary; recent dialogue is 3 exchanges instead of 4-6.
-- Golden conversation tests (section 39): 42 data-driven cases exist in
+- Golden conversation tests (section 39): 52 data-driven cases exist in
   `game/tests/dialogue_golden.json`, run offline with a fake transport. They cover the
   deterministic boundary only. A live variant that sends the same player lines to the
   real model and checks recasts and non-invention is still missing (paid, opt-in).
@@ -67,20 +67,22 @@ its own multi-session plan and scenario-bible review per NPC.
 - Learner features: review of completed lessons, vocabulary practice, a progress
   screen, explanatory error tags in feedback (section 29), `mastery_after` in error
   memory (section 28). No placement; everyone starts at block 1.
-- Claude client: no backoff, retries on 4xx, bare-JSON-only parsing; the scheduler
-  cursor advances on failed/offline submissions; `difficulty_observation` is unused.
-  The live smoke test has not been rerun since 2026-10-05 and predates the
-  curriculum/grounding prompt context.
+- Claude client: bounded retry delay, non-retryable client errors, whole-response
+  fenced JSON and failed/offline focus rollback are implemented. Still missing:
+  use of `difficulty_observation` and complete input/cache/cost accounting. Current
+  counters track answered envelopes and output tokens in memory only. The live
+  smoke test has not been rerun since 2026-10-05 and predates the expanded context.
 
 ## P1 - Scenario coverage (bible sections 13, 17, 18, 26, 35, 36)
 
-- Missing quests: SQ03, SQ04, SQ05, MQ10 and the Act VII political crisis.
+- Missing quests: SQ05, MQ10 and the Act VII political crisis. SQ03/SQ04 now have
+  four optional sentence-entry tasks; they do not add an ending requirement.
 - El Índice is not a queryable text interface (Act VI).
 - Council: wrong classification is only retried, it does not affect endings; no
   military commander, Ysabel, Inés or Elias nodes.
 - SQ01/SQ02/SQ06 have fixed outcomes instead of the bible's player options.
-- Locations with no interaction beyond a description: LOC10, LOC17 entirely;
-  LOC09, LOC12, LOC13, LOC14, LOC16, LOC18 have a campaign card only.
+- Locations with no interaction beyond a description: LOC10 entirely;
+  LOC09, LOC12, LOC14, LOC16, LOC17, LOC18 have campaign cards only.
 - Santa Lucerna sub-spaces and city-specific vocabulary sets are not represented.
 - Lucio's `forbidden_research` secret needs flag `research_disclosed`, which nothing sets.
 - Institutional speech acts (Epic 18): one hard-coded declaration; no general
@@ -106,8 +108,9 @@ its own multi-session plan and scenario-bible review per NPC.
 - No `export_presets.cfg`; no Windows build has been produced or run.
 - No title screen, main menu, settings or quit. (A confirmed "Nueva partida" control
   on the map now restarts the game and keeps the previous save as `.bak`.)
-- No FPS measurement. `_refresh()` rewrites all 19,200 tiles per UI update and each
-  autosave takes about half a second on the province.
+- No rendered FPS or weak-hardware acceptance measurement. Incremental terrain
+  repaint and single-decode save validation are implemented; the headless benchmark
+  measures logic timings only.
 - Upstream demo still shipped: `game/src/main.tscn`, `game/overworld`, `game/combat`,
   Dialogic, eight demo autoloads, demo README/CHANGELOG/icon. The standing
   "26 resources still in use" shutdown error comes from the unused Dialogic autoload.

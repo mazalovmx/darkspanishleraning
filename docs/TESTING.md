@@ -29,7 +29,7 @@ later (campaign, economy, equipment, side cases, ghosts, province) follow the sa
 
 ## Golden conversations
 
-`game/tests/dialogue_golden_test.gd` reads `game/tests/dialogue_golden.json` (42 cases).
+`game/tests/dialogue_golden_test.gd` reads `game/tests/dialogue_golden.json` (52 cases).
 Each case names a conversation, the evidence already recorded, the player line and
 what the fake transport returns: null for an outage, a string for raw model text, or
 proposal fields. The reply goes through the production parser, grounding verifier,
@@ -217,3 +217,11 @@ Regression: 53 notebook + 54 grounding + 72 client + 27 Spanish + 25 authored di
 524 save + 365 map checks passed. Fresh-process save_restart_test now also verifies
 both evidence nodes and claim classification; write/read passed. No live API run was
 performed. Existing ObjectDB/26-resource shutdown diagnostics remain.
+
+## Province performance regression
+
+`performance_test.gd` is included in the full headless runner. It checks incremental
+terrain painting and rebuilds, route previews, resolved travel days and save/load on
+an explored province. Millisecond budgets are development-machine regression limits,
+not FPS targets or proof that weak hardware meets release requirements. Run it without
+other test processes competing for CPU. Temporary benchmark saves are removed.

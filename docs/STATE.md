@@ -1266,3 +1266,42 @@ client both touch authored_dialogue.gd), run `./tools/run-tests.ps1` on the resu
 write the STATE.md entries and BACKLOG.md updates from the agents' reports in
 the workflow journal or by reading the commits, push, then remove the worktrees with
 `git worktree remove`. Do not treat these four tasks as verified until then.
+
+## Four agent branches reviewed, merged and jointly verified (2026-10-07)
+
+The initial push confirmed implementation matched origin. Three review agents and the
+coordinator then inspected the four committed diffs. No blocking defect was found.
+Merged sequentially without conflicts: wt/npcs 882d033, wt/quests 9286f9d,
+wt/client efd9480 and wt/perf 352a12b. Both shared files (authored_dialogue.gd and
+save_game.gd) merged cleanly; the full tests below ran on their combined result.
+This completes the unmerged-branches handoff above.
+
+- NPCs: eleven conversable characters, including Mendaña, Selmo Oribe, Ysabel and
+  Esteban. Ysabel/Esteban require their canonical campaign records at open, speaker
+  selection and submit. The save whitelist includes the four new identities. The
+  authored conversations use bounded public facts and add no clue authority.
+  Golden dialogue coverage is now 52 cases (502 assertions).
+- Scenario: SQ03 El niño que confesó and SQ04 La carta verdadera are four optional
+  tasks. Each accepts its model and two authored variants, while retaining source
+  comparison and classification. They add no requirement to any ending, including
+  the Charter. These remain sentence-entry tasks, not unrestricted conversation.
+- Client: one retry after a 1.5-second delay for transient failures; permanent 4xx
+  failures do not retry. Whole-response JSON fences are accepted with unchanged
+  proposal schema checks. Failed, offline or rejected turns return their focus slot.
+  Session counters record answered JSON envelopes and output tokens only; full cost
+  accounting and live-model behavior remain unverified.
+- Performance: terrain is painted only when exploration grows or state is replaced.
+  Saves validate the parsed serialized payload once, verify temporary-file bytes and
+  then replace the destination. Save format is unchanged. The benchmark checks these
+  paths on all 19,200 discovered cells; it is not an FPS or weak-hardware acceptance
+  test. This run measured worst unchanged refresh 0.233 ms, save write 278.283 ms,
+  save read 228.593 ms and move/day resolution 1083.557 ms.
+
+Executed ./tools/run-tests.ps1 on the merged implementation: 47 suites plus fresh-
+process save write/read, 49 runs total, 55,739 counted checks, zero failures, exit 0.
+Relevant suites: campaign 523, campaign panel 346, council endings 253, Claude client
+147, golden dialogue 502, performance 19 and save/load 540. No paid/live request was
+made. Existing ObjectDB/26-resource shutdown diagnostics persist; the runner does not
+claim those are resolved. Updated BACKLOG.md and TESTING.md to reflect implemented
+work and retain remaining limitations. The four worktrees were checked clean before
+cleanup; retain their branch refs and merged history for traceability.
