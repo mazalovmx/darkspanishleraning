@@ -1,5 +1,5 @@
 {
- "about": "Golden conversation cases (master spec section 39). 'model' is what the fake transport returns: null = outage, a string = raw model text, an object = proposal fields overriding the defaults in dialogue_golden_test.gd. They test the deterministic boundary around the model, not the quality of real model prose.",
+ "about": "Golden conversation cases (master spec section 39). 'model' is what the fake transport returns: null = outage, a string = raw model text, an object = proposal fields overriding the defaults in dialogue_golden_test.gd. Optional 'campaign' lists campaign task ids already recorded before the conversation opens. They test the deterministic boundary around the model, not the quality of real model prose.",
  "cases": [
   {
    "name": "grounded question unlocks the abbot's attributed claim",
@@ -802,6 +802,198 @@
    "expect": {
     "unlock": null,
     "fallback": true
+   }
+  },
+  {
+   "name": "the commander states his philosophy",
+   "map": "province_160x120_v1",
+   "conversation": "LOC02_MENDANA",
+   "evidence": [],
+   "player": "¿Qué piensa de los soldados?",
+   "model": null,
+   "expect": {
+    "unlock": null,
+    "fallback": true,
+    "reply_contains": [
+     "todavía necesita soldados"
+    ]
+   }
+  },
+  {
+   "name": "the commander cannot hand out the monastery claim",
+   "map": "province_160x120_v1",
+   "conversation": "LOC02_MENDANA",
+   "evidence": [
+    "travel_food"
+   ],
+   "player": "¿Qué dice la comunidad sobre la muerte de Tomás?",
+   "model": {
+    "intent": "ask_death",
+    "unlock": "monastery_claim"
+   },
+   "expect": {
+    "unlock": null,
+    "reply_excludes": [
+     "Texto del modelo",
+     "La comunidad"
+    ]
+   }
+  },
+  {
+   "name": "the guildmaster introduces himself politely",
+   "map": "province_160x120_v1",
+   "conversation": "LOC03",
+   "evidence": [],
+   "player": "¿Quién es usted?",
+   "model": null,
+   "expect": {
+    "unlock": null,
+    "fallback": true,
+    "reply_contains": [
+     "gremio de boticarios"
+    ]
+   }
+  },
+  {
+   "name": "the guildmaster says nothing about a death",
+   "map": "province_160x120_v1",
+   "conversation": "LOC03",
+   "evidence": [],
+   "player": "¿Quién mató al hermano Gaspar con veneno?",
+   "model": null,
+   "expect": {
+    "unlock": null,
+    "fallback": true,
+    "reply_contains": [
+     "no puedo decirle nada"
+    ],
+    "reply_excludes": [
+     "Gaspar",
+     "veneno",
+     "mat"
+    ]
+   }
+  },
+  {
+   "name": "credited practice with the guildmaster updates the learner",
+   "map": "province_160x120_v1",
+   "conversation": "LOC03",
+   "evidence": [],
+   "player": "Quiero preguntar por el gremio.",
+   "model": {
+    "intent": "ask_guild",
+    "reply": "Con mucho gusto. Dirijo el gremio de boticarios.",
+    "success": [
+     "present",
+     "verb:querer"
+    ]
+   },
+   "expect": {
+    "unlock": null,
+    "reply_contains": [
+     "gremio de boticarios"
+    ],
+    "delta": {
+     "present": 0.05,
+     "verb:querer": 0.05
+    }
+   }
+  },
+  {
+   "name": "the reader repeats what the player already recorded",
+   "map": "province_160x120_v1",
+   "conversation": "LOC01_YSABEL",
+   "campaign": [
+    "ysabel_account"
+   ],
+   "evidence": [],
+   "player": "¿Por qué defiende las restricciones?",
+   "model": null,
+   "expect": {
+    "unlock": null,
+    "fallback": true,
+    "reply_contains": [
+     "protegen a la provincia"
+    ]
+   }
+  },
+  {
+   "name": "the reader does not explain the index",
+   "map": "province_160x120_v1",
+   "conversation": "LOC01_YSABEL",
+   "campaign": [
+    "ysabel_account"
+   ],
+   "evidence": [],
+   "player": "¿Qué es el Índice?",
+   "model": null,
+   "expect": {
+    "unlock": null,
+    "fallback": true,
+    "reply_contains": [
+     "De eso no hablo"
+    ],
+    "reply_excludes": [
+     "Índice"
+    ]
+   }
+  },
+  {
+   "name": "the missing brother says he is alive",
+   "map": "province_160x120_v1",
+   "conversation": "LOC01_ESTEBAN",
+   "campaign": [
+    "esteban_choice"
+   ],
+   "evidence": [],
+   "player": "¿Está usted muerto?",
+   "model": null,
+   "expect": {
+    "unlock": null,
+    "fallback": true,
+    "reply_contains": [
+     "No estoy muerto"
+    ]
+   }
+  },
+  {
+   "name": "the missing brother is not the printers' agent",
+   "map": "province_160x120_v1",
+   "conversation": "LOC01_ESTEBAN",
+   "campaign": [
+    "esteban_choice"
+   ],
+   "evidence": [],
+   "player": "¿Es usted Esteban Roque?",
+   "model": null,
+   "expect": {
+    "unlock": null,
+    "fallback": true,
+    "reply_contains": [
+     "No soy Esteban Roque"
+    ]
+   }
+  },
+  {
+   "name": "the missing brother does not explain the index",
+   "map": "province_160x120_v1",
+   "conversation": "LOC01_ESTEBAN",
+   "campaign": [
+    "esteban_choice"
+   ],
+   "evidence": [],
+   "player": "¿Qué predicciones hay en el Índice?",
+   "model": null,
+   "expect": {
+    "unlock": null,
+    "fallback": true,
+    "reply_contains": [
+     "No voy a explicar"
+    ],
+    "reply_excludes": [
+     "Índice",
+     "predicci"
+    ]
    }
   }
  ]

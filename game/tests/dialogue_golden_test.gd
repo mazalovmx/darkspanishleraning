@@ -37,6 +37,27 @@ func parsed(model: Variant) -> Dictionary:
 func score(state: RefCounted, tag: String) -> float:
 	return state.learner.verbs[tag.trim_prefix("verb:")] if tag.begins_with("verb:") else state.learner.grammar[tag]
 
+# Fixture: marks a campaign task as recorded, in the shape campaign_state.submit writes.
+func record(state: RefCounted, id: String) -> void:
+	var node: Dictionary = state.campaign.definitions[id]
+	state.campaign.records[id] = {"day": state.day, "hero": state.party.active_id, "answer": node.answers[0],
+		"classification": node.classification, "supports": []}
+
+func speakers(panel: Node) -> Array:
+	var ids: Array = []
+	for index in panel.speaker.item_count:
+		ids.append(str(panel.speaker.get_item_metadata(index)))
+	return ids
+
+# Stands the hero on a location and opens its panel, as arriving there does.
+func enter(map: Node, scene: String) -> void:
+	var state = map.state
+	for location: Dictionary in state.locations:
+		if location.id == scene:
+			state.hero_cell = Vector2i(location.position[0], location.position[1])
+	state._reveal_from(state.hero_cell)
+	map._open_poi(state.hero_cell)
+
 func run() -> void:
 	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://tests/dialogue_golden.json"))
 	check(data.cases.size() >= 30, "At least thirty golden conversations")
@@ -54,6 +75,26 @@ func run() -> void:
 		var speaker: Dictionary = panel.conversations[id]
 		check(speaker.npc_id in Save.NPC_IDS and not panel.grounding.context_for(speaker.npc_id, "greeting", {}, []).is_empty(), "Conversable NPC is grounded and saveable: " + id)
 		check(speaker.has("greeting_again") and not str(speaker.fallback).is_empty() and not speaker.branches.is_empty(), "Conversable NPC has authored offline replies: " + id)
+	# Speakers with "requires" are offered only after that campaign task is recorded.
+	check(panel.conversations.LOC01_YSABEL.get("requires") == "ysabel_account" and panel.conversations.LOC01_ESTEBAN.get("requires") == "esteban_choice", "Ysabel and Esteban wait for their campaign tasks")
+	for id: String in panel.conversations:
+		var needed := str(panel.conversations[id].get("requires", ""))
+		if needed.is_empty():
+			continue
+		map._adopt(World.new("province_160x120_v1"))
+		enter(map, panel.scene_for(id))
+		check(panel.visible and panel.scene_for(id) in speakers(panel) and id not in speakers(panel), "Speaker is absent from the selector before the task: " + id)
+		panel.open_conversation(id)
+		check(not panel.visible and not panel.histories.has(id), "Speaker cannot be opened before the task: " + id)
+		panel.show()
+		panel.submit("Hola")
+		check(not fake.busy, "Nothing is sent to a speaker who is not there yet: " + id)
+		record(map.state, needed)
+		panel.open_conversation(panel.scene_for(id))
+		check(id in speakers(panel), "Speaker is in the selector after the task: " + id)
+		panel.open_conversation(id)
+		check(panel.visible and panel.transcript.text.contains(str(panel.conversations[id].greeting)), "Speaker can be opened after the task: " + id)
+		map._close_poi()
 	var names := {}
 	for case: Dictionary in data.cases:
 		var label: String = case.name
@@ -62,6 +103,9 @@ func run() -> void:
 		map._adopt(World.new(case.get("map", "prototype_20x20_v1")))
 		panel.histories.clear()
 		var state = map.state
+		for id: String in case.get("campaign", []):
+			record(state, id)
+		var recorded: Dictionary = state.campaign.records.duplicate(true)
 		var proof := {}
 		for id: String in case.evidence:
 			var node: Dictionary = state.evidence.definitions[id]
@@ -73,12 +117,7 @@ func run() -> void:
 				state.learner.verbs[tag.trim_prefix("verb:")] = BASELINE
 			else:
 				state.learner.grammar[tag] = BASELINE
-		var scene: String = panel.scene_for(case.conversation)
-		for location: Dictionary in state.locations:
-			if location.id == scene:
-				state.hero_cell = Vector2i(location.position[0], location.position[1])
-		state._reveal_from(state.hero_cell)
-		map._open_poi(state.hero_cell)
+		enter(map, panel.scene_for(case.conversation))
 		panel.open_conversation(case.conversation)
 		var before: Array = state.evidence.progress().keys()
 		var resources: Dictionary = state.resources.duplicate()
@@ -94,7 +133,7 @@ func run() -> void:
 		var gained: Array = state.evidence.progress().keys().filter(func(id): return id not in before)
 		check(gained == ([] if expect.unlock == null else [expect.unlock]), "Evidence change is exactly the expected one: " + label)
 		check(reply.contains("queda anotada") == (expect.unlock != null), "The reply announces a record only when one was made: " + label)
-		check(state.resources == resources and state.day == day and state.campaign.records.is_empty(), "No other canonical state changes: " + label)
+		check(state.resources == resources and state.day == day and state.campaign.records == recorded, "No other canonical state changes: " + label)
 		for text: String in expect.get("reply_contains", []):
 			check(reply.contains(text), "Reply contains '%s': %s" % [text, label])
 		for text: String in expect.get("reply_excludes", []):
