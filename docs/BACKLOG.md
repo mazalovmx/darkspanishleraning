@@ -115,8 +115,7 @@ its own multi-session plan and scenario-bible review per NPC.
   bishop's emergency powers, whose grant is an institutional act that closes the
   Charter and adds an epilogue to every ending. SQ03, SQ04 and SQ05 are
   optional sentence-entry tasks (four, four and three nodes); none is required for an
-  ending. SQ05 records the conflict but offers no destroy/scale/ban decision and has
-  no consequence in the world, unlike the bible's "no clean choice".
+  ending. SQ05 ends in a destroy/scale/ban decision with consequences.
 - El Índice is not a queryable text interface (Act VI).
 - Council: a wrong classification is recorded and closes the Charter. Ysabel, Inés
   and Elias have council statements; the commander speaks through council_unknown.
