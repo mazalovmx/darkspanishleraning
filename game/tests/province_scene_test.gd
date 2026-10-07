@@ -57,6 +57,16 @@ func run() -> void:
 		await process_frame
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("C:/dev/game/tools/local/province-preview.png")
+	map._refresh()
+	var seen := 0
+	var fog_ok := true
+	for cell: Vector2i in map.state.fog:
+		var visible_now: bool = map.state.fog[cell] == map.state.Fog.VISIBLE
+		seen += int(visible_now)
+		if (map.fog_tiles.get_cell_source_id(cell) == -1) != visible_now:
+			fog_ok = false
+	check(fog_ok and seen > 0 and map.lit.size() == seen, "Explored cells are dimmed and exactly the visible ones are clear")
+	check(map.fog_tiles.get_used_cells().size() == map.state.fog.size() - seen, "Unknown cells carry no fog tile")
 	var kinds := {}
 	for location: Dictionary in map.state.locations:
 		kinds[location.kind] = true

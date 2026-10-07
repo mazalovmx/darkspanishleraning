@@ -74,6 +74,9 @@ var hovered := Vector2i(-1, -1)
 var tiles := TileMapLayer.new()
 var painted_state: WorldState
 var painted := 0
+# Dimming for explored-but-unseen cells; unknown cells have no tile and show the clear colour.
+var fog_tiles := TileMapLayer.new()
+var lit: Array[Vector2i] = []
 var camera := Camera2D.new()
 var hero := Sprite2D.new()
 var status := Label.new()
@@ -157,6 +160,19 @@ func _build_tiles() -> void:
 	tiles.tile_set = tile_set
 	tiles.z_index = -1
 	add_child(tiles)
+	var dim := Image.create(CELL_SIZE, CELL_SIZE, false, Image.FORMAT_RGBA8)
+	dim.fill(Color(0, 0, 0, 0.48))
+	var dim_source := TileSetAtlasSource.new()
+	dim_source.texture = ImageTexture.create_from_image(dim)
+	dim_source.texture_region_size = Vector2i(CELL_SIZE, CELL_SIZE)
+	dim_source.create_tile(Vector2i.ZERO)
+	var dim_set := TileSet.new()
+	dim_set.tile_size = Vector2i(CELL_SIZE, CELL_SIZE)
+	dim_set.add_source(dim_source, 0)
+	fog_tiles.tile_set = dim_set
+	fog_tiles.z_index = -1
+	add_child(fog_tiles)
+	RenderingServer.set_default_clear_color(Color("171c25"))
 
 # One baked 32 px cell per terrain; null keeps the flat placeholder colour.
 func _terrain_image(terrain: String) -> Image:
@@ -609,7 +625,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.button_mask & MOUSE_BUTTON_MASK_MIDDLE:
 			camera.position -= event.relative / camera.zoom
 			_clamp_camera()
-		_update_preview()
+		# The preview depends only on the hovered cell.
+		if tiles.local_to_map(tiles.get_global_transform_with_canvas().affine_inverse() * pointer) != hovered:
+			_update_preview()
 	elif event is InputEventMouseButton and event.pressed:
 		match event.button_index:
 			MOUSE_BUTTON_LEFT:
@@ -662,6 +680,8 @@ func _refresh() -> void:
 	# repaint everything for a new state, otherwise only the cells that have no tile yet.
 	if painted_state != state or painted > state.fog.size():
 		tiles.clear()
+		fog_tiles.clear()
+		lit.clear()
 		painted_state = state
 		painted = 0
 	if painted != state.fog.size():
@@ -669,7 +689,21 @@ func _refresh() -> void:
 		for cell: Vector2i in state.fog:
 			if painted == 0 or tiles.get_cell_source_id(cell) == -1:
 				tiles.set_cell(cell, 0, Vector2i(names.find(state.terrain[cell.y][cell.x]), 0))
+				fog_tiles.set_cell(cell, 0, Vector2i.ZERO)
 		painted = state.fog.size()
+	# Only the cells around unlocked heroes can be visible: re-dim the old ones, clear the new.
+	for cell in lit:
+		fog_tiles.set_cell(cell, 0, Vector2i.ZERO)
+	lit.clear()
+	for member in state.party.heroes.values():
+		if not member.unlocked:
+			continue
+		for y in range(member.cell.y - state.VIEW_RADIUS, member.cell.y + state.VIEW_RADIUS + 1):
+			for x in range(member.cell.x - state.VIEW_RADIUS, member.cell.x + state.VIEW_RADIUS + 1):
+				var cell := Vector2i(x, y)
+				if state.fog_at(cell) == WorldState.Fog.VISIBLE:
+					fog_tiles.erase_cell(cell)
+					lit.append(cell)
 	army_notice.text = "Oro: %d · Madera: %d · Mineral: %d\nMercurio: %d · Azufre: %d\nCristal: %d · Gemas: %d · Ejército: %d/7" % [state.resources.gold,state.resources.wood,state.resources.ore,state.resources.mercury,state.resources.sulfur,state.resources.crystal,state.resources.gems,state.army.size()]
 	hero.position = tiles.map_to_local(state.hero_cell)
 	hero.texture = hero_textures.get(state.party.active_id, hero_textures[""])
@@ -710,17 +744,6 @@ func _update_preview() -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	var inverse := get_global_transform_with_canvas().affine_inverse()
-	var first := Vector2i((inverse * Vector2.ZERO / CELL_SIZE).floor())
-	var last := Vector2i((inverse * get_viewport_rect().size / CELL_SIZE).ceil()) + Vector2i.ONE
-	var visible_region := Rect2i(first, last - first).intersection(state.grid.region)
-	for y in range(visible_region.position.y, visible_region.end.y):
-		for x in range(visible_region.position.x, visible_region.end.x):
-			var cell := Vector2i(x, y)
-			var visibility := state.fog_at(cell)
-			if visibility != WorldState.Fog.VISIBLE:
-				var shade := Color("171c25") if visibility == WorldState.Fog.UNKNOWN else Color(0, 0, 0, 0.48)
-				draw_rect(Rect2(Vector2(cell) * CELL_SIZE, Vector2.ONE * CELL_SIZE), shade)
 	for location: Dictionary in state.locations:
 		var cell := Vector2i(location.position[0], location.position[1])
 		if state.fog_at(cell) == WorldState.Fog.UNKNOWN:

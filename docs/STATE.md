@@ -1426,3 +1426,22 @@ on each motion event.
 Executed the full runner: 49 suites plus restart write/read, all passed, 56,161
 counted checks. Inspected one screenshot with the vignette on. Sounds were not
 listened to.
+## Fog drawn from a tile layer; frame rate re-measured
+
+The moving-pointer cost found in the first frame-rate measurement is removed. Explored
+but unseen cells are now dimmed by a second TileMapLayer that is painted together with
+the terrain; on each refresh only the cells around unlocked heroes are cleared and the
+previously clear ones re-dimmed. Unknown cells carry no tile and show the clear colour
+(set to the former fog colour), so `_draw` no longer loops over every visible cell.
+The route preview is recomputed only when the hovered cell changes.
+
+Same throwaway windowed script as before (Radeon Vega 8, 1280x720, vsync off, whole
+province explored, zoomed out, hero selected): idle 81 -> 259 fps, pointer moving
+36 -> 268 fps; with the vignette 72 -> 189 and 30 -> 151. One run each on the
+development machine; still not a weak-hardware acceptance test. A screenshot of the
+start area and a zoomed-out view looks the same as before the change.
+province_scene_test now also asserts that exactly the visible cells are clear and
+that unknown cells carry no fog tile (52 checks).
+
+Executed the full runner: 49 suites plus restart write/read, all passed, 56,163
+counted checks.

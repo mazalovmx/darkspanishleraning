@@ -113,14 +113,10 @@ its own multi-session plan and scenario-bible review per NPC.
 - No `export_presets.cfg`; no Windows build has been produced or run.
 - No title screen, main menu, settings or quit. (A confirmed "Nueva partida" control
   on the map now restarts the game and keeps the previous save as `.bak`.)
-- Frame rate: one windowed run on the development machine measured 81 fps idle and
-  36 fps with the pointer moving (whole province explored, zoomed out); the vignette
-  lowers that to 72 and 30. No weak-hardware acceptance measurement. Reduce the
-  moving-pointer cost: recompute the route preview only when the hovered cell
-  changes, and draw fog from a tile layer instead of per-cell rectangles each redraw.
-  Earlier note: No rendered FPS or weak-hardware acceptance measurement. Incremental terrain
-  repaint and single-decode save validation are implemented; the headless benchmark
-  measures logic timings only.
+- Frame rate: after moving fog to a tile layer, one windowed run on the development
+  machine measured 259 fps idle and 268 fps with the pointer moving (whole province
+  explored, zoomed out); 189 and 151 with the optional vignette. No weak-hardware
+  acceptance measurement. The headless benchmark measures logic timings only.
 - Upstream demo still shipped: `game/src/main.tscn`, `game/overworld`, `game/combat`,
   Dialogic, eight demo autoloads, demo README/CHANGELOG/icon. The standing
   "26 resources still in use" shutdown error comes from the unused Dialogic autoload.
