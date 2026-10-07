@@ -58,9 +58,9 @@ its own multi-session plan and scenario-bible review per NPC.
 - Copying the model: the inn market (LOC11) no longer shows or prints its model
   sentence; it shows the facts to express and a rule reminder, accepts the player's
   own wording when the tier's verb form and the required content are present, and a
-  rejection names the missing element. Still showing a "Modelo:" before the first
-  attempt, so passable by copying: town building/recruit/artifact orders and resource
-  claims (strategy panel), soul rituals (equipment panel; their rejection returns the
+  rejection names the missing element. Town building/recruit/upgrade/artifact orders
+  and mine claims (strategy panel) now work the same way. Still showing a "Modelo:"
+  before the first attempt, so passable by copying: soul rituals (equipment panel; their rejection returns the
   retry text), optional cases (side panel), campaign cards and evidence-notebook
   conclusions. Apply the same cue + reminder + element check to each.
 - NPC memory (Epic 19): conversation count, last day and discussed topics are stored

@@ -1541,3 +1541,31 @@ market_curriculum_test 38/0, party_integration_test 46/0, vertical_slice_test 31
 save_game_test 540/0, save_restart write/read PASS. The full non-live run was still in
 progress at this commit; its result is recorded in the next entry. Not rendered in a
 window; the Spanish of the reminders was written by the agent and is not reviewed.
+
+Full run for the commit above (Linux, Godot 4.6.2 headless, a bash equivalent of
+`run-tests.ps1` because PowerShell is not installed in that environment): 49 suites,
+all exit 0 with `failures: 0` and no script error. The save restart pair passed
+separately.
+
+## Town orders and mine claims: cue and rule reminder instead of a model
+
+Second slice of "gated Spanish can be passed by copying": `economy/strategy_economy.gd`
+and `economy/strategy_panel.gd`. Building, recruitment, upgrade and artifact orders
+show the order and its full cost plus the tier's rule reminder (the market reminders
+are reused). Accepted: the model, the legacy model, or the player's own wording with a
+tier verb form, the required word (si / porque in the argument tier), the ordered thing
+(building or artifact name; quantity with the troop noun) and, for price and
+confirmation, every resource amount followed within two words by its unit (monedas /
+oro, gemas, or the resource name). A rejection names what is missing and repeats the
+reminder. Mine claims need a tier verb form, "mina" and the resource; the panel names
+what is missing instead of a generic retry. Saved receipts and mine records validate
+with the same check, so old saves still load. Same limitation as the market: content
+check, not a grammar parser.
+
+Tests: strategy_economy_test gained 7 checks (own construction request, partial cost
+rejected without the model, own cost sentence with number words, confirmation without
+cost rejected, cue without model, claim missing its resource, claim in own words that
+then survives the save round trip). Results are in the next entry.
+
+Executed for this commit: the full non-live run, 49 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

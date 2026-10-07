@@ -111,7 +111,7 @@ func refresh() -> void:
 		battle_button.visible = guarded
 		input.visible = not guarded
 		send_button.visible = not guarded
-		prompt.text = "Los guardianes controlan el acceso." if guarded else "Da la orden: " + economy.claim_model(world_state,site_id)
+		prompt.text = "Los guardianes controlan el acceso." if guarded else "Da la orden.\n" + economy.claim_cue(world_state,site_id)
 		send_button.text = "Asegurar la mina"
 		send_button.disabled = false
 		return
@@ -134,8 +134,7 @@ func refresh() -> void:
 	description.text += "\n\nCoste: " + economy.cost_text(economy.cost(selected.kind,selected.id,amount))
 	if not denied.is_empty():
 		description.text += "\n\n" + denied
-	var models: Dictionary = economy.current_models(world_state,selected.kind,selected.id,amount)
-	prompt.text = "Modelo: " + str(models[economy.phase])
+	prompt.text = economy.cue(world_state,selected.kind,selected.id,amount)
 	send_button.text = {"request":"Pedir","price":"Comprobar el coste","confirm":"Confirmar operación"}[economy.phase]
 	send_button.disabled = not denied.is_empty()
 
@@ -149,7 +148,7 @@ func _submit() -> void:
 			refresh()
 			committed.emit()
 		else:
-			feedback.text = "Revisa el acceso y escribe la orden completa."
+			feedback.text = economy.claim_feedback(world_state,site_id,input.text)
 		return
 	var selected: Dictionary = entries.get_selected_metadata()
 	var result: Dictionary = economy.submit(world_state,selected.kind,selected.id,int(quantity.value),input.text)

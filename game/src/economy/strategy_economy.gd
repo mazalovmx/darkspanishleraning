@@ -91,6 +91,69 @@ func models(kind: String, id: String, quantity: int, tier := "basic", legacy := 
 		"price":("Si pido %s, el coste total es %s." % [confirmation_target,total]) if tier == "argument" else "El coste total es %s." % total,
 		"confirm":("Acepto pagar %s porque necesito %s." % [total,confirmation_target]) if tier == "argument" else ("Voy a pagar %s por %s." % [total,confirmation_target]) if tier == "plans" else "Confirmo %s por %s." % [confirmation_target,total]}
 
+const UNIT_WORDS := {"gold": ["moneda", "monedas", "oro"], "gems": ["gema", "gemas"]}
+const LABELS := {"verb": "la forma verbal", "target": "lo que pides", "cost": "el coste completo"}
+
+## Quantity and noun that a request, an argued price and a confirmation must name.
+func _has_target(text: String, kind: String, id: String, quantity: int) -> bool:
+	var definition := offer(kind,id)
+	if kind in ["build","artifact"]:
+		return text.contains(world_words(str(definition.name)))
+	var noun: String = definition.singular if quantity == 1 else definition.name
+	for number in _trade.call("_numbers", quantity, false):
+		if text.contains(" %s%s" % [number, world_words(noun)]):
+			return true
+	return false
+
+## Every resource of the cost: its amount followed, within two words, by its unit.
+func _has_cost(text: String, amounts: Dictionary) -> bool:
+	for resource in amounts:
+		var units: Array = UNIT_WORDS.get(resource, [catalog.resource_names[resource]])
+		var found := false
+		for number in _trade.call("_numbers", int(amounts[resource]), true):
+			var pattern := RegEx.create_from_string(" %s (?:\\S+ ){0,2}(?:%s) " % [number, "|".join(units)])
+			found = found or pattern.search(text) != null
+		if not found:
+			return false
+	return true
+
+var _trade: RefCounted = preload("res://src/economy/trade_state.gd").new()
+
+func world_words(phrase: String) -> String:
+	return _trade.words(phrase).substr(1)
+
+## Names what an order sentence still lacks; the model itself always passes.
+func missing(kind: String, id: String, quantity: int, message: String, stage: String, tier: String) -> Array[String]:
+	var result: Array[String] = []
+	if message.length() > 300:
+		result.append("una frase más corta")
+		return result
+	for legacy in [false,true]:
+		if _trade.normalize(message) == _trade.normalize(str(models(kind,id,quantity,tier,legacy).get(stage,""))):
+			return result
+	var text: String = _trade.words(message)
+	var rule: Dictionary = _trade.RULES[stage][tier]
+	if not rule.verbs.any(func(verb: String) -> bool: return text.contains(" %s " % verb)):
+		result.append(LABELS.verb)
+	for word in rule.get("words", []):
+		if not text.contains(" %s " % word):
+			result.append("«%s»" % word)
+	if (stage != "price" or tier in ["past","argument"]) and not _has_target(text,kind,id,quantity):
+		result.append(LABELS.target)
+	if stage != "request" and not _has_cost(text,cost(kind,id,quantity)):
+		result.append(LABELS.cost)
+	return result
+
+## Facts to express and a rule reminder, shown instead of a model sentence.
+func cue(world: RefCounted, kind: String, id: String, quantity: int) -> String:
+	var tier := str(pending.get("tier",world.trade.tier_for(world)))
+	var definition := offer(kind,id)
+	var target: String = definition.name if kind in ["build","artifact"] else "%d %s" % [quantity,definition.singular if quantity == 1 else definition.name]
+	return "Pedido: %s · Coste: %s\nRecuerda: %s" % [target,cost_text(cost(kind,id,quantity)),_trade.REMINDERS[phase][tier]]
+
+func _gaps_text(gaps: Array[String]) -> String:
+	return "Falta " + (", ".join(gaps.slice(0, gaps.size() - 1)) + " y " + gaps[-1] if gaps.size() > 1 else gaps[0]) + "."
+
 func current_models(world: RefCounted, kind: String, id: String, quantity: int) -> Dictionary:
 	return models(kind,id,quantity,str(pending.get("tier",world.trade.tier_for(world))))
 
@@ -183,9 +246,9 @@ func submit(world: RefCounted, kind: String, id: String, quantity: int, message:
 		cancel()
 		return {"ok":false,"message":denied}
 	var tier: String = str(pending.get("tier",world.trade.tier_for(world)))
-	var expected := models(kind,id,quantity,tier)
-	if message.length() > 300 or world.trade.normalize(message) != world.trade.normalize(expected[phase]):
-		return {"ok":false,"message":"Revisa el pedido y escribe una frase completa. Modelo: " + str(expected[phase])}
+	var gaps := missing(kind,id,quantity,message,phase,tier)
+	if not gaps.is_empty():
+		return {"ok":false,"message":_gaps_text(gaps) + "\nRecuerda: " + str(_trade.REMINDERS[phase][tier])}
 	var location := _location(world)
 	if phase == "request":
 		pending = {"kind":kind,"id":id,"quantity":quantity,"day":world.day,"hero":world.party.active_id,
@@ -242,6 +305,31 @@ func claim_model(world: RefCounted, id: String, tier := "") -> String:
 	var verb: String = {"basic":"Quiero","past":"Decidí","plans":"Voy a","argument":"Querría"}[tier]
 	return "%s asegurar la mina de %s." % [verb,catalog.resource_names[entry.resource]]
 
+## What a claim order lacks: a verb form of the tier, the mine and its resource.
+func claim_missing(world: RefCounted, id: String, message: String, tier: String) -> Array[String]:
+	var result: Array[String] = []
+	var entry := site(world,id)
+	if message.length() > 300 or entry.is_empty():
+		result.append("una frase más corta")
+		return result
+	if _trade.normalize(message) == _trade.normalize(claim_model(world,id,tier)):
+		return result
+	var text: String = _trade.words(message)
+	if not _trade.RULES.request[tier].verbs.any(func(verb: String) -> bool: return text.contains(" %s " % verb)):
+		result.append(LABELS.verb)
+	if not text.contains(" mina ") or not text.contains(" %s " % world_words(catalog.resource_names[entry.resource]).strip_edges()):
+		result.append("la mina y su recurso")
+	return result
+
+func claim_cue(world: RefCounted, id: String) -> String:
+	var tier: String = world.trade.tier_for(world)
+	return "Objetivo: la mina de %s\nRecuerda: %s" % [catalog.resource_names[site(world,id).resource],
+		str(_trade.REMINDERS.request[tier]).replace("cantidad + producto","lo que quieres asegurar")]
+
+func claim_feedback(world: RefCounted, id: String, message: String) -> String:
+	var gaps := claim_missing(world,id,message,world.trade.tier_for(world))
+	return "Revisa el acceso." if gaps.is_empty() else _gaps_text(gaps)
+
 func claim(world: RefCounted, id: String, message: String) -> bool:
 	var entry := site(world,id)
 	if world.planning_active() or entry.is_empty() or mines.has(id) or world.active_battle != null or not pending.is_empty() or not world.trade.pending.is_empty():
@@ -251,7 +339,7 @@ func claim(world: RefCounted, id: String, message: String) -> bool:
 	if entry.guarded and world.encounters.get(id,{}).get("outcome","") != "victory":
 		return false
 	var tier: String = world.trade.tier_for(world)
-	if message.length() > 300 or world.trade.normalize(message) != world.trade.normalize(claim_model(world,id,tier)):
+	if not claim_missing(world,id,message,tier).is_empty():
 		return false
 	mines[id] = {"day":world.day,"hero":world.party.active_id,"message":message.strip_edges(),"tier":tier}
 	return true
@@ -321,7 +409,7 @@ func restore(data: Variant, world: RefCounted) -> bool:
 			return false
 		if not world.party.heroes[record.hero].unlocked or record.get("tier") not in TIERS or not record.get("message") is String:
 			return false
-		if world.trade.normalize(record.message) != world.trade.normalize(claim_model(world,id,record.tier)):
+		if not claim_missing(world,id,record.message,record.tier).is_empty():
 			return false
 		if entry.guarded and (world.encounters.get(id,{}).get("outcome","") != "victory" or world.encounters[id].day > record.day):
 			return false
@@ -380,16 +468,9 @@ func restore(data: Variant, world: RefCounted) -> bool:
 			if sale.day != receipt.day or sale.hero != receipt.hero:
 				return false
 			sale_receipts[key] = true
-		var valid_language := false
-		for legacy in [false,true]:
-			var expected := models(receipt.kind,receipt.id,int(receipt.quantity),receipt.tier,legacy)
-			var all_stages := true
-			for stage in ["request","price","confirm"]:
-				if not receipt.get(stage) is String or receipt[stage].length() > 300 or world.trade.normalize(receipt[stage]) != world.trade.normalize(expected[stage]):
-					all_stages = false
-			valid_language = valid_language or all_stages
-		if not valid_language:
-			return false
+		for stage in ["request","price","confirm"]:
+			if not receipt.get(stage) is String or not missing(receipt.kind,receipt.id,int(receipt.quantity),receipt[stage],stage,receipt.tier).is_empty():
+				return false
 	if data.purchase_count <= 100 and sale_receipts.size() != sold_instances.size():
 		return false
 	if world.map_id != "province_160x120_v1" and (not data.buildings.is_empty() or not data.recruited.is_empty() or not data.mines.is_empty() or not data.artifact_sales.is_empty() or data.purchase_count != 0):
