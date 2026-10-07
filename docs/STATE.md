@@ -897,3 +897,18 @@ Executed 116 ghost-battle checks including all eight tactics and the arena scene
 Existing shutdown diagnostics persist. This prepares their tactical behavior; knight
 map spawning, frozen simultaneous strategic orders, bounded interventions and counters
 are still not connected to live play.
+## Frozen simultaneous route resolver prepared
+
+Added a pure daily plan with a shared start snapshot, frozen knight orders and
+replaceable player routes. Planning neither moves actors nor advances time. Routes
+respect each actor's allowance, terrain costs, known player cells and current gates.
+Resolution handles destination contacts, opposite edges, fixed knight initiative,
+nonselected guarding participants and later arrivals at an existing collision. It
+revalidates before producing a result and does not mutate the world while calculating.
+
+Executed 33 resolver checks including JSON round trips, malformed-plan rejection,
+route changes, terrain timing and collision cases; 365 map-scene checks passed.
+The initial JSON test exposed int/float coordinate differences; normalized restored
+coordinates and reran successfully. Existing shutdown diagnostics persist. This is a
+prepared resolver, not yet the live map's travel loop; spawning, AI target policy,
+interventions, strategic UI and world-save integration remain next.
