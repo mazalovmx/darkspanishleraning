@@ -40,6 +40,34 @@ func run() -> void:
 	var forged := Save.snapshot(limited)
 	forged.campaign.council_resolution.answer = resolution.answers[3]
 	check(not Save.decode(forged).has("state"),"Cannot forge charter by replacing saved sentence")
+	# SQ03/SQ04 are optional lessons: no mainline step or ending depends on them.
+	var defs: Dictionary = state.campaign.definitions
+	var extras := ["confession_record","confession_review","letter_seal","letter_review"]
+	for id in defs:
+		if not defs[id].get("optional",false):
+			for dep: String in defs[id].requires + defs[id].get("supports",[]):
+				check(not defs.get(dep,{}).get("optional",false),"Mainline never waits for an optional case: " + id)
+	var plain := base.duplicate(true)
+	for id: String in extras:
+		check(defs[id].get("optional",false) and id not in resolution.outcomes[3].requires,"Side lesson stays outside the Charter: " + id)
+		plain.campaign.erase(id)
+	var without = Save.decode(plain).state
+	check(without.campaign.submit(without,resolution.id,resolution.answers[3],"declared",resolution.supports).ok,"Charter needs neither the confession nor the letter case")
+	var reviews := base.duplicate(true)
+	reviews.campaign.erase("confession_review")
+	reviews.campaign.erase("letter_review")
+	var open = Save.decode(reviews).state
+	var echo: Dictionary = defs.confession_review
+	check(not open.campaign.submit(open,echo.id,"El muchacho robó la reliquia.","observed",echo.supports).ok,"Echoed confession is not an observed theft")
+	check(not open.campaign.submit(open,echo.id,echo.answers[0],"reported",echo.supports).ok,"Echo judgement is an inference")
+	check(open.campaign.submit(open,echo.id,echo.answers[0],"inferred",echo.supports).ok,"Confession separated from independent evidence")
+	var letter: Dictionary = defs.letter_review
+	check(not open.campaign.submit(open,letter.id,"La carta es verdadera.","inferred",letter.supports).ok,"True claim does not make the letter authentic")
+	check(not open.campaign.submit(open,letter.id,"La carta es falsa.","inferred",letter.supports).ok,"False provenance does not settle the claim")
+	check(not open.campaign.submit(open,letter.id,letter.answers[0],"declared",letter.supports).ok,"Forged letter carries no institutional force")
+	check(not open.campaign.submit(open,letter.id,letter.answers[0],"inferred",["letter_seal","letter_seal"]).ok,"Claim needs a source other than the letter")
+	check(open.campaign.submit(open,letter.id,letter.variants[0],"inferred",letter.supports).ok,"Provenance separated from accuracy")
+	check(Save.decode(Save.snapshot(open)).has("state"),"Side lessons survive save")
 	var missing := base.duplicate(true)
 	missing.campaign.erase("council_unknown")
 	var incomplete = Save.decode(missing).state
