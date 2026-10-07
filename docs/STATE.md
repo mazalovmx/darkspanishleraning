@@ -7,6 +7,55 @@ cases and ghost knights run on the province map with save v12. Open work is list
 BACKLOG.md. Sections below are a chronological log; early entries describe the state
 at the time they were written and are superseded by later ones.
 
+## Handoff for the next agent (written 2026-10-07)
+
+Read this block, then BACKLOG.md, then only the STATE.md entries you need.
+
+Where things are:
+- Remote: https://github.com/mazalovmx/darkspanishleraning (public), branch
+  `implementation`. Remote `main` holds only a LICENSE commit; do not rewrite it.
+  The game is a personal, local-only game; the remote is a backup, not a release.
+- `.git` belongs to another Windows user: run git as
+  `git -c safe.directory=C:/dev/game ...`. Do not change global git config.
+- Engine: `tools/local/godot/Godot_v4.6.2-stable_win64_console.exe` (ignored, local).
+- Entry scene `game/src/world/province_map.tscn`; canonical state is
+  `game/src/world/world_state.gd`. Module map: ARCHITECTURE.md, first section.
+
+How to verify:
+- `./tools/run-tests.ps1` runs all 45 non-live suites plus the save restart pair,
+  headless, about 15 minutes; `-Filter <text>` runs a subset. Last full run:
+  54,890 checks, all passed. A script error in a test makes Godot hang; the runner
+  reports it as TIMEOUT, so read `tools/local/test-logs/<suite>.log`.
+- Windowed checks need `--accessibility disabled` on this machine (AccessKit crash).
+- Never run `claude_live_test` or `run-game.ps1 -LiveTest` without the user's
+  consent: they make paid API calls. The live path was last exercised 2026-10-05.
+
+Working rules that are easy to miss:
+- One task, its tests, a STATE.md entry, one commit (COPILOT.md); then push.
+- Both copies of each specification (root and docs/) must stay byte-identical.
+- Save validation in `save/save_game.gd` hard-codes key counts per version and the
+  four conversable NPC ids; any new persisted state needs a new save version there.
+- Every map modal is listed by hand in several guards in `world_map.gd`
+  (`_end_turn`, `_update_preview`, button handlers, `_can_restart`). A new panel
+  must be added to each list.
+- UI built in code inherits the demo theme: dialogs need explicit font sizes.
+- Tests reach campaign and case states with fixtures (`complete_opening`, `learn`,
+  `visit` in `tests/campaign_test.gd`), not by real travel.
+
+Done on 2026-10-07 (details in the dated entries at the end of this file):
+audit and backlog rewrite, test runner, frozen-plan guards, working docs and both
+specifications aligned with the runtime, innkeeper directions, new-game control,
+troop/supply handover tab, windowed review of those UI changes.
+
+What to do next, in order (BACKLOG.md has the full list):
+1. P1 conversation breadth: only 4 NPCs are conversable; acts II-VII and the 108
+   cases accept one exact sentence each. Start with accepted-answer variants and
+   with grounding plus authored fallback for the bible principals.
+2. NPC memory (Epic 19) and its persistence; golden conversation tests (section 39).
+3. Missing scenario content: SQ03-SQ05, MQ10, Act VII crisis.
+4. Release basics: export preset, title/menu, removal of the unused demo and Dialogic.
+Open user decisions are listed at the end of BACKLOG.md.
+
 ## Provenance
 
 Upstream repository: https://github.com/gdquest-demos/godot-open-rpg
@@ -1105,7 +1154,7 @@ that optional cases, equipment, soul assemblies, ghost knights and simultaneous
 province turns are integrated, and list what is still not implemented. Root and docs
 copies were patched identically and compare byte-for-byte equal. No other section was
 changed; the four-versus-seven stack wording in section 13 is still open in BACKLOG.md.
-The user also chose to keep the repository on this machine without a remote for now.
+Later the same day the user named a GitHub repository; the branch was pushed there.
 ## Windowed review of the three UI changes
 
 Rendered the province map with OpenGL (Radeon Vega 8, accessibility disabled for the

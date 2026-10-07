@@ -109,7 +109,6 @@ its own multi-session plan and scenario-bible review per NPC.
 - No project README; no CI. Screenshot paths in about 28 test lines are absolute.
 - Autosave failure shows only a small label; save validation hard-codes key counts
   and the NPC whitelist, so adding state requires touching those lines.
-- No off-machine backup: no git remote, single `implementation` branch.
 
 ## P3 - Measurement and playtest (section 43)
 
@@ -122,7 +121,7 @@ its own multi-session plan and scenario-bible review per NPC.
 ## Decisions needed from the user
 
 - (Resolved 2026-10-07: both spec and bible copies now record the expansion as
-  integrated; the repository stays on this machine without a remote for now.)
+  integrated; the branch is pushed to the public GitHub repository named in STATE.md.)
 - Section 13 says four stacks per side; section 12 says seven. Code follows seven.
 - Section 33 names one save file; the province uses `user://province_savegame.json`
   next to the prototype's `user://savegame.json`.
