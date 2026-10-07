@@ -62,6 +62,16 @@ prior evidence, never its own reward. Artifacts are nonconsumable and quest-crit
 The validator scene tests references, DAG reachability, language order, answer coherence,
 cipher solutions, stack bounds and non-blocking retreat/peaceful paths.
 
+## Conversations (authored.json)
+
+Keys are a location id, or any id with `location_id` naming the location for an
+additional speaker there. Fields: npc_id, name, greeting, greeting_again, hint,
+branches (keywords + reply), fallback. Optional gates, both checked when the
+conversation is listed, opened and submitted to:
+- `requires`: a campaign node id that must already be recorded.
+- `companion_hero`: a hero id; that hero must be unlocked, on the same cell at this
+  location and not the active hero (a hero cannot interview themself).
+
 ## NPC grounding boundary
 
 npc_grounding.json contains facts keyed by ID, clues keyed by the same ID, an authored

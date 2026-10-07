@@ -50,14 +50,16 @@ paraphrases per campaign task, basic NPC memory with save v13, 42 golden
 conversation cases, three new conversable NPCs.
 
 What to do next, in order (BACKLOG.md has the full list):
-1. P1 conversation breadth: 7 NPCs are conversable (target 30+); acts II-VII and the 108
-   cases accept one exact sentence each. Start with accepted-answer variants and
-   with grounding plus authored fallback for the bible principals.
+1. P1 conversation breadth: 13 NPCs are conversable (target 30+). Acts II-VII, the
+   SQ quests and the 108 cases are still sentence-entry cards with exact matching;
+   move the investigative ones to grounded conversation plus inspection as in Act I.
 2. The rest of NPC memory (lies told, relationship, validated summary); a live,
    opt-in variant of the golden conversations. To add an offline golden case, append
    to `game/tests/dialogue_golden.json`; no code change is needed.
-3. Missing scenario content: SQ03-SQ05, MQ10, Act VII crisis.
-4. Release basics: export preset, title/menu, removal of the unused demo and Dialogic.
+3. Missing scenario content: MQ10, the Act VII crisis, a real choice in SQ05.
+4. Art pass: remaining map markers, battle arena, UI panels, sound effects, volume
+   control (assets are in `game/assets/third_party/`).
+5. Release basics: export preset, title/menu, removal of the unused demo and Dialogic.
 Open user decisions are listed at the end of BACKLOG.md.
 
 ## Provenance
@@ -1345,3 +1347,58 @@ terrain, markers and hero draw correctly and music reported playing. Sound was n
 listened to, and track changes were not exercised in that run. Executed the full
 runner afterwards: 47 suites plus restart write/read, all passed, 55,739 counted
 checks. No FPS measurement was taken with the new art.
+## Three abandoned agent drafts reviewed, finished and merged (2026-10-07)
+
+Three worktrees (wt/next-context, wt/next-npcs, wt/next-quest) held uncommitted work
+from other agents, idle for about 45 minutes. At the user's request the drafts were
+read first so nothing would be redone, then completed and merged. The code and
+content in all three were already written and came with tests; what was missing was
+verification, commits, the merge and this record. Nothing in them was rewritten.
+
+What was done to finish them:
+- Reverted `game/project.godot` in two worktrees: an editor import had dropped the
+  Dialogic directory block there. That was a side effect, not part of either task.
+- Committed each draft on its branch and merged the three into `implementation`
+  (commits 6ea77e0, 9b3118c, ca98cb9). One add/add conflict on `save_game.gd.uid`
+  (each worktree's import generated a different id) was resolved by keeping one.
+  The merge also brought in the `.uid` files Godot generates for the new game's
+  scripts; the repository already tracks such files for the upstream scripts.
+- The quest worktree could not run its own tests (its import cache was broken, giving
+  parse errors in upstream scripts), so that draft was verified only after the merge.
+- Updated BACKLOG.md, CONTENT_SCHEMA.md and the handoff block above.
+
+What the three changes are and why they exist:
+1. Dialogue request context (master spec section 17; backlog P1). The model now
+   receives `scene` (map, day, location id and name), up to three `focus_verbs` drawn
+   only from verbs of the current and earlier course blocks and ranked by the
+   learner's weakest scores and recorded errors, up to four `recent_errors` for taught
+   tags with at most two stored examples each, and the last four exchanges instead of
+   three. Why: the spec lists these fields, and without them the model could not aim
+   practice at the learner's actual weak verbs or revisit real past mistakes.
+   Selection never changes mastery or the curriculum; untaught tenses are excluded.
+   Relationship and conversation summary are still not sent because that data does
+   not exist.
+2. Inés Vargas and Elias Venn as conversations (bible sections 12.2, 12.3; backlog P1
+   "Inés and Elias as speakers"). They can be spoken to at Cárdena and Monte Ciego
+   after `ines_arrival` / `elias_arrival`, through a new optional `companion_hero`
+   gate: the companion must be unlocked, on the same cell and not the active hero.
+   Why: the two protagonists had no voice at all outside task cards; the gate keeps
+   a hero from interviewing themself and from speaking before being introduced. Their
+   grounding holds only identity and what their introduction tasks already record
+   (Inés's commission and who paid, Elias's origin as his own unverified account and
+   his observable objects); neither reveals later-act facts or unlocks evidence.
+   Conversable NPCs: 13.
+3. SQ05 "La máquina de Simón" (bible section 18; backlog "Missing quests"). Three
+   optional campaign tasks: observe that the engine works (Taller Rojo), report the
+   three incompatible requests of workers, owner and the Order (Ferraza, Inés), and
+   infer the trade-off in the conditional with both as sources (Elias, block 6). Why:
+   it was one of three bible side quests with no content. No ending requires it. It
+   stops at recording the conflict: the bible's destroy / scale / ban decision and
+   any consequence are not implemented, so "there is no clean choice" is stated, not
+   played.
+
+Executed the full runner on the merged branch: 49 suites plus restart write/read
+(51 runs), all passed, 56,128 counted checks; dialogue_context 23, dialogue_golden
+628 over 62 cases, simon_quest 190, campaign 553, council_endings 256. Headless only.
+No live API call was made, so how the real model uses the new context fields and
+voices Inés and Elias is unverified; no Spanish speaker reviewed the new lines.

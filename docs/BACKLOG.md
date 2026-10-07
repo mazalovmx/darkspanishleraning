@@ -36,11 +36,13 @@ its own multi-session plan and scenario-bible review per NPC.
 
 ## P1 - Spanish as the control surface (sections 1.2, 20, 21, 34, 39, 43)
 
-- Conversable NPCs: 11 exist (innkeeper, Lucio, Gabriel, Leonor, Beatriz Orma,
-  Bishop Veyra, Simón Vale, Rodrigo Mendaña, Selmo Oribe, Ysabel and Esteban);
-  the target is 30+. The added speakers use bounded public knowledge and unlock no
-  new clues. Ysabel and Esteban require their canonical campaign records. Still
-  missing: Inés and Elias as speakers and the minor task speakers. To add one:
+- Conversable NPCs: 13 exist (innkeeper, Lucio, Gabriel, Leonor, Beatriz Orma,
+  Bishop Veyra, Simón Vale, Rodrigo Mendaña, Selmo Oribe, Ysabel, Esteban, Inés and
+  Elias); the target is 30+. All but the four opening NPCs speak from bounded public
+  knowledge and unlock no clue. Ysabel and Esteban need their campaign record; Inés
+  and Elias need their introduction, must stand on the same cell at Cárdena / Monte
+  Ciego and cannot be the active hero. Still missing: the minor task speakers, and
+  any conversation with a companion away from the place of introduction. To add one:
   an entry in `authored.json`, grounding facts and NPC record, a save whitelist id,
   and golden cases.
 - Acts II-VII are sentence-entry cards. Each now accepts its model sentence or two
@@ -54,9 +56,10 @@ its own multi-session plan and scenario-bible review per NPC.
   per NPC, saved (v13), sent to Claude and shown as a return greeting. Still missing:
   lies told, relationship (`npc_attitude_delta` is forced to zero) and a bounded,
   validated conversation summary.
-- Request context (section 17) lacks scene, relationship, focus_verbs, recent_errors
-  and conversation_summary; recent dialogue is 3 exchanges instead of 4-6.
-- Golden conversation tests (section 39): 52 data-driven cases exist in
+- Request context (section 17): scene, focus verbs, recent errors and the last four
+  exchanges are now sent. Still not sent, because the data does not exist:
+  relationship and conversation_summary.
+- Golden conversation tests (section 39): 62 data-driven cases exist in
   `game/tests/dialogue_golden.json`, run offline with a fake transport. They cover the
   deterministic boundary only. A live variant that sends the same player lines to the
   real model and checks recasts and non-invention is still missing (paid, opt-in).
@@ -75,8 +78,10 @@ its own multi-session plan and scenario-bible review per NPC.
 
 ## P1 - Scenario coverage (bible sections 13, 17, 18, 26, 35, 36)
 
-- Missing quests: SQ05, MQ10 and the Act VII political crisis. SQ03/SQ04 now have
-  four optional sentence-entry tasks; they do not add an ending requirement.
+- Missing quests: MQ10 and the Act VII political crisis. SQ03, SQ04 and SQ05 are
+  optional sentence-entry tasks (four, four and three nodes); none is required for an
+  ending. SQ05 records the conflict but offers no destroy/scale/ban decision and has
+  no consequence in the world, unlike the bible's "no clean choice".
 - El Índice is not a queryable text interface (Act VI).
 - Council: wrong classification is only retried, it does not affect endings; no
   military commander, Ysabel, Inés or Elias nodes.
