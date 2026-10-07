@@ -164,3 +164,15 @@ EvidenceGraph.record_dialogue validates source/location, local intent, prerequis
 repeat status and authored question. Physical record() cannot grant testimony.
 Critical claim text comes from opening.json. Save restore also enforces the food
 prerequisite and discovery chronology; no schema bump beyond v2 is needed.
+
+## Institutional acts (institutions.json)
+
+`content/scenario/institutions.json` lists authorities (with the kinds of act each may
+perform), procedures (required seal, whether a witness is required) and kind labels.
+A campaign node's `declaration`, or a decision outcome's `declaration`, is an act:
+`{kind, authority, procedure, target, seal, witness, effect, text}`. `institutions.gd`
+accepts it only when the authority holds that kind, the seal matches the procedure,
+a required witness is named and target/effect/text are present. Valid acts of recorded
+nodes and chosen outcomes are in force (`campaign_state.acts/effects`); their `effect`
+flags are the world consequences. An outcome may list `closed_by` effects that make it
+unavailable. Acts are derived from campaign records, so they add no save state.

@@ -122,8 +122,9 @@ its own multi-session plan and scenario-bible review per NPC.
   LOC09, LOC12, LOC14, LOC16, LOC17, LOC18 have campaign cards only.
 - Santa Lucerna sub-spaces and city-specific vocabulary sets are not represented.
 - Lucio's `forbidden_research` secret needs flag `research_disclosed`, which nothing sets.
-- Institutional speech acts (Epic 18): one hard-coded declaration; no general
-  declaration record, authority/procedure model or world consequences.
+- Institutional speech acts (Epic 18): authorities, procedures and acts are data
+  (`institutions.json`); acts of recorded nodes and chosen outcomes are in force and
+  listed in the journal; effects are flags. Still few acts use it (see MQ10 below).
 
 ## P2 - Strategic layer
 

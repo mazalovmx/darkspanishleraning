@@ -34,7 +34,10 @@
         "procedure": "sealed_written_order",
         "target": "tomas_notebooks",
         "seal": "episcopal",
-        "witness": "archive_clerk"
+        "witness": "archive_clerk",
+        "kind": "confiscation_order",
+        "effect": "notebooks_in_custody",
+        "text": "Los cuadernos de Tomás quedan bajo custodia del Archivo Episcopal."
       }
     },
     "bishop_reason": {

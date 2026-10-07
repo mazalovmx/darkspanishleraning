@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "authorities": {
+    "bishop_veyra": {"name": "Obispo Aureliano Veyra", "kinds": ["confiscation_order", "emergency_authority", "ban"]},
+    "beatriz_orma": {"name": "Jueza Beatriz Orma", "kinds": ["sentence", "permit", "legal_recognition"]},
+    "valdora_council": {"name": "Consejo de Valdora", "kinds": ["ban", "permit", "legal_recognition", "emergency_authority"]}
+  },
+  "procedures": {
+    "sealed_written_order": {"seal": "episcopal", "witness": true},
+    "court_ruling": {"seal": "tribunal", "witness": true},
+    "council_vote": {"seal": "council", "witness": true}
+  },
+  "kinds": {
+    "confiscation_order": "Orden de custodia",
+    "emergency_authority": "Autoridad de emergencia",
+    "ban": "Prohibición",
+    "permit": "Licencia",
+    "sentence": "Sentencia",
+    "legal_recognition": "Reconocimiento legal"
+  }
+}

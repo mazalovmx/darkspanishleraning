@@ -1,5 +1,6 @@
 extends RefCounted
 ## Authored campaign claims. No model response can advance this ledger.
+const Institutions = preload("res://src/world/institutions.gd")
 var definitions: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/scenario/campaign.json")).nodes
 var records: Dictionary = {}
 const CLASSIFICATIONS := ["observed", "reported", "inferred", "declared", "unresolved"]
@@ -103,11 +104,33 @@ func _answer_valid(world: RefCounted, node: Dictionary, answer: String, classifi
 	return true
 
 func _declaration_valid(node: Dictionary) -> bool:
-	if not node.has("declaration"):
-		return true
-	# The signed canonical order, never authority supplied by an NPC/model response.
-	return node.declaration == {"authority":"bishop_veyra", "procedure":"sealed_written_order",
-		"target":"tomas_notebooks", "seal":"episcopal", "witness":"archive_clerk"}
+	# The act carried by the node, never authority supplied by an NPC/model response.
+	return not node.has("declaration") or Institutions.valid(node.declaration)
+
+## The chosen outcome of a decision node, or {} when the answer names none.
+func outcome_for(world: RefCounted, node: Dictionary, answer: String) -> Dictionary:
+	for outcome: Dictionary in node.get("outcomes", []):
+		if world.learner.curriculum.normalized(answer) == world.learner.curriculum.normalized(outcome.answer):
+			return outcome
+	return {}
+
+## Valid institutional acts in force: those of recorded nodes and of chosen outcomes.
+func acts(world: RefCounted, progress: Variant = null) -> Array:
+	var ledger: Dictionary = records if progress == null else progress
+	var result: Array = []
+	for id: String in ledger:
+		var node: Dictionary = definitions[id]
+		for act: Variant in [node.get("declaration"), outcome_for(world, node, str(ledger[id].answer)).get("declaration")]:
+			if Institutions.valid(act):
+				result.append(act)
+	return result
+
+## World consequences of the acts in force, as effect flags.
+func effects(world: RefCounted, progress: Variant = null) -> Dictionary:
+	var result := {}
+	for act: Dictionary in acts(world, progress):
+		result[act.effect] = true
+	return result
 
 func reason(world: RefCounted, id: String) -> String:
 	if world.planning_active():
@@ -210,6 +233,14 @@ func _outcome_ready(world: RefCounted, node: Dictionary, answer: String, progres
 					return false
 			if outcome.get("clean_council", false) and misclassified(progress) > 0:
 				return false
+			if outcome.has("declaration") and not Institutions.valid(outcome.declaration):
+				return false
+			# An act already in force can close an outcome (e.g. emergency powers, the Charter).
+			var other := progress.duplicate()
+			other.erase(node.id)
+			for effect: String in outcome.get("closed_by", []):
+				if effects(world, other).has(effect):
+					return false
 	return true
 
 ## Council statements recorded under a category other than the authored one.

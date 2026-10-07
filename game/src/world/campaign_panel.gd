@@ -96,6 +96,14 @@ func _location_name(id: String) -> String:
 	return id
 
 func refresh() -> void:
+	_refresh_body()
+	var acts: Array = world_state.campaign.acts(world_state)
+	if not acts.is_empty():
+		body.text += "\n\nACTOS INSTITUCIONALES EN VIGOR"
+		for act: Dictionary in acts:
+			body.text += "\n· " + world_state.campaign.Institutions.describe(act)
+
+func _refresh_body() -> void:
 	var campaign = world_state.campaign
 	title.text = "EXPEDIENTES · ACTO %d" % campaign.chapter(world_state)
 	var available: Array = campaign.available(world_state)

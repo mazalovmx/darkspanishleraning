@@ -1797,3 +1797,25 @@ only council nodes accept any category; 263 checks).
 
 Executed for this commit: the full non-live run, 49 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Institutional speech acts as data (Epic 18)
+
+The one hard-coded check (`_declaration_valid` compared the sealed order to a literal)
+is replaced by `content/scenario/institutions.json` and `world/institutions.gd`:
+authorities with the kinds of act they may perform (bishop: custody order, emergency
+authority, ban; judge Orma: sentence, permit, legal recognition; Consejo de Valdora:
+ban, permit, legal recognition, emergency authority), procedures with their seal and
+witness requirement, and labels. An act needs authority holding that kind, the
+procedure's seal, a witness where required, and target, effect and text (master spec
+15: speaker authority, correct procedure, correct target, witnesses/seal). The sealed
+order became `kind: confiscation_order`, `effect: notebooks_in_custody`.
+`campaign_state` gains `outcome_for`, `acts` and `effects` (derived from records, so no
+save change); decision outcomes may carry an act (validated) and `closed_by` effects.
+The journal lists "ACTOS INSTITUCIONALES EN VIGOR".
+
+Tests: new institutions_test (nine invalid variants of the order refused, act in force
+only after its record, a forged seal puts nothing in force, journal lists it; 142
+checks).
+
+Executed for this commit: the full non-live run, 50 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
