@@ -46,6 +46,11 @@
                   "greeting_again":  "Vuelve usted. ¿Qué más desea saber?",
                   "hint":  "Puede preguntar por el abad o por el monasterio.",
                   "branches":  [
+                         {
+                             "requires_flag":  "research_disclosed",
+                             "keywords":  ["investigaciones", "investigacion", "prohibida", "prohibidas", "cripta", "secreto", "oculta"],
+                             "reply":  "Ya no puedo callarlo: el monasterio oculta investigaciones prohibidas bajo la cripta. Lo que es de verdad El Índice, eso no lo sé."
+                         },
                                    {
                                        "keywords":  [
                                                         "nombre",

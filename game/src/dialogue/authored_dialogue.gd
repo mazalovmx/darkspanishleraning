@@ -117,7 +117,7 @@ func submit(message: String) -> void:
 	feedback.text = "Esperando respuesta…"
 	# Capture eligible IDs before sending; recheck live prerequisites on completion.
 	var context: Dictionary = grounding.context_for(conversations[location_id].npc_id,
-		grounding.intent_for(clean), world_state.evidence.context_flags(), world_state.evidence.progress().keys())
+		grounding.intent_for(clean), context_flags(), world_state.evidence.progress().keys())
 	pending_unlocks = context.get("eligible_unlock_ids", []).duplicate()
 	var place: Dictionary = world_state.location_at(world_state.hero_cell)
 	context["scene"] = {"map_id": world_state.map_id, "day": world_state.day,
@@ -155,7 +155,7 @@ func _on_reply(proposal: Dictionary) -> void:
 		rejected = true
 	if not proposal.is_empty():
 		var unlock: Variant = proposal.conversation.suggested_unlock
-		if not grounding.allows_unlock(unlock, npc_id, intent, evidence.context_flags(), evidence.progress().keys()):
+		if not grounding.allows_unlock(unlock, npc_id, intent, context_flags(), evidence.progress().keys()):
 			rejected = true
 		elif unlock != null:
 			rejected = unlock not in pending_unlocks or proposal.conversation.player_intent != intent or not evidence.valid_note(unlock, pending_message)
@@ -206,12 +206,18 @@ func _on_reply(proposal: Dictionary) -> void:
 	turn_finished.emit()
 
 # disclose=false gives the plain authored reply, without any clue text.
+## Evidence flags plus the flags confirmed by recorded campaign tasks.
+func context_flags() -> Dictionary:
+	var flags: Dictionary = world_state.evidence.context_flags()
+	flags.merge(grounding.campaign_flags(world_state.campaign.records))
+	return flags
+
 func reply_for(id: String, message: String, disclose := true) -> String:
 	if not conversations.has(id):
 		return ""
 	var evidence = world_state.evidence
 	var context: Dictionary = grounding.context_for(conversations[id].npc_id,
-		grounding.intent_for(message), evidence.context_flags(), evidence.progress().keys())
+		grounding.intent_for(message), context_flags(), evidence.progress().keys())
 	for clue_id: String in context.get("npc_knowledge", {}):
 		if disclose and evidence.node(clue_id).get("location_id", "") == scene_for(id) and evidence.valid_note(clue_id, message):
 			return evidence.node(clue_id).claim + (" Esta declaración ya consta en el cuaderno." if evidence.has_evidence(clue_id) else "")
@@ -222,7 +228,10 @@ func reply_for(id: String, message: String, disclose := true) -> String:
 	var punctuation := RegEx.new()
 	punctuation.compile("[^a-z0-9ñ]+")
 	normalized = " " + punctuation.sub(normalized, " ", true).strip_edges() + " "
+	var flags := context_flags()
 	for branch: Dictionary in conversations[id].branches:
+		if branch.has("requires_flag") and flags.get(branch.requires_flag, "") != "confirmed":
+			continue
 		for keyword: String in branch.keywords:
 			if normalized.contains(" " + keyword + " "):
 				return branch.reply
@@ -237,7 +246,7 @@ func _render_history() -> void:
 			continue
 		var sample: String = clue.language.get("sample", "")
 		if grounding.allows_unlock(id, conversations[location_id].npc_id, grounding.intent_for(sample),
-				evidence.context_flags(), evidence.progress().keys()):
+				context_flags(), evidence.progress().keys()):
 			hint.text = "Pregunta: " + sample
 			break
 	var npc: Dictionary = conversations[location_id]

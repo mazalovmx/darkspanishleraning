@@ -38,6 +38,14 @@ func _known_ids(npc: Dictionary, states: Dictionary) -> Array:
 					ids.append(secret.id)
 	return ids
 
+## Flags a recorded campaign task confirms, e.g. a secret released by the story.
+func campaign_flags(records: Dictionary) -> Dictionary:
+	var flags := {}
+	for flag: String in _data.get("campaign_flags", {}):
+		if records.has(str(_data.campaign_flags[flag])):
+			flags[flag] = "confirmed"
+	return flags
+
 func intents() -> Array:
 	return _data.get("intents", {}).keys()
 

@@ -1742,3 +1742,20 @@ Not exercised against the real API: the live smoke test needs the user's consent
 
 Executed for this commit: the full non-live run, 49 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Lucio's forbidden-research secret becomes reachable
+
+The secret `forbidden_research` required the flag `research_disclosed`, which nothing
+set. `npc_grounding.json` now has `campaign_flags` ({"research_disclosed":
+"ysabel_account"}): once Ysabel's account is recorded, the step before Lucio agrees to
+open the crypt (archive_meeting), the flag reads "confirmed". `npc_grounding.gd` gains
+`campaign_flags(records)`; `authored_dialogue.gd` merges these with the evidence flags
+everywhere it builds context. Authored branches accept an optional `requires_flag`, so
+Lucio's offline reply about the hidden research exists only after that point (bible
+13.1: he knows of the research, not the nature of El Índice; the reply says so).
+
+Tests: npc_grounding_test (flag derivation, secret released only with it; 56 checks),
+two golden cases before and after the account (85 cases, 958 checks).
+
+Executed for this commit: the full non-live run, 49 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

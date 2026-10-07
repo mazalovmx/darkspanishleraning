@@ -1,5 +1,8 @@
 {
     "version":  1,
+    "campaign_flags":  {
+                           "research_disclosed":  "ysabel_account"
+                       },
     "facts":  {
                     "ines_identity": "Inés Vargas, llamada la Urraca, es contrabandista y creció cerca de los muelles de Cárdena.",
   "ines_contract": "Inés recibió un encargo para recuperar el cuaderno de Tomás. El contratante se presentó como estudioso; el pago procede de los impresores autorizados.",
