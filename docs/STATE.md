@@ -786,3 +786,18 @@ incorrectly tried to put a soul component over worn boots; corrected the test se
 and reran. Existing shutdown leak/resource diagnostics persist.
 Acquisition and equipment controls remain the next task; knight-specific specials
 and balance are not yet integrated or playtested.
+## Artifact market purchases and save v10
+
+The artifact-market building now sells sixty common/uncommon catalog variants across
+all thirty equipment types. Each settlement has one copy of each offer. Requests,
+full-price comprehension and confirmation use the current Spanish tier; only the final
+validated stage deducts gold and creates an owned backpack instance. Quest components
+and soul assemblies cannot be purchased. Funds/capacity are rechecked at confirmation.
+A permanent sale ledger links stock to actual item identities even after transfer;
+save v10 validates it and migrates earlier economic saves with an empty ledger.
+
+Executed 19 artifact-market scene checks headless and OpenGL, 55 economy-model,
+20 economy-scene, 527 save/load and 285 equipment-integration checks: passed.
+Reviewed the market screenshot; switching offers now also clears stale feedback.
+Existing shutdown diagnostics persist. Equipment controls are being connected next;
+optional quest rewards and knight interventions remain incomplete.

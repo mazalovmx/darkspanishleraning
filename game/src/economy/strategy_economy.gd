@@ -3,6 +3,8 @@ extends RefCounted
 var catalog: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/economy/strategy.json"))
 var buildings: Dictionary = {}
 var recruited: Dictionary = {}
+var artifact_sales: Dictionary = {}
+var artifact_offers: Dictionary = {}
 var mines: Dictionary = {}
 var receipts: Array = []
 var purchase_count := 0
@@ -11,8 +13,19 @@ var pending: Dictionary = {}
 var phase := "request"
 const TIERS := ["basic","past","plans","argument"]
 
+func _init() -> void:
+	var labels := {"army_attack":"Ataque","army_defense":"Defensa","army_hp_percent":"Salud (%)","army_initiative":"Iniciativa","army_luck":"Suerte","army_morale":"Moral","world_movement":"Movimiento","ranged_damage_percent":"Daño a distancia (%)"}
+	var equipment: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/scenario/equipment.json"))
+	for item: Dictionary in equipment.items:
+		if item.source.kind == "merchant":
+			var details: PackedStringArray = [str(item.lore)]
+			for effect: Dictionary in item.effects:
+				details.append("%s: +%d" % [labels[effect.effect],effect.amount])
+			artifact_offers[item.id] = {"name":item.name,"cost":{"gold":int(item.price_gold)},
+				"building":"artifact_market","description":"\n".join(details)}
+
 func offer(kind: String, id: String) -> Dictionary:
-	var collection: Dictionary = catalog.buildings if kind == "build" else catalog.recruits if kind == "recruit" else catalog.upgrades if kind == "upgrade" else {}
+	var collection: Dictionary = catalog.buildings if kind == "build" else catalog.recruits if kind == "recruit" else catalog.upgrades if kind == "upgrade" else artifact_offers if kind == "artifact" else {}
 	if not collection.has(id):
 		return {}
 	var result: Dictionary = collection[id].duplicate(true)
@@ -58,6 +71,9 @@ func models(kind: String, id: String, quantity: int, tier := "basic", legacy := 
 			target = "%d %s en %s" % [quantity,"miliciano" if quantity == 1 else "milicianos",definition.singular if quantity == 1 else definition.name]
 		elif kind == "recruit" and quantity == 1:
 			target = "1 " + str(definition.singular)
+	if kind == "artifact":
+		verb = "comprar"
+		target = "el artículo «%s»" % definition.name
 	var total := cost_text(cost(kind,id,quantity),legacy)
 	var confirmation_target := target
 	if not legacy and kind == "build":
@@ -147,7 +163,12 @@ func reason(world: RefCounted, kind: String, id: String, quantity: int) -> Strin
 			return "Construye primero el edificio de este servicio."
 		if kind == "recruit" and stock(location,id,world.day) < quantity:
 			return "No quedan suficientes tropas esta semana."
-		if _army_after(world,kind,id,quantity).is_empty():
+		if kind == "artifact":
+			if quantity != 1 or artifact_sales.get(location,{}).has(id):
+				return "Solo hay una pieza de este artículo por mercado."
+			if not world.equipment.can_grant(id,world.party.active_id):
+				return "No queda espacio para otra pieza."
+		elif _army_after(world,kind,id,quantity).is_empty():
 			return "Revisa las tropas disponibles y los siete espacios del ejército."
 	for resource in definition.cost:
 		if int(world.resources[resource]) < int(definition.cost[resource]) * quantity:
@@ -182,6 +203,11 @@ func submit(world: RefCounted, kind: String, id: String, quantity: int, message:
 		if not buildings.has(location):
 			buildings[location] = {}
 		buildings[location][id] = world.day
+	elif kind == "artifact":
+		var instance: String = world.equipment.grant(id,world.party.active_id)
+		if not artifact_sales.has(location):
+			artifact_sales[location] = {}
+		artifact_sales[location][id] = {"instance":instance,"day":world.day,"hero":world.party.active_id}
 	else:
 		world.army = _army_after(world,kind,id,quantity)
 		if kind == "recruit":
@@ -245,7 +271,7 @@ func advance_day(world: RefCounted) -> Dictionary:
 	return income
 
 func snapshot() -> Dictionary:
-	return {"buildings":buildings.duplicate(true),"recruited":recruited.duplicate(true),
+	return {"artifact_sales":artifact_sales.duplicate(true),"buildings":buildings.duplicate(true),"recruited":recruited.duplicate(true),
 		"mines":mines.duplicate(true),"receipts":receipts.duplicate(true),
 		"purchase_count":purchase_count,"last_income_day":last_income_day}
 
@@ -253,7 +279,7 @@ func _integer(value: Variant, low: int, high: int) -> bool:
 	return (value is int or value is float) and is_finite(value) and value == floor(value) and value >= low and value <= high
 
 func restore(data: Variant, world: RefCounted) -> bool:
-	if not data is Dictionary or data.size() != 6:
+	if not data is Dictionary or data.size() != 7 or not data.get("artifact_sales") is Dictionary:
 		return false
 	if not data.get("buildings") is Dictionary or not data.get("recruited") is Dictionary or not data.get("mines") is Dictionary:
 		return false
@@ -297,9 +323,30 @@ func restore(data: Variant, world: RefCounted) -> bool:
 			return false
 		if entry.guarded and (world.encounters.get(id,{}).get("outcome","") != "victory" or world.encounters[id].day > record.day):
 			return false
+	var sold_instances := {}
+	for location in data.artifact_sales:
+		if location not in catalog.towns or not data.artifact_sales[location] is Dictionary:
+			return false
+		var built: int = int(data.buildings.get(location,{}).get("artifact_market",0))
+		for id in data.artifact_sales[location]:
+			var sale: Variant = data.artifact_sales[location][id]
+			if not artifact_offers.has(id) or not sale is Dictionary or sale.size() != 3 or built < 1:
+				return false
+			if not _integer(sale.get("day"),built,world.day) or sale.get("hero") not in world.party.heroes:
+				return false
+			if not world.party.heroes[sale.hero].unlocked or not sale.get("instance") is String:
+				return false
+			if sold_instances.has(sale.instance) or not world.equipment.instances.has(sale.instance):
+				return false
+			if world.equipment.instances[sale.instance].item != id:
+				return false
+			sold_instances[sale.instance] = true
+	if sold_instances.size() > data.purchase_count:
+		return false
 	var previous := 0
 	var recent_recruits := {}
 	var construction_receipts := {}
+	var sale_receipts := {}
 	for receipt in data.receipts:
 		if not receipt is Dictionary or receipt.size() != 10 or not receipt.get("kind") is String or not receipt.get("id") is String:
 			return false
@@ -323,6 +370,14 @@ func restore(data: Variant, world: RefCounted) -> bool:
 			recent_recruits[key] = int(recent_recruits.get(key,0)) + int(receipt.quantity)
 			if int(data.recruited.get(receipt.location,{}).get(receipt.id,0)) < recent_recruits[key]:
 				return false
+		if receipt.kind == "artifact":
+			var key: String = receipt.location + "/" + receipt.id
+			var sale: Dictionary = data.artifact_sales.get(receipt.location,{}).get(receipt.id,{})
+			if receipt.quantity != 1 or sale.is_empty() or sale_receipts.has(key):
+				return false
+			if sale.day != receipt.day or sale.hero != receipt.hero:
+				return false
+			sale_receipts[key] = true
 		var valid_language := false
 		for legacy in [false,true]:
 			var expected := models(receipt.kind,receipt.id,int(receipt.quantity),receipt.tier,legacy)
@@ -333,8 +388,11 @@ func restore(data: Variant, world: RefCounted) -> bool:
 			valid_language = valid_language or all_stages
 		if not valid_language:
 			return false
-	if world.map_id != "province_160x120_v1" and (not data.buildings.is_empty() or not data.recruited.is_empty() or not data.mines.is_empty() or data.purchase_count != 0):
+	if data.purchase_count <= 100 and sale_receipts.size() != sold_instances.size():
 		return false
+	if world.map_id != "province_160x120_v1" and (not data.buildings.is_empty() or not data.recruited.is_empty() or not data.mines.is_empty() or not data.artifact_sales.is_empty() or data.purchase_count != 0):
+		return false
+	artifact_sales = data.artifact_sales.duplicate(true)
 	buildings = data.buildings.duplicate(true)
 	recruited = data.recruited.duplicate(true)
 	mines = data.mines.duplicate(true)

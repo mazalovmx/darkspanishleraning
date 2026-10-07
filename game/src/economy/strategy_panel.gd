@@ -41,7 +41,7 @@ func _ready() -> void:
 	box.add_child(offers)
 	entries.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	entries.clip_text = true
-	entries.item_selected.connect(func(_index: int): world_state.economy.cancel(); refresh())
+	entries.item_selected.connect(func(_index: int): world_state.economy.cancel(); feedback.text = ""; refresh())
 	offers.add_child(entries)
 	quantity.min_value = 1
 	quantity.max_value = 20
@@ -79,10 +79,10 @@ func open_site(state: RefCounted, id := "") -> void:
 	feedback.text = ""
 	entries.clear()
 	if site_id.is_empty():
-		for kind: String in ["build","recruit","upgrade"]:
-			var collection: Dictionary = state.economy.catalog.buildings if kind == "build" else state.economy.catalog.recruits if kind == "recruit" else state.economy.catalog.upgrades
+		for kind: String in ["build","recruit","upgrade","artifact"]:
+			var collection: Dictionary = state.economy.catalog.buildings if kind == "build" else state.economy.catalog.recruits if kind == "recruit" else state.economy.catalog.upgrades if kind == "upgrade" else state.economy.artifact_offers
 			for item: String in collection:
-				var verb: String = {"build":"Construir","recruit":"Contratar","upgrade":"Mejorar"}[kind]
+				var verb: String = {"build":"Construir","recruit":"Contratar","upgrade":"Mejorar","artifact":"Comprar"}[kind]
 				entries.add_item(verb + " · " + str(collection[item].name))
 				entries.set_item_metadata(entries.item_count - 1,{"kind":kind,"id":item})
 	refresh()
@@ -118,15 +118,17 @@ func refresh() -> void:
 	title.text = "ASENTAMIENTO · " + str(world_state.location_at(world_state.hero_cell).get("name",""))
 	var selected: Dictionary = entries.get_selected_metadata()
 	var definition: Dictionary = economy.offer(selected.kind,selected.id)
-	if selected.kind == "build":
+	if selected.kind in ["build","artifact"]:
 		quantity.set_value_no_signal(1)
-	quantity.editable = selected.kind != "build" and economy.pending.is_empty()
+	quantity.editable = selected.kind not in ["build","artifact"] and economy.pending.is_empty()
 	entries.disabled = not economy.pending.is_empty()
 	var amount := int(quantity.value)
 	var denied: String = economy.reason(world_state,selected.kind,selected.id,amount)
 	description.text = str(definition.get("description",""))
 	if selected.kind == "recruit":
 		description.text = "Disponibles esta semana: %d.\nCada ejército tiene un máximo de siete destacamentos." % economy.stock(world_state.location_at(world_state.hero_cell).id,selected.id,world_state.day)
+	elif selected.kind == "artifact":
+		description.text += "\n\nUna pieza por mercado. La compra se guarda en la mochila del héroe activo."
 	elif selected.kind == "upgrade":
 		description.text = "La mejora conserva el número de soldados y ocupa un destacamento del nuevo tipo."
 	description.text += "\n\nCoste: " + economy.cost_text(economy.cost(selected.kind,selected.id,amount))

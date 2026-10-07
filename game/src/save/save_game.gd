@@ -3,7 +3,7 @@ extends RefCounted
 const WorldState = preload("res://src/world/world_state.gd")
 const Learner = preload("res://src/spanish/learner_profile.gd")
 const PATH := "user://savegame.json"
-const VERSION := 9
+const VERSION := 10
 const MAP_ID := "prototype_20x20_v1"
 const MAX_BYTES := 1048576
 
@@ -178,7 +178,11 @@ static func decode(data: Variant) -> Dictionary:
 			if state.party.heroes[id].movement_remaining > int(state.party.heroes[id].definition.movement_max) + int(state.equipment.bonuses(id).world_movement):
 				return {"error": "invalid"}
 	if data.version >= 8:
-		if not state.economy.restore(data.strategy.get("economy"), state):
+		var economic_data: Variant = data.strategy.get("economy")
+		if data.version < 10 and economic_data is Dictionary and economic_data.size() == 6 and not economic_data.has("artifact_sales"):
+			economic_data = economic_data.duplicate(true)
+			economic_data["artifact_sales"] = {}
+		if not state.economy.restore(economic_data, state):
 			return {"error": "invalid"}
 	else:
 		state.economy.last_income_day = state.day
