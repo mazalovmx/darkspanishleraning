@@ -134,7 +134,8 @@ its own multi-session plan and scenario-bible review per NPC.
 
 ## P2 - Strategic layer
 
-- Supplies and hero health have no effect on play.
+- Supplies and health act on the province map: bread and water on the road, rest,
+  bandages, horse feed, weakness below half health. Lamp oil still has no effect.
 - Map treasures exist (`treasures.json`): 30 caches hold the 90 optional_treasure
   items; six bandit-guarded caches of relics stand in the Marjal Negro ruins.
 - Owned mines cannot be contested (section 12).

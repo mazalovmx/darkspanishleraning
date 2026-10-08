@@ -720,8 +720,9 @@ func _refresh() -> void:
 	for id in hero_buttons:
 		hero_buttons[id].set_pressed_no_signal(id == state.party.active_id)
 		hero_buttons[id].disabled = not state.party.heroes[id].unlocked
+		hero_buttons[id].tooltip_text = "%s — %s · Salud: %d" % [state.party.heroes[id].definition.name, state.party.heroes[id].definition.role, state.party.heroes[id].health]
 	end_button.text = "Resolver órdenes" if state.map_id == "province_160x120_v1" else "Terminar turno"
-	status.text = "%s · Día %d\nMovimiento: %d / %d\n%s" % [state.party.active().definition.short_name, state.day,
+	status.text = "%s · Día %d · Salud %d\nMovimiento: %d / %d\n%s" % [state.party.active().definition.short_name, state.day, state.party.active().health,
 		state.movement_remaining, state.MOVEMENT_MAX + int(state.equipment.bonuses(state.party.active_id).world_movement),
 		"Órdenes congeladas:\nresuelve el día primero" if state.ghosts.plan != null else "Héroe seleccionado" if selected else "Selecciona al héroe"]
 	queue_redraw()

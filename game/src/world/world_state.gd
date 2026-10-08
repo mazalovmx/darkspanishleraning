@@ -208,15 +208,54 @@ func end_turn() -> void:
 			party.select(ghosts.pending_encounter.hero)
 			trade.inventory = party.active().inventory
 		_reveal_from(hero_cell)
+	var travelled := {}
+	for id in party.heroes:
+		var hero = party.heroes[id]
+		travelled[id] = hero.unlocked and hero.movement_remaining < int(hero.definition.movement_max) + int(equipment.bonuses(id).world_movement)
 	day += 1
 	party.end_day()
 	for id in party.heroes:
 		party.heroes[id].movement_remaining += int(equipment.bonuses(id).world_movement)
+	if map_id == "province_160x120_v1":
+		_use_supplies(travelled)
 	economy.advance_day(self)
 	if not ghosts.pending_encounter.is_empty() and army.is_empty():
 		encounters[ghosts.pending_encounter.knight] = {"outcome":"defeat","day":day}
 		_retreat_from_ghost()
 		turn_notice = "Sin escolta, el héroe cede el paso y pierde su movimiento de hoy."
+
+## Optional supplies (master spec 12): a travelling hero eats bread and drinks water or
+## loses health; resting heals; bandages treat; horse feed adds two points; below half
+## health the hero moves a quarter less. Lamp oil has no effect yet.
+func _use_supplies(travelled: Dictionary) -> void:
+	var notes: PackedStringArray = []
+	for id: String in party.heroes:
+		var hero = party.heroes[id]
+		if not hero.unlocked:
+			continue
+		var name: String = str(hero.definition.short_name)
+		var ceiling: int = int(hero.definition.movement_max) + int(equipment.catalog.effects.world_movement.cap)
+		if travelled.get(id, false):
+			for item in ["bread", "water"]:
+				if int(hero.inventory.get(item, 0)) > 0:
+					hero.inventory[item] -= 1
+				else:
+					hero.health = maxi(30, hero.health - 5)
+					notes.append("%s viaja sin %s y pierde salud." % [name, "pan" if item == "bread" else "agua"])
+			if int(hero.inventory.get("horse_feed", 0)) > 0:
+				hero.inventory.horse_feed -= 1
+				hero.movement_remaining = mini(ceiling, hero.movement_remaining + 2)
+		else:
+			hero.health = mini(100, hero.health + 5)
+		if hero.health <= 70 and int(hero.inventory.get("medicine", 0)) > 0:
+			hero.inventory.medicine -= 1
+			hero.health = mini(100, hero.health + 25)
+			notes.append("%s usa una venda." % name)
+		if hero.health < 50:
+			hero.movement_remaining = maxi(1, hero.movement_remaining - int(hero.definition.movement_max) / 4)
+			notes.append("%s está débil y avanza menos." % name)
+	if not notes.is_empty():
+		turn_notice = (turn_notice + " " if not turn_notice.is_empty() else "") + " ".join(notes)
 
 func begin_encounter(id: String) -> bool:
 	var is_ghost: bool = ghosts.definitions.has(id)

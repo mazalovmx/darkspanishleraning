@@ -1942,3 +1942,20 @@ has battle stats; 79 checks).
 
 Executed for this commit: the full non-live run, 51 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Supplies and hero health affect play (province map)
+
+`world_state._use_supplies`, run at the end of each day on the province map for every
+unlocked hero, using that hero's own inventory: a hero who travelled that day eats one
+bread and drinks one water, losing 5 health for each that is missing (not below 30);
+a hero who did not travel heals 5; a hero at 70 health or less uses one bandage (+25);
+a travelling hero with horse feed uses one and starts the next day with two more
+points (never above the equipment cap); below 50 health the hero starts the day with a
+quarter fewer points. The day notice says what happened. Health now shows in the HUD
+and the hero buttons' tooltips. Lamp oil still has no effect. The prototype map keeps
+its old rules. No save change (health and inventories were already saved).
+
+Tests: new supplies_test (8 checks).
+
+Executed for this commit: the full non-live run, 52 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
