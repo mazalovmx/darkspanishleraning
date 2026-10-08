@@ -2604,3 +2604,25 @@ Executed for this commit: the full non-live run, 59 suites, all exit 0 with
 
 Executed for this commit: the full non-live run, 60 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Pulled implementation and verified on Windows (2026-10-08)
+
+Fast-forwarded implementation from fb8d366 to origin/implementation f819440.
+Godot 4.6.2's first editor import reported stale cached loaders/savers for the
+removed Dialogic addon; the import refreshed the cache, and a second editor import
+exited 0 without errors. No source changes were needed.
+
+Executed tools/run-tests.ps1: 60 non-live suites plus fresh-process save write/read,
+62 runs total, 58,350 counted checks, zero failures, exit 0. This includes the new
+survival dialogue suite (74 checks), soul specials (11), performance (19) and
+save/load (540). Executed title_menu_test.gd with Windows OpenGL Compatibility on
+AMD Radeon Vega 8, accessibility disabled: 7 checks, zero failures, exit 0. This
+fixture initializes the title/menu, settings and province map; it was launched
+hidden and was not a visual review or an interactive playthrough. No live API call
+was made.
+
+Both root/docs specification pairs match by SHA-256. The pulled diff's whitespace
+check reports trailing whitespace in authored.json and the third-party Kenney
+Board Game Icons licence; those upstream files were not edited. Existing CanvasItem,
+ObjectDB and resources-in-use shutdown diagnostics remain in test logs. Logs are
+local under tools/local/test-logs and tools/local/pull-*. No release export tested.
