@@ -266,8 +266,20 @@ func _language_feedback(language: Dictionary) -> String:
 	if language.confidence < 0.7:
 		return "Evaluación incierta; no cambia tu progreso. Puedes continuar."
 	var lines: Array[String] = ["Sentido comprendido ✓" if language.meaning_understood else "El sentido no está claro. Prueba a reformularlo."]
-	for error: Dictionary in language.errors.slice(0, 2):
+	var course = world_state.learner.curriculum if world_state != null else null
+	# Tildes, ü and apostrophes count only in the last block (master spec 1.3).
+	var strict: bool = course == null or course.is_last_block(course.index())
+	var shown := 0
+	for error: Dictionary in language.errors:
+		if shown >= 2:
+			break
+		if not strict and course.fold(str(error.original)) == course.fold(str(error.better)):
+			continue
 		lines.append("Mejor: %s → %s" % [_short(error.original), _short(error.better)])
+		var why: String = course.explain(str(error.get("type", ""))) if course != null else ""
+		if not why.is_empty():
+			lines.append("   " + why)
+		shown += 1
 	return "\n".join(lines)
 
 func _short(text: String) -> String:

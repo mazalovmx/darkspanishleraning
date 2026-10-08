@@ -193,7 +193,7 @@ func _on_review(language: Dictionary) -> void:
 	if not visible or reviewed_id.is_empty() or not world_state.campaign.records.has(reviewed_id):
 		return
 	var strict: bool = world_state.learner.curriculum.is_last_block(int(world_state.campaign.definitions[reviewed_id].min_block))
-	var text: String = reviewer.review_text(language,strict)
+	var text: String = reviewer.review_text(language,strict,world_state.learner.curriculum)
 	reviewed_id = ""
 	if not text.is_empty():
 		feedback.text += "\n" + text

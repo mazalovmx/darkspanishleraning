@@ -139,6 +139,39 @@ func submit(id: String, message: String, day: int) -> Dictionary:
 		record[task.stage] = {"day": day, "answer": message.strip_edges()}
 	return {"ok": true, "message": "Práctica registrada. " + ("Ahora usa la forma sin copiar el modelo." if task.stage == "guided" else "La siguiente tarea cambia el contexto.")}
 
+## Spanish names of the grammar tags (feedback, progress screen).
+const TAG_NAMES := {"ser_estar": "ser / estar", "hay": "hay", "gender_articles": "género y artículos",
+	"present": "presente", "preterite": "pretérito indefinido", "imperfect": "imperfecto",
+	"preterite_vs_imperfect": "pretérito frente a imperfecto", "object_pronouns": "pronombres de objeto",
+	"gustar": "gustar", "por_para": "por / para", "se": "se impersonal", "reflexive": "verbos reflexivos",
+	"relative_clauses": "oraciones de relativo", "imperative": "imperativo", "ir_a_future": "ir a + infinitivo",
+	"future_simple": "futuro simple", "perfect": "pretérito perfecto", "conditional": "condicional",
+	"subjunctive_basic": "subjuntivo", "reported_speech": "estilo indirecto"}
+
+static func tag_name(tag: String) -> String:
+	if tag.begins_with("verb:"):
+		return "verbo " + tag.trim_prefix("verb:")
+	return str(TAG_NAMES.get(tag, tag.replace("_", " ")))
+
+## Feedback line for a grammar tag (section 29): its name and the first clause of the
+## first lesson that teaches it; empty for a tag the course does not know. "a|b" explains
+## the first tag it knows.
+func explain(tag: String) -> String:
+	if tag.contains("|"):
+		for part in tag.split("|", false):
+			var found := explain(part)
+			if not found.is_empty():
+				return found
+		return ""
+	if not TAG_NAMES.has(tag):
+		return ""
+	for block: Dictionary in blocks:
+		for card: Dictionary in block.cards:
+			if card.tag == tag:
+				var clause: String = str(card.rule).get_slice(";", 0).get_slice(". ", 0).strip_edges()
+				return "%s · %s" % [TAG_NAMES[tag], clause if clause.length() <= 110 else clause.left(107) + "…"]
+	return str(TAG_NAMES[tag])
+
 ## A lesson's state for the progress screen.
 func card_status(id: String) -> String:
 	if not records.has(id):

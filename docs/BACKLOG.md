@@ -101,8 +101,9 @@ its own multi-session plan and scenario-bible review per NPC.
   (water, room, road safety, stable, complaint, permission).
 - Learner features: the lessons panel has a "Progreso y repaso" tab (block progress,
   most frequent errors by Spanish name with an example, review of studied lessons with
-  no credit). Still missing: vocabulary practice, explanatory error tags in feedback
-  (section 29), `mastery_after` in error memory (section 28). No placement; everyone
+  no credit). Corrections in conversation and campaign reviews name their grammar and
+  the lesson rule (section 29). Still missing: vocabulary practice, `mastery_after` in
+  error memory (section 28). No placement; everyone
   starts at block 1.
 - Claude client: bounded retry delay, non-retryable client errors, whole-response
   fenced JSON and failed/offline focus rollback are implemented. Still missing:

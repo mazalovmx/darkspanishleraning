@@ -24,6 +24,9 @@ func run() -> void:
 	check(course.review_check(first.id, 0, first.exercises[0].answers[0]), "Review accepts an authored answer")
 	check(not course.review_check(first.id, 1, "Hola."), "Review rejects an unrelated answer")
 	check(JSON.stringify(course.snapshot()) == before, "Review gives no credit")
+	check(course.explain("preterite").begins_with("pretérito indefinido · Pretérito"), "Explanation names the grammar and the lesson rule")
+	check(course.explain("invented|ser_estar").begins_with("ser / estar · "), "Combined tags use the first known one")
+	check(course.explain("invented").is_empty(), "Unknown tags get no explanation")
 	state.learner.errors["ser_estar"] = {"count": 3, "last_seen_day": 2, "examples": ["El abad está médico."]}
 	var panel = load("res://src/spanish/curriculum_panel.gd").new()
 	root.add_child(panel)

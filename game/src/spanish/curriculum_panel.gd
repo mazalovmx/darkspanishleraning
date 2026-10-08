@@ -22,18 +22,8 @@ var review_check := Button.new()
 var review_next := Button.new()
 var review_feedback := Label.new()
 var review_exercise := 0
-const TAG_NAMES := {"ser_estar": "ser / estar", "hay": "hay", "gender_articles": "género y artículos",
-	"present": "presente", "preterite": "pretérito indefinido", "imperfect": "imperfecto",
-	"preterite_vs_imperfect": "pretérito frente a imperfecto", "object_pronouns": "pronombres de objeto",
-	"gustar": "gustar", "por_para": "por / para", "se": "se impersonal", "reflexive": "verbos reflexivos",
-	"relative_clauses": "oraciones de relativo", "imperative": "imperativo", "ir_a_future": "ir a + infinitivo",
-	"future_simple": "futuro simple", "perfect": "pretérito perfecto", "conditional": "condicional",
-	"subjunctive_basic": "subjuntivo", "reported_speech": "estilo indirecto"}
-
 static func tag_name(tag: String) -> String:
-	if tag.begins_with("verb:"):
-		return "verbo " + tag.trim_prefix("verb:")
-	return str(TAG_NAMES.get(tag, tag.replace("_", " ")))
+	return preload("res://src/spanish/curriculum.gd").tag_name(tag)
 func _ready() -> void:
 	color = Color(0, 0, 0, 0.85)
 	z_index = 26

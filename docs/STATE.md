@@ -2346,3 +2346,19 @@ tabs fit at 1280×720 after moving the panel up.
 
 Executed for this commit: the full non-live run, 55 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Corrections explain their grammar (section 29)
+
+Each "Mejor: X → Y" line in conversation feedback and in the campaign review now has a
+second line with the grammar's Spanish name and the first clause of the lesson that
+teaches it (`curriculum.explain`; a combined type such as "present|verb:tener" uses the
+first tag the course knows; unknown tags add nothing). The tag names moved from the
+lessons panel to `curriculum.gd` (`TAG_NAMES`, `tag_name`).
+Fix found on the way: conversation feedback showed accent-only corrections ("Tomas →
+Tomás") outside the last block; it now drops them like the campaign review does, so
+the orthography rule of master spec 1.3 holds in both places.
+Tests: spanish_feedback_test (explanation lines, accent-only correction hidden),
+learner_progress_test (explain with known, combined and unknown tags).
+
+Executed for this commit: the full non-live run, 55 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

@@ -283,13 +283,17 @@ static func _review(envelope: Dictionary) -> Dictionary:
 	return data if not data.is_empty() and valid_language(data) else {}
 
 ## Feedback lines for a review; outside the last block marks-only corrections are dropped.
-static func review_text(language: Dictionary, orthography_counts: bool) -> String:
+## With a course, each correction also names its grammar and rule (section 29).
+static func review_text(language: Dictionary, orthography_counts: bool, course: RefCounted = null) -> String:
 	if language.is_empty() or language.confidence < 0.7:
 		return ""
 	var lines: Array[String] = []
 	for error: Dictionary in language.errors:
 		if orthography_counts or Curriculum.fold(error.original) != Curriculum.fold(error.better):
 			lines.append("Mejor: %s → %s" % [str(error.original).left(60), str(error.better).left(60)])
+			var why: String = course.explain(str(error.get("type", ""))) if course != null else ""
+			if not why.is_empty():
+				lines.append("   " + why)
 	return "Revisión de español: sin correcciones." if lines.is_empty() else "Revisión de español:\n" + "\n".join(lines)
 
 # Surrounding whitespace and one whole-text markdown fence are tolerated; prose is not.

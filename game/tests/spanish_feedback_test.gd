@@ -76,6 +76,18 @@ func run() -> void:
 	panel._on_reply(proposal(language))
 	check(panel.feedback.text.contains("Sentido comprendido"), "Meaning shown separately from NPC")
 	check(panel.feedback.text.count("Mejor:") == 2, "Two corrections shown")
+	check(panel.feedback.text.contains("presente · ") and panel.feedback.text.contains("género y artículos · "), "Each correction names its grammar and rule (section 29)")
+	panel.pending_location = "LOC11"
+	panel.pending_message = "Tomas tiene pan"
+	panel.pending_day = 3
+	var marks := evaluation()
+	marks.errors = [{"type": "present", "original": "Tomas", "better": "Tomás", "severity": "minor"}]
+	panel._on_reply(proposal(marks))
+	check(not panel.feedback.text.contains("Mejor:"), "Accent-only corrections are not shown outside the last block")
+	panel.pending_location = "LOC11"
+	panel.pending_message = "Yo tiene pan"
+	panel.pending_day = 3
+	panel._on_reply(proposal(language))
 	check(panel.transcript.text.contains("¿Tiene pan?"), "NPC recast preserved")
 	check(map.state.learner.errors.has("verb:tener"), "UI updates canonical learner state")
 	var saved: String = panel.feedback.text
