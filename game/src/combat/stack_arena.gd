@@ -81,6 +81,7 @@ func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	field.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	field.hex_clicked.connect(_on_hex)
+	field.hex_hovered.connect(_on_hover)
 	field.describe = _describe
 	field.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	add_child(field)
@@ -305,13 +306,30 @@ func _on_hex(cell: Vector2i, point: Vector2) -> void:
 	var who: int = battle.occupant(cell)
 	if who >= 0 and battle.stacks[who].side == 1:
 		selected_target = who
-		var side := Battle.NOWHERE
-		for around in Battle.neighbors(cell):
-			if side == Battle.NOWHERE or point.distance_to(field.center_of(around)) < point.distance_to(field.center_of(side)):
-				side = around
-		command("attack", side)
+		field.strike_from = Battle.NOWHERE
+		command("attack", _side_toward(cell, point))
 	elif who == -1 and cell != battle.stacks[actor].cell and battle.reachable(actor).has(cell):
 		command("move", cell)
+
+## Over an enemy, light the hex the acting stack would strike from (melee only).
+func _on_hover(cell: Vector2i) -> void:
+	field.strike_from = Battle.NOWHERE
+	var actor: int = battle.current()
+	var who: int = battle.occupant(cell) if cell != Battle.NOWHERE else -1
+	if actor < 0 or who < 0 or battle.stacks[who].side != 1 or not battle.outcome.is_empty():
+		return
+	if battle.data.units[battle.stacks[actor].type].ranged and battle._adjacent_enemies(actor).is_empty():
+		return
+	var from: Vector2i = battle.attack_cell(actor, who, _side_toward(cell, field.get_local_mouse_position()))
+	if from != battle.stacks[actor].cell:
+		field.strike_from = from
+
+func _side_toward(cell: Vector2i, point: Vector2) -> Vector2i:
+	var side := Battle.NOWHERE
+	for around in Battle.neighbors(cell):
+		if side == Battle.NOWHERE or point.distance_to(field.center_of(around)) < point.distance_to(field.center_of(side)):
+			side = around
+	return side
 
 func _describe(cell: Vector2i) -> String:
 	var i: int = battle.occupant(cell)

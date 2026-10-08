@@ -2275,3 +2275,11 @@ a human.
 
 Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+Follow-up: hovering an enemy that a melee stack (or a blocked shooter) can reach lights
+the hex it would strike from, following the mouse inside the enemy's hex; a click
+strikes from that hex. stack_battle_test checks the lit hex is next to the enemy and
+reachable, and that nothing is lit away from enemies (82 checks).
+
+Executed for this commit: the full non-live run, 54 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

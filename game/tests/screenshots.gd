@@ -131,6 +131,17 @@ func run() -> void:
 	await shot("07d_arena_walk")
 	await create_timer(3.0).timeout
 	await shot("07e_arena_after")
+	# Hover over the enemy: the hex the acting stack would strike from lights up.
+	for i in map.arena.battle.stacks.size():
+		if map.arena.battle.stacks[i].side == 1 and map.arena.battle.count_at(i) > 0:
+			var enemy_cell: Vector2i = map.arena.battle.stacks[i].cell
+			Input.warp_mouse(map.arena.field.center_of(enemy_cell) + Vector2(-30, 0))
+			await process_frame
+			map.arena._on_hover(enemy_cell)
+			map.arena.field.hovered = enemy_cell
+			map.arena.field.queue_redraw()
+			break
+	await shot("07f_arena_hover")
 	map.arena.retreat_button.pressed.emit()
 	await create_timer(0.5).timeout
 	await shot("07c_arena_result")

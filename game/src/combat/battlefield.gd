@@ -28,6 +28,8 @@ var terrain := "grass"
 var obstacles: Array[Vector2i] = []
 var reachable: Array = []
 var hovered := Battle.NOWHERE
+## Hex the acting stack would strike from when the mouse is over an enemy.
+var strike_from := Battle.NOWHERE
 ## Text for the tooltip over a hex (the arena describes stacks); empty for none.
 var describe: Callable
 var seed_value := 1
@@ -43,8 +45,9 @@ func _gui_input(event: InputEvent) -> void:
 		var cell := cell_at(event.position)
 		if cell != hovered:
 			hovered = cell
-			hex_hovered.emit(cell)
-			queue_redraw()
+		# Emitted on every motion: the side to strike from follows the mouse inside a hex.
+		hex_hovered.emit(cell)
+		queue_redraw()
 	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		var cell := cell_at(event.position)
 		if cell != Battle.NOWHERE:
@@ -155,6 +158,10 @@ func _draw() -> void:
 		draw_polyline(points, Color(1.0, 0.9, 0.5, 0.55), 1.5)
 	if hovered != Battle.NOWHERE and hovered not in obstacles:
 		draw_polyline(hex_points(center_of(hovered), hex), Color(1, 1, 1, 0.85), 2.5)
+	if strike_from != Battle.NOWHERE:
+		var from := hex_points(center_of(strike_from), hex)
+		draw_colored_polygon(from.slice(0, 6), Color(0.9, 0.25, 0.15, 0.25))
+		draw_polyline(from, Color("ff7a5c"), 2.5)
 	# Rocks (or trees) that block hexes.
 	for cell in obstacles:
 		var piece := _texture(ENV % int(OBSTACLE.get(terrain, [9, 4])[(cell.x + cell.y) % 2]))

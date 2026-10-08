@@ -136,6 +136,16 @@ func run() -> void:
 	arena.finish_button.pressed.emit()
 	arena.finish_button.pressed.emit()
 	check(emitted.size() == 1 and emitted[0][0] == "retreated", "Result emitted exactly once")
+	# Hovering an enemy in reach lights the hex the acting melee stack would strike from.
+	arena.launch([{"type":"militia","count":10}], [{"type":"enforcer","count":10}], 4, "Prueba")
+	arena.battle.obstacles.clear()
+	arena.battle.stacks[0].cell = Vector2i(3, 3)
+	arena.battle.stacks[1].cell = Vector2i(6, 3)
+	arena._layout()
+	arena._on_hover(Vector2i(6, 3))
+	check(Battle.distance(arena.field.strike_from, Vector2i(6, 3)) == 1 and arena.battle.reachable(0).has(arena.field.strike_from), "Hover shows the hex to strike from")
+	arena._on_hover(Vector2i(0, 0))
+	check(arena.field.strike_from == Battle.NOWHERE, "No strike hex away from enemies")
 	arena.launch(battle.data.starting_army, battle.data.opening.enemies, 123, "Salteadores del camino")
 	if DisplayServer.get_name() != "headless":
 		await process_frame
