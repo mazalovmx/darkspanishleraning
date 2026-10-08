@@ -2624,3 +2624,21 @@ Executed for this commit: the full non-live run, 60 suites, all exit 0 with
 Executed for this commit (Linux, headless Godot 4.6.2 official build, cloud session;
 not on the Windows machine): the full non-live run, 60 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Saving never ends a session on its own
+
+- `world_map._save_game` returns whether the session is on disk. "Menú principal"
+  leaves only after a successful save; otherwise a dialog offers "Salir sin guardar" or
+  "Seguir jugando". Before, a failed save still left for the menu and the session was lost.
+- "Nueva partida" starts only when the copy of the old save (`.bak`) was written; if it
+  fails, the current game stays and the notice says so. Before, a failed copy was ignored
+  and the old save was replaced.
+- Loading a save with a reopened council decision shows the reason (see the previous
+  entry) and keeps a copy of the old file.
+- Tests: save_warning_test (menu after a failed save keeps the game and asks; new game
+  without the backup copy keeps the old game; with it the new game starts). With the old
+  map the menu check fails (the map leaves the tree).
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS. The dialog was not rendered in a window.
