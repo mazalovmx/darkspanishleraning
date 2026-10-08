@@ -2692,3 +2692,20 @@ write/read PASS. Not rendered in a window.
 Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
 run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
 write/read PASS.
+
+## A late language review stays with its own conclusion
+
+- The journal's optional review of an accepted conclusion was matched only by card id:
+  after another submission its corrections were appended under the other task's line,
+  and a review could land in another loaded game with the same card recorded.
+- `campaign_panel.review` now keeps the card, the game (world state), the recorded
+  sentence and the feedback line it belongs to. A review for another game or another
+  sentence is dropped. If the feedback line has moved on (another submission, the hint,
+  another card, reopening the journal), the correction is kept beside its record and
+  shown with that card's annotation (this session and this game only).
+- Tests: campaign_panel_test (on time; late, kept with its record; other game dropped;
+  other sentence dropped). Not rendered in a window.
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS.
