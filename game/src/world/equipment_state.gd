@@ -143,7 +143,8 @@ func _words(answer: String) -> String:
 	return " " + " ".join(text.split(" ", false)) + " "
 
 ## Authored needs a free answer still lacks; consent has no keys and stays exact.
-func missing(set_id: String, stage: String, answer: String) -> Array[String]:
+## `strict` is off when saved answers are revalidated (see side_investigations.missing).
+func missing(set_id: String, stage: String, answer: String, strict := true) -> Array[String]:
 	var keys: Array = LISTEN_KEYS if stage == "listen" else language[set_id].get("keys",{}).get(stage,[])
 	var result: Array[String] = []
 	if keys.is_empty():
@@ -153,6 +154,12 @@ func missing(set_id: String, stage: String, answer: String) -> Array[String]:
 	for group: Dictionary in keys:
 		if not group.any.any(func(form: String) -> bool: return text.contains(" %s " % form)):
 			result.append(str(group.need))
+	# "No quiero escuchar tus recuerdos" refuses what the stage asks for.
+	# Skipped when the keys themselves accept a negation ("no acepto" for "rechazo").
+	var negative: bool = Curriculum.negates(_words(expected(set_id, stage)))
+	var either := keys.any(func(group: Dictionary) -> bool: return group.any.any(func(form: String) -> bool: return Curriculum.negates(" %s " % form)))
+	if strict and not either and Curriculum.negates(text) != negative:
+		result.append("una negación (no…)" if negative else "una afirmación, sin «no»")
 	return result
 
 func _near_miss(world: RefCounted,set_id: String,stage: String,answer: String) -> bool:
@@ -161,11 +168,11 @@ func _near_miss(world: RefCounted,set_id: String,stage: String,answer: String) -
 			return true
 	return false
 
-func _valid_response(world: RefCounted,set_id: String,stage: String,answer: String,memories: Array) -> bool:
+func _valid_response(world: RefCounted,set_id: String,stage: String,answer: String,memories: Array,strict := true) -> bool:
 	if answer.length() > 300:
 		return false
 	var exact: bool = world.learner.curriculum.normalized(answer) == world.learner.curriculum.normalized(expected(set_id,stage))
-	if not exact and not _near_miss(world,set_id,stage,answer) and not missing(set_id,stage,answer).is_empty():
+	if not exact and not _near_miss(world,set_id,stage,answer) and not missing(set_id,stage,answer,strict).is_empty():
 		return false
 	if stage != "compare_memories":
 		return memories.is_empty()
@@ -318,7 +325,7 @@ func restore(data: Variant,world: RefCounted) -> bool:
 					return false
 				if entry.day < previous or (stage == "delayed_recall" and entry.day <= previous):
 					return false
-				if not entry.get("answer") is String or not entry.get("memories") is Array or not _valid_response(world,set_id,stage,entry.answer,entry.memories):
+				if not entry.get("answer") is String or not entry.get("memories") is Array or not _valid_response(world,set_id,stage,entry.answer,entry.memories,false):
 					return false
 				if not _language_ready(world,set_id,int(entry.day)):
 					return false

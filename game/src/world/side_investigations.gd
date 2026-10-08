@@ -142,7 +142,9 @@ func _needs(keys: Array,text: String) -> Array[String]:
 	return result
 
 ## What a free answer still lacks, by step. Authored model sentences always pass.
-func missing(world: RefCounted,id: String,step: String,answer: String,choice := "") -> Array[String]:
+## `strict` is off when saved answers are revalidated: answers accepted before the
+## polarity and single-option checks existed still load.
+func missing(world: RefCounted,id: String,step: String,answer: String,choice := "",strict := true) -> Array[String]:
 	var course = world.learner.curriculum
 	var phrases := models(id)
 	var result: Array[String] = []
@@ -152,6 +154,8 @@ func missing(world: RefCounted,id: String,step: String,answer: String,choice := 
 			if _same(world,answer,phrases.access):
 				return result
 			result = _needs(ACCESS_KEYS,text)
+			if strict and course.negates(text):
+				result.append("una petición afirmativa, sin «no»")
 			var piece: String = course.words(artifacts[quests[id].artifact_id].name)
 			if not text.contains(piece) and not [" pieza "," prueba "," objeto "].any(func(word: String) -> bool: return text.contains(word)):
 				result.append("la pieza")
@@ -159,7 +163,12 @@ func missing(world: RefCounted,id: String,step: String,answer: String,choice := 
 		"choice":
 			if choice in quests[id].final_choice and _same(world,answer,choice_model(choice)):
 				return result
-			return _needs([CONDITIONAL,CHOICE_KEYS["public" if choice.ends_with("_public") else "private"]],text)
+			result = _needs([CONDITIONAL,CHOICE_KEYS["public" if choice.ends_with("_public") else "private"]],text)
+			if strict and course.negates(text):
+				result.append("una propuesta afirmativa, sin «no»")
+			elif strict and _needs([CHOICE_KEYS.public],text).is_empty() and _needs([CHOICE_KEYS.private],text).is_empty():
+				result.append("una sola opción")
+			return result
 	var accepted: Array = [phrases.supported] if step == "supported" else [phrases.independent,phrases.alternative]
 	if step == "recall":
 		accepted = [phrases.recall,phrases.supported,phrases.independent,phrases.alternative]
@@ -167,6 +176,10 @@ func missing(world: RefCounted,id: String,step: String,answer: String,choice := 
 		if _same(world,answer,phrase):
 			return result
 	result = _needs(template(id).keys,text)
+	# A negated claim is the opposite claim when every authored sentence affirms (or denies).
+	var polarity: Array = accepted.map(func(phrase: String) -> bool: return course.negates(course.words(phrase)))
+	if strict and not polarity.has(not polarity[0]) and course.negates(text) != polarity[0]:
+		result.append("una negación (no…)" if polarity[0] else "una afirmación, sin negación")
 	if text.split(" ",false).size() < 4:
 		result.append("una frase completa")
 	# Relevance: one content word of five letters or more from this case.
@@ -202,7 +215,7 @@ func _valid(world: RefCounted,id: String,step: String,payload: Dictionary,ledger
 	var phrases := models(id)
 	match step:
 		"access":
-			if payload.route not in ["peaceful","battle"] or not missing(world,id,"access",payload.answer).is_empty():
+			if payload.route not in ["peaceful","battle"] or not missing(world,id,"access",payload.answer,"",false).is_empty():
 				return false
 			if node.has("access_puzzle"):
 				if not _same(world,payload.cipher,node.access_puzzle.answer):
@@ -225,11 +238,11 @@ func _valid(world: RefCounted,id: String,step: String,payload: Dictionary,ledger
 		"puzzle":
 			return payload.answer.is_empty() and payload.choice == node.puzzle.answer_id and payload.rejected == node.puzzle.reject_id
 		"supported","independent":
-			return missing(world,id,step,payload.answer).is_empty()
+			return missing(world,id,step,payload.answer,"",false).is_empty()
 		"recall":
-			return day > int(proof.get("independent",{}).get("day",day)) and missing(world,id,step,payload.answer).is_empty()
+			return day > int(proof.get("independent",{}).get("day",day)) and missing(world,id,step,payload.answer,"",false).is_empty()
 		"choice":
-			return payload.rejected.is_empty() and payload.choice in node.final_choice and missing(world,id,step,payload.answer,payload.choice).is_empty()
+			return payload.rejected.is_empty() and payload.choice in node.final_choice and missing(world,id,step,payload.answer,payload.choice,false).is_empty()
 	return true
 
 func submit(world: RefCounted,id: String,answer := "",choice := "",rejected := "",route := "",cipher := "") -> Dictionary:

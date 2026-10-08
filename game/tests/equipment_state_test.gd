@@ -3,6 +3,10 @@ const Equipment = preload("res://src/world/equipment_state.gd")
 func ritual(gear: RefCounted,state: RefCounted,set_id: String) -> void:
 	for need_stage: String in gear.language[set_id].keys:
 		check(gear.missing(set_id,need_stage,gear.expected(set_id,need_stage)).is_empty(),"Authored model meets its own keys")
+	check(not gear.missing(set_id,"listen","No quiero escuchar tus recuerdos.").is_empty(),"A refusal to listen is not the request")
+	check(gear.missing(set_id,"listen","No quiero escuchar tus recuerdos.",false).is_empty(),"Saved answers are revalidated without the polarity check")
+	if set_id == "SA04":
+		check(gear.missing(set_id,"answer_objection","No acepto la orden que exige acusar sin pruebas.").is_empty(),"Keys that accept a negation keep it")
 	for stage: String in gear.STAGES:
 		if stage == "delayed_recall":
 			check(not gear.persuade(state,set_id,gear.expected(set_id,stage)).ok,"Recall cannot happen on the same day")

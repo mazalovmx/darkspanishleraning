@@ -2663,8 +2663,8 @@ write/read PASS. The dialog was not rendered in a window.
 - Tests: market_test (three refusals, refused price, refused confirmation, contradictory
   amounts and totals, negation elsewhere, legacy receipt), strategy_economy_test,
   treasures_test. With the old trade_state the new market checks fail (11 failures).
-- Not covered yet: side investigations and equipment rituals still use their own key
-  checks without negation handling.
+- Side investigations and equipment rituals: see "Negations in side cases and soul
+  rituals" below.
 
 Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
 run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
@@ -2732,6 +2732,24 @@ write/read PASS.
   failures then Claude, three requests at most, key refusal moves on at once, one answer
   per turn, a late answer starts nothing, time limit, turn notes without key or text,
   NVIDIA only when listed); earlier chain checks run with an explicit order.
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS.
+
+## Negations in side cases and soul rituals
+
+- `Curriculum.negates` (no, nunca, tampoco, jamás, ni). Side investigations: a negated
+  access request ("No quiero examinar la pieza.") or a negated proposal ("No propondría
+  publicar el expediente.") is refused, and a proposal naming both options is refused
+  ("una sola opción"). An evidence sentence must keep the polarity of the authored
+  sentences when they all agree ("En la hoja no hay doce nombres…" is the opposite claim).
+  Soul rituals: an answer must keep the polarity of the stage's model ("No quiero
+  escuchar tus recuerdos." is refused), unless the stage's keys accept a negation
+  themselves (SA04: "no acepto" for "rechazo").
+- Saved answers are revalidated without these checks (`strict` off), as for receipts.
+- Tests: side_investigations_test (refused access, denied claim, both options, negated
+  option), equipment_state_test (refused listening, lenient revalidation, SA04).
 
 Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
 run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
