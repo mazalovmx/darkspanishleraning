@@ -2531,3 +2531,26 @@ sealed order).
 
 Executed for this commit: the full non-live run, 58 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Per-set soul specials
+
+`ghost_state.use_special(world, knight, target)` uses the special of the set that
+answers that knight, with the action and duration authored in equipment.json:
+- SA01 (NK01) and SA06 (NK05): a ward on the case's branch; that knight places no new
+  intervention there at the next world resolution, then the ward ends.
+- SA02 (NK06): lifts the active redaction at once (the case's task still has to be
+  solved). SA03 (NK04): names the shared source of the active rumour (the first
+  inspected artifact), without certifying the claim.
+- SA04 (NK02): for two world turns, one source is enough to counter NK02 on that case.
+- SA05 (NK08): shows the case's verification step as the missing premise.
+Each use spends the set's daily special (consent and assembly required); refusals that
+depend on the case (no active intervention, no inspected source) do not spend it.
+Wards are saved under `ghosts.wards` (older saves load; a ward longer than its special
+is rejected). The knights panel shows "Poder del alma de <set>: <action>" for the
+selected knight's case. The generic soul option of the counter (one source instead of
+two) is unchanged. Tests: ghost_persistence_test (SA01 with a real ritual: daily use,
+save, forged duration, older save, no new intervention, ward ends) and new
+soul_special_test (SA02-SA06). The panel button was not rendered in a window.
+
+Executed for this commit: the full non-live run, 59 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

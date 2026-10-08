@@ -158,8 +158,10 @@ its own multi-session plan and scenario-bible review per NPC.
 - Optional cases: concluded cases, the 12 comparisons and the 24 outcomes appear in
   the notebook; the outcome is shown at the case's place, and a character there
   reacts to it when asked about the case. The comparisons are read, not answered.
-- Soul specials reduce counter evidence from two to one for every set; the authored
-  per-set actions and durations are not implemented.
+- Soul specials: besides the generic one-source counter, each set has its own action
+  ("Poder del alma" in the knights panel): wards for one world turn (SA01, SA06),
+  restored copy (SA02), rumour source (SA03), two-turn one-source route (SA04), missing
+  premise (SA05). The panel button has not been rendered in a window.
 - Battles are on a Heroes-style hex field with movement (master spec 13, user decision
   2026-10-08). The probe's policy walks straight at the weakest enemy; no human has
   played the positional battles, and unit speeds are authored estimates.

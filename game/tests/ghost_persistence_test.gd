@@ -97,5 +97,27 @@ func run() -> void:
 	check(soul_ghosts.counter(soul_world,"NK01",target,soul_ghosts.counter_model(soul_world,"NK01",proof[0]),proof,true),"Soul counter requires typed Spanish and source")
 	check(gear.special_used.get("SA01",0) == soul_world.day,"Soul ability use recorded once")
 	check(Ghosts.new().restore(soul_ghosts.snapshot(),soul_world),"Soul-backed counter proof restores")
+	# The set's own special (SA01: ward the case against NK01 for the next world turn).
+	check(not soul_ghosts.use_special(soul_world,"NK01",target).ok,"The daily soul use is already spent")
+	check(not soul_ghosts.use_special(soul_world,"NK03",target).ok,"A knight without a soul set gets no special")
+	# A standalone knight state resolves with the day, as the world's own does.
+	soul_ghosts.prepare(soul_world)
+	soul_ghosts.resolve(soul_world)
+	soul_world.end_turn()
+	var branch: String = soul_world.side_cases.quests[target].branch_id
+	var warded: Dictionary = soul_ghosts.use_special(soul_world,"NK01",target)
+	check(warded.ok and warded.message.contains("protege este expediente"),"SA01 wards the case")
+	check(soul_ghosts.wards.get(branch,{}) == {"knight":"NK01","set":"SA01","kind":"ward","expiry":soul_world.day+1},"Ward recorded for the next world turn")
+	check(Ghosts.new().restore(JSON.parse_string(JSON.stringify(soul_ghosts.snapshot())),soul_world),"Wards survive a save")
+	var forged: Dictionary = soul_ghosts.snapshot().duplicate(true)
+	forged.wards[branch].expiry = soul_world.day + 9
+	check(not Ghosts.new().restore(forged,soul_world),"A ward cannot last longer than its special")
+	var older: Dictionary = soul_ghosts.snapshot().duplicate(true)
+	older.erase("wards")
+	check(Ghosts.new().restore(older,soul_world),"Saves without wards still load")
+	soul_ghosts.prepare(soul_world)
+	soul_ghosts.resolve(soul_world)
+	check(not (soul_ghosts.effects.has(branch) and soul_ghosts.effects[branch].knight == "NK01" and soul_ghosts.effects[branch].start == soul_world.day + 1),"No new NK01 intervention on the warded case")
+	check(not soul_ghosts.wards.has(branch),"The ward ends after one world turn")
 	print("Ghost persistence checks: %d, failures: %d" % [checks,failures])
 	quit(1 if failures else 0)

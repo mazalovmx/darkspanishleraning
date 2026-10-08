@@ -12,6 +12,8 @@ var prompt := Label.new()
 var input := LineEdit.new()
 var feedback := Label.new()
 var send_button := Button.new()
+# The set's own soul action (ward, restored copy, rumour source, one-source route, premise).
+var soul_action := Button.new()
 var prepare_button := Button.new()
 var battle_button := Button.new()
 var target := ""
@@ -67,6 +69,8 @@ func _ready() -> void:
 	send_button.text = "Presentar la refutación"
 	send_button.pressed.connect(_submit)
 	box.add_child(send_button)
+	soul_action.pressed.connect(_use_soul)
+	box.add_child(soul_action)
 	battle_button.text = "Enfrentarse al caballero cercano"
 	battle_button.pressed.connect(func():
 		var id: String = entries.get_selected_metadata()
@@ -138,6 +142,13 @@ func refresh() -> void:
 	battle_button.visible = entries.item_count > 0
 	for control in [first,second,soul,prompt,input,send_button]:
 		control.visible = not target.is_empty()
+	soul_action.visible = false
+	if not target.is_empty():
+		var set_id: String = world_state.ghosts.soul_set_for(world_state,str(entries.get_selected_metadata()))
+		if not set_id.is_empty():
+			var special: Dictionary = world_state.equipment.sets[set_id].special
+			soul_action.text = "Poder del alma de %s: %s" % [world_state.equipment.sets[set_id].name, SOUL_ACTIONS.get(str(special.action), str(special.action))]
+			soul_action.visible = true
 	_prompt()
 
 func _prompt() -> void:
@@ -166,6 +177,20 @@ func _submit() -> void:
 		feedback.text = "La prueba y tu respuesta han detenido la intervención."
 	else:
 		feedback.text = "Revisa la frase, las fuentes distintas y el lugar. El alma necesita un conjunto reunido, consentimiento y su uso diario disponible."
+
+const SOUL_ACTIONS := {"prevent_label_intervention": "proteger el expediente un turno",
+	"protect_unclaimed_fragment": "proteger la recompensa un turno", "restore_public_copy": "restituir la copia pública",
+	"reveal_rumor_source": "mostrar la fuente común del rumor", "open_duplicate_receipt_route": "abrir la ruta del recibo duplicado (dos turnos)",
+	"highlight_missing_premise": "señalar la premisa que falta"}
+
+func _use_soul() -> void:
+	if target.is_empty():
+		return
+	var result: Dictionary = world_state.ghosts.use_special(world_state,str(entries.get_selected_metadata()),target)
+	if result.ok:
+		changed.emit()
+		refresh()
+	feedback.text = result.message
 
 func close() -> void:
 	hide()

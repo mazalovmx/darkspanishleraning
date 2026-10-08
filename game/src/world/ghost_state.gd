@@ -11,6 +11,9 @@ var event_count := 0
 var last_resolved_day := 0
 var plan: RefCounted
 var countered: Array = []
+## Soul specials with a duration, by branch: {"knight", "set", "kind" ("ward"/"route"), "expiry"}.
+## A ward stops that knight's next intervention there; a route lets one source counter it.
+var wards: Dictionary = {}
 var pending_encounter: Dictionary = {}
 const COUNTER_TAGS := [["hay"],["present"],["preterite"],["imperfect"],["relative_clauses"],["perfect"],["conditional","subjunctive_basic"]]
 const REPLIES := {
@@ -260,6 +263,9 @@ func resolve(world: RefCounted) -> Dictionary:
 		var node: Dictionary = world.side_cases.quests[target]
 		if world.side_cases.complete(target,world.side_cases.records) or effects.has(node.branch_id):
 			continue
+		var ward: Dictionary = wards.get(node.branch_id, {})
+		if ward.get("kind", "") == "ward" and ward.knight == id and int(ward.expiry) > world.day:
+			continue
 		if id == "NK05" and not world.equipment.can_grant(world.side_cases.reward_item(world,target),world.party.active_id):
 			continue
 		var effect: String = definitions[id].orders.effect_id
@@ -269,6 +275,9 @@ func resolve(world: RefCounted) -> Dictionary:
 		target_days[target] = next_day
 		_event(next_day,id,target,"intervention",expiry)
 		applied += 1
+	for branch: String in wards.keys():
+		if int(wards[branch].expiry) <= next_day:
+			wards.erase(branch)
 	last_resolved_day = world.day
 	plan = null
 	countered.clear()
@@ -311,7 +320,9 @@ func counter(world: RefCounted,id: String,target: String,answer: String,proof: A
 		return false
 	if world.hero_cell != _location(world,world.side_cases.quests[target].location_id) or not language_ready(world,id,world.day):
 		return false
-	var required := 2 if id in ["NK02","NK03","NK04","NK08"] and not use_soul else 1
+	var route: Dictionary = wards.get(branch, {})
+	var routed: bool = route.get("kind", "") == "route" and route.knight == id and int(route.expiry) > world.day
+	var required := 2 if id in ["NK02","NK03","NK04","NK08"] and not use_soul and not routed else 1
 	if proof.size() != required or (proof.size() == 2 and proof[0] == proof[1]) or answer.length() > 300:
 		return false
 	var available := sources(world,target)
@@ -330,6 +341,49 @@ func counter(world: RefCounted,id: String,target: String,answer: String,proof: A
 		countered.append(id)
 	_event(world.day,id,target,"counter",0,{"answer":answer.strip_edges(),"sources":proof.duplicate(),"soul":use_soul,"hero":world.party.active_id})
 	return true
+
+## The soul set whose special answers this knight, or "".
+func soul_set_for(world: RefCounted,knight: String) -> String:
+	for set_id: String in world.equipment.sets:
+		if str(world.equipment.sets[set_id].special.get("target_knight","")) == knight:
+			return set_id
+	return ""
+
+## Uses the soul special of the set that answers this knight on the case target, with
+## the set's own action (equipment.json): a ward for the next world turn (SA01, SA06),
+## lifting a redacted copy (SA02), naming a rumour's shared source (SA03), a one-source
+## route for two world turns (SA04) or the missing premise (SA05). Nothing certifies a
+## claim. The set needs its soul's consent and its daily use.
+func use_special(world: RefCounted,knight: String,target: String) -> Dictionary:
+	var set_id := soul_set_for(world,knight)
+	if set_id.is_empty() or not world.side_cases.quests.has(target) or world.active_battle != null:
+		return {"ok":false,"message":"Ningún alma responde a este caballero."}
+	var quest: Dictionary = world.side_cases.quests[target]
+	var branch: String = quest.branch_id
+	var action: String = str(world.equipment.sets[set_id].special.action)
+	var holding: bool = effects.has(branch) and effects[branch].knight == knight and int(effects[branch].expiry) > world.day
+	if action in ["restore_public_copy","reveal_rumor_source"] and not holding:
+		return {"ok":false,"message":"El alma solo actúa sobre una intervención activa de este caballero."}
+	if action == "reveal_rumor_source" and sources(world,target).is_empty():
+		return {"ok":false,"message":"Primero inspecciona una prueba de esta investigación."}
+	if world.equipment.consume_special(world,set_id).is_empty():
+		return {"ok":false,"message":"El alma necesita su conjunto reunido, su consentimiento y su uso diario disponible."}
+	match action:
+		"prevent_label_intervention","protect_unclaimed_fragment":
+			wards[branch] = {"knight":knight,"set":set_id,"kind":"ward","expiry":world.day+1}
+			return {"ok":true,"message":"El alma protege este expediente: el caballero no podrá intervenir aquí en el próximo turno."}
+		"restore_public_copy":
+			effects.erase(branch)
+			return {"ok":true,"message":"El alma restituye la copia pública a partir del duplicado. La prueba todavía debe resolverse."}
+		"reveal_rumor_source":
+			var source: String = world.side_cases.artifacts[sources(world,target)[0]].name
+			return {"ok":true,"message":"La fuente común del rumor es: %s. Esto no certifica la afirmación." % source}
+		"open_duplicate_receipt_route":
+			wards[branch] = {"knight":knight,"set":set_id,"kind":"route","expiry":world.day+2}
+			return {"ok":true,"message":"Durante dos turnos, un solo recibo duplicado basta para refutar a este caballero aquí. Todavía debes decirlo en español."}
+		"highlight_missing_premise":
+			return {"ok":true,"message":"Premisa que falta: %s No elige la respuesta por ti." % str(quest.investigation.verification_action)}
+	return {"ok":false,"message":"Acción desconocida."}
 
 func defeat(world: RefCounted,id: String) -> bool:
 	if not actors.has(id) or not actors[id].active:
@@ -356,7 +410,7 @@ func encounter_definition(id: String) -> Dictionary:
 func snapshot() -> Dictionary:
 	return {"pending_encounter":pending_encounter.duplicate(true),"actors":actors.duplicate(true),"effects":effects.duplicate(true),"target_days":target_days.duplicate(),
 		"journal":journal.duplicate(true),"event_count":event_count,"last_resolved_day":last_resolved_day,
-		"plan":{} if plan == null else plan.snapshot(),"countered":countered.duplicate()}
+		"plan":{} if plan == null else plan.snapshot(),"countered":countered.duplicate(),"wards":wards.duplicate(true)}
 
 func _integer(value: Variant,low: int,high: int) -> bool:
 	return (value is int or value is float) and is_finite(value) and value == floor(value) and value >= low and value <= high
@@ -391,8 +445,18 @@ func _counter_proof(world: RefCounted,id: String,target: String,day: int,proof: 
 	return true
 
 func restore(data: Variant,world: RefCounted) -> bool:
-	if not data is Dictionary or data.size() != 9:
+	# "wards" (soul specials with a duration) is absent from saves written before it existed.
+	if not data is Dictionary or (data.size() != 9 and not (data.size() == 10 and data.has("wards"))):
 		return false
+	var saved_wards: Variant = data.get("wards", {})
+	if not saved_wards is Dictionary or saved_wards.size() > 12:
+		return false
+	for branch in saved_wards:
+		var ward: Variant = saved_wards[branch]
+		if not world.side_cases.branches.has(branch) or not ward is Dictionary or ward.size() != 4 or not definitions.has(ward.get("knight")):
+			return false
+		if not world.equipment.sets.has(ward.get("set")) or ward.get("kind") not in ["ward","route"] or not _integer(ward.get("expiry"),world.day,world.day+2):
+			return false
 	for key in ["actors","effects","target_days","plan","pending_encounter"]:
 		if not data.get(key) is Dictionary:
 			return false
@@ -552,4 +616,7 @@ func restore(data: Variant,world: RefCounted) -> bool:
 	last_resolved_day = int(data.last_resolved_day)
 	plan = restored_plan
 	countered = data.countered.duplicate()
+	wards = saved_wards.duplicate(true)
+	for ward: Dictionary in wards.values():
+		ward.expiry = int(ward.expiry)
 	return true
