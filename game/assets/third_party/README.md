@@ -19,3 +19,10 @@ art and audio pass (master spec Epic 20).
 
 Master spec section 35 asks to avoid heavy shaders on the target machine: measure
 before enabling any of them on the whole map.
+- `kenney_board_game_icons/` - a selection of Kenney Board Game Icons (128 px white
+  silhouettes, CC0): battle actions and map buttons.
+- `saint11_resources/` - saint11's Resources Pack #1 (CC0), cropped to 64 px, with
+  gems, sulfur and mercury recoloured from the crystal and the stone: the resource bar.
+- `game/assets/sfx/` also holds `impactMetal_medium_000`, `impactPlate_heavy_001`,
+  `impactPunch_medium_000` (Kenney Impact Sounds) and `knifeSlice`, `drawKnife1`,
+  `handleCoins` (Kenney RPG Audio), all CC0, for battle hits and trade.

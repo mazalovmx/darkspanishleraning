@@ -1,0 +1,6 @@
+Resources Pack #1 by saint11 (Pedro Medeiros)
+Source: https://opengameart.org/content/resouces-pack-1 (accessed 2026-10-08)
+License: CC0 1.0 (public domain). The author's page reads: "The icons here are all under the
+CC0 licence" and "No attribution is needed (but certainly is appreciated)."
+Changes in this project: cropped and scaled to 64 px; gems.png is the crystal recoloured red,
+sulfur.png and mercury.png are the stone recoloured yellow and blue-grey.

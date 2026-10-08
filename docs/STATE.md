@@ -2164,3 +2164,29 @@ buttons keep the pack's grey frame. The right-hand map HUD is still dark.
 
 Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Battle screen as a hex battlefield
+
+The user asked for battle graphics like Heroes III (a battlefield) or card battles.
+Master spec 13 says "Do not implement HoMM battlefield movement in MVP", so the rules
+are unchanged and the battlefield is presentation only:
+- `src/combat/battlefield.gd` draws the ground from the terrain the hero stands on
+  (Kenney Medieval RTS tiles and trees/rocks, seeded by the battle title) under an
+  11×7 hex grid. `world_map.gd` passes the terrain to the arena.
+- `src/combat/stack_token.gd` draws each stack on its hex: a leader figure ×3 with up
+  to two comrades behind it, a shadow, a Heroes-style count plate (blue/red), a health
+  bar, a gold hex for the acting stack and a red one for the target; enemies face left;
+  a fallen stack leaves a skull. Clicking an enemy selects it; the tooltip gives stats.
+- `stack_arena.gd`: top bar (title, round, acting stack, side banners), command bar on
+  Kenney UI RPG panels with icon buttons (Kenney Board Game Icons), a turn-order strip
+  and the battle log; a parchment result banner with the survivors and "Volver al
+  mapa". After each command the strikes play in order (melee lunge or ranged bolt, hit
+  sound, red flash, floating damage number). The model updates at once, so tests and
+  rapid clicks are unaffected; a new command cancels the running animation.
+- New CC0 assets: Kenney Board Game Icons (selection), saint11 Resources Pack #1
+  (resource icons for the map UI), three Kenney Impact Sounds and two RPG Audio clips.
+Rendered in a window (Xvfb + Mesa, 1280×720) and inspected: the opening layout with
+four player stacks, a strike with its damage number, and the retreat banner.
+
+Executed for this commit: the full non-live run, 54 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

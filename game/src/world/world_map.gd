@@ -959,6 +959,9 @@ func _start_battle(id := "opening_road") -> void:
 	notebook_button.disabled = true
 	language_button.disabled = true
 	end_button.disabled = true
+	# The battlefield shows the terrain the hero stands on.
+	if state.grid.region.has_point(state.hero_cell):
+		arena.terrain = str(state.terrain[state.hero_cell.y][state.hero_cell.x])
 	arena.present(state.active_battle, str(state.active_battle.data.opening.name))
 	_update_preview()
 

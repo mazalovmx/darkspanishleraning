@@ -92,6 +92,14 @@ func run() -> void:
 	state._reveal_from(state.hero_cell)
 	state.day = 9
 	map._refresh()
+	state.party.heroes.inquisitor.army = [{"type": "militia", "count": 24}, {"type": "archers", "count": 14}, {"type": "veteran_guard", "count": 6}, {"type": "relic_sentinel", "count": 2}]
 	map._start_battle(raid)
 	await shot("07_arena")
+	map.arena.attack_button.pressed.emit()
+	await create_timer(0.36).timeout
+	await shot("07b_arena_strike")
+	await create_timer(3.0).timeout
+	map.arena.retreat_button.pressed.emit()
+	await create_timer(0.5).timeout
+	await shot("07c_arena_result")
 	quit()
