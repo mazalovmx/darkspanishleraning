@@ -1976,3 +1976,19 @@ week later, save round trip, unknown raid ids refused; 12 checks).
 
 Executed for this commit: the full non-live run, 53 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Torre del Relé: a talking relay (LOC18)
+
+Bible 10.9/12.3 (the relay station; Elias escaped through a relic facility that
+intersects with El Índice) and 9 ("parallel-world event"). `LOC18` (npc `torre_rele`)
+is available once elias_arrival is recorded. It replays fragments of Elias's world:
+the bible's District 17 loop (model declares risk, administration restricts, decline
+confirms the risk), models that took part in creating what they predicted, the silent
+world of origin, the traveller who crossed, and its link to the archive under Santa
+Lucerna. Three facts, no lies, offline replies, save whitelist id.
+
+Tests: golden case for the District 17 replay; absence before Elias arrives is covered
+by the requirements loop (91 cases, 1,029 checks).
+
+Executed for this commit: the full non-live run, 53 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

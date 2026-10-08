@@ -53,7 +53,7 @@ its own multi-session plan and scenario-bible review per NPC.
   do: review the campaign, market, strategy, optional-case and soul sentences against
   the same requirement; let the early blocks be consolidated faster than one game
   day per recall; have a Spanish speaker check the lesson texts.
-- Conversable NPCs: 32 speakers exist (31 people and El Índice; Nuño Barragán at LOC10): the 13 principal ones (innkeeper, Lucio, Gabriel,
+- Conversable NPCs: 33 speakers exist (31 people, El Índice and the relay of LOC18): the 13 principal ones (innkeeper, Lucio, Gabriel,
   Leonor, Beatriz Orma, Bishop Veyra, Simón Vale, Rodrigo Mendaña, Selmo Oribe, Ysabel,
   Esteban, Inés and Elias) and the 17 named task speakers of bible 13.11. All but the
   four opening NPCs speak from bounded public knowledge and unlock no clue. Speakers
@@ -125,7 +125,7 @@ its own multi-session plan and scenario-bible review per NPC.
   (destroy/explain/leave the cult) are decisions; harsh options close the matching
   review and with it the Charter, and every choice adds an ending epilogue.
 - LOC10 Marjal Negro has a conversable bandit chief and the guarded caches. LOC18
-  Torre del Relé still has only Elias's card.
+  Torre del Relé has a talking relay (after Elias arrives) besides Elias's card.
 - Santa Lucerna sub-spaces and city-specific vocabulary sets are not represented.
 - Lucio's `forbidden_research` secret needs flag `research_disclosed`, which nothing sets.
 - Institutional speech acts (Epic 18): authorities, procedures and acts are data

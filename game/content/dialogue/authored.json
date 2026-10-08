@@ -1616,5 +1616,74 @@
         }
       ],
       "fallback": "De eso no hablo. Pregunte por las ruinas o por el camino."
+    },
+    "LOC18": {
+      "location_id": "LOC18",
+      "requires": "elias_arrival",
+      "npc_id": "torre_rele",
+      "name": "El relé de la torre",
+      "greeting": "SEÑAL DÉBIL. REGISTRO DEL OTRO LADO DISPONIBLE. ESCRIBA SU PREGUNTA.",
+      "greeting_again": "SEÑAL DÉBIL. CONTINÚE.",
+      "hint": "Pregunte por el registro, el distrito 17, el otro mundo o el viajero que pasó por aquí.",
+      "branches": [
+        {
+          "keywords": [
+            "distrito",
+            "17",
+            "registro",
+            "diecisiete"
+          ],
+          "reply": "MODELO: EL DISTRITO 17 TIENE RIESGO ALTO. ADMINISTRACIÓN: LIMITAR INVERSIÓN Y MOVILIDAD. RESULTADO: LOS NEGOCIOS SE VAN. MODELO: EL DECLIVE CONFIRMA EL RIESGO."
+        },
+        {
+          "keywords": [
+            "prediccion",
+            "predicciones",
+            "modelo",
+            "modelos",
+            "confirma"
+          ],
+          "reply": "LOS MODELOS NO PREDECÍAN LA REALIDAD. PARTICIPABAN EN CREAR LA REALIDAD QUE PREDECÍAN."
+        },
+        {
+          "keywords": [
+            "mundo",
+            "otro lado",
+            "origen",
+            "civilizacion"
+          ],
+          "reply": "MUNDO DE ORIGEN: SIN RESPUESTA DESDE HACE MUCHO. ÚLTIMO REGISTRO: DISTURBIOS. LOS DISTURBIOS CONFIRMAN LA PREDICCIÓN."
+        },
+        {
+          "keywords": [
+            "elias",
+            "viajero",
+            "paso",
+            "persona"
+          ],
+          "reply": "UN VIAJERO CRUZÓ LA INSTALACIÓN. NO HAY REGISTRO DE SU REGRESO."
+        },
+        {
+          "keywords": [
+            "indice"
+          ],
+          "reply": "ESTA INSTALACIÓN SE CRUZA CON UN ARCHIVO DE CONSULTA. DIRECCIÓN: BAJO SANTA LUCERNA."
+        },
+        {
+          "keywords": [
+            "gracias"
+          ],
+          "reply": "SEÑAL CERRADA."
+        },
+        {
+          "keywords": [
+            "hola",
+            "buenas",
+            "buenos dias"
+          ],
+          "reply": "SEÑAL DÉBIL. FORMULE UNA PREGUNTA."
+        }
+      ],
+      "fallback": "SEÑAL PERDIDA. REPITA CON OTRAS PALABRAS."
     }
 }

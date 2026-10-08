@@ -81,7 +81,10 @@
   "indice_limit": "El archivo apenas contiene registros de días corrientes; el Índice no puede describir la continuidad ordinaria.",
   "barragan_ruins": "Bajo las aguas del Marjal Negro quedan puentes y torres en ruinas de la Edad Clara.",
   "barragan_caches": "Los bandidos de Nuño Barragán vigilan seis cofres en las ruinas del marjal.",
-  "barragan_toll": "Nuño Barragán cobra un peaje a quien cruza el marjal hacia Cárdena."
+  "barragan_toll": "Nuño Barragán cobra un peaje a quien cruza el marjal hacia Cárdena.",
+  "rele_loop": "El registro del relé muestra un ciclo del mundo de Elias: un modelo declara riesgo en el distrito 17, la administración restringe la inversión, los negocios se van y el declive confirma el riesgo.",
+  "rele_crossing": "La instalación del relé se cruza con El Índice; un viajero la atravesó y no hay registro de su regreso.",
+  "rele_silence": "El mundo de origen no responde desde hace mucho; el último registro habla de disturbios."
               },
     "clues":  {
                   "monastery_claim":  {
@@ -1014,6 +1017,32 @@
           "evasion": "Puede negarse a responder; no inventa hechos."
         },
         "language_register": "coloquial"
+      },
+      "torre_rele": {
+        "id": "torre_rele",
+        "persona": {
+          "name": "El relé de la torre",
+          "occupation": "instalación antigua que conserva registros del mundo de Elias",
+          "traits": [
+            "impersonal",
+            "responde en mayúsculas con registros breves"
+          ],
+          "goal": "Repetir los registros que conserva."
+        },
+        "knowledge": [
+          "rele_loop",
+          "rele_crossing",
+          "rele_silence"
+        ],
+        "beliefs": [],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Si no tiene registro, lo dice; no inventa sucesos."
+        },
+        "language_register": "formal"
       }
              }
 }
