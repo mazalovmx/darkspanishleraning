@@ -139,8 +139,9 @@ func _fill_progress() -> void:
 	lines.append("ERRORES FRECUENTES" if not tags.is_empty() else "ERRORES FRECUENTES: ninguno registrado todavía.")
 	for tag: String in tags.slice(0, 5):
 		var example: String = str(errors[tag].examples.back()) if not errors[tag].examples.is_empty() else ""
-		lines.append("· %s: %d %s (último día %d)%s" % [tag_name(tag), int(errors[tag].count),
-			"vez" if int(errors[tag].count) == 1 else "veces", int(errors[tag].last_seen_day), (" · «%s»" % example.left(80)) if not example.is_empty() else ""])
+		var level: float = float(errors[tag].get("mastery_after", world_state.learner.mastery(tag)))
+		lines.append("· %s: %d %s (último día %d, dominio %d %%)%s" % [tag_name(tag), int(errors[tag].count),
+			"vez" if int(errors[tag].count) == 1 else "veces", int(errors[tag].last_seen_day), roundi(level * 100), (" · «%s»" % example.left(80)) if not example.is_empty() else ""])
 	report.text = "\n".join(lines)
 	var selected: String = str(review_select.get_selected_metadata()) if review_select.selected >= 0 else ""
 	review_select.clear()

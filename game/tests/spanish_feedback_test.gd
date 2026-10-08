@@ -90,6 +90,10 @@ func run() -> void:
 	panel._on_reply(proposal(language))
 	check(panel.transcript.text.contains("¿Tiene pan?"), "NPC recast preserved")
 	check(map.state.learner.errors.has("verb:tener"), "UI updates canonical learner state")
+	# tener started at 0 and the error left it at 0; the later accent-only reply credits it,
+	# but the record keeps the mastery of the moment of the error.
+	check(is_equal_approx(float(map.state.learner.errors["verb:tener"].mastery_after), 0.0) and map.state.learner.verbs.tener > 0.0, "Error memory stores mastery after the error (section 28)")
+	check(map.state.learner.recent_errors()[0].has("mastery_after"), "Claude context includes mastery after the error")
 	var saved: String = panel.feedback.text
 	map._close_poi()
 	map._open_poi(Vector2i(6, 11))

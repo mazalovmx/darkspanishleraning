@@ -74,7 +74,10 @@ static func _learner_valid(data: Variant, day: int, version: int) -> bool:
 		if not tag is String or not profile._known(tag):
 			return false
 		var error: Variant = data.errors[tag]
-		if not error is Dictionary or error.size() != 3:
+		# "mastery_after" (section 28) is absent from saves written before it existed.
+		if not error is Dictionary or error.size() < 3 or error.size() > 4 or (error.size() == 4 and not error.has("mastery_after")):
+			return false
+		if error.has("mastery_after") and not ((error.mastery_after is float or error.mastery_after is int) and error.mastery_after >= 0.0 and error.mastery_after <= 1.0):
 			return false
 		if not _integer(error.get("count"), 1, 1000000000) or not _integer(error.get("last_seen_day"), 1, day):
 			return false
@@ -168,7 +171,7 @@ static func decode(data: Variant) -> Dictionary:
 	for tag in learner.errors:
 		var record: Dictionary = learner.errors[tag]
 		state.learner.errors[tag] = {"count": int(record.count), "last_seen_day": int(record.last_seen_day),
-			"examples": record.examples.duplicate()}
+			"examples": record.examples.duplicate(), "mastery_after": float(record.get("mastery_after", state.learner.mastery(tag)))}
 	state.learner.vocabulary.assign(learner.vocabulary)
 	state.learner.recent_messages.assign(learner.recent_messages)
 	state.learner.successful_contexts = learner.successful_contexts.duplicate(true)

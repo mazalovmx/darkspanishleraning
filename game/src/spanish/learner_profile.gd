@@ -55,7 +55,8 @@ func recent_errors() -> Array:
 		for example: String in errors[tag].examples.slice(-2):
 			examples.append(example.left(300))
 		result.append({"tag": tag, "count": int(errors[tag].count),
-			"last_seen_day": int(errors[tag].last_seen_day), "examples": examples})
+			"last_seen_day": int(errors[tag].last_seen_day), "examples": examples,
+			"mastery_after": snappedf(float(errors[tag].get("mastery_after", mastery(tag))), 0.01)})
 	return result
 
 func observe(language: Dictionary, message: String, npc_id: String, day: int) -> void:
@@ -80,6 +81,8 @@ func observe(language: Dictionary, message: String, npc_id: String, day: int) ->
 					errors[tag] = {"count": 0, "last_seen_day": day, "examples": []}
 				errors[tag].count += 1
 				errors[tag].last_seen_day = day
+				# Section 28: the mastery the tag is left with after this error.
+				errors[tag]["mastery_after"] = mastery(tag)
 				var examples: Array = errors[tag].examples
 				if not error.original in examples:
 					examples.append(error.original)
@@ -101,6 +104,11 @@ func observe(language: Dictionary, message: String, npc_id: String, day: int) ->
 			vocabulary.append(word)
 			if vocabulary.size() > 100:
 				vocabulary.pop_front()
+
+func mastery(tag: String) -> float:
+	if tag.begins_with("verb:"):
+		return float(verbs.get(tag.trim_prefix("verb:"), 0.0))
+	return float(grammar.get(tag, 0.0))
 
 func _known(tag: String) -> bool:
 	return tag in GRAMMAR or (tag.begins_with("verb:") and tag.trim_prefix("verb:") in VERBS)

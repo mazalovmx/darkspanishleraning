@@ -2391,3 +2391,14 @@ counter title. market_test: 3 more checks (71).
 
 Executed for this commit: the full non-live run, 55 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## mastery_after in error memory (section 28)
+
+An important error now records `mastery_after`, the tag's mastery right after the
+error. It is saved (older saves without it still load; those records take the current
+mastery on load), sent to Claude in `recent_errors` and shown in the progress tab as
+"dominio n %". Tests: spanish_feedback_test (value at the time of the error, context),
+learner_progress_test (save round trip, older record, progress line).
+
+Executed for this commit: the full non-live run, 55 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
