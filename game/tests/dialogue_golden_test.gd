@@ -92,6 +92,9 @@ func run() -> void:
 		var speaker: Dictionary = panel.conversations[id]
 		check(speaker.npc_id in Save.NPC_IDS and not panel.grounding.context_for(speaker.npc_id, "greeting", {}, []).is_empty(), "Conversable NPC is grounded and saveable: " + id)
 		check(speaker.has("greeting_again") and not str(speaker.fallback).is_empty() and not speaker.branches.is_empty(), "Conversable NPC has authored offline replies: " + id)
+	for id: String in panel.conversations:
+		var npc := str(panel.conversations[id].npc_id)
+		check(ResourceLoader.exists(panel.PORTRAITS + npc + ".png") or ResourceLoader.exists(panel.OWN_PORTRAITS + npc + ".png"), "Every speaker has a portrait: " + id)
 	# Speakers with "requires" are offered only after that campaign task is recorded.
 	check(panel.conversations.LOC01_YSABEL.get("requires") == "ysabel_account" and panel.conversations.LOC01_ESTEBAN.get("requires") == "esteban_choice", "Ysabel and Esteban wait for their campaign tasks")
 	for id: String in panel.conversations:

@@ -173,7 +173,8 @@ its own multi-session plan and scenario-bible review per NPC.
   parchment page and the battle arena shows a Kenney unit figure per stack (coloured
   by side). Still placeholder or missing: gates; arena background; the dark map
   panels (the `kenney_ui_rpg` pack is unused); movement animation; road tiles that
-  follow road shape; portraits for the 20 newer speakers. The fog
+  follow road shape. The 20 newer speakers have simple generated busts
+  (`tools/make_portraits.py`), not illustrated portraits. The fog
   and parchment shaders are unused; the vignette is optional and off. Nobody has
   listened to the audio.
 - Project README exists; no CI. Screenshot paths in about 28 test lines are absolute.

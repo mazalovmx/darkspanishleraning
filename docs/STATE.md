@@ -2123,3 +2123,16 @@ assumptions (about 4 h mainline, 8-10 h total); no human playtest has been done.
 
 Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Portraits for the 20 newer speakers
+
+`tools/make_portraits.py` (PIL) draws a 128×128 bust per speaker without a demo
+portrait: 18 people (coat, hair or headwear, beard, glasses, scar variants) and two
+machines (El Índice, Torre del Relé), written to `game/assets/portraits/`. The
+conversation screen falls back to that folder when the demo portrait set has no face.
+`dialogue_golden_test` now checks that every conversation's speaker has a portrait.
+Rendered in a window: the Nuño Barragán conversation at LOC10 (`04b_marsh_dialogue`)
+shows his portrait. The other 19 were not rendered in a window.
+
+Executed for this commit: the full non-live run, 54 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

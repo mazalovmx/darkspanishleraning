@@ -36,6 +36,14 @@ func run() -> void:
 	map._open_poi(state.hero_cell)
 	await shot("04_monastery_dialogue")
 	map._close_poi()
+	for location: Dictionary in state.locations:
+		if location.id == "LOC10":
+			state.hero_cell = Vector2i(location.position[0], location.position[1])
+	state._reveal_from(state.hero_cell)
+	map._refresh()
+	map._open_poi(state.hero_cell)
+	await shot("04b_marsh_dialogue")
+	map._close_poi()
 	map.campaign_journal.open_journal(state)
 	await shot("05_journal")
 	map.campaign_journal.close()

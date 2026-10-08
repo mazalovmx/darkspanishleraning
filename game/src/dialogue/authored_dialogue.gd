@@ -13,6 +13,7 @@ var speaker := OptionButton.new()
 var transcript := RichTextLabel.new()
 # Speaker portrait (game/CREDITS.md); hidden when a character has none.
 const PORTRAITS := "res://assets/third_party/claw_and_blade/portraits/"
+const OWN_PORTRAITS := "res://assets/portraits/"
 var portrait := TextureRect.new()
 var input := LineEdit.new()
 var send_button := Button.new()
@@ -94,6 +95,9 @@ func open_conversation(id: String) -> void:
 				speaker.select(speaker.item_count - 1)
 	speaker.disabled = client.busy
 	var face := PORTRAITS + str(conversations[id].npc_id) + ".png"
+	# Speakers added later have the project's own portraits (tools/make_portraits.py).
+	if not ResourceLoader.exists(face):
+		face = OWN_PORTRAITS + str(conversations[id].npc_id) + ".png"
 	portrait.texture = load(face) if ResourceLoader.exists(face) else null
 	portrait.visible = portrait.texture != null
 	hint.text = "Objetivo: presente y peticiones sencillas. " + str(conversations[id].hint)
