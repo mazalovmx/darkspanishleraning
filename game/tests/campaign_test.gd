@@ -30,6 +30,11 @@ func learn(state: RefCounted) -> void:
 			var answer: String = task.card.model if task.stage == "guided" else task.card.exercises[["first","second","recall"].find(task.stage)].answers[0]
 			check(course.submit(task.card.id, answer, state.day).ok, "Real curriculum prerequisite")
 	check(course.completed(), "Entire ordered course completed")
+	consult_index(state)
+
+## The crisis cards need a consultation of El Índice; campaign walks get it here.
+func consult_index(state: RefCounted) -> void:
+	state.npc_memory["el_indice"] = {"count": 2, "last_day": 1, "topics": ["ask_crisis", "ask_ordinary_day"]}
 func visit(state: RefCounted, location_id: String) -> void:
 	for location: Dictionary in state.locations:
 		if location.id == location_id:
@@ -55,6 +60,18 @@ func run() -> void:
 	check(not campaign.submit(state, order.id, order.answers[0], order.classification).ok, "Language cannot skip prerequisite block")
 	check(campaign.records.is_empty(), "Language denial has no progress")
 	learn(state)
+	# El Índice's answers gate the crisis cards (t:el_indice:… requirements).
+	var memory: Dictionary = state.npc_memory.el_indice.duplicate(true)
+	state.npc_memory.erase("el_indice")
+	check(campaign._proof_day(state, "t:el_indice:ask_crisis", {}) == 0, "No consultation, no proof")
+	state.npc_memory["el_indice"] = {"count": 1, "last_day": 1, "topics": ["ask_crisis"]}
+	check(campaign._proof_day(state, "t:el_indice:ask_crisis", {}) == 1 and campaign._proof_day(state, "t:el_indice:ask_ordinary_day", {}) == 0, "Each consultation proves only its own topic")
+	state.npc_memory["el_indice"] = memory
+	var fresh := World.new("province_160x120_v1")
+	fresh.campaign.records["archive_meeting"] = {"day": 1, "hero": "inquisitor", "answer": str(fresh.campaign.definitions.archive_meeting.answers[0]), "classification": str(fresh.campaign.definitions.archive_meeting.classification), "supports": []}
+	check(fresh.campaign.pending_consultations(fresh).any(func(hint: String) -> bool: return hint.contains("El Índice")), "The journal names the pending consultation")
+	fresh.npc_memory["el_indice"] = {"count": 1, "last_day": 1, "topics": ["ask_crisis"]}
+	check(not fresh.campaign.pending_consultations(fresh).any(func(hint: String) -> bool: return hint.contains("crisis")), "The hint disappears after the consultation")
 	var bad_order := order.duplicate(true)
 	bad_order.declaration.authority = "visitor"
 	check(not campaign._declaration_valid(bad_order), "Unauthorized order denied")

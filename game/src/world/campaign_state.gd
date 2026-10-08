@@ -6,14 +6,23 @@ var records: Dictionary = {}
 const CLASSIFICATIONS := ["observed", "reported", "inferred", "declared", "unresolved"]
 
 func _proof_day(world: RefCounted, id: String, progress: Dictionary) -> int:
+	# "t:<npc>:<intent>": the player asked that character about it (conversation memory
+	# keeps topics, not their day, so a remembered topic counts from day 1).
+	if id.begins_with("t:"):
+		var parts := id.split(":")
+		return 1 if parts.size() == 3 and parts[2] in world.npc_memory.get(parts[1], {}).get("topics", []) else 0
 	if id.begins_with("e:"):
 		return int(world.evidence.progress().get(id.trim_prefix("e:"), {}).get("found_day", 0))
 	return int(progress.get(id, {}).get("day", 0))
 
-func prerequisites(world: RefCounted, node: Dictionary, progress: Dictionary, day: int) -> bool:
+## When restoring a recorded card, conversation requirements ("t:") are not rechecked:
+## saves written before a card gained one must still load.
+func prerequisites(world: RefCounted, node: Dictionary, progress: Dictionary, day: int, restoring := false) -> bool:
 	if closed(world, node, progress):
 		return false
 	for id: String in node.requires + node.get("supports", []):
+		if restoring and id.begins_with("t:"):
+			continue
 		var found := _proof_day(world, id, progress)
 		if found < 1 or found > day:
 			return false
@@ -36,6 +45,26 @@ func language_ready(world: RefCounted, node: Dictionary, day: int) -> bool:
 		if not practiced:
 			return false
 	return true
+
+## Cards that wait only for a conversation ("t:" requirement), with their hints.
+func pending_consultations(world: RefCounted) -> Array[String]:
+	var hints: Array[String] = []
+	for id: String in definitions:
+		var node: Dictionary = definitions[id]
+		if records.has(id) or not node.has("consult_hint") or closed(world, node, records):
+			continue
+		var waiting := false
+		var ready := true
+		for need: String in node.requires + node.get("supports", []):
+			var found := _proof_day(world, need, records)
+			if found < 1 or found > world.day:
+				if need.begins_with("t:"):
+					waiting = true
+				else:
+					ready = false
+		if waiting and ready:
+			hints.append(str(node.consult_hint))
+	return hints
 
 func available(world: RefCounted) -> Array:
 	var result := []
@@ -242,7 +271,7 @@ func restore(data: Variant, world: RefCounted) -> bool:
 			return false
 		validated[id] = entry.duplicate(true)
 	for id in validated:
-		if not prerequisites(world, definitions[id], validated, int(validated[id].day)) or not _outcome_ready(world, definitions[id], validated[id].answer, validated, int(validated[id].day)):
+		if not prerequisites(world, definitions[id], validated, int(validated[id].day), true) or not _outcome_ready(world, definitions[id], validated[id].answer, validated, int(validated[id].day)):
 			return false
 	if world.map_id == "province_160x120_v1":
 		if world.party.heroes.smuggler.unlocked != validated.has("ines_arrival") or world.party.heroes.survivor.unlocked != validated.has("elias_arrival"):

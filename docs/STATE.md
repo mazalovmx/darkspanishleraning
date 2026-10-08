@@ -2434,3 +2434,22 @@ Executed for this commit: the full non-live run, 56 suites, all exit 0 with
 
 Executed for this commit: the full non-live run, 57 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## El Índice's answers open the crisis cards
+
+- Campaign requirements accept "t:<npc>:<intent>": the player asked that character
+  about the topic (conversation memory). index_crisis now needs
+  `t:el_indice:ask_crisis` and ordinary_tuesday `t:el_indice:ask_ordinary_day`; two new
+  grounding intents recognise those questions ("crisis", "colapso"; "martes",
+  "corriente", "ordinario", "cotidiano", "continuidad").
+- Cards waiting only for a consultation carry a `consult_hint`; the journal lists them
+  under "CONSULTAS PENDIENTES".
+- Saves: conversation memory is restored before the campaign, and conversation
+  requirements are not rechecked for cards already recorded, so older saves with these
+  cards still load.
+- Tests: campaign walks get the consultation in the shared `learn()` helper;
+  campaign_test checks the proof per topic and the pending hint; npc_grounding_test the
+  two intents.
+
+Executed for this commit: the full non-live run, 57 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

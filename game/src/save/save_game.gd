@@ -177,6 +177,24 @@ static func decode(data: Variant) -> Dictionary:
 	state.learner.successful_contexts = learner.successful_contexts.duplicate(true)
 	if data.version >= 5:
 		state.learner.curriculum.restore(learner.curriculum, int(data.day))
+	# Conversation memory first: campaign cards can require a consultation.
+	if data.version >= 13:
+		var memory: Variant = data.get("npc_memory")
+		if not memory is Dictionary:
+			return {"error": "invalid"}
+		var intents: Array = state.evidence.grounding.intents()
+		for npc_id: Variant in memory:
+			var entry: Variant = memory[npc_id]
+			if npc_id not in NPC_IDS or not entry is Dictionary or entry.size() != 3:
+				return {"error": "invalid"}
+			if not _integer(entry.get("count"), 1, 100000) or not _integer(entry.get("last_day"), 1, int(data.day)) or not _strings(entry.get("topics"), intents.size(), 40):
+				return {"error": "invalid"}
+			var topics: Array = []
+			for topic: String in entry.topics:
+				if topic not in intents or topic in topics:
+					return {"error": "invalid"}
+				topics.append(topic)
+			state.npc_memory[npc_id] = {"count": int(entry.count), "last_day": int(entry.last_day), "topics": topics}
 	if not state.campaign.restore(data.get("campaign", {}), state):
 		return {"error": "invalid"}
 	if data.version >= 9:
@@ -214,23 +232,6 @@ static func decode(data: Variant) -> Dictionary:
 			if state.ghosts.definitions.has(id):
 				if not state.ghosts.actors.has(id) or state.encounters[id].day < state.ghosts.actors[id].born_day or not state.ghosts.language_ready(state,id,int(state.encounters[id].day)):
 					return {"error":"invalid"}
-	if data.version >= 13:
-		var memory: Variant = data.get("npc_memory")
-		if not memory is Dictionary:
-			return {"error": "invalid"}
-		var intents: Array = state.evidence.grounding.intents()
-		for npc_id: Variant in memory:
-			var entry: Variant = memory[npc_id]
-			if npc_id not in NPC_IDS or not entry is Dictionary or entry.size() != 3:
-				return {"error": "invalid"}
-			if not _integer(entry.get("count"), 1, 100000) or not _integer(entry.get("last_day"), 1, int(data.day)) or not _strings(entry.get("topics"), intents.size(), 40):
-				return {"error": "invalid"}
-			var topics: Array = []
-			for topic: String in entry.topics:
-				if topic not in intents or topic in topics:
-					return {"error": "invalid"}
-				topics.append(topic)
-			state.npc_memory[npc_id] = {"count": int(entry.count), "last_day": int(entry.last_day), "topics": topics}
 	return {"state": state, "error": ""}
 
 static func read_save(path := PATH) -> Dictionary:

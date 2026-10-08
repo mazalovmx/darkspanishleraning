@@ -688,6 +688,7 @@
       "location": "LOC01",
       "speaker": "El Índice",
       "title": "Una pregunta sobre crisis",
+      "consult_hint": "Pregunta a El Índice, en la cripta de Santa Lucerna, por las crisis o los colapsos.",
       "source": "La consulta pregunta por desarrollos que preceden a colapsos. La respuesta enumera comunicación, logística y concentración industrial junto a conflictos. El conjunto consultado está formado por acontecimientos registrados como importantes.",
       "prompt": "Describe qué has consultado, sin convertir asociaciones en leyes.",
       "answers": [
@@ -705,6 +706,8 @@
       "classification": "observed",
       "requires": [
         "archive_meeting"
+      ,
+        "t:el_indice:ask_crisis"
       ],
       "min_block": 5,
       "grammar": [
@@ -718,6 +721,7 @@
       "location": "LOC01",
       "speaker": "Elias Venn",
       "title": "Un martes corriente",
+      "consult_hint": "Pregunta a El Índice por un día corriente (un martes ordinario).",
       "source": "Elias propone preguntar por un martes ordinario con imprenta extendida. Faltan registros de continuidad cotidiana. El silencio del archivo no demuestra ausencia de bienestar ni de sufrimiento.",
       "prompt": "Describe qué falta en la comparación.",
       "answers": [
@@ -736,6 +740,8 @@
       "classification": "observed",
       "requires": [
         "index_crisis"
+      ,
+        "t:el_indice:ask_ordinary_day"
       ],
       "min_block": 5,
       "grammar": [

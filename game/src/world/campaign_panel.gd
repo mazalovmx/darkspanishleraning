@@ -97,6 +97,9 @@ func _location_name(id: String) -> String:
 
 func refresh() -> void:
 	_refresh_body()
+	var pending: Array[String] = world_state.campaign.pending_consultations(world_state)
+	if not pending.is_empty():
+		body.text += "\n\nCONSULTAS PENDIENTES\n· " + "\n· ".join(pending)
 	var acts: Array = world_state.campaign.acts(world_state)
 	if not acts.is_empty():
 		body.text += "\n\nACTOS INSTITUCIONALES EN VIGOR"

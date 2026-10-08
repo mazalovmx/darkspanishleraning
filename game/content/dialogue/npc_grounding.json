@@ -172,7 +172,9 @@
                     "ask_guard":  ["guardia","soldados"],
                     "ask_guild":  ["gremio","boticarios"],
                     "ask_restrictions":  ["restricciones"],
-                    "ask_disappearance":  ["desaparicion","desaparecido"]
+                    "ask_disappearance":  ["desaparicion","desaparecido"],
+                    "ask_crisis":  ["crisis", "colapso", "colapsos"],
+                    "ask_ordinary_day":  ["martes", "corriente", "ordinario", "cotidiano", "continuidad"]
                 },
     "npcs":  {
       "ines_vargas": {

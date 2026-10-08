@@ -123,7 +123,8 @@ its own multi-session plan and scenario-bible review per NPC.
   ending. SQ05 ends in a destroy/scale/ban decision with consequences.
 - El Índice is a conversable machine in the crypt (after archive_meeting): crisis
   patterns for printing, machines and medicine; "REGISTROS INSUFICIENTES" for an
-  ordinary day. Its answers do not yet feed the index_crisis/ordinary_tuesday cards.
+  ordinary day. The index_crisis and ordinary_tuesday cards open only after the player
+  has asked it about crises / an ordinary day; the journal names the consultation.
 - Council: a wrong classification is recorded and closes the Charter. Ysabel, Inés
   and Elias have council statements; the commander speaks through council_unknown.
 - SQ01 (threaten/bargain/investigate), SQ02 (approve/keep the ban) and SQ06
