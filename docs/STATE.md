@@ -2669,3 +2669,13 @@ write/read PASS. The dialog was not rendered in a window.
 Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
 run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
 write/read PASS. Not rendered in a window.
+
+## Windows export preset tracked in git
+
+- `game/export_presets.cfg` was ignored by `game/.gitignore`, so the build in
+  docs/RELEASE.md could not be reproduced from the repository. The preset is now tracked
+  ("Windows Desktop", x86_64, embedded pack, `*.json` included, `tests/*`, `media/*`,
+  `*.md` excluded, `res://icon.ico`).
+- Executed: `--export-pack "Windows Desktop"` with Godot 4.6.2 on Linux: the pack holds
+  `config/game.json` and every `content/**/*.json`, and no test file. Not executed: the
+  `.exe` export from a clean checkout and running it on Windows.

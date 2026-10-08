@@ -1,8 +1,10 @@
 # Windows build
 
-`game/export_presets.cfg` defines one preset, "Windows Desktop": x86_64, the `.pck`
-embedded in the `.exe`, every resource plus the JSON content (`*.json`, read with
-FileAccess, so it must be listed explicitly), and no test scripts.
+`game/export_presets.cfg` (tracked in git; it holds no credentials) defines one preset,
+"Windows Desktop": x86_64, the `.pck` embedded in the `.exe`, every resource plus the
+JSON content (`*.json`, read with FileAccess, so it must be listed explicitly), and
+neither `tests/`, `media/` nor Markdown files. API keys never enter the pack: they are
+read from the process environment.
 
 ## Build
 
@@ -37,3 +39,11 @@ weak PC, how Windows shows the icon (see below).
 book with an ember flame. A test export on 2026-10-08 embedded all six sizes in the
 `.exe` (checked by searching the file for each image); how Windows Explorer shows it
 has not been seen.
+
+## Preset in the repository (2026-10-08, Linux, cloud session)
+
+The preset was previously ignored by `game/.gitignore`, so a fresh checkout could not
+export. It is now tracked. Checked with `--export-pack "Windows Desktop"` (no Windows
+template needed): the pack holds `config/game.json` and all of `content/**/*.json`, and
+no file under `res://tests/`, no `.env`, no `media/` and no `.md`. Not checked here: the
+`--export-release` `.exe` from a clean checkout and running it on Windows.
