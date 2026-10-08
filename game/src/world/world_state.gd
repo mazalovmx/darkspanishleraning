@@ -355,6 +355,8 @@ func encounter_definition(id: String) -> Dictionary:
 		return side_cases.encounter_definition(id)
 	if id == "opening_road":
 		return StackBattle.new().data.opening.duplicate(true)
+	if map_id == "province_160x120_v1" and id.begins_with(economy.RAID_PREFIX):
+		return economy.raid_definition(self, id)
 	var cache: Dictionary = economy.treasure(self, id)
 	if not cache.is_empty():
 		return {} if not cache.guarded else {"id": id, "name": "Guardianes: " + str(cache.name),

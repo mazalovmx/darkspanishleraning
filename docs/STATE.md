@@ -1959,3 +1959,20 @@ Tests: new supplies_test (8 checks).
 
 Executed for this commit: the full non-live run, 52 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Owned mines are contested (master spec 12)
+
+`strategy_economy`: raiders arrive at an owned mine every seventh day after its claim
+(`raid_day`); the mine is `contested` until a victory over them dated on or after the
+latest raid, and a contested mine yields no daily income. The raid is a battle on the
+mine (`raid_<mine>` encounter; enemies from the mine's guard table, or five bandits);
+the strategy panel says the mine is disputed and offers the battle. All of it is
+derived from the claim day and the encounter record, so the save format is unchanged;
+the restore limit on encounter records now also counts raids and guarded treasures.
+
+Tests: new mine_contest_test (no raid in the first week, raid on day 8 stops income, a
+lost battle keeps it contested, a victory frees it and income resumes, the next raid a
+week later, save round trip, unknown raid ids refused; 12 checks).
+
+Executed for this commit: the full non-live run, 53 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

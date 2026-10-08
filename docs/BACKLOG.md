@@ -138,7 +138,8 @@ its own multi-session plan and scenario-bible review per NPC.
   bandages, horse feed, weakness below half health. Lamp oil still has no effect.
 - Map treasures exist (`treasures.json`): 30 caches hold the 90 optional_treasure
   items; six bandit-guarded caches of relics stand in the Marjal Negro ruins.
-- Owned mines cannot be contested (section 12).
+- Owned mines are contested: raiders every seventh day after the claim stop the
+  income until a victory. Ghost knights do not attack mines.
 - Hero-specific troops exist (novices, hospitallers, inquisitorial guard for Mateo;
   thieves, knife fighters, crossbow mercenaries for Inés; relay automatons for
   Elias); towns still offer the same buildings. Balance unplaytested.

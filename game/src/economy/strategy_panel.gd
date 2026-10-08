@@ -62,6 +62,8 @@ func _ready() -> void:
 	battle_button.text = "Combatir a los guardianes"
 	battle_button.pressed.connect(func():
 		var id := site_id
+		if world_state.economy.mines.has(id) and world_state.economy.contested(world_state,id):
+			id = world_state.economy.raid_id(id)
 		close()
 		battle_requested.emit(id))
 	box.add_child(battle_button)
@@ -127,6 +129,9 @@ func refresh() -> void:
 			prompt.text = ""
 			input.hide()
 			send_button.hide()
+			if economy.contested(world_state,site_id):
+				description.text += "\n\nUnos salteadores la disputan: no produce hasta que los expulses."
+				battle_button.show()
 			return
 		var guarded: bool = site.guarded and world_state.encounters.get(site_id,{}).get("outcome","") != "victory"
 		battle_button.visible = guarded

@@ -283,7 +283,7 @@ static func _restore_strategy(state: WorldState, data: Variant, day: int, versio
 	for resource in state.resources:
 		if not _integer(data.resources.get(resource), 0, 1000000000):
 			return false
-	if not data.get("encounters") is Dictionary or data.encounters.size() > 1 + state.map_data.get("resource_sites", []).size() + (108 if version >= 11 else 0) + (8 if version >= 12 else 0):
+	if not data.get("encounters") is Dictionary or data.encounters.size() > 1 + 2 * state.map_data.get("resource_sites", []).size() + state.economy.treasures.size() + (108 if version >= 11 else 0) + (8 if version >= 12 else 0):
 		return false
 	for id in data.encounters:
 		if not id is String:

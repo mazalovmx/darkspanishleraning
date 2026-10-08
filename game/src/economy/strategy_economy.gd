@@ -411,6 +411,34 @@ func claim_feedback(world: RefCounted, id: String, message: String) -> String:
 	var spelling: String = _trade.spelling(message,claim_model(world,id,tier),"request",tier)
 	return _gaps_text(gaps) if not gaps.is_empty() else spelling if not spelling.is_empty() else "Revisa el acceso."
 
+## Owned mines are contested (master spec 12): raiders arrive every seventh day after
+## the claim; the mine yields nothing until a victory over them that is not older than
+## the latest raid. Derived from the claim day and encounters, so it adds no save field.
+const RAID_PREFIX := "raid_"
+
+func raid_id(id: String) -> String:
+	return RAID_PREFIX + id
+
+func raid_day(world: RefCounted, id: String) -> int:
+	if not mines.has(id):
+		return 0
+	var since: int = world.day - int(mines[id].day)
+	return 0 if since < 7 else int(mines[id].day) + 7 * int(since / 7)
+
+func contested(world: RefCounted, id: String) -> bool:
+	var raided := raid_day(world, id)
+	var won: Dictionary = world.encounters.get(raid_id(id), {})
+	return raided > 0 and not (won.get("outcome", "") == "victory" and int(won.get("day", 0)) >= raided)
+
+func raid_definition(world: RefCounted, encounter_id: String) -> Dictionary:
+	var id := encounter_id.trim_prefix(RAID_PREFIX)
+	var entry := site(world, id) if encounter_id.begins_with(RAID_PREFIX) else {}
+	if entry.is_empty():
+		return {}
+	var raiders: Array = catalog.mine_guards.get(entry.resource, [{"type": "bandits", "count": 5}]).duplicate(true)
+	return {"id": encounter_id, "name": "Salteadores en la mina de " + str(catalog.resource_names[entry.resource]),
+		"position": entry.position.duplicate(), "enemies": raiders, "requires": "", "reward": {}}
+
 func claim(world: RefCounted, id: String, message: String) -> bool:
 	var entry := site(world,id)
 	if world.planning_active() or entry.is_empty() or mines.has(id) or world.active_battle != null or not pending.is_empty() or not world.trade.pending.is_empty():
@@ -430,6 +458,8 @@ func advance_day(world: RefCounted) -> Dictionary:
 		return {}
 	var income := {}
 	for id in mines:
+		if contested(world,id):
+			continue
 		var entry := site(world,id)
 		income[entry.resource] = int(income.get(entry.resource,0)) + int(entry.daily_income)
 	for location in buildings:
