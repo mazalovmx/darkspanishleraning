@@ -1896,3 +1896,30 @@ Tuesday, cannot hand out a clue): 89 cases, 1,002 checks.
 
 Executed for this commit: the full non-live run, 50 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Map treasures and Marjal Negro
+
+Master spec 12 (map pickups and guarded treasures) and bible 10.10 (Marjal Negro:
+wetlands, bandit territory, ruins of the old civilization, optional). The 90
+optional_treasure items had no source. `content/world/treasures.json` places 30 caches
+of three items: 6 guarded by bandits and hired blades in the Marjal Negro ruins, with
+the relics ("de la Edad Clara"), and 24 unguarded caches, three per region, on open
+ground chosen with a fixed seed. `strategy_economy` gains `treasure`, `treasure_at`,
+`treasure_claimed` (derived from equipment instances), `treasure_missing`,
+`treasure_cue` and `claim_treasure` (typed order on the cache's cell, guard victory,
+backpack room for all three items, then the items go to the active hero). The map draws
+unclaimed caches, names them on hover and opens them in the strategy panel;
+`encounter_definition` offers the guards as a battle. Restore refuses an item of a
+guarded cache without its victory. No save version change.
+
+Marjal Negro also gets a conversable speaker, Nuño Barragán, chief of the bandits
+(fictional name, bible 13.11): facts about the ruins, the guarded caches and his toll;
+offline replies; save whitelist id; one golden case.
+
+Tests: new treasures_test (30 caches, every item in exactly one, open ground, reachable
+once the northern pass opens, six guarded ones in the marsh; typed opening, once only,
+items to the backpack, guarded cache needs its victory, forged victory refused, no
+treasures on the prototype map; 113 checks); golden conversations 90 cases.
+
+Executed for this commit: the full non-live run, 51 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

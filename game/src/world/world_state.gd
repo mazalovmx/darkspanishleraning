@@ -307,7 +307,7 @@ func resource_at(cell: Vector2i) -> Dictionary:
 	for entry: Dictionary in map_data.get("resource_sites",[]):
 		if cell == Vector2i(entry.position[0],entry.position[1]):
 			return entry
-	return {}
+	return economy.treasure_at(self, cell)
 
 func encounter_definition(id: String) -> Dictionary:
 	if map_id == "province_160x120_v1" and ghosts.definitions.has(id):
@@ -316,6 +316,10 @@ func encounter_definition(id: String) -> Dictionary:
 		return side_cases.encounter_definition(id)
 	if id == "opening_road":
 		return StackBattle.new().data.opening.duplicate(true)
+	var cache: Dictionary = economy.treasure(self, id)
+	if not cache.is_empty():
+		return {} if not cache.guarded else {"id": id, "name": "Guardianes: " + str(cache.name),
+			"position": cache.position.duplicate(), "enemies": cache.guards.duplicate(true), "requires": "", "reward": {}}
 	var entry: Dictionary = economy.site(self,id)
 	if entry.is_empty() or not entry.guarded:
 		return {}

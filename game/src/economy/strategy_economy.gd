@@ -11,9 +11,12 @@ var purchase_count := 0
 var last_income_day := 1
 var pending: Dictionary = {}
 var phase := "request"
+## Map treasures: the only source of the 90 optional_treasure items (section 12).
+var treasures: Dictionary = {}
 const TIERS := ["basic","past","plans","argument"]
 
 func _init() -> void:
+	_load_treasures()
 	var labels := {"army_attack":"Ataque","army_defense":"Defensa","army_hp_percent":"Salud (%)","army_initiative":"Iniciativa","army_luck":"Suerte","army_morale":"Moral","world_movement":"Movimiento","ranged_damage_percent":"Daño a distancia (%)"}
 	var equipment: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/scenario/equipment.json"))
 	for item: Dictionary in equipment.items:
@@ -23,6 +26,76 @@ func _init() -> void:
 				details.append("%s: +%d" % [labels[effect.effect],effect.amount])
 			artifact_offers[item.id] = {"name":item.name,"cost":{"gold":int(item.price_gold)},
 				"building":"artifact_market","description":"\n".join(details)}
+
+func _load_treasures() -> void:
+	for entry: Dictionary in JSON.parse_string(FileAccess.get_file_as_string("res://content/world/treasures.json")).treasures:
+		treasures[entry.id] = entry
+
+func treasure(world: RefCounted, id: String) -> Dictionary:
+	return treasures.get(id, {}) if world.map_id == "province_160x120_v1" else {}
+
+func treasure_at(world: RefCounted, cell: Vector2i) -> Dictionary:
+	for id: String in treasures:
+		var entry: Dictionary = treasure(world, id)
+		if not entry.is_empty() and cell == Vector2i(entry.position[0], entry.position[1]):
+			return entry
+	return {}
+
+## Claimed when every item of the cache exists; the items have no other source.
+func treasure_claimed(world: RefCounted, id: String) -> bool:
+	var owned := {}
+	for entry: Dictionary in world.equipment.instances.values():
+		owned[entry.item] = true
+	return treasure(world, id).get("items", []).all(func(item: String) -> bool: return owned.has(item))
+
+const TREASURE_VERBS := ["abrir", "tomar", "recoger", "llevar", "coger", "sacar", "abrimos", "abro", "tomo", "recojo"]
+const TREASURE_NOUNS := ["cofre", "arca", "caja", "alijo", "tesoro"]
+
+func treasure_missing(world: RefCounted, id: String, message: String, tier: String) -> Array[String]:
+	var result: Array[String] = []
+	if message.length() > 300 or treasure(world, id).is_empty():
+		result.append("una frase más corta")
+		return result
+	var text: String = _trade.words(message)
+	if not _trade.RULES.request[tier].verbs.any(func(verb: String) -> bool: return text.contains(" %s " % verb)):
+		result.append(LABELS.verb)
+	if not TREASURE_VERBS.any(func(verb: String) -> bool: return text.contains(" %s " % verb)):
+		result.append("qué haces (abrir, tomar, recoger…)")
+	if not TREASURE_NOUNS.any(func(noun: String) -> bool: return text.contains(" %s " % noun)):
+		result.append("el cofre o el alijo")
+	return result
+
+func treasure_cue(world: RefCounted, id: String) -> String:
+	var tier: String = world.trade.tier_for(world)
+	return "Objetivo: %s\nRecuerda: %s" % [treasure(world, id).name,
+		str(_trade.REMINDERS.request[tier]).replace("cantidad + producto", "lo que haces con el cofre")]
+
+func claim_treasure(world: RefCounted, id: String, message: String) -> Dictionary:
+	var entry := treasure(world, id)
+	if entry.is_empty() or world.planning_active() or world.active_battle != null or not pending.is_empty() or not world.trade.pending.is_empty():
+		return {"ok": false, "message": "Termina la acción actual."}
+	if world.hero_cell != Vector2i(entry.position[0], entry.position[1]):
+		return {"ok": false, "message": "El héroe debe estar junto al tesoro."}
+	if treasure_claimed(world, id):
+		return {"ok": false, "message": "Ya has recogido este tesoro."}
+	if entry.guarded and world.encounters.get(id, {}).get("outcome", "") != "victory":
+		return {"ok": false, "message": "Los guardianes controlan el tesoro."}
+	var tier: String = world.trade.tier_for(world)
+	var gaps := treasure_missing(world, id, message, tier)
+	if not gaps.is_empty():
+		return {"ok": false, "message": _gaps_text(gaps)}
+	var spelling: String = _trade.spelling(message, "", "request", tier)
+	if not spelling.is_empty():
+		return {"ok": false, "message": spelling}
+	var owner: String = world.party.active_id
+	var room: int = 2048 - world.equipment.instances.size()
+	if room < entry.items.size() or not entry.items.all(func(item: String) -> bool: return world.equipment.can_grant(item, owner)):
+		return {"ok": false, "message": "No queda espacio en la mochila. El tesoro sigue aquí."}
+	var names: PackedStringArray = []
+	for item: String in entry.items:
+		world.equipment.grant(item, owner)
+		names.append(str(world.equipment.items[item].name))
+	return {"ok": true, "message": "Guardas en la mochila: " + ", ".join(names) + "."}
 
 func offer(kind: String, id: String) -> Dictionary:
 	var collection: Dictionary = catalog.buildings if kind == "build" else catalog.recruits if kind == "recruit" else catalog.upgrades if kind == "upgrade" else artifact_offers if kind == "artifact" else {}
@@ -484,6 +557,11 @@ func restore(data: Variant, world: RefCounted) -> bool:
 		return false
 	if world.map_id != "province_160x120_v1" and (not data.buildings.is_empty() or not data.recruited.is_empty() or not data.mines.is_empty() or not data.artifact_sales.is_empty() or data.purchase_count != 0):
 		return false
+	# A treasure item comes only from its cache: a guarded cache needs its victory.
+	for entry: Dictionary in world.equipment.instances.values():
+		for id: String in treasures:
+			if entry.item in treasures[id].items and world.map_id == "province_160x120_v1" and treasures[id].guarded and world.encounters.get(id, {}).get("outcome", "") != "victory":
+				return false
 	artifact_sales = data.artifact_sales.duplicate(true)
 	buildings = data.buildings.duplicate(true)
 	recruited = data.recruited.duplicate(true)

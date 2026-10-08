@@ -97,6 +97,27 @@ func refresh() -> void:
 	send_button.show()
 	entries.visible = site_id.is_empty()
 	quantity.visible = site_id.is_empty()
+	var cache: Dictionary = economy.treasure(world_state,site_id)
+	if not cache.is_empty():
+		title.text = str(cache.name).to_upper()
+		var names: PackedStringArray = []
+		for item: String in cache.items:
+			names.append(str(world_state.equipment.items[item].name))
+		description.text = "Contiene: " + ", ".join(names) + "."
+		send_button.text = "Abrir"
+		send_button.disabled = false
+		if economy.treasure_claimed(world_state,site_id):
+			description.text += "\n\nYa has recogido este tesoro."
+			prompt.text = ""
+			input.hide()
+			send_button.hide()
+			return
+		var watched: bool = cache.guarded and world_state.encounters.get(site_id,{}).get("outcome","") != "victory"
+		battle_button.visible = watched
+		input.visible = not watched
+		send_button.visible = not watched
+		prompt.text = "Unos bandidos vigilan el tesoro." if watched else "Da la orden.\n" + economy.treasure_cue(world_state,site_id)
+		return
 	if not site_id.is_empty():
 		var site: Dictionary = economy.site(world_state,site_id)
 		title.text = "MINA DE " + str(economy.catalog.resource_names[site.resource]).to_upper()
@@ -142,6 +163,13 @@ func _submit() -> void:
 	if not visible or send_button.disabled:
 		return
 	var economy = world_state.economy
+	if not economy.treasure(world_state,site_id).is_empty():
+		var result: Dictionary = economy.claim_treasure(world_state,site_id,input.text)
+		feedback.text = result.message
+		if result.ok:
+			refresh()
+			committed.emit()
+		return
 	if not site_id.is_empty():
 		if economy.claim(world_state,site_id,input.text):
 			feedback.text = "La mina está asegurada."

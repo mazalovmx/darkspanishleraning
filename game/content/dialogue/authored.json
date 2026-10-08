@@ -1553,5 +1553,68 @@
         }
       ],
       "fallback": "SIN PATRÓN. REFORMULE LA CONSULTA CON UN SUCESO."
+    },
+    "LOC10": {
+      "location_id": "LOC10",
+      "npc_id": "nuno_barragan",
+      "name": "Nuño Barragán",
+      "greeting": "Nuño Barragán. Este marjal es mío y de mi gente. ¿Viene a pagar o a preguntar?",
+      "greeting_again": "Otra vez en mi barro. ¿Qué quiere ahora?",
+      "hint": "Puede preguntar por las ruinas, por los cofres o por el camino.",
+      "branches": [
+        {
+          "keywords": [
+            "ruinas",
+            "ruina",
+            "antiguo",
+            "antigua",
+            "torres",
+            "edad clara"
+          ],
+          "reply": "Bajo el agua hay puentes y torres de la Edad Clara. Nadie sabe ya para qué servían."
+        },
+        {
+          "keywords": [
+            "cofre",
+            "cofres",
+            "tesoro",
+            "tesoros",
+            "arca",
+            "caja"
+          ],
+          "reply": "Mis hombres vigilan los cofres de las ruinas. Si los quiere, tendrá que pasar por encima de ellos."
+        },
+        {
+          "keywords": [
+            "camino",
+            "ruta",
+            "cardena",
+            "pasar"
+          ],
+          "reply": "El camino a Cárdena cruza el marjal. Quien pasa por aquí, paga."
+        },
+        {
+          "keywords": [
+            "nombre",
+            "quien"
+          ],
+          "reply": "Nuño Barragán. En el marjal no hace falta otro título."
+        },
+        {
+          "keywords": [
+            "gracias"
+          ],
+          "reply": "No me dé las gracias. Pague."
+        },
+        {
+          "keywords": [
+            "hola",
+            "buenas",
+            "buenos dias"
+          ],
+          "reply": "Buenas. Hable rápido; el barro no espera."
+        }
+      ],
+      "fallback": "De eso no hablo. Pregunte por las ruinas o por el camino."
     }
 }

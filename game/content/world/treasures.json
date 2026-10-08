@@ -1,0 +1,509 @@
+{
+  "version": 1,
+  "treasures": [
+    {
+      "id": "TR01",
+      "name": "Cofre del puente hundido",
+      "position": [
+        39,
+        89
+      ],
+      "guarded": true,
+      "guards": [
+        {
+          "type": "bandits",
+          "count": 6
+        },
+        {
+          "type": "hired_blade",
+          "count": 2
+        }
+      ],
+      "items": [
+        "EQ005",
+        "EQ010",
+        "EQ015"
+      ]
+    },
+    {
+      "id": "TR02",
+      "name": "Arca de la esclusa rota",
+      "position": [
+        36,
+        92
+      ],
+      "guarded": true,
+      "guards": [
+        {
+          "type": "bandits",
+          "count": 7
+        },
+        {
+          "type": "hired_blade",
+          "count": 2
+        }
+      ],
+      "items": [
+        "EQ020",
+        "EQ025",
+        "EQ030"
+      ]
+    },
+    {
+      "id": "TR03",
+      "name": "Caja del faro muerto",
+      "position": [
+        42,
+        92
+      ],
+      "guarded": true,
+      "guards": [
+        {
+          "type": "bandits",
+          "count": 8
+        },
+        {
+          "type": "hired_blade",
+          "count": 3
+        }
+      ],
+      "items": [
+        "EQ035",
+        "EQ040",
+        "EQ045"
+      ]
+    },
+    {
+      "id": "TR04",
+      "name": "Cofre de la aduana inundada",
+      "position": [
+        37,
+        97
+      ],
+      "guarded": true,
+      "guards": [
+        {
+          "type": "bandits",
+          "count": 9
+        },
+        {
+          "type": "hired_blade",
+          "count": 3
+        }
+      ],
+      "items": [
+        "EQ050",
+        "EQ055",
+        "EQ060"
+      ]
+    },
+    {
+      "id": "TR05",
+      "name": "Arca del molino de hierro",
+      "position": [
+        33,
+        94
+      ],
+      "guarded": true,
+      "guards": [
+        {
+          "type": "bandits",
+          "count": 10
+        },
+        {
+          "type": "hired_blade",
+          "count": 4
+        }
+      ],
+      "items": [
+        "EQ065",
+        "EQ070",
+        "EQ075"
+      ]
+    },
+    {
+      "id": "TR06",
+      "name": "Caja de la torre ahogada",
+      "position": [
+        40,
+        99
+      ],
+      "guarded": true,
+      "guards": [
+        {
+          "type": "bandits",
+          "count": 11
+        },
+        {
+          "type": "hired_blade",
+          "count": 4
+        }
+      ],
+      "items": [
+        "EQ080",
+        "EQ085",
+        "EQ090"
+      ]
+    },
+    {
+      "id": "TR07",
+      "name": "Alijo de Sierra del Relé",
+      "position": [
+        58,
+        13
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ095",
+        "EQ100",
+        "EQ105"
+      ]
+    },
+    {
+      "id": "TR08",
+      "name": "Alijo de Sierra del Relé",
+      "position": [
+        32,
+        8
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ110",
+        "EQ115",
+        "EQ120"
+      ]
+    },
+    {
+      "id": "TR09",
+      "name": "Alijo de Sierra del Relé",
+      "position": [
+        42,
+        2
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ125",
+        "EQ130",
+        "EQ135"
+      ]
+    },
+    {
+      "id": "TR10",
+      "name": "Alijo de Tierras de Bruma",
+      "position": [
+        153,
+        30
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ140",
+        "EQ145",
+        "EQ150"
+      ]
+    },
+    {
+      "id": "TR11",
+      "name": "Alijo de Tierras de Bruma",
+      "position": [
+        144,
+        25
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ004",
+        "EQ009",
+        "EQ014"
+      ]
+    },
+    {
+      "id": "TR12",
+      "name": "Alijo de Tierras de Bruma",
+      "position": [
+        67,
+        16
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ019",
+        "EQ024",
+        "EQ029"
+      ]
+    },
+    {
+      "id": "TR13",
+      "name": "Alijo de Valles de Lucerna",
+      "position": [
+        27,
+        34
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ034",
+        "EQ039",
+        "EQ044"
+      ]
+    },
+    {
+      "id": "TR14",
+      "name": "Alijo de Valles de Lucerna",
+      "position": [
+        6,
+        36
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ049",
+        "EQ054",
+        "EQ059"
+      ]
+    },
+    {
+      "id": "TR15",
+      "name": "Alijo de Valles de Lucerna",
+      "position": [
+        4,
+        63
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ064",
+        "EQ069",
+        "EQ074"
+      ]
+    },
+    {
+      "id": "TR16",
+      "name": "Alijo de Cuenca de Miralba",
+      "position": [
+        85,
+        60
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ079",
+        "EQ084",
+        "EQ089"
+      ]
+    },
+    {
+      "id": "TR17",
+      "name": "Alijo de Cuenca de Miralba",
+      "position": [
+        88,
+        51
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ094",
+        "EQ099",
+        "EQ104"
+      ]
+    },
+    {
+      "id": "TR18",
+      "name": "Alijo de Cuenca de Miralba",
+      "position": [
+        88,
+        34
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ109",
+        "EQ114",
+        "EQ119"
+      ]
+    },
+    {
+      "id": "TR19",
+      "name": "Alijo de Campos de Valdora",
+      "position": [
+        58,
+        70
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ124",
+        "EQ129",
+        "EQ134"
+      ]
+    },
+    {
+      "id": "TR20",
+      "name": "Alijo de Campos de Valdora",
+      "position": [
+        64,
+        76
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ139",
+        "EQ144",
+        "EQ149"
+      ]
+    },
+    {
+      "id": "TR21",
+      "name": "Alijo de Campos de Valdora",
+      "position": [
+        16,
+        71
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ003",
+        "EQ008",
+        "EQ013"
+      ]
+    },
+    {
+      "id": "TR22",
+      "name": "Alijo de Riberas de Hierro",
+      "position": [
+        150,
+        81
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ018",
+        "EQ023",
+        "EQ028"
+      ]
+    },
+    {
+      "id": "TR23",
+      "name": "Alijo de Riberas de Hierro",
+      "position": [
+        131,
+        68
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ033",
+        "EQ038",
+        "EQ043"
+      ]
+    },
+    {
+      "id": "TR24",
+      "name": "Alijo de Riberas de Hierro",
+      "position": [
+        153,
+        75
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ048",
+        "EQ053",
+        "EQ058"
+      ]
+    },
+    {
+      "id": "TR25",
+      "name": "Alijo de Marjal Negro",
+      "position": [
+        4,
+        113
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ063",
+        "EQ068",
+        "EQ073"
+      ]
+    },
+    {
+      "id": "TR26",
+      "name": "Alijo de Marjal Negro",
+      "position": [
+        35,
+        106
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ078",
+        "EQ083",
+        "EQ088"
+      ]
+    },
+    {
+      "id": "TR27",
+      "name": "Alijo de Marjal Negro",
+      "position": [
+        56,
+        87
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ093",
+        "EQ098",
+        "EQ103"
+      ]
+    },
+    {
+      "id": "TR28",
+      "name": "Alijo de Costa de Cárdena",
+      "position": [
+        134,
+        106
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ108",
+        "EQ113",
+        "EQ118"
+      ]
+    },
+    {
+      "id": "TR29",
+      "name": "Alijo de Costa de Cárdena",
+      "position": [
+        107,
+        102
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ123",
+        "EQ128",
+        "EQ133"
+      ]
+    },
+    {
+      "id": "TR30",
+      "name": "Alijo de Costa de Cárdena",
+      "position": [
+        136,
+        87
+      ],
+      "guarded": false,
+      "guards": [],
+      "items": [
+        "EQ138",
+        "EQ143",
+        "EQ148"
+      ]
+    }
+  ]
+}

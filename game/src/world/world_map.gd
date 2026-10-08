@@ -742,7 +742,9 @@ func _update_preview() -> void:
 		route_info.text = "Ruta: %d puntos.%s" % [cost,
 			"\nNo quedan suficientes puntos." if cost > state.movement_remaining else ""]
 	var site := state.resource_at(hovered)
-	if not site.is_empty():
+	if not site.is_empty() and site.has("items"):
+		route_info.text = "%s%s\n%s" % [site.name, " · vigilado" if site.guarded else "", route_info.text]
+	elif not site.is_empty():
 		route_info.text = "Mina de %s · +%d/día\n%s" % [state.economy.catalog.resource_names[site.resource],site.daily_income,route_info.text]
 	var gate := state.gate_at(hovered)
 	if not gate.is_empty() and gate.closed and state.fog_at(hovered) != WorldState.Fog.UNKNOWN:
@@ -782,6 +784,16 @@ func _draw() -> void:
 				draw_rect(Rect2(center - Vector2(15, 15), Vector2(30, 30)), Color("72c9b0"), false, 2)
 			continue
 		draw_colored_polygon(PackedVector2Array([center + Vector2(0,-8), center + Vector2(8,0), center + Vector2(0,8), center + Vector2(-8,0)]), Color("72c9b0") if owned else Color("bf9670"))
+	for id: String in state.economy.treasures:
+		var cache: Dictionary = state.economy.treasure(state, id)
+		if cache.is_empty():
+			continue
+		var cell := Vector2i(cache.position[0], cache.position[1])
+		if state.fog_at(cell) == WorldState.Fog.UNKNOWN or state.economy.treasure_claimed(state, id):
+			continue
+		var center := tiles.map_to_local(cell)
+		draw_rect(Rect2(center - Vector2(7, 5), Vector2(14, 10)), Color("d9a441") if not cache.guarded else Color("c26a4a"))
+		draw_rect(Rect2(center - Vector2(7, 5), Vector2(14, 10)), Color("3a2a12"), false, 2)
 	for gate: Dictionary in state.map_data.get("gates", []):
 		var cell := Vector2i(gate.position[0], gate.position[1])
 		if state.fog_at(cell) != WorldState.Fog.UNKNOWN and state.gate_at(cell).closed:

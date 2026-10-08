@@ -182,3 +182,13 @@ category and any category is ignored. Their `outcomes` may carry `effect` (a
 consequence flag), `income` (daily resources added by the strategy economy) or a
 `declaration`. A node's `closed_by` lists effects that make it unavailable; the council
 resolution's `epilogues` map effects to lines appended to the ending.
+
+## Map treasures (treasures.json)
+
+`content/world/treasures.json` lists caches `{id, name, position, guarded, guards,
+items}`. Each optional_treasure item appears in exactly one cache. A cache opens with
+a typed order (a tier verb form, an action such as abrir/tomar/recoger, and
+cofre/arca/caja/alijo/tesoro) on its cell; a guarded cache first needs a victory over
+its guards (encounter id = cache id). Claimed state is derived from the equipment
+instances, so it adds no save field; restore refuses a guarded cache's item without
+its victory.

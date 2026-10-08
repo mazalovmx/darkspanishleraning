@@ -78,7 +78,10 @@
   "cipriano_status": "La petición de la Orden todavía no es una prohibición válida.",
   "indice_archive": "El Índice es un archivo de acontecimientos registrados como importantes: crisis, guerras, hambrunas y colapsos.",
   "indice_method": "El Índice responde con patrones asociados a sucesos parecidos de su archivo.",
-  "indice_limit": "El archivo apenas contiene registros de días corrientes; el Índice no puede describir la continuidad ordinaria."
+  "indice_limit": "El archivo apenas contiene registros de días corrientes; el Índice no puede describir la continuidad ordinaria.",
+  "barragan_ruins": "Bajo las aguas del Marjal Negro quedan puentes y torres en ruinas de la Edad Clara.",
+  "barragan_caches": "Los bandidos de Nuño Barragán vigilan seis cofres en las ruinas del marjal.",
+  "barragan_toll": "Nuño Barragán cobra un peaje a quien cruza el marjal hacia Cárdena."
               },
     "clues":  {
                   "monastery_claim":  {
@@ -985,6 +988,32 @@
           "evasion": "Si no hay patrón, lo dice; no inventa sucesos."
         },
         "language_register": "formal"
+      },
+      "nuno_barragan": {
+        "id": "nuno_barragan",
+        "persona": {
+          "name": "Nuño Barragán",
+          "occupation": "jefe de los bandidos del Marjal Negro",
+          "traits": [
+            "burlón",
+            "desconfiado"
+          ],
+          "goal": "Cobrar a los viajeros y defender los cofres de las ruinas."
+        },
+        "knowledge": [
+          "barragan_ruins",
+          "barragan_caches",
+          "barragan_toll"
+        ],
+        "beliefs": [],
+        "false_beliefs": [],
+        "secrets": [],
+        "lie_policy": {
+          "can_lie": false,
+          "triggers": [],
+          "evasion": "Puede negarse a responder; no inventa hechos."
+        },
+        "language_register": "coloquial"
       }
              }
 }

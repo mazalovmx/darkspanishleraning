@@ -1122,6 +1122,7 @@ only what the source text of their campaign task states; none can lie or unlock 
 - Lorenzo Villar — spokesman of the Ferraza workers.
 - Gonzalo Ferrán — workshop owner in Ferraza.
 - Hermano Cipriano — envoy of the Orden de la Última Luz in Ferraza.
+- Nuño Barragán — chief of the Marjal Negro bandits; his men guard the ruin caches.
 
 ---
 
