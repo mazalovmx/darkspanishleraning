@@ -2604,3 +2604,23 @@ Executed for this commit: the full non-live run, 59 suites, all exit 0 with
 
 Executed for this commit: the full non-live run, 60 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## One outcome resolver for the council (Charter bypass closed)
+
+- `campaign_state._outcome_ready` now resolves the chosen option with `outcome_for`, the
+  same resolver as `ending()`. A free proposal that names the Charter meets the same
+  conditions as the authored sentence: the three optional reviews, a council without
+  misclassified statements, and no emergency powers in force. Before, only the exact
+  authored sentence was checked, so own wording reached the Charter without them.
+- Older saves whose own-worded council decision skipped those conditions are not
+  rejected: the decision alone is reopened (`campaign.reopened`), the rest of the
+  progress stays, and the map keeps a copy of the file (`savegame.json.reabierta.bak`)
+  before the next save and says why. If that copy fails, automatic saving pauses.
+  Authored sentences forged into a save are still rejected as before.
+- Tests: council_endings_test (own Charter without reviews, after a misclassification,
+  under emergency powers; reopened legacy save; earned own Charter survives restart).
+  With the old resolver the new checks fail (10 failures); with the fix they pass.
+
+Executed for this commit (Linux, headless Godot 4.6.2 official build, cloud session;
+not on the Windows machine): the full non-live run, 60 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

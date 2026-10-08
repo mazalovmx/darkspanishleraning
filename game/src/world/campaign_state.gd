@@ -3,6 +3,8 @@ extends RefCounted
 const Institutions = preload("res://src/world/institutions.gd")
 var definitions: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/scenario/campaign.json")).nodes
 var records: Dictionary = {}
+## Decisions dropped on load because their free wording skipped the outcome conditions.
+var reopened: Array[String] = []
 const CLASSIFICATIONS := ["observed", "reported", "inferred", "declared", "unresolved"]
 
 func _proof_day(world: RefCounted, id: String, progress: Dictionary) -> int:
@@ -175,6 +177,10 @@ func outcome_for(world: RefCounted, node: Dictionary, answer: String) -> Diction
 	var matched := _keyed_outcomes(world, node, answer)
 	return matched[0] if matched.size() == 1 and _groups_missing(world, node.get("decision_keys", []), answer).is_empty() else {}
 
+func _authored(world: RefCounted, node: Dictionary, answer: String) -> bool:
+	var course = world.learner.curriculum
+	return (node.answers + node.get("variants", [])).any(func(accepted: String) -> bool: return course.normalized(answer) == course.normalized(accepted))
+
 func _groups_missing(world: RefCounted, groups: Array, answer: String) -> Array[String]:
 	var text: String = world.learner.curriculum.words(answer)
 	var result: Array[String] = []
@@ -312,6 +318,14 @@ func restore(data: Variant, world: RefCounted) -> bool:
 		if not language_ready(world, node, int(day)) or not _declaration_valid(node):
 			return false
 		validated[id] = entry.duplicate(true)
+	# Saves written before free proposals met the outcome conditions: such a decision
+	# is reopened (the rest of the progress stays), never restored as an ending.
+	reopened.clear()
+	for id: String in validated.keys():
+		var node: Dictionary = definitions[id]
+		if node.has("decision_keys") and not _authored(world, node, validated[id].answer) and not _outcome_ready(world, node, validated[id].answer, validated, int(validated[id].day)):
+			validated.erase(id)
+			reopened.append(id)
 	for id in validated:
 		if not prerequisites(world, definitions[id], validated, int(validated[id].day), true) or not _outcome_ready(world, definitions[id], validated[id].answer, validated, int(validated[id].day)):
 			return false
@@ -321,22 +335,25 @@ func restore(data: Variant, world: RefCounted) -> bool:
 	records = validated
 	return true
 func _outcome_ready(world: RefCounted, node: Dictionary, answer: String, progress: Dictionary, day: int) -> bool:
-	for outcome: Dictionary in node.get("outcomes", []):
-		if world.learner.curriculum.normalized(answer) == world.learner.curriculum.normalized(outcome.answer):
-			for id: String in outcome.requires:
-				var found := _proof_day(world,id,progress)
-				if found < 1 or found > day:
-					return false
-			if outcome.get("clean_council", false) and misclassified(progress) > 0:
-				return false
-			if outcome.has("declaration") and not Institutions.valid(outcome.declaration):
-				return false
-			# An act already in force can close an outcome (e.g. emergency powers, the Charter).
-			var other := progress.duplicate()
-			other.erase(node.id)
-			for effect: String in outcome.get("closed_by", []):
-				if effects(world, other).has(effect):
-					return false
+	# The same resolver as the ending: an authored sentence and a free proposal that
+	# choose one option meet the same evidence, council and authority conditions.
+	var outcome := outcome_for(world, node, answer)
+	if outcome.is_empty():
+		return true
+	for id: String in outcome.get("requires", []):
+		var found := _proof_day(world,id,progress)
+		if found < 1 or found > day:
+			return false
+	if outcome.get("clean_council", false) and misclassified(progress) > 0:
+		return false
+	if outcome.has("declaration") and not Institutions.valid(outcome.declaration):
+		return false
+	# An act already in force can close an outcome (e.g. emergency powers, the Charter).
+	var other := progress.duplicate()
+	other.erase(node.id)
+	for effect: String in outcome.get("closed_by", []):
+		if effects(world, other).has(effect):
+			return false
 	return true
 
 ## Council statements recorded under a category other than the authored one.
