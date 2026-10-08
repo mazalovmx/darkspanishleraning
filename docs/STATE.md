@@ -2859,3 +2859,17 @@ Checks include real purchase rejection with unchanged money/stock/inventory,
 correction of that order, a legacy receipt, and every authored campaign sentence.
 This is a bounded grammar safeguard, not a complete Spanish grammar parser.
 Not yet connected here: strategy, optional cases, comparisons and soul rituals.
+## Agreement checks across strategic and optional tasks (2026-10-08)
+
+The same bounded offline grammar checks now cover construction/recruitment/artifact
+orders, mine claims, treasure requests, all optional-case language stages and
+comparisons, and free soul-ritual answers. Existing authored models remain valid.
+Saved receipts, claims, case answers, comparisons and soul records retain lenient
+language revalidation; evidence and progression validation is unchanged.
+
+Executed on Windows: grammar_checks_test 790; strategy suites 118;
+side_investigations_test 1,585; side_outcome_test 46; equipment_state_test 610;
+save_game_test 540; side_scene_test 220. Eight suites, 3,909 checks, zero failures,
+exit 0 and no script/parse errors. The side scene was instantiated headlessly.
+The corpus check includes every authored case model and soul-stage model.
+These remain conservative known-form rules, not complete grammatical assessment.

@@ -154,6 +154,8 @@ func missing(world: RefCounted,id: String,step: String,answer: String,choice := 
 			if _same(world,answer,phrases.access):
 				return result
 			result = _needs(ACCESS_KEYS,text)
+			if strict:
+				result.append_array(preload("res://src/spanish/grammar_checks.gd").missing(answer))
 			if strict and course.negates(text):
 				result.append("una petición afirmativa, sin «no»")
 			var piece: String = course.words(artifacts[quests[id].artifact_id].name)
@@ -164,6 +166,8 @@ func missing(world: RefCounted,id: String,step: String,answer: String,choice := 
 			if choice in quests[id].final_choice and _same(world,answer,choice_model(choice)):
 				return result
 			result = _needs([CONDITIONAL,CHOICE_KEYS["public" if choice.ends_with("_public") else "private"]],text)
+			if strict:
+				result.append_array(preload("res://src/spanish/grammar_checks.gd").missing(answer))
 			if strict and course.negates(text):
 				result.append("una propuesta afirmativa, sin «no»")
 			elif strict and _needs([CHOICE_KEYS.public],text).is_empty() and _needs([CHOICE_KEYS.private],text).is_empty():
@@ -176,6 +180,8 @@ func missing(world: RefCounted,id: String,step: String,answer: String,choice := 
 		if _same(world,answer,phrase):
 			return result
 	result = _needs(template(id).keys,text)
+	if strict:
+		result.append_array(preload("res://src/spanish/grammar_checks.gd").missing(answer))
 	# A negated claim is the opposite claim when every authored sentence affirms (or denies).
 	var polarity: Array = accepted.map(func(phrase: String) -> bool: return course.negates(course.words(phrase)))
 	if strict and not polarity.has(not polarity[0]) and course.negates(text) != polarity[0]:
@@ -334,12 +340,14 @@ func open_links() -> Array:
 		return link.required_quests.all(func(id: String) -> bool: return complete(id, records)))
 
 ## What a comparison answer still lacks: a word for each case and a comparing word.
-func comparison_missing(link: Dictionary, answer: String) -> Array[String]:
+func comparison_missing(link: Dictionary, answer: String, strict := true) -> Array[String]:
 	var result: Array[String] = []
 	var text := " " + " ".join(Curriculum.fold(answer.to_lower()).replace(",", " ").replace(".", " ").replace(";", " ").split(" ", false)) + " "
 	if answer.length() > 300:
 		result.append("una frase más breve")
 		return result
+	if strict:
+		result.append_array(preload("res://src/spanish/grammar_checks.gd").missing(answer))
 	for branch: String in [link.from, link.to]:
 		if not TOPICS[branch].any(func(word: String) -> bool: return text.contains(" %s " % word)):
 			result.append("algo del caso «%s»" % branches[branch].title)
@@ -382,7 +390,7 @@ func valid_comparisons(saved: Dictionary, ledger: Dictionary, world: RefCounted)
 			if not complete(quest, ledger):
 				return null
 			opened = maxi(opened, completed_day(quest, ledger))
-		if not entry is Dictionary or entry.size() != 3 or not entry.get("answer") is String or not entry.get("hero") is String or not _integer(entry.get("day"), maxi(1, opened), world.day) or not comparison_missing(link, entry.answer).is_empty():
+		if not entry is Dictionary or entry.size() != 3 or not entry.get("answer") is String or not entry.get("hero") is String or not _integer(entry.get("day"), maxi(1, opened), world.day) or not comparison_missing(link, entry.answer, false).is_empty():
 			return null
 		validated[link.id] = {"day": int(entry.day), "hero": str(entry.hero), "answer": str(entry.answer)}
 	return validated if validated.size() == saved.size() else null

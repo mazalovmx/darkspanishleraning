@@ -54,5 +54,24 @@ func run() -> void:
 	saved.receipts[0].request = malformed
 	var restored = load("res://src/economy/trade_state.gd").new()
 	check(restored.restore(saved, shop.day), "Actual older receipt with now-rejected grammar still restores")
+	var economy = world.economy
+	var request: String = economy.models("build", "council_hall", 1).request
+	var bad_order := "Yo tiene dinero y " + request.to_lower()
+	check(economy.missing("build", "council_hall", 1, bad_order, "request", "basic", false).is_empty(), "Legacy building receipt still accepted")
+	check(not economy.submit(world, "build", "council_hall", 1, bad_order).ok and economy.pending.is_empty(), "New malformed building order is refused before quotation")
+	var cases = world.side_cases
+	var bad_access := "Yo tiene permiso y quiero examinar la pieza."
+	check(cases.missing(world, "SX001", "access", bad_access, "", false).is_empty(), "Legacy case access preserved")
+	check(not cases.missing(world, "SX001", "access", bad_access).is_empty(), "New case access checks grammar")
+	var gear = world.equipment
+	var bad_ritual := "Yo tiene paciencia y quiero escuchar tus recuerdos."
+	check(gear.missing("SA01", "listen", bad_ritual, false).is_empty(), "Legacy soul answer preserved")
+	check(not gear.missing("SA01", "listen", bad_ritual).is_empty(), "New soul answer checks grammar")
+	for id: String in cases.quests:
+		for sentence: String in cases.models(id).values():
+			check(Grammar.missing(sentence).is_empty(), "Authored case Spanish: " + sentence)
+	for id: String in gear.sets:
+		for stage: String in gear.STAGES:
+			check(Grammar.missing(gear.expected(id, stage)).is_empty(), "Authored soul Spanish: " + id + ":" + stage)
 	print("Grammar checks: %d, failures: %d" % [checks, failures])
 	quit(1 if failures else 0)

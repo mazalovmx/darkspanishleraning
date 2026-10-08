@@ -150,6 +150,8 @@ func missing(set_id: String, stage: String, answer: String, strict := true) -> A
 	if keys.is_empty():
 		result.append("la frase completa")
 		return result
+	if strict:
+		result.append_array(preload("res://src/spanish/grammar_checks.gd").missing(answer))
 	var text := _words(answer)
 	for group: Dictionary in keys:
 		if not group.any.any(func(form: String) -> bool: return text.contains(" %s " % form)):

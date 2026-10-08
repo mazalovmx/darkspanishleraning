@@ -56,6 +56,7 @@ func treasure_missing(world: RefCounted, id: String, message: String, tier: Stri
 	if message.length() > 300 or treasure(world, id).is_empty():
 		result.append("una frase más corta")
 		return result
+	result.append_array(preload("res://src/spanish/grammar_checks.gd").missing(message))
 	var text: String = _trade.words(message)
 	if not _trade.RULES.request[tier].verbs.any(func(verb: String) -> bool: return text.contains(" %s " % verb)):
 		result.append(LABELS.verb)
@@ -207,6 +208,8 @@ func missing(kind: String, id: String, quantity: int, message: String, stage: St
 	for legacy in [false,true]:
 		if _trade.normalize(message) == _trade.normalize(str(models(kind,id,quantity,tier,legacy).get(stage,""))):
 			return result
+	if strict:
+		result.append_array(preload("res://src/spanish/grammar_checks.gd").missing(message))
 	var text: String = _trade.words(message)
 	var rule: Dictionary = _trade.RULES[stage][tier]
 	if not rule.verbs.any(func(verb: String) -> bool: return text.contains(" %s " % verb)):
@@ -405,6 +408,8 @@ func claim_missing(world: RefCounted, id: String, message: String, tier: String,
 		return result
 	if _trade.normalize(message) == _trade.normalize(claim_model(world,id,tier)):
 		return result
+	if strict:
+		result.append_array(preload("res://src/spanish/grammar_checks.gd").missing(message))
 	var text: String = _trade.words(message)
 	if not _trade.RULES.request[tier].verbs.any(func(verb: String) -> bool: return text.contains(" %s " % verb)):
 		result.append(LABELS.verb)
