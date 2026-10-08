@@ -82,5 +82,15 @@
     "confirm_noun": "el pago",
     "locations": ["LOC15"],
     "use": "El médico del hospital cura 40 puntos de salud al momento por cada cura."
+  },
+  "salvoconducto": {
+    "name": "Salvoconducto del Puente Seco",
+    "singular": "salvoconducto",
+    "plural": "salvoconductos",
+    "price": 15,
+    "stock": 30,
+    "kind": "document",
+    "locations": ["LOC06"],
+    "use": "Con el salvoconducto cruzas los puentes sin esperar en el puesto; sin él, cada puente cuesta 4 puntos de movimiento más."
   }
 }

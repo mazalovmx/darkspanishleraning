@@ -71,7 +71,7 @@ func _valid_order(world: RefCounted,id: String,actor: Dictionary,order: Variant,
 			var difference: Vector2i = _cell(point)-_cell(order.path[i-1])
 			if absi(difference.x)+absi(difference.y) != 1:
 				return false
-			spent += world.terrain_cost(_cell(point))
+			spent += world.step_cost(_cell(point), id)
 	if spent > int(actor.movement):
 		return false
 	return not id.is_empty()
@@ -167,7 +167,7 @@ func resolve(world: RefCounted) -> Dictionary:
 		positions[id] = actors[id].cell.duplicate()
 		spent[id] = 0
 		indices[id] = 0
-		remaining[id] = world.terrain_cost(_cell(orders[id].path[1])) if orders[id].path.size() > 1 else 0
+		remaining[id] = world.step_cost(_cell(orders[id].path[1]), id) if orders[id].path.size() > 1 else 0
 	for tick in range(1,25):
 		var proposed: Dictionary = positions.duplicate(true)
 		for id in actors:
@@ -201,7 +201,7 @@ func resolve(world: RefCounted) -> Dictionary:
 				if encounter.kind == "destination":
 					for id: String in [encounter.hero,encounter.knight]:
 						if proposed[id] != positions[id]:
-							spent[id] += world.terrain_cost(_cell(proposed[id]))
+							spent[id] += world.step_cost(_cell(proposed[id]), id)
 						positions[id] = proposed[id].duplicate()
 				encounter["hero_cell"] = positions[encounter.hero].duplicate()
 				encounter["knight_cell"] = positions[encounter.knight].duplicate()
@@ -209,7 +209,7 @@ func resolve(world: RefCounted) -> Dictionary:
 			if stopped.has(id) or proposed[id] == positions[id]:
 				continue
 			positions[id] = proposed[id].duplicate()
-			spent[id] += world.terrain_cost(_cell(positions[id]))
+			spent[id] += world.step_cost(_cell(positions[id]), id)
 			indices[id] += 1
-			remaining[id] = world.terrain_cost(_cell(orders[id].path[int(indices[id])+1])) if int(indices[id])+1 < orders[id].path.size() else 0
+			remaining[id] = world.step_cost(_cell(orders[id].path[int(indices[id])+1]), id) if int(indices[id])+1 < orders[id].path.size() else 0
 	return {"ok":true,"positions":positions,"spent":spent,"stopped":stopped,"encounter":encounter}

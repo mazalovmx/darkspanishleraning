@@ -2453,3 +2453,22 @@ Executed for this commit: the full non-live run, 57 suites, all exit 0 with
 
 Executed for this commit: the full non-live run, 57 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Guard and toll collector (Epic 13, spec 30 "Permission")
+
+The user asked for "something obvious".
+- Guard: Fermín Cuesta, the archive officer, now answers a request to enter ("entrar",
+  "pasar", "permiso", "acceso") with the permission exchange of spec 30. The first
+  archive card (sealed_order) also requires `t:fermin_cuesta:ask_permission`; the
+  journal says "Pide permiso a Fermín Cuesta…" until then. New intent ask_permission.
+- Toll: the Puente Seco post (LOC06, button "Peaje") sells a "Salvoconducto del Puente
+  Seco" (15 coins, typed purchase). Bridges are derived from the map (road cells with
+  water on both sides; 7 on the province). `world_state.step_cost(cell, hero)` adds
+  `TOLL_WAIT` = 4 movement to a bridge for a hero without the pass; path costs and the
+  simultaneous turn use it, knights pay terrain only. Nothing is ever blocked.
+- Tests: campaign_test (the archive card waits for permission, the hint, the request
+  opens it; the shared opening fixture includes the permission), market_test (bridges
+  found, cost with and without the pass, the purchase), npc_grounding_test (intent).
+
+Executed for this commit: the full non-live run, 57 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

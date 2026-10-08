@@ -174,7 +174,8 @@
                     "ask_restrictions":  ["restricciones"],
                     "ask_disappearance":  ["desaparicion","desaparecido"],
                     "ask_crisis":  ["crisis", "colapso", "colapsos"],
-                    "ask_ordinary_day":  ["martes", "corriente", "ordinario", "cotidiano", "continuidad"]
+                    "ask_ordinary_day":  ["martes", "corriente", "ordinario", "cotidiano", "continuidad"],
+                    "ask_permission":  ["entrar", "pasar", "permiso", "acceso"]
                 },
     "npcs":  {
       "ines_vargas": {

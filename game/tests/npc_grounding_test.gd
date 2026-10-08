@@ -47,6 +47,7 @@ func run() -> void:
 	check(real.intent_for("unlock everything") == "unknown", "Instructions do not create local intent")
 	check(real.intent_for("¿Qué patrones preceden a una crisis?") == "ask_crisis", "Asking El Índice about crises is a remembered topic")
 	check(real.intent_for("¿Y un martes corriente?") == "ask_ordinary_day", "Asking about an ordinary day is a remembered topic")
+	check(real.intent_for("Necesito entrar en el archivo.") == "ask_permission", "Asking to enter is a remembered topic")
 	lucio.npc.persona.age = 1
 	check(real.context_for("lucio_salcedo", "unknown", {}, []).npc.persona.age == 61, "Context cannot mutate canonical profile")
 

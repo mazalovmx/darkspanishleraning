@@ -699,7 +699,7 @@ func _open_poi(cell: Vector2i) -> void:
 		return
 	strategy_button.visible = state.map_id == "province_160x120_v1" and location.id in state.economy.catalog.towns
 	market_button.visible = not state.trade.offers_at(location.id).is_empty()
-	market_button.text = {"LOC15": "Pedir al médico", "LOC12": "Establo"}.get(location.id, "Comprar")
+	market_button.text = {"LOC15": "Pedir al médico", "LOC12": "Establo", "LOC06": "Peaje"}.get(location.id, "Comprar")
 	inspect_button.visible = location.id == "LOC01"
 	battle_button.visible = location.id == "LOC11" and state.evidence.has_evidence("travel_food") and state.encounters.get("opening_road", {}).get("outcome", "") != "victory"
 	poi_title.text = location.name

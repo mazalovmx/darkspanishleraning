@@ -54,6 +54,21 @@ func services() -> void:
 	check(trade.offers_at("LOC12") == ["horse_feed"], "The farm's stable sells horse feed")
 	check(trade.offers_at("LOC07") == ["bread", "water"] and trade.offers_at("LOC02") == ["bread", "water"], "Food sellers in San Vélaro and Valdora")
 	check(trade.offers_at("LOC03").is_empty(), "Places without a counter sell nothing")
+	# Toll collector at Puente Seco: the pass removes the wait at bridges.
+	var bridge := Vector2i(97, 44)
+	check(state.bridges.has(bridge) and state.bridges.size() >= 4, "Bridges found where roads cross the river")
+	var plain: int = state.terrain_cost(bridge)
+	check(state.step_cost(bridge) == plain + state.TOLL_WAIT, "Without the pass a bridge costs the wait")
+	check(state.step_cost(bridge, "NK01") == plain and state.step_cost(Vector2i(63, 60)) == state.terrain_cost(Vector2i(63, 60)), "Knights and ordinary cells pay terrain only")
+	for location: Dictionary in state.locations:
+		if location.id == "LOC06":
+			state.hero_cell = Vector2i(location.position[0], location.position[1])
+	state.party.active().cell = state.hero_cell
+	state._reveal_from(state.hero_cell)
+	check(trade.offers_at("LOC06") == ["salvoconducto"], "The bridge post sells the pass")
+	check(trade.submit(state, "salvoconducto", 1, "Quiero comprar un salvoconducto.").ok and trade.submit(state, "salvoconducto", 1, "Son quince monedas.").ok, "Pass requested and priced")
+	check(trade.submit(state, "salvoconducto", 1, "Confirmo la compra de un salvoconducto por quince monedas.").get("committed", false), "Pass bought")
+	check(state.step_cost(bridge) == plain, "With the pass the bridge costs terrain only")
 	# A save written before the services existed still loads, with them empty.
 	var snapshot: Dictionary = Save.snapshot(state).duplicate(true)
 	for table in [snapshot.strategy.trade.stock, snapshot.strategy.trade.inventory]:

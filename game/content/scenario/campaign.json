@@ -7,6 +7,7 @@
       "location": "LOC14",
       "speaker": "Fermín Cuesta, oficial del Archivo",
       "title": "El sello y la propiedad",
+      "consult_hint": "Pide permiso a Fermín Cuesta, en el Archivo Episcopal, para entrar y ver la orden.",
       "source": "El documento lleva la firma del obispo Veyra y el sello episcopal. Declara ilícitos los cuadernos de Tomás y ordena su custodia. No contiene una nueva prueba médica.",
       "prompt": "Explica qué cambia el documento: la situación legal o la causa física de la muerte.",
       "answers": [
@@ -25,6 +26,8 @@
       "classification": "declared",
       "requires": [
         "e:opening_conclusion"
+      ,
+        "t:fermin_cuesta:ask_permission"
       ],
       "min_block": 1,
       "grammar": [],

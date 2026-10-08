@@ -642,7 +642,7 @@
       "greeting": "Soy Fermín Cuesta, oficial del Archivo. Tengo una orden sellada. ¿En qué puedo ayudarle?",
       "greeting_again": "Otra vez usted. La orden sigue aquí, sellada.",
       "hint": "Puede preguntar por la orden, el sello o los cuadernos.",
-      "branches": [
+      "branches": [{"keywords": ["entrar", "pasar", "permiso", "acceso"], "reply": "No puede pasar sin autorización. ¿Trae una orden del tribunal? … Déjeme verla. Está en regla: puede pasar y consultar la orden sellada."}, 
         {
           "keywords": [
             "orden",

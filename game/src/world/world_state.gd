@@ -11,6 +11,8 @@ var map_data: Dictionary = {}
 const VIEW_RADIUS := 5
 ## Extra sight for a hero who carries lamp oil.
 const LAMP_RADIUS := 2
+## Movement lost waiting at a bridge post without the toll pass (salvoconducto).
+const TOLL_WAIT := 4
 const MOVEMENT_MAX := 18
 var ghosts = preload("res://src/world/ghost_state.gd").new()
 var turn_notice := ""
@@ -46,6 +48,8 @@ var movement_remaining: int:
 	set(value):
 		party.active().movement_remaining = value
 var terrain: Array = []
+## Bridge cells (Vector2i -> true), derived from the terrain.
+var bridges := {}
 var grid := AStarGrid2D.new()
 var known_grid := AStarGrid2D.new()
 var fog: Dictionary = {}
@@ -79,6 +83,13 @@ func _init(selected_map := "prototype_20x20_v1") -> void:
 			var cost := terrain_cost(cell)
 			grid.set_point_solid(cell, cost == 0)
 			grid.set_point_weight_scale(cell, maxi(1, cost))
+
+	# Bridges: road cells with water on both sides (province map only).
+	if map_id == "province_160x120_v1":
+		for y in range(1, grid.region.size.y - 1):
+			for x in range(1, grid.region.size.x - 1):
+				if terrain[y][x] == "road" and ((terrain[y][x - 1] == "water" and terrain[y][x + 1] == "water") or (terrain[y - 1][x] == "water" and terrain[y + 1][x] == "water")):
+					bridges[Vector2i(x, y)] = true
 
 	known_grid.region = grid.region
 	known_grid.diagonal_mode = grid.diagonal_mode
@@ -140,10 +151,19 @@ func path_to(destination: Vector2i, discovered_only := false) -> Array[Vector2i]
 		return known_grid.get_id_path(hero_cell, destination)
 	return grid.get_id_path(hero_cell, destination)
 
+## Movement a hero spends to enter a cell: its terrain, plus the wait at a bridge post
+## for a hero without the toll pass. Knights and unknown ids pay terrain only.
+func step_cost(cell: Vector2i, hero_id := "") -> int:
+	var cost := terrain_cost(cell)
+	var id: String = party.active_id if hero_id.is_empty() else hero_id
+	if cost > 0 and bridges.has(cell) and party.heroes.has(id) and int(party.heroes[id].inventory.get("salvoconducto", 0)) == 0:
+		cost += TOLL_WAIT
+	return cost
+
 func path_cost(path: Array[Vector2i]) -> int:
 	var cost := 0
 	for i in range(1, path.size()):
-		cost += terrain_cost(path[i])
+		cost += step_cost(path[i])
 	return cost
 
 func move_to(destination: Vector2i, discovered_only := false) -> bool:

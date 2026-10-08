@@ -16,6 +16,8 @@ func complete_opening(state: RefCounted) -> void:
 		var node: Dictionary = state.evidence.definitions[id]
 		proof[id] = {"found_day":1, "classification":node.classification, "spanish_note":node.language.sample}
 	check(state.evidence.restore(proof, state.day), "Verified opening fixture")
+	# The archive officer lets the investigator in (t:fermin_cuesta:ask_permission).
+	state.remember("fermin_cuesta", "ask_permission", state.day)
 func learn(state: RefCounted) -> void:
 	var course = state.learner.curriculum
 	var iterations := 0
@@ -67,6 +69,13 @@ func run() -> void:
 	state.npc_memory["el_indice"] = {"count": 1, "last_day": 1, "topics": ["ask_crisis"]}
 	check(campaign._proof_day(state, "t:el_indice:ask_crisis", {}) == 1 and campaign._proof_day(state, "t:el_indice:ask_ordinary_day", {}) == 0, "Each consultation proves only its own topic")
 	state.npc_memory["el_indice"] = memory
+	var guarded := World.new("province_160x120_v1")
+	complete_opening(guarded)
+	guarded.npc_memory.erase("fermin_cuesta")
+	check(not guarded.campaign.available(guarded).has("sealed_order"), "The archive card waits for permission to enter")
+	check(guarded.campaign.pending_consultations(guarded).any(func(hint: String) -> bool: return hint.contains("Fermín Cuesta")), "The journal says whom to ask for permission")
+	guarded.remember("fermin_cuesta", "ask_permission", guarded.day)
+	check(guarded.campaign.available(guarded).has("sealed_order"), "Asking to enter opens the archive card")
 	var fresh := World.new("province_160x120_v1")
 	fresh.campaign.records["archive_meeting"] = {"day": 1, "hero": "inquisitor", "answer": str(fresh.campaign.definitions.archive_meeting.answers[0]), "classification": str(fresh.campaign.definitions.archive_meeting.classification), "supports": []}
 	check(fresh.campaign.pending_consultations(fresh).any(func(hint: String) -> bool: return hint.contains("El Índice")), "The journal names the pending consultation")

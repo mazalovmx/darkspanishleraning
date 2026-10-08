@@ -98,7 +98,9 @@ its own multi-session plan and scenario-bible review per NPC.
 - Transactional archetypes (Epic 13): merchant (LOC11), innkeeper (a room at LOC11),
   healer (bandages and cures at LOC15), stable master (horse feed at LOC12) and food
   sellers (bread and water at LOC07 and LOC02), all with the four grammar tiers.
-  Missing guard, toll collector, smuggler; survival dialogues of
+  Guard: Fermín Cuesta lets the investigator into the archive when asked in Spanish
+  (needed for the first archive card). Toll: a pass at Puente Seco; without it each
+  bridge costs 4 extra movement. Missing smuggler; survival dialogues of
   section 30 for water, road safety, stable, complaint and permission.
 - Learner features: the lessons panel has a "Progreso y repaso" tab (block progress,
   most frequent errors by Spanish name with an example, review of studied lessons with
