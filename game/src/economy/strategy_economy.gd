@@ -299,6 +299,9 @@ func reason(world: RefCounted, kind: String, id: String, quantity: int) -> Strin
 	else:
 		if not local_buildings.has(definition.building):
 			return "Construye primero el edificio de este servicio."
+		# Hero-specific archetypes (master spec 9): only their hero can hire them.
+		if kind == "recruit" and definition.has("hero") and definition.hero != world.party.active_id:
+			return "Estas tropas solo sirven a " + str(world.party.heroes[definition.hero].definition.name) + "."
 		if kind == "recruit" and stock(location,id,world.day) < quantity:
 			return "No quedan suficientes tropas esta semana."
 		if kind == "artifact":
@@ -538,6 +541,8 @@ func restore(data: Variant, world: RefCounted) -> bool:
 				return false
 			construction_receipts[key] = true
 		if receipt.kind == "recruit":
+			if catalog.recruits[receipt.id].get("hero", receipt.hero) != receipt.hero:
+				return false
 			var key: String = receipt.location + "/" + receipt.id
 			recent_recruits[key] = int(recent_recruits.get(key,0)) + int(receipt.quantity)
 			if int(data.recruited.get(receipt.location,{}).get(receipt.id,0)) < recent_recruits[key]:

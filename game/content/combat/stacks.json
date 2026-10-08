@@ -119,7 +119,14 @@
                                    "attack":  0,
                                    "defense":  0,
                                    "ranged":  false
-                               }
+                               },
+                  "novice":  {"name": "Novicios", "hp": 8, "damage_min": 1, "damage_max": 3, "attack": 2, "defense": 3, "initiative": 6, "ability": "brace", "ability_name": "Formar escudos", "ranged": false},
+                  "hospitaller":  {"name": "Hospitalarios", "hp": 14, "damage_min": 2, "damage_max": 4, "attack": 3, "defense": 6, "initiative": 6, "ability": "temporary_brace", "ability_name": "Cerrar filas", "ranged": false},
+                  "inquisitorial_guard":  {"name": "Guardia inquisitorial", "hp": 18, "damage_min": 3, "damage_max": 6, "attack": 6, "defense": 6, "initiative": 7, "ability": "brace", "ability_name": "Formar escudos", "ranged": false},
+                  "thief":  {"name": "Ladrones", "hp": 6, "damage_min": 2, "damage_max": 3, "attack": 4, "defense": 1, "initiative": 9, "ability": "feint", "ability_name": "Finta", "ranged": false},
+                  "knife_fighter":  {"name": "Navajeros", "hp": 9, "damage_min": 3, "damage_max": 5, "attack": 6, "defense": 2, "initiative": 9, "ability": "charge", "ability_name": "Carga", "ranged": false},
+                  "crossbow_mercenary":  {"name": "Ballesteros a sueldo", "hp": 8, "damage_min": 3, "damage_max": 5, "attack": 5, "defense": 2, "initiative": 5, "ability": "aim", "ability_name": "Disparo preciso", "ranged": true},
+                  "relay_automaton":  {"name": "Autómatas de relé", "hp": 40, "damage_min": 6, "damage_max": 9, "attack": 8, "defense": 8, "initiative": 4, "ability": "brace", "ability_name": "Defensa integrada", "ranged": false}
               },
     "opening":  {
                     "id":  "opening_road",

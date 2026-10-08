@@ -155,6 +155,79 @@
         "gems": 1
       },
       "singular": "centinela de reliquia"
+    },
+    "novice": {
+      "name": "novicios",
+      "singular": "novicio",
+      "building": "barracks",
+      "weekly": 14,
+      "cost": {
+        "gold": 12
+      },
+      "hero": "inquisitor"
+    },
+    "hospitaller": {
+      "name": "hospitalarios",
+      "singular": "hospitalario",
+      "building": "council_hall",
+      "weekly": 5,
+      "cost": {
+        "gold": 45
+      },
+      "hero": "inquisitor"
+    },
+    "inquisitorial_guard": {
+      "name": "guardias inquisitoriales",
+      "singular": "guardia inquisitorial",
+      "building": "forge",
+      "weekly": 3,
+      "cost": {
+        "gold": 70,
+        "ore": 1
+      },
+      "hero": "inquisitor"
+    },
+    "thief": {
+      "name": "ladrones",
+      "singular": "ladrón",
+      "building": "barracks",
+      "weekly": 12,
+      "cost": {
+        "gold": 14
+      },
+      "hero": "smuggler"
+    },
+    "knife_fighter": {
+      "name": "navajeros",
+      "singular": "navajero",
+      "building": "forge",
+      "weekly": 6,
+      "cost": {
+        "gold": 35
+      },
+      "hero": "smuggler"
+    },
+    "crossbow_mercenary": {
+      "name": "ballesteros a sueldo",
+      "singular": "ballestero a sueldo",
+      "building": "archery_range",
+      "weekly": 5,
+      "cost": {
+        "gold": 40
+      },
+      "hero": "smuggler"
+    },
+    "relay_automaton": {
+      "name": "autómatas de relé",
+      "singular": "autómata de relé",
+      "building": "laboratory",
+      "weekly": 1,
+      "cost": {
+        "gold": 200,
+        "mercury": 1,
+        "crystal": 1
+      },
+      "hero": "survivor"
     }
   },
   "upgrades": {

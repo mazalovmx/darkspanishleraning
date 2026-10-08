@@ -1923,3 +1923,22 @@ treasures on the prototype map; 113 checks); golden conversations 90 cases.
 
 Executed for this commit: the full non-live run, 51 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Hero-specific troops (master spec 9)
+
+Seven recruitable units with battle stats in `stacks.json` and offers in
+`strategy.json`, each with `"hero"`: for Mateo (inquisitor) novicios (barracks),
+hospitalarios (council hall), guardia inquisitorial (forge); for Inés (smuggler)
+ladrones (barracks), navajeros (forge), ballesteros a sueldo (archery range); for Elias
+(survivor, "a few rare units") autómatas de relé (laboratory, one a week, mercury and
+crystal). They use existing abilities. `strategy_economy.reason` refuses another
+hero's troops and names their hero; restore refuses a receipt whose hero does not match
+the troop. Militia, archers and relic sentinels stay available to everyone. Stats and
+prices are authored and unplaytested.
+
+Tests: strategy_economy_test (Mateo cannot hire thieves but hires novices, Inés the
+reverse, receipts restore, a receipt moved to another hero is refused, every recruit
+has battle stats; 79 checks).
+
+Executed for this commit: the full non-live run, 51 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

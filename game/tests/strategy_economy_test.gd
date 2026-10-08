@@ -1,6 +1,7 @@
 extends SceneTree
 const World = preload("res://src/world/world_state.gd")
 const Economy = preload("res://src/economy/strategy_economy.gd")
+const StackBattle = preload("res://src/combat/stack_battle.gd")
 var checks := 0
 var failures := 0
 func _initialize() -> void:
@@ -130,5 +131,27 @@ func run() -> void:
 			"fake_phrase": bad.receipts[0].confirm = "gratis"
 		check(not restored.restore(bad,state),"Invalid ledger denied: " + mutation)
 		check(restored.snapshot() == saved,"Rejected restore is atomic")
+	# Hero-specific archetypes (master spec 9): each hero hires its own troops.
+	state.hero_cell = Vector2i(52,39)
+	state._reveal_from(state.hero_cell)
+	for resource in state.resources:
+		state.resources[resource] = 10000
+	check(economy.reason(state,"recruit","thief",1).contains("Inés Vargas"),"The inquisitor cannot hire thieves")
+	check(buy(economy,state,"recruit","novice",2).get("committed",false),"The inquisitor hires novices")
+	var smuggler = state.party.heroes.smuggler
+	smuggler.unlocked = true
+	smuggler.cell = state.hero_cell
+	check(state.select_hero("smuggler"),"Switch to Inés in the same town")
+	check(economy.reason(state,"recruit","novice",1).contains("Mateo"),"Inés cannot hire novices")
+	check(buy(economy,state,"recruit","thief",3).get("committed",false),"Inés hires thieves")
+	var hired := economy.snapshot()
+	check(restored.restore(hired,state),"Hero-specific receipts restore")
+	var swapped := hired.duplicate(true)
+	for receipt in swapped.receipts:
+		if receipt.id == "thief":
+			receipt.hero = "inquisitor"
+	check(not restored.restore(swapped,state),"A receipt cannot move a hero's troops to another hero")
+	for id: String in economy.catalog.recruits:
+		check(StackBattle.new().data.units.has(id),"Every recruit has battle stats: " + id)
 	print("Strategy economy checks: %d, failures: %d" % [checks,failures])
 	quit(1 if failures else 0)
