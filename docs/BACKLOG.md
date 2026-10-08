@@ -95,9 +95,10 @@ its own multi-session plan and scenario-bible review per NPC.
   `game/tests/dialogue_golden.json`, run offline with a fake transport. They cover the
   deterministic boundary only. A live variant that sends the same player lines to the
   real model and checks recasts and non-invention is still missing (paid, opt-in).
-- Transactional archetypes (Epic 13): merchant (LOC11), innkeeper (a room at LOC11)
-  and healer (bandages and cures at LOC15), all with the four grammar tiers. Missing
-  stable master, guard, toll collector, food seller, smuggler; survival dialogues of
+- Transactional archetypes (Epic 13): merchant (LOC11), innkeeper (a room at LOC11),
+  healer (bandages and cures at LOC15), stable master (horse feed at LOC12) and food
+  sellers (bread and water at LOC07 and LOC02), all with the four grammar tiers.
+  Missing guard, toll collector, smuggler; survival dialogues of
   section 30 for water, road safety, stable, complaint and permission.
 - Learner features: the lessons panel has a "Progreso y repaso" tab (block progress,
   most frequent errors by Spanish name with an example, review of studied lessons with

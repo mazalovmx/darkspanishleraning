@@ -1,5 +1,6 @@
 extends ColorRect
-const TITLES := {"LOC11": "MERCADO DE LA VENTA", "LOC15": "HOSPITAL DE MIRALBA · MÉDICO"}
+const TITLES := {"LOC11": "MERCADO DE LA VENTA", "LOC15": "HOSPITAL DE MIRALBA · MÉDICO",
+	"LOC12": "ESTABLO DE LA GRANJA ARCE", "LOC07": "PUESTO DE COMIDA DE SAN VÉLARO", "LOC02": "MERCADO DE VALDORA"}
 var title := Label.new()
 signal closed
 signal purchased

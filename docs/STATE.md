@@ -2384,3 +2384,10 @@ Executed for this commit: the full non-live run, 55 suites, all exit 0 with
 
 Executed for this commit: the full non-live run, 55 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+Follow-up: stable master at Granja Arce (LOC12, horse feed; button "Establo") and food
+sellers at San Vélaro (LOC07) and Valdora (LOC02) (bread and water), each with its own
+counter title. market_test: 3 more checks (71).
+
+Executed for this commit: the full non-live run, 55 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

@@ -50,6 +50,10 @@ func services() -> void:
 	check(trade.submit(state, "treatment", 1, "Confirmo el pago de una cura por doce monedas.").get("committed", false), "Cure confirmed")
 	check(state.party.active().health == 80 and state.resources.gold == gold - 12, "The healer treats at once")
 	check(not trade.submit(state, "room", 1, "Quiero una habitación para una noche.").ok, "No rooms at the hospital")
+	# Stable master and food sellers (Epic 13).
+	check(trade.offers_at("LOC12") == ["horse_feed"], "The farm's stable sells horse feed")
+	check(trade.offers_at("LOC07") == ["bread", "water"] and trade.offers_at("LOC02") == ["bread", "water"], "Food sellers in San Vélaro and Valdora")
+	check(trade.offers_at("LOC03").is_empty(), "Places without a counter sell nothing")
 	# A save written before the services existed still loads, with them empty.
 	var snapshot: Dictionary = Save.snapshot(state).duplicate(true)
 	for table in [snapshot.strategy.trade.stock, snapshot.strategy.trade.inventory]:

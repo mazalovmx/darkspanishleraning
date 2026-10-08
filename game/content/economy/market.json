@@ -6,6 +6,7 @@
     "price": 2,
     "stock": 30,
     "kind": "supply",
+    "locations": ["LOC11", "LOC07", "LOC02"],
     "use": "Se come uno por cada día de viaje; sin pan pierdes salud."
   },
   "water": {
@@ -15,6 +16,7 @@
     "price": 1,
     "stock": 30,
     "kind": "supply",
+    "locations": ["LOC11", "LOC07", "LOC02"],
     "use": "Se bebe una por cada día de viaje; sin agua pierdes salud."
   },
   "medicine": {
@@ -34,6 +36,7 @@
     "price": 3,
     "stock": 20,
     "kind": "supply",
+    "locations": ["LOC11", "LOC12"],
     "use": "Da dos puntos de movimiento después de un día de viaje."
   },
   "lamp_oil": {
