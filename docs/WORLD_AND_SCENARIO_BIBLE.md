@@ -1124,6 +1124,38 @@ only what the source text of their campaign task states; none can lie or unlock 
 - Hermano Cipriano — envoy of the Orden de la Última Luz in Ferraza.
 - Nuño Barragán — chief of the Marjal Negro bandits; his men guard the ruin caches.
 
+## 13.12 Comic speakers (user request, 2026-10-08)
+
+Asked for "mad characters in the style of Pratchett's Discworld" and "characters from
+Rabelais with their names and jokes, where not covered by copyright". Rabelais
+(1494-1553) is in the public domain: his characters keep their names and his episodes are
+retold in our own Spanish, not taken from any modern translation. Pratchett's work is in
+copyright: the four madmen below are original, with no name, character or line of his.
+None of them knows anything about the deaths, El Índice or any case; none can unlock a
+clue or lie; each knows only his own two facts.
+
+From Rabelais:
+- Juez Bridoya (Bridoye) — Valdora. Reads every paper, then decides the case with dice;
+  erred once, when his eyes failed and he misread a die.
+- Panurgo (Panurge) — Cárdena. Knows sixty-three ways to get money; praises debts; once
+  threw a ram into the sea and the flock, and their merchant, followed it.
+- Fray Juan de los Entommeures (Frère Jean) — Venta del Perro Negro. Defended his
+  convent's vineyard with the staff of the cross while the others sang; prays fast.
+- Maestro Janotus de Bragmardo — Miralba. Old doctor who demands some bells back in
+  broken Latin and was promised sausages and breeches for it.
+- Señor Picrócolo (Picrochole) — near San Vélaro. Means to conquer the world because
+  bakers refused cakes to his shepherds; his counsellors have conquered it on a map.
+
+Original madmen:
+- Don Ulpiano Sellado — Archivo Episcopal. Registered as dead since a Tuesday and too
+  professional to contradict a sealed document.
+- Tía Brígida del Fango — Marjal Negro. Healer who denies being a witch: half of curing
+  is belief, the other half boiled water.
+- Maese Tiburcio Ruedas — Taller Rojo. Inventor of an egg-peeling machine and of a clock
+  that tells the time ten minutes early.
+- Sargento Mamerto Remolacha — Puente Seco. Holds a goat in custody for crossing without
+  a pass and eating the forms.
+
 ---
 
 # 14. The deaths
@@ -2543,6 +2575,20 @@ tone, never his prose: no quotation, no borrowed names, phrases or scenes.
   motive the canon does not give, and it may not reveal a secret early.
 - Spanish stays B1 and within the taught grammar; no profanity stronger than the
   setting needs; usted / tú as before.
+
+## 38.2 Speech by station and the dark side (user request, 2026-10-08)
+
+- Every speaker has a station (estate) and a manner of speech: the poor speak in short
+  concrete words, proverbs and trade talk; artisans in the words of their craft; the
+  educated in precise, sometimes Latinate words; clergy in pastoral formulas; the rich
+  and powerful with a courtesy that hides contempt. Machines answer in capitals.
+- Every speaker has a dark side in the manner of grim fantasy: a cruelty, cowardice,
+  greed or contempt that breaks through rarely, in one short sentence, when talk turns
+  to money, power, fear or death. Offline it is a fixed line added to a return greeting
+  on every third exchange.
+- A dark side may give a speaker a personal past (men hanged, a partner abandoned), but
+  never a fact about the deaths, El Índice or any case evidence, never a motive or
+  confession, and never anything that changes how far a witness can be believed.
 
 ---
 

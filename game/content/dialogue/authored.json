@@ -262,7 +262,8 @@
         "reply": "Buenas. Dígame, ¿qué desea saber?"
       }
     ],
-    "fallback": "No sabría decirle. Yo sé de camas, de pan y de deudas. ¿Quiere preguntar por el camino a Santa Lucerna?"
+    "fallback": "No sabría decirle. Yo sé de camas, de pan y de deudas. ¿Quiere preguntar por el camino a Santa Lucerna?",
+    "dark_line": "En el camino la gente desaparece. Las cuentas, nunca."
   },
   "LOC01": {
     "npc_id": "lucio_salcedo",
@@ -356,7 +357,8 @@
         "reply": "Buenos días. ¿Qué desea saber de Santa Lucerna?"
       }
     ],
-    "fallback": "No quisiera confundir una sospecha con un hecho. En este monasterio ya tenemos bastante de las dos cosas. Formule una pregunta más concreta, por favor."
+    "fallback": "No quisiera confundir una sospecha con un hecho. En este monasterio ya tenemos bastante de las dos cosas. Formule una pregunta más concreta, por favor.",
+    "dark_line": "Una comunidad sobrevive a sus muertos. A un escándalo, no siempre."
   },
   "LOC01_GABRIEL": {
     "location_id": "LOC01",
@@ -374,13 +376,15 @@
     ],
     "hint": "Examine las pertenencias y pregunte por la noche.",
     "fallback": "No sé cómo explicarlo. Y no sé nada de ninguna botella. Haga una pregunta concreta, por favor.",
-    "npc_id": "hermano_gabriel"
+    "npc_id": "hermano_gabriel",
+    "dark_line": "Cuando castigan a otro hermano, yo duermo mejor. Que Dios me perdone. Hoy no, mañana."
   },
   "LOC01_LEONOR": {
     "location_id": "LOC01",
     "name": "Doctora Leonor Valera",
     "greeting": "Soy Leonor, médica de Miralba. Los muertos no mienten, pero tampoco ayudan mucho. Estoy aquí para examinar los indicios.",
     "greeting_again": "Volvemos a vernos. Lávese las manos antes de tocar nada. ¿Qué quiere revisar?",
+    "dark_line": "Un cadáver útil enseña más que diez funerales bonitos.",
     "branches": [
       {
         "reply": "Me llamo Leonor Valera. Soy médica.",
@@ -470,7 +474,8 @@
         "reply": "Hola. ¿Qué necesitas?"
       }
     ],
-    "fallback": "No tengo pruebas de eso, y gratis tampoco tengo opiniones. Pregunta por mi encargo."
+    "fallback": "No tengo pruebas de eso, y gratis tampoco tengo opiniones. Pregunta por mi encargo.",
+    "dark_line": "La lealtad está bien. La carga, mejor. La carga no habla cuando la detienen."
   },
   "LOC09": {
     "requires": "elias_arrival",
@@ -529,7 +534,8 @@
         "reply": "Buenos días. Pregunta una cosa cada vez."
       }
     ],
-    "fallback": "Eso requiere otra investigación. Por ahora, separa mis objetos de mi relato. Los objetos, por lo menos, no exageran."
+    "fallback": "Eso requiere otra investigación. Por ahora, separa mis objetos de mi relato. Los objetos, por lo menos, no exageran.",
+    "dark_line": "Mi mundo también tenía gente segura de sí misma. Ardió muy bien."
   },
   "LOC01_YSABEL": {
     "location_id": "LOC01",
@@ -582,7 +588,8 @@
         "reply": "Buenos días. Le escucho."
       }
     ],
-    "fallback": "De eso no hablo. Pregunte por las restricciones; de esas tenemos muchas."
+    "fallback": "De eso no hablo. Pregunte por las restricciones; de esas tenemos muchas.",
+    "dark_line": "Hay personas que no deberían aprender a leer ciertas cosas. Por su bien. Y por el nuestro."
   },
   "LOC01_ESTEBAN": {
     "location_id": "LOC01",
@@ -635,7 +642,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "No voy a explicar eso. Pregunte por mi decisión. Es lo único mío en toda esta historia."
+    "fallback": "No voy a explicar eso. Pregunte por mi decisión. Es lo único mío en toda esta historia.",
+    "dark_line": "Pensar por uno mismo es cansado. Obedecer, en cambio, deja dormir."
   },
   "LOC02": {
     "npc_id": "beatriz_orma",
@@ -707,7 +715,8 @@
         "reply": "Buenos días. Hable con precisión, por favor."
       }
     ],
-    "fallback": "Eso no consta en ningún documento que yo conozca. Sin papel, en Valdora, ni los muertos están muertos. Pregunte por una declaración concreta."
+    "fallback": "Eso no consta en ningún documento que yo conozca. Sin papel, en Valdora, ni los muertos están muertos. Pregunte por una declaración concreta.",
+    "dark_line": "He firmado sentencias injustas con un procedimiento perfecto. El procedimiento duerme muy bien."
   },
   "LOC02_VEYRA": {
     "location_id": "LOC02",
@@ -750,7 +759,8 @@
         "reply": "Buenos días. Sea breve, por favor."
       }
     ],
-    "fallback": "No voy a comentar eso. Pregunte por la provincia: para eso sí tengo respuestas preparadas."
+    "fallback": "No voy a comentar eso. Pregunte por la provincia: para eso sí tengo respuestas preparadas.",
+    "dark_line": "La calma siempre cuesta algunas vidas. Lo importante es que no sean muchas, ni muy conocidas."
   },
   "LOC02_MENDANA": {
     "location_id": "LOC02",
@@ -800,7 +810,8 @@
         "reply": "Buenos días. ¿Qué quiere de la guardia?"
       }
     ],
-    "fallback": "Eso no es asunto de la guardia. Pregunte por los soldados; ellos, por lo menos, saben lo que cuestan."
+    "fallback": "Eso no es asunto de la guardia. Pregunte por los soldados; ellos, por lo menos, saben lo que cuestan.",
+    "dark_line": "He colgado a hombres por orden de otros. Discuten poco, después."
   },
   "LOC03": {
     "npc_id": "selmo_oribe",
@@ -892,7 +903,8 @@
         "reply": "Buenos días. Es un honor recibirle."
       }
     ],
-    "fallback": "Lo siento, de eso no puedo decirle nada. Pregunte por el gremio, por favor."
+    "fallback": "Lo siento, de eso no puedo decirle nada. Pregunte por el gremio, por favor.",
+    "dark_line": "La caridad arruina más boticas que la peste. La peste, por lo menos, paga."
   },
   "LOC13": {
     "npc_id": "simon_vale",
@@ -942,7 +954,8 @@
         "reply": "Hola. ¿Quiere ver la máquina?"
       }
     ],
-    "fallback": "No sé nada de eso. Yo solo entiendo de máquinas. Con las personas tengo menos suerte."
+    "fallback": "No sé nada de eso. Yo solo entiendo de máquinas. Con las personas tengo menos suerte.",
+    "dark_line": "Si una máquina hace tu trabajo, quizá tu trabajo no era tan importante. Perdón. Lo pienso a veces."
   },
   "LOC15": {
     "npc_id": "leonor_valera",
@@ -1096,7 +1109,8 @@
         "reply": "Buenos días. ¿Está enfermo o tiene preguntas?"
       }
     ],
-    "fallback": "No puedo afirmar eso sin examinar los hechos. Pregunte por la enfermedad o la higiene."
+    "fallback": "No puedo afirmar eso sin examinar los hechos. Pregunte por la enfermedad o la higiene.",
+    "dark_line": "Un cadáver útil enseña más que diez funerales bonitos."
   },
   "LOC14_CUESTA": {
     "location_id": "LOC14",
@@ -1170,7 +1184,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "Eso no me corresponde. A mí casi nada me corresponde; por eso sigo en el puesto. Pregunte por la orden o por los cuadernos."
+    "fallback": "Eso no me corresponde. A mí casi nada me corresponde; por eso sigo en el puesto. Pregunte por la orden o por los cuadernos.",
+    "dark_line": "Yo solo sello. Lo que el papel hace después no es asunto de la ventanilla."
   },
   "LOC14_IBARRA": {
     "location_id": "LOC14",
@@ -1223,7 +1238,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "Solo hablo de lo que está escrito en estos papeles. Lo demás son rumores, y aquí los rumores acaban mal."
+    "fallback": "Solo hablo de lo que está escrito en estos papeles. Lo demás son rumores, y aquí los rumores acaban mal.",
+    "dark_line": "Algunos despachos de este archivo arderían muy bien. Lo digo por el papel, claro."
   },
   "LOC06_FERRER": {
     "location_id": "LOC06",
@@ -1295,7 +1311,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "Eso no figura en mi registro. Y lo que no figura, oficialmente, nunca cruzó el río."
+    "fallback": "Eso no figura en mi registro. Y lo que no figura, oficialmente, nunca cruzó el río.",
+    "dark_line": "Quien no tiene permiso, que se quede en su orilla. El hambre no es un documento."
   },
   "LOC16_PARDO": {
     "location_id": "LOC16",
@@ -1347,7 +1364,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "La casa no comenta eso. Pregunte por lo que consta en los libros. Los libros no hacen preguntas incómodas."
+    "fallback": "La casa no comenta eso. Pregunte por lo que consta en los libros. Los libros no hacen preguntas incómodas.",
+    "dark_line": "En el comercio, los escrúpulos son para los que ya han perdido."
   },
   "LOC04_GALAN": {
     "location_id": "LOC04",
@@ -1418,7 +1436,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "De eso no sé nada. Yo solo abro la puerta y escucho. Escuchar es gratis; repetir, no."
+    "fallback": "De eso no sé nada. Yo solo abro la puerta y escucho. Escuchar es gratis; repetir, no.",
+    "dark_line": "La lealtad es para quien tiene la despensa llena. Yo tengo una silla coja."
   },
   "LOC03_UGARTE": {
     "location_id": "LOC03",
@@ -1468,7 +1487,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "No sé nada más, de verdad. Solo lo que vi aquella tarde. Y preferiría no recordarlo."
+    "fallback": "No sé nada más, de verdad. Solo lo que vi aquella tarde. Y preferiría no recordarlo.",
+    "dark_line": "Algunos clientes ricos podrían esperar en la puerta. Un invierno, por ejemplo."
   },
   "LOC02_QUIROGA": {
     "location_id": "LOC02",
@@ -1510,7 +1530,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "Eso son detalles. Lo importante es cerrar el asunto. Los detalles los pagan otros."
+    "fallback": "Eso son detalles. Lo importante es cerrar el asunto. Los detalles los pagan otros.",
+    "dark_line": "Un invierno duro limpia las calles mejor que la guardia. Y sale más barato."
   },
   "LOC07_RIUS": {
     "location_id": "LOC07",
@@ -1583,7 +1604,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "Yo hago pan, no sé de eso. Pregúnteme por la harina."
+    "fallback": "Yo hago pan, no sé de eso. Pregúnteme por la harina.",
+    "dark_line": "En el hambre, cada una mira por su horno. Si buscan una culpable, hay más panaderas."
   },
   "LOC12_SOLER": {
     "location_id": "LOC12",
@@ -1634,7 +1656,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "Eso no lo sé. Yo solo conduzco el carro. Por pensar no me pagan."
+    "fallback": "Eso no lo sé. Yo solo conduzco el carro. Por pensar no me pagan.",
+    "dark_line": "Aquel invierno murieron un buey y un mozo. El buey era mejor trabajador."
   },
   "LOC08_MONTOYA": {
     "location_id": "LOC08",
@@ -1705,7 +1728,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "No tengo datos sobre eso. Pregunte por los registros."
+    "fallback": "No tengo datos sobre eso. Pregunte por los registros.",
+    "dark_line": "Una galería hundida también es una huelga. Solo hay que elegir bien quién está dentro."
   },
   "LOC09_LLORENTE": {
     "location_id": "LOC09",
@@ -1755,7 +1779,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "No sé responder a eso. Pregunte por los peregrinos."
+    "fallback": "No sé responder a eso. Pregunte por los peregrinos.",
+    "dark_line": "La fe de los pobres es la única cosecha que nunca falla."
   },
   "LOC02_VIDAL": {
     "location_id": "LOC02",
@@ -1806,7 +1831,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "Eso no importa. Hay una confesión."
+    "fallback": "Eso no importa. Hay una confesión.",
+    "dark_line": "El miedo ahorra mucho trabajo a la justicia. Yo solo lo administro."
   },
   "LOC02_RUIZ": {
     "location_id": "LOC02",
@@ -1859,7 +1885,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "Eso no consta en las actas."
+    "fallback": "Eso no consta en las actas.",
+    "dark_line": "Guardo copias de todo, con muy buena letra. Por si algún día juzgan a quien firma."
   },
   "LOC17_MARIN": {
     "location_id": "LOC17",
@@ -1909,7 +1936,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "Ni idea. Yo solo llevo el correo."
+    "fallback": "Ni idea. Yo solo llevo el correo.",
+    "dark_line": "Una vez dejé a un compañero en una cuneta para llegar a tiempo. La carta llegó. Él, no."
   },
   "LOC04_VILLAR": {
     "location_id": "LOC04",
@@ -1952,7 +1980,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "Eso no es asunto mío. Hablo por los trabajadores."
+    "fallback": "Eso no es asunto mío. Hablo por los trabajadores.",
+    "dark_line": "Una máquina rota no despide a nadie. Un propietario roto, tampoco."
   },
   "LOC04_FERRAN": {
     "location_id": "LOC04",
@@ -1994,7 +2023,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "No hablo de eso. Pregunte por la producción."
+    "fallback": "No hablo de eso. Pregunte por la producción.",
+    "dark_line": "El hambre ajena es un excelente incentivo. Lo dicen todos los libros de cuentas."
   },
   "LOC04_CIPRIANO": {
     "location_id": "LOC04",
@@ -2038,7 +2068,8 @@
         "reply": "Buenos días. Pregunte, por favor."
       }
     ],
-    "fallback": "La Orden no discute eso con usted. La Orden apenas discute con Dios."
+    "fallback": "La Orden no discute eso con usted. La Orden apenas discute con Dios.",
+    "dark_line": "El fuego también es una forma de prudencia. Muy eficaz."
   },
   "LOC01_INDICE": {
     "location_id": "LOC01",
@@ -2125,7 +2156,8 @@
         "reply": "CONSULTA VACÍA. FORMULE UNA PREGUNTA."
       }
     ],
-    "fallback": "SIN PATRÓN. REFORMULE LA CONSULTA CON UN SUCESO."
+    "fallback": "SIN PATRÓN. REFORMULE LA CONSULTA CON UN SUCESO.",
+    "dark_line": "PROBABILIDAD DE QUE ESTA CONSULTA IMPORTE: BAJA."
   },
   "LOC10": {
     "location_id": "LOC10",
@@ -2188,7 +2220,8 @@
         "reply": "Buenas. Hable rápido; el barro no espera."
       }
     ],
-    "fallback": "De eso no hablo. Pregunte por las ruinas o por el camino."
+    "fallback": "De eso no hablo. Pregunte por las ruinas o por el camino.",
+    "dark_line": "El marjal es profundo. Los que no pagan lo comprueban."
   },
   "LOC18": {
     "location_id": "LOC18",
@@ -2257,6 +2290,549 @@
         "reply": "SEÑAL DÉBIL. FORMULE UNA PREGUNTA."
       }
     ],
-    "fallback": "SEÑAL PERDIDA. REPITA CON OTRAS PALABRAS."
+    "fallback": "SEÑAL PERDIDA. REPITA CON OTRAS PALABRAS.",
+    "dark_line": "NADIE RESPONDE DESDE HACE MUCHO TIEMPO."
+  },
+  "LOC02_BRIDOYA": {
+    "location_id": "LOC02",
+    "npc_id": "juez_bridoya",
+    "name": "Juez Bridoya",
+    "greeting": "Soy el juez Bridoya. Llevo cuarenta años juzgando y casi nunca me equivoco. ¿Trae usted un pleito?",
+    "greeting_again": "Usted otra vez. Su pleito todavía no está maduro. Los pleitos verdes salen mal, como la fruta.",
+    "dark_line": "Una vez condené a un hombre con un seis. Era inocente, pero el seis era clarísimo.",
+    "hint": "Puede preguntar cómo decide los pleitos, por los dados, por los papeles o por sus errores.",
+    "branches": [
+      {
+        "keywords": [
+          "dados",
+          "dado",
+          "suerte"
+        ],
+        "reply": "Leo todos los papeles, los pongo en dos montones y después tiro los dados. Dados pequeños para pleitos pequeños, grandes para los grandes."
+      },
+      {
+        "keywords": [
+          "papeles",
+          "documentos",
+          "papel",
+          "sacos"
+        ],
+        "reply": "Los papeles sirven para que el pleito madure. Un pleito necesita peso, sacos y tiempo. Después, los dados."
+      },
+      {
+        "keywords": [
+          "error",
+          "equivoca",
+          "equivoco",
+          "injusto"
+        ],
+        "reply": "Solo me equivoqué una vez: aquel día me fallaba la vista y leí mal un dado. Desde entonces uso gafas."
+      },
+      {
+        "keywords": [
+          "justicia",
+          "justo"
+        ],
+        "reply": "La justicia es ciega, señor. Yo solo le ayudo un poco con los dados."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos"
+        ],
+        "reply": "Buenos días. Hable despacio: el escribano cobra por palabra."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "No me dé las gracias. Déselas a los dados."
+      }
+    ],
+    "fallback": "Eso no está en mis papeles. Y lo que no está en los papeles lo deciden los dados."
+  },
+  "LOC05_PANURGO": {
+    "location_id": "LOC05",
+    "npc_id": "panurgo",
+    "name": "Panurgo",
+    "greeting": "Panurgo, para servirle, y para servirme a mí primero. ¿Me presta usted dos monedas? Es por su bien.",
+    "greeting_again": "¡Mi acreedor favorito! Todavía le debo dinero, ¿verdad? Entonces somos amigos.",
+    "dark_line": "Un hombre que me debe dinero es un amigo. Un hombre al que yo debo dinero es un problema que flota mal.",
+    "hint": "Puede preguntar por sus maneras de conseguir dinero, por las deudas o por las ovejas del mercader.",
+    "branches": [
+      {
+        "keywords": [
+          "dinero",
+          "monedas",
+          "maneras",
+          "ganar"
+        ],
+        "reply": "Conozco sesenta y tres maneras de conseguir dinero. La más honrada es pedir prestado y olvidar dónde."
+      },
+      {
+        "keywords": [
+          "deuda",
+          "deudas",
+          "debe",
+          "prestar",
+          "presta"
+        ],
+        "reply": "Las deudas sostienen el mundo. Mis acreedores rezan cada noche por mi salud. Ningún santo tiene tantos devotos."
+      },
+      {
+        "keywords": [
+          "ovejas",
+          "oveja",
+          "carnero",
+          "mercader"
+        ],
+        "reply": "Una vez un mercader insoportable me vendió un carnero. Lo tiré al mar. Las otras ovejas saltaron detrás. El mercader también. Mal día para el comercio."
+      },
+      {
+        "keywords": [
+          "casar",
+          "casarse",
+          "boda",
+          "mujer"
+        ],
+        "reply": "Llevo años preguntando si debo casarme. Todos me responden. Nadie me convence. Es una investigación muy seria."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos"
+        ],
+        "reply": "¡Buenos días! Tiene usted cara de prestar dinero."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "Las gracias no se pueden gastar, pero las acepto."
+      }
+    ],
+    "fallback": "De eso no sé nada, pero puedo inventarlo por una moneda."
+  },
+  "LOC11_FRAY_JUAN": {
+    "location_id": "LOC11",
+    "npc_id": "fray_juan",
+    "name": "Fray Juan de los Entommeures",
+    "greeting": "¡Fray Juan de los Entommeures! Monje, viajero y enemigo de las jarras vacías. ¿Bebe usted, hijo?",
+    "greeting_again": "¡Otra vez usted! Siéntese. Rezar con sed es una falta de respeto.",
+    "dark_line": "Cuando entraron en la viña, los demás monjes cantaron. Yo cogí el palo de la cruz. Algunos soldados todavía cantan, pero más agudo.",
+    "hint": "Puede preguntar por la viña de su convento, por cómo reza o por el camino.",
+    "branches": [
+      {
+        "keywords": [
+          "vina",
+          "vino",
+          "uvas",
+          "jarra"
+        ],
+        "reply": "Unos soldados entraron en la viña de mi convento. Los hermanos rezaron. Yo defendí las uvas con el palo de la cruz. Dios entiende de cosechas."
+      },
+      {
+        "keywords": [
+          "rezar",
+          "rezo",
+          "oracion",
+          "misa"
+        ],
+        "reply": "Rezo deprisa. Dios es listo y no necesita que se lo repitan."
+      },
+      {
+        "keywords": [
+          "convento",
+          "monje",
+          "monjes",
+          "fraile"
+        ],
+        "reply": "Un buen convento necesita tres cosas: vino, cocina y alguien que no tenga miedo. Yo pongo la tercera."
+      },
+      {
+        "keywords": [
+          "camino",
+          "llego",
+          "llegar"
+        ],
+        "reply": "El camino es largo y la jarra es corta. El posadero le dirá el resto."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos"
+        ],
+        "reply": "¡Buenas! Un saludo es medio trago. ¿Pedimos el otro medio?"
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "Gracias a Dios, que inventó las uvas."
+      }
+    ],
+    "fallback": "Eso no lo sé. Pregúntele al posadero; yo solo sé de viñas, rezos cortos y palos largos."
+  },
+  "LOC03_JANOTUS": {
+    "location_id": "LOC03",
+    "npc_id": "janotus_bragmardo",
+    "name": "Maestro Janotus de Bragmardo",
+    "greeting": "Ejem, ejem. Maestro Janotus de Bragmardo, doctor en casi todo. Vengo a reclamar unas campanas. Ergo, escúcheme.",
+    "greeting_again": "Ejem. Usted otra vez. Mi discurso tiene todavía catorce partes. Siéntese.",
+    "dark_line": "Ejem. Un estudiante me corrigió el latín una vez. Hoy copia libros en una prisión. Ergo, el latín es peligroso.",
+    "hint": "Puede preguntar por las campanas, por su pago o por su latín.",
+    "branches": [
+      {
+        "keywords": [
+          "campanas",
+          "campana"
+        ],
+        "reply": "Una ciudad sin campanas es como una vaca sin cencerro: nadie sabe dónde está la vaca. Omnis campana campanabilis... ergo, devuélvanlas."
+      },
+      {
+        "keywords": [
+          "pago",
+          "pagan",
+          "salchicha",
+          "salchichas",
+          "calzas"
+        ],
+        "reply": "Por mi discurso me prometieron diez varas de salchicha y unas calzas nuevas. Las calzas llegaron. La salchicha, en teoría."
+      },
+      {
+        "keywords": [
+          "latin",
+          "ergo",
+          "discurso"
+        ],
+        "reply": "Mi latín es excelente. Los demás lo entienden mal porque no tienen mi formación. Ergo, el problema es de ellos."
+      },
+      {
+        "keywords": [
+          "universidad",
+          "doctor",
+          "estudiar"
+        ],
+        "reply": "Estudié cuarenta años. Ahora sé que no sé nada, pero lo sé en latín."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos"
+        ],
+        "reply": "Ejem, ejem. Bona dies. Es decir: buenos días, pero mejor."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "Las gracias, en latín, valen el doble."
+      }
+    ],
+    "fallback": "Ejem. Eso no está en mi discurso. Ergo, no existe."
+  },
+  "LOC07_PICROCOLO": {
+    "location_id": "LOC07",
+    "npc_id": "picrocolo",
+    "name": "Señor Picrócolo",
+    "greeting": "Soy el señor Picrócolo, futuro dueño del mundo. Por ahora, de este campo. Arrodíllese con moderación.",
+    "greeting_again": "Usted otra vez. Mis consejeros ya han conquistado tres reinos en el mapa. Mañana empiezan en la realidad.",
+    "dark_line": "Si hace falta quemar San Vélaro para ganar la guerra de las tortas, se quema. Después se reconstruye con mi nombre.",
+    "hint": "Puede preguntar por las tortas, por su guerra o por sus consejeros.",
+    "branches": [
+      {
+        "keywords": [
+          "tortas",
+          "torta",
+          "pan",
+          "panaderos",
+          "harina"
+        ],
+        "reply": "Unos panaderos negaron tortas a mis pastores. Una ofensa así solo se lava con una guerra. Con una guerra grande."
+      },
+      {
+        "keywords": [
+          "guerra",
+          "ejercito",
+          "soldados",
+          "conquistar"
+        ],
+        "reply": "Primero San Vélaro, después la provincia, después el mar. Mis consejeros dicen que el mar es fácil: no tiene murallas."
+      },
+      {
+        "keywords": [
+          "consejeros",
+          "mapa",
+          "plan"
+        ],
+        "reply": "Mis consejeros mueven ejércitos en un mapa muy bonito. En el mapa nunca llueve y nadie pide paga."
+      },
+      {
+        "keywords": [
+          "paz",
+          "acuerdo",
+          "pagar"
+        ],
+        "reply": "¿Paz? La paz es lo que hacen los que no tienen consejeros."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos"
+        ],
+        "reply": "Buenos días. Hable como si ya fuera usted mi súbdito; así ahorramos tiempo."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "Agradézcamelo después de la conquista."
+      }
+    ],
+    "fallback": "Eso no es importante. Lo importante es mi guerra."
+  },
+  "LOC14_ULPIANO": {
+    "location_id": "LOC14",
+    "npc_id": "ulpiano_sellado",
+    "name": "Don Ulpiano Sellado",
+    "greeting": "Don Ulpiano Sellado, auxiliar de registro. Le advierto que, según el registro, estoy muerto desde el martes. Pero puedo atenderle.",
+    "greeting_again": "Usted otra vez. Sigo muerto, oficialmente. Hoy he pedido un certificado de vida, pero tarda.",
+    "dark_line": "Cuando me muera de verdad, nadie lo va a notar. El sello ya está puesto.",
+    "hint": "Puede preguntar por su muerte en el registro, por los sellos o por cómo corregir un papel.",
+    "branches": [
+      {
+        "keywords": [
+          "muerto",
+          "muerte",
+          "martes",
+          "vivo"
+        ],
+        "reply": "Un compañero puso mi nombre en la lista de difuntos. No voy a discutir con un documento sellado. Sería poco profesional."
+      },
+      {
+        "keywords": [
+          "sello",
+          "sellos",
+          "sellado"
+        ],
+        "reply": "Un sello no dice la verdad. Dice que alguien tenía un sello. Es distinto, pero casi nadie lo nota."
+      },
+      {
+        "keywords": [
+          "corregir",
+          "error",
+          "formulario"
+        ],
+        "reply": "Para corregir mi muerte necesito la firma del difunto. El difunto soy yo, pero oficialmente no puedo firmar."
+      },
+      {
+        "keywords": [
+          "comer",
+          "sueldo",
+          "paga"
+        ],
+        "reply": "Los muertos no cobran. Por suerte, tampoco pagan alquiler. Estoy en negociaciones."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos"
+        ],
+        "reply": "Buenos días. Hable bajo: no quiero despertar a nadie en el registro."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada. Es un placer ser útil después de la muerte."
+      }
+    ],
+    "fallback": "Eso necesita un formulario. Y el formulario necesita otro formulario. Vuelva con los dos."
+  },
+  "LOC10_TIA_BRIGIDA": {
+    "location_id": "LOC10",
+    "npc_id": "tia_brigida",
+    "name": "Tía Brígida del Fango",
+    "greeting": "Tía Brígida. No soy bruja. Las brujas cobran más. ¿Qué le duele, aparte de la ignorancia?",
+    "greeting_again": "Usted otra vez. Si viene a por un milagro, se ha equivocado de pueblo. Si viene a por sentido común, siéntese.",
+    "dark_line": "He enterrado a más gente que el obispo. La diferencia es que yo sé por qué murieron.",
+    "hint": "Puede preguntar por sus curas, por la magia o por el marjal.",
+    "branches": [
+      {
+        "keywords": [
+          "curar",
+          "cura",
+          "curas",
+          "enfermo",
+          "medicina"
+        ],
+        "reply": "La mitad de curar es que el enfermo crea que usted sabe lo que hace. La otra mitad es agua hervida. Casi todos se olvidan de la segunda."
+      },
+      {
+        "keywords": [
+          "magia",
+          "bruja",
+          "brujeria",
+          "hechizo"
+        ],
+        "reply": "No hago magia. Hago que la gente haga lo que ya sabía que debía hacer. Sale más barato y nadie te quema."
+      },
+      {
+        "keywords": [
+          "marjal",
+          "barro",
+          "agua"
+        ],
+        "reply": "El marjal no es malo. Solo es honesto: si das un mal paso, te traga sin sermones."
+      },
+      {
+        "keywords": [
+          "nuno",
+          "bandidos",
+          "barragan"
+        ],
+        "reply": "Nuño es un buen chico. Mata con educación y paga sus medicinas. En el marjal eso es casi un santo."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos"
+        ],
+        "reply": "Buenas. Límpiese los pies. El barro de fuera es más limpio que el de dentro."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "Las gracias no curan. Pero tampoco hacen daño."
+      }
+    ],
+    "fallback": "No sé. Y digo no sé, que es la palabra más rara de esta provincia."
+  },
+  "LOC13_TIBURCIO": {
+    "location_id": "LOC13",
+    "npc_id": "tiburcio_ruedas",
+    "name": "Maese Tiburcio Ruedas",
+    "greeting": "¡Maese Tiburcio Ruedas, inventor! Cuidado con ese montón: es una máquina. O lo será, cuando termine de explotar.",
+    "greeting_again": "¡Usted otra vez! Le presento mi nueva máquina. Bueno, la mitad. La otra mitad está en el techo.",
+    "dark_line": "Mi primera máquina mató a un ayudante. Aprendí mucho de ese error. El ayudante, menos.",
+    "hint": "Puede preguntar por sus inventos, por el reloj adelantado o por Simón.",
+    "branches": [
+      {
+        "keywords": [
+          "invento",
+          "inventos",
+          "maquina",
+          "maquinas"
+        ],
+        "reply": "Mi máquina para pelar huevos funciona perfectamente. El problema son los huevos: no colaboran."
+      },
+      {
+        "keywords": [
+          "reloj",
+          "hora",
+          "tarde"
+        ],
+        "reply": "Inventé un reloj que da la hora diez minutos antes, para que nadie llegue tarde. Todos llegan tarde igual, pero ahora lo saben antes."
+      },
+      {
+        "keywords": [
+          "simon",
+          "vale",
+          "motor"
+        ],
+        "reply": "Simón es un buen chico, pero sus máquinas funcionan. Eso no tiene mérito. Cualquiera hace funcionar algo."
+      },
+      {
+        "keywords": [
+          "explota",
+          "explosion",
+          "fuego",
+          "peligro"
+        ],
+        "reply": "Una explosión no es un fracaso. Es una máquina que tiene prisa por terminar."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos"
+        ],
+        "reply": "¡Buenas! No toque nada. Sobre todo lo que no hace ruido."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "Gracias a usted. Es raro tener visitas que todavía tienen cejas."
+      }
+    ],
+    "fallback": "No sé nada de eso, pero puedo construir una máquina que lo sepa. Tardaré unos diez años."
+  },
+  "LOC06_MAMERTO": {
+    "location_id": "LOC06",
+    "npc_id": "mamerto_remolacha",
+    "name": "Sargento Mamerto Remolacha",
+    "greeting": "¡Alto! Sargento Mamerto Remolacha, del puesto del puente. Tengo detenida a una cabra. No me distraiga.",
+    "greeting_again": "Usted otra vez. La cabra sigue detenida. Ha comido tres formularios. Su situación empeora.",
+    "dark_line": "Si la cabra no confiesa, hay métodos. Los he usado con gente. Con cabras, todavía no.",
+    "hint": "Puede preguntar por la cabra, por la ley o por el puente.",
+    "branches": [
+      {
+        "keywords": [
+          "cabra",
+          "detenida",
+          "presa"
+        ],
+        "reply": "La cabra cruzó el puente sin permiso. Además, se comió el permiso de otro. Contrabando y robo. Caso cerrado, falta el juicio."
+      },
+      {
+        "keywords": [
+          "ley",
+          "reglamento",
+          "norma"
+        ],
+        "reply": "La ley es la ley, aunque coma papel. Sobre todo si come papel: entonces es prueba."
+      },
+      {
+        "keywords": [
+          "puente",
+          "peaje",
+          "pasar"
+        ],
+        "reply": "Para pasar necesita salvoconducto. La cabra no lo tenía. Usted, espero, sí."
+      },
+      {
+        "keywords": [
+          "juicio",
+          "juez",
+          "confesion",
+          "confiesa"
+        ],
+        "reply": "La cabra no habla. Eso, para algunos jueces, ya es casi una confesión."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos"
+        ],
+        "reply": "Buenos días. Manos donde pueda verlas. La cabra también."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "No me dé las gracias. Déme un formulario sin mordiscos."
+      }
+    ],
+    "fallback": "Eso no está en el reglamento. Y lo que no está en el reglamento, lo vigilo igualmente."
   }
 }

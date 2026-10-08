@@ -106,10 +106,13 @@ func run() -> void:
 		enter(map, panel.scene_for(id))
 		check(not panel.visible or id not in speakers(panel), "Speaker is absent from the selector before the task: " + id)
 		panel.open_conversation(id)
-		check(not panel.visible and not panel.histories.has(id), "Speaker cannot be opened before the task: " + id)
+		# Another speaker present at the place (e.g. a comic speaker) may take the
+		# conversation instead; the absent one is never opened.
+		check(not (panel.visible and panel.location_id == id) and not panel.histories.has(id), "Speaker cannot be opened before the task: " + id)
+		panel.location_id = id
 		panel.show()
 		panel.submit("Hola")
-		check(not fake.busy, "Nothing is sent to a speaker who is not there yet: " + id)
+		check(not fake.busy and not panel.histories.has(id), "Nothing is sent to a speaker who is not there yet: " + id)
 		for index in needs.size() - 1:
 			satisfy(map.state, needs[index])
 			check(not panel.available(id), "Every requirement is needed: " + id)

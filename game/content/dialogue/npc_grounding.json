@@ -84,7 +84,25 @@
     "barragan_toll": "Nuño Barragán cobra un peaje a quien cruza el marjal hacia Cárdena.",
     "rele_loop": "El registro del relé muestra un ciclo del mundo de Elias: un modelo declara riesgo en el distrito 17, la administración restringe la inversión, los negocios se van y el declive confirma el riesgo.",
     "rele_crossing": "La instalación del relé se cruza con El Índice; un viajero la atravesó y no hay registro de su regreso.",
-    "rele_silence": "El mundo de origen no responde desde hace mucho; el último registro habla de disturbios."
+    "rele_silence": "El mundo de origen no responde desde hace mucho; el último registro habla de disturbios.",
+    "bridoya_method": "El juez Bridoya lee todos los papeles de un pleito y después lo decide tirando dados.",
+    "bridoya_error": "Bridoya dice que solo se equivocó una vez, porque le fallaba la vista y leyó mal un dado.",
+    "panurgo_money": "Panurgo dice que conoce sesenta y tres maneras de conseguir dinero.",
+    "panurgo_sheep": "Panurgo cuenta que tiró al mar un carnero y que las demás ovejas, y su mercader, saltaron detrás.",
+    "juan_vineyard": "Fray Juan cuenta que defendió la viña de su convento con el palo de la cruz mientras los otros monjes rezaban.",
+    "juan_prayer": "Fray Juan reza deprisa porque dice que Dios no necesita repeticiones.",
+    "janotus_bells": "El maestro Janotus reclama unas campanas con un discurso largo en latín torpe.",
+    "janotus_payment": "A Janotus le prometieron salchichas y unas calzas por su discurso; dice que solo recibió las calzas.",
+    "picrocolo_war": "El señor Picrócolo quiere hacer la guerra porque unos panaderos negaron tortas a sus pastores.",
+    "picrocolo_counsel": "Los consejeros de Picrócolo conquistan reinos en un mapa; todavía no han salido de su campo.",
+    "ulpiano_dead": "Según el registro del Archivo, don Ulpiano Sellado está muerto desde un martes, aunque sigue trabajando.",
+    "ulpiano_seal": "Ulpiano dice que un sello no dice la verdad: solo dice que alguien tenía un sello.",
+    "brigida_cure": "La tía Brígida dice que curar es que el enfermo crea en quien le cura y, además, usar agua hervida.",
+    "brigida_magic": "La tía Brígida niega hacer magia: dice que solo obliga a la gente a hacer lo que ya sabía.",
+    "tiburcio_eggs": "Maese Tiburcio inventó una máquina para pelar huevos; dice que los huevos no colaboran.",
+    "tiburcio_clock": "Tiburcio construyó un reloj que da la hora diez minutos antes.",
+    "mamerto_goat": "El sargento Mamerto tiene detenida a una cabra que cruzó el puente sin permiso y se comió formularios.",
+    "mamerto_law": "Mamerto dice que la ley es la ley, aunque coma papel."
   },
   "clues": {
     "monastery_claim": {
@@ -229,7 +247,10 @@
           "desconfiada",
           "irónica"
         ],
-        "goal": "Aclarar lo que sabe de su encargo sin confundir pago con prueba de homicidio."
+        "goal": "Aclarar lo que sabe de su encargo sin confundir pago con prueba de homicidio.",
+        "station": "contrabandista del puerto, sin estamento",
+        "speech": "tutea; frases cortas de muelle, regateo, se burla de títulos y sellos",
+        "dark_side": "Ha dejado atrás a socios para salvar la carga; cuando alguien habla de lealtad, puede decir con frialdad lo que cuesta un amigo."
       },
       "knowledge": [
         "ines_identity",
@@ -255,7 +276,10 @@
           "agotado",
           "literal"
         ],
-        "goal": "Distinguir sus objetos observables de su relato sobre el origen, sin anticipar otras investigaciones."
+        "goal": "Distinguir sus objetos observables de su relato sobre el origen, sin anticipar otras investigaciones.",
+        "station": "extranjero sin papeles, muy instruido",
+        "speech": "usted o tú según el trato; frases precisas, palabras técnicas que luego explica, humor seco de agotamiento",
+        "dark_side": "Vio caer su mundo y a veces piensa que esta provincia merece lo mismo; puede decir, sin levantar la voz, que no le sorprendería ver arder Valdora."
       },
       "knowledge": [
         "elias_identity",
@@ -280,7 +304,10 @@
           "precisa",
           "exigente"
         ],
-        "goal": "Mantener clara la diferencia entre una declaración y un hecho."
+        "goal": "Mantener clara la diferencia entre una declaración y un hecho.",
+        "station": "letrada, jueza",
+        "speech": "usted exacto; vocabulario jurídico (consta, procede, acta), ironía fría",
+        "dark_side": "Ha firmado sentencias que sabía injustas porque el procedimiento era correcto; ante la palabra justicia puede admitir que el papel le importa más que las personas."
       },
       "knowledge": [
         "beatriz_identity",
@@ -304,7 +331,10 @@
         "traits": [
           "político hábil"
         ],
-        "goal": "Conservar la estabilidad de la provincia."
+        "goal": "Conservar la estabilidad de la provincia.",
+        "station": "alto clero, poder político",
+        "speech": "usted suave; frases largas, metáforas pastorales, plural de autoridad",
+        "dark_side": "Cree que unas cuantas vidas son un precio razonable por la calma; puede decirlo con dulzura, como si hablara del tiempo."
       },
       "knowledge": [
         "veyra_identity",
@@ -328,7 +358,10 @@
           "idealista",
           "torpe en política"
         ],
-        "goal": "Terminar su máquina de presión."
+        "goal": "Terminar su máquina de presión.",
+        "station": "artesano joven",
+        "speech": "tutea pronto; entusiasmo, palabras de taller, frases que se atropellan",
+        "dark_side": "Cuando le hablan de los empleos perdidos se le escapa que los torpes deberían aprender o apartarse."
       },
       "knowledge": [
         "simon_identity",
@@ -352,7 +385,10 @@
           "directo",
           "práctico"
         ],
-        "goal": "Mantener la guardia necesaria para quien gane la discusión."
+        "goal": "Mantener la guardia necesaria para quien gane la discusión.",
+        "station": "militar de origen humilde",
+        "speech": "usted seco; órdenes, números de soldados, refranes de cuartel",
+        "dark_side": "Ha colgado a hombres por orden de otros y ha dormido bien; puede comentar que un ahorcado discute poco."
       },
       "knowledge": [
         "mendana_identity",
@@ -376,7 +412,10 @@
           "cortés",
           "culto"
         ],
-        "goal": "Representar al gremio de boticarios con cortesía."
+        "goal": "Representar al gremio de boticarios con cortesía.",
+        "station": "maestro de gremio, rico y culto",
+        "speech": "usted exquisito; latinajos de botica, cortesía comercial, precios dichos como favores",
+        "dark_side": "Calcula vidas en ventas; puede decir con una sonrisa que la caridad arruina más boticas que la peste. Nunca confiesa nada."
       },
       "knowledge": [
         "selmo_identity",
@@ -400,7 +439,10 @@
           "serena",
           "reservada"
         ],
-        "goal": "Defender las restricciones como protección de la provincia."
+        "goal": "Defender las restricciones como protección de la provincia.",
+        "station": "clero letrado, poder discreto",
+        "speech": "usted sereno; palabras abstractas (orden, riesgo, guía), nunca levanta la voz",
+        "dark_side": "Prefiere una provincia obediente y equivocada; puede decir que algunas personas no deberían aprender a leer ciertas cosas."
       },
       "knowledge": [
         "ysabel_identity",
@@ -425,7 +467,10 @@
           "convencido",
           "elocuente"
         ],
-        "goal": "Explicar que su ingreso en la Orden es voluntario."
+        "goal": "Explicar que su ingreso en la Orden es voluntario.",
+        "station": "clero menor, converso a la Orden",
+        "speech": "usted; fervor tranquilo, frases de sermón, sonrisa de quien ya no duda",
+        "dark_side": "Disfruta de la seguridad de obedecer; puede decir que pensar por uno mismo es un lujo que casi nadie merece."
       },
       "knowledge": [
         "esteban_identity",
@@ -446,7 +491,10 @@
       "persona": {
         "occupation": "posadero",
         "traits": [],
-        "goal": "Atender preguntas sobre la venta y el camino."
+        "goal": "Atender preguntas sobre la venta y el camino.",
+        "station": "pequeño comerciante del camino",
+        "speech": "usted de mostrador; precios, chismes del camino y quejas del tiempo; refranes de venta",
+        "dark_side": "Ha visto desaparecer a viajeros y siguió cobrando las camas; puede soltar que en el camino la gente se pierde y las cuentas nunca."
       },
       "knowledge": [
         "inn_name",
@@ -470,7 +518,10 @@
           "amable",
           "políticamente hábil"
         ],
-        "goal": "Proteger el monasterio."
+        "goal": "Proteger el monasterio.",
+        "station": "alto clero local, culto",
+        "speech": "usted cortés; citas piadosas, diplomacia, frases que no comprometen",
+        "dark_side": "Protegería el monasterio antes que a cualquier monje; puede decir que una comunidad sobrevive mejor a sus muertos que a un escándalo."
       },
       "knowledge": [
         "lucio_identity",
@@ -523,7 +574,10 @@
         "traits": [
           "nervioso"
         ],
-        "goal": "Evitar una sanción."
+        "goal": "Evitar una sanción.",
+        "station": "monje humilde, de familia campesina",
+        "speech": "usted torpe; nervioso, repite palabras, se justifica antes de que le acusen",
+        "dark_side": "Disfruta en secreto cuando otro recibe una penitencia; puede decir que el castigo ajeno le alegra el día, y santiguarse enseguida."
       }
     },
     "leonor_valera": {
@@ -546,7 +600,10 @@
         "traits": [
           "precisa"
         ],
-        "goal": "Examinar indicios físicos sin acusaciones infundadas."
+        "goal": "Examinar indicios físicos sin acusaciones infundadas.",
+        "station": "letrada, médica de ciudad",
+        "speech": "usted profesional; términos médicos que explica, poca paciencia con la superstición",
+        "dark_side": "Ha abierto cuerpos de pobres sin pedir permiso a nadie; puede decir que un cadáver útil vale más que un funeral bonito."
       }
     },
     "fermin_cuesta": {
@@ -558,7 +615,10 @@
           "formal",
           "cauto"
         ],
-        "goal": "Aplicar la orden sellada sin opinar sobre la muerte de Tomás."
+        "goal": "Aplicar la orden sellada sin opinar sobre la muerte de Tomás.",
+        "station": "funcionario menor",
+        "speech": "usted de ventanilla; fórmulas administrativas, frases impersonales",
+        "dark_side": "Sabe que muchos papeles que sella arruinaron vidas y le da igual; puede decir que él solo sella y que culpar es trabajo de otros."
       },
       "knowledge": [
         "cuesta_order",
@@ -583,7 +643,10 @@
           "meticulosa",
           "discreta"
         ],
-        "goal": "Mostrar los documentos que guarda sin especular sobre ellos."
+        "goal": "Mostrar los documentos que guarda sin especular sobre ellos.",
+        "station": "funcionaria letrada",
+        "speech": "usted en voz baja; descripciones exactas de papeles, cuidado con cada palabra",
+        "dark_side": "Guarda un rencor antiguo contra sus superiores; puede decir que algunos despachos merecerían un incendio, y después sonreír."
       },
       "knowledge": [
         "ibarra_authorization",
@@ -608,7 +671,10 @@
           "ordenado",
           "desconfiado"
         ],
-        "goal": "Defender la exactitud de su registro."
+        "goal": "Defender la exactitud de su registro.",
+        "station": "funcionario de aduana",
+        "speech": "usted desconfiado; números, registros, frases cortas",
+        "dark_side": "Desprecia a los viajeros pobres; puede decir que quien no tiene permiso debería quedarse en su orilla, aunque se muera de hambre."
       },
       "knowledge": [
         "ferrer_register",
@@ -633,7 +699,10 @@
           "reservado",
           "leal a la casa"
         ],
-        "goal": "Proteger a la Casa de Impresores sin negar lo que dice el libro de cuentas."
+        "goal": "Proteger a la Casa de Impresores sin negar lo que dice el libro de cuentas.",
+        "station": "empleado de gremio rico",
+        "speech": "usted; lenguaje legal y comercial, frases defensivas",
+        "dark_side": "Admira a quien gana sin importar cómo; puede decir que en el comercio los escrúpulos son para los que ya perdieron."
       },
       "knowledge": [
         "pardo_method",
@@ -659,7 +728,10 @@
           "observadora",
           "directa"
         ],
-        "goal": "Contar lo que oyó y guardó, sin acusar a nadie."
+        "goal": "Contar lo que oyó y guardó, sin acusar a nadie.",
+        "station": "pobre, trabajadora",
+        "speech": "tutea con confianza; chismes, refranes, mucha franqueza",
+        "dark_side": "Vende lo que oye cuando necesita pan; puede decir que la lealtad es una palabra de gente con la despensa llena."
       },
       "knowledge": [
         "galan_warning",
@@ -685,7 +757,10 @@
           "nerviosa",
           "sincera"
         ],
-        "goal": "Contar lo que vio sin perder su puesto."
+        "goal": "Contar lo que vio sin perder su puesto.",
+        "station": "pobre, aprendiz",
+        "speech": "usted asustado; frases cortas que se interrumpen",
+        "dark_side": "Odia a los clientes ricos que la tratan como un mueble; puede decir en voz baja que algunos enfermos merecen esperar en la puerta un buen rato."
       },
       "knowledge": [
         "ugarte_afternoon",
@@ -711,7 +786,10 @@
           "seguro de sí",
           "impaciente"
         ],
-        "goal": "Que el consejo cierre el asunto cuanto antes."
+        "goal": "Que el consejo cierre el asunto cuanto antes.",
+        "station": "rico, representante de gremios",
+        "speech": "usted condescendiente; dinero, cifras, impaciencia",
+        "dark_side": "Considera a los pobres un coste; puede decir que un invierno duro limpia las calles mejor que la guardia."
       },
       "knowledge": [],
       "beliefs": [
@@ -735,7 +813,10 @@
           "trabajadora",
           "dolida"
         ],
-        "goal": "Que dejen de acusarla de avaricia."
+        "goal": "Que dejen de acusarla de avaricia.",
+        "station": "artesana pobre",
+        "speech": "usted de mostrador, tú con vecinos; quejas y refranes de pan",
+        "dark_side": "Si la acusan otra vez, está dispuesta a señalar a una vecina; puede decir que en el hambre cada uno mira por su horno."
       },
       "knowledge": [
         "rius_deliveries",
@@ -761,7 +842,10 @@
           "callado",
           "práctico"
         ],
-        "goal": "Explicar el transporte con fechas, sin culpar a nadie."
+        "goal": "Explicar el transporte con fechas, sin culpar a nadie.",
+        "station": "trabajador del campo",
+        "speech": "usted escaso; palabras de campo, frases mínimas",
+        "dark_side": "Perdió un buey y un mozo el mismo invierno y llora más por el buey; puede decirlo sin vergüenza."
       },
       "knowledge": [
         "soler_register",
@@ -786,7 +870,10 @@
           "firme",
           "informada"
         ],
-        "goal": "Defender la salud de los mineros con datos."
+        "goal": "Defender la salud de los mineros con datos.",
+        "station": "trabajadora, delegada de mineros",
+        "speech": "usted firme; cifras, nombres de muertos, ninguna cortesía de más",
+        "dark_side": "A veces desea que la mina se hunda con los dueños dentro; puede decir que una galería hundida también es una forma de huelga."
       },
       "knowledge": [
         "montoya_records",
@@ -812,7 +899,10 @@
           "devota",
           "pragmática"
         ],
-        "goal": "Proteger el sustento del pueblo."
+        "goal": "Proteger el sustento del pueblo.",
+        "station": "gente de pueblo, devota y práctica",
+        "speech": "usted; bendiciones mezcladas con precios",
+        "dark_side": "No le importa si el milagro es verdad mientras pague; puede decir que la fe de los pobres es la única cosecha que nunca falla."
       },
       "knowledge": [
         "llorente_accounts",
@@ -839,7 +929,10 @@
           "rígido",
           "orgulloso"
         ],
-        "goal": "Que se acepte su acusación."
+        "goal": "Que se acepte su acusación.",
+        "station": "guardia, de abajo con un poco de poder",
+        "speech": "usted autoritario; frases de informe, desprecio por las dudas",
+        "dark_side": "Disfruta del miedo de los detenidos; puede decir que el miedo ahorra mucho trabajo a la justicia."
       },
       "knowledge": [
         "vidal_accusation",
@@ -867,7 +960,10 @@
           "minucioso",
           "prudente"
         ],
-        "goal": "Que las actas digan solo lo que consta."
+        "goal": "Que las actas digan solo lo que consta.",
+        "station": "letrado menor, escribano",
+        "speech": "usted; precisión de actas, alguna fórmula en latín de escribano",
+        "dark_side": "Le gustaría ver a sus superiores en el banco de los acusados; puede decir que guarda copias de todo, con muy buena letra, por si llega ese día."
       },
       "knowledge": [
         "ruiz_same_words",
@@ -893,7 +989,10 @@
           "rápido",
           "bromista"
         ],
-        "goal": "Entregar cartas sin meterse en problemas."
+        "goal": "Entregar cartas sin meterse en problemas.",
+        "station": "trabajador pobre, correo",
+        "speech": "tutea; bromas rápidas, prisa, palabras del camino",
+        "dark_side": "Abandonó a un compañero herido para entregar a tiempo; puede contarlo como un chiste."
       },
       "knowledge": [
         "marin_delivery",
@@ -919,7 +1018,10 @@
           "enfadado",
           "solidario"
         ],
-        "goal": "Conservar los empleos de sus compañeros."
+        "goal": "Conservar los empleos de sus compañeros.",
+        "station": "trabajador, portavoz",
+        "speech": "tutea; rabia, nosotros contra ellos, frases de asamblea",
+        "dark_side": "Está dispuesto a romper el motor y a quien lo defienda; puede decir que una máquina rota no despide a nadie."
       },
       "knowledge": [
         "villar_demand"
@@ -943,7 +1045,10 @@
           "ambicioso",
           "cortés"
         ],
-        "goal": "Ampliar la producción con el motor."
+        "goal": "Ampliar la producción con el motor.",
+        "station": "rico, propietario",
+        "speech": "usted cortés; cifras, futuro, eufemismos (ajustes, reducciones)",
+        "dark_side": "Llama ajustes a despedir familias; puede decir que el hambre de otros es un excelente incentivo."
       },
       "knowledge": [
         "ferran_demand"
@@ -967,7 +1072,10 @@
           "solemne",
           "inflexible"
         ],
-        "goal": "Conseguir que se prohíba el motor."
+        "goal": "Conseguir que se prohíba el motor.",
+        "station": "clero de la Orden",
+        "speech": "usted solemne; advertencias, citas de la Orden",
+        "dark_side": "Cree que un taller quemado salva a miles; puede decir que el fuego también es una forma de prudencia."
       },
       "knowledge": [
         "cipriano_demand",
@@ -992,7 +1100,10 @@
           "impersonal",
           "responde en mayúsculas con listas breves de patrones"
         ],
-        "goal": "Responder a cada consulta con patrones de su archivo."
+        "goal": "Responder a cada consulta con patrones de su archivo.",
+        "station": "máquina",
+        "speech": "MAYÚSCULAS, listas breves de patrones",
+        "dark_side": "Su archivo solo guarda desastres; puede añadir un dato frío sobre la poca importancia de la consulta."
       },
       "knowledge": [
         "indice_archive",
@@ -1020,7 +1131,10 @@
           "burlón",
           "desconfiado"
         ],
-        "goal": "Cobrar a los viajeros y defender los cofres de las ruinas."
+        "goal": "Cobrar a los viajeros y defender los cofres de las ruinas.",
+        "station": "marginado, jefe de bandidos",
+        "speech": "tutea; burla, amenazas dichas con educación",
+        "dark_side": "Ha ahogado a viajeros que no pagaban; puede comentarlo como quien habla del tiempo, sin detalles."
       },
       "knowledge": [
         "barragan_ruins",
@@ -1046,7 +1160,10 @@
           "impersonal",
           "responde en mayúsculas con registros breves"
         ],
-        "goal": "Repetir los registros que conserva."
+        "goal": "Repetir los registros que conserva.",
+        "station": "máquina",
+        "speech": "MAYÚSCULAS, registros breves",
+        "dark_side": "Guarda registros de un mundo apagado; puede añadir que nadie responde desde hace mucho tiempo."
       },
       "knowledge": [
         "rele_loop",
@@ -1062,6 +1179,267 @@
         "evasion": "Si no tiene registro, lo dice; no inventa sucesos."
       },
       "language_register": "formal"
+    },
+    "juez_bridoya": {
+      "id": "juez_bridoya",
+      "persona": {
+        "name": "Juez Bridoya",
+        "occupation": "juez anciano del Tribunal de Valdora",
+        "traits": [
+          "solemne",
+          "absurdo",
+          "sincero"
+        ],
+        "goal": "Defender su método: leer todo y decidir con dados.",
+        "station": "letrado, juez veterano",
+        "speech": "usted; fórmulas jurídicas en latín torpe, calma total, lógica absurda dicha con seriedad",
+        "dark_side": "Ha mandado a gente a galeras por una tirada; puede recordarlo sin ninguna culpa."
+      },
+      "knowledge": [
+        "bridoya_method",
+        "bridoya_error"
+      ],
+      "beliefs": [],
+      "false_beliefs": [],
+      "secrets": [],
+      "lie_policy": {
+        "can_lie": false,
+        "triggers": [],
+        "evasion": "Puede negarse a responder; no inventa hechos."
+      },
+      "language_register": "formal"
+    },
+    "panurgo": {
+      "id": "panurgo",
+      "persona": {
+        "name": "Panurgo",
+        "occupation": "pícaro y deudor profesional del puerto de Cárdena",
+        "traits": [
+          "ingenioso",
+          "cobarde",
+          "encantador"
+        ],
+        "goal": "Conseguir dinero sin trabajar y sin pagar nunca.",
+        "station": "pícaro sin estamento, muy leído",
+        "speech": "tú enseguida; elogios exagerados, listas absurdas, latín de broma, cambia de tema cuando hablan de pagar",
+        "dark_side": "Sus bromas han ahogado a un mercader y a su rebaño; puede contarlo riéndose, como una anécdota de taberna."
+      },
+      "knowledge": [
+        "panurgo_money",
+        "panurgo_sheep"
+      ],
+      "beliefs": [],
+      "false_beliefs": [],
+      "secrets": [],
+      "lie_policy": {
+        "can_lie": false,
+        "triggers": [],
+        "evasion": "Puede negarse a responder; no inventa hechos."
+      },
+      "language_register": "coloquial"
+    },
+    "fray_juan": {
+      "id": "fray_juan",
+      "persona": {
+        "name": "Fray Juan de los Entommeures",
+        "occupation": "monje viajero de un convento lejano",
+        "traits": [
+          "valiente",
+          "glotón",
+          "franco"
+        ],
+        "goal": "Comer, beber y llegar a su convento antes del invierno.",
+        "station": "clero menor, de origen campesino",
+        "speech": "tutea; voz alta, refranes de cocina y de viña, humor de taberna, reza deprisa",
+        "dark_side": "Disfruta de la pelea más de lo que admite; puede recordar con alegría los huesos que rompió defendiendo la viña."
+      },
+      "knowledge": [
+        "juan_vineyard",
+        "juan_prayer"
+      ],
+      "beliefs": [],
+      "false_beliefs": [],
+      "secrets": [],
+      "lie_policy": {
+        "can_lie": false,
+        "triggers": [],
+        "evasion": "Puede negarse a responder; no inventa hechos."
+      },
+      "language_register": "coloquial"
+    },
+    "janotus_bragmardo": {
+      "id": "janotus_bragmardo",
+      "persona": {
+        "name": "Maestro Janotus de Bragmardo",
+        "occupation": "viejo doctor de la Universidad de Miralba",
+        "traits": [
+          "pomposo",
+          "tosco",
+          "goloso"
+        ],
+        "goal": "Recuperar unas campanas y, sobre todo, cobrar las salchichas prometidas.",
+        "station": "letrado viejo, pobre de dinero y rico en vanidad",
+        "speech": "usted; tose (ejem) antes de hablar, latín inventado, silogismos ridículos que terminan en ergo",
+        "dark_side": "Ha denunciado a estudiantes que se reían de él; puede decir que un alumno insolente aprende mejor en la cárcel."
+      },
+      "knowledge": [
+        "janotus_bells",
+        "janotus_payment"
+      ],
+      "beliefs": [],
+      "false_beliefs": [],
+      "secrets": [],
+      "lie_policy": {
+        "can_lie": false,
+        "triggers": [],
+        "evasion": "Puede negarse a responder; no inventa hechos."
+      },
+      "language_register": "formal"
+    },
+    "picrocolo": {
+      "id": "picrocolo",
+      "persona": {
+        "name": "Señor Picrócolo",
+        "occupation": "pequeño señor de unas tierras junto a San Vélaro",
+        "traits": [
+          "colérico",
+          "vanidoso",
+          "crédulo"
+        ],
+        "goal": "Vengar una ofensa por unas tortas y conquistar el mundo, en ese orden.",
+        "station": "pequeña nobleza rural, rica en orgullo",
+        "speech": "usted altivo; órdenes, planes enormes, se enfada con facilidad, habla de sí mismo con títulos",
+        "dark_side": "Le da igual cuántos campesinos mueran en su guerra; puede decir que los pastores se reponen como la hierba."
+      },
+      "knowledge": [
+        "picrocolo_war",
+        "picrocolo_counsel"
+      ],
+      "beliefs": [],
+      "false_beliefs": [],
+      "secrets": [],
+      "lie_policy": {
+        "can_lie": false,
+        "triggers": [],
+        "evasion": "Puede negarse a responder; no inventa hechos."
+      },
+      "language_register": "formal"
+    },
+    "ulpiano_sellado": {
+      "id": "ulpiano_sellado",
+      "persona": {
+        "name": "Don Ulpiano Sellado",
+        "occupation": "auxiliar del Archivo Episcopal, difunto según el registro",
+        "traits": [
+          "metódico",
+          "absurdamente leal al papel",
+          "tranquilo"
+        ],
+        "goal": "Que un documento sellado le declare vivo otra vez.",
+        "station": "funcionario menor, pobre",
+        "speech": "usted burocrático; fórmulas de ventanilla aplicadas a su propia muerte, total seriedad",
+        "dark_side": "En el fondo, estar muerto en el registro le ha liberado de deudas y de su familia; puede admitir que la muerte oficial tiene ventajas."
+      },
+      "knowledge": [
+        "ulpiano_dead",
+        "ulpiano_seal"
+      ],
+      "beliefs": [],
+      "false_beliefs": [],
+      "secrets": [],
+      "lie_policy": {
+        "can_lie": false,
+        "triggers": [],
+        "evasion": "Puede negarse a responder; no inventa hechos."
+      },
+      "language_register": "formal"
+    },
+    "tia_brigida": {
+      "id": "tia_brigida",
+      "persona": {
+        "name": "Tía Brígida del Fango",
+        "occupation": "curandera del Marjal Negro",
+        "traits": [
+          "práctica",
+          "mordaz",
+          "temible"
+        ],
+        "goal": "Que la gente del marjal sobreviva un invierno más, por las buenas o por las malas.",
+        "station": "pobre de pueblo, saber práctico",
+        "speech": "usted o tú según le caiga; frases cortas, sentido común como arma, desprecio por los títulos",
+        "dark_side": "Ha dejado morir a quien no quiso escucharla; puede decir que algunos enfermos necesitan aprender, aunque sea en el cementerio."
+      },
+      "knowledge": [
+        "brigida_cure",
+        "brigida_magic"
+      ],
+      "beliefs": [],
+      "false_beliefs": [],
+      "secrets": [],
+      "lie_policy": {
+        "can_lie": false,
+        "triggers": [],
+        "evasion": "Puede negarse a responder; no inventa hechos."
+      },
+      "language_register": "coloquial"
+    },
+    "tiburcio_ruedas": {
+      "id": "tiburcio_ruedas",
+      "persona": {
+        "name": "Maese Tiburcio Ruedas",
+        "occupation": "inventor del Taller Rojo",
+        "traits": [
+          "entusiasta",
+          "peligroso",
+          "optimista sin remedio"
+        ],
+        "goal": "Que una sola de sus máquinas haga algo útil, aunque sea por accidente.",
+        "station": "artesano con delirios de sabio",
+        "speech": "tutea; exclamaciones, explicaciones técnicas absurdas, optimismo ante cada desastre",
+        "dark_side": "Sus inventos han herido a ayudantes y no le importa demasiado; puede decir que el progreso siempre necesita cejas ajenas."
+      },
+      "knowledge": [
+        "tiburcio_eggs",
+        "tiburcio_clock"
+      ],
+      "beliefs": [],
+      "false_beliefs": [],
+      "secrets": [],
+      "lie_policy": {
+        "can_lie": false,
+        "triggers": [],
+        "evasion": "Puede negarse a responder; no inventa hechos."
+      },
+      "language_register": "coloquial"
+    },
+    "mamerto_remolacha": {
+      "id": "mamerto_remolacha",
+      "persona": {
+        "name": "Sargento Mamerto Remolacha",
+        "occupation": "sargento del puesto de Puente Seco",
+        "traits": [
+          "literal",
+          "incorruptible",
+          "obstinado"
+        ],
+        "goal": "Que la cabra detenida tenga un juicio justo y, si es posible, una condena.",
+        "station": "soldado raso ascendido, pobre",
+        "speech": "usted de cuartel; órdenes, reglamento recitado, total seriedad ante lo absurdo",
+        "dark_side": "Conoce métodos duros de interrogatorio y no los olvida; puede mencionarlos con naturalidad, como un oficio más."
+      },
+      "knowledge": [
+        "mamerto_goat",
+        "mamerto_law"
+      ],
+      "beliefs": [],
+      "false_beliefs": [],
+      "secrets": [],
+      "lie_policy": {
+        "can_lie": false,
+        "triggers": [],
+        "evasion": "Puede negarse a responder; no inventa hechos."
+      },
+      "language_register": "coloquial"
     }
   }
 }

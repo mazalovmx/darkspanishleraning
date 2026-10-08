@@ -279,7 +279,11 @@ func _render_history() -> void:
 	var npc: Dictionary = conversations[location_id]
 	# A returning visitor is greeted as one once the earlier transcript is gone.
 	var returning: bool = histories[location_id].is_empty() and world_state.npc_memory.has(npc.npc_id)
-	var lines: Array[String] = [str(npc.name) + ": " + str(npc.get("greeting_again", npc.greeting) if returning else npc.greeting)]
+	var greeting: String = str(npc.get("greeting_again", npc.greeting) if returning else npc.greeting)
+	# The dark side breaks through now and then: every third exchange on a return visit.
+	if returning and npc.has("dark_line") and int(world_state.npc_memory[npc.npc_id].get("count", 0)) % 3 == 2:
+		greeting += " " + str(npc.dark_line)
+	var lines: Array[String] = [str(npc.name) + ": " + greeting]
 	for exchange: Dictionary in histories[location_id]:
 		lines.append("Tú: " + str(exchange.player))
 		lines.append(str(npc.name) + ": " + str(exchange.reply))

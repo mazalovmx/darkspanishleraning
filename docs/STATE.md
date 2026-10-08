@@ -2819,3 +2819,33 @@ selection still references the earlier tracks; this task stores the new music an
 does not claim it is assigned to scenes or that it has been listened to.
 The full offline regression run for the merged implementation is in progress;
 its outcome will be recorded separately after completion.
+## Speech by station, dark sides, comic speakers
+
+- Every grounded speaker's persona has `station` (estate: poor, artisan, educated,
+  clergy, rich and powerful, machine), `speech` (how that station talks) and `dark_side`
+  (bible 38.2). The model prompt says how to use them: register by station; the dark
+  side breaks through rarely, one short sentence, when talk turns to money, power, fear
+  or death, and never adds a fact about the deaths, El Índice, evidence or a secret.
+  Three drafted dark sides that touched a witness's credibility or the victim (Gabriel,
+  Marta, Hernando) were rewritten before commit.
+- Offline: every conversation has a `dark_line`, added to the return greeting when the
+  speaker's remembered exchange count is 2 modulo 3.
+- Nine comic speakers (bible 13.12), present from the start, each knowing only two facts
+  of their own, none able to unlock a clue or lie: from Rabelais (public domain; episodes
+  retold in our own Spanish) Juez Bridoya (Valdora), Panurgo (Cárdena), Fray Juan de los
+  Entommeures (Venta del Perro Negro), Maestro Janotus de Bragmardo (Miralba), Señor
+  Picrócolo (San Vélaro); original madmen in a Discworld-like spirit (no names or lines of
+  Pratchett's) Don Ulpiano Sellado (Archivo), Tía Brígida del Fango (Marjal Negro), Maese
+  Tiburcio Ruedas (Taller Rojo), Sargento Mamerto Remolacha (Puente Seco). Saved under
+  `npc_memory` (ids added to save_game.NPC_IDS); portraits drawn by tools/make_portraits.py.
+- dialogue_golden_test: a speaker who is not there yet is still never opened or sent a
+  message, but another speaker of the same place may now take the conversation (Panurgo at
+  Cárdena before Inés arrives); the check was made exact instead of "panel closed".
+- Tests: new voices_test (fields for every speaker, prompt rules, dark line only on every
+  third exchange and never on a first visit, comic speakers placed, saveable, grounded,
+  unlocking nothing, own facts, portraits, sample replies).
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 61 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS. Not read or heard in a window; no live model request; the Spanish has
+had no separate editorial review.
