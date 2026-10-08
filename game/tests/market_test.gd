@@ -118,6 +118,29 @@ func run() -> void:
 	check(not trade.submit(state, "bread", 2, models.confirm).ok, "Repeated confirmation cannot duplicate purchase")
 	check(trade.purchase_count == 1, "Receipt count changes once")
 	check(trade.models("water", 1).price == "Es 1 moneda.", "Singular money grammar")
+	# A refusal is not a purchase; a sentence that contradicts its own amount is refused.
+	var before_refusal: int = state.resources.gold
+	var declined: Dictionary = trade.submit(state, "bread", 2, "No quiero comprar 2 panes.")
+	check(not declined.ok and declined.get("declined", false) and trade.phase == "request", "A negated request ends the order")
+	trade.submit(state, "bread", 2, "No son 4 monedas.")
+	trade.submit(state, "bread", 2, "No confirmo la compra de 2 panes por 4 monedas.")
+	check(state.resources.gold == before_refusal and trade.inventory.bread == 2 and trade.purchase_count == 1, "Three refusals buy nothing")
+	check(trade.submit(state, "bread", 2, "Quiero 2 panes.").ok, "Request before a refused price")
+	var denied_price: Dictionary = trade.submit(state, "bread", 2, "No son 4 monedas.")
+	check(not denied_price.ok and trade.phase == "price" and denied_price.message.contains("sin «no»"), "A denied total is not a reading of the price")
+	check(trade.submit(state, "bread", 2, "Son 4 monedas.").ok, "The total stated plainly")
+	check(trade.submit(state, "bread", 2, "No, no lo confirmo.").get("declined", false) and trade.phase == "request", "A refused confirmation cancels the order")
+	check(state.resources.gold == before_refusal and trade.inventory.bread == 2, "A refused confirmation charges nothing")
+	var mixed: Dictionary = trade.submit(state, "bread", 2, "Quiero comprar 2 panes, mejor 3 panes.")
+	check(not mixed.ok and mixed.message.contains("una sola cantidad") and trade.phase == "request", "Contradictory amounts are refused")
+	check(trade.submit(state, "bread", 2, "Quiero comprar dos panes, por favor.").ok, "Own request after a refusal")
+	check(not trade.submit(state, "bread", 2, "Son 4 monedas o 6 monedas.").ok, "Two totals are refused")
+	check(trade.submit(state, "bread", 2, "Cuestan cuatro monedas.").ok, "Total with a number word")
+	check(trade.submit(state, "bread", 2, "Confirmo la compra de dos panes por cuatro monedas; no necesito agua.").get("committed", false), "A negation elsewhere does not refuse the purchase")
+	check(state.resources.gold == before_refusal - 4 and trade.inventory.bread == 4 and trade.purchase_count == 2, "Only the confirmed purchase is charged")
+	var legacy: Dictionary = trade.snapshot()
+	legacy.receipts[-1].request = "No quiero comprar 2 panes."
+	check(World.new().trade.restore(legacy, state.day), "Receipts accepted before the negation check still load")
 	# Own wording is accepted on content; rejections name the gap, never the sentence.
 	var rejected: Dictionary = trade.submit(state, "bread", 3, "Quiero comprar pan.")
 	check(not rejected.ok and rejected.message.contains("la cantidad con el producto"), "Rejection names the missing element")
@@ -149,7 +172,7 @@ func run() -> void:
 	trade.submit(state, "bread", 2, models.price)
 	state.resources.gold = 0
 	check(not trade.submit(state, "bread", 2, models.confirm).ok, "Insufficient funds rechecked at commit")
-	check(trade.inventory.bread == 5 and trade.stock.bread == 25, "Failed transaction leaves goods intact")
+	check(trade.inventory.bread == 7 and trade.stock.bread == 23, "Failed transaction leaves goods intact")
 	state.resources.gold = gold
 	trade.submit(state, "bread", 2, models.request)
 	check(not trade.submit(state, "water", 2, models.price).ok and trade.phase == "request", "Changed basket invalidates quote")

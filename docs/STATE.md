@@ -2642,3 +2642,30 @@ not on the Windows machine): the full non-live run, 60 suites, all exit 0 with
 Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
 run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
 write/read PASS. The dialog was not rendered in a window.
+
+## A refusal is not a purchase
+
+- `trade_state`: a negated stage verb ("No quiero comprar 2 panes.", "No lo confirmo.",
+  "nunca…", "tampoco…") in the request or the confirmation ends the order
+  (`declined`, phase back to "request"); nothing is charged. A negated price ("No son 4
+  monedas.") is not a reading of the price ("una afirmación, sin «no»"). A sentence that
+  names another amount of the same product or another total in coins ("2 panes, mejor 3
+  panes", "4 monedas o 6 monedas") is refused ("una sola cantidad, la del pedido", "un
+  solo total en monedas"). A negation elsewhere in the sentence ("…; no necesito agua")
+  does not refuse the purchase.
+- `strategy_economy`: the same refusal ends construction, recruitment and artifact
+  operations; a negated mine claim or treasure order ("No quiero abrir el cofre.") takes
+  nothing.
+- Saved receipts and mine claims are revalidated without these new checks (`strict`
+  off), so answers accepted before them still load (master plan: older answers are not
+  re-graded by stricter language rules).
+- Before: three negative answers bought two loaves for four coins.
+- Tests: market_test (three refusals, refused price, refused confirmation, contradictory
+  amounts and totals, negation elsewhere, legacy receipt), strategy_economy_test,
+  treasures_test. With the old trade_state the new market checks fail (11 failures).
+- Not covered yet: side investigations and equipment rituals still use their own key
+  checks without negation handling.
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS. Not rendered in a window.
