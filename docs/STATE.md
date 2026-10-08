@@ -2214,3 +2214,14 @@ explored area; the town panel over the new HUD.
 
 Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Conversation window on parchment
+
+The location window (description, conversation, typed answers, actions) used a
+translucent dark box through which the map showed. It now uses the parchment page
+(ParchmentTheme) with a larger title, starts higher and is taller to fit the frame.
+Rendered in a window and inspected: the monastery (three action buttons) and the
+Marjal Negro conversations fit at 1280×720.
+
+Executed for this commit: the full non-live run, 54 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

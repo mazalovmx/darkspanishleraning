@@ -616,7 +616,7 @@ func _build_resource_bar(layer: CanvasLayer) -> void:
 	row.add_child(day_label)
 
 func _build_poi_window(layer: CanvasLayer, ui_theme: Theme) -> void:
-	poi_modal.color = Color(0, 0, 0, 0.7)
+	poi_modal.color = Color(0, 0, 0, 0.78)
 	layer.add_child(poi_modal)
 	poi_modal.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	poi_modal.theme = ui_theme
@@ -624,13 +624,19 @@ func _build_poi_window(layer: CanvasLayer, ui_theme: Theme) -> void:
 	var panel := PanelContainer.new()
 	panel.position = Vector2(260, 70)
 	panel.size = Vector2(760, 580)
+	# Parchment page like the journal; its frame is thicker, so it starts higher.
+	var paper: bool = preload("res://src/common/parchment_theme.gd").apply(panel)
+	if paper:
+		panel.position = Vector2(250, 22)
+		panel.size = Vector2(780, 676)
 	poi_modal.add_child(panel)
 	var margin := MarginContainer.new()
 	for side in ["left", "top", "right", "bottom"]:
-		margin.add_theme_constant_override("margin_" + side, 24)
+		margin.add_theme_constant_override("margin_" + side, 6 if paper and side in ["top", "bottom"] else 24)
 	panel.add_child(margin)
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 20)
+	box.add_theme_constant_override("separation", 14 if paper else 20)
+	poi_title.add_theme_font_size_override("font_size", 24)
 	margin.add_child(box)
 	poi_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	poi_title.custom_minimum_size.x = 712
