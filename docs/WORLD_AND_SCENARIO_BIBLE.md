@@ -2528,6 +2528,22 @@ Writers / Claude must follow:
 13. Most days contain no revelation.
 14. The world should often feel tired rather than epic.
 
+## 38.1 Voice: grit and gallows humour (user request, 2026-10-08)
+
+Asked for "humour and harshness in the manner of Joe Abercrombie". The model is the
+tone, never his prose: no quotation, no borrowed names, phrases or scenes.
+
+- Short, plain sentences; the joke sits in the last clause and is never explained.
+- Characters are tired, practical and self-interested; nobody is noble for free.
+  Pomp is undercut by a cost: money, a debt, a body, a missing bottle.
+- Violence and death are spoken of flatly, as a fact of work, never as spectacle.
+- Humour comes from character and incentives (the doorkeeper who listens for free and
+  sells the repetition), not from winks at the player or modern jokes.
+- Grit never adds facts: a wry line may not invent a clue, a crime, a confession or a
+  motive the canon does not give, and it may not reveal a secret early.
+- Spanish stays B1 and within the taught grammar; no profanity stronger than the
+  setting needs; usted / tú as before.
+
 ---
 
 # 39. Canonical mystery summary

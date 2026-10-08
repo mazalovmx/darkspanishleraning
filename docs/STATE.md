@@ -2754,3 +2754,22 @@ write/read PASS.
 Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
 run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
 write/read PASS.
+
+## Voice: grit and gallows humour (first pass)
+
+- User request: humour and harshness "in the manner of Joe Abercrombie". Written down as
+  bible 38.1 (both copies): the tone only, never his prose; short plain lines, the joke
+  in the last clause, costs named flatly, and no humour line may add a fact, clue,
+  crime, confession or motive the canon does not give.
+- Rewritten: greeting, return greeting and fallback of 33 offline speakers in
+  dialogue/authored.json (facts, prices, directions and survival branches unchanged;
+  "Otra vez por aquí" kept for the innkeeper); one closing line on 35 campaign sources
+  (the council classification cards untouched); a second sentence on 17 location
+  descriptions; two Act I assessment feedbacks. The model prompt gets a short "Voice"
+  paragraph with the same limits.
+- Not yet: the 108 side investigations, equipment and soul texts, and the remaining
+  NPC branch replies.
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS. Not read in a window; the Spanish has had no separate editorial review.
