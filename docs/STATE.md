@@ -2017,3 +2017,21 @@ skips to NVIDIA; Anthropic's low-credit 400; 166 checks).
 
 Executed for this commit: the full non-live run, 53 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Towns offer different buildings
+
+`strategy.json` gains `town_buildings`. Santa Lucerna keeps every building (the
+monastery with its forbidden research). Valdora (capital) and Cárdena (port): council
+hall, barracks, archery range, treasury, artifact market. Ferraza (industrial city):
+council hall, barracks, forge, laboratory, lumber yard. San Vélaro (farm town): council
+hall, barracks, archery range, lumber yard. Every list contains the prerequisites of
+its buildings (checked when written). The strategy panel offers only the town's
+buildings; `reason` refuses others; restore refuses a saved building a town cannot
+hold. Recruit pools follow the buildings, so troops differ by town too.
+
+Tests: strategy_economy_test (Ferraza industrial, no artifact market there, council
+hall everywhere, a forbidden saved building refused and an allowed one accepted; 85
+checks).
+
+Executed for this commit: the full non-live run, 53 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

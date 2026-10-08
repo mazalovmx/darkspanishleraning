@@ -131,6 +131,22 @@ func run() -> void:
 			"fake_phrase": bad.receipts[0].confirm = "gratis"
 		check(not restored.restore(bad,state),"Invalid ledger denied: " + mutation)
 		check(restored.snapshot() == saved,"Rejected restore is atomic")
+	# Towns have their own trades: Ferraza has a forge but no artifact market.
+	check(economy.catalog.town_buildings.LOC04.has("forge") and not economy.catalog.town_buildings.LOC04.has("artifact_market"),"Ferraza is industrial")
+	var ferraza := {}
+	for location: Dictionary in state.locations:
+		if location.id == "LOC04":
+			ferraza = location
+	state.hero_cell = Vector2i(ferraza.position[0],ferraza.position[1])
+	state._reveal_from(state.hero_cell)
+	check(economy.reason(state,"build","artifact_market",1).contains("no tiene lugar"),"No artifact market in Ferraza")
+	check(economy.reason(state,"build","council_hall",1).is_empty(),"A council hall fits every town")
+	var foreign := economy.snapshot()
+	foreign.buildings["LOC07"] = {"council_hall": 1, "treasury": 2}
+	check(not restored.restore(foreign,state),"A saved building a town cannot hold is refused")
+	foreign.buildings["LOC07"] = {"council_hall": 1, "lumber_yard": 2}
+	check(restored.restore(foreign,state),"The same ledger with a building the town can hold restores")
+	check(restored.restore(economy.snapshot(),state),"Restore the real ledger again")
 	# Hero-specific archetypes (master spec 9): each hero hires its own troops.
 	state.hero_cell = Vector2i(52,39)
 	state._reveal_from(state.hero_cell)

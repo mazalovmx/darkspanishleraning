@@ -273,5 +273,44 @@
         "count": 4
       }
     ]
+  },
+  "town_buildings": {
+    "LOC01": [
+      "council_hall",
+      "barracks",
+      "archery_range",
+      "forge",
+      "laboratory",
+      "treasury",
+      "lumber_yard",
+      "artifact_market"
+    ],
+    "LOC02": [
+      "council_hall",
+      "barracks",
+      "archery_range",
+      "treasury",
+      "artifact_market"
+    ],
+    "LOC04": [
+      "council_hall",
+      "barracks",
+      "forge",
+      "laboratory",
+      "lumber_yard"
+    ],
+    "LOC05": [
+      "council_hall",
+      "barracks",
+      "archery_range",
+      "treasury",
+      "artifact_market"
+    ],
+    "LOC07": [
+      "council_hall",
+      "barracks",
+      "archery_range",
+      "lumber_yard"
+    ]
   }
 }

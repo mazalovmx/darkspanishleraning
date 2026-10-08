@@ -142,7 +142,9 @@ its own multi-session plan and scenario-bible review per NPC.
   income until a victory. Ghost knights do not attack mines.
 - Hero-specific troops exist (novices, hospitallers, inquisitorial guard for Mateo;
   thieves, knife fighters, crossbow mercenaries for Inés; relay automatons for
-  Elias); towns still offer the same buildings. Balance unplaytested.
+  Elias). Towns differ (`town_buildings`): Santa Lucerna holds all buildings,
+  Valdora and Cárdena trade (treasury, artifact market), Ferraza works (forge,
+  laboratory, lumber yard), San Vélaro farms. Balance unplaytested.
 - Optional cases: 12 cross-branch links unused; 24 disclosure outcomes are recorded
   but set no flag and have no consequence; case results do not reach the notebook.
 - Soul specials reduce counter evidence from two to one for every set; the authored

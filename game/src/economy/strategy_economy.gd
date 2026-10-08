@@ -288,6 +288,9 @@ func reason(world: RefCounted, kind: String, id: String, quantity: int) -> Strin
 		return "Termina la acción actual y revisa el pedido."
 	var local_buildings: Dictionary = buildings.get(location,{})
 	if kind == "build":
+		# Each town has its own trades (bible 10): not every building fits every town.
+		if id not in catalog.town_buildings.get(location,[]):
+			return "Este asentamiento no tiene lugar para ese edificio."
 		if quantity != 1 or local_buildings.has(id):
 			return "El edificio ya existe o la cantidad no es válida."
 		for built_day in local_buildings.values():
@@ -498,7 +501,7 @@ func restore(data: Variant, world: RefCounted) -> bool:
 		var days := {}
 		for id in data.buildings[location]:
 			var day: Variant = data.buildings[location][id]
-			if not catalog.buildings.has(id) or not _integer(day,1,world.day) or days.has(day):
+			if not catalog.buildings.has(id) or id not in catalog.town_buildings.get(location,[]) or not _integer(day,1,world.day) or days.has(day):
 				return false
 			days[day] = true
 		for id in data.buildings[location]:

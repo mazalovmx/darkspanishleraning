@@ -84,6 +84,9 @@ func open_site(state: RefCounted, id := "") -> void:
 		for kind: String in ["build","recruit","upgrade","artifact"]:
 			var collection: Dictionary = state.economy.catalog.buildings if kind == "build" else state.economy.catalog.recruits if kind == "recruit" else state.economy.catalog.upgrades if kind == "upgrade" else state.economy.artifact_offers
 			for item: String in collection:
+				# Only the buildings this town can hold are offered.
+				if kind == "build" and item not in state.economy.catalog.town_buildings.get(state.location_at(state.hero_cell).get("id",""),[]):
+					continue
 				var verb: String = {"build":"Construir","recruit":"Contratar","upgrade":"Mejorar","artifact":"Comprar"}[kind]
 				entries.add_item(verb + " · " + str(collection[item].name))
 				entries.set_item_metadata(entries.item_count - 1,{"kind":kind,"id":item})
