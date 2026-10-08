@@ -119,6 +119,12 @@ func run() -> void:
 	state.learner.errors["ser_estar"] = {"count": 2, "last_seen_day": 1, "examples": ["El abad está médico."]}
 	map.lessons.progress_tab.pressed.emit()
 	await shot("10b_progress")
+	map.lessons.words_tab.pressed.emit()
+	map.lessons.words_answer.text = "rodilla"
+	map.lessons.word_id = "cuerpo_02"
+	map.lessons.words_clue.text = "¿QUÉ PALABRA ES?\n" + state.learner.word_practice.items.cuerpo_02.clue
+	map.lessons.words_check.pressed.emit()
+	await shot("10c_vocabulary")
 	map.lessons.close()
 	map.equipment_panel.open_inventory(state)
 	await shot("11_equipment")

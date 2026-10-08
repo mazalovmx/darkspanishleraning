@@ -1,0 +1,1171 @@
+{
+  "version": 1,
+  "variety": "es-MX primero; la variante de España se acepta con una nota",
+  "level": "B1",
+  "themes": [
+    {
+      "id": "cuerpo",
+      "name": "Partes del cuerpo",
+      "items": [
+        {
+          "word": "el codo",
+          "clue": "Articulación en medio del brazo; se dobla para comer.",
+          "example": "Me pegué en el codo con la puerta.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_01"
+        },
+        {
+          "word": "la rodilla",
+          "clue": "Articulación en medio de la pierna.",
+          "example": "Se raspó la rodilla al caer del caballo.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_02"
+        },
+        {
+          "word": "el tobillo",
+          "clue": "Une la pierna con el pie.",
+          "example": "Se torció el tobillo en el camino de piedras.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_03"
+        },
+        {
+          "word": "la muñeca",
+          "clue": "Une la mano con el brazo; ahí se lleva el reloj.",
+          "example": "Lleva una pulsera en la muñeca.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_04"
+        },
+        {
+          "word": "el hombro",
+          "clue": "Parte donde el brazo se une al cuerpo; ahí se carga una mochila.",
+          "example": "Cargaba el costal sobre el hombro.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_05"
+        },
+        {
+          "word": "la ceja",
+          "clue": "Línea de pelo encima del ojo.",
+          "example": "Levantó una ceja, sorprendido.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_06"
+        },
+        {
+          "word": "la pestaña",
+          "clue": "Pelo pequeño en el borde del párpado.",
+          "example": "Tenía una pestaña en el ojo.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_07"
+        },
+        {
+          "word": "la mejilla",
+          "clue": "Parte de la cara a cada lado de la nariz.",
+          "example": "Le dio un beso en la mejilla.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_08"
+        },
+        {
+          "word": "la barbilla",
+          "clue": "Parte de la cara debajo de la boca.",
+          "example": "Se apoyó la mano en la barbilla para pensar.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_09"
+        },
+        {
+          "word": "el cuello",
+          "clue": "Une la cabeza con el cuerpo.",
+          "example": "Llevaba una bufanda alrededor del cuello.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_10"
+        },
+        {
+          "word": "la espalda",
+          "clue": "Parte de atrás del cuerpo, entre los hombros y la cintura.",
+          "example": "Me duele la espalda de tanto cargar libros.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_11"
+        },
+        {
+          "word": "el pecho",
+          "clue": "Parte de delante del cuerpo, entre el cuello y el estómago.",
+          "example": "Sintió un dolor en el pecho.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_12"
+        },
+        {
+          "word": "la uña",
+          "clue": "Parte dura al final de cada dedo.",
+          "example": "Se mordía las uñas cuando estaba nervioso.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_13"
+        },
+        {
+          "word": "el talón",
+          "clue": "Parte de atrás del pie.",
+          "example": "El zapato nuevo le lastimaba el talón.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_14"
+        },
+        {
+          "word": "la cadera",
+          "clue": "Parte del cuerpo entre la cintura y las piernas.",
+          "example": "Se puso las manos en la cadera.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_15"
+        },
+        {
+          "word": "el pulgar",
+          "clue": "El dedo más grueso de la mano.",
+          "example": "Levantó el pulgar para decir que todo estaba bien.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_16"
+        },
+        {
+          "word": "la frente",
+          "clue": "Parte de la cara encima de los ojos.",
+          "example": "Tenía la frente caliente por la fiebre.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_17"
+        },
+        {
+          "word": "los pulmones",
+          "clue": "Órganos con los que respiramos.",
+          "example": "El humo de la mina daña los pulmones.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_18"
+        },
+        {
+          "word": "el hígado",
+          "clue": "Órgano grande que limpia la sangre; le hace daño el alcohol.",
+          "example": "El médico le revisó el hígado.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_19"
+        },
+        {
+          "word": "la garganta",
+          "clue": "Parte interior del cuello por donde pasa la comida.",
+          "example": "Me duele la garganta; no puedo hablar.",
+          "alt": [],
+          "note": "",
+          "id": "cuerpo_20"
+        }
+      ]
+    },
+    {
+      "id": "ropa",
+      "name": "Ropa",
+      "items": [
+        {
+          "word": "la playera",
+          "clue": "Prenda de algodón de manga corta, sin botones.",
+          "example": "Se puso una playera blanca.",
+          "alt": [
+            "la camiseta"
+          ],
+          "note": "En México se dice «playera»; en España, «camiseta».",
+          "id": "ropa_01"
+        },
+        {
+          "word": "la chamarra",
+          "clue": "Prenda gruesa que se lleva encima para el frío.",
+          "example": "Llévate la chamarra, va a hacer frío.",
+          "alt": [
+            "la chaqueta"
+          ],
+          "note": "En México: «chamarra»; en España: «chaqueta» o «cazadora».",
+          "id": "ropa_02"
+        },
+        {
+          "word": "los aretes",
+          "clue": "Joyas que se llevan en las orejas.",
+          "example": "Le regalaron unos aretes de plata.",
+          "alt": [
+            "los pendientes"
+          ],
+          "note": "En México: «aretes»; en España: «pendientes».",
+          "id": "ropa_03"
+        },
+        {
+          "word": "las chanclas",
+          "clue": "Calzado abierto y ligero para la casa o la playa.",
+          "example": "Andaba en chanclas por la casa.",
+          "alt": [],
+          "note": "",
+          "id": "ropa_04"
+        },
+        {
+          "word": "los tenis",
+          "clue": "Zapatos deportivos.",
+          "example": "Me compré unos tenis para correr.",
+          "alt": [
+            "las zapatillas"
+          ],
+          "note": "En México: «tenis»; en España: «zapatillas».",
+          "id": "ropa_05"
+        },
+        {
+          "word": "el cinturón",
+          "clue": "Tira de cuero que sujeta el pantalón.",
+          "example": "Se ajustó el cinturón antes de salir.",
+          "alt": [],
+          "note": "",
+          "id": "ropa_06"
+        },
+        {
+          "word": "la bufanda",
+          "clue": "Prenda larga que protege el cuello del frío.",
+          "example": "Se enrolló la bufanda dos veces.",
+          "alt": [],
+          "note": "",
+          "id": "ropa_07"
+        },
+        {
+          "word": "los guantes",
+          "clue": "Prendas para cubrir las manos.",
+          "example": "Usa guantes para trabajar en el jardín.",
+          "alt": [],
+          "note": "",
+          "id": "ropa_08"
+        },
+        {
+          "word": "la gorra",
+          "clue": "Prenda para la cabeza con visera delante.",
+          "example": "Se quitó la gorra al entrar.",
+          "alt": [],
+          "note": "",
+          "id": "ropa_09"
+        },
+        {
+          "word": "el rebozo",
+          "clue": "Manta larga mexicana que las mujeres llevan sobre los hombros.",
+          "example": "Su abuela llevaba un rebozo azul.",
+          "alt": [],
+          "note": "",
+          "id": "ropa_10"
+        },
+        {
+          "word": "los huaraches",
+          "clue": "Sandalias mexicanas de cuero tejido.",
+          "example": "Compró unos huaraches en el mercado.",
+          "alt": [],
+          "note": "",
+          "id": "ropa_11"
+        },
+        {
+          "word": "la bolsa",
+          "clue": "Objeto para llevar cosas personales, normalmente de una mujer.",
+          "example": "Guardó la cartera en la bolsa.",
+          "alt": [
+            "el bolso"
+          ],
+          "note": "En México: «bolsa»; en España: «bolso».",
+          "id": "ropa_12"
+        },
+        {
+          "word": "los lentes",
+          "clue": "Dos cristales que ayudan a ver mejor.",
+          "example": "No veo nada sin mis lentes.",
+          "alt": [
+            "las gafas",
+            "los anteojos"
+          ],
+          "note": "En México: «lentes»; en España: «gafas».",
+          "id": "ropa_13"
+        },
+        {
+          "word": "la pijama",
+          "clue": "Ropa para dormir.",
+          "example": "Todavía estaba en pijama a mediodía.",
+          "alt": [
+            "el pijama"
+          ],
+          "note": "En México se dice «la pijama»; en España, «el pijama».",
+          "id": "ropa_14"
+        },
+        {
+          "word": "el saco",
+          "clue": "Prenda formal con mangas que se lleva sobre la camisa.",
+          "example": "Se puso saco y corbata para la boda.",
+          "alt": [
+            "la americana",
+            "la chaqueta"
+          ],
+          "note": "En México: «saco»; en España: «americana».",
+          "id": "ropa_15"
+        },
+        {
+          "word": "el mandil",
+          "clue": "Prenda que protege la ropa cuando cocinas.",
+          "example": "Se puso el mandil para cocinar.",
+          "alt": [
+            "el delantal"
+          ],
+          "note": "En México: «mandil»; en España: «delantal».",
+          "id": "ropa_16"
+        },
+        {
+          "word": "la falda",
+          "clue": "Prenda de mujer que cuelga de la cintura.",
+          "example": "Llevaba una falda larga de lana.",
+          "alt": [],
+          "note": "",
+          "id": "ropa_17"
+        },
+        {
+          "word": "las botas",
+          "clue": "Calzado alto que cubre el tobillo.",
+          "example": "Se le mojaron las botas en el pantano.",
+          "alt": [],
+          "note": "",
+          "id": "ropa_18"
+        }
+      ]
+    },
+    {
+      "id": "objetos",
+      "name": "Objetos de casa",
+      "items": [
+        {
+          "word": "el encendedor",
+          "clue": "Pequeño aparato para hacer fuego.",
+          "example": "¿Tienes un encendedor para la vela?",
+          "alt": [
+            "el mechero"
+          ],
+          "note": "En México: «encendedor»; en España también «mechero».",
+          "id": "objetos_01"
+        },
+        {
+          "word": "el foco",
+          "clue": "Objeto de cristal que da luz eléctrica.",
+          "example": "Se fundió el foco de la cocina.",
+          "alt": [
+            "la bombilla"
+          ],
+          "note": "En México: «foco»; en España: «bombilla».",
+          "id": "objetos_02"
+        },
+        {
+          "word": "la cobija",
+          "clue": "Tela gruesa para taparse en la cama.",
+          "example": "Tráeme otra cobija, tengo frío.",
+          "alt": [
+            "la manta"
+          ],
+          "note": "En México: «cobija»; en España: «manta».",
+          "id": "objetos_03"
+        },
+        {
+          "word": "la almohada",
+          "clue": "Objeto blando donde se apoya la cabeza para dormir.",
+          "example": "Escondió la carta bajo la almohada.",
+          "alt": [],
+          "note": "",
+          "id": "objetos_04"
+        },
+        {
+          "word": "el espejo",
+          "clue": "Cristal donde ves tu propia imagen.",
+          "example": "Se miró en el espejo antes de salir.",
+          "alt": [],
+          "note": "",
+          "id": "objetos_05"
+        },
+        {
+          "word": "las tijeras",
+          "clue": "Herramienta con dos hojas para cortar papel o tela.",
+          "example": "Pásame las tijeras, por favor.",
+          "alt": [],
+          "note": "",
+          "id": "objetos_06"
+        },
+        {
+          "word": "la escoba",
+          "clue": "Objeto para barrer el suelo.",
+          "example": "Barrió el patio con la escoba.",
+          "alt": [],
+          "note": "",
+          "id": "objetos_07"
+        },
+        {
+          "word": "el cerillo",
+          "clue": "Palito pequeño que se enciende al frotarlo.",
+          "example": "Encendió la vela con un cerillo.",
+          "alt": [
+            "la cerilla",
+            "el fósforo"
+          ],
+          "note": "En México: «cerillo»; en España: «cerilla».",
+          "id": "objetos_08"
+        },
+        {
+          "word": "la cubeta",
+          "clue": "Recipiente con asa para llevar agua.",
+          "example": "Llenó la cubeta en el pozo.",
+          "alt": [
+            "el cubo",
+            "el balde"
+          ],
+          "note": "En México: «cubeta»; en España: «cubo».",
+          "id": "objetos_09"
+        },
+        {
+          "word": "la pluma",
+          "clue": "Objeto con tinta para escribir.",
+          "example": "Firmó el documento con una pluma.",
+          "alt": [
+            "el bolígrafo",
+            "el boli"
+          ],
+          "note": "En México: «pluma»; en España: «bolígrafo».",
+          "id": "objetos_10"
+        },
+        {
+          "word": "la cartera",
+          "clue": "Objeto pequeño donde se guarda el dinero.",
+          "example": "Perdió la cartera en el mercado.",
+          "alt": [],
+          "note": "",
+          "id": "objetos_11"
+        },
+        {
+          "word": "el paraguas",
+          "clue": "Objeto para protegerse de la lluvia.",
+          "example": "Abre el paraguas, está lloviendo.",
+          "alt": [],
+          "note": "",
+          "id": "objetos_12"
+        },
+        {
+          "word": "la vela",
+          "clue": "Cilindro de cera que da luz al quemarse.",
+          "example": "Leía a la luz de una vela.",
+          "alt": [],
+          "note": "",
+          "id": "objetos_13"
+        },
+        {
+          "word": "el clavo",
+          "clue": "Pieza de metal delgada que se mete con un martillo.",
+          "example": "Colgó el cuadro de un clavo.",
+          "alt": [],
+          "note": "",
+          "id": "objetos_14"
+        },
+        {
+          "word": "el martillo",
+          "clue": "Herramienta para golpear clavos.",
+          "example": "Necesito el martillo para arreglar la mesa.",
+          "alt": [],
+          "note": "",
+          "id": "objetos_15"
+        },
+        {
+          "word": "la cuerda",
+          "clue": "Hilos gruesos torcidos para atar cosas.",
+          "example": "Ataron la caja con una cuerda.",
+          "alt": [],
+          "note": "",
+          "id": "objetos_16"
+        },
+        {
+          "word": "la llave",
+          "clue": "Pieza de metal que abre una cerradura.",
+          "example": "¿Dónde dejaste la llave del archivo?",
+          "alt": [],
+          "note": "",
+          "id": "objetos_17"
+        },
+        {
+          "word": "el candado",
+          "clue": "Cerradura que se cuelga para cerrar una puerta o una caja.",
+          "example": "El cofre tenía un candado oxidado.",
+          "alt": [],
+          "note": "",
+          "id": "objetos_18"
+        }
+      ]
+    },
+    {
+      "id": "emociones",
+      "name": "Emociones",
+      "items": [
+        {
+          "word": "la vergüenza",
+          "clue": "Lo que sientes cuando haces algo ridículo delante de otros.",
+          "example": "Se puso rojo de vergüenza.",
+          "alt": [
+            "la pena"
+          ],
+          "note": "En México también se dice «me da pena» por «me da vergüenza».",
+          "id": "emociones_01"
+        },
+        {
+          "word": "el orgullo",
+          "clue": "Satisfacción por algo que has logrado.",
+          "example": "Habló de su hija con orgullo.",
+          "alt": [],
+          "note": "",
+          "id": "emociones_02"
+        },
+        {
+          "word": "la envidia",
+          "clue": "Deseo de tener lo que tiene otra persona.",
+          "example": "Le tenía envidia por su éxito.",
+          "alt": [],
+          "note": "",
+          "id": "emociones_03"
+        },
+        {
+          "word": "los celos",
+          "clue": "Miedo a que la persona que quieres prefiera a otra.",
+          "example": "Los celos arruinaron su amistad.",
+          "alt": [],
+          "note": "",
+          "id": "emociones_04"
+        },
+        {
+          "word": "el alivio",
+          "clue": "Lo que sientes cuando termina una preocupación.",
+          "example": "Fue un alivio saber que estaba vivo.",
+          "alt": [],
+          "note": "",
+          "id": "emociones_05"
+        },
+        {
+          "word": "la nostalgia",
+          "clue": "Tristeza por recordar el pasado o un lugar lejano.",
+          "example": "Sintió nostalgia de su pueblo.",
+          "alt": [],
+          "note": "",
+          "id": "emociones_06"
+        },
+        {
+          "word": "la culpa",
+          "clue": "Sentimiento de haber hecho algo malo.",
+          "example": "No podía dormir por la culpa.",
+          "alt": [],
+          "note": "",
+          "id": "emociones_07"
+        },
+        {
+          "word": "el asco",
+          "clue": "Rechazo fuerte ante algo sucio o desagradable.",
+          "example": "El olor del pantano le dio asco.",
+          "alt": [],
+          "note": "",
+          "id": "emociones_08"
+        },
+        {
+          "word": "la angustia",
+          "clue": "Miedo intenso y sin causa clara que aprieta el pecho.",
+          "example": "Esperaba la noticia con angustia.",
+          "alt": [],
+          "note": "",
+          "id": "emociones_09"
+        },
+        {
+          "word": "la ternura",
+          "clue": "Cariño suave, como el que se siente por un niño.",
+          "example": "Miró al bebé con ternura.",
+          "alt": [],
+          "note": "",
+          "id": "emociones_10"
+        },
+        {
+          "word": "el rencor",
+          "clue": "Enojo que guardas mucho tiempo contra alguien.",
+          "example": "No le guardo rencor.",
+          "alt": [],
+          "note": "",
+          "id": "emociones_11"
+        },
+        {
+          "word": "la gratitud",
+          "clue": "Sentimiento de querer devolver un favor.",
+          "example": "Le escribió una carta de gratitud.",
+          "alt": [],
+          "note": "",
+          "id": "emociones_12"
+        },
+        {
+          "word": "la soledad",
+          "clue": "Estado de quien se siente solo.",
+          "example": "La soledad del archivo le pesaba.",
+          "alt": [],
+          "note": "",
+          "id": "emociones_13"
+        },
+        {
+          "word": "el entusiasmo",
+          "clue": "Energía alegre por hacer algo.",
+          "example": "Empezó el proyecto con entusiasmo.",
+          "alt": [],
+          "note": "",
+          "id": "emociones_14"
+        },
+        {
+          "word": "el coraje",
+          "clue": "En México: enojo fuerte.",
+          "example": "Le dio mucho coraje que le mintieran.",
+          "alt": [
+            "el enojo",
+            "la rabia"
+          ],
+          "note": "En México «coraje» suele significar enojo; en España, valentía.",
+          "id": "emociones_15"
+        },
+        {
+          "word": "la desconfianza",
+          "clue": "Falta de confianza; sospecha.",
+          "example": "Lo miró con desconfianza.",
+          "alt": [],
+          "note": "",
+          "id": "emociones_16"
+        }
+      ]
+    },
+    {
+      "id": "cocina",
+      "name": "Utensilios de cocina",
+      "items": [
+        {
+          "word": "la olla",
+          "clue": "Recipiente hondo para hervir o cocinar guisos.",
+          "example": "Puso los frijoles en la olla.",
+          "alt": [],
+          "note": "",
+          "id": "cocina_01"
+        },
+        {
+          "word": "el sartén",
+          "clue": "Recipiente plano con mango para freír.",
+          "example": "Calienta el aceite en el sartén.",
+          "alt": [
+            "la sartén"
+          ],
+          "note": "En México se dice «el sartén»; en España, «la sartén».",
+          "id": "cocina_02"
+        },
+        {
+          "word": "el cucharón",
+          "clue": "Cuchara grande para servir sopa.",
+          "example": "Sirvió el pozole con el cucharón.",
+          "alt": [],
+          "note": "",
+          "id": "cocina_03"
+        },
+        {
+          "word": "el tenedor",
+          "clue": "Cubierto con puntas para pinchar la comida.",
+          "example": "Comía la ensalada con tenedor.",
+          "alt": [],
+          "note": "",
+          "id": "cocina_04"
+        },
+        {
+          "word": "el cuchillo",
+          "clue": "Cubierto con hoja para cortar.",
+          "example": "Corta la cebolla con este cuchillo.",
+          "alt": [],
+          "note": "",
+          "id": "cocina_05"
+        },
+        {
+          "word": "la licuadora",
+          "clue": "Aparato eléctrico para hacer jugos y salsas.",
+          "example": "Prepara la salsa en la licuadora.",
+          "alt": [
+            "la batidora"
+          ],
+          "note": "En México: «licuadora»; en España: «batidora» o «licuadora».",
+          "id": "cocina_06"
+        },
+        {
+          "word": "la estufa",
+          "clue": "Aparato con fuegos para cocinar.",
+          "example": "Deja la olla en la estufa.",
+          "alt": [
+            "la cocina",
+            "los fogones"
+          ],
+          "note": "En México: «estufa»; en España: «cocina».",
+          "id": "cocina_07"
+        },
+        {
+          "word": "el refrigerador",
+          "clue": "Aparato que mantiene fría la comida.",
+          "example": "Guarda la leche en el refrigerador.",
+          "alt": [
+            "el refri",
+            "la nevera",
+            "el frigorífico"
+          ],
+          "note": "En México: «refrigerador» o «refri»; en España: «nevera».",
+          "id": "cocina_08"
+        },
+        {
+          "word": "el comal",
+          "clue": "Disco de barro o metal para calentar tortillas.",
+          "example": "Calentó las tortillas en el comal.",
+          "alt": [],
+          "note": "",
+          "id": "cocina_09"
+        },
+        {
+          "word": "el molcajete",
+          "clue": "Mortero de piedra volcánica para moler chiles y hacer salsa.",
+          "example": "Hizo la salsa en el molcajete.",
+          "alt": [],
+          "note": "",
+          "id": "cocina_10"
+        },
+        {
+          "word": "el horno",
+          "clue": "Aparato cerrado para cocinar pan o carne con calor.",
+          "example": "El pan está en el horno.",
+          "alt": [],
+          "note": "",
+          "id": "cocina_11"
+        },
+        {
+          "word": "la tabla de picar",
+          "clue": "Pieza de madera donde se cortan los alimentos.",
+          "example": "Pica el cilantro en la tabla de picar.",
+          "alt": [],
+          "note": "",
+          "id": "cocina_12"
+        },
+        {
+          "word": "el colador",
+          "clue": "Utensilio con agujeros para separar el líquido.",
+          "example": "Pasa la pasta por el colador.",
+          "alt": [],
+          "note": "",
+          "id": "cocina_13"
+        },
+        {
+          "word": "el rallador",
+          "clue": "Utensilio para rallar queso o zanahoria.",
+          "example": "Usa el rallador para el queso.",
+          "alt": [],
+          "note": "",
+          "id": "cocina_14"
+        },
+        {
+          "word": "la jarra",
+          "clue": "Recipiente con asa para servir agua.",
+          "example": "Trajo una jarra de agua de jamaica.",
+          "alt": [],
+          "note": "",
+          "id": "cocina_15"
+        },
+        {
+          "word": "el abrelatas",
+          "clue": "Utensilio para abrir latas.",
+          "example": "No encuentro el abrelatas.",
+          "alt": [],
+          "note": "",
+          "id": "cocina_16"
+        },
+        {
+          "word": "la tapa",
+          "clue": "Lo que cierra una olla por arriba.",
+          "example": "Ponle la tapa a la olla.",
+          "alt": [],
+          "note": "",
+          "id": "cocina_17"
+        }
+      ]
+    },
+    {
+      "id": "conceptos",
+      "name": "Conceptos abstractos",
+      "items": [
+        {
+          "word": "la justicia",
+          "clue": "Dar a cada persona lo que le corresponde según la ley o la razón.",
+          "example": "El pueblo pedía justicia por la muerte de Tomás.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_01"
+        },
+        {
+          "word": "la libertad",
+          "clue": "Poder decidir y actuar sin estar preso ni obligado.",
+          "example": "Lucharon por la libertad de imprenta.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_02"
+        },
+        {
+          "word": "la verdad",
+          "clue": "Lo que corresponde a los hechos reales.",
+          "example": "Nadie quería decir la verdad.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_03"
+        },
+        {
+          "word": "la confianza",
+          "clue": "Seguridad de que alguien no te va a fallar.",
+          "example": "Perdió la confianza del abad.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_04"
+        },
+        {
+          "word": "la lealtad",
+          "clue": "Fidelidad a una persona, idea o grupo.",
+          "example": "Su lealtad al obispo era total.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_05"
+        },
+        {
+          "word": "la venganza",
+          "clue": "Daño que haces a alguien porque antes te hizo daño.",
+          "example": "No buscaba venganza, sino respuestas.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_06"
+        },
+        {
+          "word": "el perdón",
+          "clue": "Dejar de culpar a alguien por lo que hizo.",
+          "example": "Le pidió perdón a su hermano.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_07"
+        },
+        {
+          "word": "la responsabilidad",
+          "clue": "Obligación de responder por lo que haces.",
+          "example": "Asumió la responsabilidad del error.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_08"
+        },
+        {
+          "word": "la igualdad",
+          "clue": "Que todas las personas tengan los mismos derechos.",
+          "example": "Defendía la igualdad ante la ley.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_09"
+        },
+        {
+          "word": "el poder",
+          "clue": "Capacidad de mandar o de controlar a otros.",
+          "example": "El poder del tribunal era enorme.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_10"
+        },
+        {
+          "word": "la memoria",
+          "clue": "Capacidad de recordar; también lo que una comunidad recuerda.",
+          "example": "La memoria del pueblo guarda los nombres.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_11"
+        },
+        {
+          "word": "la esperanza",
+          "clue": "Creer que algo bueno va a pasar.",
+          "example": "Todavía tenía esperanza de encontrarlo.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_12"
+        },
+        {
+          "word": "la duda",
+          "clue": "No estar seguro de algo.",
+          "example": "Tengo una duda sobre la fecha.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_13"
+        },
+        {
+          "word": "la sabiduría",
+          "clue": "Conocimiento profundo que da la experiencia.",
+          "example": "La sabiduría del médico salvó vidas.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_14"
+        },
+        {
+          "word": "la dignidad",
+          "clue": "Valor que merece toda persona y que exige respeto.",
+          "example": "Lo trataron sin dignidad.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_15"
+        },
+        {
+          "word": "la corrupción",
+          "clue": "Usar un cargo público para beneficio propio.",
+          "example": "La corrupción llegó hasta el archivo.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_16"
+        },
+        {
+          "word": "la amenaza",
+          "clue": "Aviso de que alguien te va a hacer daño.",
+          "example": "Recibió una amenaza anónima.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_17"
+        },
+        {
+          "word": "la promesa",
+          "clue": "Compromiso de hacer algo en el futuro.",
+          "example": "Cumplió su promesa al final.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_18"
+        },
+        {
+          "word": "la sospecha",
+          "clue": "Idea de que algo malo pasa, sin pruebas completas.",
+          "example": "Tenía la sospecha de que el vino estaba alterado.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_19"
+        },
+        {
+          "word": "la prueba",
+          "clue": "Lo que demuestra que algo es verdad.",
+          "example": "Sin pruebas no hay acusación.",
+          "alt": [],
+          "note": "",
+          "id": "conceptos_20"
+        }
+      ]
+    },
+    {
+      "id": "conectores",
+      "name": "Conectores del discurso",
+      "items": [
+        {
+          "word": "sin embargo",
+          "clue": "Contraste («pero», con más peso) · El abad parecía amable; ___, ocultaba algo.",
+          "example": "El abad parecía amable; sin embargo, ocultaba algo.",
+          "alt": [
+            "no obstante"
+          ],
+          "note": "«No obstante» es más formal.",
+          "cloze": true,
+          "id": "conectores_01"
+        },
+        {
+          "word": "no obstante",
+          "clue": "Contraste formal, de documentos · La orden es válida; ___, no trae pruebas médicas.",
+          "example": "La orden es válida; no obstante, no trae pruebas médicas.",
+          "alt": [
+            "sin embargo"
+          ],
+          "note": "",
+          "cloze": true,
+          "id": "conectores_02"
+        },
+        {
+          "word": "mientras tanto",
+          "clue": "Al mismo tiempo, en otro lugar · Mateo revisaba el archivo; ___, Inés vigilaba el puerto.",
+          "example": "Mateo revisaba el archivo; mientras tanto, Inés vigilaba el puerto.",
+          "alt": [
+            "entretanto"
+          ],
+          "note": "«Entretanto» es más literario.",
+          "cloze": true,
+          "id": "conectores_03"
+        },
+        {
+          "word": "aunque",
+          "clue": "Concesión: algo no impide lo otro · Fue al monasterio ___ estaba lloviendo.",
+          "example": "Fue al monasterio aunque estaba lloviendo.",
+          "alt": [
+            "a pesar de que"
+          ],
+          "note": "",
+          "cloze": true,
+          "id": "conectores_04"
+        },
+        {
+          "word": "a pesar de que",
+          "clue": "Concesión, más enfática que «aunque» · ___ tenía miedo, entró en la cripta.",
+          "example": "a pesar de que tenía miedo, entró en la cripta.",
+          "alt": [
+            "aunque"
+          ],
+          "note": "",
+          "cloze": true,
+          "id": "conectores_05"
+        },
+        {
+          "word": "así que",
+          "clue": "Consecuencia, en la conversación · No había pan en la venta, ___ seguimos sin comer.",
+          "example": "No había pan en la venta, así que seguimos sin comer.",
+          "alt": [
+            "entonces",
+            "por eso",
+            "por lo tanto"
+          ],
+          "note": "",
+          "cloze": true,
+          "id": "conectores_06"
+        },
+        {
+          "word": "por lo tanto",
+          "clue": "Consecuencia, en un razonamiento · El sello es falso; ___, la orden no es válida.",
+          "example": "El sello es falso; por lo tanto, la orden no es válida.",
+          "alt": [
+            "así que",
+            "por eso",
+            "en consecuencia"
+          ],
+          "note": "",
+          "cloze": true,
+          "id": "conectores_07"
+        },
+        {
+          "word": "entonces",
+          "clue": "Consecuencia o paso siguiente · ¿No viste a nadie? ___, ¿quién abrió la puerta?",
+          "example": "¿No viste a nadie? entonces, ¿quién abrió la puerta?",
+          "alt": [
+            "así que"
+          ],
+          "note": "",
+          "cloze": true,
+          "id": "conectores_08"
+        },
+        {
+          "word": "por eso",
+          "clue": "Causa ya dicha → consecuencia · Estaba enfermo; ___ no vino al consejo.",
+          "example": "Estaba enfermo; por eso no vino al consejo.",
+          "alt": [
+            "así que",
+            "por lo tanto"
+          ],
+          "note": "",
+          "cloze": true,
+          "id": "conectores_09"
+        },
+        {
+          "word": "o sea",
+          "clue": "Aclaración, muy común en México · Llegó tarde, ___, después de la medianoche.",
+          "example": "Llegó tarde, o sea, después de la medianoche.",
+          "alt": [
+            "es decir"
+          ],
+          "note": "",
+          "cloze": true,
+          "id": "conectores_10"
+        },
+        {
+          "word": "es decir",
+          "clue": "Aclaración formal · El documento es un palimpsesto, ___, tiene texto debajo.",
+          "example": "El documento es un palimpsesto, es decir, tiene texto debajo.",
+          "alt": [
+            "o sea"
+          ],
+          "note": "",
+          "cloze": true,
+          "id": "conectores_11"
+        },
+        {
+          "word": "de hecho",
+          "clue": "Confirma o refuerza con un dato · No es un rumor; ___, lo vi con mis propios ojos.",
+          "example": "No es un rumor; de hecho, lo vi con mis propios ojos.",
+          "alt": [
+            "en realidad"
+          ],
+          "note": "",
+          "cloze": true,
+          "id": "conectores_12"
+        },
+        {
+          "word": "en cambio",
+          "clue": "Contraste entre dos personas o cosas · Lucio habla poco; Gabriel, ___, no se calla.",
+          "example": "Lucio habla poco; Gabriel, en cambio, no se calla.",
+          "alt": [
+            "por el contrario"
+          ],
+          "note": "",
+          "cloze": true,
+          "id": "conectores_13"
+        },
+        {
+          "word": "además",
+          "clue": "Añade información · El vino estaba alterado; ___, faltaba un cuaderno.",
+          "example": "El vino estaba alterado; además, faltaba un cuaderno.",
+          "alt": [
+            "también"
+          ],
+          "note": "",
+          "cloze": true,
+          "id": "conectores_14"
+        },
+        {
+          "word": "por cierto",
+          "clue": "Introduce un tema nuevo de pasada · ___, ¿sabes dónde está Elías?",
+          "example": "por cierto, ¿sabes dónde está Elías?",
+          "alt": [],
+          "note": "",
+          "cloze": true,
+          "id": "conectores_15"
+        },
+        {
+          "word": "en fin",
+          "clue": "Resume o cierra la conversación · Discutimos dos horas; ___, mañana lo decidimos.",
+          "example": "Discutimos dos horas; en fin, mañana lo decidimos.",
+          "alt": [],
+          "note": "",
+          "cloze": true,
+          "id": "conectores_16"
+        },
+        {
+          "word": "sin duda",
+          "clue": "Seguridad total · Es, ___, la letra de Tomás.",
+          "example": "Es, sin duda, la letra de Tomás.",
+          "alt": [
+            "sin lugar a dudas"
+          ],
+          "note": "",
+          "cloze": true,
+          "id": "conectores_17"
+        },
+        {
+          "word": "aun así",
+          "clue": "Contraste: a pesar de lo dicho · Le advirtieron del peligro; ___, cruzó el puente.",
+          "example": "Le advirtieron del peligro; aun así, cruzó el puente.",
+          "alt": [
+            "sin embargo"
+          ],
+          "note": "",
+          "cloze": true,
+          "id": "conectores_18"
+        }
+      ]
+    }
+  ]
+}

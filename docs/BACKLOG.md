@@ -106,8 +106,9 @@ its own multi-session plan and scenario-bible review per NPC.
   most frequent errors by Spanish name with an example, review of studied lessons with
   no credit). Corrections in conversation and campaign reviews name their grammar and
   the lesson rule (section 29). Error memory stores `mastery_after` (section 28).
-  The progress tab lists new words from conversations; there are no vocabulary
-  exercises yet. No placement; everyone
+  The progress tab lists new words from conversations. A "Vocabulario" tab trains 127
+  B1 items (Mexican Spanish first) with spaced repetition; no Spanish speaker has
+  checked the list. No placement; everyone
   starts at block 1.
 - Claude client: bounded retry delay, non-retryable client errors, whole-response
   fenced JSON and failed/offline focus rollback are implemented. Still missing:

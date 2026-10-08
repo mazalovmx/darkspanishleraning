@@ -22,6 +22,17 @@ var review_check := Button.new()
 var review_next := Button.new()
 var review_feedback := Label.new()
 var review_exercise := 0
+# Vocabulary tab: typed words from Spanish clues, Mexican Spanish first.
+var words_tab := Button.new()
+var words_box := VBoxContainer.new()
+var words_theme := OptionButton.new()
+var words_count := Label.new()
+var words_clue := Label.new()
+var words_answer := LineEdit.new()
+var words_check := Button.new()
+var words_next := Button.new()
+var words_feedback := Label.new()
+var word_id := ""
 static func tag_name(tag: String) -> String:
 	return preload("res://src/spanish/curriculum.gd").tag_name(tag)
 func _ready() -> void:
@@ -49,13 +60,14 @@ func _ready() -> void:
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(title)
 	var tabs := HBoxContainer.new()
-	for pair in [[practice_tab, "Práctica"], [progress_tab, "Progreso y repaso"]]:
+	for pair in [[practice_tab, "Práctica"], [progress_tab, "Progreso y repaso"], [words_tab, "Vocabulario"]]:
 		pair[0].text = pair[1]
 		pair[0].toggle_mode = true
 		pair[0].size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		tabs.add_child(pair[0])
 	practice_tab.pressed.connect(func(): _show_tab(false))
 	progress_tab.pressed.connect(func(): _show_tab(true))
+	words_tab.pressed.connect(func(): _show_tab(false, true))
 	box.add_child(tabs)
 	practice_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	practice_box.add_theme_constant_override("separation", 12)
@@ -100,6 +112,35 @@ func _ready() -> void:
 	progress_box.add_child(review_row)
 	review_feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	progress_box.add_child(review_feedback)
+	words_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	words_box.add_theme_constant_override("separation", 10)
+	box.add_child(words_box)
+	var words_top := HBoxContainer.new()
+	words_theme.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	words_theme.item_selected.connect(func(_index: int): _next_word())
+	words_top.add_child(words_theme)
+	words_top.add_child(words_count)
+	words_box.add_child(words_top)
+	words_clue.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	words_clue.custom_minimum_size.y = 120
+	words_clue.add_theme_font_size_override("font_size", 20)
+	words_box.add_child(words_clue)
+	var words_row := HBoxContainer.new()
+	words_answer.max_length = 120
+	words_answer.placeholder_text = "Escribe la palabra (con su artículo) o el conector."
+	words_answer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	words_answer.text_submitted.connect(func(_text: String): _check_word())
+	words_row.add_child(words_answer)
+	words_check.text = "Comprobar"
+	words_check.pressed.connect(_check_word)
+	words_row.add_child(words_check)
+	words_next.text = "Siguiente"
+	words_next.pressed.connect(_next_word)
+	words_row.add_child(words_next)
+	words_box.add_child(words_row)
+	words_feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	words_feedback.custom_minimum_size.y = 90
+	words_box.add_child(words_feedback)
 	close_button.text = "Volver al viaje"
 	close_button.pressed.connect(close)
 	box.add_child(close_button)
@@ -112,13 +153,53 @@ func open_course(state: RefCounted) -> void:
 	_show_tab(false)
 	show()
 
-func _show_tab(progress: bool) -> void:
-	practice_tab.set_pressed_no_signal(not progress)
+func _show_tab(progress: bool, words := false) -> void:
+	practice_tab.set_pressed_no_signal(not progress and not words)
 	progress_tab.set_pressed_no_signal(progress)
-	practice_box.visible = not progress
+	words_tab.set_pressed_no_signal(words)
+	practice_box.visible = not progress and not words
 	progress_box.visible = progress
+	words_box.visible = words
 	if progress:
 		_fill_progress()
+	if words:
+		if words_theme.item_count == 0:
+			words_theme.add_item("Todos los temas")
+			words_theme.set_item_metadata(0, "")
+			for theme: Dictionary in world_state.learner.word_practice.themes():
+				words_theme.add_item(theme.name)
+				words_theme.set_item_metadata(words_theme.item_count - 1, theme.id)
+		_next_word()
+
+## Shows the next due word of the chosen theme.
+func _next_word() -> void:
+	var practice = world_state.learner.word_practice
+	var theme := str(words_theme.get_selected_metadata()) if words_theme.selected >= 0 else ""
+	word_id = practice.next_item(world_state.day, theme)
+	words_answer.clear()
+	words_feedback.text = ""
+	words_count.text = "Para hoy: %d · Dominadas: %d" % [practice.due(world_state.day, theme).size(), practice.mastered(theme)]
+	words_answer.editable = not word_id.is_empty()
+	words_check.disabled = word_id.is_empty()
+	if word_id.is_empty():
+		words_clue.text = "No quedan palabras para hoy en este tema. Vuelven otro día del viaje."
+		return
+	var item: Dictionary = practice.items[word_id]
+	var heading := "COMPLETA CON UN CONECTOR" if item.get("cloze", false) else "¿QUÉ PALABRA ES?"
+	words_clue.text = "%s\n%s" % [heading, item.clue]
+	if words_answer.is_inside_tree():
+		words_answer.grab_focus()
+
+func _check_word() -> void:
+	if word_id.is_empty() or world_state == null:
+		return
+	var course = world_state.learner.curriculum
+	var result: Dictionary = world_state.learner.word_practice.check(word_id, words_answer.text, world_state.day, course.is_last_block(course.index()))
+	words_feedback.text = result.message
+	if result.ok:
+		words_check.disabled = true
+	# Boxes change either way: save.
+	progressed.emit()
 
 ## Blocks with their consolidated lessons, the most frequent errors, and the lessons
 ## the player can review.

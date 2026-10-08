@@ -10,6 +10,8 @@ var vocabulary: Array[String] = []
 var recent_messages: Array[String] = []
 var successful_contexts: Dictionary = {}
 var curriculum = preload("res://src/spanish/curriculum.gd").new()
+## B1 vocabulary practice (Leitner boxes), saved as "word_practice".
+var word_practice = preload("res://src/spanish/vocabulary.gd").new()
 var current_block: String:
 	get:
 		return curriculum.block_id()

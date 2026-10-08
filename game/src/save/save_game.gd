@@ -26,7 +26,7 @@ static func snapshot(state: WorldState) -> Dictionary:
 		"grammar": learner.grammar.duplicate(true), "verbs": learner.verbs.duplicate(true),
 		"errors": learner.errors.duplicate(true), "vocabulary": learner.vocabulary.duplicate(),
 		"recent_messages": learner.recent_messages.duplicate(),
-		"successful_contexts": learner.successful_contexts.duplicate(true)}}
+		"successful_contexts": learner.successful_contexts.duplicate(true), "word_practice": learner.word_practice.snapshot()}}
 
 static func _integer(value: Variant, low: int, high: int) -> bool:
 	return (value is int or value is float) and is_finite(value) and value == floor(value) and value >= low and value <= high
@@ -53,7 +53,11 @@ static func _scores(values: Variant, keys: Array) -> bool:
 	return true
 
 static func _learner_valid(data: Variant, day: int, version: int) -> bool:
-	if not data is Dictionary or data.size() != (8 if version >= 5 else 7):
+	# "word_practice" (vocabulary boxes) is absent from saves written before it existed.
+	var expected := 8 if version >= 5 else 7
+	if not data is Dictionary or (data.size() != expected and not (data.size() == expected + 1 and data.has("word_practice"))):
+		return false
+	if data.has("word_practice") and not preload("res://src/spanish/vocabulary.gd").new().restore(data.word_practice, day):
 		return false
 	var course = preload("res://src/spanish/curriculum.gd").new()
 	if version >= 5 and not course.restore(data.get("curriculum"), day):
@@ -175,6 +179,8 @@ static func decode(data: Variant) -> Dictionary:
 	state.learner.vocabulary.assign(learner.vocabulary)
 	state.learner.recent_messages.assign(learner.recent_messages)
 	state.learner.successful_contexts = learner.successful_contexts.duplicate(true)
+	if learner.has("word_practice"):
+		state.learner.word_practice.restore(learner.word_practice, int(data.day))
 	if data.version >= 5:
 		state.learner.curriculum.restore(learner.curriculum, int(data.day))
 	# Conversation memory first: campaign cards can require a consultation.

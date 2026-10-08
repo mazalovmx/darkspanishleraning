@@ -2472,3 +2472,29 @@ The user asked for "something obvious".
 
 Executed for this commit: the full non-live run, 57 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## B1 vocabulary practice (Mexican Spanish)
+
+User request: B1 vocabulary in Mexican Spanish: body parts, clothing, objects, emotions,
+kitchen utensils, abstract concepts and discourse connectors ("sin embargo", "mientras
+tanto", "aunque", "así que"…).
+- `content/spanish/vocabulary.json` (built by `tools/make_vocabulary.py`): 7 themes,
+  127 items. Each word has a Spanish clue (no translation), an example from the game's
+  world and, where Mexico and Spain differ, the Spain word as an accepted alternative
+  with a note (playera/camiseta, chamarra, aretes, lentes, foco, cobija, cerillo, cubeta,
+  pluma, estufa, refri, el sartén, coraje…). Mexican items: rebozo, huaraches, comal,
+  molcajete. 18 connectors are fill-in-the-blank sentences with a meaning cue
+  (contraste, concesión, consecuencia, aclaración…).
+- `src/spanish/vocabulary.gd`: typed answers; the article is optional (a reminder is
+  shown); accents count only in the last block (master spec 1.3); Leitner boxes over
+  game days (intervals 0, 1, 2, 4, 7, 14); a word answered right on four spaced days
+  counts as mastered; a missed word goes back to box 0 and comes after the others.
+  No campaign or lesson credit.
+- Lessons panel: third tab "Vocabulario" (theme, due count, mastered count, clue,
+  answer, "Comprobar", "Siguiente"). Saved as `learner.word_practice`; older saves
+  without it load; unknown words are rejected.
+- New suite `vocabulary_test` (169 checks). Rendered in a window: the tab after an
+  answer without article. No Spanish speaker has checked the list.
+
+Executed for this commit: the full non-live run, 58 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
