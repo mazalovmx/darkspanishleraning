@@ -41,6 +41,32 @@ func run() -> void:
 	var forged := Save.snapshot(limited)
 	forged.campaign.council_resolution.answer = resolution.answers[3]
 	check(not Save.decode(forged).has("state"),"Cannot forge charter by replacing saved sentence")
+	# A free proposal for the Charter meets the same conditions as the authored sentence.
+	var own_charter := "Propongo que el Índice solo aconseje, aunque las decisiones exijan pruebas independientes."
+	var bare = Save.decode(no_optional).state
+	check(bare.campaign.outcome_for(bare,resolution,own_charter).get("id","") == "charter","Own wording names the Charter")
+	check(not bare.campaign.submit(bare,resolution.id,own_charter,"declared",resolution.supports).ok,"Own wording cannot skip the optional reviews")
+	check(not bare.campaign.records.has(resolution.id) and bare.campaign.ending(bare).is_empty(),"Refused own Charter records nothing")
+	var wrong := base.duplicate(true)
+	var observed: Dictionary = state.campaign.definitions.council_observed
+	wrong.campaign.council_observed.classification = "reported" if observed.classification != "reported" else "observed"
+	var careless = Save.decode(wrong).state
+	check(careless != null and careless.campaign.misclassified(careless.campaign.records) == 1,"A misclassified council statement is kept")
+	check(not careless.campaign.submit(careless,resolution.id,own_charter,"declared",resolution.supports).ok,"Own wording cannot skip a clean council")
+	check(careless.campaign.submit(careless,resolution.id,resolution.answers[0],"declared",resolution.supports).ok,"Another ending stays open after a misclassification")
+	# Saves written while own wording skipped those conditions: the decision is reopened.
+	var legacy := Save.snapshot(limited)
+	legacy.campaign.council_resolution.answer = own_charter
+	var reopened := Save.decode(legacy)
+	check(reopened.has("state") and not reopened.state.campaign.records.has(resolution.id),"An unearned own Charter is not restored")
+	check(reopened.has("state") and reopened.state.campaign.reopened == [resolution.id],"The reopened decision is named")
+	check(reopened.has("state") and reopened.state.campaign.records.size() == limited.campaign.records.size() - 1,"The rest of the progress stays")
+	check(reopened.has("state") and reopened.state.campaign.reason(reopened.state,resolution.id).is_empty(),"The council can decide again")
+	check(reopened.has("state") and Save.decode(Save.snapshot(reopened.state)).has("state"),"The reopened game saves")
+	var earned = Save.decode(base).state
+	check(earned.campaign.submit(earned,resolution.id,own_charter,"declared",resolution.supports).ok,"Own wording earns the Charter with every condition")
+	var kept := Save.decode(Save.snapshot(earned))
+	check(kept.has("state") and kept.state.campaign.reopened.is_empty() and kept.state.campaign.ending(kept.state).id == "charter","An earned own Charter survives restart")
 	# SQ03/SQ04 are optional lessons: no mainline step or ending depends on them.
 	var defs: Dictionary = state.campaign.definitions
 	var extras := ["confession_record","confession_review","letter_seal","letter_review"]
@@ -80,6 +106,7 @@ func run() -> void:
 	check(not powers.campaign.effects(powers).has("miralba_purge"), "The forged order never takes effect")
 	var closed: Dictionary = powers.campaign.submit(powers,resolution.id,resolution.answers[3],"declared",resolution.supports)
 	check(not closed.ok, "Emergency powers close the Charter")
+	check(not powers.campaign.submit(powers,resolution.id,"Propongo que el Índice solo aconseje, aunque las decisiones exijan pruebas independientes.","declared",resolution.supports).ok, "Emergency powers close an own-worded Charter too")
 	check(powers.campaign.submit(powers,resolution.id,resolution.answers[2],"declared",resolution.supports).ok, "Another ending remains")
 	check(powers.campaign.ending(powers).text.contains("descripción falsa en verdadera"), "The ending carries the consequence of the act")
 	var calm = Save.decode(base).state

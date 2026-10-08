@@ -53,12 +53,33 @@ func run() -> void:
 		check(map.state.campaign.records.has(id), "Task submitted through interface: " + id)
 		if id == "sealed_order":
 			var shown: String = panel.feedback.text
-			panel.reviewed_id = id
-			panel._on_review({"meaning_understood": true, "confidence": 0.9, "successful_grammar": [], "new_vocabulary": [],
+			var language := {"meaning_understood": true, "confidence": 0.9, "successful_grammar": [], "new_vocabulary": [],
 				"errors": [{"type": "present", "original": "la situacion", "better": "la situación", "severity": "minor"},
-				{"type": "present", "original": "los cuaderno", "better": "los cuadernos", "severity": "minor"}]})
+				{"type": "present", "original": "los cuaderno", "better": "los cuadernos", "severity": "minor"}]}
+			var recorded: String = map.state.campaign.records[id].answer
+			panel.review = {"id": id, "world": map.state, "answer": recorded, "serial": panel.feedback_serial}
+			panel._on_review(language)
 			check(panel.feedback.text.begins_with(shown) and panel.feedback.text.contains("los cuaderno → los cuadernos") and not panel.feedback.text.contains("situación"), "Review adds grammar feedback, drops tilde-only notes before the last block")
-			check(map.state.campaign.records.has(id) and panel.reviewed_id.is_empty(), "Review never changes the record")
+			check(map.state.campaign.records.has(id) and panel.review.is_empty(), "Review never changes the record")
+			# A review that arrives after the feedback line moved on stays with its record.
+			panel.review = {"id": id, "world": map.state, "answer": recorded, "serial": panel.feedback_serial}
+			# The next submission takes the feedback line (as _submit does).
+			panel.feedback_serial += 1
+			panel.feedback.text = "Anotado. Otra tarea."
+			var moved_on: String = panel.feedback.text
+			panel._on_review(language)
+			check(panel.feedback.text == moved_on, "A late review never lands under another line")
+			panel.active_id = id
+			panel.refresh()
+			check(panel.body.text.contains("los cuaderno → los cuadernos"), "A late review is shown beside its record")
+			var other = Save.decode(Save.snapshot(map.state)).state
+			panel.review_notes.clear()
+			panel.review = {"id": id, "world": other, "answer": recorded, "serial": panel.feedback_serial}
+			panel._on_review(language)
+			check(panel.review_notes.is_empty() and panel.feedback.text == moved_on, "A review from another game is dropped")
+			panel.review = {"id": id, "world": map.state, "answer": "Otra frase.", "serial": panel.feedback_serial}
+			panel._on_review(language)
+			check(panel.review_notes.is_empty(), "A review of another sentence is dropped")
 		check(Save.read_save(map.save_path).state.campaign.records.has(id), "Task autosaved: " + id)
 		if id == "ines_arrival":
 			check(not map.hero_buttons.smuggler.disabled, "Ines portrait enabled immediately")

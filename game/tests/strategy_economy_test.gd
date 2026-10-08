@@ -31,6 +31,10 @@ func run() -> void:
 	check(state.resources == amounts and economy.buildings.is_empty(),"Quote does not spend or build")
 	economy.cancel()
 	check(state.resources == amounts,"Cancellation costs nothing")
+	check(economy.submit(state,"build","council_hall",1,"No quiero levantar una casa de administración.").get("declined",false) and economy.phase == "request","A refused order ends the operation")
+	check(economy.submit(state,"build","council_hall",1,models.request).ok and economy.submit(state,"build","council_hall",1,models.price).ok,"Order and cost before a refusal")
+	check(economy.submit(state,"build","council_hall",1,"No lo confirmo.").get("declined",false) and economy.phase == "request","A refused confirmation ends the operation")
+	check(state.resources == amounts and economy.buildings.is_empty(),"Refusals spend and build nothing")
 	# Own wording passes on content; a rejection names the gap and never prints the model.
 	check(economy.submit(state,"build","council_hall",1,"Buenos días, quiero levantar una casa de administración aquí.").ok,"Own construction request accepted")
 	var rejected: Dictionary = economy.submit(state,"build","council_hall",1,"Cuesta 300 monedas.")
@@ -93,6 +97,7 @@ func run() -> void:
 	state.hero_cell = Vector2i(mine.position[0],mine.position[1])
 	state._reveal_from(state.hero_cell)
 	check(not economy.claim(state,"mine_wood","Sí"),"Mine order requires Spanish")
+	check(not economy.claim(state,"mine_wood","No quiero controlar esta mina de madera.") and economy.claim_feedback(state,"mine_wood","No quiero controlar esta mina de madera.").contains("sin «no»"),"A refused claim takes nothing")
 	check(not economy.claim(state,"mine_wood","Quiero la mina.") and economy.claim_feedback(state,"mine_wood","Quiero la mina.").contains("la mina y su recurso"),"Claim without its resource named as missing")
 	check(not economy.claim_cue(state,"mine_wood").contains(economy.claim_model(state,"mine_wood")),"Claim cue hides the model")
 	check(economy.claim(state,"mine_wood","Necesito controlar esta mina de madera."),"Reached unguarded mine claimed in own words")

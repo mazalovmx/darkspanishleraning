@@ -41,6 +41,7 @@ func _ready() -> void:
 		check(artifacts.has(quest.artifact_id), "Quest artifact exists")
 		check(battles.has(quest.encounter_id), "Quest encounter exists")
 		check(quest.hook.length() > 40 and quest.objective.length() > 40, "Authored premise and objective")
+		check(str(quest.get("aside", "")).length() > 20 and str(quest.aside).length() <= 140 and quest.aside != quest.hook, "One short aside in the voice of bible 38.1")
 		check(quest.investigation.observation != quest.investigation.misleading_claim, "Observation separate from false inference")
 		check(quest.investigation.supported_interpretation != quest.investigation.misleading_claim, "Competing interpretations differ")
 		check(quest.requires_mode == "all", "Join requirements explicit")

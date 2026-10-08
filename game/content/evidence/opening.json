@@ -444,7 +444,7 @@
                                                              ],
                                                 "answer":  "uncertain",
                                                 "question":  "Gabriel oye un caballo y oculta un robo de vino. ¿Esto identifica al visitante como contrabandista o asesino?",
-                                                "feedback":  "Una observación honesta puede acompañar una inferencia errónea. La mentira sobre el vino no basta para atribuir la muerte.",
+                                                "feedback":  "Una observación honesta puede acompañar una inferencia errónea. La mentira sobre el vino no basta para atribuir la muerte. Robar vino es un pecado pequeño; mentir por él es una costumbre grande.",
                                                 "options":  [
                                                                 {
                                                                     "id":  "smuggler",
@@ -506,7 +506,7 @@
                                                                ],
                                                   "answer":  "blow_first",
                                                   "question":  "Reconstruya el orden compatible con las pruebas. Seleccione los dos apoyos más directos: rastros interiores e informe clínico.",
-                                                  "feedback":  "Compare la posición de la sangre y el informe de Leonor. El título de una institución no identifica al responsable.",
+                                                  "feedback":  "Compare la posición de la sangre y el informe de Leonor. El título de una institución no identifica al responsable. Tampoco lo absuelve.",
                                                   "options":  [
                                                                   {
                                                                       "id":  "fall_first",

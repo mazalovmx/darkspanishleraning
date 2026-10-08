@@ -50,6 +50,7 @@ func run() -> void:
 	learn(state)
 	map.side_button.pressed.emit()
 	choose("SX001")
+	check(map.side_panel.body.text.contains(str(map.state.side_cases.quests.SX001.aside)),"The case shows its aside after the hook")
 	var day: int = state.day
 	map._end_turn()
 	map.equipment_button.pressed.emit()

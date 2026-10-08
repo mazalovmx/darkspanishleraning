@@ -102,5 +102,6 @@ func _build_settings(box: VBoxContainer) -> void:
 		row[1].value_changed.connect(func(_v: float): save())
 
 func save() -> bool:
+	Settings.apply_effects({"sfx": sfx_toggle.button_pressed, "sfx_db": sfx_slider.value})
 	return Settings.save_audio({"music": music_toggle.button_pressed, "music_db": music_slider.value,
 		"sfx": sfx_toggle.button_pressed, "sfx_db": sfx_slider.value}, settings_path)

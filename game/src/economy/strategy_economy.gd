@@ -61,6 +61,8 @@ func treasure_missing(world: RefCounted, id: String, message: String, tier: Stri
 		result.append(LABELS.verb)
 	if not TREASURE_VERBS.any(func(verb: String) -> bool: return text.contains(" %s " % verb)):
 		result.append("qué haces (abrir, tomar, recoger…)")
+	elif _trade._negated(text, _trade.RULES.request[tier].verbs + TREASURE_VERBS):
+		result.append(LABELS.affirmative)
 	if not TREASURE_NOUNS.any(func(noun: String) -> bool: return text.contains(" %s " % noun)):
 		result.append("el cofre o el alijo")
 	return result
@@ -165,7 +167,7 @@ func models(kind: String, id: String, quantity: int, tier := "basic", legacy := 
 		"confirm":("Acepto pagar %s porque necesito %s." % [total,confirmation_target]) if tier == "argument" else ("Voy a pagar %s por %s." % [total,confirmation_target]) if tier == "plans" else "Confirmo %s por %s." % [confirmation_target,total]}
 
 const UNIT_WORDS := {"gold": ["moneda", "monedas", "oro"], "gems": ["gema", "gemas"]}
-const LABELS := {"verb": "la forma verbal", "target": "lo que pides", "cost": "el coste completo"}
+const LABELS := {"verb": "la forma verbal", "target": "lo que pides", "cost": "el coste completo", "affirmative": "una afirmación, sin «no»"}
 
 ## Quantity and noun that a request, an argued price and a confirmation must name.
 func _has_target(text: String, kind: String, id: String, quantity: int) -> bool:
@@ -196,7 +198,8 @@ func world_words(phrase: String) -> String:
 	return _trade.words(phrase).substr(1)
 
 ## Names what an order sentence still lacks; the model itself always passes.
-func missing(kind: String, id: String, quantity: int, message: String, stage: String, tier: String) -> Array[String]:
+## `strict` is off when saved receipts are revalidated (see trade_state.missing).
+func missing(kind: String, id: String, quantity: int, message: String, stage: String, tier: String, strict := true) -> Array[String]:
 	var result: Array[String] = []
 	if message.length() > 300:
 		result.append("una frase más corta")
@@ -208,6 +211,8 @@ func missing(kind: String, id: String, quantity: int, message: String, stage: St
 	var rule: Dictionary = _trade.RULES[stage][tier]
 	if not rule.verbs.any(func(verb: String) -> bool: return text.contains(" %s " % verb)):
 		result.append(LABELS.verb)
+	elif strict and _trade._negated(text, rule.verbs):
+		result.append(LABELS.affirmative)
 	for word in rule.get("words", []):
 		if not text.contains(" %s " % word):
 			result.append("«%s»" % word)
@@ -325,6 +330,10 @@ func submit(world: RefCounted, kind: String, id: String, quantity: int, message:
 		cancel()
 		return {"ok":false,"message":denied}
 	var tier: String = str(pending.get("tier",world.trade.tier_for(world)))
+	# A refused order or confirmation ends the operation; nothing is paid.
+	if _trade.declines(message,phase,tier):
+		cancel()
+		return {"ok":false,"declined":true,"message":"Entendido: no se hace la operación y no se paga nada."}
 	var gaps := missing(kind,id,quantity,message,phase,tier)
 	if not gaps.is_empty():
 		return {"ok":false,"message":_gaps_text(gaps) + "\nRecuerda: " + str(_trade.REMINDERS[phase][tier])}
@@ -388,7 +397,7 @@ func claim_model(world: RefCounted, id: String, tier := "") -> String:
 	return "%s asegurar la mina de %s." % [verb,catalog.resource_names[entry.resource]]
 
 ## What a claim order lacks: a verb form of the tier, the mine and its resource.
-func claim_missing(world: RefCounted, id: String, message: String, tier: String) -> Array[String]:
+func claim_missing(world: RefCounted, id: String, message: String, tier: String, strict := true) -> Array[String]:
 	var result: Array[String] = []
 	var entry := site(world,id)
 	if message.length() > 300 or entry.is_empty():
@@ -399,6 +408,8 @@ func claim_missing(world: RefCounted, id: String, message: String, tier: String)
 	var text: String = _trade.words(message)
 	if not _trade.RULES.request[tier].verbs.any(func(verb: String) -> bool: return text.contains(" %s " % verb)):
 		result.append(LABELS.verb)
+	elif strict and _trade._negated(text, _trade.RULES.request[tier].verbs):
+		result.append(LABELS.affirmative)
 	if not text.contains(" mina ") or not text.contains(" %s " % world_words(catalog.resource_names[entry.resource]).strip_edges()):
 		result.append("la mina y su recurso")
 	return result
@@ -530,7 +541,7 @@ func restore(data: Variant, world: RefCounted) -> bool:
 			return false
 		if not world.party.heroes[record.hero].unlocked or record.get("tier") not in TIERS or not record.get("message") is String:
 			return false
-		if not claim_missing(world,id,record.message,record.tier).is_empty():
+		if not claim_missing(world,id,record.message,record.tier,false).is_empty():
 			return false
 		if entry.guarded and (world.encounters.get(id,{}).get("outcome","") != "victory" or world.encounters[id].day > record.day):
 			return false
@@ -592,7 +603,7 @@ func restore(data: Variant, world: RefCounted) -> bool:
 				return false
 			sale_receipts[key] = true
 		for stage in ["request","price","confirm"]:
-			if not receipt.get(stage) is String or not missing(receipt.kind,receipt.id,int(receipt.quantity),receipt[stage],stage,receipt.tier).is_empty():
+			if not receipt.get(stage) is String or not missing(receipt.kind,receipt.id,int(receipt.quantity),receipt[stage],stage,receipt.tier,false).is_empty():
 				return false
 	if data.purchase_count <= 100 and sale_receipts.size() != sold_instances.size():
 		return false

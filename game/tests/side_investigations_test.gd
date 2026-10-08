@@ -22,6 +22,8 @@ func run() -> void:
 		if id == "SX001":
 			var gap: Dictionary = cases.submit(state,id,"Hola, buenos días.","","","peaceful",cipher)
 			check(not gap.ok and gap.message.contains("examinar") and not gap.message.contains(models.access),"Access rejection names the need, not the model")
+			var refused: Dictionary = cases.submit(state,id,"No quiero examinar la pieza.","","","peaceful",cipher)
+			check(not refused.ok and refused.message.contains("sin «no»") and cases.stage(id) == "access","A refused request opens nothing")
 			access = "Necesito revisar esa pieza ahora, por favor."
 			independent = "En la hoja hay doce nombres debajo de la oración."
 		check(cases.submit(state,id,access,"","","peaceful",cipher).ok,"Spanish request secures peaceful custody: " + id)
@@ -36,6 +38,8 @@ func run() -> void:
 			check(not copied.ok and copied.message.contains("tus propias palabras"),"A sentence shown on screen is not independent production")
 			check(not cases.submit(state,id,"La hoja tiene doce nombres debajo de la oración.").ok,"The target form is required")
 			check(not cases.submit(state,id,"Hay muchas cosas hoy.").ok,"An answer must concern this case")
+			var denied: Dictionary = cases.submit(state,id,"En la hoja no hay doce nombres debajo de la oración.")
+			check(not denied.ok and denied.message.contains("sin negación"),"A denied claim is the opposite claim")
 		check(cases.submit(state,id,independent).ok,"Changed structure required")
 		check(not cases.submit(state,id,models.recall).ok,"Recall requires a later world day")
 		state.end_turn()
@@ -48,6 +52,10 @@ func run() -> void:
 				var bare: Dictionary = cases.submit(state,id,state.learner.curriculum.fold(proposal),choice)
 				check(not bare.ok and bare.message.contains("propondria → propondría"),"Last-block proposal needs its tilde")
 				check(not cases.submit(state,id,"Quiero cerrar el caso.",choice).ok,"A proposal needs a conditional and the chosen outcome")
+				var other: String = "proteger los datos personales" if choice.ends_with("_public") else "publicar el expediente"
+				check(not cases.submit(state,id,proposal.trim_suffix(".") + " y " + other + ".",choice).ok,"A proposal naming both options is refused")
+				var negated: String = "No propondría publicar el expediente." if choice.ends_with("_public") else "No propondría proteger los datos personales."
+				check(not cases.submit(state,id,negated,choice).ok,"A refused option is not chosen")
 			check(cases.submit(state,id,proposal,choice).ok,"Branch conclusion chosen through Spanish proposal")
 		check(cases.complete(id,cases.records),"Case fully completed: " + id)
 		var count: int = state.equipment.instances.size()

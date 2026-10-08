@@ -26,6 +26,11 @@ func run() -> void:
 	menu.sfx_toggle.button_pressed = false
 	var audio: Dictionary = Settings.audio({"audio": {"music": true, "music_db": -16.0, "sfx": true, "sfx_db": -8.0}}, settings_path)
 	check(is_equal_approx(float(audio.music_db), -30.0) and audio.sfx == false and audio.music == true, "Settings are saved and override the defaults")
+	check(AudioServer.is_bus_mute(AudioServer.get_bus_index(&"SFX")), "Disabled sounds mute the battle bus")
+	menu.sfx_toggle.button_pressed = true
+	menu.sfx_slider.value = -20.0
+	check(not AudioServer.is_bus_mute(AudioServer.get_bus_index(&"SFX")) and is_equal_approx(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"SFX")), -20.0), "The battle bus follows the sound volume")
+	menu.sfx_toggle.button_pressed = false
 	var file := FileAccess.open(settings_path, FileAccess.WRITE)
 	file.store_string("{\"audio\": {\"music_db\": 99, \"sfx\": \"loud\"}}")
 	file = null

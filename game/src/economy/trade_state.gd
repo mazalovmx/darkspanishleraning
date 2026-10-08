@@ -134,6 +134,38 @@ func _has_items(text: String, id: String, quantity: int) -> bool:
 			return true
 	return false
 
+func _value(token: String) -> int:
+	if token.is_valid_int():
+		return int(token)
+	if token in ["un", "una", "uno"]:
+		return 1
+	return NUMBER_WORDS.find(token) if token != "" else -1
+
+## Another amount of the same noun ("2 panes… 3 panes"): the sentence contradicts itself.
+func _conflicts(text: String, nouns: Array, amount: int) -> bool:
+	var tokens := text.split(" ", false)
+	for i in range(1, tokens.size()):
+		if tokens[i] in nouns:
+			var value := _value(tokens[i - 1])
+			if value > 0 and value != amount:
+				return true
+	return false
+
+const NEGATIONS := ["no", "nunca", "tampoco", "ni"]
+const PRONOUNS := ["", "lo ", "la ", "los ", "las ", "le ", "les ", "me ", "te ", "se ", "nos "]
+## A stage verb under negation ("no quiero", "no lo confirmo", "nunca son").
+func _negated(text: String, verbs: Array) -> bool:
+	for verb: String in verbs:
+		for negation: String in NEGATIONS:
+			for pronoun: String in PRONOUNS:
+				if text.contains(" %s %s%s " % [negation, pronoun, verb]):
+					return true
+	return false
+
+## A refused request or confirmation ends the order; nothing is charged.
+func declines(message: String, stage: String, tier: String) -> bool:
+	return stage != "price" and _negated(words(message), RULES[stage][tier].verbs)
+
 func _has_total(text: String, total: int) -> bool:
 	for number in _numbers(total, true):
 		if text.contains(" %s %s " % [number, "moneda" if total == 1 else "monedas"]):
@@ -141,7 +173,9 @@ func _has_total(text: String, total: int) -> bool:
 	return false
 
 ## Names what a sentence still lacks; empty when it is accepted.
-func missing(id: String, quantity: int, message: String, stage: String, tier: String = "basic") -> Array[String]:
+## `strict` is off when saved receipts are revalidated: answers accepted before the
+## negation and amount checks existed still load.
+func missing(id: String, quantity: int, message: String, stage: String, tier: String = "basic", strict := true) -> Array[String]:
 	var result: Array[String] = []
 	if message.length() > 300:
 		result.append("una frase más corta")
@@ -152,17 +186,23 @@ func missing(id: String, quantity: int, message: String, stage: String, tier: St
 	var text := words(message)
 	if not rule.verbs.any(func(verb: String) -> bool: return text.contains(" %s " % verb)):
 		result.append("la forma verbal")
+	elif strict and _negated(text, rule.verbs):
+		result.append("una afirmación, sin «no»")
 	for word in rule.get("words", []):
 		if not text.contains(" %s " % word):
 			result.append("«%s»" % word)
 	if rule.get("items", false) and not _has_items(text, id, quantity):
 		result.append("la cantidad con el producto")
+	elif strict and rule.get("items", false) and _conflicts(text, [words(goods[id].singular).strip_edges().get_slice(" ", 0), words(goods[id].plural).strip_edges().get_slice(" ", 0)], quantity):
+		result.append("una sola cantidad, la del pedido")
 	if rule.get("total", false) and not _has_total(text, int(goods[id].price) * quantity):
 		result.append("el total en monedas")
+	elif strict and rule.get("total", false) and _conflicts(text, ["moneda", "monedas"], int(goods[id].price) * quantity):
+		result.append("un solo total en monedas")
 	return result
 
-func _matches(id: String, quantity: int, message: String, stage: String, tier: String = "basic") -> bool:
-	return missing(id, quantity, message, stage, tier).is_empty()
+func _matches(id: String, quantity: int, message: String, stage: String, tier: String = "basic", strict := true) -> bool:
+	return missing(id, quantity, message, stage, tier, strict).is_empty()
 
 ## The cue shown instead of a model sentence: facts to express, never the sentence.
 func cue(state: RefCounted, id: String, quantity: int) -> String:
@@ -194,6 +234,9 @@ func submit(state: RefCounted, id: String, quantity: int, message: String) -> Di
 	if not sold_at(id, str(state.location_at(state.hero_cell).get("id", ""))):
 		cancel()
 		return {"ok": false, "message": "Aquí no se ofrece eso." if not offers_at(str(state.location_at(state.hero_cell).get("id", ""))).is_empty() else "Visita la venta para comprar."}
+	if declines(message, phase, str(pending.get("tier", tier_for(state)))):
+		cancel()
+		return {"ok": false, "declined": true, "message": "Entendido: no se hace el pedido y no se cobra nada."}
 	if phase == "request":
 		if not _matches(id, quantity, message, "request", tier_for(state)):
 			return {"ok": false, "message": _rejection(id, quantity, message, tier_for(state))}
@@ -297,7 +340,7 @@ func restore(data: Variant, day: int) -> bool:
 		for tier in ["basic", "past", "plans", "argument"]:
 			var all_stages := true
 			for stage in ["request", "price", "confirm"]:
-				if not receipt.get(stage) is String or not _matches(receipt.id, int(receipt.quantity), receipt[stage], stage, tier):
+				if not receipt.get(stage) is String or not _matches(receipt.id, int(receipt.quantity), receipt[stage], stage, tier, false):
 					all_stages = false
 			if all_stages:
 				matches_tier = true

@@ -36,6 +36,7 @@ func run() -> void:
 	stand(state, open_cache.position)
 	check(state.resource_at(state.hero_cell).get("id") == open_cache.id, "The map finds the cache under the hero")
 	var vague: Dictionary = economy.claim_treasure(state, open_cache.id, "Hola.")
+	check(not economy.claim_treasure(state, open_cache.id, "No quiero abrir el cofre.").ok and not economy.treasure_claimed(state, open_cache.id), "A refusal leaves the cache closed")
 	check(not vague.ok and vague.message.contains("el cofre"), "Opening a cache needs Spanish naming the action and the cache")
 	check(economy.claim_treasure(state, open_cache.id, "Quiero abrir el cofre.").ok and economy.treasure_claimed(state, open_cache.id), "Typed order opens the cache")
 	check(state.equipment.instances.size() == 3, "Its three items go to the active hero's backpack")

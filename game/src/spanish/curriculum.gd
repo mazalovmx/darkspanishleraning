@@ -73,6 +73,10 @@ func block_of(card_id: String) -> int:
 				return i
 	return -1
 
+## A negation in padded words (see words): no, nunca, tampoco, jamás, ni.
+static func negates(text: String) -> bool:
+	return [" no ", " nunca ", " tampoco ", " jamas ", " ni "].any(func(word: String) -> bool: return text.contains(word))
+
 ## Lower case, accents dropped, punctuation as spaces, padded: " a b c ".
 func words(message: String) -> String:
 	var text := normalized(message)

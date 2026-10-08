@@ -158,6 +158,9 @@ func run() -> void:
 		fail(client, HTTPRequest.RESULT_SUCCESS, code)
 		check(not client.busy and client.attempts == 1 and client.retry_timer.is_stopped(), "Client error is not retried")
 		check(results.size() == before + 1 and results.back().is_empty(), "Client error returns fallback at once")
+		# A refused key or model is not asked again this session.
+		check(client.exhausted.has("anthropic") == (code in [401, 403, 404]), "Key and model refusals skip the provider for the session")
+		client.exhausted.clear()
 	check(client.usage_stats() == {"requests": 1, "output_tokens": 40}, "Failed requests add no usage")
 	client.request_reply({})
 	client.http.request_completed.emit(HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), "not JSON".to_utf8_buffer())
@@ -205,6 +208,8 @@ func run() -> void:
 	check(course.cursor == slot + 1, "Sent turn reserves a focus slot")
 	fail(fake, HTTPRequest.RESULT_SUCCESS, 401)
 	check(panel.histories.LOC11.size() == 2 and course.cursor == slot and course.recent_focus == recent, "Failed turn returns its focus slot")
+	# A refused key skips the provider for the session; the fake's key is fine again.
+	fake.exhausted.clear()
 	var invented := valid()
 	invented.conversation.suggested_unlock = "invented_clue"
 	panel.submit("Hola")
@@ -265,6 +270,7 @@ func run() -> void:
 	await process_frame
 	chain.config.dev_flags.offline_mode = false
 	chain.config["claude_model"] = "claude-test"
+	chain.config["provider_order"] = ["anthropic", "deepseek", "nvidia"]
 	var answers: Array = []
 	chain.completed.connect(func(data: Dictionary): answers.append(data))
 	chain.request_reply({"player_message": "Hola"})
@@ -273,7 +279,7 @@ func run() -> void:
 	check(chain.exhausted.has("anthropic") and chain.balance_requests == 1 and chain.busy, "No Anthropic budget: DeepSeek's balance is checked")
 	chain._on_balance(HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), JSON.stringify({"is_available": true, "balance_infos": []}).to_utf8_buffer())
 	var chained: Dictionary = JSON.parse_string(chain.payload)
-	check(chain.provider == "deepseek" and chained.model == "deepseek-chat" and chained.messages[0].role == "system" and chained.messages[1].content.contains("Hola"), "DeepSeek gets an OpenAI-format request")
+	check(chain.provider == "deepseek" and chained.model == "deepseek-flash" and chained.thinking == {"type": "disabled"} and chained.response_format == {"type": "json_object"} and chained.messages[0].role == "system" and chained.messages[1].content.contains("Hola"), "DeepSeek gets an OpenAI-format request")
 	var chat := JSON.stringify({"choices": [{"finish_reason": "stop", "message": {"role": "assistant", "content": JSON.stringify(valid())}}], "usage": {"completion_tokens": 30}})
 	chain.http.request_completed.emit(HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), chat.to_utf8_buffer())
 	check(answers.size() == 1 and answers[0].get("npc_reply", "") == valid().npc_reply, "A DeepSeek chat answer goes through the same validation")
@@ -290,6 +296,7 @@ func run() -> void:
 	await process_frame
 	empty.config.dev_flags.offline_mode = false
 	empty.config["claude_model"] = "claude-test"
+	empty.config["provider_order"] = ["anthropic", "deepseek", "nvidia"]
 	empty.exhausted["anthropic"] = true
 	empty.busy = false
 	empty.balance_checked = false
@@ -299,6 +306,44 @@ func run() -> void:
 	empty._on_balance(HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), JSON.stringify({"is_available": false}).to_utf8_buffer())
 	check(empty.exhausted.has("deepseek") and empty.provider == "nvidia", "An empty DeepSeek balance skips straight to NVIDIA")
 	check(Client._out_of_budget("anthropic", 400, "Your credit balance is too low to access the Anthropic API.".to_utf8_buffer()) and not Client._out_of_budget("deepseek", 400, "credit balance".to_utf8_buffer()), "Anthropic's low-credit 400 counts as no budget")
+	# Default order: DeepSeek, then Claude; NVIDIA only when listed.
+	var plain := ChainClient.new()
+	root.add_child(plain)
+	await process_frame
+	plain.config.dev_flags.offline_mode = false
+	plain.config["claude_model"] = "claude-test"
+	plain.balance_checked = true
+	check(plain.order() == ["deepseek", "anthropic"], "DeepSeek first, Claude second, no NVIDIA by default")
+	var turns: Array = []
+	plain.completed.connect(func(data: Dictionary): turns.append(data))
+	plain.request_reply({"player_message": "Hola"})
+	check(plain.provider == "deepseek" and plain.turn_attempts == 1, "DeepSeek answers first")
+	fail(plain, HTTPRequest.RESULT_SUCCESS, 503)
+	elapse(plain)
+	fail(plain, HTTPRequest.RESULT_SUCCESS, 503)
+	check(plain.provider == "anthropic" and plain.busy and plain.turn_attempts == 3 and not plain.exhausted.has("deepseek"), "Two temporary failures move the turn to Claude")
+	fail(plain, HTTPRequest.RESULT_SUCCESS, 503)
+	check(not plain.busy and turns.size() == 1 and turns[0].is_empty() and plain.turn_attempts == 3 and plain.last_turn.reason == "limit", "Three requests per turn at most, then offline")
+	plain.request_reply({"player_message": "Hola"})
+	check(plain.provider == "deepseek", "A temporary failure skips a provider for one turn only")
+	fail(plain, HTTPRequest.RESULT_SUCCESS, 401)
+	check(plain.provider == "anthropic" and plain.exhausted.has("deepseek") and plain.busy, "A refused key moves to Claude at once")
+	plain.http.request_completed.emit(HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), envelope(valid()))
+	check(turns.size() == 2 and turns[1].get("npc_reply", "") == valid().npc_reply, "Claude's answer is used once")
+	check(plain.last_turn.provider == "anthropic" and plain.last_turn.model == "claude-test" and plain.last_turn.reason == "ok" and plain.last_turn.output_tokens == 40 and plain.last_turn.request_id == 2, "The turn's provider, model and tokens are noted")
+	check(not JSON.stringify(plain.last_turn).contains("a-test") and not JSON.stringify(plain.last_turn).contains("Hola"), "No key or player text in the turn notes")
+	plain.http.request_completed.emit(HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), envelope(valid()))
+	check(turns.size() == 2, "A late answer starts nothing")
+	plain.exhausted.clear()
+	plain.request_reply({"player_message": "Hola"})
+	plain.turn_started -= int((Client.TURN_SECONDS + 1.0) * 1000.0)
+	fail(plain, HTTPRequest.RESULT_SUCCESS, 503)
+	check(not plain.busy and turns.size() == 3 and turns[2].is_empty() and plain.last_turn.reason == "limit", "The turn ends offline after its time limit")
+	var nvidia_listed := ChainClient.new()
+	nvidia_listed.config = {"provider_order": ["nvidia", "bogus", "nvidia"]}
+	check(nvidia_listed.order() == ["nvidia"], "NVIDIA only when listed; unknown and repeated names ignored")
+	nvidia_listed.free()
+	plain.queue_free()
 	chain.queue_free()
 	empty.queue_free()
 	map.queue_free()

@@ -1,8 +1,8 @@
 # El Índice de Ceniza
 
 A personal, local strategy-investigation game in Godot 4.6 for practising Spanish at
-about B1: you travel a 160×120 province, talk to characters (Claude, with DeepSeek and
-NVIDIA as fallbacks, or authored offline replies), classify evidence and write your
+about B1: you travel a 160×120 province, talk to characters (DeepSeek, then Claude, or authored
+offline replies; order in `game/config/game.json`), classify evidence and write your
 conclusions in Spanish. Gameplay and design references live in `docs/`.
 
 - Game project: `game/` (open `game/project.godot`; the title screen is

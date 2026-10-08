@@ -66,6 +66,7 @@ var menu_button := Button.new()
 var new_confirm := ConfirmationDialog.new()
 # Shown once per session when saving fails, so lost progress is never a surprise.
 var save_failed := AcceptDialog.new()
+var leave_unsaved := ConfirmationDialog.new()
 var save_failure_warned := false
 var notebook = preload("res://src/evidence/evidence_notebook.gd").new()
 var notebook_button := Button.new()
@@ -165,6 +166,7 @@ func _ready() -> void:
 	_refresh()
 	_update_preview()
 	_play_music("minstrel_dance.mp3")
+	Settings.apply_effects(Settings.audio(dialogue.client.config))
 
 	if persistence_enabled:
 		_load_game(true)
@@ -558,10 +560,21 @@ func _build_ui() -> void:
 	menu_button.text = "Menú principal"
 	menu_button.add_theme_font_size_override("font_size", 13)
 	menu_button.pressed.connect(func():
+		# Leave only once the session is on disk, or when the player chooses to lose it.
 		if _can_restart():
-			_save_game(true)
-			get_tree().change_scene_to_file("res://src/ui/title_menu.tscn"))
+			if _save_game(true):
+				_leave_to_menu()
+			else:
+				leave_unsaved.popup_centered())
 	box.add_child(menu_button)
+	layer.add_child(leave_unsaved)
+	leave_unsaved.title = "Partida sin guardar"
+	leave_unsaved.dialog_text = "La partida no se pudo guardar. Si vuelves al menú, se pierde el progreso no guardado."
+	leave_unsaved.ok_button_text = "Salir sin guardar"
+	leave_unsaved.cancel_button_text = "Seguir jugando"
+	leave_unsaved.get_label().autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	leave_unsaved.get_label().custom_minimum_size = Vector2(420, 0)
+	leave_unsaved.confirmed.connect(_leave_to_menu)
 	layer.add_child(new_confirm)
 	layer.add_child(save_failed)
 	save_failed.title = "No se pudo guardar"
@@ -1043,28 +1056,31 @@ func _draw() -> void:
 		var color := Color("f7df9a") if state.path_cost(preview) <= state.movement_remaining else Color("eb7770")
 		draw_polyline(points, color, 3)
 
-func _save_game(automatic := false, replace_invalid := false) -> void:
+## True when the session is on disk (or persistence is off for this map).
+func _save_game(automatic := false, replace_invalid := false) -> bool:
 	if not persistence_enabled:
-		return
+		return true
 	if arena.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
 		if not automatic:
 			save_notice.text = "Espera a que termine la respuesta."
-		return
+		return false
 	if save_locked and not replace_invalid:
 		if not automatic:
 			save_confirm.popup_centered()
-		return
+		return false
 	var error: String = SaveGame.write_save(state, save_path)
 	if error.is_empty():
 		save_locked = false
 		save_notice.text = "Partida guardada."
 		save_notice.remove_theme_color_override("font_color")
+		return true
 	else:
 		save_notice.text = "No se pudo guardar. Inténtalo de nuevo."
 		save_notice.add_theme_color_override("font_color", Color("ff8a70"))
 		if not save_failure_warned:
 			save_failure_warned = true
 			save_failed.popup_centered()
+		return false
 
 func _load_game(startup := false) -> void:
 	if not persistence_enabled or arena.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
@@ -1080,7 +1096,19 @@ func _load_game(startup := false) -> void:
 		return
 	_adopt(result.state)
 	save_notice.text = "Partida cargada."
+	if not state.campaign.reopened.is_empty():
+		# The file still holds the old decision: keep a copy before the next save replaces it.
+		var copy := save_path + ".reabierta.bak"
+		if DirAccess.copy_absolute(ProjectSettings.globalize_path(save_path), ProjectSettings.globalize_path(copy)) == OK:
+			save_notice.text = "La resolución del Consejo se reabrió: la propuesta no cumplía las condiciones de su opción. El resto del progreso se conserva; el archivo anterior queda en %s." % copy.get_file()
+		else:
+			save_locked = true
+			save_notice.text = "La resolución del Consejo se reabrió, pero no se pudo copiar el archivo anterior. Guardado automático pausado."
+		save_notice.add_theme_color_override("font_color", Color("ff8a70"))
 	_resume_contact()
+
+func _leave_to_menu() -> void:
+	get_tree().change_scene_to_file("res://src/ui/title_menu.tscn")
 
 func _can_restart() -> bool:
 	return not (arena.visible or dialogue.client.busy or not dialogue.pending_location.is_empty() or poi_modal.visible or notebook.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible)
@@ -1088,9 +1116,12 @@ func _can_restart() -> bool:
 func _new_game() -> void:
 	if not _can_restart():
 		return
-	# Keep the replaced save beside the slot; a failed copy must not block restarting.
+	# Keep the replaced save beside the slot; without that copy the old game stays.
 	if persistence_enabled and FileAccess.file_exists(save_path):
-		DirAccess.copy_absolute(ProjectSettings.globalize_path(save_path), ProjectSettings.globalize_path(save_path + ".bak"))
+		if DirAccess.copy_absolute(ProjectSettings.globalize_path(save_path), ProjectSettings.globalize_path(save_path + ".bak")) != OK:
+			save_notice.text = "No se pudo copiar la partida anterior; no se empezó una nueva."
+			save_notice.add_theme_color_override("font_color", Color("ff8a70"))
+			return
 	_adopt(WorldState.new(state.map_id))
 	_save_game(false, true)
 	save_notice.text = "Partida nueva."

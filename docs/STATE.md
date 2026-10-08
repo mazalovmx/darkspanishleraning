@@ -2626,3 +2626,185 @@ check reports trailing whitespace in authored.json and the third-party Kenney
 Board Game Icons licence; those upstream files were not edited. Existing CanvasItem,
 ObjectDB and resources-in-use shutdown diagnostics remain in test logs. Logs are
 local under tools/local/test-logs and tools/local/pull-*. No release export tested.
+## One outcome resolver for the council (Charter bypass closed)
+
+- `campaign_state._outcome_ready` now resolves the chosen option with `outcome_for`, the
+  same resolver as `ending()`. A free proposal that names the Charter meets the same
+  conditions as the authored sentence: the three optional reviews, a council without
+  misclassified statements, and no emergency powers in force. Before, only the exact
+  authored sentence was checked, so own wording reached the Charter without them.
+- Older saves whose own-worded council decision skipped those conditions are not
+  rejected: the decision alone is reopened (`campaign.reopened`), the rest of the
+  progress stays, and the map keeps a copy of the file (`savegame.json.reabierta.bak`)
+  before the next save and says why. If that copy fails, automatic saving pauses.
+  Authored sentences forged into a save are still rejected as before.
+- Tests: council_endings_test (own Charter without reviews, after a misclassification,
+  under emergency powers; reopened legacy save; earned own Charter survives restart).
+  With the old resolver the new checks fail (10 failures); with the fix they pass.
+
+Executed for this commit (Linux, headless Godot 4.6.2 official build, cloud session;
+not on the Windows machine): the full non-live run, 60 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Saving never ends a session on its own
+
+- `world_map._save_game` returns whether the session is on disk. "Menú principal"
+  leaves only after a successful save; otherwise a dialog offers "Salir sin guardar" or
+  "Seguir jugando". Before, a failed save still left for the menu and the session was lost.
+- "Nueva partida" starts only when the copy of the old save (`.bak`) was written; if it
+  fails, the current game stays and the notice says so. Before, a failed copy was ignored
+  and the old save was replaced.
+- Loading a save with a reopened council decision shows the reason (see the previous
+  entry) and keeps a copy of the old file.
+- Tests: save_warning_test (menu after a failed save keeps the game and asks; new game
+  without the backup copy keeps the old game; with it the new game starts). With the old
+  map the menu check fails (the map leaves the tree).
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS. The dialog was not rendered in a window.
+
+## A refusal is not a purchase
+
+- `trade_state`: a negated stage verb ("No quiero comprar 2 panes.", "No lo confirmo.",
+  "nunca…", "tampoco…") in the request or the confirmation ends the order
+  (`declined`, phase back to "request"); nothing is charged. A negated price ("No son 4
+  monedas.") is not a reading of the price ("una afirmación, sin «no»"). A sentence that
+  names another amount of the same product or another total in coins ("2 panes, mejor 3
+  panes", "4 monedas o 6 monedas") is refused ("una sola cantidad, la del pedido", "un
+  solo total en monedas"). A negation elsewhere in the sentence ("…; no necesito agua")
+  does not refuse the purchase.
+- `strategy_economy`: the same refusal ends construction, recruitment and artifact
+  operations; a negated mine claim or treasure order ("No quiero abrir el cofre.") takes
+  nothing.
+- Saved receipts and mine claims are revalidated without these new checks (`strict`
+  off), so answers accepted before them still load (master plan: older answers are not
+  re-graded by stricter language rules).
+- Before: three negative answers bought two loaves for four coins.
+- Tests: market_test (three refusals, refused price, refused confirmation, contradictory
+  amounts and totals, negation elsewhere, legacy receipt), strategy_economy_test,
+  treasures_test. With the old trade_state the new market checks fail (11 failures).
+- Side investigations and equipment rituals: see "Negations in side cases and soul
+  rituals" below.
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS. Not rendered in a window.
+
+## Windows export preset tracked in git
+
+- `game/export_presets.cfg` was ignored by `game/.gitignore`, so the build in
+  docs/RELEASE.md could not be reproduced from the repository. The preset is now tracked
+  ("Windows Desktop", x86_64, embedded pack, `*.json` included, `tests/*`, `media/*`,
+  `*.md` excluded, `res://icon.ico`).
+- Executed: `--export-pack "Windows Desktop"` with Godot 4.6.2 on Linux: the pack holds
+  `config/game.json` and every `content/**/*.json`, and no test file. Not executed: the
+  `.exe` export from a clean checkout and running it on Windows.
+
+## Battle sounds follow the sound setting
+
+- Battle sounds play on the "SFX" bus; nothing applied the player's "Sonidos" setting to
+  it, so they played with the effects switched off. `Settings.apply_effects` mutes the
+  bus and sets its volume from the setting; the title screen applies it on every change
+  and the map once on start. Map interface sounds keep their own player and volume.
+- Tests: title_menu_test (switching sounds off mutes the bus; the slider sets its volume).
+  The sound itself was not listened to.
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS.
+
+## A late language review stays with its own conclusion
+
+- The journal's optional review of an accepted conclusion was matched only by card id:
+  after another submission its corrections were appended under the other task's line,
+  and a review could land in another loaded game with the same card recorded.
+- `campaign_panel.review` now keeps the card, the game (world state), the recorded
+  sentence and the feedback line it belongs to. A review for another game or another
+  sentence is dropped. If the feedback line has moved on (another submission, the hint,
+  another card, reopening the journal), the correction is kept beside its record and
+  shown with that card's annotation (this session and this game only).
+- Tests: campaign_panel_test (on time; late, kept with its record; other game dropped;
+  other sentence dropped). Not rendered in a window.
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS.
+
+## Provider chain: DeepSeek, then Claude, then offline
+
+- `provider_order` in config/game.json (default `["deepseek", "anthropic"]`; NVIDIA only
+  when listed); `deepseek_model` is now `deepseek-flash`, the model id listed by the
+  official DeepSeek API reference (create chat completion). DeepSeek requests set
+  `thinking: {"type": "disabled"}` and `response_format: {"type": "json_object"}`, both
+  documented there.
+- A 401/403/404 skips that provider for the session (as a 402 already did). A temporary
+  failure gets one retry on the same provider; then, or after another client error, the
+  turn moves to the next provider. One turn: at most three requests and 45 seconds (each
+  request at most 20 s), then the authored offline reply; a request still in flight is
+  cancelled, so a turn applies one answer at most.
+- `last_turn` keeps request id, provider, model, reason, ms and output tokens in memory
+  (no keys, prompts or replies).
+- Live check: `claude_live_test` takes `--provider=` and `--model=`; with a provider it
+  passes only when that provider and model answered. `tools/run-game.ps1 -LiveTest
+  -Provider deepseek|anthropic|nvidia [-Model id]`. The PowerShell change was not run
+  (no PowerShell here); no live request was sent in this session (no keys here).
+- Tests: claude_client_test (default order, DeepSeek request fields, two temporary
+  failures then Claude, three requests at most, key refusal moves on at once, one answer
+  per turn, a late answer starts nothing, time limit, turn notes without key or text,
+  NVIDIA only when listed); earlier chain checks run with an explicit order.
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS.
+
+## Negations in side cases and soul rituals
+
+- `Curriculum.negates` (no, nunca, tampoco, jamás, ni). Side investigations: a negated
+  access request ("No quiero examinar la pieza.") or a negated proposal ("No propondría
+  publicar el expediente.") is refused, and a proposal naming both options is refused
+  ("una sola opción"). An evidence sentence must keep the polarity of the authored
+  sentences when they all agree ("En la hoja no hay doce nombres…" is the opposite claim).
+  Soul rituals: an answer must keep the polarity of the stage's model ("No quiero
+  escuchar tus recuerdos." is refused), unless the stage's keys accept a negation
+  themselves (SA04: "no acepto" for "rechazo").
+- Saved answers are revalidated without these checks (`strict` off), as for receipts.
+- Tests: side_investigations_test (refused access, denied claim, both options, negated
+  option), equipment_state_test (refused listening, lenient revalidation, SA04).
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS.
+
+## Voice: grit and gallows humour (first pass)
+
+- User request: humour and harshness "in the manner of Joe Abercrombie". Written down as
+  bible 38.1 (both copies): the tone only, never his prose; short plain lines, the joke
+  in the last clause, costs named flatly, and no humour line may add a fact, clue,
+  crime, confession or motive the canon does not give.
+- Rewritten: greeting, return greeting and fallback of 33 offline speakers in
+  dialogue/authored.json (facts, prices, directions and survival branches unchanged;
+  "Otra vez por aquí" kept for the innkeeper); one closing line on 35 campaign sources
+  (the council classification cards untouched); a second sentence on 17 location
+  descriptions; two Act I assessment feedbacks. The model prompt gets a short "Voice"
+  paragraph with the same limits.
+- Side investigations: see "Side cases get an aside" below. Not yet: equipment and soul
+  texts, and the remaining NPC branch replies.
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS. Not read in a window; the Spanish has had no separate editorial review.
+
+## Side cases get an aside
+
+- Each of the 108 side cases has an `aside`: one short line in the voice of bible 38.1,
+  shown after the hook in the cases panel. It is a separate field because the hook's
+  words count as case words for the relevance check; the aside never enters keys,
+  relevance or copy checks. Lines that drew a conclusion the case evidence does not
+  support (a letter read in transit, a double count) were rewritten before commit.
+- Tests: side_catalog_test (every case has a short aside different from its hook),
+  side_scene_test (the panel shows it).
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS. Not read in a window.

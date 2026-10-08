@@ -414,7 +414,7 @@
         39
       ],
       "kind": "monastery",
-      "description": "Un monasterio de copistas y médicos. La lluvia cae sobre el patio de la torre."
+      "description": "Un monasterio de copistas y médicos. La lluvia cae sobre el patio de la torre. Nadie mira hacia arriba desde hace días."
     },
     {
       "id": "LOC02",
@@ -424,7 +424,7 @@
         66
       ],
       "kind": "capital",
-      "description": "Fachadas de mármol, tejados con goteras y las oficinas del Tribunal."
+      "description": "Fachadas de mármol, tejados con goteras y las oficinas del Tribunal. El mármol es para los visitantes; las goteras, para todos los demás."
     },
     {
       "id": "LOC03",
@@ -434,7 +434,7 @@
         48
       ],
       "kind": "university",
-      "description": "Librerías, lentes y estudiantes llenan las calles de la universidad."
+      "description": "Librerías, lentes y estudiantes llenan las calles de la universidad. Aquí se discute de todo, y sobre todo de quién paga."
     },
     {
       "id": "LOC04",
@@ -444,7 +444,7 @@
         78
       ],
       "kind": "industrial",
-      "description": "Ruedas hidráulicas y hornos trabajan junto al barrio de los obreros."
+      "description": "Ruedas hidráulicas y hornos trabajan junto al barrio de los obreros. Los hornos descansan más que los obreros."
     },
     {
       "id": "LOC05",
@@ -454,7 +454,7 @@
         105
       ],
       "kind": "port",
-      "description": "El puerto recibe libros extranjeros, instrumentos y mercancías sin declarar."
+      "description": "El puerto recibe libros extranjeros, instrumentos y mercancías sin declarar. Las mercancías declaradas son pocas y sirven de excusa."
     },
     {
       "id": "LOC06",
@@ -464,7 +464,7 @@
         68
       ],
       "kind": "customs",
-      "description": "El río sigue lleno. En el puente se revisan las cargas y los permisos."
+      "description": "El río sigue lleno. En el puente se revisan las cargas y los permisos. A veces, incluso, se revisan bien."
     },
     {
       "id": "LOC07",
@@ -474,7 +474,7 @@
         26
       ],
       "kind": "town",
-      "description": "Graneros, un depósito militar y un camino de peregrinos bajo el frío."
+      "description": "Graneros, un depósito militar y un camino de peregrinos bajo el frío. Este invierno los graneros tienen más eco que grano."
     },
     {
       "id": "LOC08",
@@ -494,7 +494,7 @@
         8
       ],
       "kind": "ruin",
-      "description": "Un pico remoto. Entre la nieve sobresalen muros de una estación antigua."
+      "description": "Un pico remoto. Entre la nieve sobresalen muros de una estación antigua. Los peregrinos suben por un milagro y bajan con menos dinero."
     },
     {
       "id": "LOC10",
@@ -504,7 +504,7 @@
         94
       ],
       "kind": "marsh",
-      "description": "Agua oscura, cañaverales y restos de una calzada hundida."
+      "description": "Agua oscura, cañaverales y restos de una calzada hundida. Lo que se hunde aquí no vuelve; lo que vuelve, se vende."
     },
     {
       "id": "LOC11",
@@ -514,7 +514,7 @@
         59
       ],
       "kind": "inn",
-      "description": "Una posada en el camino. Un lugar de encuentro para viajeros."
+      "description": "Una posada en el camino. Un lugar de encuentro para viajeros. Camas duras, vino flojo y noticias caras."
     },
     {
       "id": "LOC12",
@@ -524,7 +524,7 @@
         55
       ],
       "kind": "farm",
-      "description": "Sacos de grano, un horno y carros esperan junto al camino."
+      "description": "Sacos de grano, un horno y carros esperan junto al camino. Esperar es lo que mejor se hace aquí."
     },
     {
       "id": "LOC13",
@@ -534,7 +534,7 @@
         73
       ],
       "kind": "workshop",
-      "description": "Los mecánicos ajustan bombas y ruedas entre polvo rojo."
+      "description": "Los mecánicos ajustan bombas y ruedas entre polvo rojo. Aquí todo funciona, menos el horario."
     },
     {
       "id": "LOC14",
@@ -544,7 +544,7 @@
         62
       ],
       "kind": "archive",
-      "description": "Estantes, sellos y formularios regulan el acceso a los documentos."
+      "description": "Estantes, sellos y formularios regulan el acceso a los documentos. Entrar es difícil. Salir con un documento, más."
     },
     {
       "id": "LOC15",
@@ -554,7 +554,7 @@
         51
       ],
       "kind": "hospital",
-      "description": "Aquí se atiende a enfermos y se comparan observaciones médicas."
+      "description": "Aquí se atiende a enfermos y se comparan observaciones médicas. Huele a alcohol, a sopa y a miedo."
     },
     {
       "id": "LOC16",
@@ -564,7 +564,7 @@
         70
       ],
       "kind": "guildhouse",
-      "description": "Prensas, tipos móviles y permisos de copia llenan el taller."
+      "description": "Prensas, tipos móviles y permisos de copia llenan el taller. Imprimir es barato; el permiso, no."
     },
     {
       "id": "LOC17",
@@ -574,7 +574,7 @@
         82
       ],
       "kind": "camp",
-      "description": "Un refugio discreto junto a los caminos de las caravanas."
+      "description": "Un refugio discreto junto a los caminos de las caravanas. Aquí nadie pregunta nombres: cuestan demasiado."
     },
     {
       "id": "LOC18",
@@ -584,7 +584,7 @@
         10
       ],
       "kind": "ruin",
-      "description": "Una torre sin campana domina el paso de montaña."
+      "description": "Una torre sin campana domina el paso de montaña. De noche, algo dentro todavía hace clic."
     }
   ],
   "resource_sites": [

@@ -18,7 +18,13 @@ var close_button := Button.new()
 var feedback := Label.new()
 ## Optional Claude review of an accepted conclusion: feedback only, never progress.
 var reviewer: Node = preload("res://src/claude/claude_client.gd").new()
-var reviewed_id := ""
+## The submission a pending review belongs to: card, game, recorded sentence, and the
+## feedback line it was shown on. A review that arrives later than that line is kept
+## beside its record instead (this session, this game).
+var review := {}
+var review_notes := {}
+var notes_world: RefCounted = null
+var feedback_serial := 0
 const LABELS := ["Observado", "Referido por una fuente", "Inferido", "Declarado por una institución", "No resuelto"]
 func _ready() -> void:
 	add_child(reviewer)
@@ -45,6 +51,7 @@ func _ready() -> void:
 	entries.clip_text = true
 	entries.item_selected.connect(func(index: int):
 		active_id = str(entries.get_item_metadata(index))
+		feedback_serial += 1
 		refresh())
 	box.add_child(entries)
 	body.bbcode_enabled = false
@@ -71,6 +78,7 @@ func _ready() -> void:
 	hint_button.text = "¿Qué debe decir?"
 	hint_button.pressed.connect(func():
 		if not active_id.is_empty() and not submit_button.disabled:
+			feedback_serial += 1
 			var parts: Array[String] = world_state.campaign.needs(world_state.campaign.definitions[active_id])
 			feedback.text = "Escribe una de las propuestas." if parts.is_empty() else "Tu frase necesita: " + "; ".join(parts) + ".")
 	actions.add_child(hint_button)
@@ -86,6 +94,7 @@ func open_journal(state: RefCounted) -> void:
 	world_state = state
 	active_id = ""
 	feedback.text = ""
+	feedback_serial += 1
 	refresh()
 	show()
 
@@ -140,6 +149,8 @@ func _refresh_body() -> void:
 		var record: Dictionary = campaign.records[active_id]
 		var kind: String = "Decisión" if node.get("decision",false) else "Categoría: " + LABELS[campaign.CLASSIFICATIONS.find(record.classification)]
 		body.text = "%s\n\n%s\n\nAnotación · día %d\n%s\n%s" % [node.speaker,node.source,record.day,record.answer,kind]
+		if notes_world == world_state and review_notes.has(active_id):
+			body.text += "\n" + str(review_notes[active_id])
 		var decided: Dictionary = campaign.outcome_for(world_state,node,str(record.answer))
 		if active_id != "council_resolution" and not decided.is_empty():
 			body.text += "\n\n" + str(decided.title) + "\n" + str(decided.text)
@@ -191,22 +202,34 @@ func _submit() -> void:
 	var typed := answer.text
 	var submitted := active_id
 	var result: Dictionary = campaign.submit(world_state,active_id,typed,classification,supports)
+	feedback_serial += 1
 	feedback.text = result.message
 	if result.ok:
 		refresh()
 		progressed.emit()
 		if not reviewer.busy:
-			reviewed_id = submitted
+			review = {"id": submitted, "world": world_state, "answer": campaign.records[submitted].answer, "serial": feedback_serial}
 			reviewer.request_review(typed,str(campaign.definitions[submitted].prompt),world_state.learner.context())
 
 func _on_review(language: Dictionary) -> void:
-	if not visible or reviewed_id.is_empty() or not world_state.campaign.records.has(reviewed_id):
+	var pending := review
+	review = {}
+	# Another game, or a record that no longer holds the reviewed sentence: dropped.
+	if pending.is_empty() or pending.world != world_state or str(world_state.campaign.records.get(pending.id, {}).get("answer", "")) != pending.answer:
 		return
-	var strict: bool = world_state.learner.curriculum.is_last_block(int(world_state.campaign.definitions[reviewed_id].min_block))
+	var strict: bool = world_state.learner.curriculum.is_last_block(int(world_state.campaign.definitions[pending.id].min_block))
 	var text: String = reviewer.review_text(language,strict,world_state.learner.curriculum)
-	reviewed_id = ""
-	if not text.is_empty():
+	if text.is_empty():
+		return
+	if visible and pending.serial == feedback_serial:
 		feedback.text += "\n" + text
+		return
+	if notes_world != world_state:
+		review_notes.clear()
+		notes_world = world_state
+	review_notes[pending.id] = text
+	if visible and active_id == pending.id:
+		refresh()
 
 func close() -> void:
 	hide()
