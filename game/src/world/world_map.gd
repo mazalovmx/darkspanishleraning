@@ -704,6 +704,12 @@ func _open_poi(cell: Vector2i) -> void:
 	battle_button.visible = location.id == "LOC11" and state.evidence.has_evidence("travel_food") and state.encounters.get("opening_road", {}).get("outcome", "") != "victory"
 	poi_title.text = location.name
 	poi_description.text = location.description
+	# Local consequences of the optional cases concluded here (bible 42).
+	var consequences: Array[String] = []
+	if state.map_id == "province_160x120_v1":
+		consequences = state.side_cases.local_consequences(location.id)
+	if not consequences.is_empty():
+		poi_description.text += "\n" + "\n".join(consequences)
 	dialogue.open_conversation(location.id)
 	_play_sfx("enter")
 	_play_music(LOCATION_MUSIC.get(location.kind, "kings_feast.mp3"))

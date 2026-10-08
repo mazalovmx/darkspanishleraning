@@ -2415,3 +2415,22 @@ Executed for this commit: the full non-live run, 55 suites, all exit 0 with
 
 Executed for this commit: the full non-live run, 56 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Optional cases in the notebook; outcomes as local consequences
+
+- `side_investigations.gd`: `outcome(branch)` (the authored outcome chosen at the final
+  quest), `outcome_flags()`, `local_consequences(location)`, `started_branches()`,
+  `case_summary(branch)` (premise, each concluded quest's supported conclusion, the
+  resolution and the decision with its effect, the stakes) and `open_links()` (the
+  cross-branch comparisons whose quests are concluded).
+- The investigation notebook lists "Investigación local · <case>" for every case with a
+  concluded quest and "Comparación · <case> y <case>" for open comparisons; these pages
+  are read-only.
+- The location window adds the chosen outcome's label and effect for cases concluded
+  there; `authored_dialogue.context_flags()` includes the outcome flags.
+- Bible section 42 status updated in both copies.
+- New suite `side_outcome_test` (14 checks). Rendered in a window: a case page in the
+  notebook.
+
+Executed for this commit: the full non-live run, 57 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

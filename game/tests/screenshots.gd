@@ -67,6 +67,20 @@ func run() -> void:
 	map.campaign_journal.open_journal(state)
 	await shot("05_journal")
 	map.campaign_journal.close()
+	# A concluded optional case as a notebook page.
+	for id: String in state.side_cases.branches.SB01.quest_ids:
+		var progress := {}
+		for step: String in state.side_cases.stages(id):
+			progress[step] = {"day": 1, "hero": "inquisitor", "answer": "", "choice": "SB01_protected" if step == "choice" else "", "rejected": "", "route": "", "cipher": ""}
+		state.side_cases.records[id] = {"progress": progress, "reward": ""}
+	map.notebook.open_journal(state)
+	for i in map.notebook.entries.item_count:
+		if str(map.notebook.entries.get_item_metadata(i)) == "case:SB01":
+			map.notebook.entries.select(i)
+			map.notebook.entries.item_selected.emit(i)
+	await shot("05b_notebook_case")
+	map.notebook.close()
+	state.side_cases.records.clear()
 	var cache: Dictionary = state.economy.treasures.TR07
 	state.hero_cell = Vector2i(cache.position[0], cache.position[1])
 	state._reveal_from(state.hero_cell)

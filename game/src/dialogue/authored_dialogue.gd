@@ -214,6 +214,8 @@ func _on_reply(proposal: Dictionary) -> void:
 func context_flags() -> Dictionary:
 	var flags: Dictionary = world_state.evidence.context_flags()
 	flags.merge(grounding.campaign_flags(world_state.campaign.records))
+	# Publication or protected copy chosen at the end of an optional case.
+	flags.merge(world_state.side_cases.outcome_flags())
 	return flags
 
 func reply_for(id: String, message: String, disclose := true) -> String:

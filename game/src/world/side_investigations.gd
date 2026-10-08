@@ -249,6 +249,64 @@ func submit(world: RefCounted,id: String,answer := "",choice := "",rejected := "
 		records[id].reward = world.equipment.grant(reward,world.party.active_id)
 	return {"ok":true,"completed":final,"message":"Expediente resuelto; la prueba permanece en el archivo." if final else "Paso registrado. La investigación continúa."}
 
+## The authored outcome the player chose at a branch's final quest, or {}.
+func outcome(branch: String) -> Dictionary:
+	var final: String = branches[branch].final_quest
+	if not complete(final, records):
+		return {}
+	var chosen: String = str(records[final].progress.choice.choice)
+	for entry: Dictionary in branches[branch].get("outcomes", []):
+		if entry.id == chosen:
+			return entry
+	return {}
+
+## Flags of the chosen outcomes (publication or protected copy), for the dialogue context.
+func outcome_flags() -> Dictionary:
+	var flags := {}
+	for branch: String in branches:
+		var chosen := outcome(branch)
+		if not chosen.is_empty():
+			flags[str(chosen.flag)] = "recorded"
+	return flags
+
+## Local consequences shown at a place: one line per concluded case located there.
+func local_consequences(location_id: String) -> Array[String]:
+	var lines: Array[String] = []
+	for branch: String in branches:
+		var chosen := outcome(branch)
+		if not chosen.is_empty() and branches[branch].location_id == location_id:
+			lines.append("%s · %s: %s" % [branches[branch].title, chosen.label, chosen.effect])
+	return lines
+
+## Branches with at least one concluded quest, in catalog order.
+func started_branches() -> Array:
+	return branches.keys().filter(func(branch: String) -> bool:
+		return branches[branch].quest_ids.any(func(id: String) -> bool: return complete(id, records)))
+
+## Notebook text for a branch: premise, the supported conclusion of every concluded
+## quest, and the chosen outcome once the case is closed.
+func case_summary(branch: String) -> String:
+	var data: Dictionary = branches[branch]
+	var lines: Array[String] = [str(data.title).to_upper(), str(data.premise), "", "CONCLUSIONES APOYADAS"]
+	for id: String in data.quest_ids:
+		if complete(id, records):
+			lines.append("• %s: %s" % [quests[id].title, quests[id].rewards.journal_entry])
+	var done: int = data.quest_ids.filter(func(id: String) -> bool: return complete(id, records)).size()
+	lines.append("")
+	var chosen := outcome(branch)
+	if chosen.is_empty():
+		lines.append("Expediente abierto: %d de %d pasos concluidos." % [done, data.quest_ids.size()])
+	else:
+		lines.append("RESOLUCIÓN: " + str(data.canonical_resolution))
+		lines.append("DECISIÓN: %s. %s" % [chosen.label, chosen.effect])
+	lines.append("Lo que está en juego: " + str(data.stakes))
+	return "\n".join(lines)
+
+## Optional comparisons between cases (cross-branch links) whose quests are concluded.
+func open_links() -> Array:
+	return catalog.cross_branch_links.filter(func(link: Dictionary) -> bool:
+		return link.required_quests.all(func(id: String) -> bool: return complete(id, records)))
+
 func snapshot() -> Dictionary:
 	return records.duplicate(true)
 

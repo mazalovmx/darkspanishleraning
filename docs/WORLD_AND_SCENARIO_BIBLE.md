@@ -2641,9 +2641,11 @@ production and delayed recall. Blocks progress 1,1,2,2,3,4,5,6,7, subject to act
 mastery. All advanced tasks remain unavailable until their language prerequisites are
 consolidated. Rule-based cipher solutions require no outside literary knowledge.
 
-Status (updated 2026-10-07): integrated at runtime on the province map. The twelve
-optional comparisons and the local consequences of publication or protected disclosure
-are authored but not yet implemented in play. Combat values are unplaytested.
+Status (updated 2026-10-08): integrated at runtime on the province map. Concluded
+cases, the twelve optional comparisons (once both cases are concluded) and the chosen
+publication or protected copy appear as notebook pages; the chosen outcome is shown at
+the case's location and passed to conversations as a flag. The comparisons are pages to
+read, not tasks. Combat values are unplaytested.
 Full optional completion is outside the original campaign-duration estimate.
 
 # 43. Fragmented souls and ghost knights (2026-10-05)

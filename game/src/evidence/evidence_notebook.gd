@@ -126,14 +126,27 @@ func _render() -> void:
 		for id in world_state.evidence.inspectable_ids(location.get("id", "")):
 			if id not in ids:
 				ids.append(id)
-	if not active_id.is_empty() and active_id not in ids:
+	if not active_id.is_empty() and active_id not in ids and not active_id.contains(":"):
 		ids.append(active_id)
 	for id: String in ids:
 		entries.add_item(world_state.evidence.node(id).title)
 		entries.set_item_metadata(entries.item_count - 1, id)
 		if id == active_id:
 			entries.select(entries.item_count - 1)
-	entries.visible = entries.item_count > 1
+	# Optional local cases and their comparisons (read-only pages of the notebook).
+	if not inspection_mode and not reasoning_mode and world_state.map_id == "province_160x120_v1":
+		for branch: String in world_state.side_cases.started_branches():
+			entries.add_item("Investigación local · " + str(world_state.side_cases.branches[branch].title))
+			entries.set_item_metadata(entries.item_count - 1, "case:" + branch)
+			if active_id == "case:" + branch:
+				entries.select(entries.item_count - 1)
+		for link: Dictionary in world_state.side_cases.open_links():
+			entries.add_item("Comparación · %s y %s" % [world_state.side_cases.branches[link.from].title, world_state.side_cases.branches[link.to].title])
+			entries.set_item_metadata(entries.item_count - 1, "link:" + str(link.id))
+			if active_id == "link:" + str(link.id):
+				entries.select(entries.item_count - 1)
+	entries.visible = entries.item_count > 1 or (entries.item_count == 1 and str(entries.get_item_metadata(0)).contains(":"))
+
 	note.clear()
 	category.clear()
 	for label in ["Esta frase es…", "Una observación", "Una interpretación", "Una acusación", "Una declaración institucional"]:
@@ -146,6 +159,16 @@ func _render() -> void:
 	exercise.hide()
 	if active_id.is_empty():
 		body.text = "Todavía no hay pruebas anotadas. Examina las pertenencias de Tomás en Santa Lucerna."
+		return
+	if active_id.begins_with("case:"):
+		body.text = world_state.side_cases.case_summary(active_id.trim_prefix("case:"))
+		body.scroll_to_line(0)
+		return
+	if active_id.begins_with("link:"):
+		for link: Dictionary in world_state.side_cases.open_links():
+			if "link:" + str(link.id) == active_id:
+				body.text = "COMPARACIÓN ENTRE EXPEDIENTES\n%s\n\n%s\n\nNo cambia la resolución de ninguno de los dos casos." % [link.prompt, "Casos: %s · %s" % [world_state.side_cases.branches[link.from].title, world_state.side_cases.branches[link.to].title]]
+		body.scroll_to_line(0)
 		return
 	var clue: Dictionary = world_state.evidence.node(active_id)
 	if clue.source_type == "reasoning" and not world_state.evidence.has_evidence(active_id):
