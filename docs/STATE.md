@@ -1992,3 +1992,28 @@ by the requirements loop (91 cases, 1,029 checks).
 
 Executed for this commit: the full non-live run, 53 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Provider chain: Anthropic, then DeepSeek, then NVIDIA
+
+User request (2026-10-08): check the budget; without it use DeepSeek, and without that
+NVIDIA. Details in CLAUDE_PROMPTS.md. `claude_client.gd` gains `ORDER`/`PROVIDERS`,
+`_next_provider`, `_start`, a separate balance request for DeepSeek, `_out_of_budget`
+and `_chat_envelope`; both NPC replies and reviews use the chain. `config/game.json`
+gains `deepseek_model: deepseek-chat` and `nvidia_model: deepseek-ai/deepseek-v4-flash`
+(both editable). `run-game.ps1` loads the two new keys from `.env`; `run-tests.ps1`
+removes them so no test can make a paid request.
+
+Sources checked 2026-10-08: Anthropic error table (402 `billing_error`); DeepSeek
+`GET /user/balance` (`is_available`, `balance_infos`) and error 402 "Insufficient
+Balance" (api-docs.deepseek.com); NVIDIA `POST https://integrate.api.nvidia.com/v1/
+chat/completions` (docs.api.nvidia.com). The DeepSeek model name `deepseek-chat` and
+the Bearer authentication are from general knowledge of these OpenAI-compatible APIs,
+not from the fetched pages. No real request was made to any provider.
+
+Tests: claude_client_test adds the chain (Anthropic 402 → DeepSeek balance check →
+OpenAI-format request → validated answer; Anthropic stays skipped and the balance is
+checked once; DeepSeek 402 → NVIDIA; nothing left → offline; empty DeepSeek balance
+skips to NVIDIA; Anthropic's low-credit 400; 166 checks).
+
+Executed for this commit: the full non-live run, 53 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

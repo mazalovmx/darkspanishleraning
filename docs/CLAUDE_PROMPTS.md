@@ -112,3 +112,15 @@ review that returns only the `language` object of the response schema (validated
 `valid_language`). Its corrections are shown under the journal feedback; it changes no
 record and no mastery, and offline it is skipped without a request. It uses its own
 client instance, so the map is not locked while it runs.
+
+Provider chain (user request 2026-10-08): `claude_client.gd` tries Anthropic, then
+DeepSeek, then NVIDIA (keys `ANTHROPIC_API_KEY`, `DEEPSEEK_API_KEY`, `NVIDIA_API_KEY`,
+loaded from the local `.env` by `tools/run-game.ps1`; models `claude_model`,
+`deepseek_model`, `nvidia_model` in `config/game.json`). Anthropic offers no balance
+endpoint for an API key, so its budget is judged by the response: HTTP 402
+(`billing_error`) or a 400 mentioning the credit balance marks it exhausted for the
+session. DeepSeek's `GET /user/balance` is checked once before its first use
+(`is_available: false` skips it); a 402 also marks it exhausted. NVIDIA has no balance
+endpoint; a 402 marks it exhausted. DeepSeek and NVIDIA receive the same system prompt
+and context in the OpenAI chat format; their answer is converted to the Messages
+envelope and passes the same validation. With no provider left the game plays offline.

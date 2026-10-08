@@ -7,6 +7,17 @@ class FakeClient extends Client:
 	func _send() -> void:
 		attempts += 1
 
+# Every provider has a key; the balance check is answered by the test.
+class ChainClient extends Client:
+	var keys := {"anthropic": "a-test", "deepseek": "d-test", "nvidia": "n-test"}
+	var balance_requests := 0
+	func _key(name: String) -> String:
+		return keys.get(name, "")
+	func _send() -> void:
+		attempts += 1
+	func _request_balance() -> void:
+		balance_requests += 1
+
 var checks := 0
 var failures := 0
 var results: Array = []
@@ -248,6 +259,48 @@ func run() -> void:
 	reviewer.request_review("Hola.", "Saluda.", {})
 	check(reviews.size() == 2 and reviews[1].is_empty() and not reviewer.busy, "Offline review returns nothing at once")
 	reviewer.queue_free()
+	# Provider chain: Anthropic, then DeepSeek (balance checked first), then NVIDIA.
+	var chain := ChainClient.new()
+	root.add_child(chain)
+	await process_frame
+	chain.config.dev_flags.offline_mode = false
+	chain.config["claude_model"] = "claude-test"
+	var answers: Array = []
+	chain.completed.connect(func(data: Dictionary): answers.append(data))
+	chain.request_reply({"player_message": "Hola"})
+	check(chain.provider == "anthropic" and JSON.parse_string(chain.payload).system == Client.SYSTEM_PROMPT, "Anthropic is tried first")
+	chain.http.request_completed.emit(HTTPRequest.RESULT_SUCCESS, 402, PackedStringArray(), JSON.stringify({"type": "error", "error": {"type": "billing_error"}}).to_utf8_buffer())
+	check(chain.exhausted.has("anthropic") and chain.balance_requests == 1 and chain.busy, "No Anthropic budget: DeepSeek's balance is checked")
+	chain._on_balance(HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), JSON.stringify({"is_available": true, "balance_infos": []}).to_utf8_buffer())
+	var chained: Dictionary = JSON.parse_string(chain.payload)
+	check(chain.provider == "deepseek" and chained.model == "deepseek-chat" and chained.messages[0].role == "system" and chained.messages[1].content.contains("Hola"), "DeepSeek gets an OpenAI-format request")
+	var chat := JSON.stringify({"choices": [{"finish_reason": "stop", "message": {"role": "assistant", "content": JSON.stringify(valid())}}], "usage": {"completion_tokens": 30}})
+	chain.http.request_completed.emit(HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), chat.to_utf8_buffer())
+	check(answers.size() == 1 and answers[0].get("npc_reply", "") == valid().npc_reply, "A DeepSeek chat answer goes through the same validation")
+	chain.request_reply({"player_message": "Otra vez"})
+	check(chain.provider == "deepseek" and chain.balance_requests == 1, "Anthropic stays skipped and the balance is checked once")
+	chain.http.request_completed.emit(HTTPRequest.RESULT_SUCCESS, 402, PackedStringArray(), PackedByteArray())
+	check(chain.provider == "nvidia" and JSON.parse_string(chain.payload).model == "deepseek-ai/deepseek-v4-flash", "DeepSeek out of balance: NVIDIA answers")
+	chain.http.request_completed.emit(HTTPRequest.RESULT_SUCCESS, 402, PackedStringArray(), PackedByteArray())
+	check(answers.size() == 2 and answers[1].is_empty() and not chain.busy, "With no provider left the turn falls back offline")
+	chain.request_reply({"player_message": "¿Hay alguien?"})
+	check(answers.size() == 3 and answers[2].is_empty() and chain.attempts == 0, "Later turns stay offline without a request")
+	var empty := ChainClient.new()
+	root.add_child(empty)
+	await process_frame
+	empty.config.dev_flags.offline_mode = false
+	empty.config["claude_model"] = "claude-test"
+	empty.exhausted["anthropic"] = true
+	empty.busy = false
+	empty.balance_checked = false
+	var skipped: Array = []
+	empty.completed.connect(func(data: Dictionary): skipped.append(data))
+	empty.request_reply({"player_message": "Hola"})
+	empty._on_balance(HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), JSON.stringify({"is_available": false}).to_utf8_buffer())
+	check(empty.exhausted.has("deepseek") and empty.provider == "nvidia", "An empty DeepSeek balance skips straight to NVIDIA")
+	check(Client._out_of_budget("anthropic", 400, "Your credit balance is too low to access the Anthropic API.".to_utf8_buffer()) and not Client._out_of_budget("deepseek", 400, "credit balance".to_utf8_buffer()), "Anthropic's low-credit 400 counts as no budget")
+	chain.queue_free()
+	empty.queue_free()
 	map.queue_free()
 	await process_frame
 	print("Claude client checks: %d, failures: %d" % [checks, failures])

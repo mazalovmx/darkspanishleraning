@@ -54,6 +54,15 @@ is "ignore", never report a difference only in written accents, ü or apostrophe
 "original":"wording","better":"correction","severity":"minor"}],"successful_grammar":[],
 "new_vocabulary":[]}. Severity: minor/important. Mark only the learner's language."""
 const RETRY_DELAY := 1.5
+## Provider chain: Anthropic first; a provider out of budget (HTTP 402, or Anthropic's
+## "credit balance" refusal) is skipped for the rest of the session. DeepSeek's balance
+## is checked once before its first use. DeepSeek and NVIDIA speak the OpenAI chat format.
+const ORDER := ["anthropic", "deepseek", "nvidia"]
+const PROVIDERS := {
+	"anthropic": {"url": ENDPOINT, "env": "ANTHROPIC_API_KEY", "model": "claude_model"},
+	"deepseek": {"url": "https://api.deepseek.com/chat/completions", "balance": "https://api.deepseek.com/user/balance",
+		"env": "DEEPSEEK_API_KEY", "model": "deepseek_model"},
+	"nvidia": {"url": "https://integrate.api.nvidia.com/v1/chat/completions", "env": "NVIDIA_API_KEY", "model": "nvidia_model"}}
 var config: Dictionary = {}
 var http := HTTPRequest.new()
 var retry_timer := Timer.new()
@@ -63,6 +72,11 @@ var busy := false
 var mode := "reply"
 var attempts := 0
 var payload := ""
+var provider := ""
+var exhausted := {}
+var balance_checked := false
+var balance_http := HTTPRequest.new()
+var parts := {}
 
 func _ready() -> void:
 	var parser := JSON.new()
@@ -73,6 +87,11 @@ func _ready() -> void:
 	http.max_redirects = 0
 	add_child(http)
 	http.request_completed.connect(_on_response)
+	balance_http.timeout = 10.0
+	balance_http.body_size_limit = 8192
+	balance_http.max_redirects = 0
+	add_child(balance_http)
+	balance_http.request_completed.connect(_on_balance)
 	retry_timer.one_shot = true
 	retry_timer.wait_time = RETRY_DELAY
 	add_child(retry_timer)
@@ -81,9 +100,19 @@ func _ready() -> void:
 func _api_key() -> String:
 	return OS.get_environment("ANTHROPIC_API_KEY").strip_edges()
 
+func _key(name: String) -> String:
+	return _api_key() if name == "anthropic" else OS.get_environment(PROVIDERS[name].env).strip_edges()
+
+## The first provider with a key, a configured model and budget left this session.
+func _next_provider() -> String:
+	for name: String in ORDER:
+		if not exhausted.has(name) and not _key(name).is_empty() and config.get(PROVIDERS[name].model) is String:
+			return name
+	return ""
+
 func _offline() -> bool:
 	var flags: Variant = config.get("dev_flags", {})
-	return not flags is Dictionary or flags.get("offline_mode", false) or _api_key().is_empty() or not config.get("claude_model") is String
+	return not flags is Dictionary or flags.get("offline_mode", false) or _next_provider().is_empty()
 
 func request_reply(context: Dictionary) -> void:
 	if busy:
@@ -94,9 +123,8 @@ func request_reply(context: Dictionary) -> void:
 		completed.emit({})
 		return
 	busy = true
-	payload = JSON.stringify({"model": config.claude_model, "max_tokens": 1200,
-		"system": SYSTEM_PROMPT, "messages": [{"role": "user", "content": JSON.stringify(context)}]})
-	_send()
+	parts = {"system": SYSTEM_PROMPT, "content": JSON.stringify(context), "max_tokens": 1200}
+	_start()
 
 func request_review(sentence: String, task: String, profile: Dictionary) -> void:
 	if busy:
@@ -107,23 +135,65 @@ func request_review(sentence: String, task: String, profile: Dictionary) -> void
 		reviewed.emit({})
 		return
 	busy = true
-	payload = JSON.stringify({"model": config.claude_model, "max_tokens": 600, "system": REVIEW_PROMPT,
-		"messages": [{"role": "user", "content": JSON.stringify({"task": task.left(300),
-		"learner_sentence": sentence.left(300), "language_profile": profile})}]})
+	parts = {"system": REVIEW_PROMPT, "content": JSON.stringify({"task": task.left(300),
+		"learner_sentence": sentence.left(300), "language_profile": profile}), "max_tokens": 600}
+	_start()
+
+func _start() -> void:
+	provider = _next_provider()
+	if provider.is_empty():
+		_finish({})
+		return
+	if provider == "deepseek" and not balance_checked:
+		_request_balance()
+		return
+	attempts = 0
+	var model: String = config[PROVIDERS[provider].model]
+	if provider == "anthropic":
+		payload = JSON.stringify({"model": model, "max_tokens": parts.max_tokens, "system": parts.system,
+			"messages": [{"role": "user", "content": parts.content}]})
+	else:
+		payload = JSON.stringify({"model": model, "max_tokens": parts.max_tokens,
+			"messages": [{"role": "system", "content": parts.system}, {"role": "user", "content": parts.content}]})
 	_send()
+
+func _request_balance() -> void:
+	var headers := PackedStringArray(["Authorization: Bearer " + _key("deepseek")])
+	if balance_http.request(PROVIDERS.deepseek.balance, headers) != OK:
+		_on_balance.call_deferred(HTTPRequest.RESULT_CANT_CONNECT, 0, PackedStringArray(), PackedByteArray())
+
+## A failed check is not proof of an empty balance: the chat request's 402 decides then.
+func _on_balance(result: int, code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
+	balance_checked = true
+	if result == HTTPRequest.RESULT_SUCCESS and code == 200:
+		var data: Variant = JSON.parse_string(body.get_string_from_utf8())
+		if data is Dictionary and data.get("is_available") == false:
+			exhausted["deepseek"] = true
+	if busy:
+		_start()
 
 func _send() -> void:
 	attempts += 1
-	var headers := PackedStringArray(["Content-Type: application/json", "anthropic-version: 2023-06-01",
-		"x-api-key: " + _api_key()])
-	if http.request(ENDPOINT, headers, HTTPClient.METHOD_POST, payload) != OK:
+	var headers := PackedStringArray(["Content-Type: application/json"])
+	if provider == "anthropic":
+		headers.append_array(["anthropic-version: 2023-06-01", "x-api-key: " + _key(provider)])
+	else:
+		headers.append("Authorization: Bearer " + _key(provider))
+	if http.request(PROVIDERS[provider].url, headers, HTTPClient.METHOD_POST, payload) != OK:
 		_failed.call_deferred()
+
+static func _out_of_budget(name: String, code: int, body: PackedByteArray) -> bool:
+	return code == 402 or (name == "anthropic" and code == 400 and body.get_string_from_utf8().to_lower().contains("credit balance"))
 
 func _on_response(result: int, code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
 	if not busy:
 		return
+	if result == HTTPRequest.RESULT_SUCCESS and _out_of_budget(provider, code, body):
+		exhausted[provider] = true
+		_start()
+		return
 	if result == HTTPRequest.RESULT_SUCCESS and code == 200:
-		var envelope := _envelope(body)
+		var envelope := _envelope(body) if provider == "anthropic" else _chat_envelope(body)
 		_count(envelope)
 		var proposal := _review(envelope) if mode == "review" else _proposal(envelope)
 		if not proposal.is_empty():
@@ -131,6 +201,18 @@ func _on_response(result: int, code: int, _headers: PackedStringArray, body: Pac
 			return
 	# A client error (bad request, key, permission, model) cannot succeed on a second try.
 	_failed(result != HTTPRequest.RESULT_SUCCESS or code < 400 or code >= 500 or code in [408, 429])
+
+## An OpenAI-format chat completion as the Messages-shaped envelope the parser expects.
+static func _chat_envelope(body: PackedByteArray) -> Dictionary:
+	var data := _envelope(body)
+	var choices: Variant = data.get("choices")
+	if not choices is Array or choices.is_empty() or not choices[0] is Dictionary:
+		return {}
+	var message: Variant = choices[0].get("message")
+	if choices[0].get("finish_reason") != "stop" or not message is Dictionary or not message.get("content") is String:
+		return {}
+	var tokens: Variant = data.usage.get("completion_tokens") if data.get("usage") is Dictionary else null
+	return {"stop_reason": "end_turn", "content": [{"type": "text", "text": message.content}], "usage": {"output_tokens": tokens}}
 
 func _failed(retryable := true) -> void:
 	if not busy:

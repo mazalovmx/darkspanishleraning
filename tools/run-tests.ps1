@@ -1,6 +1,6 @@
 # Runs every non-live Godot suite headless and prints one line per suite.
 # Usage: ./tools/run-tests.ps1 [-Filter ghost] [-TimeoutSeconds 600]
-# Never runs claude_live_test; the Anthropic key is removed from this process
+# Never runs claude_live_test; the Anthropic, DeepSeek and NVIDIA keys are removed from this process
 # for the duration of the run so no suite can make a paid request.
 param(
     [string]$Filter = "",
@@ -26,7 +26,7 @@ $suites = Get-ChildItem (Join-Path $root "game/tests") -Filter "*_test.gd" |
     Sort-Object
 
 $savedKeys = @{}
-foreach ($name in @("ANTHROPIC_API_KEY", "ANTHROPIC_KEY")) {
+foreach ($name in @("ANTHROPIC_API_KEY", "ANTHROPIC_KEY", "DEEPSEEK_API_KEY", "NVIDIA_API_KEY")) {
     $savedKeys[$name] = [Environment]::GetEnvironmentVariable($name, "Process")
     [Environment]::SetEnvironmentVariable($name, $null, "Process")
 }
