@@ -1,6 +1,7 @@
 extends Node
-## One in-flight turn, at most two attempts. Never logs credentials or response bodies.
-## Worst case for one turn: two 20 s timeouts plus RETRY_DELAY.
+## One in-flight turn: at most MAX_ATTEMPTS requests across providers, one retry per
+## provider, TURN_SECONDS in all; then the authored offline reply. Never logs
+## credentials or response bodies.
 const Curriculum = preload("res://src/spanish/curriculum.gd")
 signal completed(proposal: Dictionary)
 ## Review mode: one learner sentence from a gated task; feedback only, never state.
@@ -54,10 +55,15 @@ is "ignore", never report a difference only in written accents, ü or apostrophe
 "original":"wording","better":"correction","severity":"minor"}],"successful_grammar":[],
 "new_vocabulary":[]}. Severity: minor/important. Mark only the learner's language."""
 const RETRY_DELAY := 1.5
-## Provider chain: Anthropic first; a provider out of budget (HTTP 402, or Anthropic's
-## "credit balance" refusal) is skipped for the rest of the session. DeepSeek's balance
-## is checked once before its first use. DeepSeek and NVIDIA speak the OpenAI chat format.
-const ORDER := ["anthropic", "deepseek", "nvidia"]
+const MAX_ATTEMPTS := 3
+const TURN_SECONDS := 45.0
+## Provider chain from config "provider_order" (default DeepSeek, then Anthropic; NVIDIA
+## only when listed). A provider out of budget (HTTP 402, or Anthropic's "credit
+## balance" refusal) or refusing the key or the model (401/403/404) is skipped for the
+## rest of the session; one that keeps failing is skipped for this turn. DeepSeek's
+## balance is checked once before its first use. DeepSeek and NVIDIA speak the OpenAI
+## chat format.
+const DEFAULT_ORDER := ["deepseek", "anthropic"]
 const PROVIDERS := {
 	"anthropic": {"url": ENDPOINT, "env": "ANTHROPIC_API_KEY", "model": "claude_model"},
 	"deepseek": {"url": "https://api.deepseek.com/chat/completions", "balance": "https://api.deepseek.com/user/balance",
@@ -75,6 +81,14 @@ var payload := ""
 var provider := ""
 var exhausted := {}
 var balance_checked := false
+# This turn: providers already given up on, requests sent, start time.
+var skipped := {}
+var turn_attempts := 0
+var turn_started := 0
+var request_serial := 0
+## The last turn, for diagnostics in memory only: request_id, provider, model, reason,
+## ms, output_tokens. Never keys, prompts or replies.
+var last_turn := {}
 var balance_http := HTTPRequest.new()
 var parts := {}
 
@@ -103,10 +117,18 @@ func _api_key() -> String:
 func _key(name: String) -> String:
 	return _api_key() if name == "anthropic" else OS.get_environment(PROVIDERS[name].env).strip_edges()
 
+func order() -> Array:
+	var listed: Variant = config.get("provider_order")
+	var result: Array = []
+	for name: Variant in (listed if listed is Array else DEFAULT_ORDER):
+		if name is String and PROVIDERS.has(name) and name not in result:
+			result.append(name)
+	return result
+
 ## The first provider with a key, a configured model and budget left this session.
 func _next_provider() -> String:
-	for name: String in ORDER:
-		if not exhausted.has(name) and not _key(name).is_empty() and config.get(PROVIDERS[name].model) is String:
+	for name: String in order():
+		if not exhausted.has(name) and not skipped.has(name) and not _key(name).is_empty() and config.get(PROVIDERS[name].model) is String:
 			return name
 	return ""
 
@@ -124,6 +146,7 @@ func request_reply(context: Dictionary) -> void:
 		return
 	busy = true
 	parts = {"system": SYSTEM_PROMPT, "content": JSON.stringify(context), "max_tokens": 1200}
+	_begin_turn()
 	_start()
 
 func request_review(sentence: String, task: String, profile: Dictionary) -> void:
@@ -135,14 +158,25 @@ func request_review(sentence: String, task: String, profile: Dictionary) -> void
 		reviewed.emit({})
 		return
 	busy = true
+	_begin_turn()
 	parts = {"system": REVIEW_PROMPT, "content": JSON.stringify({"task": task.left(300),
 		"learner_sentence": sentence.left(300), "language_profile": profile}), "max_tokens": 600}
 	_start()
 
+func _begin_turn() -> void:
+	skipped.clear()
+	turn_attempts = 0
+	turn_started = Time.get_ticks_msec()
+	request_serial += 1
+	last_turn = {"request_id": request_serial, "provider": "", "model": "", "reason": "", "ms": 0, "output_tokens": 0}
+
+func _remaining() -> float:
+	return TURN_SECONDS - (Time.get_ticks_msec() - turn_started) / 1000.0
+
 func _start() -> void:
 	provider = _next_provider()
 	if provider.is_empty():
-		_finish({})
+		_finish({}, "no_provider")
 		return
 	if provider == "deepseek" and not balance_checked:
 		_request_balance()
@@ -153,9 +187,15 @@ func _start() -> void:
 		payload = JSON.stringify({"model": model, "max_tokens": parts.max_tokens, "system": parts.system,
 			"messages": [{"role": "user", "content": parts.content}]})
 	else:
-		payload = JSON.stringify({"model": model, "max_tokens": parts.max_tokens,
-			"messages": [{"role": "system", "content": parts.system}, {"role": "user", "content": parts.content}]})
-	_send()
+		var body := {"model": model, "max_tokens": parts.max_tokens,
+			"messages": [{"role": "system", "content": parts.system}, {"role": "user", "content": parts.content}]}
+		if provider == "deepseek":
+			# Thinking mode spends the token budget before the answer; JSON mode keeps
+			# the reply parseable (api-docs.deepseek.com, create chat completion).
+			body["thinking"] = {"type": "disabled"}
+			body["response_format"] = {"type": "json_object"}
+		payload = JSON.stringify(body)
+	_dispatch()
 
 func _request_balance() -> void:
 	var headers := PackedStringArray(["Authorization: Bearer " + _key("deepseek")])
@@ -171,6 +211,15 @@ func _on_balance(result: int, code: int, _headers: PackedStringArray, body: Pack
 			exhausted["deepseek"] = true
 	if busy:
 		_start()
+
+## Counts the request against the turn's limits, then sends it.
+func _dispatch() -> void:
+	if turn_attempts >= MAX_ATTEMPTS or _remaining() < 1.0:
+		_finish({}, "limit")
+		return
+	turn_attempts += 1
+	http.timeout = minf(20.0, _remaining())
+	_send()
 
 func _send() -> void:
 	attempts += 1
@@ -188,7 +237,8 @@ static func _out_of_budget(name: String, code: int, body: PackedByteArray) -> bo
 func _on_response(result: int, code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
 	if not busy:
 		return
-	if result == HTTPRequest.RESULT_SUCCESS and _out_of_budget(provider, code, body):
+	if result == HTTPRequest.RESULT_SUCCESS and (_out_of_budget(provider, code, body) or code in [401, 403, 404]):
+		# No budget, key or model: this provider cannot answer for the rest of the session.
 		exhausted[provider] = true
 		_start()
 		return
@@ -197,7 +247,9 @@ func _on_response(result: int, code: int, _headers: PackedStringArray, body: Pac
 		_count(envelope)
 		var proposal := _review(envelope) if mode == "review" else _proposal(envelope)
 		if not proposal.is_empty():
-			_finish(proposal)
+			var tokens: Variant = envelope.usage.get("output_tokens") if envelope.get("usage") is Dictionary else null
+			last_turn.output_tokens = int(tokens) if (tokens is int or tokens is float) and is_finite(tokens) and tokens >= 0 and tokens <= 100000 else 0
+			_finish(proposal, "ok")
 			return
 	# A client error (bad request, key, permission, model) cannot succeed on a second try.
 	_failed(result != HTTPRequest.RESULT_SUCCESS or code < 400 or code >= 500 or code in [408, 429])
@@ -214,23 +266,36 @@ static func _chat_envelope(body: PackedByteArray) -> Dictionary:
 	var tokens: Variant = data.usage.get("completion_tokens") if data.get("usage") is Dictionary else null
 	return {"stop_reason": "end_turn", "content": [{"type": "text", "text": message.content}], "usage": {"output_tokens": tokens}}
 
+## A provider gets one retry after a temporary failure; then, or after a client error,
+## the next provider is tried within the turn's limits.
 func _failed(retryable := true) -> void:
 	if not busy:
 		return
-	if retryable and attempts < 2:
+	if turn_attempts >= MAX_ATTEMPTS:
+		_finish({}, "limit")
+	elif retryable and attempts < 2 and _remaining() >= 1.0 + RETRY_DELAY:
 		retry_timer.start()
 	else:
-		_finish({})
+		skipped[provider] = true
+		_start()
 
 # busy stays true during the delay, so the reply still routes to the original turn.
 func _retry() -> void:
 	if busy and attempts < 2:
-		_send()
+		_dispatch()
 
-func _finish(proposal: Dictionary) -> void:
+func _finish(proposal: Dictionary, reason := "") -> void:
 	retry_timer.stop()
+	# A request still in flight (turn limit) must not answer a later turn.
+	http.cancel_request()
 	busy = false
 	payload = ""
+	skipped.clear()
+	if not last_turn.is_empty():
+		last_turn.provider = provider if reason == "ok" else ""
+		last_turn.model = str(config.get(PROVIDERS[provider].model, "")) if reason == "ok" and PROVIDERS.has(provider) else ""
+		last_turn.reason = reason
+		last_turn.ms = Time.get_ticks_msec() - turn_started
 	if mode == "review":
 		reviewed.emit(proposal)
 	else:

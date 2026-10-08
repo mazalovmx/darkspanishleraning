@@ -2709,3 +2709,30 @@ write/read PASS.
 Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
 run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
 write/read PASS.
+
+## Provider chain: DeepSeek, then Claude, then offline
+
+- `provider_order` in config/game.json (default `["deepseek", "anthropic"]`; NVIDIA only
+  when listed); `deepseek_model` is now `deepseek-flash`, the model id listed by the
+  official DeepSeek API reference (create chat completion). DeepSeek requests set
+  `thinking: {"type": "disabled"}` and `response_format: {"type": "json_object"}`, both
+  documented there.
+- A 401/403/404 skips that provider for the session (as a 402 already did). A temporary
+  failure gets one retry on the same provider; then, or after another client error, the
+  turn moves to the next provider. One turn: at most three requests and 45 seconds (each
+  request at most 20 s), then the authored offline reply; a request still in flight is
+  cancelled, so a turn applies one answer at most.
+- `last_turn` keeps request id, provider, model, reason, ms and output tokens in memory
+  (no keys, prompts or replies).
+- Live check: `claude_live_test` takes `--provider=` and `--model=`; with a provider it
+  passes only when that provider and model answered. `tools/run-game.ps1 -LiveTest
+  -Provider deepseek|anthropic|nvidia [-Model id]`. The PowerShell change was not run
+  (no PowerShell here); no live request was sent in this session (no keys here).
+- Tests: claude_client_test (default order, DeepSeek request fields, two temporary
+  failures then Claude, three requests at most, key refusal moves on at once, one answer
+  per turn, a late answer starts nothing, time limit, turn notes without key or text,
+  NVIDIA only when listed); earlier chain checks run with an explicit order.
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS.

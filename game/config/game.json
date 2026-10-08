@@ -1,6 +1,7 @@
 {
   "claude_model": "claude-sonnet-5-5",
-  "deepseek_model": "deepseek-chat",
+  "deepseek_model": "deepseek-flash",
+  "provider_order": ["deepseek", "anthropic"],
   "nvidia_model": "deepseek-ai/deepseek-v4-flash",
   "language": "es",
   "audio": {

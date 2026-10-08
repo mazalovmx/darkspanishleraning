@@ -1,4 +1,6 @@
-param([switch]$LiveTest)
+# -LiveTest sends one real conversation. -Provider (deepseek, anthropic, nvidia) limits it
+# to that provider and -Model overrides its model; the check then passes only on that answer.
+param([switch]$LiveTest, [ValidateSet('', 'deepseek', 'anthropic', 'nvidia')][string]$Provider = '', [string]$Model = '')
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path $PSScriptRoot -Parent
 $engine = Join-Path $PSScriptRoot 'local/godot/Godot_v4.6.2-stable_win64_console.exe'
@@ -21,13 +23,18 @@ try {
         }
         if ($keys.ContainsKey('ANTHROPIC_API_KEY')) { $env:ANTHROPIC_API_KEY = $keys['ANTHROPIC_API_KEY'] }
         elseif ($keys.ContainsKey('ANTHROPIC_KEY')) { $env:ANTHROPIC_API_KEY = $keys['ANTHROPIC_KEY'] }
-        # Fallback providers, used when Anthropic has no key or no budget left.
+        # Provider order comes from config/game.json ("provider_order").
         if ($keys.ContainsKey('DEEPSEEK_API_KEY')) { $env:DEEPSEEK_API_KEY = $keys['DEEPSEEK_API_KEY'] }
         if ($keys.ContainsKey('NVIDIA_API_KEY')) { $env:NVIDIA_API_KEY = $keys['NVIDIA_API_KEY'] }
     }
-    if ($LiveTest -and [string]::IsNullOrWhiteSpace($env:ANTHROPIC_API_KEY)) { throw 'No Anthropic key is configured.' }
+    $liveKey = @{ '' = 'ANTHROPIC_API_KEY'; 'anthropic' = 'ANTHROPIC_API_KEY'; 'deepseek' = 'DEEPSEEK_API_KEY'; 'nvidia' = 'NVIDIA_API_KEY' }[$Provider]
+    if ($LiveTest -and [string]::IsNullOrWhiteSpace([Environment]::GetEnvironmentVariable($liveKey, 'Process'))) { throw "No $liveKey is configured." }
     $arguments = @('--path', (Join-Path $projectRoot 'game'))
-    if ($LiveTest) { $arguments += @('--headless', '--script', 'res://tests/claude_live_test.gd', '--', '--live') }
+    if ($LiveTest) {
+        $arguments += @('--headless', '--script', 'res://tests/claude_live_test.gd', '--', '--live')
+        if ($Provider) { $arguments += "--provider=$Provider" }
+        if ($Model) { $arguments += "--model=$Model" }
+    }
     & $engine @arguments
     $engineExit = $LASTEXITCODE
 } finally {

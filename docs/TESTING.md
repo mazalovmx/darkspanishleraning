@@ -99,8 +99,11 @@ contents. Record actual outcome and model availability before starting Gate D.
 ```powershell
 # Launch the game with a locally supplied .env:
 ./tools/run-game.ps1
-# Explicitly send one short real conversation (maximum one retry):
+# Explicitly send one short real conversation (one turn: at most three requests):
 ./tools/run-game.ps1 -LiveTest
+# One provider only; passes only when that provider and model answered:
+./tools/run-game.ps1 -LiveTest -Provider deepseek
+./tools/run-game.ps1 -LiveTest -Provider anthropic -Model claude-sonnet-5-5
 ```
 
 .env accepts ANTHROPIC_API_KEY or ANTHROPIC_KEY; the standard name takes precedence.
