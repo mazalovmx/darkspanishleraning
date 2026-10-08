@@ -112,6 +112,32 @@ func run() -> void:
 	flyer.stacks[0].cell = Vector2i(0, 3)
 	flyer.obstacles = [Vector2i(1, 2), Vector2i(1, 3), Vector2i(0, 2), Vector2i(0, 4), Vector2i(1, 4)]
 	check(flyer.reachable(0).has(Vector2i(4, 3)), "Flyers ignore rocks between hexes")
+	# Wait: once per round, the stack acts after everyone else.
+	var waiting := Battle.new()
+	waiting.start([{"type":"archers","count":5}, {"type":"militia","count":5}], [{"type":"enforcer","count":5}], 4)
+	check(waiting.current() == 0, "Archers act first")
+	check(waiting.act("wait") and waiting.current() == 1 and waiting.stacks[0].waited, "Waiting passes the turn to the next stack")
+	check(waiting.queue.back() == 0, "The waiting stack moves to the end of the round")
+	waiting.act("defend")
+	check(waiting.current() == 0 and not waiting.act("wait"), "A stack waits only once per round")
+	waiting.act("defend")
+	check(waiting.round_number == 2 and not waiting.stacks[0].waited, "Waiting resets each round")
+	# Range: shots beyond FULL_RANGE hexes deal half damage.
+	var close_shot := Battle.new()
+	var long_shot := Battle.new()
+	for model in [close_shot, long_shot]:
+		model.start([{"type":"archers","count":20}], [{"type":"enforcer","count":50}], 8)
+		model.obstacles.clear()
+	close_shot.stacks[1].cell = Vector2i(Battle.FULL_RANGE, close_shot.stacks[0].cell.y)
+	long_shot.stacks[1].cell = Vector2i(Battle.FULL_RANGE + 1, long_shot.stacks[0].cell.y)
+	check(not close_shot.far_shot(0, 1) and long_shot.far_shot(0, 1), "Range threshold at FULL_RANGE hexes")
+	var near_hp: int = close_shot.stacks[1].stats.health
+	var far_hp: int = long_shot.stacks[1].stats.health
+	close_shot.act("attack", 1)
+	long_shot.act("attack", 1)
+	var near_damage: int = near_hp - close_shot.stacks[1].stats.health
+	var far_damage: int = far_hp - long_shot.stacks[1].stats.health
+	check(absi(far_damage * 2 - near_damage) <= 1, "Far shot deals half damage (same seed, same roll)")
 	first.start([{"type":"archers","count":4}], [{"type":"bandits","count":50}], 2)
 	first.stacks[0].stats.health = 8
 	check(first.count_at(0) == 2, "Partial damage converts aggregate HP to stack count")

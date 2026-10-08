@@ -27,6 +27,7 @@ var attack_button := Button.new()
 var defend_button := Button.new()
 var ability_button := Button.new()
 var retreat_button := Button.new()
+var wait_button := Button.new()
 var finish_button := Button.new()
 var result_panel := PanelContainer.new()
 var result_title := Label.new()
@@ -179,21 +180,24 @@ func _build_command_bar() -> void:
 	lower.add_theme_constant_override("separation", 12)
 	rows.add_child(lower)
 	var grid := GridContainer.new()
-	grid.columns = 2
+	grid.columns = 3
 	grid.add_theme_constant_override("h_separation", 6)
 	grid.add_theme_constant_override("v_separation", 4)
 	lower.add_child(grid)
 	for pair in [[attack_button, "Atacar", "sword.png"], [defend_button, "Defender", "shield.png"],
-			[ability_button, "Habilidad", "fire.png"], [retreat_button, "Retirarse", "flag_triangle.png"]]:
+			[wait_button, "Esperar", "hourglass.png"], [ability_button, "Habilidad", "fire.png"],
+			[retreat_button, "Retirarse", "flag_triangle.png"]]:
 		var button: Button = pair[0]
 		button.text = pair[1]
 		button.icon = _texture(ICONS + pair[2])
 		_style_button(button)
-		button.custom_minimum_size = Vector2(230, 46)
+		button.custom_minimum_size = Vector2(196, 46)
 		grid.add_child(button)
 	attack_button.tooltip_text = "Ataca al objetivo marcado en rojo. En el campo: clic en una casilla iluminada para mover, clic en un enemigo para atacarlo desde ese lado."
 	defend_button.tooltip_text = "Recibe menos daño hasta su próximo turno."
 	retreat_button.tooltip_text = "Termina la batalla y conserva los supervivientes."
+	wait_button.tooltip_text = "El destacamento actúa al final de la ronda (una vez por ronda)."
+	wait_button.pressed.connect(func(): command("wait"))
 	attack_button.pressed.connect(func(): command("attack"))
 	defend_button.pressed.connect(func(): command("defend"))
 	ability_button.pressed.connect(func(): command("ability"))
@@ -337,10 +341,14 @@ func _describe(cell: Vector2i) -> String:
 		return "Roca: no se puede pasar." if cell in battle.obstacles else ""
 	var stack: Dictionary = battle.stacks[i]
 	var unit: Dictionary = battle.data.units[stack.type]
+	var actor: int = battle.current()
+	var shot_note := ""
+	if actor >= 0 and stack.side == 1 and battle.data.units[battle.stacks[actor].type].ranged and battle._adjacent_enemies(actor).is_empty():
+		shot_note = "\nDisparo desde aquí: " + ("mitad de daño (más de %d casillas)" % Battle.FULL_RANGE if battle.far_shot(actor, i) else "daño completo")
 	return "%s · %d unidades\nSalud: %d · Ataque %d · Defensa %d\nDaño %d-%d · Iniciativa %d · Movimiento %d%s%s\nHabilidad: %s" % [
 		unit.name, battle.count_at(i), stack.stats.health, stack.stats.attack, stack.stats.defense,
 		unit.damage_min, unit.damage_max, stack.stats.speed, stack.speed, " · dispara" if unit.ranged else "",
-		" · vuela" if stack.flying else "", unit.ability_name]
+		" · vuela" if stack.flying else "", unit.ability_name] + shot_note
 
 func command(action: String, cell: Vector2i = Battle.NOWHERE) -> void:
 	var target := selected_target if action in ["attack", "ability"] else -1
@@ -377,12 +385,13 @@ func refresh() -> void:
 	if actor >= 0:
 		var mover: Dictionary = battle.stacks[actor]
 		acting = " · Actúa: %s (%d) · Movimiento %d%s" % [battle.data.units[mover.type].name, battle.count_at(actor), mover.speed,
-			("" if not battle.data.units[mover.type].ranged else " · dispara" if battle._adjacent_enemies(actor).is_empty() else " · trabado: lucha cuerpo a cuerpo")]
+			("" if not battle.data.units[mover.type].ranged else (" · dispara" + (" (lejos: mitad de daño)" if selected_target >= 0 and battle.far_shot(actor, selected_target) else "")) if battle._adjacent_enemies(actor).is_empty() else " · trabado: lucha cuerpo a cuerpo")]
 	turn_label.text = "Ronda %d · %s%s" % [battle.round_number,
 		{"victory": "Victoria", "defeat": "Derrota", "retreated": "Retirada"}.get(battle.outcome, "Elige una acción"), acting]
 	attack_button.disabled = complete
 	defend_button.disabled = complete
 	retreat_button.disabled = complete
+	wait_button.disabled = complete or actor < 0 or battle.stacks[actor].waited or battle.queue.size() < 2
 	ability_button.disabled = complete or actor < 0 or battle.stacks[actor].ability_used
 	ability_button.text = str(battle.data.units[battle.stacks[actor].type].ability_name) if actor >= 0 else "Habilidad"
 	finish_button.visible = complete

@@ -2283,3 +2283,20 @@ reachable, and that nothing is lit away from enemies (82 checks).
 
 Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Wait and range penalty
+
+- `act("wait")`: once per round the acting stack moves to the end of the round's order
+  (`waited`, reset each round; refused when it is the last stack to act). Button
+  "Esperar" (hourglass) in the battle screen.
+- Shots at targets more than `FULL_RANGE` = 6 hexes away deal half damage (the log says
+  "Disparo lejano: la mitad del daño."); the turn line shows "dispara (lejos: mitad de
+  daño)" for the marked target and the hex tooltip over an enemy says whether a shot
+  from where the shooter stands is full or half damage.
+- Master spec 13 and Epic 12 (both copies) list WAIT and the range rule (task 12.12).
+- stack_battle_test: 8 new checks (wait order, once per round, reset; range threshold,
+  half damage with the same seed), 90 in total. BALANCE.md has the rerun.
+Rendered in a window: the battle screen with the new button and the range note.
+
+Executed for this commit: the full non-live run, 54 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

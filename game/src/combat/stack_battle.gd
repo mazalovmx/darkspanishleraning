@@ -10,6 +10,8 @@ const MAX_STACKS := 7
 const COLUMNS := 11
 const ROWS := 7
 const NOWHERE := Vector2i(-1, -1)
+## Shots at targets further than this many hexes deal half damage (Heroes III: 10 of 15).
+const FULL_RANGE := 6
 const BONUS_CAPS := {"army_attack":20,"army_defense":20,"army_hp_percent":50,"army_initiative":5,
 	"army_luck":3,"army_morale":3,"world_movement":6,"ranged_damage_percent":50}
 var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
@@ -97,7 +99,7 @@ func start(allies: Array, enemies: Array, seed_value: int = 1, bonuses: Dictiona
 			stats.base_defense = int(definition.defense) + int(effects.get("army_defense",0))
 			stats.base_speed = int(definition.initiative) + int(effects.get("army_initiative",0))
 			stacks.append({"type": item.type, "side": side, "stats": stats,
-				"unit_hp":unit_hp,"luck":int(effects.get("army_luck",0)),"morale":int(effects.get("army_morale",0)),"morale_round":0,"ranged_bonus":int(effects.get("ranged_damage_percent",0)), "defending": false, "brace_active":false, "last_attacker":-1, "ability_used": false, "retaliated": false,
+				"unit_hp":unit_hp,"luck":int(effects.get("army_luck",0)),"morale":int(effects.get("army_morale",0)),"morale_round":0,"ranged_bonus":int(effects.get("ranged_damage_percent",0)), "defending": false, "brace_active":false, "last_attacker":-1, "ability_used": false, "retaliated": false, "waited": false,
 				"cell": Vector2i(0 if side == 0 else COLUMNS - 1, rows[slot]), "speed": int(definition.get("speed", 4)), "flying": bool(definition.get("flying", false))})
 			slot += 1
 	# A few rocks in the middle columns, from the battle seed but not from the damage dice.
@@ -137,6 +139,19 @@ func act(command: String, target: int = -1, cell: Vector2i = NOWHERE) -> bool:
 		outcome = "retreated"
 		log.append("Tu ejército se retira. Conservas los supervivientes.")
 		return true
+	if command == "wait":
+		# Once per round the stack can act after everyone else.
+		if stacks[actor].waited or queue.size() < 2:
+			return false
+		events.clear()
+		stacks[actor].waited = true
+		queue.pop_front()
+		queue.append(actor)
+		log.append(str(data.units[stacks[actor].type].name) + " espera hasta el final de la ronda.")
+		stacks[queue.front()].defending = false
+		stacks[queue.front()].brace_active = false
+		_run_enemies()
+		return true
 	if command == "move":
 		var paths := reachable(actor)
 		if cell == stacks[actor].cell or not paths.has(cell):
@@ -166,6 +181,7 @@ func _new_round() -> void:
 	for i in stacks.size():
 		if count_at(i) > 0:
 			stacks[i].retaliated = false
+			stacks[i].waited = false
 			queue.append(i)
 	queue.sort_custom(func(a: int, b: int):
 		if stacks[a].stats.speed == stacks[b].stats.speed:
@@ -248,6 +264,9 @@ func _execute(actor: int, command: String, target: int, hint: Vector2i = NOWHERE
 		multiplier = 1.5 if unit.ability == "aim" else 2.0 if unit.ability == "charge" else 1.0
 	if unit.ranged and not shot:
 		multiplier *= 0.5
+	if shot and distance(stacks[actor].cell, stacks[target].cell) > FULL_RANGE:
+		multiplier *= 0.5
+		log.append("Disparo lejano: la mitad del daño.")
 	var amount := _strike(actor, target, multiplier, command == "ability" and unit.ability == "feint", shot)
 	if command == "ability" and unit.ability == "charge":
 		stacks[actor].stats.health -= maxi(1, roundi(amount * 0.2))
@@ -303,6 +322,10 @@ func _adjacent_enemies(index: int) -> Array:
 			found.append(i)
 	found.sort_custom(func(a: int, b: int): return stacks[a].stats.health < stacks[b].stats.health)
 	return found
+
+## Whether a shot from where the stack stands at the target would be at half damage.
+func far_shot(actor: int, target: int) -> bool:
+	return distance(stacks[actor].cell, stacks[target].cell) > FULL_RANGE
 
 ## Whether the stack can hit the target this turn (shooting, or walking next to it).
 func can_strike(actor: int, target: int) -> bool:

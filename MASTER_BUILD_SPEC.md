@@ -920,10 +920,14 @@ ATTACK    melee: walk next to the target (from the chosen side if reachable) and
           ranged: shoot from anywhere; with an enemy adjacent, fight that enemy in melee
           at half damage
 DEFEND
+WAIT      once per round: the stack moves to the end of the round's order
 ABILITY   self abilities act at once; striking abilities follow the ATTACK rules and are
           not spent when the stack only advances
 RETREAT
 ```
+
+Shots at targets more than 6 hexes away deal half damage (Heroes III: 10 hexes on a
+15-column field).
 
 Melee strikes allow one retaliation per target per round; shots never draw retaliation.
 A ranged stack retaliating in melee deals half damage.
@@ -2332,7 +2336,9 @@ reach a conclusion
 
 #### 12.9 Movement: speed, reachable hexes, flying, move and attack-from-a-side commands
 
-#### 12.10 Ranged rules: shooting, blocked shooters, retaliation only in melee
+#### 12.10 Ranged rules: shooting, range penalty, blocked shooters, retaliation only in melee
+
+#### 12.12 Wait: act at the end of the round, once per round
 
 #### 12.11 Enemy AI with movement and battle screen with walking and strike animation
 
