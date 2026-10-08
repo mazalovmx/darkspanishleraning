@@ -182,6 +182,8 @@ func missing(id: String, quantity: int, message: String, stage: String, tier: St
 		return result
 	if normalize(message) == normalize(models(id, quantity, tier)[stage]):
 		return result
+	if strict:
+		result.append_array(preload("res://src/spanish/grammar_checks.gd").missing(message))
 	var rule: Dictionary = RULES[stage][tier]
 	var text := words(message)
 	if not rule.verbs.any(func(verb: String) -> bool: return text.contains(" %s " % verb)):

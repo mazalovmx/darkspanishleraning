@@ -99,12 +99,14 @@ func chapter(world: RefCounted) -> int:
 
 ## Needs a free answer still lacks. Authored answers and variants always pass; a node
 ## without keys (the council's choice) accepts only them.
-func missing(world: RefCounted, node: Dictionary, answer: String) -> Array[String]:
+func missing(world: RefCounted, node: Dictionary, answer: String, strict := true) -> Array[String]:
 	var result: Array[String] = []
 	var course = world.learner.curriculum
 	for accepted: String in node.answers + node.get("variants", []):
 		if course.normalized(answer) == course.normalized(accepted):
 			return result
+	if strict:
+		result.append_array(preload("res://src/spanish/grammar_checks.gd").missing(answer))
 	if not node.has("keys"):
 		if not node.has("decision_keys"):
 			result.append("una de las propuestas, tal como está escrita")
@@ -144,14 +146,14 @@ func needs(node: Dictionary) -> Array[String]:
 		result.append(str(group.need))
 	return result
 
-func _answer_valid(world: RefCounted, node: Dictionary, answer: String, classification: String, supports: Array) -> bool:
+func _answer_valid(world: RefCounted, node: Dictionary, answer: String, classification: String, supports: Array, strict := true) -> bool:
 	# At the council a wrong category is recorded, not refused: it closes the Charter
 	# (bible 36, "wrong classification changes available endings").
 	# A decision is chosen, not classified: its category is ignored.
 	var allowed: Array = [""] + CLASSIFICATIONS if node.get("decision", false) else CLASSIFICATIONS if node.get("council", false) else [node.classification]
 	if answer.length() > 300 or classification not in allowed:
 		return false
-	if not missing(world, node, answer).is_empty():
+	if not missing(world, node, answer, strict).is_empty():
 		return false
 	var required: Array = node.get("supports", [])
 	if supports.size() != required.size():
@@ -313,7 +315,7 @@ func restore(data: Variant, world: RefCounted) -> bool:
 				return false
 		if not entry.get("answer") is String or not entry.get("classification") is String or not entry.get("supports") is Array:
 			return false
-		if not _answer_valid(world, node, entry.answer, entry.classification, entry.supports):
+		if not _answer_valid(world, node, entry.answer, entry.classification, entry.supports, false):
 			return false
 		if not language_ready(world, node, int(day)) or not _declaration_valid(node):
 			return false

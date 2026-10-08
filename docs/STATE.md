@@ -2840,3 +2840,22 @@ User requested continuation of unfinished work. A separate completion-logic
 worktree isolates technical changes from another agent's dialogue/persona, client,
 save-list, portrait and music-integration work. New grammar checks are being
 developed there; this entry does not claim those changes are tested or merged.
+
+## Offline agreement checks for purchases and campaign conclusions (2026-10-08)
+
+Added a small data-backed validator for known noun/article/quantity agreement,
+explicit subject/present-verb agreement, and consecutive finite verbs after
+querer/poder. Unknown vocabulary and syntax are not guessed at; ambiguous clitic
+constructions and quoted testimony are preserved. Feedback is capped at two items.
+The checks run on new free market and campaign answers. Authored answers still
+work, and saved campaign answers/receipts use the previous validation so stricter
+language rules do not invalidate existing progress. No model or new dependency.
+
+Executed on Windows: grammar_checks_test (202), market filters (157), campaign
+filters (1,296), council_endings_test (355), save_game_test (540): eight suites,
+2,550 checks, zero failures, exit 0, no script/parse errors. The market and campaign
+fixtures instantiate the game UI headlessly; no rendered review was performed.
+Checks include real purchase rejection with unchanged money/stock/inventory,
+correction of that order, a legacy receipt, and every authored campaign sentence.
+This is a bounded grammar safeguard, not a complete Spanish grammar parser.
+Not yet connected here: strategy, optional cases, comparisons and soul rituals.
