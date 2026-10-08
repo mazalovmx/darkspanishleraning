@@ -1,5 +1,6 @@
 extends Node2D
 
+const WoodTheme = preload("res://src/common/wood_theme.gd")
 const Settings = preload("res://src/common/settings.gd")
 const WorldState = preload("res://src/world/world_state.gd")
 const SaveGame = preload("res://src/save/save_game.gd")
@@ -20,6 +21,17 @@ const LOCATION_ART := {"monastery": 4, "capital": 6, "university": 20, "industri
 	"town": 17, "mine": 8, "ruin": 12, "marsh": 23, "inn": 9, "farm": 13, "workshop": 21, "archive": 11,
 	"hospital": 19, "guildhouse": 3, "camp": 10}
 const HERO_ART := {"inquisitor": 4, "smuggler": 11, "survivor": 19}
+# Three decorated variants per terrain (base tile, overlay); row 0 is the plain tile.
+# Cells pick a variant from a fixed hash of their position, so the map never changes.
+const TERRAIN_VARIANTS := {"grass": [[57, "Environment/medievalEnvironment_13"], [57, "Environment/medievalEnvironment_01"], [57, "Environment/medievalEnvironment_20"]],
+	"forest": [[45, ""], [46, ""], [47, ""]],
+	"field": [[13, "Environment/medievalEnvironment_14"], [13, "Environment/medievalEnvironment_13"], [13, "Environment/medievalEnvironment_06"]],
+	"marsh": [[57, "Environment/medievalEnvironment_20"], [57, "Environment/medievalEnvironment_06"], [57, "Environment/medievalEnvironment_01"]],
+	"mountain": [[15, "Environment/medievalEnvironment_09"], [15, "Environment/medievalEnvironment_08"], [15, "Environment/medievalEnvironment_11"]],
+	"ruins": [[16, "Environment/medievalEnvironment_08"], [16, "Environment/medievalEnvironment_14"], [16, "Environment/medievalEnvironment_07"]],
+	"snow": [[29, "Environment/medievalEnvironment_03"], [29, "Environment/medievalEnvironment_04"], [29, "Environment/medievalEnvironment_07"]]}
+# Share of cells that use a decorated variant, per terrain (out of 10).
+const VARIANT_SHARE := {"grass": 1, "forest": 10, "field": 2, "marsh": 5, "mountain": 6, "ruins": 5, "snow": 4}
 # Resource sites by what they yield; knights share one armoured figure.
 const SITE_ART := {"wood": "Environment/medievalEnvironment_06", "ore": "Environment/medievalEnvironment_10",
 	"gold": "Environment/medievalEnvironment_19", "mercury": "Environment/medievalEnvironment_12",
@@ -71,6 +83,9 @@ var side_button := Button.new()
 var side_panel = preload("res://src/world/side_panel.gd").new()
 var market = preload("res://src/economy/market_panel.gd").new()
 var army_notice := Label.new()
+# Resource bar across the top of the map: icon and amount per resource, then the day.
+var resource_labels: Dictionary = {}
+var day_label := Label.new()
 var arena = preload("res://src/combat/stack_arena.tscn").instantiate()
 var hero_buttons: Dictionary = {}
 var selected := false
@@ -151,22 +166,39 @@ func _ready() -> void:
 		_new_game()
 
 func _build_tiles() -> void:
-	var atlas_image := Image.create(CELL_SIZE * COLORS.size(), CELL_SIZE, false, Image.FORMAT_RGBA8)
+	var atlas_image := Image.create(CELL_SIZE * COLORS.size(), CELL_SIZE * 4, false, Image.FORMAT_RGBA8)
 	var names: Array = COLORS.keys()
 	for i in names.size():
-		atlas_image.fill_rect(Rect2i(i * CELL_SIZE, 0, CELL_SIZE, CELL_SIZE), COLORS[names[i]].darkened(0.2))
-		atlas_image.fill_rect(Rect2i(i * CELL_SIZE + 1, 1, CELL_SIZE - 2, CELL_SIZE - 2), COLORS[names[i]])
-		var art := _terrain_image(names[i])
-		if art != null:
-			atlas_image.blit_rect(art, Rect2i(0, 0, CELL_SIZE, CELL_SIZE), Vector2i(i * CELL_SIZE, 0))
+		for row in 4:
+			atlas_image.fill_rect(Rect2i(i * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE), COLORS[names[i]].darkened(0.2))
+			atlas_image.fill_rect(Rect2i(i * CELL_SIZE + 1, row * CELL_SIZE + 1, CELL_SIZE - 2, CELL_SIZE - 2), COLORS[names[i]])
+			var variant: Array = TERRAIN_VARIANTS.get(names[i], [])
+			var art := _terrain_image(names[i]) if row == 0 or variant.is_empty() else _terrain_image(names[i], variant[row - 1][0], variant[row - 1][1])
+			if art != null:
+				atlas_image.blit_rect(art, Rect2i(0, 0, CELL_SIZE, CELL_SIZE), Vector2i(i * CELL_SIZE, row * CELL_SIZE))
 	var atlas := TileSetAtlasSource.new()
 	atlas.texture = ImageTexture.create_from_image(atlas_image)
 	atlas.texture_region_size = Vector2i(CELL_SIZE, CELL_SIZE)
 	for i in names.size():
-		atlas.create_tile(Vector2i(i, 0))
+		for row in 4:
+			atlas.create_tile(Vector2i(i, row))
 	var tile_set := TileSet.new()
 	tile_set.tile_size = Vector2i(CELL_SIZE, CELL_SIZE)
 	tile_set.add_source(atlas, 0)
+	# Source 1: road pieces by neighbour mask (N 1, E 2, S 4, W 8) on grass.
+	var roads := Image.create(CELL_SIZE * 16, CELL_SIZE, false, Image.FORMAT_RGBA8)
+	var road_source := TileSetAtlasSource.new()
+	for mask in 16:
+		var piece := _road_image(mask)
+		if piece == null:
+			roads.fill_rect(Rect2i(mask * CELL_SIZE, 0, CELL_SIZE, CELL_SIZE), COLORS.road)
+		else:
+			roads.blit_rect(piece, Rect2i(0, 0, CELL_SIZE, CELL_SIZE), Vector2i(mask * CELL_SIZE, 0))
+	road_source.texture = ImageTexture.create_from_image(roads)
+	road_source.texture_region_size = Vector2i(CELL_SIZE, CELL_SIZE)
+	for mask in 16:
+		road_source.create_tile(Vector2i(mask, 0))
+	tile_set.add_source(road_source, 1)
 	tiles.tile_set = tile_set
 	tiles.z_index = -1
 	add_child(tiles)
@@ -185,8 +217,11 @@ func _build_tiles() -> void:
 	RenderingServer.set_default_clear_color(Color("171c25"))
 
 # One baked 32 px cell per terrain; null keeps the flat placeholder colour.
-func _terrain_image(terrain: String) -> Image:
-	var art: Array = TERRAIN_ART.get(terrain, [])
+func _terrain_image(terrain: String, base := 0, decoration := "") -> Image:
+	var art: Array = TERRAIN_ART.get(terrain, []).duplicate()
+	if base > 0 and not art.is_empty():
+		art[0] = base
+		art[1] = decoration
 	if art.is_empty() or not ResourceLoader.exists(ART + "Tile/medievalTile_%02d.png" % art[0]):
 		return null
 	var image: Image = load(ART + "Tile/medievalTile_%02d.png" % art[0]).get_image()
@@ -198,6 +233,11 @@ func _terrain_image(terrain: String) -> Image:
 		var extra: Image = load(overlay).get_image()
 		if extra != null and not extra.is_empty():
 			extra.convert(Image.FORMAT_RGBA8)
+			if base > 0:
+				# Variant decorations are small in their canvas: crop and enlarge them.
+				extra = extra.get_region(extra.get_used_rect())
+				var grow := minf(2.0, 44.0 / maxf(1.0, float(maxi(extra.get_width(), extra.get_height()))))
+				extra.resize(maxi(1, roundi(extra.get_width() * grow)), maxi(1, roundi(extra.get_height() * grow)), Image.INTERPOLATE_NEAREST)
 			image.blend_rect(extra, Rect2i(Vector2i.ZERO, extra.get_size()), (image.get_size() - extra.get_size()) / 2)
 	image.resize(CELL_SIZE, CELL_SIZE, Image.INTERPOLATE_BILINEAR)
 	var tint: Color = art[2]
@@ -206,6 +246,43 @@ func _terrain_image(terrain: String) -> Image:
 			for x in CELL_SIZE:
 				image.set_pixel(x, y, image.get_pixel(x, y) * tint)
 	return image
+
+# Kenney road overlays (transparent) by the directions they connect; the rest are
+# flips and turns of these. Mask bits: N 1, E 2, S 4, W 8.
+const ROAD_PIECES := {5: [8, ""], 10: [9, ""], 15: [10, ""], 14: [11, ""], 11: [12, ""], 6: [22, ""], 12: [23, ""],
+	8: [24, ""], 13: [25, ""], 7: [26, ""], 3: [22, "flip_y"], 9: [23, "flip_y"], 2: [24, "flip_x"],
+	1: [24, "clockwise"], 4: [24, "counterclockwise"], 0: [24, ""]}
+
+func _road_image(mask: int) -> Image:
+	var ground_path := ART + "Tile/medievalTile_57.png"
+	var piece: Array = ROAD_PIECES[mask]
+	var road_path := ART + "Tile/medievalTile_%02d.png" % piece[0]
+	if not ResourceLoader.exists(ground_path) or not ResourceLoader.exists(road_path):
+		return null
+	var image: Image = load(ground_path).get_image()
+	var road: Image = load(road_path).get_image()
+	if image == null or road == null:
+		return null
+	image.convert(Image.FORMAT_RGBA8)
+	road.convert(Image.FORMAT_RGBA8)
+	match piece[1]:
+		"flip_x": road.flip_x()
+		"flip_y": road.flip_y()
+		"clockwise": road.rotate_90(CLOCKWISE)
+		"counterclockwise": road.rotate_90(COUNTERCLOCKWISE)
+	image.blend_rect(road, Rect2i(Vector2i.ZERO, road.get_size()), Vector2i.ZERO)
+	image.resize(CELL_SIZE, CELL_SIZE, Image.INTERPOLATE_BILINEAR)
+	return image
+
+## Which neighbours of a road cell are road too (N 1, E 2, S 4, W 8).
+func road_mask(cell: Vector2i) -> int:
+	var mask := 0
+	var bits := [[Vector2i.UP, 1], [Vector2i.RIGHT, 2], [Vector2i.DOWN, 4], [Vector2i.LEFT, 8]]
+	for pair in bits:
+		var next: Vector2i = cell + pair[0]
+		if state.grid.region.has_point(next) and state.terrain[next.y][next.x] == "road":
+			mask |= pair[1]
+	return mask
 
 # Loops one track; an unknown or missing file leaves the current one playing.
 func _play_music(track: String) -> void:
@@ -238,7 +315,11 @@ func _build_ui() -> void:
 	panel.theme = Theme.new()
 	panel.theme.default_font_size = 18
 	panel.theme.default_font = ThemeDB.fallback_font
+	var wood: StyleBox = WoodTheme.frame("panel_brown.png", 12)
+	if wood != null:
+		panel.add_theme_stylebox_override("panel", wood)
 	layer.add_child(panel)
+	_build_resource_bar(layer)
 	_build_poi_window(layer, panel.theme)
 	ghost_panel.theme = panel.theme
 	layer.add_child(ghost_panel)
@@ -313,7 +394,8 @@ func _build_ui() -> void:
 	notebook.evidence_recorded.connect(func(): _save_game(true))
 	var margin := MarginContainer.new()
 	for side in ["left", "top", "right", "bottom"]:
-		margin.add_theme_constant_override("margin_" + side, 16)
+		margin.add_theme_constant_override("margin_" + side, 6)
+	margin.theme = WoodTheme.build(16)
 	panel.add_child(margin)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 5)
@@ -324,6 +406,8 @@ func _build_ui() -> void:
 	scroll.add_child(box)
 	var title := Label.new()
 	title.text = "MAPA DE VIAJE"
+	title.add_theme_color_override("font_color", Color("f3d27a"))
+	title.add_theme_font_size_override("font_size", 20)
 	box.add_child(title)
 	var portraits := HBoxContainer.new()
 	box.add_child(portraits)
@@ -356,9 +440,15 @@ func _build_ui() -> void:
 	army_notice.add_theme_font_size_override("font_size", 14)
 	army_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(army_notice)
-	var instructions := Label.new()
-	instructions.text = "Clic en el héroe: seleccionar\nClic en una casilla: preparar ruta\nBotón derecho: deseleccionar\nArrastrar botón central: cámara\nRueda: acercar / alejar"
-	instructions.add_theme_font_size_override("font_size", 15)
+	# Controls and travel costs live in a tooltip, not in the panel.
+	var instructions := Button.new()
+	instructions.flat = true
+	instructions.text = "Controles y costes (?)"
+	instructions.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	instructions.add_theme_font_size_override("font_size", 14)
+	instructions.add_theme_color_override("font_color", WoodTheme.DIM)
+	instructions.focus_mode = Control.FOCUS_NONE
+	instructions.tooltip_text = "Clic en el héroe: seleccionar\nClic en una casilla: preparar ruta\nBotón derecho: deseleccionar\nArrastrar botón central: cámara\nRueda: acercar / alejar\n\nCOSTE POR CASILLA\nCamino / pradera / campo: 1\nBosque / ruinas / nieve: 2\nPantano: 3\nAgua / montaña: impasable"
 	box.add_child(instructions)
 	box.add_child(route_info)
 	route_info.custom_minimum_size = Vector2(260, 60)
@@ -481,19 +571,49 @@ func _build_ui() -> void:
 		save_button.disabled = true
 		load_button.disabled = true)
 	dialogue.turn_finished.connect(_on_dialogue_finished)
-	var legend := Label.new()
-	legend.text = "COSTE POR CASILLA\nCamino / pradera / campo: 1\nBosque / ruinas / nieve: 2\nPantano: 3\nAgua / montaña: impasable"
-	legend.add_theme_font_size_override("font_size", 14)
-	box.add_child(legend)
-	var labels := ["Camino", "Pradera", "Bosque", "Pantano", "Montaña", "Agua", "Campo", "Ruinas", "Nieve"]
-	var swatches := HFlowContainer.new()
-	box.add_child(swatches)
-	for i in COLORS.size():
-		var swatch := Label.new()
-		swatch.text = "■ " + labels[i] + "  "
-		swatch.add_theme_color_override("font_color", COLORS.values()[i].lightened(0.2))
-		swatch.add_theme_font_size_override("font_size", 14)
-		swatches.add_child(swatch)
+	for pair in [[end_button, "hourglass"], [campaign_button, "book_open"], [equipment_button, "pouch"],
+			[side_button, "structure_house"], [ghost_button, "skull"]]:
+		pair[0].icon = WoodTheme.icon(pair[1])
+
+## Resource bar over the top of the map, in the manner of a strategy game's treasury.
+func _build_resource_bar(layer: CanvasLayer) -> void:
+	var bar := PanelContainer.new()
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.14, 0.1, 0.07, 0.92)
+	style.border_color = Color("b8913f")
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(4)
+	style.content_margin_left = 12
+	style.content_margin_right = 14
+	style.content_margin_top = 3
+	style.content_margin_bottom = 3
+	bar.add_theme_stylebox_override("panel", style)
+	bar.theme = WoodTheme.build(17)
+	bar.position = Vector2(12, 10)
+	layer.add_child(bar)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 6)
+	bar.add_child(row)
+	for id: String in ["gold", "wood", "ore", "mercury", "sulfur", "crystal", "gems"]:
+		var picture := TextureRect.new()
+		var path := "res://assets/third_party/saint11_resources/%s.png" % id
+		picture.texture = load(path) if ResourceLoader.exists(path) else null
+		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		picture.custom_minimum_size = Vector2(28, 28)
+		var name_text := str(state.economy.catalog.resource_names.get(id, id))
+		picture.tooltip_text = name_text.substr(0, 1).to_upper() + name_text.substr(1)
+		row.add_child(picture)
+		var amount := Label.new()
+		amount.custom_minimum_size.x = 44 if id == "gold" else 26
+		amount.tooltip_text = picture.tooltip_text
+		amount.mouse_filter = Control.MOUSE_FILTER_PASS
+		row.add_child(amount)
+		resource_labels[id] = amount
+	var gap := VSeparator.new()
+	row.add_child(gap)
+	day_label.add_theme_color_override("font_color", Color("f3d27a"))
+	row.add_child(day_label)
 
 func _build_poi_window(layer: CanvasLayer, ui_theme: Theme) -> void:
 	poi_modal.color = Color(0, 0, 0, 0.7)
@@ -697,6 +817,13 @@ func _resume_contact() -> void:
 		camera.position = tiles.map_to_local(state.hero_cell)
 		_start_battle(state.ghosts.pending_encounter.knight)
 
+## Atlas row for a cell: 0 is the plain tile, 1-3 the decorated variants.
+static func variant_row(cell: Vector2i, kind: String) -> int:
+	var mixed := hash(cell) & 0x7fffffff
+	if mixed % 10 >= int(VARIANT_SHARE.get(kind, 0)):
+		return 0
+	return 1 + (mixed / 10) % 3
+
 func _refresh() -> void:
 	# A tile shows terrain only, and explored cells are only ever added within one state:
 	# repaint everything for a new state, otherwise only the cells that have no tile yet.
@@ -710,7 +837,11 @@ func _refresh() -> void:
 		var names := COLORS.keys()
 		for cell: Vector2i in state.fog:
 			if painted == 0 or tiles.get_cell_source_id(cell) == -1:
-				tiles.set_cell(cell, 0, Vector2i(names.find(state.terrain[cell.y][cell.x]), 0))
+				var kind: String = state.terrain[cell.y][cell.x]
+				if kind == "road":
+					tiles.set_cell(cell, 1, Vector2i(road_mask(cell), 0))
+				else:
+					tiles.set_cell(cell, 0, Vector2i(names.find(kind), variant_row(cell, kind)))
 				fog_tiles.set_cell(cell, 0, Vector2i.ZERO)
 		painted = state.fog.size()
 	# Only the cells around unlocked heroes can be visible: re-dim the old ones, clear the new.
@@ -726,7 +857,10 @@ func _refresh() -> void:
 				if state.fog_at(cell) == WorldState.Fog.VISIBLE:
 					fog_tiles.erase_cell(cell)
 					lit.append(cell)
-	army_notice.text = "Oro: %d · Madera: %d · Mineral: %d\nMercurio: %d · Azufre: %d\nCristal: %d · Gemas: %d · Ejército: %d/7" % [state.resources.gold,state.resources.wood,state.resources.ore,state.resources.mercury,state.resources.sulfur,state.resources.crystal,state.resources.gems,state.army.size()]
+	army_notice.text = "Ejército: %d/7 destacamentos" % state.army.size()
+	for id in resource_labels:
+		resource_labels[id].text = str(state.resources.get(id, 0))
+	day_label.text = "Día %d · Semana %d" % [state.day, (state.day - 1) / 7 + 1]
 	hero.position = tiles.map_to_local(state.hero_cell)
 	hero.texture = hero_textures.get(state.party.active_id, hero_textures[""])
 	hero.modulate = Color.WHITE if hero_textures.has(state.party.active_id) else Color(state.party.active().definition.color)

@@ -92,7 +92,7 @@ func run() -> void:
 	map.arena.finish_button.pressed.emit()
 	check(not map.arena.visible and not map.save_button.disabled, "Returning restores world controls")
 	check(Save.read_save(path).state.encounters.opening_road.outcome == "retreated", "Settlement autosaves")
-	check(map.army_notice.text.contains("300"), "Resource HUD refreshes")
+	check(map.resource_labels.gold.text == "300", "Resource HUD refreshes")
 	map.state.end_turn()
 	map._open_poi(map.state.hero_cell)
 	map.battle_button.pressed.emit()

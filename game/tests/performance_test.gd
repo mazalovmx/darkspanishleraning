@@ -66,7 +66,9 @@ func run() -> void:
 	var names: Array = map.COLORS.keys()
 	var correct := true
 	for cell: Vector2i in state.fog:
-		if map.tiles.get_cell_atlas_coords(cell) != Vector2i(names.find(state.terrain[cell.y][cell.x]), 0):
+		var kind: String = state.terrain[cell.y][cell.x]
+		var expected := Vector2i(map.road_mask(cell), 0) if kind == "road" else Vector2i(names.find(kind), map.variant_row(cell, kind))
+		if map.tiles.get_cell_atlas_coords(cell) != expected or map.tiles.get_cell_source_id(cell) != (1 if kind == "road" else 0):
 			correct = false
 	check(correct, "Each painted tile matches its terrain")
 

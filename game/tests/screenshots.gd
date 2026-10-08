@@ -27,6 +27,17 @@ func run() -> void:
 	root.add_child(map)
 	await process_frame
 	await shot("03_map")
+	# A wider explored area, zoomed out, to see the terrain variants.
+	var origin: Vector2i = map.state.hero_cell
+	for y in range(origin.y - 30, origin.y + 31):
+		for x in range(origin.x - 40, origin.x + 41):
+			if map.state.grid.region.has_point(Vector2i(x, y)):
+				map.state.fog[Vector2i(x, y)] = 1
+	map._refresh()
+	var zoom: Vector2 = map.camera.zoom
+	map.camera.zoom = Vector2(0.7, 0.7)
+	await shot("03b_map_wide")
+	map.camera.zoom = zoom
 	var state = map.state
 	for location: Dictionary in state.locations:
 		if location.id == "LOC01":

@@ -2190,3 +2190,27 @@ four player stacks, a strike with its damage number, and the retreat banner.
 
 Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Map interface and terrain detail
+
+- Resource bar over the top of the map: saint11's CC0 resource icons with the amount of
+  each resource, then day and week (`resource_labels`, `day_label`). The side panel's
+  army line now reads "Ejército: n/7 destacamentos"; battle_integration_test checks the
+  gold label instead of that line.
+- Side panel on a Kenney UI RPG wooden frame (`src/common/wood_theme.gd`: light text,
+  brown buttons with pressed and grey states); the main buttons carry Board Game Icons
+  (hourglass, book, pouch, house, skull). Controls and travel costs moved into the
+  tooltip of "Controles y costes (?)"; the colour swatch legend (it described the old
+  flat colours) was removed.
+- Terrain variants: each terrain has three decorated atlas rows (bushes and small
+  trees on grass, other tree tiles in forests, rocks in mountains and ruins, pines in
+  snow), chosen per cell by `hash(cell)` (`variant_row`), 10-100% depending on terrain.
+- Roads follow their shape: a second atlas source holds 16 road pieces by neighbour
+  mask (Kenney's transparent road overlays on grass, with flips and turns for the
+  missing corners and dead ends; `road_mask`). performance_test checks source and
+  atlas coordinates per cell; the rebuild timing stays inside its budget.
+Rendered in a window (Xvfb + Mesa, 1280×720) and inspected: the start view and a wider
+explored area; the town panel over the new HUD.
+
+Executed for this commit: the full non-live run, 54 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
