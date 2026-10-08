@@ -34,9 +34,14 @@ func learn(state: RefCounted) -> void:
 	check(course.completed(), "Entire ordered course completed")
 	consult_index(state)
 
-## The crisis cards need a consultation of El Índice; campaign walks get it here.
+## Campaign walks get the conversations the cards need: El Índice's consultations and
+## a talk with every speaker named by an "s:" requirement.
 func consult_index(state: RefCounted) -> void:
 	state.npc_memory["el_indice"] = {"count": 2, "last_day": 1, "topics": ["ask_crisis", "ask_ordinary_day"]}
+	for node: Dictionary in state.campaign.definitions.values():
+		for need: String in node.requires:
+			if need.begins_with("s:") and not state.npc_memory.has(need.trim_prefix("s:")):
+				state.npc_memory[need.trim_prefix("s:")] = {"count": 1, "last_day": 1, "topics": []}
 func visit(state: RefCounted, location_id: String) -> void:
 	for location: Dictionary in state.locations:
 		if location.id == location_id:
@@ -76,6 +81,12 @@ func run() -> void:
 	check(guarded.campaign.pending_consultations(guarded).any(func(hint: String) -> bool: return hint.contains("Fermín Cuesta")), "The journal says whom to ask for permission")
 	guarded.remember("fermin_cuesta", "ask_permission", guarded.day)
 	check(guarded.campaign.available(guarded).has("sealed_order"), "Asking to enter opens the archive card")
+	check(campaign._proof_day(state, "s:beatriz_orma", {}) == 1, "A talk with the speaker proves an s: requirement")
+	var quiet := World.new("province_160x120_v1")
+	check(quiet.campaign._proof_day(quiet, "s:beatriz_orma", {}) == 0, "No talk, no proof")
+	quiet.campaign.records["sealed_order"] = {"day": 1, "hero": "inquisitor", "answer": str(quiet.campaign.definitions.sealed_order.answers[0]), "classification": str(quiet.campaign.definitions.sealed_order.classification), "supports": []}
+	complete_opening(quiet)
+	check(quiet.campaign.pending_consultations(quiet).any(func(hint: String) -> bool: return hint.begins_with("Habla con Aureliano Veyra")), "The journal names the speaker to talk to")
 	var fresh := World.new("province_160x120_v1")
 	fresh.campaign.records["archive_meeting"] = {"day": 1, "hero": "inquisitor", "answer": str(fresh.campaign.definitions.archive_meeting.answers[0]), "classification": str(fresh.campaign.definitions.archive_meeting.classification), "supports": []}
 	check(fresh.campaign.pending_consultations(fresh).any(func(hint: String) -> bool: return hint.contains("El Índice")), "The journal names the pending consultation")

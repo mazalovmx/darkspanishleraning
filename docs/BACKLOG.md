@@ -67,8 +67,10 @@ its own multi-session plan and scenario-bible review per NPC.
 - Acts II-VII are sentence-entry cards. Each accepts its model, two authored
   paraphrases or the player's own sentence that meets the card's authored keys; the
   hint button names the needs instead of showing the model. The council resolution
-  is still an exact choice among the proposals shown. Move the investigative cards to
-  grounded conversation plus inspection as in Act I.
+  is still an exact choice among the proposals shown. 36 cards of Acts II-VII open
+  only after a conversation with their speaker ("s:" requirement; the journal names
+  whom to talk to); cards whose speaker has no conversation at that place, or whose
+  conversation opens only later, keep the old rule.
 - The 108 optional cases still check grammar through nine templates (one target form
   each); their per-quest `independent_task`, `recall_task` and `model_frame` are now
   shown.

@@ -2513,3 +2513,21 @@ census; nothing for a case not yet concluded).
 
 Executed for this commit: the full non-live run, 58 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Acts II-VII: talk to the speaker before writing the card
+
+Campaign requirements accept "s:<npc>" (the player has talked with that character).
+36 cards of Acts II-VII whose speaker has a conversation at the card's place, available
+no later than the card, now require it (matched by the speaker's most distinctive name;
+esteban_choice was excluded after a false match with Brother Gabriel). The journal's
+"CONSULTAS PENDIENTES" lists, for every card that waits only on a conversation, "Habla
+con <speaker> (<place>) antes de anotar «<card>»." unless the card has its own hint.
+Not converted: cards whose speaker has no conversation there (Elias at LOC18 and LOC01,
+council statements of Inés, Elias, Ysabel and Esteban, the forged-order crisis card)
+and the two crisis cards whose conversation opens only after them. Restoring a recorded
+card does not recheck "s:" either. The shared test helper gives campaign walks these
+conversations; campaign_test checks the proof and the hint (Bishop Veyra after the
+sealed order).
+
+Executed for this commit: the full non-live run, 58 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

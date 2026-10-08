@@ -66,6 +66,8 @@
       "classification": "reported",
       "requires": [
         "sealed_order"
+      ,
+        "s:aureliano_veyra"
       ],
       "min_block": 1,
       "grammar": [],
@@ -96,6 +98,8 @@
       "requires": [
         "sealed_order",
         "bishop_reason"
+      ,
+        "s:beatriz_orma"
       ],
       "min_block": 1,
       "grammar": [],
@@ -160,6 +164,8 @@
       "classification": "observed",
       "requires": [
         "ines_arrival"
+      ,
+        "s:nicolas_ferrer"
       ],
       "min_block": 2,
       "grammar": [
@@ -191,6 +197,8 @@
       "classification": "observed",
       "requires": [
         "notebook_route"
+      ,
+        "s:julian_pardo"
       ],
       "min_block": 2,
       "grammar": [
@@ -222,6 +230,8 @@
       "classification": "reported",
       "requires": [
         "copying_method"
+      ,
+        "s:hermano_gabriel"
       ],
       "min_block": 2,
       "grammar": [
@@ -253,6 +263,8 @@
       "classification": "inferred",
       "requires": [
         "roque_account"
+      ,
+        "s:beatriz_orma"
       ],
       "min_block": 2,
       "grammar": [
@@ -287,6 +299,8 @@
       "classification": "observed",
       "requires": [
         "tomas_cause"
+      ,
+        "s:simon_vale"
       ],
       "min_block": 3,
       "grammar": [
@@ -318,6 +332,8 @@
       "classification": "reported",
       "requires": [
         "tomas_cause"
+      ,
+        "s:remedios_galan"
       ],
       "min_block": 3,
       "grammar": [
@@ -351,6 +367,8 @@
       "requires": [
         "leon_valve",
         "leon_threat"
+      ,
+        "s:simon_vale"
       ],
       "min_block": 3,
       "grammar": [
@@ -418,6 +436,8 @@
       "classification": "reported",
       "requires": [
         "gaspar_protocol"
+      ,
+        "s:marta_ugarte"
       ],
       "min_block": 3,
       "grammar": [
@@ -488,6 +508,8 @@
       "requires": [
         "leon_cause",
         "gaspar_cause"
+      ,
+        "s:clara_ibarra"
       ],
       "min_block": 3,
       "grammar": [
@@ -550,6 +572,8 @@
       "classification": "inferred",
       "requires": [
         "esteban_choice"
+      ,
+        "s:beatriz_orma"
       ],
       "min_block": 3,
       "grammar": [
@@ -677,6 +701,8 @@
       "classification": "declared",
       "requires": [
         "ysabel_account"
+      ,
+        "s:lucio_salcedo"
       ],
       "min_block": 5,
       "grammar": [
@@ -776,6 +802,8 @@
       "classification": "inferred",
       "requires": [
         "ordinary_tuesday"
+      ,
+        "s:ysabel_de_la_sal"
       ],
       "min_block": 5,
       "grammar": [
@@ -900,6 +928,8 @@
         "crisis_convoy",
         "crisis_occupation",
         "crisis_forged_order"
+      ,
+        "s:aureliano_veyra"
       ],
       "supports": [
         "crisis_forged_order",
@@ -1058,6 +1088,8 @@
       "classification": "observed",
       "requires": [
         "purge_decision"
+      ,
+        "s:beatriz_orma"
       ],
       "min_block": 6,
       "grammar": [],
@@ -1118,6 +1150,8 @@
       "classification": "inferred",
       "requires": [
         "purge_decision"
+      ,
+        "s:baltasar_quiroga"
       ],
       "min_block": 6,
       "grammar": [
@@ -1152,6 +1186,8 @@
       "classification": "declared",
       "requires": [
         "purge_decision"
+      ,
+        "s:aureliano_veyra"
       ],
       "min_block": 6,
       "grammar": [
@@ -1213,6 +1249,8 @@
       "classification": "observed",
       "requires": [
         "legal_distinction"
+      ,
+        "s:catalina_rius"
       ],
       "min_block": 2,
       "grammar": [
@@ -1238,6 +1276,8 @@
       "classification": "declared",
       "requires": [
         "grain_records"
+      ,
+        "s:catalina_rius"
       ],
       "min_block": 2,
       "grammar": [],
@@ -1296,6 +1336,8 @@
       "requires": [
         "grain_records",
         "bakery_choice"
+      ,
+        "s:damian_soler"
       ],
       "min_block": 2,
       "grammar": [
@@ -1333,6 +1375,8 @@
       "classification": "observed",
       "requires": [
         "leon_cause"
+      ,
+        "s:pilar_montoya"
       ],
       "min_block": 3,
       "grammar": [
@@ -1357,6 +1401,8 @@
       "classification": "declared",
       "requires": [
         "ventilation_records"
+      ,
+        "s:pilar_montoya"
       ],
       "min_block": 3,
       "grammar": [],
@@ -1410,6 +1456,8 @@
       "requires": [
         "ventilation_records",
         "ventilation_choice"
+      ,
+        "s:beatriz_orma"
       ],
       "min_block": 4,
       "grammar": [],
@@ -1443,6 +1491,8 @@
       "classification": "observed",
       "requires": [
         "elias_arrival"
+      ,
+        "s:agueda_llorente"
       ],
       "min_block": 4,
       "grammar": [],
@@ -1466,6 +1516,8 @@
       "classification": "declared",
       "requires": [
         "capacitor_records"
+      ,
+        "s:agueda_llorente"
       ],
       "min_block": 4,
       "grammar": [],
@@ -1524,6 +1576,8 @@
       "requires": [
         "capacitor_records",
         "capacitor_choice"
+      ,
+        "s:elias_venn"
       ],
       "min_block": 5,
       "grammar": [
@@ -1560,6 +1614,8 @@
       "classification": "observed",
       "requires": [
         "legal_distinction"
+      ,
+        "s:anselmo_vidal"
       ],
       "min_block": 1,
       "grammar": [],
@@ -1590,6 +1646,8 @@
       "classification": "inferred",
       "requires": [
         "confession_record"
+      ,
+        "s:hernando_ruiz"
       ],
       "min_block": 1,
       "grammar": [],
@@ -1624,6 +1682,8 @@
       "classification": "observed",
       "requires": [
         "notebook_route"
+      ,
+        "s:tobias_marin"
       ],
       "min_block": 2,
       "grammar": [],
@@ -1656,6 +1716,8 @@
       "classification": "inferred",
       "requires": [
         "letter_seal"
+      ,
+        "s:beatriz_orma"
       ],
       "min_block": 2,
       "grammar": [],
@@ -1689,6 +1751,8 @@
       "classification": "observed",
       "requires": [
         "leon_cause"
+      ,
+        "s:simon_vale"
       ],
       "min_block": 3,
       "grammar": [],
@@ -1722,6 +1786,8 @@
       "classification": "reported",
       "requires": [
         "simon_engine"
+      ,
+        "s:lorenzo_villar"
       ],
       "min_block": 3,
       "grammar": [],
@@ -1745,6 +1811,8 @@
       "classification": "declared",
       "requires": [
         "simon_demands"
+      ,
+        "s:simon_vale"
       ],
       "min_block": 3,
       "grammar": [],
@@ -1816,6 +1884,8 @@
       "requires": [
         "simon_demands",
         "elias_arrival"
+      ,
+        "s:simon_vale"
       ],
       "supports": [
         "simon_engine",
@@ -1852,6 +1922,8 @@
         "council_ysabel",
         "council_ines",
         "council_elias"
+      ,
+        "s:beatriz_orma"
       ],
       "supports": [
         "council_inferred",

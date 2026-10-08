@@ -8,6 +8,10 @@ const CLASSIFICATIONS := ["observed", "reported", "inferred", "declared", "unres
 func _proof_day(world: RefCounted, id: String, progress: Dictionary) -> int:
 	# "t:<npc>:<intent>": the player asked that character about it (conversation memory
 	# keeps topics, not their day, so a remembered topic counts from day 1).
+	# "s:<npc>": the player has talked with that character (the conversation-first rule
+	# of Act I applied to the later acts).
+	if id.begins_with("s:"):
+		return 1 if world.npc_memory.has(id.trim_prefix("s:")) else 0
 	if id.begins_with("t:"):
 		var parts := id.split(":")
 		return 1 if parts.size() == 3 and parts[2] in world.npc_memory.get(parts[1], {}).get("topics", []) else 0
@@ -21,7 +25,7 @@ func prerequisites(world: RefCounted, node: Dictionary, progress: Dictionary, da
 	if closed(world, node, progress):
 		return false
 	for id: String in node.requires + node.get("supports", []):
-		if restoring and id.begins_with("t:"):
+		if restoring and (id.begins_with("t:") or id.begins_with("s:")):
 			continue
 		var found := _proof_day(world, id, progress)
 		if found < 1 or found > day:
@@ -46,24 +50,34 @@ func language_ready(world: RefCounted, node: Dictionary, day: int) -> bool:
 			return false
 	return true
 
+func _place(world: RefCounted, location_id: String) -> String:
+	for location: Dictionary in world.locations:
+		if location.id == location_id:
+			return str(location.name)
+	return location_id
+
 ## Cards that wait only for a conversation ("t:" requirement), with their hints.
 func pending_consultations(world: RefCounted) -> Array[String]:
 	var hints: Array[String] = []
 	for id: String in definitions:
 		var node: Dictionary = definitions[id]
-		if records.has(id) or not node.has("consult_hint") or closed(world, node, records):
+		if records.has(id) or closed(world, node, records):
 			continue
 		var waiting := false
 		var ready := true
 		for need: String in node.requires + node.get("supports", []):
 			var found := _proof_day(world, need, records)
 			if found < 1 or found > world.day:
-				if need.begins_with("t:"):
+				if need.begins_with("t:") or need.begins_with("s:"):
 					waiting = true
 				else:
 					ready = false
 		if waiting and ready:
-			hints.append(str(node.consult_hint))
+			var hint := str(node.get("consult_hint", ""))
+			if hint.is_empty():
+				hint = "Habla con %s (%s) antes de anotar «%s»." % [str(node.speaker).get_slice(",", 0), _place(world, str(node.location)), node.title]
+			if hint not in hints:
+				hints.append(hint)
 	return hints
 
 func available(world: RefCounted) -> Array:
