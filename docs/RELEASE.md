@@ -28,7 +28,7 @@ the keys from the process environment, and without any key it plays offline.
   the province map for 200 frames each without errors.
 
 Not verified: the `.exe` itself on Windows (no Windows machine here), frame rate on a
-weak PC, an application icon (the preset uses the default).
+weak PC, how Windows shows the icon (see below).
 
 ## Icon
 
