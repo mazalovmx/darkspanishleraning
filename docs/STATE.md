@@ -2884,3 +2884,18 @@ Mexican/Spain variants authored in the catalog remain accepted.
 Executed on Windows: vocabulary_test 174 (including the panel's repeated Enter),
 learner_progress_test 22 and save_game_test 540: 736 checks, zero failures,
 exit 0, no script/parse errors. Panel instantiated headlessly, not visually reviewed.
+## Faster frozen-plan validation without weaker visibility checks (2026-10-08)
+
+The Windows audit failed the world-turn timing budget. Profiling showed repeated
+parsing of every saved visibility coordinate during frozen-plan validation. The
+validator now constructs canonical keys from the current in-bounds fog cells once
+per call, then validates membership and actual boolean values. Hidden cells,
+noncanonical coordinates, changed visibility, actor/order mutations and malformed
+saves are still rejected; no cache persists across calls and the save schema is unchanged.
+
+Executed on Windows, sequentially: simultaneous_turn_test 44 (including 11 extra
+invalid/changed visibility cases), ghost_persistence_test 340, ghost_world_test 155,
+province_scene_test 64, performance_test 19. Five suites, 622 checks, zero failures,
+exit 0, no script/parse errors. The performance run passes all original budgets;
+budgets were not relaxed. Headless timing is not FPS or a weak-PC visual acceptance.
+Original audit failures remain documented, and shutdown leak warnings remain.

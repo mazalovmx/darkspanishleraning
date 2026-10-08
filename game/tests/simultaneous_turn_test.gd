@@ -48,6 +48,18 @@ func run() -> void:
 			"wrong_day": bad.day = 2
 			"boolean": bad.actors.NK01.movement = true
 		check(not restored.restore(bad,world) and restored.snapshot() == saved,"Bad plan rejected atomically: " + fault)
+	for key in ["02,10", "+2,10", "2, 10", "2,10,0", "-1,10", "20,10", Vector2i(2,10)]:
+		var bad := saved.duplicate(true)
+		bad.known[key] = true
+		check(not restored.restore(bad,world) and restored.snapshot() == saved, "Noncanonical or out-of-map visibility rejected: " + str(key))
+	for value in [false, 1, "true"]:
+		var bad := saved.duplicate(true)
+		bad.known["2,10"] = value
+		check(not restored.restore(bad,world), "Visibility needs a real true boolean")
+	var old_visibility: int = world.fog[Vector2i(4,10)]
+	world.fog[Vector2i(4,10)] = world.Fog.UNKNOWN
+	check(not restored.restore(saved,world), "Revalidation sees changed visibility, not cached keys")
+	world.fog[Vector2i(4,10)] = old_visibility
 	check(not plan.plan_move(world,"NK01",Vector2i(5,10)),"Player cannot replace knight order")
 	check(not plan.plan_move(world,"inquisitor",Vector2i(19,19)),"Hidden destination cannot be queued")
 	check(plan.cancel_move("inquisitor") and plan.orders.inquisitor.kind == "guard","Player can replace own route with guard")

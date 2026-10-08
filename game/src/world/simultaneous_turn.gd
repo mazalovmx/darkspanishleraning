@@ -86,14 +86,15 @@ func restore(data: Variant,world: RefCounted) -> bool:
 		return false
 	if data.actors.is_empty() or data.actors.size() > 6 or data.orders.size() != data.actors.size() or data.known.size() > world.grid.region.size.x*world.grid.region.size.y:
 		return false
+	# Build canonical visible keys once instead of parsing up to 19,200 coordinate
+	# strings on every validation. Membership still rejects hidden/out-of-map cells
+	# and noncanonical spellings; this is local to this call, never a stale cache.
+	var visible_keys := {}
+	for cell: Vector2i in world.fog:
+		if world.grid.region.has_point(cell) and world.fog_at(cell) != world.Fog.UNKNOWN:
+			visible_keys["%d,%d" % [cell.x, cell.y]] = true
 	for key in data.known:
-		if not key is String or not data.known[key] is bool or data.known[key] != true:
-			return false
-		var pieces: PackedStringArray = key.split(",")
-		if pieces.size() != 2 or not pieces[0].is_valid_int() or not pieces[1].is_valid_int():
-			return false
-		var cell := Vector2i(int(pieces[0]),int(pieces[1]))
-		if key != "%d,%d" % [cell.x,cell.y] or not world.grid.region.has_point(cell) or world.fog_at(cell) == world.Fog.UNKNOWN:
+		if not key is String or not data.known[key] is bool or data.known[key] != true or not visible_keys.has(key):
 			return false
 	var knights := 0
 	for id in data.actors:
