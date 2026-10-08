@@ -166,6 +166,7 @@ func _ready() -> void:
 	_refresh()
 	_update_preview()
 	_play_music("minstrel_dance.mp3")
+	Settings.apply_effects(Settings.audio(dialogue.client.config))
 
 	if persistence_enabled:
 		_load_game(true)

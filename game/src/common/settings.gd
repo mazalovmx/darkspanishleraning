@@ -16,6 +16,13 @@ static func audio(config: Dictionary, path := PATH) -> Dictionary:
 				result[key] = clampf(float(value), -40.0, 0.0)
 	return result
 
+## Sounds played on the "SFX" bus (battle) follow the effects setting.
+static func apply_effects(audio: Dictionary) -> void:
+	var bus := AudioServer.get_bus_index(&"SFX")
+	if bus >= 0:
+		AudioServer.set_bus_mute(bus, not bool(audio.get("sfx", true)))
+		AudioServer.set_bus_volume_db(bus, float(audio.get("sfx_db", -8.0)))
+
 static func save_audio(values: Dictionary, path := PATH) -> bool:
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file == null:

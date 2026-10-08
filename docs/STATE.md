@@ -2679,3 +2679,16 @@ write/read PASS. Not rendered in a window.
 - Executed: `--export-pack "Windows Desktop"` with Godot 4.6.2 on Linux: the pack holds
   `config/game.json` and every `content/**/*.json`, and no test file. Not executed: the
   `.exe` export from a clean checkout and running it on Windows.
+
+## Battle sounds follow the sound setting
+
+- Battle sounds play on the "SFX" bus; nothing applied the player's "Sonidos" setting to
+  it, so they played with the effects switched off. `Settings.apply_effects` mutes the
+  bus and sets its volume from the setting; the title screen applies it on every change
+  and the map once on start. Map interface sounds keep their own player and volume.
+- Tests: title_menu_test (switching sounds off mutes the bus; the slider sets its volume).
+  The sound itself was not listened to.
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS.
