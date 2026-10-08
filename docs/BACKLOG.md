@@ -67,7 +67,8 @@ its own multi-session plan and scenario-bible review per NPC.
 - Acts II-VII are sentence-entry cards. Each accepts its model, two authored
   paraphrases or the player's own sentence that meets the card's authored keys; the
   hint button names the needs instead of showing the model. The council resolution
-  is still an exact choice among the proposals shown. 36 cards of Acts II-VII open
+  takes the player's own proposal (one option, "propongo que…", a limit); the other
+  five decisions are still exact choices. 36 cards of Acts II-VII open
   only after a conversation with their speaker ("s:" requirement; the journal names
   whom to talk to); cards whose speaker has no conversation at that place, or whose
   conversation opens only later, keep the old rule.
@@ -102,7 +103,8 @@ its own multi-session plan and scenario-bible review per NPC.
   sellers (bread and water at LOC07 and LOC02), all with the four grammar tiers.
   Guard: Fermín Cuesta lets the investigator into the archive when asked in Spanish
   (needed for the first archive card). Toll: a pass at Puente Seco; without it each
-  bridge costs 4 extra movement. Missing smuggler; survival dialogues of
+  bridge costs 4 extra movement. Smuggler: rare resources for gold at Marjal Negro.
+  Missing survival dialogues of
   section 30 for water, road safety, stable, complaint and permission.
 - Learner features: the lessons panel has a "Progreso y repaso" tab (block progress,
   most frequent errors by Spanish name with an example, review of studied lessons with
@@ -157,7 +159,8 @@ its own multi-session plan and scenario-bible review per NPC.
   laboratory, lumber yard), San Vélaro farms. Balance unplaytested.
 - Optional cases: concluded cases, the 12 comparisons and the 24 outcomes appear in
   the notebook; the outcome is shown at the case's place, and a character there
-  reacts to it when asked about the case. The comparisons are read, not answered.
+  reacts to it when asked about the case. Each comparison takes the player's own
+  sentence (both cases named, a comparing word).
 - Soul specials: besides the generic one-source counter, each set has its own action
   ("Poder del alma" in the knights panel): wards for one world turn (SA01, SA06),
   restored copy (SA02), rumour source (SA03), two-turn one-source route (SA04), missing
