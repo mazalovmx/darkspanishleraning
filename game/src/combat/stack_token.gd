@@ -20,8 +20,8 @@ func _init() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	custom_minimum_size = Vector2(120, 130)
 	size = custom_minimum_size
-	mouse_entered.connect(queue_redraw)
-	mouse_exited.connect(queue_redraw)
+	# The battlefield under the tokens takes every click and hover by hex.
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 ## The point where the stack stands (the hex centre) in local coordinates.
 func foot() -> Vector2:
@@ -36,8 +36,6 @@ func _draw() -> void:
 	elif targeted:
 		draw_colored_polygon(outline.slice(0, 6), Color(0.85, 0.2, 0.15, 0.32))
 		draw_polyline(outline, Color("e0533f"), 3.0)
-	elif selectable and is_hovered():
-		draw_colored_polygon(outline.slice(0, 6), Color(1, 1, 1, 0.16))
 	if count <= 0:
 		var skull: Texture2D = load(SKULL) if ResourceLoader.exists(SKULL) else null
 		if skull != null:

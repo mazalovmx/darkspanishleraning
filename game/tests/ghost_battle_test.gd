@@ -26,7 +26,8 @@ func run() -> void:
 			if knight.battle.script.first_round == "DEFEND":
 				check(battle.stacks[i].defending,"First-round guard is executed")
 			elif knight.battle.script.first_round == "ABILITY":
-				check(battle.stacks[i].ability_used,"First-round special is executed")
+				# Out of reach, a knight walks towards its target instead of spending the special.
+				check(battle.stacks[i].ability_used or battle.stacks[i].cell.x != Battle.COLUMNS - 1,"First-round special is executed or the knight advances")
 		var turns := 0
 		while battle.outcome.is_empty() and battle.round_number < 4 and turns < 100:
 			check(battle.act("defend"),"Scripted encounter advances")

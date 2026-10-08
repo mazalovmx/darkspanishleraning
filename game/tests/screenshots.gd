@@ -118,7 +118,19 @@ func run() -> void:
 	map.arena.attack_button.pressed.emit()
 	await create_timer(0.36).timeout
 	await shot("07b_arena_strike")
+	await create_timer(2.0).timeout
+	# Walk the acting stack three hexes forward and capture it on the way.
+	var actor: int = map.arena.battle.current()
+	var goal: Vector2i = map.arena.battle.stacks[actor].cell + Vector2i(3, 0)
+	for cell: Vector2i in map.arena.battle.reachable(actor):
+		if cell.x == goal.x:
+			goal = cell
+			break
+	map.arena._on_hex(goal, map.arena.field.center_of(goal))
+	await create_timer(0.15).timeout
+	await shot("07d_arena_walk")
 	await create_timer(3.0).timeout
+	await shot("07e_arena_after")
 	map.arena.retreat_button.pressed.emit()
 	await create_timer(0.5).timeout
 	await shot("07c_arena_result")

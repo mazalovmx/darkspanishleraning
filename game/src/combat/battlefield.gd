@@ -1,7 +1,11 @@
 extends Control
-## Battle ground in the manner of a hex battlefield: terrain tiles from the map's terrain,
-## scattered trees and rocks along the edges, and a hex grid. Purely visual: the battle
-## rules have no positions (master spec 13).
+## Battle ground in the manner of Heroes III: terrain tiles from the map's terrain, trees
+## and rocks along the edges, the 11×7 hex grid of stack_battle.gd with its rocks, the
+## hexes the acting stack can reach and the hex under the mouse. Clicks on a hex go to
+## the arena through hex_clicked.
+signal hex_clicked(cell: Vector2i, point: Vector2)
+signal hex_hovered(cell: Vector2i)
+const Battle = preload("res://src/combat/stack_battle.gd")
 const TILE := "res://assets/third_party/kenney_medieval_rts/Tile/medievalTile_%02d.png"
 const ENV := "res://assets/third_party/kenney_medieval_rts/Environment/medievalEnvironment_%02d.png"
 # Ground tile, decoration pieces and tint by map terrain.
@@ -15,20 +19,65 @@ const GROUND := {
 	"ruins": [16, [9, 8, 6, 7, 14], Color(0.86, 0.8, 0.74)],
 	"snow": [29, [3, 4, 11, 7], Color.WHITE],
 	"water": [1, [7, 14, 13], Color.WHITE]}
-const COLUMNS := 11
-const ROWS := 7
+const COLUMNS := Battle.COLUMNS
+const ROWS := Battle.ROWS
+# Piece drawn on a rock hex, by terrain.
+const OBSTACLE := {"grass": [9, 4], "road": [9, 2], "field": [15, 6], "forest": [4, 2], "marsh": [6, 13],
+	"mountain": [10, 9], "ruins": [9, 8], "snow": [11, 4], "water": [9, 8]}
 var terrain := "grass"
+var obstacles: Array[Vector2i] = []
+var reachable: Array = []
+var hovered := Battle.NOWHERE
+## Text for the tooltip over a hex (the arena describes stacks); empty for none.
+var describe: Callable
 var seed_value := 1
 var textures := {}
 
 func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	mouse_filter = Control.MOUSE_FILTER_STOP
 	resized.connect(queue_redraw)
 
-func setup(kind: String, value: int) -> void:
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		var cell := cell_at(event.position)
+		if cell != hovered:
+			hovered = cell
+			hex_hovered.emit(cell)
+			queue_redraw()
+	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		var cell := cell_at(event.position)
+		if cell != Battle.NOWHERE:
+			hex_clicked.emit(cell, event.position)
+
+func _get_tooltip(at_position: Vector2) -> String:
+	var cell := cell_at(at_position)
+	return describe.call(cell) if cell != Battle.NOWHERE and describe.is_valid() else ""
+
+## The hex under a point of this control, or NOWHERE.
+func cell_at(point: Vector2) -> Vector2i:
+	var hex := hex_size()
+	var best := Battle.NOWHERE
+	var nearest := hex.x * 0.55
+	for row in ROWS:
+		for column in COLUMNS:
+			var gap := point.distance_to(cell_center(column, row))
+			if gap < nearest:
+				nearest = gap
+				best = Vector2i(column, row)
+	return best
+
+func center_of(cell: Vector2i) -> Vector2:
+	return cell_center(cell.x, cell.y)
+
+func setup(kind: String, value: int, rocks: Array[Vector2i] = []) -> void:
 	terrain = kind if GROUND.has(kind) else "grass"
 	seed_value = value
+	obstacles = rocks.duplicate()
+	queue_redraw()
+
+func show_reach(cells: Array) -> void:
+	reachable = cells
 	queue_redraw()
 
 func _texture(path: String) -> Texture2D:
@@ -51,10 +100,6 @@ func cell_center(column: int, row: int) -> Vector2:
 	var height := hex.y * (ROWS * 0.75 + 0.25)
 	var origin := field_rect().get_center() - Vector2(width, height) / 2.0
 	return origin + Vector2(hex.x * (column + 0.5 + (0.5 if row % 2 == 1 else 0.0)), hex.y * (0.5 + row * 0.75))
-
-## Rows used by n stacks on one side, spread over the seven rows.
-static func rows_for(count: int) -> Array:
-	return [[3], [3], [2, 4], [1, 3, 5], [0, 2, 4, 6], [1, 2, 3, 4, 5], [0, 1, 2, 4, 5, 6], [0, 1, 2, 3, 4, 5, 6]][clampi(count, 0, 7)]
 
 ## Pointy-top hex outline (closed: seven points).
 static func hex_points(center: Vector2, hex: Vector2) -> PackedVector2Array:
@@ -83,11 +128,10 @@ func _draw() -> void:
 	# Trees and rocks in the bands above and below the grid, and a few at the far sides.
 	var pieces: Array = setting[1]
 	var spots: Array = []
-	for i in 34:
-		var x := rng.randf_range(0, size.x)
-		var top := rng.randf() < 0.5
-		var y := rng.randf_range(field.position.y - 10, grid_top + 6) if top else rng.randf_range(grid_bottom - 6, field.end.y + 20)
-		spots.append(Vector2(x, y))
+	# Decoration stays off the grid so it is never mistaken for a rock that blocks a hex:
+	# a band above the grid (pieces grow upwards from their foot) and the far sides.
+	for i in 24:
+		spots.append(Vector2(rng.randf_range(0, size.x), rng.randf_range(field.position.y - 40, grid_top - 2)))
 	for i in 10:
 		var left := rng.randf() < 0.5
 		spots.append(Vector2(rng.randf_range(0, cell_center(0, 0).x - hex.x * 0.8) if left else rng.randf_range(cell_center(COLUMNS - 1, 1).x + hex.x * 0.8, size.x), rng.randf_range(grid_top, grid_bottom)))
@@ -105,6 +149,19 @@ func _draw() -> void:
 			var points := hex_points(cell_center(column, row), hex)
 			draw_colored_polygon(points.slice(0, 6), Color(0, 0, 0, 0.06))
 			draw_polyline(points, Color(0.1, 0.08, 0.04, 0.32), 1.5)
+	for cell in reachable:
+		var points := hex_points(center_of(cell), hex)
+		draw_colored_polygon(points.slice(0, 6), Color(1.0, 0.93, 0.6, 0.22))
+		draw_polyline(points, Color(1.0, 0.9, 0.5, 0.55), 1.5)
+	if hovered != Battle.NOWHERE and hovered not in obstacles:
+		draw_polyline(hex_points(center_of(hovered), hex), Color(1, 1, 1, 0.85), 2.5)
+	# Rocks (or trees) that block hexes.
+	for cell in obstacles:
+		var piece := _texture(ENV % int(OBSTACLE.get(terrain, [9, 4])[(cell.x + cell.y) % 2]))
+		draw_colored_polygon(hex_points(center_of(cell), hex).slice(0, 6), Color(0, 0, 0, 0.18))
+		if piece != null:
+			var drawn := piece.get_size() * 2.4
+			draw_texture_rect(piece, Rect2(center_of(cell) - Vector2(drawn.x / 2.0, drawn.y * 0.72), drawn), false, setting[2])
 	# Soft shade at the top and the bottom so the bars read well.
 	for i in 12:
 		var alpha := 0.045 * (12 - i)

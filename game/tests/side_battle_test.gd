@@ -11,6 +11,8 @@ func run() -> void:
 		check(battle.act("retreat") and battle.surviving_army()[0].count == 1000,"Retreat preserves troops before enemy action")
 	check(catalog.battles.size() == 108,"All 108 authored encounters checked")
 	battle.start([{"type":"hired_blade","count":20}],[{"type":"enforcer","count":100}],5)
+	battle.stacks[0].cell = Vector2i(5,3)
+	battle.stacks[1].cell = Vector2i(6,3)
 	battle.stacks[1].defending = true
 	battle.stacks[1].brace_active = true
 	var defended: int = battle._damage(0,1,false)
@@ -29,6 +31,7 @@ func run() -> void:
 	battle.act("defend")
 	check(battle.stacks[1].ability_used,"Crossbow guard uses aimed shot")
 	battle.start([{"type":"archers","count":100}],[{"type":"hired_blade","count":100}],5)
+	battle.stacks[1].cell = Vector2i(1,battle.stacks[0].cell.y)
 	battle.act("defend")
 	check(battle.stacks[1].ability_used,"Hired blade uses feint against defending target")
 	var arena = load("res://src/combat/stack_arena.tscn").instantiate()

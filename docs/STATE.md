@@ -2235,3 +2235,43 @@ Switching heroes stops a running walk. Rendered in a window: a frame mid-walk.
 
 Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Heroes-style battles with movement (spec updated)
+
+The user asked for battles as in Heroes III. Master spec 13 and Epic 12 were rewritten
+in both copies (root and docs/, kept identical): the rule "Do not implement HoMM
+battlefield movement in MVP" is replaced by an 11×7 hex battlefield with movement;
+"Maximum stacks per side" is now 7 (it matched the code already); Risk 5 reads
+"7-stack battles on a fixed 11×7 hex field"; Epic 12 gained tasks 12.8-12.11.
+Implementation:
+- `stack_battle.gd`: stacks have a cell, a speed and a flying flag (new `speed` and
+  `flying` fields in `content/combat/stacks.json`); armies start in the outer columns;
+  one to four seeded rocks; `reachable()` (walkers go round rocks and stacks, flyers
+  land anywhere within speed), `attack_cell()` (strike from the chosen side or the
+  shortest walk), `approach_cell()`, `can_strike()`. `act("move", -1, cell)` walks;
+  "attack"/"ability" walk next to the target and strike, or advance when out of reach
+  (a striking ability is then not spent). Shooters shoot unless an enemy is adjacent,
+  in which case they fight that enemy in melee at half damage; shots draw no
+  retaliation; ranged stacks retaliate at half. Enemy AI picks among stacks it can hit
+  (lethal first, else lowest health) and otherwise walks to the nearest; scripted
+  encounters keep their target rule limited to reachable targets. `events` lists moves
+  and strikes for the screen.
+- Battle screen: tokens stand on their stack's hex; reachable hexes are lit; clicking
+  a lit hex moves, clicking an enemy attacks from the side nearest the click; tooltips
+  over hexes describe stacks (with speed, shooting, flying) and rocks; moves play hex by
+  hex, then lunges, bolts and damage numbers; enemies that moved before the player's
+  first turn walk in when the battle opens. Decoration stays off the grid.
+- Tests: stack_battle_test gained 21 checks for the field (starting columns, rocks,
+  hex distance, reach within speed, shooting without moving, move command and its
+  event, advancing when out of reach, striking from a chosen hex, blocked shooters,
+  flying over rocks). Tests that assumed contact now place the stacks next to each
+  other; the defeat case lets the enemy close in; the knight first-round check accepts
+  an advance when the target is out of reach.
+- Balance probe rerun (BALANCE.md, "Hex field"): the curriculum ramp holds; no unit
+  numbers changed.
+Rendered in a window (Xvfb + Mesa, 1280×720) and inspected: the opening layout with
+reachable hexes and rocks, a shot, and militia after walking three hexes. Not played by
+a human.
+
+Executed for this commit: the full non-live run, 54 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

@@ -54,6 +54,8 @@ func run() -> void:
 	repeat.act("attack", 1)
 	check(first.log == repeat.log, "Seed reproduces combat")
 	first.start([{"type":"militia","count":10}], [{"type":"bandits","count":30}], 45)
+	first.stacks[0].cell = Vector2i(5, 3)
+	first.stacks[1].cell = Vector2i(6, 3)
 	first._execute(0, "attack", 1)
 	check(first.stacks[1].retaliated, "Melee target marks its retaliation")
 	var log_size: int = first.log.size()
@@ -63,8 +65,53 @@ func run() -> void:
 	check(first.act("retreat") and first.outcome == "retreated", "Retreat works before attack")
 	check(first.surviving_army()[0].count == 5, "Retreat keeps survivors")
 	first.start([{"type":"militia","count":1}], [{"type":"bandits","count":30}], 2)
-	first.act("defend")
+	for turn in 6:
+		if first.outcome.is_empty():
+			first.act("defend")
 	check(first.outcome == "defeat", "Defeat produces terminal outcome")
+	# Hex field (master spec 13): positions, speed, rocks, moving, shooting, flying.
+	var field := Battle.new()
+	field.start([{"type":"militia","count":10}, {"type":"archers","count":10}], [{"type":"bandits","count":10}], 9)
+	check(field.stacks[0].cell.x == 0 and field.stacks[1].cell.x == 0 and field.stacks[2].cell.x == Battle.COLUMNS - 1, "Armies start in the outer columns")
+	check(not field.obstacles.is_empty() and field.obstacles.size() <= 4, "Rocks are placed on the field")
+	check(Battle.distance(Vector2i(0, 0), Vector2i(3, 0)) == 3 and Battle.distance(Vector2i(0, 0), Vector2i(0, 2)) == 2 and Battle.distance(Vector2i(1, 1), Vector2i(1, 2)) == 1, "Hex distance on offset rows")
+	for cell: Vector2i in field.reachable(1):
+		check(Battle.distance(field.stacks[1].cell, cell) <= field.stacks[1].speed and cell not in field.obstacles, "Reachable within speed and off rocks")
+	check(field.current() == 1, "Archers act first")
+	var target_hp: int = field.stacks[2].stats.health
+	check(field.act("attack", 2) and field.stacks[2].stats.health < target_hp and field.stacks[1].cell.x == 0, "Archers shoot across the field without moving")
+	check(field.events.any(func(event: Dictionary): return event.kind == "strike" and event.shot), "Shot recorded for the battle screen")
+	check(field.current() == 0, "Militia acts next")
+	check(not field.act("move", -1, Vector2i(9, 0)), "Move beyond speed rejected")
+	var step: Vector2i = Vector2i(2, field.stacks[0].cell.y)
+	if step in field.obstacles or not field.reachable(0).has(step):
+		step = field.reachable(0).keys().filter(func(cell: Vector2i): return cell.x > 0)[0]
+	check(field.act("move", -1, step) and field.stacks[0].cell == step, "Move command walks to a reachable hex")
+	check(field.events[0].kind == "move" and field.events[0].stack == 0, "Walk recorded for the battle screen")
+	var melee := Battle.new()
+	melee.start([{"type":"militia","count":10}], [{"type":"enforcer","count":10}], 4)
+	var before: int = melee.stacks[1].stats.health
+	check(melee.act("attack", 1) and melee.stacks[1].stats.health == before and melee.stacks[0].cell.x > 0, "Out of reach: the stack advances instead of striking")
+	melee.stacks[0].cell = Vector2i(5, 3)
+	melee.stacks[1].cell = Vector2i(7, 3)
+	melee.obstacles.clear()
+	while melee.current() != 0 and melee.outcome.is_empty():
+		melee.act("defend")
+	before = melee.stacks[1].stats.health
+	check(melee.act("attack", 1, Vector2i(6, 3)) and melee.stacks[0].cell == Vector2i(6, 3) and melee.stacks[1].stats.health < before, "Melee walks next to the target and strikes from the chosen hex")
+	var blocked := Battle.new()
+	blocked.start([{"type":"archers","count":10}], [{"type":"bandits","count":10}, {"type":"bandits","count":10}], 4)
+	blocked.stacks[0].cell = Vector2i(5, 3)
+	blocked.stacks[1].cell = Vector2i(6, 3)
+	blocked.stacks[2].cell = Vector2i(10, 0)
+	var far: int = blocked.stacks[2].stats.health
+	check(not blocked.can_strike(0, 2) and blocked.can_strike(0, 1), "An adjacent enemy stops shooting")
+	check(blocked.act("attack", 2) and blocked.stacks[2].stats.health == far and blocked.stacks[1].stats.health < blocked.stacks[1].stats.max_health, "A blocked shooter fights the adjacent enemy")
+	var flyer := Battle.new()
+	flyer.start([{"type":"ghost_guard","count":5}], [{"type":"bandits","count":5}], 4)
+	flyer.stacks[0].cell = Vector2i(0, 3)
+	flyer.obstacles = [Vector2i(1, 2), Vector2i(1, 3), Vector2i(0, 2), Vector2i(0, 4), Vector2i(1, 4)]
+	check(flyer.reachable(0).has(Vector2i(4, 3)), "Flyers ignore rocks between hexes")
 	first.start([{"type":"archers","count":4}], [{"type":"bandits","count":50}], 2)
 	first.stacks[0].stats.health = 8
 	check(first.count_at(0) == 2, "Partial damage converts aggregate HP to stack count")

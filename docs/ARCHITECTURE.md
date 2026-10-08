@@ -18,7 +18,11 @@ Runtime modules, all under `game/src`:
   (buildings, recruitment, mines, artifact sales).
 - `evidence/evidence_graph.gd`, `spanish/learner_profile.gd`, `spanish/curriculum.gd`.
 - `dialogue/authored_dialogue.gd`, `dialogue/npc_grounding.gd`, `claude/claude_client.gd`.
-- `combat/stack_battle.gd` and `stack_arena.gd`: seven-slot stack battles.
+- `combat/stack_battle.gd`: seven-slot stack battles on an 11×7 hex field (positions,
+  speed, reachable hexes, flying, obstacles, shooting and blocking, enemy AI with
+  movement, an event list of moves and strikes). `battlefield.gd` draws the ground,
+  grid, rocks and reachable hexes and turns clicks into hexes; `stack_token.gd` draws a
+  stack; `stack_arena.gd` is the battle screen and plays the events as animation.
 - `save/save_game.gd`: versioned JSON save (v13) with migration from v1.
 - Panels (`*_panel.gd`, `evidence_notebook.gd`) are views; they call the controllers
   above and never hold canonical facts.

@@ -47,7 +47,7 @@ The required gameplay includes:
 - roads and terrain costs,
 - locations and resources,
 - armies/stacks,
-- simple turn-based battles,
+- turn-based battles on a hex battlefield with movement, as in Heroes III,
 - switching between three heroes,
 - strong scenario progression,
 - text-heavy investigation.
@@ -863,9 +863,12 @@ Use a plain list.
 
 # 13. Battle system
 
-Reuse the simplest turn-based battle system from Open RPG.
+Reuse the simplest turn-based battle system from Open RPG (its stat resource), on a
+Heroes III-style battlefield.
 
-Do not implement HoMM battlefield movement in MVP.
+User decision (2026-10-08): battles follow Heroes III, with stacks moving on a hex
+battlefield. This replaces the earlier rule "Do not implement HoMM battlefield movement
+in MVP" (it is no longer in force).
 
 Represent armies as stacks.
 
@@ -879,6 +882,7 @@ Example:
   "damage_min": 2,
   "damage_max": 4,
   "initiative": 7,
+  "speed": 4,
   "ability": "brace"
 }
 ```
@@ -886,27 +890,57 @@ Example:
 Maximum stacks per side:
 
 ```text
-4
+7
+```
+
+Battlefield:
+
+```text
+11 columns × 7 rows of pointy-top hexes, odd rows offset by half a hex
+player stacks start in the first column, enemy stacks in the last, spread over the rows
+1-4 obstacles (rocks or trees) in the middle columns, from the battle seed
+the ground shows the adventure-map terrain where the battle happens
+```
+
+Turn order and movement:
+
+```text
+each round, living stacks act in initiative order (ties: stack index)
+a stack moves up to its speed in hexes around obstacles and other stacks
+flying stacks only need a free hex within their speed
+dead stacks leave no obstacle
 ```
 
 Commands:
 
 ```text
-ATTACK
+MOVE      walk to a reachable free hex; ends the stack's turn
+ATTACK    melee: walk next to the target (from the chosen side if reachable) and strike;
+          if no hex next to it is reachable, advance as close as possible instead
+          ranged: shoot from anywhere; with an enemy adjacent, fight that enemy in melee
+          at half damage
 DEFEND
-ABILITY
+ABILITY   self abilities act at once; striking abilities follow the ATTACK rules and are
+          not spent when the stack only advances
 RETREAT
 ```
+
+Melee strikes allow one retaliation per target per round; shots never draw retaliation.
+A ranged stack retaliating in melee deals half damage.
 
 Enemy AI:
 
 ```text
-if lethal_attack_available:
-    use it
-elif attack_available:
-    attack lowest_effective_hp_target
+targets = player stacks it can hit this turn (shot, or a reachable hex next to them)
+if targets:
+    if lethal_attack_available among targets:
+        use it
+    else:
+        attack lowest_effective_hp_target among targets
 else:
-    defend
+    advance toward the nearest player stack
+scripted encounters keep their authored target rule, limited to reachable targets
+when there are any
 ```
 
 No advanced tactical planner in MVP.
@@ -2294,6 +2328,14 @@ reach a conclusion
 
 #### 12.7 Add simple enemy AI
 
+#### 12.8 Hex battlefield: 11×7 hexes, starting columns, obstacles, terrain ground
+
+#### 12.9 Movement: speed, reachable hexes, flying, move and attack-from-a-side commands
+
+#### 12.10 Ranged rules: shooting, blocked shooters, retaliation only in melee
+
+#### 12.11 Enemy AI with movement and battle screen with walking and strike animation
+
 ---
 
 ## EPIC 13 — Transactional Spanish
@@ -2749,7 +2791,7 @@ Mitigation:
 
 ```text
 modal interiors
-4-stack battles
+7-stack battles on a fixed 11×7 hex field
 fixed map
 fixed scenario
 no multiplayer

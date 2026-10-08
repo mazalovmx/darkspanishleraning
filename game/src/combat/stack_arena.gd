@@ -34,7 +34,6 @@ var result_text := Label.new()
 var selected_target := -1
 var settled := false
 var tokens: Array = []
-var homes: Array = []
 var animation: Tween
 var sound := AudioStreamPlayer.new()
 
@@ -81,6 +80,9 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	field.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	field.hex_clicked.connect(_on_hex)
+	field.describe = _describe
+	field.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	add_child(field)
 	for layer in [allies, enemies, effects]:
 		layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -162,6 +164,14 @@ func _build_command_bar() -> void:
 	queue_line.add_child(queue_title)
 	queue_row.add_theme_constant_override("separation", 4)
 	queue_line.add_child(queue_row)
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	queue_line.add_child(spacer)
+	var hint := Label.new()
+	hint.text = "Casilla iluminada: mover · Enemigo: atacar desde ese lado"
+	hint.add_theme_font_size_override("font_size", 14)
+	hint.add_theme_color_override("font_color", Color("cdb88f"))
+	queue_line.add_child(hint)
 	rows.add_child(queue_line)
 	var lower := HBoxContainer.new()
 	lower.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -180,7 +190,7 @@ func _build_command_bar() -> void:
 		_style_button(button)
 		button.custom_minimum_size = Vector2(230, 46)
 		grid.add_child(button)
-	attack_button.tooltip_text = "Ataca al objetivo marcado en rojo (clic en un enemigo para cambiarlo)."
+	attack_button.tooltip_text = "Ataca al objetivo marcado en rojo. En el campo: clic en una casilla iluminada para mover, clic en un enemigo para atacarlo desde ese lado."
 	defend_button.tooltip_text = "Recibe menos daño hasta su próximo turno."
 	retreat_button.tooltip_text = "Termina la batalla y conserva los supervivientes."
 	attack_button.pressed.connect(func(): command("attack"))
@@ -251,7 +261,7 @@ func present(model: RefCounted, title: String) -> void:
 		animation.kill()
 	for child in effects.get_children():
 		child.queue_free()
-	field.setup(terrain, hash(title))
+	field.setup(terrain, hash(title), battle.obstacles)
 	for row in [allies, enemies]:
 		for child in row.get_children():
 			row.remove_child(child)
@@ -262,51 +272,63 @@ func present(model: RefCounted, title: String) -> void:
 		var token := Token.new()
 		token.side = int(stack.side)
 		token.figure = unit_icon(str(stack.type), token.side)
-		if stack.side == 1:
-			token.pressed.connect(func():
-				if battle.count_at(i) > 0 and battle.outcome.is_empty():
-					selected_target = i
-					refresh())
-			enemies.add_child(token)
-		else:
-			allies.add_child(token)
+		(enemies if stack.side == 1 else allies).add_child(token)
 		tokens.append(token)
 	show()
 	_layout()
 	refresh()
+	# Enemies faster than the whole player army have already moved: show it.
+	_animate(battle.events)
 
-## Places each stack on its hex: the player in the second column, the enemy in the tenth.
+## Places each token on its stack's hex.
 func _layout() -> void:
 	if tokens.is_empty():
 		return
-	homes.clear()
-	homes.resize(tokens.size())
 	var hex := field.hex_size()
-	for side in [0, 1]:
-		var members: Array = []
-		for i in battle.stacks.size():
-			if int(battle.stacks[i].side) == side:
-				members.append(i)
-		var rows: Array = Battlefield.rows_for(members.size())
-		for n in members.size():
-			var token: Control = tokens[members[n]]
-			token.hex = hex
-			var center := field.cell_center(1 if side == 0 else Battlefield.COLUMNS - 2, rows[n])
-			homes[members[n]] = center - token.foot()
-			token.position = homes[members[n]]
+	for i in mini(tokens.size(), battle.stacks.size()):
+		tokens[i].hex = hex
+		tokens[i].position = _spot(battle.stacks[i].cell, i)
 	result_panel.size = Vector2.ZERO
 	result_panel.reset_size()
 	result_panel.position = ((size - result_panel.size) / 2.0 - Vector2(0, 60)).floor()
 
-func command(action: String) -> void:
-	var before: Array = []
-	for i in battle.stacks.size():
-		before.append(int(battle.stacks[i].stats.health))
-	var lines_before: int = battle.log.size()
-	if battle.act(action, selected_target):
+## Token position that puts stack i on a hex.
+func _spot(cell: Vector2i, i: int) -> Vector2:
+	return field.center_of(cell) - tokens[i].foot()
+
+## Click on the field: an enemy hex attacks it from the side nearest the click, a lit
+## hex moves the acting stack there.
+func _on_hex(cell: Vector2i, point: Vector2) -> void:
+	var actor: int = battle.current()
+	if actor < 0 or not battle.outcome.is_empty():
+		return
+	var who: int = battle.occupant(cell)
+	if who >= 0 and battle.stacks[who].side == 1:
+		selected_target = who
+		var side := Battle.NOWHERE
+		for around in Battle.neighbors(cell):
+			if side == Battle.NOWHERE or point.distance_to(field.center_of(around)) < point.distance_to(field.center_of(side)):
+				side = around
+		command("attack", side)
+	elif who == -1 and cell != battle.stacks[actor].cell and battle.reachable(actor).has(cell):
+		command("move", cell)
+
+func _describe(cell: Vector2i) -> String:
+	var i: int = battle.occupant(cell)
+	if i < 0:
+		return "Roca: no se puede pasar." if cell in battle.obstacles else ""
+	var stack: Dictionary = battle.stacks[i]
+	var unit: Dictionary = battle.data.units[stack.type]
+	return "%s · %d unidades\nSalud: %d · Ataque %d · Defensa %d\nDaño %d-%d · Iniciativa %d · Movimiento %d%s%s\nHabilidad: %s" % [
+		unit.name, battle.count_at(i), stack.stats.health, stack.stats.attack, stack.stats.defense,
+		unit.damage_min, unit.damage_max, stack.stats.speed, stack.speed, " · dispara" if unit.ranged else "",
+		" · vuela" if stack.flying else "", unit.ability_name]
+
+func command(action: String, cell: Vector2i = Battle.NOWHERE) -> void:
+	var target := selected_target if action in ["attack", "ability"] else -1
+	if battle.act(action, target, cell):
 		refresh()
-		var fresh: Array = battle.log.slice(lines_before) if battle.log.size() >= lines_before else []
-		_animate(fresh, before)
+		_animate(battle.events)
 
 func refresh() -> void:
 	if selected_target < 0 or battle.count_at(selected_target) == 0:
@@ -326,14 +348,18 @@ func refresh() -> void:
 		token.active = i == actor and not complete
 		token.targeted = i == selected_target and not complete
 		token.selectable = stack.side == 1 and token.count > 0 and not complete
-		token.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND if token.selectable else Control.CURSOR_ARROW
-		token.tooltip_text = "%s · %d unidades\nSalud: %d · Ataque %d · Defensa %d\nDaño %d-%d · Iniciativa %d%s\nHabilidad: %s" % [
-			unit.name, token.count, stack.stats.health, stack.stats.attack, stack.stats.defense,
-			unit.damage_min, unit.damage_max, stack.stats.speed, " · a distancia" if unit.ranged else "", unit.ability_name]
 		token.queue_redraw()
+	var reach: Array = []
+	if actor >= 0 and not complete:
+		for cell in battle.reachable(actor):
+			if cell != battle.stacks[actor].cell:
+				reach.append(cell)
+	field.show_reach(reach)
 	var acting := ""
 	if actor >= 0:
-		acting = " · Actúa: %s (%d)" % [battle.data.units[battle.stacks[actor].type].name, battle.count_at(actor)]
+		var mover: Dictionary = battle.stacks[actor]
+		acting = " · Actúa: %s (%d) · Movimiento %d%s" % [battle.data.units[mover.type].name, battle.count_at(actor), mover.speed,
+			("" if not battle.data.units[mover.type].ranged else " · dispara" if battle._adjacent_enemies(actor).is_empty() else " · trabado: lucha cuerpo a cuerpo")]
 	turn_label.text = "Ronda %d · %s%s" % [battle.round_number,
 		{"victory": "Victoria", "defeat": "Derrota", "retreated": "Retirada"}.get(battle.outcome, "Elige una acción"), acting]
 	attack_button.disabled = complete
@@ -388,61 +414,52 @@ func _refresh_queue(actor: int) -> void:
 		slot.add_child(inner)
 		queue_row.add_child(slot)
 
-## Plays the strikes of the last command in order: melee stacks lunge at their target,
-## ranged stacks loose a bolt; each hit shows the damage over the target.
-func _animate(lines: Array, before: Array) -> void:
+## Plays the moves and strikes of the last command in order: stacks walk hex by hex,
+## melee stacks lunge at their target, shooters loose a bolt; each hit shows the damage.
+func _animate(events: Array) -> void:
 	if animation != null:
 		animation.kill()
+	if tokens.is_empty():
+		return
+	var spots: Array = []
 	for i in tokens.size():
-		if i < homes.size() and homes[i] != null:
-			tokens[i].position = homes[i]
+		spots.append(_spot(battle.stacks[i].cell, i))
+	for event: Dictionary in events:
+		if event.kind == "move":
+			var i: int = event.stack
+			if spots[i] == _spot(battle.stacks[i].cell, i):
+				spots[i] = _spot(event.path[0], i)
+	for i in tokens.size():
+		tokens[i].position = spots[i]
 	animation = create_tween()
-	var steps := 0
-	for line in lines:
-		var parts := _strike_parts(str(line))
-		if parts.is_empty() or steps >= 10:
-			continue
-		steps += 1
-		var actor: int = parts[0]
-		var target: int = parts[1]
-		var amount: int = parts[2]
-		var from: Vector2 = homes[actor]
-		var toward: Vector2 = (homes[target] - homes[actor])
-		if battle.data.units[battle.stacks[actor].type].ranged:
-			animation.tween_callback(_bolt.bind(actor, target))
-			animation.tween_interval(0.28)
-		else:
-			animation.tween_property(tokens[actor], "position", from + toward * 0.42, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-		animation.tween_callback(_hit.bind(target, amount, battle.data.units[battle.stacks[actor].type].ranged))
-		if not battle.data.units[battle.stacks[actor].type].ranged:
-			animation.tween_property(tokens[actor], "position", from, 0.2).set_trans(Tween.TRANS_QUAD)
-		animation.tween_interval(0.12)
-	if steps == 0:
-		animation.tween_interval(0.01)
+	for event: Dictionary in events.slice(0, 24):
+		if event.kind == "move":
+			var i: int = event.stack
+			for k in range(1, event.path.size()):
+				animation.tween_property(tokens[i], "position", _spot(event.path[k], i), 0.09 if not battle.stacks[i].flying else 0.16)
+			spots[i] = _spot(event.path[-1], i)
+		elif event.kind == "strike":
+			var actor: int = event.actor
+			var target: int = event.target
+			var from: Vector2 = spots[actor]
+			var at: Vector2 = spots[target] + tokens[target].foot()
+			if event.shot:
+				animation.tween_callback(_bolt.bind(from + tokens[actor].foot(), at))
+				animation.tween_interval(0.28)
+			else:
+				animation.tween_property(tokens[actor], "position", from + (spots[target] - from) * 0.4, 0.16).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+			animation.tween_callback(_hit.bind(target, int(event.amount), bool(event.shot), at))
+			if not event.shot:
+				animation.tween_property(tokens[actor], "position", from, 0.18).set_trans(Tween.TRANS_QUAD)
+			animation.tween_interval(0.1)
+	animation.tween_callback(_layout)
 
-## Reads "Actor → Target: N de daño; quedan M." back into stack indices.
-func _strike_parts(line: String) -> Array:
-	var arrow := line.find(" → ")
-	var colon := line.find(": ", arrow)
-	if arrow < 0 or colon < 0:
-		return []
-	var actor_name := line.substr(0, arrow)
-	var target_name := line.substr(arrow + 3, colon - arrow - 3)
-	var amount := int(line.substr(colon + 2).split(" ")[0])
-	for actor in battle.stacks.size():
-		if str(battle.data.units[battle.stacks[actor].type].name) != actor_name:
-			continue
-		for target in battle.stacks.size():
-			if battle.stacks[target].side != battle.stacks[actor].side and str(battle.data.units[battle.stacks[target].type].name) == target_name:
-				return [actor, target, amount]
-	return []
-
-func _bolt(actor: int, target: int) -> void:
+func _bolt(from_foot: Vector2, to_foot: Vector2) -> void:
 	var bolt := ColorRect.new()
 	bolt.color = Color("f4e2b0")
 	bolt.size = Vector2(18, 3)
-	var start: Vector2 = homes[actor] + tokens[actor].foot() - Vector2(0, 40)
-	var end: Vector2 = homes[target] + tokens[target].foot() - Vector2(0, 40)
+	var start: Vector2 = from_foot - Vector2(0, 40)
+	var end: Vector2 = to_foot - Vector2(0, 40)
 	bolt.position = start
 	bolt.rotation = (end - start).angle()
 	bolt.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -451,7 +468,7 @@ func _bolt(actor: int, target: int) -> void:
 	flight.tween_property(bolt, "position", end, 0.26)
 	flight.tween_callback(bolt.queue_free)
 
-func _hit(target: int, amount: int, ranged: bool) -> void:
+func _hit(target: int, amount: int, ranged: bool, at: Vector2) -> void:
 	_play("knifeSlice.ogg" if ranged else ["impactPlate_heavy_001.ogg", "impactMetal_medium_000.ogg", "impactPunch_medium_000.ogg"][amount % 3])
 	var token: Control = tokens[target]
 	var flash := create_tween()
@@ -464,7 +481,7 @@ func _hit(target: int, amount: int, ranged: bool) -> void:
 	number.add_theme_color_override("font_outline_color", Color("3a1408"))
 	number.add_theme_constant_override("outline_size", 6)
 	number.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	number.position = homes[target] + token.foot() - Vector2(18, 92)
+	number.position = at - Vector2(18, 92)
 	effects.add_child(number)
 	var rise := create_tween()
 	rise.tween_property(number, "position:y", number.position.y - 36, 0.8)

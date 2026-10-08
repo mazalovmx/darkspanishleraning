@@ -150,6 +150,9 @@ its own multi-session plan and scenario-bible review per NPC.
 - Soul specials reduce counter evidence from two to one for every set; the authored
   per-set actions and durations are not implemented.
 - Ghost activation takes the first three eligible ids, so NK07/NK08 may never appear.
+- Battles are on a Heroes-style hex field with movement (master spec 13, user decision
+  2026-10-08). The probe's policy walks straight at the weakest enemy; no human has
+  played the positional battles, and unit speeds are authored estimates.
 - Balance: an automated probe (`tests/balance_sim.gd`, BALANCE.md) tuned battles
   so difficulty rises with the curriculum; no human playtest. Economy income and
   prices were tuned by arithmetic (`tools/economy_check.py`), not by play.
