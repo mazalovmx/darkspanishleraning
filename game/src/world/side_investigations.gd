@@ -266,7 +266,7 @@ func outcome_flags() -> Dictionary:
 	for branch: String in branches:
 		var chosen := outcome(branch)
 		if not chosen.is_empty():
-			flags[str(chosen.flag)] = "recorded"
+			flags[str(chosen.flag)] = "confirmed"
 	return flags
 
 ## Local consequences shown at a place: one line per concluded case located there.

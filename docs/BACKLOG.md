@@ -154,8 +154,8 @@ its own multi-session plan and scenario-bible review per NPC.
   Valdora and Cárdena trade (treasury, artifact market), Ferraza works (forge,
   laboratory, lumber yard), San Vélaro farms. Balance unplaytested.
 - Optional cases: concluded cases, the 12 comparisons and the 24 outcomes appear in
-  the notebook; the outcome is shown at the case's place and is a dialogue flag. No
-  NPC line reacts to those flags yet, and the comparisons are read, not answered.
+  the notebook; the outcome is shown at the case's place, and a character there
+  reacts to it when asked about the case. The comparisons are read, not answered.
 - Soul specials reduce counter evidence from two to one for every set; the authored
   per-set actions and durations are not implemented.
 - Battles are on a Heroes-style hex field with movement (master spec 13, user decision

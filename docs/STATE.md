@@ -2498,3 +2498,18 @@ tanto", "aunque", "así que"…).
 
 Executed for this commit: the full non-live run, 58 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Characters react to optional case outcomes
+
+24 authored replies (two per case: publication and protected copy) were added at the
+front of a conversation at each case's place: the abbot (censo, reloj), Nicolás Ferrer
+(agua), the judge in Valdora (vecinos), Selmo Oribe (bestiario, instrumento óptico),
+Inés in Cárdena (pesas), Dr Valera at the hospital (comparación), Remedios Galán (vara),
+the innkeeper (correo), Pilar Montoya (aire) and Catalina Rius (grano). They answer
+only when the flag of the chosen outcome is set (outcome flags now carry "confirmed",
+the value conversations check) and the question names the case. side_outcome_test:
+40 checks (every outcome has a reaction at its place; the abbot reacts to a protected
+census; nothing for a case not yet concluded).
+
+Executed for this commit: the full non-live run, 58 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

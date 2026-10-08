@@ -27,10 +27,20 @@ func run() -> void:
 	check(cases.started_branches().is_empty() and cases.open_links().is_empty() and cases.outcome_flags().is_empty(), "Nothing before any case")
 	conclude(cases, "SB01", "SB01_protected")
 	check(cases.outcome("SB01").id == "SB01_protected", "Chosen outcome read from the final quest")
-	check(cases.outcome_flags() == {"SB01_protected": "recorded"}, "Outcome flag recorded")
+	check(cases.outcome_flags() == {"SB01_protected": "confirmed"}, "Outcome flag recorded")
 	check(map.dialogue.context_flags().has("SB01_protected"), "Dialogue context knows the outcome")
+	check(map.dialogue.reply_for("LOC01", "¿Qué pasó con el censo?").begins_with("Presentó el censo con los domicilios tapados"), "The abbot reacts to the protected copy")
+	check(not map.dialogue.reply_for("LOC01", "¿Y el reloj?").contains("reloj se corrigió"), "No reaction to a case not yet concluded")
 	check(cases.local_consequences("LOC01").size() == 1 and cases.local_consequences("LOC01")[0].contains("Se preservan datos privados"), "Local consequence at the case's place")
 	check(cases.local_consequences("LOC02").is_empty(), "No consequence elsewhere")
+	for branch: String in cases.branches:
+		for outcome: Dictionary in cases.branches[branch].outcomes:
+			var found := false
+			for id: String in map.dialogue.conversations:
+				var conversation: Dictionary = map.dialogue.conversations[id]
+				if str(conversation.get("location_id", id)) == cases.branches[branch].location_id:
+					found = found or conversation.branches.any(func(entry: Dictionary) -> bool: return entry.get("requires_flag", "") == outcome.flag)
+			check(found, "A character at the case's place reacts to " + str(outcome.flag))
 	var summary: String = cases.case_summary("SB01")
 	check(summary.contains("CONCLUSIONES APOYADAS") and summary.contains("Hay un texto anterior bajo la oración.") and summary.contains("DECISIÓN: Presentar una copia con datos protegidos"), "Case summary lists conclusions and the decision")
 	check(cases.open_links().is_empty(), "A comparison needs both cases")

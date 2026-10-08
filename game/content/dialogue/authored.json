@@ -5,7 +5,7 @@
                   "greeting":  "Buenas tardes. Bienvenido a la Venta del Perro Negro. ¿Qué necesita?",
                   "greeting_again":  "Otra vez por aquí. ¿Qué necesita hoy?",
                   "hint":  "Puede saludar o preguntar por Santa Lucerna.",
-                  "branches":  [
+                  "branches":  [{"requires_flag": "SB10_published", "keywords": ["correo", "cartas", "carta", "ausentes"], "reply": "Desde que se publicó lo del correo, la gente viene a la venta a buscar sus cartas. Algunos ausentes ya no se atreven a escribir."}, {"requires_flag": "SB10_protected", "keywords": ["correo", "cartas", "carta", "ausentes"], "reply": "Las cartas desviadas llegan otra vez a sus dueños, y nadie tuvo que decir dónde vive. Aquí casi nadie sabe qué pasó."}, 
                                    {
                                        "keywords":  [
                                                         "monasterio",
@@ -45,7 +45,7 @@
                   "greeting":  "Bienvenido a Santa Lucerna. Soy el abad Lucio Salcedo. Le escucho.",
                   "greeting_again":  "Vuelve usted. ¿Qué más desea saber?",
                   "hint":  "Puede preguntar por el abad o por el monasterio.",
-                  "branches":  [
+                  "branches":  [{"requires_flag": "SB01_published", "keywords": ["censo", "limosnas", "familias", "deudas"], "reply": "Su expediente sobre el censo ya circula por el monasterio. Las familias recuperan sus derechos, pero ahora todo el mundo conoce sus nombres y algunas tienen miedo."}, {"requires_flag": "SB01_protected", "keywords": ["censo", "limosnas", "familias", "deudas"], "reply": "Presentó el censo con los domicilios tapados. Las familias recuperan sus derechos y nadie sabe dónde viven, aunque algunos hermanos dicen que falta detalle."}, {"requires_flag": "SB02_published", "keywords": ["reloj", "campana", "campanas", "horas"], "reply": "Desde que se publicó lo del reloj, todos saben que la hora estaba mal. Ya nadie acusa al campanero, pero el monasterio quedó en evidencia."}, {"requires_flag": "SB02_protected", "keywords": ["reloj", "campana", "campanas", "horas"], "reply": "El reloj se corrigió sin escándalo. El campanero está tranquilo; algunos monjes todavía murmuran porque no conocen toda la historia."}, 
                          {
                              "requires_flag":  "research_disclosed",
                              "keywords":  ["investigaciones", "investigacion", "prohibida", "prohibidas", "cripta", "secreto", "oculta"],
@@ -129,7 +129,7 @@
     "greeting": "Soy Inés Vargas. Me llaman la Urraca. Hablemos del encargo.",
     "greeting_again": "Otra vez tú. El encargo sigue siendo el mismo.",
     "hint": "Pregunta por el encargo, el pago o los libros.",
-    "branches": [
+    "branches": [{"requires_flag": "SB07_published", "keywords": ["pesas", "balanza", "pesos", "perdidas"], "reply": "Desde que se publicó lo de las pesas falsas, los mercaderes reclaman a gritos. El puerto va más lento, pero nadie confía ya en la balanza vieja."}, {"requires_flag": "SB07_protected", "keywords": ["pesas", "balanza", "pesos", "perdidas"], "reply": "Las pérdidas se devuelven sin ruido y el puerto sigue abastecido. Pocos saben quién usaba las pesas falsas."}, 
       {
         "keywords": [
           "nombre",
@@ -350,7 +350,7 @@
       "greeting": "Soy la jueza Beatriz Orma. Aquí las palabras tienen consecuencias. ¿Qué necesita?",
       "greeting_again": "Usted de nuevo. ¿Qué documento le preocupa hoy?",
       "hint": "Puede preguntar por una declaración o por un documento falso.",
-      "branches": [
+      "branches": [{"requires_flag": "SB04_published", "keywords": ["vecinos", "nombres", "identidad", "desplazados", "refugio"], "reply": "La lista de los vecinos desplazados se leyó en la plaza. Muchos recuperan su nombre, pero los guardias ya preguntan por los refugios."}, {"requires_flag": "SB04_protected", "keywords": ["vecinos", "nombres", "identidad", "desplazados", "refugio"], "reply": "Los vecinos recuperan sus papeles sin que nadie publique dónde se esconden. En los tribunales dicen que el informe es demasiado breve."}, 
         {
           "keywords": [
             "nombre",
@@ -493,7 +493,7 @@
       "greeting": "Bienvenido a Miralba. Soy el maestro Selmo Oribe, del gremio de boticarios. ¿En qué puedo servirle?",
       "greeting_again": "Es un placer verle de nuevo. ¿En qué puedo servirle hoy?",
       "hint": "Puede preguntar por el gremio o por la ciencia.",
-      "branches": [
+      "branches": [{"requires_flag": "SB05_published", "keywords": ["animales", "bestiario", "margen", "simbolos", "plagio"], "reply": "Su informe sobre los animales del margen se lee en todas las aulas. La lista de acusados ya no vale, y el plagio del profesor es público."}, {"requires_flag": "SB05_protected", "keywords": ["animales", "bestiario", "margen", "simbolos", "plagio"], "reply": "Usted deshizo la lista de acusados con discreción. El plagio consta en el registro, pero solo lo conoce el claustro."}, {"requires_flag": "SB06_published", "keywords": ["instrumento", "lente", "lentes", "optica", "curaciones"], "reply": "Todos saben ya que el instrumento óptico no cura nada. Hay menos estafas, aunque los enfermos que lo usaban se sienten señalados."}, {"requires_flag": "SB06_protected", "keywords": ["instrumento", "lente", "lentes", "optica", "curaciones"], "reply": "El instrumento queda abierto a los estudiantes y los nombres de los enfermos no aparecen en ningún papel público."}, 
         {
           "keywords": [
             "nombre",
@@ -591,7 +591,7 @@
       "greeting": "Bienvenido al hospital de Miralba. Soy la doctora Leonor Valera.",
       "greeting_again": "Vuelve usted al hospital. ¿En qué puedo ayudarle?",
       "hint": "Puede preguntar por la enfermedad o por la higiene.",
-      "branches": [
+      "branches": [{"requires_flag": "SB08_published", "keywords": ["sanos", "cifras", "comparacion", "pacientes"], "reply": "Publicaron la comparación del hospital con todos los detalles. Las cifras son honestas, pero algunos pacientes se reconocen y se quejan."}, {"requires_flag": "SB08_protected", "keywords": ["sanos", "cifras", "comparacion", "pacientes"], "reply": "La comparación del hospital salió sin nombres ni tratamientos. Es honesta y nadie se siente expuesto; otros médicos piden más datos."}, 
         {
           "keywords": [
             "nombre",
@@ -746,7 +746,7 @@
       "greeting": "Nicolás Ferrer, escribano de aduanas. Todo lo que pasa por este puente queda anotado.",
       "greeting_again": "Usted otra vez. Mi registro no ha cambiado.",
       "hint": "Puede preguntar por el registro, el cuaderno o el mensajero.",
-      "branches": [
+      "branches": [{"requires_flag": "SB03_published", "keywords": ["agua", "atlas", "plano", "canal", "sed"], "reply": "Todo el puente habla de su atlas del agua. Los barrios altos recuperan el canal, y los vecinos que declararon ya tienen visitas incómodas."}, {"requires_flag": "SB03_protected", "keywords": ["agua", "atlas", "plano", "canal", "sed"], "reply": "El plano del agua llegó a la junta del canal sin los nombres de los testigos. El agua vuelve poco a poco; en el mercado se sabe poco del asunto."}, 
         {
           "keywords": [
             "registro",
@@ -848,7 +848,7 @@
       "greeting": "Soy Remedios Galán, la portera. Por esta puerta pasa todo el mundo. ¿Qué quiere saber?",
       "greeting_again": "Otra vez por aquí. Siéntese si quiere.",
       "hint": "Puede preguntar por la advertencia de la Orden o por León.",
-      "branches": [
+      "branches": [{"requires_flag": "SB09_published", "keywords": ["vara", "medida", "medidas", "gremio", "patron"], "reply": "Su informe sobre la vara del maestro está colgado en la puerta del gremio. Hay una sola medida, y todos saben qué talleres usaban otra."}, {"requires_flag": "SB09_protected", "keywords": ["vara", "medida", "medidas", "gremio", "patron"], "reply": "Las medidas se unifican sin señalar a nadie. Los talleres que usaban otro patrón cambian poco a poco, sin vergüenza pública."}, 
         {
           "keywords": [
             "advertencia",
@@ -989,7 +989,7 @@
       "greeting": "Soy Catalina Rius. Si viene a quejarse del pan, póngase a la cola.",
       "greeting_again": "Vuelve usted. Hoy tampoco hay harina buena.",
       "hint": "Puede preguntar por la harina, las entregas o los precios.",
-      "branches": [
+      "branches": [{"requires_flag": "SB12_published", "keywords": ["grano", "glosario", "hambre", "reservas", "trigo"], "reply": "El glosario del grano se leyó en el mercado. Las familias recuperan sus reservas, y los especuladores sienten todas las miradas encima."}, {"requires_flag": "SB12_protected", "keywords": ["grano", "glosario", "hambre", "reservas", "trigo"], "reply": "Las reservas de las casas se liberan sin publicar quién las guardaba. Los especuladores siguen sin nombre, y eso molesta a algunos."}, 
         {
           "keywords": [
             "harina",
@@ -1091,7 +1091,7 @@
       "greeting": "Soy Pilar Montoya, delegada de los mineros. Traigo números, no rumores.",
       "greeting_again": "Ha vuelto. Los turnos siguen siendo largos.",
       "hint": "Puede preguntar por el aire, los turnos o la licencia.",
-      "branches": [
+      "branches": [{"requires_flag": "SB11_published", "keywords": ["aire", "ventilacion", "letania", "protocolo"], "reply": "El protocolo del aire está escrito en la entrada de la mina. Los mineros lo recitan, aunque algunos creen que ya nada puede pasar."}, {"requires_flag": "SB11_protected", "keywords": ["aire", "ventilacion", "letania", "protocolo"], "reply": "El protocolo del aire volvió a los capataces. Los mineros lo aplican, pero pocos saben de dónde salió."}, 
         {
           "keywords": [
             "aire",
