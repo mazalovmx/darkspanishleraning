@@ -2808,3 +2808,14 @@ write/read PASS. Not read in a window; the Spanish has had no separate editorial
 Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
 run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
 write/read PASS. Not read in a window.
+
+## User-owned music added to the repository (2026-10-08)
+
+The user explicitly identified the eight local MP3 files as their own music and
+requested uploading them. Added all eight files in game/assets/music together with
+their Godot .import descriptors (about 27 MiB of source audio). The Godot 4.6.2 editor
+import completed on Windows, exit 0, with no import/script errors. Existing music
+selection still references the earlier tracks; this task stores the new music and
+does not claim it is assigned to scenes or that it has been listened to.
+The full offline regression run for the merged implementation is in progress;
+its outcome will be recorded separately after completion.

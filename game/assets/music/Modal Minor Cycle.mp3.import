@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c312le0myhk6c"
+path="res://.godot/imported/Modal Minor Cycle.mp3-d5b8068dd8ebd97469d01c1d8cdec5a6.mp3str"
+
+[deps]
+
+source_file="res://assets/music/Modal Minor Cycle.mp3"
+dest_files=["res://.godot/imported/Modal Minor Cycle.mp3-d5b8068dd8ebd97469d01c1d8cdec5a6.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
