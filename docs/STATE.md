@@ -2091,3 +2091,23 @@ the Linux engine opened the title screen and the province map without errors. Th
 
 Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Visual review: title screen, treasure panel and battle arena
+
+First windowed renders of this session's screens (Xvfb + Mesa, 1280×720, via the new
+`tests/screenshots.gd`), then fixes, each re-rendered and inspected:
+- Title screen: it used the demo pixel theme (giant settings labels). It now uses the
+  map's font and the parchment page of the journal; sliders are centred.
+- Treasure panel: the resources line is hidden and the reminder names the actions
+  ("quiero / necesito + abrir / tomar / recoger + el cofre") instead of "comprar,
+  contratar".
+- Battle arena: each stack card shows a Kenney Medieval RTS figure (CC0, already
+  credited) chosen by role and coloured by side (blue player, red enemy, grey spectral
+  and relic units). The taller cards pushed the action buttons off screen; the battle
+  log's minimum height went from 160 to 90 px and the buttons are visible again.
+- The conversation and journal screens rendered correctly.
+`src/combat/ui/ui_combat.tscn`, an orphaned demo scene pointing at a removed file, was
+deleted. Not inspected: the other 20 conversation partners (they have no portrait).
+
+Executed for this commit: the full non-live run, 54 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

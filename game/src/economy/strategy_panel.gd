@@ -103,6 +103,7 @@ func refresh() -> void:
 	entries.visible = site_id.is_empty()
 	quantity.visible = site_id.is_empty()
 	var cache: Dictionary = economy.treasure(world_state,site_id)
+	resources.visible = cache.is_empty()
 	if not cache.is_empty():
 		title.text = str(cache.name).to_upper()
 		var names: PackedStringArray = []

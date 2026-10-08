@@ -67,8 +67,8 @@ func treasure_missing(world: RefCounted, id: String, message: String, tier: Stri
 
 func treasure_cue(world: RefCounted, id: String) -> String:
 	var tier: String = world.trade.tier_for(world)
-	return "Objetivo: %s\nRecuerda: %s" % [treasure(world, id).name,
-		str(_trade.REMINDERS.request[tier]).replace("cantidad + producto", "lo que haces con el cofre")]
+	return "Objetivo: %s\nRecuerda: %s + abrir / tomar / recoger + el cofre." % [treasure(world, id).name,
+		" / ".join(_trade.RULES.request[tier].verbs)]
 
 func claim_treasure(world: RefCounted, id: String, message: String) -> Dictionary:
 	var entry := treasure(world, id)

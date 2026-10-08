@@ -225,3 +225,10 @@ terrain painting and rebuilds, route previews, resolved travel days and save/loa
 an explored province. Millisecond budgets are development-machine regression limits,
 not FPS targets or proof that weak hardware meets release requirements. Run it without
 other test processes competing for CPU. Temporary benchmark saves are removed.
+## Visual review and balance probe (not suites)
+
+- `tests/screenshots.gd` renders the title screen, its settings, the map, a
+  conversation, the journal, a treasure and the battle arena to PNG files:
+  `xvfb-run -a godot --path game --rendering-driver opengl3 --accessibility disabled --script res://tests/screenshots.gd -- <out_dir>`
+  (on Windows run without xvfb-run).
+- `tests/balance_sim.gd` prints battle win rates (BALANCE.md).

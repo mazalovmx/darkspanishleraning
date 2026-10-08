@@ -15,6 +15,28 @@ var finish_button := Button.new()
 var selected_target := -1
 var settled := false
 
+# Kenney Medieval RTS units (CC0): a figure per role, coloured by side.
+const UNIT_ART := "res://assets/third_party/kenney_medieval_rts/Unit/medievalUnit_%02d.png"
+const ROLE := {"militia": 3, "veteran_guard": 3, "ghost_guard": 3, "enforcer": 3, "inquisitorial_guard": 3,
+	"archers": 2, "bandits": 2, "hired_blade": 2, "crossbow_guard": 2, "knife_fighter": 2, "crossbow_mercenary": 2,
+	"relic_sentinel": 1, "hospitaller": 1, "relay_automaton": 4, "watchman": 6, "novice": 6, "thief": 6}
+const GREY := ["ghost_guard", "relic_sentinel", "relay_automaton"]
+var icons := {}
+
+## Blue for the player, red for the enemy, grey for spectral and relic units.
+func unit_icon(type: String, side: int) -> Texture2D:
+	var number: int = ROLE.get(type, 6) + (18 if type in GREY else 0 if side == 0 else 6)
+	if not icons.has(number):
+		var path := UNIT_ART % number
+		icons[number] = null
+		if ResourceLoader.exists(path):
+			# Crop the transparent margin of the 64 px canvas, then double it.
+			var image: Image = load(path).get_image()
+			image = image.get_region(image.get_used_rect())
+			image.resize(image.get_width() * 2, image.get_height() * 2, Image.INTERPOLATE_NEAREST)
+			icons[number] = ImageTexture.create_from_image(image)
+	return icons[number]
+
 func _ready() -> void:
 	theme = Theme.new()
 	theme.default_font = ThemeDB.fallback_font
@@ -47,7 +69,7 @@ func _ready() -> void:
 	transcript.bbcode_enabled = false
 	transcript.scroll_following = true
 	transcript.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	transcript.custom_minimum_size.y = 160
+	transcript.custom_minimum_size.y = 90
 	box.add_child(transcript)
 	var actions := HBoxContainer.new()
 	for button in [attack_button, defend_button, ability_button, retreat_button, finish_button]:
@@ -101,7 +123,11 @@ func refresh() -> void:
 		var stack: Dictionary = battle.stacks[i]
 		var unit: Dictionary = battle.data.units[stack.type]
 		var card := Button.new()
-		card.custom_minimum_size = Vector2(148, 95)
+		card.custom_minimum_size = Vector2(148, 110)
+		card.icon = unit_icon(str(stack.type), int(stack.side))
+		card.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		card.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
+		card.expand_icon = false
 		card.text = "%s\n%d unidades\nSalud: %d" % [unit.name, battle.count_at(i), stack.stats.health]
 		card.disabled = stack.side == 0 or battle.count_at(i) == 0 or not battle.outcome.is_empty()
 		if i == battle.current():

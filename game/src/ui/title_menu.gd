@@ -1,6 +1,7 @@
 extends Control
 ## Title screen: continue, new game, settings and quit (master spec, release readiness).
 const Settings = preload("res://src/common/settings.gd")
+const ParchmentTheme = preload("res://src/common/parchment_theme.gd")
 const MAP_SCENE := "res://src/world/province_map.tscn"
 var save_path := "user://province_savegame.json"
 var settings_path := Settings.PATH
@@ -20,29 +21,40 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://config/game.json"))
 	config = parsed if parsed is Dictionary else {}
+	# Same font as the map's panels, and the parchment page of the journal.
+	theme = Theme.new()
+	theme.default_font = ThemeDB.fallback_font
+	theme.default_font_size = 20
 	var background := ColorRect.new()
 	background.color = Color("#17191d")
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(background)
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(center)
+	var page := PanelContainer.new()
+	page.custom_minimum_size = Vector2(520, 0)
+	ParchmentTheme.apply(page)
+	center.add_child(page)
+	var margin := MarginContainer.new()
+	for side in ["left", "top", "right", "bottom"]:
+		margin.add_theme_constant_override("margin_" + side, 36)
+	page.add_child(margin)
 	var box := VBoxContainer.new()
-	box.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-	box.custom_minimum_size = Vector2(420, 0)
-	box.position = Vector2(-210, -200)
-	box.add_theme_constant_override("separation", 16)
-	add_child(box)
+	box.add_theme_constant_override("separation", 14)
+	margin.add_child(box)
 	var title := Label.new()
 	title.text = "EL ÍNDICE DE CENIZA"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 40)
+	title.add_theme_font_size_override("font_size", 34)
 	box.add_child(title)
 	var subtitle := Label.new()
 	subtitle.text = "Una investigación en español"
 	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	subtitle.add_theme_font_size_override("font_size", 20)
 	box.add_child(subtitle)
 	for pair in [[continue_button, "Continuar"], [new_button, "Nueva partida"], [settings_button, "Ajustes"], [quit_button, "Salir"]]:
 		pair[0].text = pair[1]
-		pair[0].add_theme_font_size_override("font_size", 24)
+		pair[0].add_theme_font_size_override("font_size", 22)
 		box.add_child(pair[0])
 	continue_button.visible = FileAccess.file_exists(save_path)
 	continue_button.pressed.connect(func(): get_tree().change_scene_to_file(MAP_SCENE))
@@ -80,6 +92,8 @@ func _build_settings(box: VBoxContainer) -> void:
 		row[1].step = 1.0
 		row[1].value = float(audio.get(row[3] + "_db", -12.0))
 		row[1].custom_minimum_size = Vector2(240, 0)
+		row[1].size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		row[1].size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var line := HBoxContainer.new()
 		line.add_child(row[0])
 		line.add_child(row[1])
