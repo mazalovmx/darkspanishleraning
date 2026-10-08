@@ -2331,3 +2331,18 @@ Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 
 Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Learner progress and lesson review
+
+The lessons panel ("Español") has two tabs, "Práctica" (unchanged) and "Progreso y
+repaso": each block with its consolidated lessons (✓ done, ▸ current), the five most
+frequent errors by Spanish grammar name with count, last day and an example, and a
+review of every lesson already introduced (rule, model, one of its three exercises,
+"Otro ejercicio"). Review answers are checked against the lesson's authored answers;
+a wrong one shows a possible answer. Review never changes progress
+(`curriculum.review_check`), and lesson states come from `curriculum.card_status`.
+New suite `learner_progress_test` (17 checks). Rendered in a window and inspected: both
+tabs fit at 1280×720 after moving the panel up.
+
+Executed for this commit: the full non-live run, 55 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

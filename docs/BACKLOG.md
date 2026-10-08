@@ -99,9 +99,11 @@ its own multi-session plan and scenario-bible review per NPC.
   Missing innkeeper/room, healer, stable master, guard, toll collector, food seller,
   smuggler, each in three difficulty versions; survival dialogues of section 30
   (water, room, road safety, stable, complaint, permission).
-- Learner features: review of completed lessons, vocabulary practice, a progress
-  screen, explanatory error tags in feedback (section 29), `mastery_after` in error
-  memory (section 28). No placement; everyone starts at block 1.
+- Learner features: the lessons panel has a "Progreso y repaso" tab (block progress,
+  most frequent errors by Spanish name with an example, review of studied lessons with
+  no credit). Still missing: vocabulary practice, explanatory error tags in feedback
+  (section 29), `mastery_after` in error memory (section 28). No placement; everyone
+  starts at block 1.
 - Claude client: bounded retry delay, non-retryable client errors, whole-response
   fenced JSON and failed/offline focus rollback are implemented. Still missing:
   use of `difficulty_observation` and complete input/cache/cost accounting. Current

@@ -139,6 +139,27 @@ func submit(id: String, message: String, day: int) -> Dictionary:
 		record[task.stage] = {"day": day, "answer": message.strip_edges()}
 	return {"ok": true, "message": "Práctica registrada. " + ("Ahora usa la forma sin copiar el modelo." if task.stage == "guided" else "La siguiente tarea cambia el contexto.")}
 
+## A lesson's state for the progress screen.
+func card_status(id: String) -> String:
+	if not records.has(id):
+		return "pendiente"
+	var record: Dictionary = records[id]
+	if not record.recall.is_empty():
+		return "consolidada"
+	if not record.second.is_empty():
+		return "falta el recuerdo"
+	if not record.first.is_empty() or int(record.guided) > 0:
+		return "en práctica"
+	return "presentada"
+
+## Review of a lesson already introduced: checks one of its exercises and gives no
+## credit (progress still needs the ordered stages and delayed recall).
+func review_check(id: String, exercise: int, message: String) -> bool:
+	var card := card_for(id)
+	if card.is_empty() or not records.has(id) or exercise < 0 or exercise > 2:
+		return false
+	return _answer_ok(card, ["first", "second", "recall"][exercise], message)
+
 func allowed_grammar() -> Array:
 	var result: Array = []
 	for i in index():

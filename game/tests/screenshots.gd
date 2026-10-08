@@ -92,6 +92,11 @@ func run() -> void:
 		map.market.close()
 	map.lessons.open_course(state)
 	await shot("10_lessons")
+	var lesson: Dictionary = state.learner.curriculum.blocks[0].cards[0]
+	state.learner.curriculum.introduce(lesson.id, state.day)
+	state.learner.errors["ser_estar"] = {"count": 2, "last_seen_day": 1, "examples": ["El abad está médico."]}
+	map.lessons.progress_tab.pressed.emit()
+	await shot("10b_progress")
 	map.lessons.close()
 	map.equipment_panel.open_inventory(state)
 	await shot("11_equipment")
