@@ -158,7 +158,7 @@ its own multi-session plan and scenario-bible review per NPC.
 ## P2 - Release readiness (sections 33, 35, 42, Epic 14.3, Epic 20)
 
 - A Windows preset exists and a build was produced (RELEASE.md); the `.exe` has not
-  been run on Windows; no application icon.
+  been run on Windows. The application icon is the project's own (`tools/make_icon.py`).
 - Title screen with continue, new game, audio settings (saved in
   `user://settings.json`) and quit; the map has "Menú principal".
 - Frame rate: after moving fog to a tile layer, one windowed run on the development
@@ -177,7 +177,7 @@ its own multi-session plan and scenario-bible review per NPC.
   (`tools/make_portraits.py`), not illustrated portraits. The fog
   and parchment shaders are unused; the vignette is optional and off. Nobody has
   listened to the audio.
-- Project README exists; no CI. Screenshot paths in about 28 test lines are absolute.
+- Project README exists; no CI.
 - Autosave failure shows only a small label; save validation hard-codes key counts
   and the NPC whitelist, so adding state requires touching those lines.
 

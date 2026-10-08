@@ -98,7 +98,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("C:/dev/game/tools/local/opening-reasoning-preview.png")
+		root.get_texture().get_image().save_png("user://opening-reasoning-preview.png")
 	notebook.record_button.pressed.emit()
 	check(evidence.has_evidence("opening_conclusion"), "Supported causal chain recorded")
 	check(evidence.progress().opening_conclusion.classification == "causal_conclusion", "Conclusion has distinct classification")

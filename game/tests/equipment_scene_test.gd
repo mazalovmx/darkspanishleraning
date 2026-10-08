@@ -89,7 +89,7 @@ func run() -> void:
 			if DisplayServer.get_name() != "headless":
 				await process_frame
 				await RenderingServer.frame_post_draw
-				root.get_texture().get_image().save_png("C:/dev/game/tools/local/soul-conversation-preview.png")
+				root.get_texture().get_image().save_png("user://soul-conversation-preview.png")
 		panel.input.text = gear.expected("SA01",stage)
 		panel.send_button.pressed.emit()
 	check(not panel.assemble_button.disabled and gear.consent("inquisitor","SA01"),"Full staged dialogue unlocks assembly")
@@ -108,7 +108,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("C:/dev/game/tools/local/equipment-preview.png")
+		root.get_texture().get_image().save_png("user://equipment-preview.png")
 	map._load_game()
 	check(not panel.visible and panel.world_state == map.state,"Load closes and rebinds stale equipment view")
 	var path: String = map.save_path

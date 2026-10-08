@@ -125,7 +125,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("C:/dev/game/tools/local/market-preview.png")
+		root.get_texture().get_image().save_png("user://market-preview.png")
 	panel.input.text = models.confirm
 	panel.send_button.pressed.emit()
 	check(map.state.trade.inventory.bread == 2 and map.state.resources.gold == 296, "UI transaction commits")

@@ -110,7 +110,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("C:/dev/game/tools/local/evidence-preview.png")
+		root.get_texture().get_image().save_png("user://evidence-preview.png")
 	map.queue_free()
 	await process_frame
 	DirAccess.remove_absolute(path)

@@ -117,7 +117,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("C:/dev/game/tools/local/economy-preview.png")
+		root.get_texture().get_image().save_png("user://economy-preview.png")
 	var path: String = map.save_path
 	map.queue_free()
 	await process_frame

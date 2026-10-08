@@ -176,7 +176,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("C:/dev/game/tools/local/stack-battle-preview.png")
+		root.get_texture().get_image().save_png("user://stack-battle-preview.png")
 	layer.queue_free()
 	await process_frame
 	print("Stack battle checks: %d, failures: %d" % [checks, failures])

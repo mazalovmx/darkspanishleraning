@@ -55,7 +55,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("C:/dev/game/tools/local/curriculum-preview.png")
+		root.get_texture().get_image().save_png("user://curriculum-preview.png")
 	# Complete the rest of the current block through actual lesson controls.
 	var attempts := 0
 	while panel.task.stage != "wait" and attempts < 40:

@@ -2318,3 +2318,16 @@ Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 
 Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Application icon and test preview paths
+
+- Own icon (`tools/make_icon.py`: book with an ember flame) as `game/icon.png`
+  (project `config/icon`) and `game/icon.ico` (Windows `application/icon`); the default
+  Godot `icon.svg` is removed. A test export embedded all six icon sizes in the `.exe`.
+  Not looked at in Windows.
+- The 27 windowed preview captures in 24 test files saved to `C:/dev/game/tools/local/`;
+  they now save to `user://`, so they work on any machine. They still run only when a
+  display is present.
+
+Executed for this commit: the full non-live run, 54 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

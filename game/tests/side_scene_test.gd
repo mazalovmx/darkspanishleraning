@@ -84,7 +84,7 @@ func run() -> void:
 			if DisplayServer.get_name() != "headless":
 				await process_frame
 				await RenderingServer.frame_post_draw
-				root.get_texture().get_image().save_png("C:/dev/game/tools/local/side-acrostic-preview.png")
+				root.get_texture().get_image().save_png("user://side-acrostic-preview.png")
 		answer(models.access)
 		check(cases.stage(id) == "inspect","Spanish request recorded through UI: " + id)
 		panel.send_button.pressed.emit()
@@ -124,7 +124,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("C:/dev/game/tools/local/side-case-preview.png")
+		root.get_texture().get_image().save_png("user://side-case-preview.png")
 	map._load_game()
 	check(not panel.visible and panel.world_state == map.state,"Load rebinds and closes case view")
 	var path: String = map.save_path

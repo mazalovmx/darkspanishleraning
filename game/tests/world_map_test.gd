@@ -142,7 +142,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("C:/dev/game/tools/local/world-preview.png")
+		root.get_texture().get_image().save_png("user://world-preview.png")
 	# POI arrival, modal input isolation, closing and reopening.
 	check(map.tiles.get_cell_source_id(Vector2i(19, 0)) == -1, "Hidden terrain has no tile")
 	map.state.movement_remaining = 0
@@ -185,7 +185,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("C:/dev/game/tools/local/poi-preview.png")
+		root.get_texture().get_image().save_png("user://poi-preview.png")
 	map.queue_free()
 	await process_frame
 	print("World map checks: %d, failures: %d" % [checks, failures])

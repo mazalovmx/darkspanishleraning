@@ -110,7 +110,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("C:/dev/game/tools/local/spanish-preview.png")
+		root.get_texture().get_image().save_png("user://spanish-preview.png")
 	map.queue_free()
 	await process_frame
 	print("Spanish feedback checks: %d, failures: %d" % [checks, failures])

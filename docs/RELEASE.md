@@ -29,3 +29,11 @@ the keys from the process environment, and without any key it plays offline.
 
 Not verified: the `.exe` itself on Windows (no Windows machine here), frame rate on a
 weak PC, an application icon (the preset uses the default).
+
+## Icon
+
+`game/icon.png` (project icon) and `game/icon.ico` (16-256 px, set as
+`application/icon` in the Windows preset) are drawn by `tools/make_icon.py`: a closed
+book with an ember flame. A test export on 2026-10-08 embedded all six sizes in the
+`.exe` (checked by searching the file for each image); how Windows Explorer shows it
+has not been seen.

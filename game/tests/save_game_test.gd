@@ -220,7 +220,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("C:/dev/game/tools/local/save-preview.png")
+		root.get_texture().get_image().save_png("user://save-preview.png")
 	restarted.queue_free()
 	await process_frame
 	# Remove only explicitly owned test files, never the user's save slot.

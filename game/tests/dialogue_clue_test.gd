@@ -138,7 +138,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("C:/dev/game/tools/local/dialogue-clue-preview.png")
+		root.get_texture().get_image().save_png("user://dialogue-clue-preview.png")
 	check(mastery > 0, "Valid evaluated dialogue still updates Spanish observations")
 	map.queue_free()
 	await process_frame

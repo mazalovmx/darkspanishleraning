@@ -39,7 +39,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("C:/dev/game/tools/local/ghost-counter-preview.png")
+		root.get_texture().get_image().save_png("user://ghost-counter-preview.png")
 	panel.close()
 	check(not map.end_button.disabled,"Close returns turn control")
 	map._end_turn()
