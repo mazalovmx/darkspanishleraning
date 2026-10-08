@@ -23,6 +23,8 @@ var client = preload("res://src/claude/claude_client.gd").new()
 var pending_location := ""
 var pending_message := ""
 var pending_fallback := ""
+# Authored branch behind the offline reply ("" for none): the next turn may follow it.
+var pending_branch: Dictionary = {}
 var pending_day := 1
 var pending_unlocks: Array = []
 var pending_focus: Array = []
@@ -114,6 +116,9 @@ func submit(message: String) -> void:
 	pending_day = world_state.day
 	pending_message = clean
 	pending_fallback = reply_for(location_id, clean)
+	pending_branch = branch_for(location_id, clean)
+	if pending_branch.get("reply", "") != pending_fallback:
+		pending_branch = {}
 	input.clear()
 	input.editable = false
 	speaker.disabled = true
@@ -191,8 +196,11 @@ func _on_reply(proposal: Dictionary) -> void:
 				last_feedback[pending_location] += "\nNueva afirmación anotada en el cuaderno."
 				break
 	var history: Array = histories[pending_location]
-	history.append({"player": pending_message, "reply": reply})
+	history.append({"player": pending_message, "reply": reply, "branch": str(pending_branch.get("id", ""))})
 	world_state.remember(npc_id, intent, pending_day)
+	# A finished survival exchange of master spec 30 counts once it has been carried through.
+	if pending_branch.has("survival"):
+		world_state.note_survival(npc_id, str(pending_branch.survival))
 	while history.size() > MAX_EXCHANGES:
 		history.pop_front()
 	input.editable = true
@@ -206,6 +214,7 @@ func _on_reply(proposal: Dictionary) -> void:
 	pending_location = ""
 	pending_message = ""
 	pending_fallback = ""
+	pending_branch = {}
 	pending_unlocks.clear()
 	turn_finished.emit()
 
@@ -227,6 +236,16 @@ func reply_for(id: String, message: String, disclose := true) -> String:
 	for clue_id: String in context.get("npc_knowledge", {}):
 		if disclose and evidence.node(clue_id).get("location_id", "") == scene_for(id) and evidence.valid_note(clue_id, message):
 			return evidence.node(clue_id).claim + (" Esta declaración ya consta en el cuaderno." if evidence.has_evidence(clue_id) else "")
+	return str(branch_for(id, message).get("reply", conversations[id].fallback))
+
+## The first authored branch whose keyword the message contains. A branch with
+## "follows" answers only right after the branch with that id (a short exchange such
+## as "¿Cuántas?" → "Tres."); one with "requires_flag" only once that flag is confirmed.
+func branch_for(id: String, message: String) -> Dictionary:
+	if not conversations.has(id):
+		return {}
+	var history: Array = histories.get(id, [])
+	var previous: String = str(history.back().get("branch", "")) if not history.is_empty() else ""
 	var normalized := message.to_lower()
 	var accents := {"á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u", "ü": "u"}
 	for letter in accents:
@@ -238,10 +257,12 @@ func reply_for(id: String, message: String, disclose := true) -> String:
 	for branch: Dictionary in conversations[id].branches:
 		if branch.has("requires_flag") and flags.get(branch.requires_flag, "") != "confirmed":
 			continue
+		if branch.has("follows") and branch.follows != previous:
+			continue
 		for keyword: String in branch.keywords:
 			if normalized.contains(" " + keyword + " "):
-				return branch.reply
-	return conversations[id].fallback
+				return branch
+	return {}
 
 func _render_history() -> void:
 	hint.text = "Objetivo: " + str(world_state.learner.curriculum.blocks[world_state.learner.curriculum.index()].title) + ". " + str(conversations[location_id].hint)

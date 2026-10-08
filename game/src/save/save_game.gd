@@ -189,6 +189,9 @@ static func decode(data: Variant) -> Dictionary:
 		if not memory is Dictionary:
 			return {"error": "invalid"}
 		var intents: Array = state.evidence.grounding.intents()
+		# Survival exchanges of master spec 30 are kept as topics too.
+		for key: String in state.SURVIVAL:
+			intents.append(state.SURVIVAL_TOPIC + key)
 		for npc_id: Variant in memory:
 			var entry: Variant = memory[npc_id]
 			if npc_id not in NPC_IDS or not entry is Dictionary or entry.size() != 3:

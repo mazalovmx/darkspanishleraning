@@ -43,10 +43,10 @@ func run() -> void:
 	enter.pressed = true
 	root.push_input(enter, true)
 	check(dialogue.histories.LOC11.size() == 1, "Enter submits exactly once")
-	check(dialogue.transcript.text.contains("Siga el camino"), "Authored directions reply displayed")
+	check(dialogue.transcript.text.contains("Siga este camino"), "Authored directions reply displayed")
 	check(dialogue.input.text.is_empty() and dialogue.send_button.disabled, "Input cleared after reply")
 	var memory: Dictionary = map.state.npc_memory.get("innkeeper_prototype", {})
-	check(memory.get("count") == 1 and memory.get("last_day") == day and memory.get("topics") == ["ask_route"], "NPC remembers the talk and its topic")
+	check(memory.get("count") == 1 and memory.get("last_day") == day and memory.get("topics") == ["ask_route", "survival:directions"], "NPC remembers the talk, its topic and the survival exchange")
 	check(not dialogue.transcript.text.contains("Otra vez"), "Greeting does not change inside the same transcript")
 	var kept: Array = dialogue.histories.LOC11.duplicate(true)
 	dialogue.histories.LOC11.clear()

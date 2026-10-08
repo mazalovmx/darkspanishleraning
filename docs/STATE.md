@@ -2578,3 +2578,29 @@ Executed for this commit: the full non-live run, 59 suites, all exit 0 with
 
 Executed for this commit: the full non-live run, 59 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Survival dialogues of section 30
+
+- All nine exchanges of master spec 30 are typed in conversation, offline replies
+  authored, with the spec lines: food, water, inn, directions, road safety, stable and
+  complaint with the innkeeper (Venta del Perro Negro); medicine and directions from
+  Miralba with Leonor Valera; permission with Fermín Cuesta at the archive.
+- Authored branches can carry `id` and `follows`: a follow-up line ("Tres.", "Para dos
+  días.", "¿Incluye comida?", "No. Le pedí aceite para la lámpara.", "Tengo una orden del
+  tribunal.") answers only right after the line it follows; the quoted totals match the
+  market prices (bread 2, bandages 5, horse feed 3, room 5). The history keeps the branch.
+- Directions match the province map: from the venta north, then left at the crossroads;
+  from Miralba north, left at the crossroads, over the bridge, west.
+- A finished exchange is kept as the topic `survival:<key>` in the NPC memory (validated
+  on load; saves stay v13) and listed on the progress tab ("DIÁLOGOS DE SUPERVIVENCIA:
+  n de 9", with where to practise the rest).
+- Fermín's single permission reply became the spec's two steps; the first line still
+  gives the `ask_permission` topic the sealed order card needs.
+- Limits: the conversation quotes prices but does not sell (buying stays at the
+  counters); the complaint does not change the inventory.
+- Tests: new survival_dialogue_test (every exchange, follow-ups only after their line,
+  memory, save, forged topic, progress tab); authored_dialogue_test updated. The progress
+  tab was not rendered in a window.
+
+Executed for this commit: the full non-live run, 60 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

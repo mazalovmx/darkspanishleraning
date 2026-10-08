@@ -104,8 +104,12 @@ its own multi-session plan and scenario-bible review per NPC.
   Guard: Fermín Cuesta lets the investigator into the archive when asked in Spanish
   (needed for the first archive card). Toll: a pass at Puente Seco; without it each
   bridge costs 4 extra movement. Smuggler: rare resources for gold at Marjal Negro.
-  Missing survival dialogues of
-  section 30 for water, road safety, stable, complaint and permission.
+  Survival dialogues of section 30 are typed in conversation: food, water, inn, directions,
+  road safety, stable and complaint with the innkeeper (LOC11), medicine and directions
+  with Leonor Valera (LOC15), permission with Fermín Cuesta (LOC14). Two-step lines use
+  `follows`; finished exchanges show on the progress tab. The conversational lines quote
+  prices but do not sell: buying stays at the counters with the grammar tiers. The
+  complaint does not change the inventory.
 - Learner features: the lessons panel has a "Progreso y repaso" tab (block progress,
   most frequent errors by Spanish name with an example, review of studied lessons with
   no credit). Corrections in conversation and campaign reviews name their grammar and

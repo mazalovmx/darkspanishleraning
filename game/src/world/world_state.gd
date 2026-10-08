@@ -207,6 +207,36 @@ func remember(npc_id: String, intent: String, on_day: int) -> void:
 		entry.topics.append(intent)
 	npc_memory[npc_id] = entry
 
+## Survival dialogues of master spec 30, in the spec's order: key -> [name, where].
+const SURVIVAL := {
+	"food": ["Comida: «¿Tiene pan?»", "el posadero de la Venta del Perro Negro"],
+	"water": ["Agua: «¿Hay agua potable?»", "el posadero de la Venta del Perro Negro"],
+	"medicine": ["Medicina: «Necesito vendas.»", "la doctora Valera en el hospital de Miralba"],
+	"inn": ["Posada: «Necesito una habitación para esta noche.»", "el posadero de la Venta del Perro Negro"],
+	"directions": ["Direcciones: «¿Cómo llego al monasterio?»", "el posadero o la doctora Valera"],
+	"road": ["Seguridad del camino: «¿Es seguro el camino del norte?»", "el posadero de la Venta del Perro Negro"],
+	"stable": ["Establo: «Necesito comida para el caballo.»", "el posadero de la Venta del Perro Negro"],
+	"complaint": ["Queja: «Pedí aceite, no vino.»", "el posadero de la Venta del Perro Negro"],
+	"permission": ["Permiso: «Necesito entrar.»", "Fermín Cuesta en el Archivo Episcopal"]}
+const SURVIVAL_TOPIC := "survival:"
+
+## Marks a survival exchange as carried through with this character (after remember()).
+func note_survival(npc_id: String, key: String) -> void:
+	if not SURVIVAL.has(key) or not npc_memory.has(npc_id):
+		return
+	if SURVIVAL_TOPIC + key not in npc_memory[npc_id].topics:
+		npc_memory[npc_id].topics.append(SURVIVAL_TOPIC + key)
+
+## Survival exchanges carried through with anyone, as SURVIVAL keys.
+func survival_done() -> Array:
+	var done: Array = []
+	for key: String in SURVIVAL:
+		for npc_id: String in npc_memory:
+			if SURVIVAL_TOPIC + key in npc_memory[npc_id].get("topics", []):
+				done.append(key)
+				break
+	return done
+
 func planning_active() -> bool:
 	return ghosts.plan != null or not ghosts.pending_encounter.is_empty()
 
