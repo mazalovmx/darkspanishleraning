@@ -104,7 +104,8 @@ its own multi-session plan and scenario-bible review per NPC.
   most frequent errors by Spanish name with an example, review of studied lessons with
   no credit). Corrections in conversation and campaign reviews name their grammar and
   the lesson rule (section 29). Error memory stores `mastery_after` (section 28).
-  Still missing: vocabulary practice. No placement; everyone
+  The progress tab lists new words from conversations; there are no vocabulary
+  exercises yet. No placement; everyone
   starts at block 1.
 - Claude client: bounded retry delay, non-retryable client errors, whole-response
   fenced JSON and failed/offline focus rollback are implemented. Still missing:
@@ -182,7 +183,8 @@ its own multi-session plan and scenario-bible review per NPC.
   and parchment shaders are unused; the vignette is optional and off. Nobody has
   listened to the audio.
 - Project README exists; no CI.
-- Autosave failure shows only a small label; save validation hard-codes key counts
+- A failed save turns the notice red and shows a dialog once per session. Save
+  validation hard-codes key counts
   and the NPC whitelist, so adding state requires touching those lines.
 
 ## P3 - Measurement and playtest (section 43)

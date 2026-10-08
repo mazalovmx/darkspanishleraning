@@ -2402,3 +2402,16 @@ learner_progress_test (save round trip, older record, progress line).
 
 Executed for this commit: the full non-live run, 55 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Save failure warning; new vocabulary in the progress tab
+
+- A failed save (automatic or manual) turns the notice red and, once per session,
+  opens a dialog saying progress may be lost and what to check; an invalid save file
+  that pauses autosave is also shown in red; a later successful save clears the
+  colour. New suite `save_warning_test` (5 checks, writes into a folder that does not
+  exist).
+- The progress tab lists the last 20 new words recorded from conversations
+  (learner_progress_test, 22 checks).
+
+Executed for this commit: the full non-live run, 56 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

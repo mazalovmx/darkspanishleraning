@@ -64,6 +64,9 @@ var save_confirm := ConfirmationDialog.new()
 var new_button := Button.new()
 var menu_button := Button.new()
 var new_confirm := ConfirmationDialog.new()
+# Shown once per session when saving fails, so lost progress is never a surprise.
+var save_failed := AcceptDialog.new()
+var save_failure_warned := false
 var notebook = preload("res://src/evidence/evidence_notebook.gd").new()
 var notebook_button := Button.new()
 var language_button := Button.new()
@@ -560,6 +563,15 @@ func _build_ui() -> void:
 			get_tree().change_scene_to_file("res://src/ui/title_menu.tscn"))
 	box.add_child(menu_button)
 	layer.add_child(new_confirm)
+	layer.add_child(save_failed)
+	save_failed.title = "No se pudo guardar"
+	save_failed.dialog_text = "La partida no se pudo guardar en el disco. Si cierras el juego ahora, puedes perder el progreso de esta sesión. El juego lo intentará de nuevo en el próximo guardado; comprueba el espacio libre y los permisos de la carpeta."
+	save_failed.ok_button_text = "Entendido"
+	save_failed.get_label().autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	save_failed.get_label().custom_minimum_size = Vector2(460, 0)
+	save_failed.get_label().add_theme_font_size_override("font_size", 22)
+	save_failed.get_ok_button().add_theme_font_size_override("font_size", 22)
+	save_failed.add_theme_font_size_override("title_font_size", 24)
 	new_confirm.title = "Nueva partida"
 	new_confirm.dialog_text = "¿Empezar desde el principio? La partida guardada se reemplaza; se conserva una copia anterior."
 	new_confirm.confirmed.connect(_new_game)
@@ -1040,8 +1052,13 @@ func _save_game(automatic := false, replace_invalid := false) -> void:
 	if error.is_empty():
 		save_locked = false
 		save_notice.text = "Partida guardada."
+		save_notice.remove_theme_color_override("font_color")
 	else:
 		save_notice.text = "No se pudo guardar. Inténtalo de nuevo."
+		save_notice.add_theme_color_override("font_color", Color("ff8a70"))
+		if not save_failure_warned:
+			save_failure_warned = true
+			save_failed.popup_centered()
 
 func _load_game(startup := false) -> void:
 	if not persistence_enabled or arena.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
@@ -1051,6 +1068,7 @@ func _load_game(startup := false) -> void:
 		if result.error != "missing":
 			save_locked = true
 			save_notice.text = "Archivo no válido. Guardado automático pausado."
+			save_notice.add_theme_color_override("font_color", Color("ff8a70"))
 		elif not startup:
 			save_notice.text = "Todavía no hay una partida guardada."
 		return

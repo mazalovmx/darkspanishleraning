@@ -142,6 +142,9 @@ func _fill_progress() -> void:
 		var level: float = float(errors[tag].get("mastery_after", world_state.learner.mastery(tag)))
 		lines.append("· %s: %d %s (último día %d, dominio %d %%)%s" % [tag_name(tag), int(errors[tag].count),
 			"vez" if int(errors[tag].count) == 1 else "veces", int(errors[tag].last_seen_day), roundi(level * 100), (" · «%s»" % example.left(80)) if not example.is_empty() else ""])
+	var words: Array = world_state.learner.vocabulary.slice(-20)
+	lines.append("")
+	lines.append(("VOCABULARIO NUEVO DE LAS CONVERSACIONES: " + ", ".join(words)) if not words.is_empty() else "VOCABULARIO NUEVO: aparecerá al conversar.")
 	report.text = "\n".join(lines)
 	var selected: String = str(review_select.get_selected_metadata()) if review_select.selected >= 0 else ""
 	review_select.clear()

@@ -33,6 +33,7 @@ func run() -> void:
 	var loaded: Dictionary = Save.decode(Save.snapshot(state))
 	check(loaded.has("state") and is_equal_approx(float(loaded.state.learner.errors.hay.mastery_after), 0.42) and loaded.state.learner.errors.ser_estar.has("mastery_after"), "mastery_after survives a save; older records get the current mastery")
 	state.learner.errors.erase("hay")
+	state.learner.vocabulary.assign(["la vela", "el sello"])
 	var panel = load("res://src/spanish/curriculum_panel.gd").new()
 	root.add_child(panel)
 	await process_frame
@@ -42,6 +43,7 @@ func run() -> void:
 	check(panel.progress_box.visible and not panel.practice_box.visible, "The progress tab shows progress")
 	check(panel.report.text.contains("Bloque 1") and panel.report.text.contains("0 de %d" % course.blocks[0].cards.size()), "Block progress listed")
 	check(panel.report.text.contains("dominio 0 %") and panel.report.text.contains("ser / estar: 3 veces") and panel.report.text.contains("El abad está médico."), "Frequent errors listed by name with an example")
+	check(panel.report.text.contains("VOCABULARIO NUEVO DE LAS CONVERSACIONES: la vela, el sello"), "New vocabulary listed")
 	check(panel.review_select.item_count == 1 and str(panel.review_select.get_selected_metadata()) == first.id, "Only studied lessons can be reviewed")
 	panel.review_answer.text = first.exercises[0].answers[0]
 	panel.review_check.pressed.emit()
