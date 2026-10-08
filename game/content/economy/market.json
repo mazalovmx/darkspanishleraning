@@ -5,7 +5,8 @@
     "plural": "panes",
     "price": 2,
     "stock": 30,
-    "kind": "supply"
+    "kind": "supply",
+    "use": "Se come uno por cada día de viaje; sin pan pierdes salud."
   },
   "water": {
     "name": "Agua potable",
@@ -13,7 +14,8 @@
     "plural": "botellas de agua",
     "price": 1,
     "stock": 30,
-    "kind": "supply"
+    "kind": "supply",
+    "use": "Se bebe una por cada día de viaje; sin agua pierdes salud."
   },
   "medicine": {
     "name": "Vendas",
@@ -21,7 +23,8 @@
     "plural": "vendas",
     "price": 5,
     "stock": 12,
-    "kind": "supply"
+    "kind": "supply",
+    "use": "Cura 25 puntos cuando la salud baja de 70."
   },
   "horse_feed": {
     "name": "Comida para el caballo",
@@ -29,7 +32,8 @@
     "plural": "raciones de pienso",
     "price": 3,
     "stock": 20,
-    "kind": "supply"
+    "kind": "supply",
+    "use": "Da dos puntos de movimiento después de un día de viaje."
   },
   "lamp_oil": {
     "name": "Aceite para la lámpara",
@@ -37,7 +41,8 @@
     "plural": "frascos de aceite",
     "price": 4,
     "stock": 12,
-    "kind": "supply"
+    "kind": "supply",
+    "use": "Con aceite ves dos casillas más lejos; se gasta un frasco por día de viaje."
   },
   "militia": {
     "name": "Milicianos",

@@ -2300,3 +2300,21 @@ Rendered in a window: the battle screen with the new button and the range note.
 
 Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Lamp oil and supply descriptions; two stale backlog items
+
+- Lamp oil: a hero who carries it sees two cells farther (`view_radius`, `LAMP_RADIUS`);
+  a flask burns per day of travel and the turn notice says when the last one is gone.
+  The map's re-lighting loop covers the wider radius. supplies_test: 5 new checks
+  (normal and lamp radius, a cell beyond the normal radius visible with the lamp, the
+  flask burnt, the cell fading back to explored).
+- Market goods have a `use` line in Spanish (what bread, water, bandages, horse feed and
+  lamp oil do), shown under the price; the market panel starts higher to fit it
+  (rendered in a window and inspected).
+- BACKLOG cleanup after checking the code: ghost activation already follows the latest
+  cases (ghost_state_test covers NK07/NK08) and Ysabel's account already sets
+  `research_disclosed` (npc_grounding_test); the four-versus-seven stack question is
+  settled by the updated section 13.
+
+Executed for this commit: the full non-live run, 54 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

@@ -127,7 +127,6 @@ its own multi-session plan and scenario-bible review per NPC.
 - LOC10 Marjal Negro has a conversable bandit chief and the guarded caches. LOC18
   Torre del Relé has a talking relay (after Elias arrives) besides Elias's card.
 - Santa Lucerna sub-spaces and city-specific vocabulary sets are not represented.
-- Lucio's `forbidden_research` secret needs flag `research_disclosed`, which nothing sets.
 - Institutional speech acts (Epic 18): authorities, procedures and acts are data
   (`institutions.json`); acts of recorded nodes and chosen outcomes are in force and
   listed in the journal; effects are flags. Still few acts use it (see MQ10 below).
@@ -135,7 +134,7 @@ its own multi-session plan and scenario-bible review per NPC.
 ## P2 - Strategic layer
 
 - Supplies and health act on the province map: bread and water on the road, rest,
-  bandages, horse feed, weakness below half health. Lamp oil still has no effect.
+  bandages, horse feed, weakness below half health, lamp oil (sight +2 cells).
 - Map treasures exist (`treasures.json`): 30 caches hold the 90 optional_treasure
   items; six bandit-guarded caches of relics stand in the Marjal Negro ruins.
 - Owned mines are contested: raiders every seventh day after the claim stop the
@@ -149,7 +148,6 @@ its own multi-session plan and scenario-bible review per NPC.
   but set no flag and have no consequence; case results do not reach the notebook.
 - Soul specials reduce counter evidence from two to one for every set; the authored
   per-set actions and durations are not implemented.
-- Ghost activation takes the first three eligible ids, so NK07/NK08 may never appear.
 - Battles are on a Heroes-style hex field with movement (master spec 13, user decision
   2026-10-08). The probe's policy walks straight at the weakest enemy; no human has
   played the positional battles, and unit speeds are authored estimates.
@@ -195,7 +193,7 @@ its own multi-session plan and scenario-bible review per NPC.
 
 - (Resolved 2026-10-07: both spec and bible copies now record the expansion as
   integrated; the branch is pushed to the public GitHub repository named in STATE.md.)
-- Section 13 says four stacks per side; section 12 says seven. Code follows seven.
+- (Resolved 2026-10-08: section 13 now says seven stacks per side, as the code does.)
 - Section 33 names one save file; the province uses `user://province_savegame.json`
   next to the prototype's `user://savegame.json`.
 - Spec repository layout (root `src/`, `content/`, `tests/`) versus actual `game/`.

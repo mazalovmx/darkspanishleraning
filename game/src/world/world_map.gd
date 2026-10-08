@@ -881,8 +881,9 @@ func _refresh() -> void:
 	for member in state.party.heroes.values():
 		if not member.unlocked:
 			continue
-		for y in range(member.cell.y - state.VIEW_RADIUS, member.cell.y + state.VIEW_RADIUS + 1):
-			for x in range(member.cell.x - state.VIEW_RADIUS, member.cell.x + state.VIEW_RADIUS + 1):
+		var radius: int = state.VIEW_RADIUS + state.LAMP_RADIUS
+		for y in range(member.cell.y - radius, member.cell.y + radius + 1):
+			for x in range(member.cell.x - radius, member.cell.x + radius + 1):
 				var cell := Vector2i(x, y)
 				if state.fog_at(cell) == WorldState.Fog.VISIBLE:
 					fog_tiles.erase_cell(cell)

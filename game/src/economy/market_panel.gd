@@ -23,6 +23,8 @@ func _ready() -> void:
 	panel.add_theme_stylebox_override("panel", style)
 	# Parchment like the journal; its frame is thicker, so the inner margin shrinks.
 	var paper: bool = preload("res://src/common/parchment_theme.gd").apply(panel)
+	if paper:
+		panel.position.y = 40
 	add_child(panel)
 	var margin := MarginContainer.new()
 	for side in ["left", "right", "top", "bottom"]:
@@ -89,6 +91,8 @@ func _refresh() -> void:
 	var trade = world_state.trade
 	var item: Dictionary = trade.goods[id]
 	description.text = "%s · Precio: %d monedas · Existencias: %d · Tu oro: %d" % [item.name, item.price, trade.stock[id], world_state.resources.gold]
+	if item.has("use"):
+		description.text += "\n" + str(item.use)
 	var phase_name: String = {"request": "1. Pide producto y cantidad", "price": "2. Comprueba el precio", "confirm": "3. Confirma la compra"}[trade.phase]
 	prompt.text = phase_name + "\n" + trade.cue(world_state, id, int(quantity.value))
 	products.disabled = trade.phase != "request"

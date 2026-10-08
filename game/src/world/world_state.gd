@@ -9,6 +9,8 @@ const MAPS := {"prototype_20x20_v1": "res://content/world/prototype.json",
 var map_id := "prototype_20x20_v1"
 var map_data: Dictionary = {}
 const VIEW_RADIUS := 5
+## Extra sight for a hero who carries lamp oil.
+const LAMP_RADIUS := 2
 const MOVEMENT_MAX := 18
 var ghosts = preload("res://src/world/ghost_state.gd").new()
 var turn_notice := ""
@@ -92,18 +94,25 @@ func _init(selected_map := "prototype_20x20_v1") -> void:
 func fog_at(cell: Vector2i) -> int:
 	return fog.get(cell, Fog.UNKNOWN)
 
+## How far a hero sees: two cells more while carrying lamp oil.
+func view_radius(id: String) -> int:
+	var hero = party.heroes.get(id)
+	return VIEW_RADIUS + (LAMP_RADIUS if hero != null and int(hero.inventory.get("lamp_oil", 0)) > 0 else 0)
+
 func _reveal_from(center: Vector2i) -> void:
 	for cell in fog:
 		fog[cell] = Fog.EXPLORED
-	var centers: Array[Vector2i] = [center]
+	var centers: Array = [[center, view_radius(party.active_id)]]
 	for id in party.heroes:
 		if id != party.active_id and party.heroes[id].unlocked:
-			centers.append(party.heroes[id].cell)
-	for origin: Vector2i in centers:
-		for y in range(origin.y - VIEW_RADIUS, origin.y + VIEW_RADIUS + 1):
-			for x in range(origin.x - VIEW_RADIUS, origin.x + VIEW_RADIUS + 1):
+			centers.append([party.heroes[id].cell, view_radius(id)])
+	for pair: Array in centers:
+		var origin: Vector2i = pair[0]
+		var radius: int = pair[1]
+		for y in range(origin.y - radius, origin.y + radius + 1):
+			for x in range(origin.x - radius, origin.x + radius + 1):
 				var cell := Vector2i(x, y)
-				if grid.region.has_point(cell) and origin.distance_squared_to(cell) <= VIEW_RADIUS * VIEW_RADIUS:
+				if grid.region.has_point(cell) and origin.distance_squared_to(cell) <= radius * radius:
 					fog[cell] = Fog.VISIBLE
 					known_grid.set_point_solid(cell, terrain_cost(cell) == 0 or gate_at(cell).get("closed", false))
 					known_grid.set_point_weight_scale(cell, maxi(1, terrain_cost(cell)))
@@ -226,7 +235,8 @@ func end_turn() -> void:
 
 ## Optional supplies (master spec 12): a travelling hero eats bread and drinks water or
 ## loses health; resting heals; bandages treat; horse feed adds two points; below half
-## health the hero moves a quarter less. Lamp oil has no effect yet.
+## health the hero moves a quarter less; lamp oil lets the hero see two cells farther and
+## a flask burns per day of travel.
 func _use_supplies(travelled: Dictionary) -> void:
 	var notes: PackedStringArray = []
 	for id: String in party.heroes:
@@ -242,6 +252,10 @@ func _use_supplies(travelled: Dictionary) -> void:
 				else:
 					hero.health = maxi(30, hero.health - 5)
 					notes.append("%s viaja sin %s y pierde salud." % [name, "pan" if item == "bread" else "agua"])
+			if int(hero.inventory.get("lamp_oil", 0)) > 0:
+				hero.inventory.lamp_oil -= 1
+				if hero.inventory.lamp_oil == 0:
+					notes.append("%s se queda sin aceite para la lámpara." % name)
 			if int(hero.inventory.get("horse_feed", 0)) > 0:
 				hero.inventory.horse_feed -= 1
 				hero.movement_remaining = mini(ceiling, hero.movement_remaining + 2)
