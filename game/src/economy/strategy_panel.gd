@@ -25,13 +25,17 @@ func _ready() -> void:
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("22252a")
 	panel.add_theme_stylebox_override("panel",style)
+	# Parchment like the journal; its frame is thicker, so the inner margin shrinks.
+	var paper: bool = preload("res://src/common/parchment_theme.gd").apply(panel)
+	if paper:
+		panel.position.y = 8
 	add_child(panel)
 	var margin := MarginContainer.new()
-	for side in ["left","top","right","bottom"]:
-		margin.add_theme_constant_override("margin_" + side,22)
+	for side in ["left", "right", "top", "bottom"]:
+		margin.add_theme_constant_override("margin_" + side, 6 if paper and side in ["top", "bottom"] else 22)
 	panel.add_child(margin)
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation",12)
+	box.add_theme_constant_override("separation",8 if paper else 12)
 	margin.add_child(box)
 	box.add_child(title)
 	resources.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -47,7 +51,7 @@ func _ready() -> void:
 	quantity.max_value = 20
 	quantity.value_changed.connect(func(_value: float): refresh())
 	offers.add_child(quantity)
-	description.custom_minimum_size.y = 150
+	description.custom_minimum_size.y = 110 if paper else 150
 	description.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	description.bbcode_enabled = false
 	box.add_child(description)

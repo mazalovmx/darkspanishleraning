@@ -171,8 +171,8 @@ its own multi-session plan and scenario-bible review per NPC.
 - Art and audio (Epic 20): terrain, locations, heroes, resource sites, knights, looping
   music and interface sounds are wired into the map; the title screen uses the
   parchment page and the battle arena shows a Kenney unit figure per stack (coloured
-  by side). Still placeholder or missing: gates; arena background; the dark map
-  panels (the `kenney_ui_rpg` pack is unused); movement animation; road tiles that
+  by side). Still placeholder or missing: gates; arena background (the
+  `kenney_ui_rpg` pack is unused); the map's right-hand HUD stays dark; movement animation; road tiles that
   follow road shape. The 20 newer speakers have simple generated busts
   (`tools/make_portraits.py`), not illustrated portraits. The fog
   and parchment shaders are unused; the vignette is optional and off. Nobody has

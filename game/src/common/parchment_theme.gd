@@ -59,6 +59,19 @@ static func apply(panel: PanelContainer) -> bool:
 	var inset := _box("panel_inset.png", [5, 5, 5, 5])
 	if inset != null:
 		theme.set_stylebox("panel", "ItemList", inset)
+	# Tabs (equipment panel): paper page with button-frame tabs instead of the dark default.
+	var sheet := StyleBoxFlat.new()
+	sheet.bg_color = Color("e2c99a")
+	sheet.set_content_margin_all(6)
+	theme.set_stylebox("panel", "TabContainer", sheet)
+	for pair in [["tab_selected", "button_pressed.png"], ["tab_unselected", "button_normal.png"], ["tab_hovered", "button_hover.png"], ["tab_disabled", "button_disabled.png"]]:
+		var tab := _box(pair[1], [5, 5, 5, 5])
+		if tab != null:
+			theme.set_stylebox(pair[0], "TabContainer", tab)
+	theme.set_stylebox("tab_focus", "TabContainer", StyleBoxEmpty.new())
+	for state in ["font_selected_color", "font_unselected_color", "font_hovered_color"]:
+		theme.set_color(state, "TabContainer", INK)
+	theme.set_color("font_disabled_color", "TabContainer", FADED)
 	var chosen := StyleBoxFlat.new()
 	chosen.bg_color = Color("c9a56a")
 	for state in ["selected", "selected_focus", "hovered"]:

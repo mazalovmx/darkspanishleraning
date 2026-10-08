@@ -2149,3 +2149,18 @@ assert exact incomes or totals were updated to the new numbers. Not played.
 
 Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Parchment for the remaining map panels
+
+The town/site, market, lessons, equipment, cases and ghost-order panels now use the
+same parchment page as the journal and campaign panels (`ParchmentTheme.apply`), with
+the flat dark style kept as the fallback if the art is missing. ParchmentTheme gained
+TabContainer styles (paper sheet, button-frame tabs, ink text) for the equipment tabs.
+The town panel starts higher and packs tighter so its frame fits in 720 px.
+`tests/screenshots.gd` now also renders 08_town, 09_market (hero placed at LOC11),
+10_lessons, 11_equipment, 12_cases and 13_ghosts. Rendered in a window (Xvfb + Mesa,
+1280×720) and inspected: all six fit on screen with dark ink on paper. Disabled
+buttons keep the pack's grey frame. The right-hand map HUD is still dark.
+
+Executed for this commit: the full non-live run, 54 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

@@ -54,6 +54,34 @@ func run() -> void:
 	map.strategy_panel.open_site(state, "TR07")
 	await shot("06_treasure")
 	map.strategy_panel.close()
+	for location: Dictionary in state.locations:
+		if location.id == "LOC01":
+			state.hero_cell = Vector2i(location.position[0], location.position[1])
+	state._reveal_from(state.hero_cell)
+	map._refresh()
+	map.strategy_panel.open_site(state)
+	await shot("08_town")
+	map.strategy_panel.close()
+	for location: Dictionary in state.locations:
+		if location.id == "LOC11":
+			state.hero_cell = Vector2i(location.position[0], location.position[1])
+	state._reveal_from(state.hero_cell)
+	map._refresh()
+	if map.market.open_market(state):
+		await shot("09_market")
+		map.market.close()
+	map.lessons.open_course(state)
+	await shot("10_lessons")
+	map.lessons.close()
+	map.equipment_panel.open_inventory(state)
+	await shot("11_equipment")
+	map.equipment_panel.close()
+	map.side_panel.open_cases(state)
+	await shot("12_cases")
+	map.side_panel.close()
+	map.ghost_panel.open_orders(state)
+	await shot("13_ghosts")
+	map.ghost_panel.close()
 	state.encounters.erase("opening_road")
 	if state.begin_encounter("TR01") or true:
 		pass

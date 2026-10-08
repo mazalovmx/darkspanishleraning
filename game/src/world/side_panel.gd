@@ -25,10 +25,12 @@ func _ready() -> void:
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("22252a")
 	panel.add_theme_stylebox_override("panel",style)
+	# Parchment like the journal; its frame is thicker, so the inner margin shrinks.
+	var paper: bool = preload("res://src/common/parchment_theme.gd").apply(panel)
 	add_child(panel)
 	var margin := MarginContainer.new()
-	for side in ["left","right","top","bottom"]:
-		margin.add_theme_constant_override("margin_"+side,18)
+	for side in ["left", "right", "top", "bottom"]:
+		margin.add_theme_constant_override("margin_" + side, 6 if paper and side in ["top", "bottom"] else 18)
 	panel.add_child(margin)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation",8)
