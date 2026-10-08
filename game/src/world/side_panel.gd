@@ -130,7 +130,8 @@ func refresh() -> void:
 		return
 	var models: Dictionary = cases.models(id)
 	var won: bool = world_state.encounters.get(node.encounter_id,{}).get("outcome","") == "victory"
-	body.text += "\n\n" + str(node.hook)
+	# The aside is tone only (bible 38.1): shown after the hook, never a key or a case word.
+	body.text += "\n\n" + str(node.hook) + ("\n" + str(node.aside) if node.has("aside") else "")
 	if step != "access":
 		body.text += "\n\nPIEZA · " + str(cases.artifacts[node.artifact_id].name)
 	if step not in ["access","inspect","puzzle"]:

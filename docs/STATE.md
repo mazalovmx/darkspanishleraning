@@ -2767,9 +2767,23 @@ write/read PASS.
   (the council classification cards untouched); a second sentence on 17 location
   descriptions; two Act I assessment feedbacks. The model prompt gets a short "Voice"
   paragraph with the same limits.
-- Not yet: the 108 side investigations, equipment and soul texts, and the remaining
-  NPC branch replies.
+- Side investigations: see "Side cases get an aside" below. Not yet: equipment and soul
+  texts, and the remaining NPC branch replies.
 
 Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
 run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
 write/read PASS. Not read in a window; the Spanish has had no separate editorial review.
+
+## Side cases get an aside
+
+- Each of the 108 side cases has an `aside`: one short line in the voice of bible 38.1,
+  shown after the hook in the cases panel. It is a separate field because the hook's
+  words count as case words for the relevance check; the aside never enters keys,
+  relevance or copy checks. Lines that drew a conclusion the case evidence does not
+  support (a letter read in transit, a double count) were rewritten before commit.
+- Tests: side_catalog_test (every case has a short aside different from its hook),
+  side_scene_test (the panel shows it).
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 60 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS. Not read in a window.

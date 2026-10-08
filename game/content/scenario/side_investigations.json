@@ -585,6 +585,7 @@
                        "title":  "La hoja que pesa",
                        "location_id":  "LOC01",
                        "hook":  "El folio tiene dos capas de tinta. La inferior contiene doce nombres legibles.",
+                       "aside":  "Doce nombres borrados para escribir una oración. Dios, al parecer, necesitaba el papel.",
                        "objective":  "Recupera y examina folio de limosnas; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
 
@@ -679,6 +680,7 @@
                        "title":  "El borde sin cortar",
                        "location_id":  "LOC01",
                        "hook":  "El borde del folio encaja con una tira del censo. Ambos conservan el mismo agujero de cosido.",
+                       "aside":  "El pergamino recuerda mejor que el administrador.",
                        "objective":  "Recupera y examina tira de pergamino; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX001"
@@ -773,6 +775,7 @@
                        "title":  "La cuenta del raspador",
                        "location_id":  "LOC01",
                        "hook":  "El recibo cobra el raspado de doce hojas; no menciona nombres ni deudas.",
+                       "aside":  "Alguien pagó por borrar. Borrar, en este monasterio, tiene tarifa.",
                        "objective":  "Recupera y examina recibo del raspador; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX001"
@@ -867,6 +870,7 @@
                        "title":  "Dos tintas y una jarra",
                        "location_id":  "LOC01",
                        "hook":  "La tinta inferior resiste el agua. La superior se corre en una prueba sobre un recorte.",
+                       "aside":  "La tinta buena aguanta el agua. La mala aguanta las preguntas peor.",
                        "objective":  "Recupera y examina muestra de tinta; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX002"
@@ -961,6 +965,7 @@
                        "title":  "La firma ausente",
                        "location_id":  "LOC01",
                        "hook":  "La entrega al administrador fue el lunes; el raspado se pagó el miércoles.",
+                       "aside":  "Dos días entre la entrega y el raspado. Tiempo de sobra para tener una idea mala.",
                        "objective":  "Recupera y examina resguardo de entrega; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX003"
@@ -1055,6 +1060,7 @@
                        "title":  "El banco de los doce",
                        "location_id":  "LOC01",
                        "hook":  "La tablilla antigua enumera doce turnos semanales. El acta nueva afirma que nunca hubo beneficiarios.",
+                       "aside":  "Nunca hubo beneficiarios, dice el acta. Los beneficiarios, claro, no firmaron.",
                        "objective":  "Recupera y examina tablilla de turnos; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX004",
@@ -1150,6 +1156,7 @@
                        "title":  "Una deuda sin sujeto",
                        "location_id":  "LOC01",
                        "hook":  "La abreviatura fam. significa familias en tres páginas paralelas; la copia nueva la expande como familiar.",
+                       "aside":  "Una abreviatura cambia de sentido y doce familias cambian de destino.",
                        "objective":  "Recupera y examina glosa contable; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX006"
@@ -1244,6 +1251,7 @@
                        "title":  "La copia del invierno",
                        "location_id":  "LOC01",
                        "hook":  "Un duplicado anterior al raspado conserva las deudas y tiene dos firmas verificadas.",
+                       "aside":  "Los duplicados son la venganza de los escribanos aburridos.",
                        "objective":  "Recupera y examina duplicado fechado; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX006"
@@ -1351,6 +1359,7 @@
                        "title":  "Doce nombres públicos",
                        "location_id":  "LOC01",
                        "hook":  "Las deudas coinciden en censo y duplicado. Publicar el censo revela también los domicilios privados.",
+                       "aside":  "La verdad ayuda a doce familias. También les manda visitas que no quieren.",
                        "objective":  "Recupera y examina carpeta de restitución; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX007",
@@ -1447,6 +1456,7 @@
                        "title":  "La cuerda azul",
                        "location_id":  "LOC01",
                        "hook":  "La cuerda azul llega a la campana del patio; la blanca llega a la torre.",
+                       "aside":  "Dos cuerdas, dos campanas, y un monasterio entero discutiendo la hora.",
                        "objective":  "Recupera y examina cuerda marcada; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
 
@@ -1541,6 +1551,7 @@
                        "title":  "La esfera torcida",
                        "location_id":  "LOC01",
                        "hook":  "La esfera tiene marcas de giro recientes; el eje sigue alineado con la pared.",
+                       "aside":  "El reloj no miente. Alguien le movió la cara.",
                        "objective":  "Recupera y examina esfera suelta; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX010"
@@ -1635,6 +1646,7 @@
                        "title":  "El jornal del ajuste",
                        "location_id":  "LOC01",
                        "hook":  "El vale paga un ajuste de veinte minutos, no una reparación del mecanismo.",
+                       "aside":  "Veinte minutos cuestan poco. Depende de quién los pierde.",
                        "objective":  "Recupera y examina vale del relojero; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX010"
@@ -1729,6 +1741,7 @@
                        "title":  "El peso de plomo",
                        "location_id":  "LOC01",
                        "hook":  "Dos pesas iguales bajan la misma distancia durante una prueba. Las esferas difieren veinte minutos.",
+                       "aside":  "El plomo baja igual para todos. Las esferas, no.",
                        "objective":  "Recupera y examina pesa horaria; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX011"
@@ -1823,6 +1836,7 @@
                        "title":  "Antes del relevo",
                        "location_id":  "LOC01",
                        "hook":  "El relevo firmó a las seis del reloj viejo. El recibo del ajuste se firmó a las siete.",
+                       "aside":  "A las seis según un reloj, a las siete según otro, y culpable según el que manda.",
                        "objective":  "Recupera y examina ficha de relevo; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX012"
@@ -1917,6 +1931,7 @@
                        "title":  "El descanso pequeño",
                        "location_id":  "LOC01",
                        "hook":  "Antes se descansaba entre dos campanadas de media hora. Tras el ajuste, la segunda sonó veinte minutos antes según tres relojes.",
+                       "aside":  "Veinte minutos menos de descanso. Nadie lo anunció; todos lo notaron en la espalda.",
                        "objective":  "Recupera y examina cartilla de descanso; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX013",
@@ -2012,6 +2027,7 @@
                        "title":  "La frase prestada",
                        "location_id":  "LOC01",
                        "hook":  "Un testigo dice después de sexta; el acta sustituye sexta por seis de la tarde. El horario litúrgico sitúa sexta al mediodía.",
+                       "aside":  "Una palabra de la misa se convierte en una hora del Tribunal. Así de fácil.",
                        "objective":  "Recupera y examina declaración copiada; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX015"
@@ -2106,6 +2122,7 @@
                        "title":  "Tres relojes",
                        "location_id":  "LOC01",
                        "hook":  "Dos relojes externos coinciden. Solo el reloj del patio conserva el adelanto de veinte minutos.",
+                       "aside":  "Cuando dos relojes coinciden, el tercero suele tener un amigo importante.",
                        "objective":  "Recupera y examina hoja de contraste; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX015"
@@ -2213,6 +2230,7 @@
                        "title":  "La coartada corregida",
                        "location_id":  "LOC01",
                        "hook":  "La cronología corregida sitúa al acusado fuera del almacén. No identifica a quien retiró el paquete.",
+                       "aside":  "El acusado sale libre. El ladrón, de momento, también.",
                        "objective":  "Recupera y examina cronología doble; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX016",
@@ -2309,6 +2327,7 @@
                        "title":  "La línea doble",
                        "location_id":  "LOC06",
                        "hook":  "El plano antiguo dibuja dos líneas para canal y una para lindero; el nuevo llama lindero a la línea doble.",
+                       "aside":  "Una línea doble en un mapa vale más que un río entero.",
                        "objective":  "Recupera y examina plano de acequia; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
 
@@ -2403,6 +2422,7 @@
                        "title":  "Piedra con nivel",
                        "location_id":  "LOC06",
                        "hook":  "El mojón lleva marcas de altura y ninguna marca de propiedad. Otros niveles del canal tienen el mismo signo.",
+                       "aside":  "La piedra mide el agua, no la propiedad. La piedra no tiene abogado.",
                        "objective":  "Recupera y examina mojón de agua; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX019"
@@ -2497,6 +2517,7 @@
                        "title":  "El precio del cubo",
                        "location_id":  "LOC06",
                        "hook":  "La tarifa cobra por cubo extraído; la licencia permite cobrar solo el mantenimiento de la compuerta.",
+                       "aside":  "Cobrar el agua por cubo es muy rentable cuando el río no se queja.",
                        "objective":  "Recupera y examina tarifa sellada; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX019"
@@ -2591,6 +2612,7 @@
                        "title":  "La cuerda de medir",
                        "location_id":  "LOC06",
                        "hook":  "El cordel oficial mide diez varas; el usado por el agrimensor mide nueve con la misma numeración.",
+                       "aside":  "Una vara menos en el cordel, y el campo de otro crece solo.",
                        "objective":  "Recupera y examina cordel graduado; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX020"
@@ -2685,6 +2707,7 @@
                        "title":  "La compuerta nocturna",
                        "location_id":  "LOC06",
                        "hook":  "La compuerta se abrió después de la inspección. La crecida observada al amanecer no estaba presente en la inspección.",
+                       "aside":  "La compuerta se abre de noche. Las mejores ideas de esta provincia también.",
                        "objective":  "Recupera y examina registro de apertura; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX021"
@@ -2779,6 +2802,7 @@
                        "title":  "El cauce de antes",
                        "location_id":  "LOC06",
                        "hook":  "El barquero anotaba paso público cada semana; la prohibición empezó con la nueva licencia.",
+                       "aside":  "El barquero anotaba todo porque nadie le pagaba por olvidar.",
                        "objective":  "Recupera y examina cuaderno de barquero; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX022",
@@ -2874,6 +2898,7 @@
                        "title":  "Una palabra al margen",
                        "location_id":  "LOC06",
                        "hook":  "La glosa dice paso para mantenimiento; la copia omite para mantenimiento.",
+                       "aside":  "Dos palabras desaparecen de la copia y aparece un dueño.",
                        "objective":  "Recupera y examina glosa de servidumbre; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX024"
@@ -2968,6 +2993,7 @@
                        "title":  "La prueba de la esclusa",
                        "location_id":  "LOC06",
                        "hook":  "Abrir una hoja mantiene el nivel seguro; abrir ambas supera la marca de desborde.",
+                       "aside":  "Abrir una hoja salva el campo. Abrir las dos lo ahoga. Como casi todo.",
                        "objective":  "Recupera y examina tabla de caudales; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX024"
@@ -3075,6 +3101,7 @@
                        "title":  "El derecho y la corriente",
                        "location_id":  "LOC06",
                        "hook":  "Mapa y licencia prueban exclusión indebida; la tabla muestra riesgo si se abren ambas hojas.",
+                       "aside":  "El derecho está claro. El agua, como siempre, va por su cuenta.",
                        "objective":  "Recupera y examina expediente del canal; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX025",
@@ -3171,6 +3198,7 @@
                        "title":  "La casilla negra",
                        "location_id":  "LOC02",
                        "hook":  "La ficha marca D. La clave del mismo cuaderno define D como desplazado.",
+                       "aside":  "D de desplazado, D de difunto. En el reparto de harina, la diferencia es la vida.",
                        "objective":  "Recupera y examina ficha vecinal; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
 
@@ -3265,6 +3293,7 @@
                        "title":  "Un rostro y dos números",
                        "location_id":  "LOC02",
                        "hook":  "La medalla y el recibo de la misma vecina tienen nombres iguales y números distintos.",
+                       "aside":  "Una vecina con dos números. Para el registro, eso ya son dos problemas.",
                        "objective":  "Recupera y examina medalla de vecindad; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX028"
@@ -3359,6 +3388,7 @@
                        "title":  "La ración duplicada",
                        "location_id":  "LOC02",
                        "hook":  "El vale nuevo sustituye al antiguo y lo anula expresamente.",
+                       "aside":  "El vale nuevo anula el viejo. El hambre no anula nada.",
                        "objective":  "Recupera y examina vale de harina; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX028"
@@ -3453,6 +3483,7 @@
                        "title":  "El precio del nombre",
                        "location_id":  "LOC02",
                        "hook":  "La tabla pública dice rectificación gratuita; el auxiliar pide tres monedas.",
+                       "aside":  "Corregir un nombre es gratis, dice la tabla. El auxiliar no sabe leer tablas.",
                        "objective":  "Recupera y examina tarifa de registro; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX029"
@@ -3547,6 +3578,7 @@
                        "title":  "El entierro ajeno",
                        "location_id":  "LOC02",
                        "hook":  "El acta nombra a una homónima de otra calle y consigna distinta edad.",
+                       "aside":  "La enterraron por error. Por suerte, en otra calle.",
                        "objective":  "Recupera y examina acta funeraria; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX030"
@@ -3641,6 +3673,7 @@
                        "title":  "La casa ocupada",
                        "location_id":  "LOC02",
                        "hook":  "La familia pagaba cada mes; el arrendador cambió la cerradura tras recibir el padrón erróneo.",
+                       "aside":  "El arrendador leyó el padrón muy rápido. Es el único que leyó algo rápido aquí.",
                        "objective":  "Recupera y examina contrato de arriendo; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX031",
@@ -3736,6 +3769,7 @@
                        "title":  "La columna corrida",
                        "location_id":  "LOC02",
                        "hook":  "Al superponer la matriz, la columna de traslado coincide con fallecidos en la copia.",
+                       "aside":  "Una columna se corre un poco y la mitad del barrio se muere en el papel.",
                        "objective":  "Recupera y examina matriz del padrón; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX033"
@@ -3830,6 +3864,7 @@
                        "title":  "El testigo reservado",
                        "location_id":  "LOC02",
                        "hook":  "Dos funcionarios verifican identidad sin anotar domicilio actual; el reglamento admite esa forma.",
+                       "aside":  "Confirmar a alguien sin decir dónde vive: un pequeño milagro burocrático.",
                        "objective":  "Recupera y examina certificado de comparecencia; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX033"
@@ -3937,6 +3972,7 @@
                        "title":  "Un nombre restituido",
                        "location_id":  "LOC02",
                        "hook":  "El error del padrón está probado; los pagos siguen pendientes de auditoría.",
+                       "aside":  "El nombre vuelve. El dinero tardará más; el dinero siempre se hace el muerto.",
                        "objective":  "Recupera y examina resolución de rectificación; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX034",
@@ -4033,6 +4069,7 @@
                        "title":  "El pez sin agua",
                        "location_id":  "LOC03",
                        "hook":  "El pez aparece junto a la palabra cola y junto a un frasco de adhesivo con el mismo dibujo.",
+                       "aside":  "Un pez junto al frasco de cola. Los herejes, al parecer, pegaban libros.",
                        "objective":  "Recupera y examina hoja del pez; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
 
@@ -4127,6 +4164,7 @@
                        "title":  "La cabra del lomo",
                        "location_id":  "LOC03",
                        "hook":  "La cabra figura en lomos de piel caprina, incluidos libros rivales entre sí.",
+                       "aside":  "La cabra está en los libros de todos. Hasta en los de quien denuncia.",
                        "objective":  "Recupera y examina lomo marcado; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX037"
@@ -4221,6 +4259,7 @@
                        "title":  "El pedido del cuervo",
                        "location_id":  "LOC03",
                        "hook":  "La orden pide tinta negra con un cuervo como marca del proveedor.",
+                       "aside":  "Un cuervo en un pedido de tinta. Media universidad ya ve una conspiración.",
                        "objective":  "Recupera y examina orden de tinta; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX037"
@@ -4315,6 +4354,7 @@
                        "title":  "Tres pieles por hoja",
                        "location_id":  "LOC03",
                        "hook":  "El muestrario asigna cabra, oveja y ternera a tres precios diferentes.",
+                       "aside":  "Tres pieles, tres precios. La teología llega después de la contabilidad.",
                        "objective":  "Recupera y examina muestrario; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX038"
@@ -4409,6 +4449,7 @@
                        "title":  "El dibujo añadido",
                        "location_id":  "LOC03",
                        "hook":  "Una copia fechada antes de la denuncia carece de la cruz roja que sí tiene la copia denunciada.",
+                       "aside":  "Alguien añadió una cruz roja. Las cruces, aquí, se pintan con prisa.",
                        "objective":  "Recupera y examina calco del margen; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX039"
@@ -4503,6 +4544,7 @@
                        "title":  "El uso del taller",
                        "location_id":  "LOC03",
                        "hook":  "El manual enseñaba los animales para ordenar materiales; no menciona personas.",
+                       "aside":  "El manual enseña a ordenar pieles, no a quemar vecinos. Hay que leerlo entero.",
                        "objective":  "Recupera y examina manual de aprendiz; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX040",
@@ -4598,6 +4640,7 @@
                        "title":  "La llave del índice",
                        "location_id":  "LOC03",
                        "hook":  "Los números junto al lobo coinciden con cuadernos, no con domicilios.",
+                       "aside":  "El lobo señala cuadernos, no casas. Los lobos de papel muerden poco.",
                        "objective":  "Recupera y examina índice de cuadernos; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX042"
@@ -4692,6 +4735,7 @@
                        "title":  "La cita sin dueño",
                        "location_id":  "LOC03",
                        "hook":  "Dos párrafos del académico reproducen una obra anterior, con el mismo error de copia.",
+                       "aside":  "Copiar un error ajeno es la forma más honesta de confesar un plagio.",
                        "objective":  "Recupera y examina pliego de fuentes; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX042"
@@ -4799,6 +4843,7 @@
                        "title":  "El juicio del lobo",
                        "location_id":  "LOC03",
                        "hook":  "Los códigos técnicos explican la lista; el plagio está apoyado por evidencia separada.",
+                       "aside":  "No hay herejes en el margen. Solo un académico con prisa y poca vergüenza.",
                        "objective":  "Recupera y examina dossier de símbolos; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX043",
@@ -4895,6 +4940,7 @@
                        "title":  "El disco ahumado",
                        "location_id":  "LOC03",
                        "hook":  "El disco deja pasar menos luz. Las letras siguen en el mismo sitio al mirarlas a través de él.",
+                       "aside":  "El disco oscurece la luz. El santo, al parecer, también cobra la sombra.",
                        "objective":  "Recupera y examina disco de lectura; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
 
@@ -4989,6 +5035,7 @@
                        "title":  "Las ranuras gemelas",
                        "location_id":  "LOC03",
                        "hook":  "Ambas ranuras tienen igual tamaño; solo una contiene vidrio ahumado.",
+                       "aside":  "Dos ranuras iguales; una con vidrio y otra con fe.",
                        "objective":  "Recupera y examina montura doble; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX046"
@@ -5083,6 +5130,7 @@
                        "title":  "El donativo fijo",
                        "location_id":  "LOC03",
                        "hook":  "La entrada exige cinco monedas aunque el cartel llama voluntario al donativo.",
+                       "aside":  "Donativo voluntario: cinco monedas. La voluntad aquí está muy bien tasada.",
                        "objective":  "Recupera y examina lista de donativos; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX046"
@@ -5177,6 +5225,7 @@
                        "title":  "La medida de letras",
                        "location_id":  "LOC03",
                        "hook":  "Dos cartillas presentan letras de tamaños distintos; la demostración usa la grande después.",
+                       "aside":  "Primero letras pequeñas, después grandes. Así cualquiera ve un milagro.",
                        "objective":  "Recupera y examina cartilla tipográfica; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX047"
@@ -5271,6 +5320,7 @@
                        "title":  "El ensayo repetido",
                        "location_id":  "LOC03",
                        "hook":  "Con iguales letras, el lector mejora con el vidrio y vuelve a empeorar sin él.",
+                       "aside":  "Con el vidrio lee mejor. Sin él, vuelve a ser pobre y miope.",
                        "objective":  "Recupera y examina ficha de ensayo; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX048"
@@ -5365,6 +5415,7 @@
                        "title":  "Los pacientes omitidos",
                        "location_id":  "LOC03",
                        "hook":  "Antes se anotaban todos los pacientes; el libro de éxitos recoge solo los que ya leían letras grandes.",
+                       "aside":  "El libro de éxitos solo cuenta a quien ya leía bien. Así se cura a los sanos.",
                        "objective":  "Recupera y examina libro de admisión; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX049",
@@ -5460,6 +5511,7 @@
                        "title":  "Una palabra demasiado grande",
                        "location_id":  "LOC03",
                        "hook":  "El original dice ayuda para leer; la publicidad lo convierte en cura.",
+                       "aside":  "Ayuda para leer se convierte en cura. Una palabra grande vende más que una lente.",
                        "objective":  "Recupera y examina certificado de mejoría; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX051"
@@ -5554,6 +5606,7 @@
                        "title":  "El cristal compartido",
                        "location_id":  "LOC03",
                        "hook":  "La licencia permite prestar la montura; prohíbe vender copias con la marca de la cofradía.",
+                       "aside":  "Prestar la montura sí, venderla no. La cofradía conoce bien la caridad rentable.",
                        "objective":  "Recupera y examina licencia de uso; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX051"
@@ -5661,6 +5714,7 @@
                        "title":  "La promesa limitada",
                        "location_id":  "LOC03",
                        "hook":  "La prueba sostiene ayuda reversible a ciertos lectores; no demuestra beneficio universal.",
+                       "aside":  "Ayuda a algunos, a veces. Es poco para un santo y bastante para una lente.",
                        "objective":  "Recupera y examina informe de acceso; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX052",
@@ -5757,6 +5811,7 @@
                        "title":  "El saco intacto",
                        "location_id":  "LOC05",
                        "hook":  "El cordón no está cortado. El sello dice origen Cárdena, sin cantidad.",
+                       "aside":  "El saco está intacto. Lo que falta no salió por el cordón.",
                        "objective":  "Recupera y examina precinto de sal; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
 
@@ -5851,6 +5906,7 @@
                        "title":  "La pesa que suena",
                        "location_id":  "LOC05",
                        "hook":  "La pesa suena al golpearla y contiene una cavidad visible por una grieta.",
+                       "aside":  "La pesa suena a hueco. Como muchas promesas del puerto.",
                        "objective":  "Recupera y examina pesa hueca; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX055"
@@ -5945,6 +6001,7 @@
                        "title":  "El precio de la libra",
                        "location_id":  "LOC05",
                        "hook":  "El contrato cobra por libra entregada; el recibo cobra por libra anunciada.",
+                       "aside":  "Se paga la sal anunciada y se recibe la sal entregada. Alguien vive en la diferencia.",
                        "objective":  "Recupera y examina tarifa portuaria; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX055"
@@ -6039,6 +6096,7 @@
                        "title":  "La cuerda y el fiel",
                        "location_id":  "LOC05",
                        "hook":  "Con dos masas patrón iguales la balanza queda horizontal; con la pesa oficial se inclina.",
+                       "aside":  "Con pesos honrados la balanza está tranquila. Con la oficial, se pone nerviosa.",
                        "objective":  "Recupera y examina patrón de contraste; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX056"
@@ -6133,6 +6191,7 @@
                        "title":  "La descarga anterior",
                        "location_id":  "LOC05",
                        "hook":  "El talón registra veinte sacos antes del cambio de pesa y veinte después, con masas totales distintas.",
+                       "aside":  "Veinte sacos antes y veinte después. La sal adelgaza con el cambio de pesa.",
                        "objective":  "Recupera y examina talón de muelle; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX057"
@@ -6227,6 +6286,7 @@
                        "title":  "El hábito del pesador",
                        "location_id":  "LOC05",
                        "hook":  "El aprendiz anotaba la tara por separado; el recibo nuevo la suma al peso de la sal.",
+                       "aside":  "El aprendiz anotaba bien. Por eso es aprendiz y no pesador.",
                        "objective":  "Recupera y examina libreta de aprendiz; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX058",
@@ -6322,6 +6382,7 @@
                        "title":  "Origen no es cantidad",
                        "location_id":  "LOC05",
                        "hook":  "El manual distingue certificado de origen y certificado de peso en artículos separados.",
+                       "aside":  "Un sello de origen no dice cuánto. Pero muchos prefieren no preguntar.",
                        "objective":  "Recupera y examina manual del sello; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX060"
@@ -6416,6 +6477,7 @@
                        "title":  "La restitución parcial",
                        "location_id":  "LOC05",
                        "hook":  "Solo tres lotes tienen mediciones de entrada y salida comparables; otros carecen de registro de entrada.",
+                       "aside":  "Solo tres lotes se pueden demostrar. Los demás se perdieron, como la sal.",
                        "objective":  "Recupera y examina tabla de lotes; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX060"
@@ -6523,6 +6585,7 @@
                        "title":  "La sal y el hambre",
                        "location_id":  "LOC05",
                        "hook":  "La pesa defectuosa está aislada; cerrar todo el puerto impediría también entregas con patrón verificado.",
+                       "aside":  "Cerrar el puerto castiga al tramposo y a todos los que comen sal.",
                        "objective":  "Recupera y examina convenio provisional; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX061",
@@ -6619,6 +6682,7 @@
                        "title":  "La columna cortada",
                        "location_id":  "LOC15",
                        "hook":  "La hoja termina tras altas; una línea de corte atraviesa el encabezado traslados.",
+                       "aside":  "La hoja termina justo donde empieza lo incómodo.",
                        "objective":  "Recupera y examina hoja de ingresos; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
 
@@ -6713,6 +6777,7 @@
                        "title":  "El brazalete ajeno",
                        "location_id":  "LOC15",
                        "hook":  "El brazalete tiene dos números de hospital y una misma fecha de nacimiento.",
+                       "aside":  "Dos números y una sola persona. Para la estadística, eso ya es una multitud.",
                        "objective":  "Recupera y examina brazalete de traslado; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX064"
@@ -6807,6 +6872,7 @@
                        "title":  "La cama pagada",
                        "location_id":  "LOC15",
                        "hook":  "Se cobran siete noches; la hoja de entrada y salida registra cinco.",
+                       "aside":  "Siete noches cobradas, cinco dormidas. Las otras dos las durmió la caja.",
                        "objective":  "Recupera y examina recibo de cama; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX064"
@@ -6901,6 +6967,7 @@
                        "title":  "El agua del lavado",
                        "location_id":  "LOC15",
                        "hook":  "La orden pide jabón; el recibo acredita aceite para lámparas.",
+                       "aside":  "Se pidió jabón y llegó aceite para lámparas. Al menos se ve bien la suciedad.",
                        "objective":  "Recupera y examina orden de compra; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX065"
@@ -6995,6 +7062,7 @@
                        "title":  "El alta y el carro",
                        "location_id":  "LOC15",
                        "hook":  "El carro salió después del alta administrativa y antes del ingreso en el segundo hospital.",
+                       "aside":  "El carro salió entre dos papeles. En los papeles nadie está enfermo en un carro.",
                        "objective":  "Recupera y examina parte de transporte; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX066"
@@ -7089,6 +7157,7 @@
                        "title":  "Los casos elegidos",
                        "location_id":  "LOC15",
                        "hook":  "La sala atendía casos leves; los graves se enviaban al otro hospital antes del recuento.",
+                       "aside":  "Los graves van al otro hospital antes del recuento. Así cualquiera tiene buenas cifras.",
                        "objective":  "Recupera y examina cuaderno de sala; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX067",
@@ -7184,6 +7253,7 @@
                        "title":  "El denominador perdido",
                        "location_id":  "LOC15",
                        "hook":  "Ocho recuperaciones entre diez ingresos dan ochenta por ciento; la publicidad divide ocho por ocho altas.",
+                       "aside":  "Ocho de ocho: un éxito perfecto, si no se cuenta a los que no salieron.",
                        "objective":  "Recupera y examina tabla de porcentajes; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX069"
@@ -7278,6 +7348,7 @@
                        "title":  "La copia sin nombres",
                        "location_id":  "LOC15",
                        "hook":  "Las filas conservan fechas y destinos, pero sustituyen nombres por claves distintas para cada persona.",
+                       "aside":  "Las filas no dicen nombres. Los muertos agradecen la discreción.",
                        "objective":  "Recupera y examina registro anonimizado; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX069"
@@ -7385,6 +7456,7 @@
                        "title":  "Curar la estadística",
                        "location_id":  "LOC15",
                        "hook":  "Al incluir traslados cambia la comparación; faltan datos sobre gravedad en varias filas.",
+                       "aside":  "Con todos los datos, el milagro se convierte en un hospital normal. Ya es algo.",
                        "objective":  "Recupera y examina informe comparativo; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX070",
@@ -7481,6 +7553,7 @@
                        "title":  "Dos varas iguales",
                        "location_id":  "LOC04",
                        "hook":  "Las varas llevan el mismo número de divisiones pero longitudes distintas.",
+                       "aside":  "Mismo número de rayas, distinta longitud. La precisión depende del cliente.",
                        "objective":  "Recupera y examina varas de taller; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
 
@@ -7575,6 +7648,7 @@
                        "title":  "La muesca muda",
                        "location_id":  "LOC04",
                        "hook":  "La plantilla coincide con la vara de venta; no coincide con la de examen.",
+                       "aside":  "La plantilla mide para vender, no para aprobar. El gremio sabe qué paga.",
                        "objective":  "Recupera y examina plantilla de aprendiz; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX073"
@@ -7669,6 +7743,7 @@
                        "title":  "El derecho de examen",
                        "location_id":  "LOC04",
                        "hook":  "La tarifa permite una segunda prueba gratuita; el recibo exige pagarla de nuevo.",
+                       "aside":  "La segunda prueba es gratis. Por eso se cobra dos veces.",
                        "objective":  "Recupera y examina recibo de licencia; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX073"
@@ -7763,6 +7838,7 @@
                        "title":  "El lote devuelto",
                        "location_id":  "LOC04",
                        "hook":  "Las bisagras encajan con el marco pedido; el rechazo cita otro ancho.",
+                       "aside":  "Las bisagras encajan. El rechazo, en cambio, encaja con otra medida.",
                        "objective":  "Recupera y examina muestra de bisagras; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX074"
@@ -7857,6 +7933,7 @@
                        "title":  "La noche del patrón",
                        "location_id":  "LOC04",
                        "hook":  "El acta fecha la nueva vara un día después del examen cuestionado.",
+                       "aside":  "La vara nueva llegó un día tarde. Los suspensos llegaron puntuales.",
                        "objective":  "Recupera y examina acta de sustitución; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX075"
@@ -7951,6 +8028,7 @@
                        "title":  "Lo que medían antes",
                        "location_id":  "LOC04",
                        "hook":  "Durante años el gremio aceptaba la vara corta; la prohibición apareció sin plazo de adaptación.",
+                       "aside":  "Años de vara corta y, de pronto, la vara corta es pecado.",
                        "objective":  "Recupera y examina libro de encargos; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX076",
@@ -8046,6 +8124,7 @@
                        "title":  "La copia con condición",
                        "location_id":  "LOC04",
                        "hook":  "El estatuto exige dos testigos para cambiar el patrón; el acta conserva una sola firma.",
+                       "aside":  "El estatuto pide dos firmas. Una firma sola es solo una opinión con tinta.",
                        "objective":  "Recupera y examina estatuto de medida; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX078"
@@ -8140,6 +8219,7 @@
                        "title":  "El adaptador de hierro",
                        "location_id":  "LOC04",
                        "hook":  "El calibre permite convertir ambas medidas de forma repetible sobre cinco piezas.",
+                       "aside":  "Un calibre de hierro resuelve lo que diez reuniones del gremio no resolvieron.",
                        "objective":  "Recupera y examina calibre de conversión; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX078"
@@ -8247,6 +8327,7 @@
                        "title":  "La medida del daño",
                        "location_id":  "LOC04",
                        "hook":  "El patrón común reduce disputas; sustituir de inmediato todas las herramientas excede los ahorros de varios talleres.",
+                       "aside":  "Un patrón común ahorra disputas. Cambiar todo mañana arruina talleres. Las dos cosas son ciertas.",
                        "objective":  "Recupera y examina plan de transición; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX079",
@@ -8343,6 +8424,7 @@
                        "title":  "El saco sin camino",
                        "location_id":  "LOC11",
                        "hook":  "El saco lleva destino norte y está en el estante rotulado sur.",
+                       "aside":  "El saco va al norte y duerme en el sur. Como muchos viajeros de esta venta.",
                        "objective":  "Recupera y examina saco de correo; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
 
@@ -8437,6 +8519,7 @@
                        "title":  "La cera rehecha",
                        "location_id":  "LOC11",
                        "hook":  "La cera cubre una rotura del papel que queda debajo de la impresión.",
+                       "aside":  "La cera es nueva; la rotura, no. Cuidado con lo que se concluye de eso.",
                        "objective":  "Recupera y examina sello recalentado; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX082"
@@ -8531,6 +8614,7 @@
                        "title":  "Un porte dos veces",
                        "location_id":  "LOC11",
                        "hook":  "El recibo dice porte pagado; la oficina de destino exige el mismo porte sin nueva ruta.",
+                       "aside":  "El porte se paga en origen y otra vez en destino. Las cartas viajan caras.",
                        "objective":  "Recupera y examina recibo postal; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX082"
@@ -8625,6 +8709,7 @@
                        "title":  "La caja del retorno",
                        "location_id":  "LOC11",
                        "hook":  "La ficha ofrece devolución sin tasa para destino cerrado; el empleado exige comprar un sobre nuevo.",
+                       "aside":  "Devolución gratis, dice la ficha. El empleado prefiere vender sobres.",
                        "objective":  "Recupera y examina ficha de devolución; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX083"
@@ -8719,6 +8804,7 @@
                        "title":  "El carro detenido",
                        "location_id":  "LOC11",
                        "hook":  "La posta recibió el carro el martes y lo despachó el viernes; dos cartas fueron fechadas allí el jueves.",
+                       "aside":  "Un carro quieto tres días, y las cartas siguen naciendo. Curioso.",
                        "objective":  "Recupera y examina registro de postas; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX084"
@@ -8813,6 +8899,7 @@
                        "title":  "La ruta que no era",
                        "location_id":  "LOC11",
                        "hook":  "Antes el correo cruzaba el puente; luego lo desviaban a un almacén privado sin justificante.",
+                       "aside":  "El correo cambió de ruta y nadie firmó por qué. Nadie firma lo que da dinero.",
                        "objective":  "Recupera y examina mapa del cartero; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX085",
@@ -8908,6 +8995,7 @@
                        "title":  "No contestar no es morir",
                        "location_id":  "LOC11",
                        "hook":  "La declaración solo acredita ausencia de respuesta; un procurador la presenta como certificado de muerte.",
+                       "aside":  "No contestar una carta no es morir. Aunque para el procurador es casi igual.",
                        "objective":  "Recupera y examina declaración de búsqueda; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX087"
@@ -9002,6 +9090,7 @@
                        "title":  "La dirección reservada",
                        "location_id":  "LOC11",
                        "hook":  "La destinataria solicita entrega por intermediario y prohíbe revelar su domicilio.",
+                       "aside":  "Ella quiere su carta, no visitas. Es un deseo razonable en esta provincia.",
                        "objective":  "Recupera y examina instrucción de entrega; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX087"
@@ -9109,6 +9198,7 @@
                        "title":  "El derecho al silencio",
                        "location_id":  "LOC11",
                        "hook":  "Se prueba retención postal; algunas personas rechazan responder voluntariamente.",
+                       "aside":  "Algunos no quieren responder. Eso también es una respuesta.",
                        "objective":  "Recupera y examina acta de entrega; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX088",
@@ -9205,6 +9295,7 @@
                        "title":  "La tablilla de cinco versos",
                        "location_id":  "LOC08",
                        "hook":  "Cada verso empieza con una acción: abrir, limpiar, girar, medir, anotar.",
+                       "aside":  "Cinco versos, cinco acciones. La fe minera es muy práctica.",
                        "objective":  "Recupera y examina tablilla de relevo; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
 
@@ -9299,6 +9390,7 @@
                        "title":  "La rueda inmóvil",
                        "location_id":  "LOC08",
                        "hook":  "El pasador atraviesa el eje y bloquea su giro; no presenta rotura.",
+                       "aside":  "El pasador bloquea la rueda sin romper nada. Romper sería más honesto.",
                        "objective":  "Recupera y examina pasador de rueda; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX091"
@@ -9393,6 +9485,7 @@
                        "title":  "El aceite cambiado",
                        "location_id":  "LOC08",
                        "hook":  "El pedido requiere aceite de eje; la entrega contiene aceite de lámpara con otra especificación.",
+                       "aside":  "Aceite de lámpara para un eje. Así empiezan muchos funerales en Bruma.",
                        "objective":  "Recupera y examina vale de mantenimiento; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX091"
@@ -9487,6 +9580,7 @@
                        "title":  "La cuerda de ensayo",
                        "location_id":  "LOC08",
                        "hook":  "La escala de prueba marca flujo solo con la compuerta abierta; el ensayo cerrado da cero.",
+                       "aside":  "Con la compuerta cerrada no hay aire. La oración no la abre sola.",
                        "objective":  "Recupera y examina medidor de corriente; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX092"
@@ -9581,6 +9675,7 @@
                        "title":  "La marca del turno",
                        "location_id":  "LOC08",
                        "hook":  "El registro de limpieza se firmó después del cierre del turno; el operario había salido antes.",
+                       "aside":  "Firmó la limpieza cuando ya estaba en casa. Un hombre muy eficiente.",
                        "objective":  "Recupera y examina registro de limpieza; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX093"
@@ -9675,6 +9770,7 @@
                        "title":  "Lo que se cantaba",
                        "location_id":  "LOC08",
                        "hook":  "Los veteranos giraban la rueda al tercer verso; el turno nuevo solo cantaba.",
+                       "aside":  "Los viejos giraban la rueda al cantar. Los nuevos solo cantan. Peor para los pulmones.",
                        "objective":  "Recupera y examina cuaderno de veterano; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX094",
@@ -9770,6 +9866,7 @@
                        "title":  "El orden de las válvulas",
                        "location_id":  "LOC08",
                        "hook":  "La placa dice abrir antes de girar y medir después de girar.",
+                       "aside":  "Abrir, girar, medir. El orden importa; el mineral no espera a los devotos.",
                        "objective":  "Recupera y examina placa de protocolo; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX096"
@@ -9864,6 +9961,7 @@
                        "title":  "La muestra de polvo",
                        "location_id":  "LOC08",
                        "hook":  "Con ventilación baja el polvo visible; el ensayo no mide gases.",
+                       "aside":  "Baja el polvo que se ve. Lo que no se ve sigue trabajando.",
                        "objective":  "Recupera y examina filtro de ensayo; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX096"
@@ -9971,6 +10069,7 @@
                        "title":  "El aire y la jornada",
                        "location_id":  "LOC08",
                        "hook":  "El protocolo mejora el flujo en prueba; el dueño propone duplicar el turno sin nueva medición.",
+                       "aside":  "Mejor aire, y el dueño ya quiere más horas. El progreso tiene buen olfato.",
                        "objective":  "Recupera y examina acuerdo de mantenimiento; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX097",
@@ -10067,6 +10166,7 @@
                        "title":  "La palabra raspada",
                        "location_id":  "LOC07",
                        "hook":  "Bajo acaparamiento se lee reserva; el resto del formulario permanece igual.",
+                       "aside":  "Debajo de acaparamiento dice reserva. Una palabra raspada y una familia es ladrona.",
                        "objective":  "Recupera y examina formulario de reserva; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
 
@@ -10161,6 +10261,7 @@
                        "title":  "El sello de la despensa",
                        "location_id":  "LOC07",
                        "hook":  "El sello distingue despensa familiar de almacén comercial en la clave oficial.",
+                       "aside":  "El sello distingue una despensa de un almacén. El guardia, no.",
                        "objective":  "Recupera y examina sello doméstico; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX100"
@@ -10255,6 +10356,7 @@
                        "title":  "La medida del saco",
                        "location_id":  "LOC07",
                        "hook":  "La tabla asigna un saco por persona; el hogar tiene cuatro personas y guarda cuatro sacos.",
+                       "aside":  "Cuatro personas, cuatro sacos. Las matemáticas no tienen la culpa.",
                        "objective":  "Recupera y examina tabla de raciones; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX100"
@@ -10349,6 +10451,7 @@
                        "title":  "El recibo de custodia",
                        "location_id":  "LOC07",
                        "hook":  "El recibo dice custodia temporal y no transferencia de propiedad.",
+                       "aside":  "Custodia temporal, dice el recibo. Lo temporal, aquí, dura mucho.",
                        "objective":  "Recupera y examina recibo de depósito; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX101"
@@ -10443,6 +10546,7 @@
                        "title":  "La orden posterior",
                        "location_id":  "LOC07",
                        "hook":  "La orden entró en vigor el jueves; la multa acusa incumplimiento el martes.",
+                       "aside":  "La multa llega antes que la orden. El Tribunal es muy rápido cuando cobra.",
                        "objective":  "Recupera y examina orden de inspección; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX102"
@@ -10537,6 +10641,7 @@
                        "title":  "La costumbre del invierno",
                        "location_id":  "LOC07",
                        "hook":  "La libreta muestra reservas semejantes durante cinco inviernos; este año la misma cantidad se llamó acaparamiento.",
+                       "aside":  "Cinco inviernos guardando lo mismo. Este año, la misma harina tiene otro nombre.",
                        "objective":  "Recupera y examina libreta familiar; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX103",
@@ -10632,6 +10737,7 @@
                        "title":  "El alcance de salvo",
                        "location_id":  "LOC07",
                        "hook":  "La orden dice se retira grano salvo reserva doméstica; la copia del guardia omite salvo reserva doméstica.",
+                       "aside":  "Dos palabras omitidas, y la excepción se convierte en confiscación.",
                        "objective":  "Recupera y examina copia de excepción; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX105"
@@ -10726,6 +10832,7 @@
                        "title":  "El doble fondo",
                        "location_id":  "LOC07",
                        "hook":  "Un almacén declara diez sacos y un inventario firmado por dos testigos cuenta dieciocho.",
+                       "aside":  "Diez sacos declarados, dieciocho contados. Este sí sabe sumar.",
                        "objective":  "Recupera y examina inventario contrastado; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX105"
@@ -10833,6 +10940,7 @@
                        "title":  "Una excepción justa",
                        "location_id":  "LOC07",
                        "hook":  "Las familias cumplen la tabla; un almacén oculta excedente. Son expedientes distintos.",
+                       "aside":  "Las familias cumplen; el almacén esconde. Mezclar los dos casos es lo fácil.",
                        "objective":  "Recupera y examina dictamen de reservas; contrasta su significado antes de entregar una conclusión.",
                        "requires":  [
                                         "SX106",
