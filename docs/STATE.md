@@ -2873,3 +2873,14 @@ save_game_test 540; side_scene_test 220. Eight suites, 3,909 checks, zero failur
 exit 0 and no script/parse errors. The side scene was instantiated headlessly.
 The corpus check includes every authored case model and soul-stage model.
 These remain conservative known-form rules, not complete grammatical assessment.
+## Vocabulary repetition and articles cannot bypass practice (2026-10-08)
+
+Vocabulary checks refuse attempts before a word is due without changing its box.
+The panel also disables the answered input and ignores repeated Enter, so one
+correct answer cannot be submitted repeatedly to manufacture mastery. Omitting an
+article still gives a reminder; supplying the wrong article is now an error.
+Mexican/Spain variants authored in the catalog remain accepted.
+
+Executed on Windows: vocabulary_test 174 (including the panel's repeated Enter),
+learner_progress_test 22 and save_game_test 540: 736 checks, zero failures,
+exit 0, no script/parse errors. Panel instantiated headlessly, not visually reviewed.

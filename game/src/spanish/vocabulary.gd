@@ -69,6 +69,8 @@ static func _bare(text: String) -> String:
 func check(id: String, answer: String, day: int, strict := false) -> Dictionary:
 	if not items.has(id) or answer.strip_edges().is_empty() or answer.length() > 120:
 		return {"ok": false, "message": "Escribe una palabra o una expresión."}
+	if int(progress.get(id, {}).get("due", 0)) > day:
+		return {"ok": false, "message": "Esta palabra ya está practicada. Vuelve el día %d para recordarla." % int(progress[id].due)}
 	var item: Dictionary = items[id]
 	var typed := _normal(answer, strict)
 	var matched := ""
@@ -79,7 +81,7 @@ func check(id: String, answer: String, day: int, strict := false) -> Dictionary:
 			matched = candidate
 			with_article = true
 			break
-		if matched.is_empty() and _bare(typed) == _bare(form):
+		if matched.is_empty() and typed == _bare(typed) and typed == _bare(form):
 			matched = candidate
 	_stamp += 1
 	_seen[id] = _stamp

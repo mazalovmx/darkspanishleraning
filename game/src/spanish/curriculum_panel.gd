@@ -191,13 +191,14 @@ func _next_word() -> void:
 		words_answer.grab_focus()
 
 func _check_word() -> void:
-	if word_id.is_empty() or world_state == null:
+	if word_id.is_empty() or world_state == null or words_check.disabled:
 		return
 	var course = world_state.learner.curriculum
 	var result: Dictionary = world_state.learner.word_practice.check(word_id, words_answer.text, world_state.day, course.is_last_block(course.index()))
 	words_feedback.text = result.message
 	if result.ok:
 		words_check.disabled = true
+		words_answer.editable = false
 	# Boxes change either way: save.
 	progressed.emit()
 
