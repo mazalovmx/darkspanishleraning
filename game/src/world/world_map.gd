@@ -1,5 +1,6 @@
 extends Node2D
 
+const Settings = preload("res://src/common/settings.gd")
 const WorldState = preload("res://src/world/world_state.gd")
 const SaveGame = preload("res://src/save/save_game.gd")
 const CELL_SIZE := 32
@@ -49,6 +50,7 @@ var load_button := Button.new()
 var save_notice := Label.new()
 var save_confirm := ConfirmationDialog.new()
 var new_button := Button.new()
+var menu_button := Button.new()
 var new_confirm := ConfirmationDialog.new()
 var notebook = preload("res://src/evidence/evidence_notebook.gd").new()
 var notebook_button := Button.new()
@@ -143,6 +145,10 @@ func _ready() -> void:
 
 	if persistence_enabled:
 		_load_game(true)
+	# Chosen on the title screen: start over once the existing save has been read.
+	if Engine.has_meta("start_new_game"):
+		Engine.remove_meta("start_new_game")
+		_new_game()
 
 func _build_tiles() -> void:
 	var atlas_image := Image.create(CELL_SIZE * COLORS.size(), CELL_SIZE, false, Image.FORMAT_RGBA8)
@@ -203,7 +209,7 @@ func _terrain_image(terrain: String) -> Image:
 
 # Loops one track; an unknown or missing file leaves the current one playing.
 func _play_music(track: String) -> void:
-	var settings: Dictionary = dialogue.client.config.get("audio", {})
+	var settings: Dictionary = Settings.audio(dialogue.client.config)
 	if track == music_track or not settings.get("music", true) or not ResourceLoader.exists(MUSIC + track):
 		return
 	var stream: AudioStream = load(MUSIC + track)
@@ -215,7 +221,7 @@ func _play_music(track: String) -> void:
 
 # Short interface sound; missing files and a disabled setting are silent.
 func _play_sfx(event: String) -> void:
-	var settings: Dictionary = dialogue.client.config.get("audio", {})
+	var settings: Dictionary = Settings.audio(dialogue.client.config)
 	var path := "res://assets/sfx/" + str(SFX.get(event, ""))
 	if not settings.get("sfx", true) or not SFX.has(event) or not ResourceLoader.exists(path):
 		return
@@ -451,6 +457,13 @@ func _build_ui() -> void:
 		if _can_restart():
 			new_confirm.popup_centered())
 	box.add_child(new_button)
+	menu_button.text = "Menú principal"
+	menu_button.add_theme_font_size_override("font_size", 13)
+	menu_button.pressed.connect(func():
+		if _can_restart():
+			_save_game(true)
+			get_tree().change_scene_to_file("res://src/ui/title_menu.tscn"))
+	box.add_child(menu_button)
 	layer.add_child(new_confirm)
 	new_confirm.title = "Nueva partida"
 	new_confirm.dialog_text = "¿Empezar desde el principio? La partida guardada se reemplaza; se conserva una copia anterior."

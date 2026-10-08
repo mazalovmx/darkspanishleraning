@@ -2051,3 +2051,29 @@ can take it. Not a playtest; economy pacing unchanged.
 
 Executed for this commit: the full non-live run, 53 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Title screen, settings, and removal of the upstream demo
+
+- `src/ui/title_menu.tscn` is now the main scene: "Continuar" (only with a save),
+  "Nueva partida" (confirmation; the map then runs its own new-game path, which keeps
+  the old save as `.bak`), "Ajustes" (music and sounds on/off and volume, saved by
+  `src/common/settings.gd` in `user://settings.json` because `res://` is read-only in
+  an export; values are clamped to -40..0 dB and malformed values ignored), "Salir".
+  The map has "Menú principal" (autosave, then back to the title). The map reads the
+  saved audio settings.
+- Removed from the upstream demo: the Dialogic addon, its autoload, settings and
+  input action; the Camera, FieldEvents, Gameboard, GamepieceRegistry and Player
+  autoloads; `overworld/`, `combat/` (demo assets), `src/field`, `src/main.tscn`,
+  `src/common/player.gd`, and the demo CHANGELOG; the demo README was replaced. A
+  dependency walk from the province map and every test found no reference to them.
+  `src/combat` stays (the stack arena extends `CombatArena`), with the CombatEvents,
+  Music and Transition autoloads. A fresh import has no errors; the headless shutdown
+  warning went from "26 resources still in use" to 1.
+- A repository README describes the project.
+
+Tests: new title_menu_test (title is the main scene, continue only with a save,
+settings saved, clamped and validated, map has the menu button; it writes only to
+throwaway `user://` files; 7 checks).
+
+Executed for this commit: the full non-live run, 54 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

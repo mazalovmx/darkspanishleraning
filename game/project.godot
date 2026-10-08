@@ -15,81 +15,15 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="El Índice de Ceniza"
-run/main_scene="res://src/world/province_map.tscn"
+run/main_scene="res://src/ui/title_menu.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Camera="*res://src/field/field_camera.gd"
 CombatEvents="*res://src/combat/combat_events.gd"
-FieldEvents="*res://src/field/field_events.gd"
-Gameboard="*res://src/field/gameboard/gameboard.gd"
-GamepieceRegistry="*res://src/field/gamepieces/gamepiece_registry.gd"
 Music="*res://src/common/music/music_player.tscn"
-Player="*res://src/common/player.gd"
 Transition="*res://src/common/screen_transitions/ScreenTransition.tscn"
-Dialogic="*uid://ds2q0uclmolvu"
-
-[dialogic]
-
-text/skippable=true
-text/skippable_delay=0.05
-text/autoadvance_delay=1.0
-text/hide_empty_textbox=true
-animations/join_default_length=0.0
-animations/leave_default_length=0.0
-animations/leave_default_wait=false
-animations/join_default_wait=false
-choices/autofocus_first=true
-choices/delay=0.2
-choices/reveal_delay=0
-choices/reveal_by_input=false
-save/autosave_delay=60.0
-text/autopauses={}
-glossary/default_case_sensitive=true
-layout/mode=2
-variables={
-"BlueWandCount": 0,
-"GreenWandCount": 0,
-"HasMonkToken": 0,
-"HasThiefToken": 0,
-"HasWarriorToken": 0,
-"HasWizardToken": 0,
-"Hint": 0,
-"RedWandCount": 0,
-"StrangeTreeExamined": 0,
-"TokenCount": 0,
-"TokenQuestStatus": 0
-}
-layout/end_behaviour=0
-layout/styles={
-"Default": {
-"export_overrides": {},
-"inherits": "",
-"layout": "res://dialogue_layout.tscn"
-}
-}
-layout/default_style="Default"
-text/letter_speed=0.02
-animations/join_default="Instant In"
-animations/leave_default="Instant Out"
-text/autocolor_names=true
-settings/text_speed=1.0
-directories/dch_directory={}
-directories/dtl_directory={}
-text/initial_text_reveal_skippable=true
-text/text_reveal_skip_delay=0.05
-text/autoadvance_per_character_delay=0.1
-text/autoadvance_ignored_characters_enabled=true
-save/encryption_on_exports_only=true
-text/advance_delay=0.1
-portraits/default_portrait=""
-layout/style_list=[]
-extensions_folder="res://addons/dialogic_additions"
-audio/max_channels=4.0
-animations/cross_fade_default_length=0.5
-layout/style_directory={}
 
 [display]
 
@@ -99,10 +33,6 @@ window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
-
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg")
 
 [filesystem]
 
@@ -145,15 +75,6 @@ ui_down={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":12,"pressure":0.0,"pressed":false,"script":null)
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":1.0,"script":null)
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"key_label":0,"unicode":115,"location":0,"echo":false,"script":null)
-]
-}
-dialogic_default_action={
-"deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194309,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
-, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
-, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":32,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
-, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":88,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
 ]
 }
 select={

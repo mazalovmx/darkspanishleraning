@@ -157,22 +157,23 @@ its own multi-session plan and scenario-bible review per NPC.
 ## P2 - Release readiness (sections 33, 35, 42, Epic 14.3, Epic 20)
 
 - No `export_presets.cfg`; no Windows build has been produced or run.
-- No title screen, main menu, settings or quit. (A confirmed "Nueva partida" control
-  on the map now restarts the game and keeps the previous save as `.bak`.)
+- Title screen with continue, new game, audio settings (saved in
+  `user://settings.json`) and quit; the map has "Menú principal".
 - Frame rate: after moving fog to a tile layer, one windowed run on the development
   machine measured 259 fps idle and 268 fps with the pointer moving (whole province
   explored, zoomed out); 189 and 151 with the optional vignette. No weak-hardware
   acceptance measurement. The headless benchmark measures logic timings only.
-- Upstream demo still shipped: `game/src/main.tscn`, `game/overworld`, `game/combat`,
-  Dialogic, eight demo autoloads, demo README/CHANGELOG/icon. The standing
-  "26 resources still in use" shutdown error comes from the unused Dialogic autoload.
+- Demo removed: Dialogic, the field autoloads, `overworld/`, `combat/`, `src/field`,
+  `src/main.tscn`, demo README/CHANGELOG. Still kept because the arena extends them:
+  `src/combat` (with CombatEvents, Music, Transition autoloads). The shutdown warning
+  dropped from 26 to 1 resource.
 - Art and audio (Epic 20): terrain, locations, heroes, resource sites, knights, looping
   music and interface sounds are wired into the map. Still placeholder or missing:
   gates; battle arena; UI panels (the `kenney_ui_rpg` pack is unused); a volume
   setting in the UI; movement animation; road tiles that follow road shape. The fog
   and parchment shaders are unused; the vignette is optional and off. Nobody has
   listened to the audio.
-- No project README; no CI. Screenshot paths in about 28 test lines are absolute.
+- Project README exists; no CI. Screenshot paths in about 28 test lines are absolute.
 - Autosave failure shows only a small label; save validation hard-codes key counts
   and the NPC whitelist, so adding state requires touching those lines.
 
