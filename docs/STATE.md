@@ -2136,3 +2136,16 @@ shows his portrait. The other 19 were not rendered in a window.
 
 Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Economy pass
+
+Gold income was 3.4-4.1× the most a player could spend on recruits per week, so gold
+stopped mattering early. Lowered: council hall 100 → 40 gold/day, treasury 250 → 80,
+gold mine 250 → 100, SQ05 scaled engine +100 → +50. Raised every recruit price by
+about a third (militia 15 → 20, archers 25 → 35, sentinel 90 → 120 and so on; the
+militia upgrade 20 → 30). `tools/economy_check.py` now gives ratios of 1.17, 0.99 and
+1.07 (early, mid, late), before building costs; BALANCE.md has the tables. Tests that
+assert exact incomes or totals were updated to the new numbers. Not played.
+
+Executed for this commit: the full non-live run, 54 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

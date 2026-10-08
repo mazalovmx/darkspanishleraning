@@ -46,7 +46,7 @@ func run() -> void:
 		state.resources[resource] = 10000
 	check(not buy(economy,state,"build","barracks",1).ok,"One building per town per day")
 	next_day(economy,state)
-	check(state.resources.gold == 10100,"Building produces daily income")
+	check(state.resources.gold == 10040,"Building produces daily income")
 	var gold: int = state.resources.gold
 	check(economy.advance_day(state).is_empty() and state.resources.gold == gold,"Daily income cannot be collected twice")
 	check(buy(economy,state,"build","barracks",1).get("committed",false),"Next-day construction works")

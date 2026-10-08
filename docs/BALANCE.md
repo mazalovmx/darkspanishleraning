@@ -188,6 +188,46 @@ TR06	0%	100%	100%
 ## Limits
 
 The policy is naive, so a human using defend and abilities should do better than these
-numbers. Economy pacing (gold income, prices, weekly growth) was not changed: the probe
-measures battles only. The 4-5 h critical path is not measured here (see
+numbers. The battle probe measures battles only; economy pacing is the next section. The 4-5 h critical path is not measured here (see
 MEASUREMENTS.md). All values remain authored estimates until someone plays them.
+
+## Economy pass
+
+Written 2026-10-08. This is arithmetic, not a playtest. The check compares weekly gold
+income with the most gold a player could spend each week on recruits and militia
+upgrades. It counts the default recruits only, not hero-specific ones, and leaves out
+building costs. Run: `python3 tools/economy_check.py game/content/economy/strategy.json 100` (the last
+argument is the gold mine's daily income).
+
+Before the pass, income was 3.4 to 4.1 times the weekly recruit spend at every stage,
+so gold stopped being a constraint after the first days:
+
+| Stage | Income/week | Max recruit spend/week | Ratio |
+|---|---|---|---|
+| Weeks 1-2: LOC01 hall and barracks | 700 | 180 | 3.89 |
+| Mid: 3 towns with hall, barracks and range, plus the gold mine | 3,850 | 1,140 | 3.38 |
+| Late: every building in every town, plus the gold mine | 10,500 | 2,540 | 4.13 |
+
+Changes:
+
+- Income: council hall 100 → 40 gold/day; treasury 250 → 80; gold mine 250 → 100;
+  the SQ05 "scale the engine" outcome +100 → +50.
+- Recruit prices (gold): militia 15 → 20 (also at the market), archers 25 → 35, relic
+  sentinel 90 → 120, novice 12 → 16, hospitaller 45 → 60, inquisitorial guard 70 → 95,
+  thief 14 → 18, knife fighter 35 → 45, crossbow mercenary 40 → 55, relay automaton
+  200 → 260; militia → veteran upgrade 20 → 30.
+- Unchanged: building costs, starting resources (300 gold, 5 wood, 5 ore), weekly
+  recruit counts, the other mines.
+
+After the pass:
+
+| Stage | Income/week | Max recruit spend/week | Ratio |
+|---|---|---|---|
+| Weeks 1-2 | 280 | 240 | 1.17 |
+| Mid | 1,540 | 1,560 | 0.99 |
+| Late | 3,780 | 3,520 | 1.07 |
+
+Since building costs come on top, the player now has to choose between buildings and
+recruits for most of the game. The "strong" army in the battle table costs about 3,370
+gold at the new prices (50 militia, 20 upgrades, 30 archers, 6 sentinels), about a week
+of late-game income. Whether that pacing feels right is not known until someone plays it.

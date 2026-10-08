@@ -151,8 +151,8 @@ its own multi-session plan and scenario-bible review per NPC.
   per-set actions and durations are not implemented.
 - Ghost activation takes the first three eligible ids, so NK07/NK08 may never appear.
 - Balance: an automated probe (`tests/balance_sim.gd`, BALANCE.md) tuned battles
-  so difficulty rises with the curriculum; no human playtest; economy pacing not
-  tuned.
+  so difficulty rises with the curriculum; no human playtest. Economy income and
+  prices were tuned by arithmetic (`tools/economy_check.py`), not by play.
 
 ## P2 - Release readiness (sections 33, 35, 42, Epic 14.3, Epic 20)
 

@@ -81,7 +81,7 @@ func run() -> void:
 		world.end_turn()
 		world.economy.advance_day(world)
 		var scaled: bool = outcome.id == "scale"
-		check((world.resources.gold - gold >= 100) == scaled, "Only the scaled engine adds daily gold: " + outcome.id)
+		check((world.resources.gold - gold >= 50) == scaled, "Only the scaled engine adds daily gold: " + outcome.id)
 		check(world.campaign.effects(world).has("engine_banned") == (outcome.id == "ban"), "Only the ban is an act in force: " + outcome.id)
 		var loaded := Save.decode(Save.snapshot(world))
 		check(loaded.has("state") and loaded.state.campaign.income(loaded.state) == world.campaign.income(world), "Decision and its income survive a restart: " + outcome.id)

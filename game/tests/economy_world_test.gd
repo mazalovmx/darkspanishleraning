@@ -8,7 +8,7 @@ func run() -> void:
 	check(buy(economy,state,"build","council_hall",1).get("committed",false),"World construction commits")
 	var gold: int = state.resources.gold
 	state.end_turn()
-	check(state.resources.gold == gold + 100,"World day applies building income automatically")
+	check(state.resources.gold == gold + 40,"World day applies building income automatically")
 	var phrases: Dictionary = economy.current_models(state,"build","barracks",1)
 	economy.submit(state,"build","barracks",1,phrases.request)
 	check(not state.select_hero("inquisitor"),"Strategic quote locks active hero")
@@ -41,7 +41,7 @@ func run() -> void:
 	check(economy.claim(state,"mine_gold",economy.claim_model(state,"mine_gold")),"Typed order claims won mine")
 	check(not state.begin_encounter("mine_gold"),"Cleared mine cannot be farmed")
 	state.end_turn()
-	check(state.resources.gold == gold + 350,"Mine and building incomes add once")
+	check(state.resources.gold == gold + 140,"Mine and building incomes add once")
 	var snapshot := Save.snapshot(state)
 	var restored := Save.decode(snapshot)
 	check(restored.has("state"),"V8 economy and guarded encounter restore")
@@ -50,7 +50,7 @@ func run() -> void:
 		gold = restored.state.resources.gold
 		check(restored.state.economy.advance_day(restored.state).is_empty(),"Reload cannot collect income twice")
 		restored.state.end_turn()
-		check(restored.state.resources.gold == gold + 350,"Next loaded day pays correct income")
+		check(restored.state.resources.gold == gold + 140,"Next loaded day pays correct income")
 	var bad := snapshot.duplicate(true)
 	bad.strategy.encounters.erase("mine_gold")
 	check(not Save.decode(bad).has("state"),"Guarded ownership requires its saved victory")

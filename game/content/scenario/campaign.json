@@ -1758,7 +1758,7 @@
           "requires": [],
           "effect": "engine_scaled",
           "income": {
-            "gold": 100
+            "gold": 50
           }
         },
         {

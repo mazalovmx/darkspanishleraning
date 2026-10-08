@@ -55,7 +55,7 @@ func run() -> void:
 	map._close_poi()
 	var gold: int = map.state.resources.gold
 	map._end_turn()
-	check(map.state.resources.gold == gold + 100,"End-turn button pays building income")
+	check(map.state.resources.gold == gold + 40,"End-turn button pays building income")
 	map._open_poi(map.state.hero_cell)
 	map.strategy_button.pressed.emit()
 	buy("build","barracks",1)
@@ -102,7 +102,7 @@ func run() -> void:
 	panel.close_button.pressed.emit()
 	gold = map.state.resources.gold
 	map._end_turn()
-	check(map.state.resources.gold == gold + 350,"Owned mine and building pay on actual map turn")
+	check(map.state.resources.gold == gold + 140,"Owned mine and building pay on actual map turn")
 	map._load_game()
 	check(map.state.economy.mines.has("mine_gold") and not panel.visible,"Load restores economy and closes stale panel")
 	# Final settlement preview.

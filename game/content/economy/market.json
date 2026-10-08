@@ -43,7 +43,7 @@
     "name": "Milicianos",
     "singular": "miliciano",
     "plural": "milicianos",
-    "price": 15,
+    "price": 20,
     "stock": 16,
     "kind": "recruit"
   }

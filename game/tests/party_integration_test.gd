@@ -38,7 +38,7 @@ func run() -> void:
 	check(not state.select_hero("survivor"), "Pending purchase locks hero")
 	state.trade.cancel()
 	check(state.select_hero("inquisitor") and state.movement_remaining == 13, "Switching never refunds movement")
-	check(state.trade.inventory.bread == 0 and state.resources.gold == 281, "Personal inventory and shared gold")
+	check(state.trade.inventory.bread == 0 and state.resources.gold == 276, "Personal inventory and shared gold")
 	check(state.trade.stock.bread == 28 and state.trade.purchase_count == 2, "Shared finite shop and receipts")
 	check(state.evidence.record("travel_food", "LOC01", "Hay comida.", "observation", 1), "Shared evidence recorded")
 	state.select_hero("smuggler")

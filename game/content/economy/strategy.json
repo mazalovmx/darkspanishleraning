@@ -25,9 +25,9 @@
       },
       "requires": [],
       "income": {
-        "gold": 100
+        "gold": 40
       },
-      "description": "Produce 100 de oro al día."
+      "description": "Produce 40 de oro al día."
     },
     "barracks": {
       "name": "cuartel",
@@ -92,9 +92,9 @@
         "council_hall"
       ],
       "income": {
-        "gold": 250
+        "gold": 80
       },
-      "description": "Añade 250 de oro al ingreso diario."
+      "description": "Añade 80 de oro al ingreso diario."
     },
     "lumber_yard": {
       "name": "aserradero",
@@ -132,7 +132,7 @@
       "building": "barracks",
       "weekly": 12,
       "cost": {
-        "gold": 15
+        "gold": 20
       },
       "singular": "miliciano"
     },
@@ -141,7 +141,7 @@
       "building": "archery_range",
       "weekly": 8,
       "cost": {
-        "gold": 25
+        "gold": 35
       },
       "singular": "arquero"
     },
@@ -150,7 +150,7 @@
       "building": "laboratory",
       "weekly": 2,
       "cost": {
-        "gold": 90,
+        "gold": 120,
         "crystal": 1,
         "gems": 1
       },
@@ -162,7 +162,7 @@
       "building": "barracks",
       "weekly": 14,
       "cost": {
-        "gold": 12
+        "gold": 16
       },
       "hero": "inquisitor"
     },
@@ -172,7 +172,7 @@
       "building": "council_hall",
       "weekly": 5,
       "cost": {
-        "gold": 45
+        "gold": 60
       },
       "hero": "inquisitor"
     },
@@ -182,7 +182,7 @@
       "building": "forge",
       "weekly": 3,
       "cost": {
-        "gold": 70,
+        "gold": 95,
         "ore": 1
       },
       "hero": "inquisitor"
@@ -193,7 +193,7 @@
       "building": "barracks",
       "weekly": 12,
       "cost": {
-        "gold": 14
+        "gold": 18
       },
       "hero": "smuggler"
     },
@@ -203,7 +203,7 @@
       "building": "forge",
       "weekly": 6,
       "cost": {
-        "gold": 35
+        "gold": 45
       },
       "hero": "smuggler"
     },
@@ -213,7 +213,7 @@
       "building": "archery_range",
       "weekly": 5,
       "cost": {
-        "gold": 40
+        "gold": 55
       },
       "hero": "smuggler"
     },
@@ -223,7 +223,7 @@
       "building": "laboratory",
       "weekly": 1,
       "cost": {
-        "gold": 200,
+        "gold": 260,
         "mercury": 1,
         "crystal": 1
       },
@@ -236,7 +236,7 @@
       "name": "guardias veteranos",
       "building": "forge",
       "cost": {
-        "gold": 20,
+        "gold": 30,
         "ore": 1
       },
       "singular": "guardia veterano"
