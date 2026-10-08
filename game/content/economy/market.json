@@ -92,5 +92,50 @@
     "kind": "document",
     "locations": ["LOC06"],
     "use": "Con el salvoconducto cruzas los puentes sin esperar en el puesto; sin él, cada puente cuesta 4 puntos de movimiento más."
+  },
+  "smuggled_mercury": {
+    "name": "Mercurio de contrabando",
+    "singular": "frasco de mercurio",
+    "plural": "frascos de mercurio",
+    "price": 45,
+    "stock": 10,
+    "kind": "resource",
+    "resource": "mercury",
+    "locations": ["LOC10"],
+    "use": "Un frasco suma una unidad de mercurio a tus recursos. Nadie pregunta de dónde viene."
+  },
+  "smuggled_sulfur": {
+    "name": "Azufre de contrabando",
+    "singular": "saco de azufre",
+    "plural": "sacos de azufre",
+    "price": 40,
+    "stock": 10,
+    "kind": "resource",
+    "resource": "sulfur",
+    "locations": ["LOC10"],
+    "use": "Un saco suma una unidad de azufre a tus recursos."
+  },
+  "smuggled_crystal": {
+    "name": "Cristal de contrabando",
+    "singular": "cristal",
+    "plural": "cristales",
+    "price": 60,
+    "stock": 10,
+    "kind": "resource",
+    "resource": "crystal",
+    "locations": ["LOC10"],
+    "use": "Cada cristal suma una unidad de cristal a tus recursos."
+  },
+  "smuggled_gems": {
+    "name": "Gemas de contrabando",
+    "singular": "gema",
+    "plural": "gemas",
+    "feminine": true,
+    "price": 70,
+    "stock": 10,
+    "kind": "resource",
+    "resource": "gems",
+    "locations": ["LOC10"],
+    "use": "Cada gema suma una unidad de gemas a tus recursos."
   }
 }

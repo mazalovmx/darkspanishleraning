@@ -243,6 +243,9 @@ func submit(state: RefCounted, id: String, quantity: int, message: String) -> Di
 			state.army.append({"type": id, "count": quantity})
 		else:
 			state.army[target].count += quantity
+	elif goods[id].kind == "resource":
+		# The smuggler sells rare resources straight into the treasury.
+		state.resources[str(goods[id].resource)] = int(state.resources.get(str(goods[id].resource), 0)) + quantity
 	elif id == "treatment":
 		# The healer treats the active hero at once.
 		var patient = state.party.active()

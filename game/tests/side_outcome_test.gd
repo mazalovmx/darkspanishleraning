@@ -62,6 +62,21 @@ func run() -> void:
 		if str(map.notebook.entries.get_item_metadata(i)) == "link:LINK1":
 			map.notebook.entries.item_selected.emit(i)
 	check(map.notebook.body.text.begins_with("COMPARACIÓN ENTRE EXPEDIENTES"), "A comparison page shows its prompt")
+	check(map.notebook.exercise.visible and not map.notebook.category.visible, "The comparison page asks for the player's comparison")
+	map.notebook.note.text = "El censo y el reloj."
+	map.notebook.record_button.pressed.emit()
+	check(map.notebook.feedback.text.contains("una palabra que compare") and not cases.comparisons.has("LINK1"), "A comparison needs a comparing word and a full sentence")
+	map.notebook.note.text = "En el censo se raspó una fecha, pero en el caso del reloj solo se ajustaron las horas."
+	map.notebook.record_button.pressed.emit()
+	check(cases.comparisons.has("LINK1") and map.notebook.feedback.text.begins_with("Tu comparación"), "The comparison is recorded and shown")
+	var saved: Dictionary = cases.snapshot()
+	check(saved.has("comparisons") and cases.valid_comparisons(saved.comparisons, cases.records, state) != null, "Saved comparisons validate against the cases")
+	var forged: Dictionary = saved.comparisons.duplicate(true)
+	forged.LINK1.answer = "Nada."
+	check(cases.valid_comparisons(forged, cases.records, state) == null, "A saved comparison must meet its keys")
+	var unopened: Dictionary = cases.records.duplicate(true)
+	unopened.erase("SX018")
+	check(cases.valid_comparisons(saved.comparisons, unopened, state) == null, "A comparison needs both cases concluded")
 	map.notebook.close()
 	# The place shows the consequence.
 	for location: Dictionary in state.locations:

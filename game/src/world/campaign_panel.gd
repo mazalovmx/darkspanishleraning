@@ -152,8 +152,15 @@ func _refresh_body() -> void:
 		body.text = "%s\n\nLugar: %s\n\n%s" % [node.title,_location_name(node.location),reason]
 		return
 	body.text = "%s\n\n%s" % [node.speaker,node.source]
-	for outcome: Dictionary in node.get("outcomes", []):
-		body.text += "\n\nPropuesta: " + str(outcome.answer)
+	if node.has("decision_keys"):
+		# The council takes the player's own proposal: show the options, not sentences.
+		body.text += "\n\nOPCIONES"
+		for outcome: Dictionary in node.outcomes:
+			body.text += "\n· %s: %s" % [outcome.title, outcome.keys[0].need]
+		body.text += "\n\nEscribe tu propia propuesta en una frase: propongo que… y su límite (aunque…)."
+	else:
+		for outcome: Dictionary in node.get("outcomes", []):
+			body.text += "\n\nPropuesta: " + str(outcome.answer)
 	question.text = node.prompt
 	answer.show()
 	category.visible = not node.get("decision",false)

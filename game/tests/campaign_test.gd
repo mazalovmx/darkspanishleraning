@@ -74,6 +74,18 @@ func run() -> void:
 	state.npc_memory["el_indice"] = {"count": 1, "last_day": 1, "topics": ["ask_crisis"]}
 	check(campaign._proof_day(state, "t:el_indice:ask_crisis", {}) == 1 and campaign._proof_day(state, "t:el_indice:ask_ordinary_day", {}) == 0, "Each consultation proves only its own topic")
 	state.npc_memory["el_indice"] = memory
+	# The council resolution accepts the player's own proposal (decision keys).
+	var council: Dictionary = campaign.definitions.council_resolution
+	for pair in [["Propongo que destruyamos el Índice, aunque no sepamos qué pasará.", "destroy"],
+			["Propongo que la Orden conserve el Índice en custodia, aunque siga la censura.", "preserve"],
+			["Propongo que abramos el archivo al público, aunque algunos lo usen mal.", "open"],
+			["Propongo que el Índice solo aconseje, aunque las decisiones exijan pruebas independientes.", "charter"]]:
+		check(campaign.missing(state, council, pair[0]).is_empty() and campaign.outcome_for(state, council, pair[0]).get("id", "") == pair[1], "Own council proposal chooses " + pair[1])
+	for exact: Dictionary in council.outcomes:
+		check(campaign.outcome_for(state, council, exact.answer).id == exact.id, "Authored proposal still chooses " + exact.id)
+	check(campaign.missing(state, council, "Propongo que destruyamos el Índice o que lo abramos, aunque haya riesgos.").has("una sola opción, no varias"), "Mixed proposals rejected")
+	check(campaign.missing(state, council, "Propongo que destruyamos el Índice.").has("un límite de la propuesta (aunque…)"), "A proposal needs its limit")
+	check(campaign.outcome_for(state, council, "Quiero cenar, aunque es tarde.").is_empty(), "Unrelated text chooses nothing")
 	var guarded := World.new("province_160x120_v1")
 	complete_opening(guarded)
 	guarded.npc_memory.erase("fermin_cuesta")

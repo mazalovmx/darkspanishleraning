@@ -1906,6 +1906,10 @@
       "title": "La resolución del Consejo",
       "source": "El Consejo recibe cinco clases de afirmaciones y reconoce la incertidumbre. Destruir el Índice acaba con su operación; conservarlo mantiene la censura; abrirlo permite también su uso selectivo. Una carta de garantías necesita experiencia contrastada sobre suministros, trabajo y tecnología cotidiana. La decisión será definitiva para esta partida.",
       "prompt": "Redacta una propuesta con sus límites y elige como apoyo la inferencia corregida y la incertidumbre reconocida. La Carta exige los tres expedientes opcionales revisados.",
+      "decision_keys": [
+        {"need": "una propuesta (propongo que…)", "any": ["propongo", "propondria", "sugiero", "pido", "proponemos"]},
+        {"need": "un límite de la propuesta (aunque…)", "any": ["aunque", "a pesar de", "sin embargo", "pero", "siempre que"]}
+      ],
       "answers": [
         "Propongo que se destruya el Índice, aunque no sepamos las consecuencias futuras.",
         "Propongo que se conserve el Índice bajo custodia de la Orden, aunque continúe la censura.",
@@ -1939,6 +1943,7 @@
       "outcomes": [
         {
           "id": "destroy",
+          "keys": [{"need": "destruir el Índice", "any": ["destruya", "destruir", "destruyan", "destruccion", "quemar", "queme", "quememos", "destruyamos"]}],
           "answer": "Propongo que se destruya el Índice, aunque no sepamos las consecuencias futuras.",
           "title": "El archivo destruido",
           "text": "El Índice deja de operar y la Orden pierde su centro. La investigación prohibida se extiende junto con conflictos gremiales e inestabilidad. El futuro permanece abierto.",
@@ -1947,6 +1952,7 @@
         },
         {
           "id": "preserve",
+          "keys": [{"need": "conservarlo bajo custodia", "any": ["conserve", "conservar", "conserven", "custodia", "guarde", "guardar", "mantenga", "mantener"]}],
           "answer": "Propongo que se conserve el Índice bajo custodia de la Orden, aunque continúe la censura.",
           "title": "Un año tranquilo",
           "text": "El Índice permanece secreto. La Orden adopta reformas limitadas y mantiene la supresión. Ferraza ve restringidos sus experimentos; la pobreza continúa causando muertes sin titulares.",
@@ -1955,6 +1961,7 @@
         },
         {
           "id": "open",
+          "keys": [{"need": "abrir el archivo", "any": ["abra", "abrir", "abran", "abramos", "publico", "publica", "abierto", "abierta"]}],
           "answer": "Propongo que se abra el archivo al público, aunque las facciones seleccionen sus respuestas.",
           "title": "Muchas voces, la misma máquina",
           "text": "El archivo se hace público. Las consultas se multiplican y las facciones citan selectivamente sus respuestas para defender autoridades rivales. El acceso cambia el problema; no elimina el sesgo.",
@@ -1963,6 +1970,7 @@
         },
         {
           "id": "charter",
+          "keys": [{"need": "que solo aconseje, con pruebas independientes", "any": ["aconseje", "aconsejar", "aconsejen", "solo aconseje", "carta", "pruebas independientes", "revision"]}],
           "answer": "Propongo que el Índice solo aconseje y que las decisiones exijan pruebas independientes y revisión.",
           "title": "La Carta de las Pruebas",
           "text": "El Índice puede aconsejar, nunca declarar por sí mismo. Cada predicción incluye incertidumbre y alternativas. Las decisiones exigen pruebas independientes; las restricciones tienen revisión y caducidad. Cada acto identifica una autoridad humana responsable. Su cumplimiento sigue dependiendo de personas.",

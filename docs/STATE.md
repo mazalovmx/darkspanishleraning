@@ -2554,3 +2554,27 @@ soul_special_test (SA02-SA06). The panel button was not rendered in a window.
 
 Executed for this commit: the full non-live run, 59 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Smuggler, answered comparisons, the council in the player's own words
+
+- Smuggler (Epic 13): "CONTRABANDISTA DEL MARJAL NEGRO" (LOC10, button
+  "Contrabandista") sells mercury (45), sulfur (40), crystal (60) and gems (70) per unit,
+  10 of each, through the typed purchase; goods of kind "resource" go straight into the
+  treasury.
+- Comparisons: each open comparison page in the notebook asks for one sentence that
+  names something of each case (per-case topic words) and compares them (pero, en
+  cambio, mientras, aunque, igual que…; at least eight words). Answers are saved under
+  `side_cases.comparisons` (validated: both cases concluded, dated after that, keys still
+  met; older saves load) and shown on the page.
+- Council: `council_resolution` has `decision_keys` (a proposal and its limit) and keys
+  per option (destroy, preserve, open, charter). A free answer is accepted when it meets
+  the shared keys and exactly one option's keys; a mixed proposal or a missing limit is
+  named. The journal shows the options (title and what they imply) instead of full
+  sentences to copy. The authored sentences still work. The other five decisions keep
+  exact choices.
+- Tests: market_test (smuggler), side_outcome_test (comparison typed, refused, recorded,
+  validated), campaign_test (four own proposals, authored ones, mixed, no limit,
+  unrelated). Rendered in a window: the comparison page.
+
+Executed for this commit: the full non-live run, 59 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

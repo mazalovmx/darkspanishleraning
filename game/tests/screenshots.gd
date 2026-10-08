@@ -80,6 +80,18 @@ func run() -> void:
 			map.notebook.entries.item_selected.emit(i)
 	await shot("05b_notebook_case")
 	map.notebook.close()
+	for id: String in state.side_cases.branches.SB02.quest_ids:
+		var progress := {}
+		for step: String in state.side_cases.stages(id):
+			progress[step] = {"day": 1, "hero": "inquisitor", "answer": "", "choice": "SB02_public" if step == "choice" else "", "rejected": "", "route": "", "cipher": ""}
+		state.side_cases.records[id] = {"progress": progress, "reward": ""}
+	map.notebook.open_journal(state)
+	for i in map.notebook.entries.item_count:
+		if str(map.notebook.entries.get_item_metadata(i)) == "link:LINK1":
+			map.notebook.entries.select(i)
+			map.notebook.entries.item_selected.emit(i)
+	await shot("05c_notebook_comparison")
+	map.notebook.close()
 	state.side_cases.records.clear()
 	var cache: Dictionary = state.economy.treasures.TR07
 	state.hero_cell = Vector2i(cache.position[0], cache.position[1])

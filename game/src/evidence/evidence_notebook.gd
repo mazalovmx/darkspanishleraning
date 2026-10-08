@@ -153,6 +153,8 @@ func _render() -> void:
 		category.add_item(label)
 	category.select(0)
 	support_row.hide()
+	category.show()
+	record_button.text = "Anotar la prueba"
 	compare_button.visible = not reasoning_mode
 	body.custom_minimum_size.y = 300
 	feedback.text = ""
@@ -165,10 +167,22 @@ func _render() -> void:
 		body.scroll_to_line(0)
 		return
 	if active_id.begins_with("link:"):
+		var link_id := active_id.trim_prefix("link:")
 		for link: Dictionary in world_state.side_cases.open_links():
-			if "link:" + str(link.id) == active_id:
+			if str(link.id) == link_id:
 				body.text = "COMPARACIÓN ENTRE EXPEDIENTES\n%s\n\n%s\n\nNo cambia la resolución de ninguno de los dos casos." % [link.prompt, "Casos: %s · %s" % [world_state.side_cases.branches[link.from].title, world_state.side_cases.branches[link.to].title]]
 		body.scroll_to_line(0)
+		var answered: Dictionary = world_state.side_cases.comparisons.get(link_id, {})
+		if answered.is_empty():
+			# The player writes the comparison: both cases and a comparing word.
+			exercise.show()
+			category.hide()
+			body.custom_minimum_size.y = 190
+			record_button.text = "Anotar la comparación"
+			prompt.text = "Compara los dos casos en una frase: nombra algo de cada uno y usa pero, en cambio, mientras, aunque o igual que."
+			feedback.text = "Una comparación no es una prueba nueva: ordena lo que ya sabes."
+		else:
+			feedback.text = "Tu comparación (día %d): %s" % [int(answered.day), answered.answer]
 		return
 	var clue: Dictionary = world_state.evidence.node(active_id)
 	if clue.source_type == "reasoning" and not world_state.evidence.has_evidence(active_id):
@@ -191,6 +205,13 @@ func _record() -> void:
 		return
 	if reasoning_mode:
 		_record_assessment()
+		return
+	if active_id.begins_with("link:"):
+		var result: Dictionary = world_state.side_cases.answer_comparison(world_state, active_id.trim_prefix("link:"), note.text)
+		feedback.text = result.message
+		if result.ok:
+			_render()
+			evidence_recorded.emit()
 		return
 	var location: Dictionary = world_state.location_at(world_state.hero_cell)
 	var classes := ["", "observation", "interpretation", "accusation", "institutional_declaration"]

@@ -69,6 +69,21 @@ func services() -> void:
 	check(trade.submit(state, "salvoconducto", 1, "Quiero comprar un salvoconducto.").ok and trade.submit(state, "salvoconducto", 1, "Son quince monedas.").ok, "Pass requested and priced")
 	check(trade.submit(state, "salvoconducto", 1, "Confirmo la compra de un salvoconducto por quince monedas.").get("committed", false), "Pass bought")
 	check(state.step_cost(bridge) == plain, "With the pass the bridge costs terrain only")
+	# Smuggler at Marjal Negro: rare resources for gold.
+	for location: Dictionary in state.locations:
+		if location.id == "LOC10":
+			state.hero_cell = Vector2i(location.position[0], location.position[1])
+	state.party.active().cell = state.hero_cell
+	state._reveal_from(state.hero_cell)
+	check(trade.offers_at("LOC10") == ["smuggled_mercury", "smuggled_sulfur", "smuggled_crystal", "smuggled_gems"], "The smuggler sells rare resources")
+	state.resources.gold = 500
+	var crystal: int = state.resources.crystal
+	check(trade.submit(state, "smuggled_crystal", 2, "Necesito dos cristales.").ok, "Two crystals requested")
+	check(trade.submit(state, "smuggled_crystal", 2, "Son 120 monedas.").ok, "Two crystals priced")
+	check(trade.submit(state, "smuggled_crystal", 2, "Confirmo la compra de dos cristales por 120 monedas.").get("committed", false), "Crystals bought")
+	check(state.resources.crystal == crystal + 2 and state.resources.gold == 380, "Crystals go to the treasury")
+	check(trade.submit(state, "smuggled_gems", 1, "Quiero una gema.").ok, "Gems: feminine quantity")
+	trade.cancel()
 	# A save written before the services existed still loads, with them empty.
 	var snapshot: Dictionary = Save.snapshot(state).duplicate(true)
 	for table in [snapshot.strategy.trade.stock, snapshot.strategy.trade.inventory]:

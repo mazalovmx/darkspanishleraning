@@ -104,7 +104,18 @@ func missing(world: RefCounted, node: Dictionary, answer: String) -> Array[Strin
 		if course.normalized(answer) == course.normalized(accepted):
 			return result
 	if not node.has("keys"):
-		result.append("una de las propuestas, tal como está escrita")
+		if not node.has("decision_keys"):
+			result.append("una de las propuestas, tal como está escrita")
+			return result
+		# A decision in the player's own words: one option, a proposal and its limit.
+		if RegEx.create_from_string("[.;!?]\\s*\\S").search(answer.strip_edges()) != null:
+			result.append("una sola frase")
+		result.append_array(_groups_missing(world, node.decision_keys, answer))
+		var options := _keyed_outcomes(world, node, answer)
+		if options.is_empty():
+			result.append("una de las opciones: " + ", ".join(node.outcomes.map(func(outcome: Dictionary) -> String: return str(outcome.keys[0].need))))
+		elif options.size() > 1:
+			result.append("una sola opción, no varias")
 		return result
 	var text: String = course.words(answer)
 	# One claim per conclusion: a second sentence or a long addition is not a paraphrase.
@@ -159,7 +170,24 @@ func outcome_for(world: RefCounted, node: Dictionary, answer: String) -> Diction
 	for outcome: Dictionary in node.get("outcomes", []):
 		if world.learner.curriculum.normalized(answer) == world.learner.curriculum.normalized(outcome.answer):
 			return outcome
-	return {}
+	# Free wording (decisions with "decision_keys"): the shared keys and exactly one
+	# option's keys must be present.
+	var matched := _keyed_outcomes(world, node, answer)
+	return matched[0] if matched.size() == 1 and _groups_missing(world, node.get("decision_keys", []), answer).is_empty() else {}
+
+func _groups_missing(world: RefCounted, groups: Array, answer: String) -> Array[String]:
+	var text: String = world.learner.curriculum.words(answer)
+	var result: Array[String] = []
+	for group: Dictionary in groups:
+		if not group.any.any(func(form: String) -> bool: return text.contains(" %s " % form)):
+			result.append(str(group.need))
+	return result
+
+func _keyed_outcomes(world: RefCounted, node: Dictionary, answer: String) -> Array:
+	if not node.has("decision_keys") or answer.length() > 300:
+		return []
+	return node.outcomes.filter(func(outcome: Dictionary) -> bool:
+		return outcome.has("keys") and _groups_missing(world, outcome.keys, answer).is_empty())
 
 ## Valid institutional acts in force: those of recorded nodes and of chosen outcomes.
 func acts(world: RefCounted, progress: Variant = null) -> Array:

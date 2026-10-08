@@ -2644,8 +2644,8 @@ consolidated. Rule-based cipher solutions require no outside literary knowledge.
 Status (updated 2026-10-08): integrated at runtime on the province map. Concluded
 cases, the twelve optional comparisons (once both cases are concluded) and the chosen
 publication or protected copy appear as notebook pages; the chosen outcome is shown at
-the case's location and passed to conversations as a flag. The comparisons are pages to
-read, not tasks. Combat values are unplaytested.
+the case's location and passed to conversations as a flag. Each comparison asks the
+player for one Spanish sentence that names both cases and compares them. Combat values are unplaytested.
 Full optional completion is outside the original campaign-duration estimate.
 
 # 43. Fragmented souls and ghost knights (2026-10-05)

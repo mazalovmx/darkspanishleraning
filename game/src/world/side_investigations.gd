@@ -1,4 +1,5 @@
 extends RefCounted
+const Curriculum = preload("res://src/spanish/curriculum.gd")
 ## Bounded authored practice; no free-language grading or truth from a battle.
 static var catalog: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/scenario/side_investigations.json"))
 static var practice: Array = JSON.parse_string(FileAccess.get_file_as_string("res://content/spanish/side_practice.json"))
@@ -7,6 +8,18 @@ var battles: Dictionary = {}
 var artifacts: Dictionary = {}
 var branches: Dictionary = {}
 var records: Dictionary = {}
+## Answered comparisons between concluded cases: link id -> {day, hero, answer}.
+var comparisons: Dictionary = {}
+## Words that name each case, for comparison answers.
+const TOPICS := {"SB01": ["censo", "limosnas", "familias", "deudas", "raspado", "folio"], "SB02": ["reloj", "campana", "campanas", "horas", "hora"],
+	"SB03": ["agua", "atlas", "plano", "canal", "sed", "leyenda"], "SB04": ["vecinos", "nombres", "identidad", "identidades", "desplazados"],
+	"SB05": ["animales", "bestiario", "margen", "simbolos", "plagio", "lista"], "SB06": ["instrumento", "lente", "lentes", "optica", "luz"],
+	"SB07": ["pesas", "balanza", "pesos", "puerto", "peso"], "SB08": ["sanos", "cifras", "hospital", "pacientes", "denominador"],
+	"SB09": ["vara", "medida", "medidas", "gremio", "patron"], "SB10": ["correo", "cartas", "carta", "ausentes"],
+	"SB11": ["aire", "ventilacion", "letania", "protocolo", "mina"], "SB12": ["grano", "glosario", "hambre", "reservas", "trigo"]}
+## Words that compare or contrast (the connectors of the vocabulary practice).
+const COMPARE := ["pero", "mientras", "en cambio", "sin embargo", "no obstante", "aunque", "a diferencia", "por el contrario",
+	"tambien", "igual que", "como", "ambos", "ambas", "los dos", "las dos", "en los dos"]
 const STAGES := ["access","inspect","puzzle","supported","independent","recall"]
 
 func _init() -> void:
@@ -307,13 +320,72 @@ func open_links() -> Array:
 	return catalog.cross_branch_links.filter(func(link: Dictionary) -> bool:
 		return link.required_quests.all(func(id: String) -> bool: return complete(id, records)))
 
+## What a comparison answer still lacks: a word for each case and a comparing word.
+func comparison_missing(link: Dictionary, answer: String) -> Array[String]:
+	var result: Array[String] = []
+	var text := " " + " ".join(Curriculum.fold(answer.to_lower()).replace(",", " ").replace(".", " ").replace(";", " ").split(" ", false)) + " "
+	if answer.length() > 300:
+		result.append("una frase más breve")
+		return result
+	for branch: String in [link.from, link.to]:
+		if not TOPICS[branch].any(func(word: String) -> bool: return text.contains(" %s " % word)):
+			result.append("algo del caso «%s»" % branches[branch].title)
+	if not COMPARE.any(func(word: String) -> bool: return text.contains(" %s " % word)):
+		result.append("una palabra que compare o contraste (pero, en cambio, mientras, igual que…)")
+	if text.split(" ", false).size() < 8:
+		result.append("una frase completa (al menos ocho palabras)")
+	return result
+
+## Records the player's comparison of two concluded cases.
+func answer_comparison(world: RefCounted, link_id: String, answer: String) -> Dictionary:
+	var link: Dictionary = {}
+	for entry: Dictionary in open_links():
+		if entry.id == link_id:
+			link = entry
+	if link.is_empty():
+		return {"ok": false, "message": "Esta comparación todavía no está abierta."}
+	var gaps := comparison_missing(link, answer)
+	if not gaps.is_empty():
+		return {"ok": false, "message": "Tu comparación necesita: " + "; ".join(gaps) + "."}
+	comparisons[link_id] = {"day": world.day, "hero": world.party.active_id, "answer": answer.strip_edges()}
+	return {"ok": true, "message": "Comparación anotada en el cuaderno."}
+
 func snapshot() -> Dictionary:
-	return records.duplicate(true)
+	var result := records.duplicate(true)
+	if not comparisons.is_empty():
+		result["comparisons"] = comparisons.duplicate(true)
+	return result
+
+## Saved comparisons checked against a case ledger: each link open (both quests
+## concluded), dated after that, and its answer still meeting the keys. Null if invalid.
+func valid_comparisons(saved: Dictionary, ledger: Dictionary, world: RefCounted) -> Variant:
+	var validated := {}
+	for link: Dictionary in catalog.cross_branch_links:
+		if not saved.has(link.id):
+			continue
+		var entry: Variant = saved[link.id]
+		var opened := 0
+		for quest: String in link.required_quests:
+			if not complete(quest, ledger):
+				return null
+			opened = maxi(opened, completed_day(quest, ledger))
+		if not entry is Dictionary or entry.size() != 3 or not entry.get("answer") is String or not entry.get("hero") is String or not _integer(entry.get("day"), maxi(1, opened), world.day) or not comparison_missing(link, entry.answer).is_empty():
+			return null
+		validated[link.id] = {"day": int(entry.day), "hero": str(entry.hero), "answer": str(entry.answer)}
+	return validated if validated.size() == saved.size() else null
 
 func _integer(value: Variant,low: int,high: int) -> bool:
 	return (value is int or value is float) and is_finite(value) and value == floor(value) and value >= low and value <= high
 
 func restore(data: Variant,world: RefCounted) -> bool:
+	# Answered comparisons travel under their own key (absent from older saves).
+	var saved_comparisons: Variant = {}
+	if data is Dictionary and data.has("comparisons"):
+		data = data.duplicate(true)
+		saved_comparisons = data.comparisons
+		data.erase("comparisons")
+	if not saved_comparisons is Dictionary or saved_comparisons.size() > catalog.cross_branch_links.size():
+		return false
 	if not data is Dictionary or data.size() > quests.size() or (world.map_id != "province_160x120_v1" and not data.is_empty()):
 		return false
 	# Validate shape before following cross-case references.
@@ -358,5 +430,9 @@ func restore(data: Variant,world: RefCounted) -> bool:
 			rewards[record.reward] = true
 		elif not record.reward.is_empty():
 			return false
+	var validated: Variant = valid_comparisons(saved_comparisons, data, world)
+	if validated == null:
+		return false
 	records = data.duplicate(true)
+	comparisons = validated
 	return true
