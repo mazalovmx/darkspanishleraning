@@ -251,7 +251,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada. Buen viaje."
+        "reply": "De nada. Buen viaje, y no se pare de noche en el camino."
       },
       {
         "keywords": [
@@ -259,7 +259,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenas. Dígame, ¿qué desea saber?"
+        "reply": "Buenas. Hable, que el fuego no se alimenta solo. ¿Qué desea saber?"
       }
     ],
     "fallback": "No sabría decirle. Yo sé de camas, de pan y de deudas. ¿Quiere preguntar por el camino a Santa Lucerna?",
@@ -346,7 +346,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "No tiene que agradecérmelo. Pregunte con calma."
+        "reply": "No me lo agradezca todavía. Aquí las gracias suelen llegar antes que las malas noticias."
       },
       {
         "keywords": [
@@ -354,7 +354,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. ¿Qué desea saber de Santa Lucerna?"
+        "reply": "Buenos días. ¿Qué desea saber de Santa Lucerna? Pregunte con calma; los muertos no tienen prisa."
       }
     ],
     "fallback": "No quisiera confundir una sospecha con un hecho. En este monasterio ya tenemos bastante de las dos cosas. Formule una pregunta más concreta, por favor.",
@@ -471,7 +471,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Hola. ¿Qué necesitas?"
+        "reply": "Hola. Rápido, que el puerto cobra hasta por mirar. ¿Qué necesitas?"
       }
     ],
     "fallback": "No tengo pruebas de eso, y gratis tampoco tengo opiniones. Pregunta por mi encargo.",
@@ -523,7 +523,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada. Sigue examinando las pruebas."
+        "reply": "De nada. Sigue examinando las pruebas. Ellas, por lo menos, no se cansan."
       },
       {
         "keywords": [
@@ -531,7 +531,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunta una cosa cada vez."
+        "reply": "Buenos días. Pregunta una cosa cada vez; mi cabeza ya ha perdido un mundo."
       }
     ],
     "fallback": "Eso requiere otra investigación. Por ahora, separa mis objetos de mi relato. Los objetos, por lo menos, no exageran.",
@@ -577,7 +577,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "No me dé las gracias. Piense en la provincia."
+        "reply": "No me dé las gracias. Piense en la provincia, que nunca da las gracias a nadie."
       },
       {
         "keywords": [
@@ -585,7 +585,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Le escucho."
+        "reply": "Buenos días. Le escucho. Elija bien sus preguntas."
       }
     ],
     "fallback": "De eso no hablo. Pregunte por las restricciones; de esas tenemos muchas.",
@@ -631,7 +631,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada. Vaya con cuidado."
+        "reply": "De nada. Vaya con cuidado. La Orden también da las gracias, a su manera."
       },
       {
         "keywords": [
@@ -639,7 +639,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenos días. Pregunte, por favor. Tengo tiempo: ya no tengo dudas."
       }
     ],
     "fallback": "No voy a explicar eso. Pregunte por mi decisión. Es lo único mío en toda esta historia.",
@@ -704,7 +704,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "No hay de qué. Lea siempre quién firma."
+        "reply": "No hay de qué. Lea siempre quién firma. Y quién paga la tinta."
       },
       {
         "keywords": [
@@ -712,7 +712,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Hable con precisión, por favor."
+        "reply": "Buenos días. Hable con precisión, por favor. Aquí una coma puede colgar a un hombre."
       }
     ],
     "fallback": "Eso no consta en ningún documento que yo conozca. Sin papel, en Valdora, ni los muertos están muertos. Pregunte por una declaración concreta.",
@@ -748,7 +748,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "Vaya en paz."
+        "reply": "Vaya en paz. Si la encuentra, avíseme."
       },
       {
         "keywords": [
@@ -756,7 +756,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Sea breve, por favor."
+        "reply": "Buenos días. Sea breve, por favor. La provincia no espera, y yo tampoco."
       }
     ],
     "fallback": "No voy a comentar eso. Pregunte por la provincia: para eso sí tengo respuestas preparadas.",
@@ -799,7 +799,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada. Siga su camino."
+        "reply": "De nada. Siga su camino. Y no me obligue a volver a verle por trabajo."
       },
       {
         "keywords": [
@@ -807,7 +807,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. ¿Qué quiere de la guardia?"
+        "reply": "Buenos días. ¿Qué quiere de la guardia? Le advierto que cobramos en paciencia."
       }
     ],
     "fallback": "Eso no es asunto de la guardia. Pregunte por los soldados; ellos, por lo menos, saben lo que cuestan.",
@@ -892,7 +892,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "No hay de qué. Es un placer."
+        "reply": "No hay de qué. Es un placer. Los placeres, en Miralba, se pagan después."
       },
       {
         "keywords": [
@@ -900,7 +900,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Es un honor recibirle."
+        "reply": "Buenos días. Es un honor recibirle. Los honores son gratis; los remedios, no."
       }
     ],
     "fallback": "Lo siento, de eso no puedo decirle nada. Pregunte por el gremio, por favor.",
@@ -943,7 +943,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada. Vuelva cuando quiera."
+        "reply": "De nada. Vuelva cuando quiera. Si la máquina sigue entera, se la enseño otra vez."
       },
       {
         "keywords": [
@@ -951,7 +951,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Hola. ¿Quiere ver la máquina?"
+        "reply": "Hola. ¿Quiere ver la máquina? No se acerque mucho. Ni poco. A una distancia razonable."
       }
     ],
     "fallback": "No sé nada de eso. Yo solo entiendo de máquinas. Con las personas tengo menos suerte.",
@@ -1098,7 +1098,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada. Cuídese."
+        "reply": "De nada. Cuídese. Y lávese las manos; lo digo en serio."
       },
       {
         "keywords": [
@@ -1106,7 +1106,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. ¿Está enfermo o tiene preguntas?"
+        "reply": "Buenos días. ¿Está enfermo o tiene preguntas? Las dos cosas se pueden curar a veces."
       }
     ],
     "fallback": "No puedo afirmar eso sin examinar los hechos. Pregunte por la enfermedad o la higiene.",
@@ -1173,7 +1173,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "De nada. Anotaré su agradecimiento en el registro. Es broma. No hay formulario para eso."
       },
       {
         "keywords": [
@@ -1181,7 +1181,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenos días. Pregunte, por favor. Con letra clara, si puede."
       }
     ],
     "fallback": "Eso no me corresponde. A mí casi nada me corresponde; por eso sigo en el puesto. Pregunte por la orden o por los cuadernos.",
@@ -1227,7 +1227,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "De nada. Y cierre bien la puerta al salir: el polvo también escucha."
       },
       {
         "keywords": [
@@ -1235,7 +1235,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenos días. Pregunte en voz baja, por favor. Los papeles se asustan."
       }
     ],
     "fallback": "Solo hablo de lo que está escrito en estos papeles. Lo demás son rumores, y aquí los rumores acaban mal.",
@@ -1300,7 +1300,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "De nada. Queda anotado. Todo queda anotado."
       },
       {
         "keywords": [
@@ -1308,7 +1308,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenos días. Nombre, carga y motivo. O, por lo menos, la pregunta."
       }
     ],
     "fallback": "Eso no figura en mi registro. Y lo que no figura, oficialmente, nunca cruzó el río.",
@@ -1353,7 +1353,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "De nada. La casa agradece su visita. La casa agradece casi todo lo que no cuesta."
       },
       {
         "keywords": [
@@ -1361,7 +1361,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenos días. Pregunte, por favor. Con educación: aquí todo queda impreso."
       }
     ],
     "fallback": "La casa no comenta eso. Pregunte por lo que consta en los libros. Los libros no hacen preguntas incómodas.",
@@ -1425,7 +1425,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "De nada, hijo. Las gracias se agradecen; un pan, más."
       },
       {
         "keywords": [
@@ -1433,7 +1433,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenas. Pase, pase. Aquí se entera una de todo sin querer. Bueno, queriendo."
       }
     ],
     "fallback": "De eso no sé nada. Yo solo abro la puerta y escucho. Escuchar es gratis; repetir, no.",
@@ -1476,7 +1476,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "De nada. Pero no le diga al maestro que hablamos."
       },
       {
         "keywords": [
@@ -1484,7 +1484,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenos días… Pregunte rápido, por favor. Y bajo."
       }
     ],
     "fallback": "No sé nada más, de verdad. Solo lo que vi aquella tarde. Y preferiría no recordarlo.",
@@ -1519,7 +1519,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "De nada. Las gracias no figuran en el presupuesto."
       },
       {
         "keywords": [
@@ -1527,7 +1527,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenos días. Sea breve. Mi tiempo cuesta más que su pregunta."
       }
     ],
     "fallback": "Eso son detalles. Lo importante es cerrar el asunto. Los detalles los pagan otros.",
@@ -1593,7 +1593,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "De nada. Si de verdad quiere agradecer algo, compre pan."
       },
       {
         "keywords": [
@@ -1601,7 +1601,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenas. Si viene a mirar, mire. Si viene a acusar, a la cola."
       }
     ],
     "fallback": "Yo hago pan, no sé de eso. Pregúnteme por la harina.",
@@ -1645,7 +1645,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "Nada."
       },
       {
         "keywords": [
@@ -1653,7 +1653,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenas. Pregunte. Hablo poco, pero hablo."
       }
     ],
     "fallback": "Eso no lo sé. Yo solo conduzco el carro. Por pensar no me pagan.",
@@ -1717,7 +1717,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "De nada. Dé las gracias a los que bajan cada mañana."
       },
       {
         "keywords": [
@@ -1725,7 +1725,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenos días. Pregunte. Con números, si puede; las palabras bonitas no respiran."
       }
     ],
     "fallback": "No tengo datos sobre eso. Pregunte por los registros.",
@@ -1768,7 +1768,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "De nada. Dios se lo pague. Y si no, la caja de los peregrinos acepta monedas."
       },
       {
         "keywords": [
@@ -1776,7 +1776,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenos días. Bienvenido a Monte Ciego. La bendición es gratis; la sopa, no."
       }
     ],
     "fallback": "No sé responder a eso. Pregunte por los peregrinos.",
@@ -1820,7 +1820,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "De nada. Circule."
       },
       {
         "keywords": [
@@ -1828,7 +1828,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenos días. Identifíquese y pregunte. En ese orden."
       }
     ],
     "fallback": "Eso no importa. Hay una confesión.",
@@ -1874,7 +1874,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "De nada. Consta en acta: el visitante fue educado. Es una novedad."
       },
       {
         "keywords": [
@@ -1882,7 +1882,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenos días. Hable despacio: copio todo lo que oigo."
       }
     ],
     "fallback": "Eso no consta en las actas.",
@@ -1925,7 +1925,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "¡De nada! Las gracias pesan poco; esas sí las llevo gratis."
       },
       {
         "keywords": [
@@ -1933,7 +1933,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "¡Buenas! Rápido, que tengo tres pueblos y un perro detrás."
       }
     ],
     "fallback": "Ni idea. Yo solo llevo el correo.",
@@ -1969,7 +1969,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "De nada, compañero. Pero las gracias no dan de comer."
       },
       {
         "keywords": [
@@ -1977,7 +1977,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenas. ¿Viene a escuchar o a mandar? Para mandar ya tenemos dueño."
       }
     ],
     "fallback": "Eso no es asunto mío. Hablo por los trabajadores.",
@@ -2012,7 +2012,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "No hay de qué. Un buen trato siempre se agradece. Sobre todo el mío."
       },
       {
         "keywords": [
@@ -2020,7 +2020,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenos días. Hablemos de futuro. El pasado no produce nada."
       }
     ],
     "fallback": "No hablo de eso. Pregunte por la producción.",
@@ -2057,7 +2057,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "De nada."
+        "reply": "Dé las gracias a la Orden. Ella vela por usted, aunque usted no lo pida."
       },
       {
         "keywords": [
@@ -2065,7 +2065,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenos días. Pregunte, por favor."
+        "reply": "Buenos días. La Orden le escucha. Siempre."
       }
     ],
     "fallback": "La Orden no discute eso con usted. La Orden apenas discute con Dios.",
@@ -2145,7 +2145,7 @@
         "keywords": [
           "gracias"
         ],
-        "reply": "CONSULTA CERRADA."
+        "reply": "CONSULTA CERRADA. AGRADECIMIENTO SIN PATRÓN."
       },
       {
         "keywords": [
@@ -2153,7 +2153,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "CONSULTA VACÍA. FORMULE UNA PREGUNTA."
+        "reply": "CONSULTA VACÍA. FORMULE UNA PREGUNTA. EL SILENCIO NO SE ARCHIVA."
       }
     ],
     "fallback": "SIN PATRÓN. REFORMULE LA CONSULTA CON UN SUCESO.",
@@ -2217,7 +2217,7 @@
           "buenas",
           "buenos dias"
         ],
-        "reply": "Buenas. Hable rápido; el barro no espera."
+        "reply": "Buenas. Hable rápido; el barro no espera, y yo menos."
       }
     ],
     "fallback": "De eso no hablo. Pregunte por las ruinas o por el camino.",

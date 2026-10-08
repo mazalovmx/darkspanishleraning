@@ -345,7 +345,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Yelmo de campaña: una pieza reparable de uso diario."
+      "lore": "Yelmo de campaña: una pieza reparable de uso diario. Protege la cabeza, que es donde la gente guarda las malas ideas."
     },
     {
       "id": "EQ002",
@@ -365,7 +365,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Yelmo de taller: obra de un taller identificado."
+      "lore": "Yelmo de taller: obra de un taller identificado. Protege la cabeza, que es donde la gente guarda las malas ideas."
     },
     {
       "id": "EQ003",
@@ -385,7 +385,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Yelmo de maestría: pieza firmada por un maestro."
+      "lore": "Yelmo de maestría: pieza firmada por un maestro. Protege la cabeza, que es donde la gente guarda las malas ideas."
     },
     {
       "id": "EQ004",
@@ -405,7 +405,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Yelmo de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Yelmo de memoria: pieza que conserva marcas de antiguos dueños. Protege la cabeza, que es donde la gente guarda las malas ideas."
     },
     {
       "id": "EQ005",
@@ -425,7 +425,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Yelmo de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Yelmo de la Edad Clara: resto restaurado de la Edad Clara. Protege la cabeza, que es donde la gente guarda las malas ideas."
     },
     {
       "id": "EQ006",
@@ -445,7 +445,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Corona de campaña: una pieza reparable de uso diario."
+      "lore": "Corona de campaña: una pieza reparable de uso diario. Pesa poco en la cabeza y mucho en las conversaciones."
     },
     {
       "id": "EQ007",
@@ -465,7 +465,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Corona de taller: obra de un taller identificado."
+      "lore": "Corona de taller: obra de un taller identificado. Pesa poco en la cabeza y mucho en las conversaciones."
     },
     {
       "id": "EQ008",
@@ -485,7 +485,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Corona de maestría: pieza firmada por un maestro."
+      "lore": "Corona de maestría: pieza firmada por un maestro. Pesa poco en la cabeza y mucho en las conversaciones."
     },
     {
       "id": "EQ009",
@@ -505,7 +505,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Corona de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Corona de memoria: pieza que conserva marcas de antiguos dueños. Pesa poco en la cabeza y mucho en las conversaciones."
     },
     {
       "id": "EQ010",
@@ -525,7 +525,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Corona de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Corona de la Edad Clara: resto restaurado de la Edad Clara. Pesa poco en la cabeza y mucho en las conversaciones."
     },
     {
       "id": "EQ011",
@@ -545,7 +545,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Capucha de campaña: una pieza reparable de uso diario."
+      "lore": "Capucha de campaña: una pieza reparable de uso diario. Sirve para que no te reconozcan, y para que todos sepan que te escondes."
     },
     {
       "id": "EQ012",
@@ -565,7 +565,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Capucha de taller: obra de un taller identificado."
+      "lore": "Capucha de taller: obra de un taller identificado. Sirve para que no te reconozcan, y para que todos sepan que te escondes."
     },
     {
       "id": "EQ013",
@@ -585,7 +585,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Capucha de maestría: pieza firmada por un maestro."
+      "lore": "Capucha de maestría: pieza firmada por un maestro. Sirve para que no te reconozcan, y para que todos sepan que te escondes."
     },
     {
       "id": "EQ014",
@@ -605,7 +605,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Capucha de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Capucha de memoria: pieza que conserva marcas de antiguos dueños. Sirve para que no te reconozcan, y para que todos sepan que te escondes."
     },
     {
       "id": "EQ015",
@@ -625,7 +625,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Capucha de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Capucha de la Edad Clara: resto restaurado de la Edad Clara. Sirve para que no te reconozcan, y para que todos sepan que te escondes."
     },
     {
       "id": "EQ016",
@@ -645,7 +645,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Coraza de campaña: una pieza reparable de uso diario."
+      "lore": "Coraza de campaña: una pieza reparable de uso diario. Las flechas la respetan. Los acreedores, bastante menos."
     },
     {
       "id": "EQ017",
@@ -665,7 +665,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Coraza de taller: obra de un taller identificado."
+      "lore": "Coraza de taller: obra de un taller identificado. Las flechas la respetan. Los acreedores, bastante menos."
     },
     {
       "id": "EQ018",
@@ -685,7 +685,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Coraza de maestría: pieza firmada por un maestro."
+      "lore": "Coraza de maestría: pieza firmada por un maestro. Las flechas la respetan. Los acreedores, bastante menos."
     },
     {
       "id": "EQ019",
@@ -705,7 +705,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Coraza de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Coraza de memoria: pieza que conserva marcas de antiguos dueños. Las flechas la respetan. Los acreedores, bastante menos."
     },
     {
       "id": "EQ020",
@@ -725,7 +725,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Coraza de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Coraza de la Edad Clara: resto restaurado de la Edad Clara. Las flechas la respetan. Los acreedores, bastante menos."
     },
     {
       "id": "EQ021",
@@ -745,7 +745,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Cota de campaña: una pieza reparable de uso diario."
+      "lore": "Cota de campaña: una pieza reparable de uso diario. Cada anilla es un pequeño argumento contra un cuchillo."
     },
     {
       "id": "EQ022",
@@ -765,7 +765,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Cota de taller: obra de un taller identificado."
+      "lore": "Cota de taller: obra de un taller identificado. Cada anilla es un pequeño argumento contra un cuchillo."
     },
     {
       "id": "EQ023",
@@ -785,7 +785,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Cota de maestría: pieza firmada por un maestro."
+      "lore": "Cota de maestría: pieza firmada por un maestro. Cada anilla es un pequeño argumento contra un cuchillo."
     },
     {
       "id": "EQ024",
@@ -805,7 +805,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Cota de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Cota de memoria: pieza que conserva marcas de antiguos dueños. Cada anilla es un pequeño argumento contra un cuchillo."
     },
     {
       "id": "EQ025",
@@ -825,7 +825,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Cota de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Cota de la Edad Clara: resto restaurado de la Edad Clara. Cada anilla es un pequeño argumento contra un cuchillo."
     },
     {
       "id": "EQ026",
@@ -845,7 +845,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Túnica de campaña: una pieza reparable de uso diario."
+      "lore": "Túnica de campaña: una pieza reparable de uso diario. No detiene nada, pero se rompe con dignidad."
     },
     {
       "id": "EQ027",
@@ -865,7 +865,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Túnica de taller: obra de un taller identificado."
+      "lore": "Túnica de taller: obra de un taller identificado. No detiene nada, pero se rompe con dignidad."
     },
     {
       "id": "EQ028",
@@ -885,7 +885,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Túnica de maestría: pieza firmada por un maestro."
+      "lore": "Túnica de maestría: pieza firmada por un maestro. No detiene nada, pero se rompe con dignidad."
     },
     {
       "id": "EQ029",
@@ -905,7 +905,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Túnica de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Túnica de memoria: pieza que conserva marcas de antiguos dueños. No detiene nada, pero se rompe con dignidad."
     },
     {
       "id": "EQ030",
@@ -925,7 +925,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Túnica de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Túnica de la Edad Clara: resto restaurado de la Edad Clara. No detiene nada, pero se rompe con dignidad."
     },
     {
       "id": "EQ031",
@@ -945,7 +945,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Escudo de campaña: una pieza reparable de uso diario."
+      "lore": "Escudo de campaña: una pieza reparable de uso diario. Lo más útil entre tú y una mala decisión ajena."
     },
     {
       "id": "EQ032",
@@ -965,7 +965,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Escudo de taller: obra de un taller identificado."
+      "lore": "Escudo de taller: obra de un taller identificado. Lo más útil entre tú y una mala decisión ajena."
     },
     {
       "id": "EQ033",
@@ -985,7 +985,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Escudo de maestría: pieza firmada por un maestro."
+      "lore": "Escudo de maestría: pieza firmada por un maestro. Lo más útil entre tú y una mala decisión ajena."
     },
     {
       "id": "EQ034",
@@ -1005,7 +1005,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Escudo de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Escudo de memoria: pieza que conserva marcas de antiguos dueños. Lo más útil entre tú y una mala decisión ajena."
     },
     {
       "id": "EQ035",
@@ -1025,7 +1025,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Escudo de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Escudo de la Edad Clara: resto restaurado de la Edad Clara. Lo más útil entre tú y una mala decisión ajena."
     },
     {
       "id": "EQ036",
@@ -1045,7 +1045,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Broquel de campaña: una pieza reparable de uso diario."
+      "lore": "Broquel de campaña: una pieza reparable de uso diario. Pequeño, como la esperanza, y casi igual de útil."
     },
     {
       "id": "EQ037",
@@ -1065,7 +1065,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Broquel de taller: obra de un taller identificado."
+      "lore": "Broquel de taller: obra de un taller identificado. Pequeño, como la esperanza, y casi igual de útil."
     },
     {
       "id": "EQ038",
@@ -1085,7 +1085,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Broquel de maestría: pieza firmada por un maestro."
+      "lore": "Broquel de maestría: pieza firmada por un maestro. Pequeño, como la esperanza, y casi igual de útil."
     },
     {
       "id": "EQ039",
@@ -1105,7 +1105,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Broquel de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Broquel de memoria: pieza que conserva marcas de antiguos dueños. Pequeño, como la esperanza, y casi igual de útil."
     },
     {
       "id": "EQ040",
@@ -1125,7 +1125,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Broquel de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Broquel de la Edad Clara: resto restaurado de la Edad Clara. Pequeño, como la esperanza, y casi igual de útil."
     },
     {
       "id": "EQ041",
@@ -1145,7 +1145,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Botas de campaña: una pieza reparable de uso diario."
+      "lore": "Botas de campaña: una pieza reparable de uso diario. Han pisado barro, sangre y, una vez, a un obispo. Fue sin querer."
     },
     {
       "id": "EQ042",
@@ -1165,7 +1165,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Botas de taller: obra de un taller identificado."
+      "lore": "Botas de taller: obra de un taller identificado. Han pisado barro, sangre y, una vez, a un obispo. Fue sin querer."
     },
     {
       "id": "EQ043",
@@ -1185,7 +1185,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Botas de maestría: pieza firmada por un maestro."
+      "lore": "Botas de maestría: pieza firmada por un maestro. Han pisado barro, sangre y, una vez, a un obispo. Fue sin querer."
     },
     {
       "id": "EQ044",
@@ -1205,7 +1205,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Botas de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Botas de memoria: pieza que conserva marcas de antiguos dueños. Han pisado barro, sangre y, una vez, a un obispo. Fue sin querer."
     },
     {
       "id": "EQ045",
@@ -1225,7 +1225,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Botas de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Botas de la Edad Clara: resto restaurado de la Edad Clara. Han pisado barro, sangre y, una vez, a un obispo. Fue sin querer."
     },
     {
       "id": "EQ046",
@@ -1245,7 +1245,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Sandalias de campaña: una pieza reparable de uso diario."
+      "lore": "Sandalias de campaña: una pieza reparable de uso diario. Para peregrinos y para gente que no ha pensado en el invierno."
     },
     {
       "id": "EQ047",
@@ -1265,7 +1265,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Sandalias de taller: obra de un taller identificado."
+      "lore": "Sandalias de taller: obra de un taller identificado. Para peregrinos y para gente que no ha pensado en el invierno."
     },
     {
       "id": "EQ048",
@@ -1285,7 +1285,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Sandalias de maestría: pieza firmada por un maestro."
+      "lore": "Sandalias de maestría: pieza firmada por un maestro. Para peregrinos y para gente que no ha pensado en el invierno."
     },
     {
       "id": "EQ049",
@@ -1305,7 +1305,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Sandalias de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Sandalias de memoria: pieza que conserva marcas de antiguos dueños. Para peregrinos y para gente que no ha pensado en el invierno."
     },
     {
       "id": "EQ050",
@@ -1325,7 +1325,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Sandalias de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Sandalias de la Edad Clara: resto restaurado de la Edad Clara. Para peregrinos y para gente que no ha pensado en el invierno."
     },
     {
       "id": "EQ051",
@@ -1345,7 +1345,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Guantes de campaña: una pieza reparable de uso diario."
+      "lore": "Guantes de campaña: una pieza reparable de uso diario. Mantienen las manos limpias. Lo que hagan las manos es otro asunto."
     },
     {
       "id": "EQ052",
@@ -1365,7 +1365,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Guantes de taller: obra de un taller identificado."
+      "lore": "Guantes de taller: obra de un taller identificado. Mantienen las manos limpias. Lo que hagan las manos es otro asunto."
     },
     {
       "id": "EQ053",
@@ -1385,7 +1385,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Guantes de maestría: pieza firmada por un maestro."
+      "lore": "Guantes de maestría: pieza firmada por un maestro. Mantienen las manos limpias. Lo que hagan las manos es otro asunto."
     },
     {
       "id": "EQ054",
@@ -1405,7 +1405,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Guantes de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Guantes de memoria: pieza que conserva marcas de antiguos dueños. Mantienen las manos limpias. Lo que hagan las manos es otro asunto."
     },
     {
       "id": "EQ055",
@@ -1425,7 +1425,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Guantes de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Guantes de la Edad Clara: resto restaurado de la Edad Clara. Mantienen las manos limpias. Lo que hagan las manos es otro asunto."
     },
     {
       "id": "EQ056",
@@ -1445,7 +1445,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Brazales de campaña: una pieza reparable de uso diario."
+      "lore": "Brazales de campaña: una pieza reparable de uso diario. Detienen golpes y, con suerte, malas costumbres."
     },
     {
       "id": "EQ057",
@@ -1465,7 +1465,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Brazales de taller: obra de un taller identificado."
+      "lore": "Brazales de taller: obra de un taller identificado. Detienen golpes y, con suerte, malas costumbres."
     },
     {
       "id": "EQ058",
@@ -1485,7 +1485,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Brazales de maestría: pieza firmada por un maestro."
+      "lore": "Brazales de maestría: pieza firmada por un maestro. Detienen golpes y, con suerte, malas costumbres."
     },
     {
       "id": "EQ059",
@@ -1505,7 +1505,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Brazales de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Brazales de memoria: pieza que conserva marcas de antiguos dueños. Detienen golpes y, con suerte, malas costumbres."
     },
     {
       "id": "EQ060",
@@ -1525,7 +1525,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Brazales de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Brazales de la Edad Clara: resto restaurado de la Edad Clara. Detienen golpes y, con suerte, malas costumbres."
     },
     {
       "id": "EQ061",
@@ -1545,7 +1545,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Anillo de campaña: una pieza reparable de uso diario."
+      "lore": "Anillo de campaña: una pieza reparable de uso diario. En un dedo es un adorno. En un puño cerrado, un argumento."
     },
     {
       "id": "EQ062",
@@ -1565,7 +1565,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Anillo de taller: obra de un taller identificado."
+      "lore": "Anillo de taller: obra de un taller identificado. En un dedo es un adorno. En un puño cerrado, un argumento."
     },
     {
       "id": "EQ063",
@@ -1585,7 +1585,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Anillo de maestría: pieza firmada por un maestro."
+      "lore": "Anillo de maestría: pieza firmada por un maestro. En un dedo es un adorno. En un puño cerrado, un argumento."
     },
     {
       "id": "EQ064",
@@ -1605,7 +1605,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Anillo de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Anillo de memoria: pieza que conserva marcas de antiguos dueños. En un dedo es un adorno. En un puño cerrado, un argumento."
     },
     {
       "id": "EQ065",
@@ -1625,7 +1625,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Anillo de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Anillo de la Edad Clara: resto restaurado de la Edad Clara. En un dedo es un adorno. En un puño cerrado, un argumento."
     },
     {
       "id": "EQ066",
@@ -1645,7 +1645,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Sello de campaña: una pieza reparable de uso diario."
+      "lore": "Sello de campaña: una pieza reparable de uso diario. Convierte cualquier frase en un documento. Úselo con miedo."
     },
     {
       "id": "EQ067",
@@ -1665,7 +1665,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Sello de taller: obra de un taller identificado."
+      "lore": "Sello de taller: obra de un taller identificado. Convierte cualquier frase en un documento. Úselo con miedo."
     },
     {
       "id": "EQ068",
@@ -1685,7 +1685,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Sello de maestría: pieza firmada por un maestro."
+      "lore": "Sello de maestría: pieza firmada por un maestro. Convierte cualquier frase en un documento. Úselo con miedo."
     },
     {
       "id": "EQ069",
@@ -1705,7 +1705,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Sello de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Sello de memoria: pieza que conserva marcas de antiguos dueños. Convierte cualquier frase en un documento. Úselo con miedo."
     },
     {
       "id": "EQ070",
@@ -1725,7 +1725,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Sello de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Sello de la Edad Clara: resto restaurado de la Edad Clara. Convierte cualquier frase en un documento. Úselo con miedo."
     },
     {
       "id": "EQ071",
@@ -1745,7 +1745,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Amuleto de campaña: una pieza reparable de uso diario."
+      "lore": "Amuleto de campaña: una pieza reparable de uso diario. No protege de nada demostrado, pero tranquiliza muchísimo."
     },
     {
       "id": "EQ072",
@@ -1765,7 +1765,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Amuleto de taller: obra de un taller identificado."
+      "lore": "Amuleto de taller: obra de un taller identificado. No protege de nada demostrado, pero tranquiliza muchísimo."
     },
     {
       "id": "EQ073",
@@ -1785,7 +1785,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Amuleto de maestría: pieza firmada por un maestro."
+      "lore": "Amuleto de maestría: pieza firmada por un maestro. No protege de nada demostrado, pero tranquiliza muchísimo."
     },
     {
       "id": "EQ074",
@@ -1805,7 +1805,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Amuleto de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Amuleto de memoria: pieza que conserva marcas de antiguos dueños. No protege de nada demostrado, pero tranquiliza muchísimo."
     },
     {
       "id": "EQ075",
@@ -1825,7 +1825,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Amuleto de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Amuleto de la Edad Clara: resto restaurado de la Edad Clara. No protege de nada demostrado, pero tranquiliza muchísimo."
     },
     {
       "id": "EQ076",
@@ -1845,7 +1845,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Collar de campaña: una pieza reparable de uso diario."
+      "lore": "Collar de campaña: una pieza reparable de uso diario. Elegante, hasta que alguien tira de él."
     },
     {
       "id": "EQ077",
@@ -1865,7 +1865,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Collar de taller: obra de un taller identificado."
+      "lore": "Collar de taller: obra de un taller identificado. Elegante, hasta que alguien tira de él."
     },
     {
       "id": "EQ078",
@@ -1885,7 +1885,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Collar de maestría: pieza firmada por un maestro."
+      "lore": "Collar de maestría: pieza firmada por un maestro. Elegante, hasta que alguien tira de él."
     },
     {
       "id": "EQ079",
@@ -1905,7 +1905,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Collar de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Collar de memoria: pieza que conserva marcas de antiguos dueños. Elegante, hasta que alguien tira de él."
     },
     {
       "id": "EQ080",
@@ -1925,7 +1925,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Collar de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Collar de la Edad Clara: resto restaurado de la Edad Clara. Elegante, hasta que alguien tira de él."
     },
     {
       "id": "EQ081",
@@ -1945,7 +1945,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Capa de campaña: una pieza reparable de uso diario."
+      "lore": "Capa de campaña: una pieza reparable de uso diario. Sirve contra la lluvia, el frío y las miradas, en ese orden."
     },
     {
       "id": "EQ082",
@@ -1965,7 +1965,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Capa de taller: obra de un taller identificado."
+      "lore": "Capa de taller: obra de un taller identificado. Sirve contra la lluvia, el frío y las miradas, en ese orden."
     },
     {
       "id": "EQ083",
@@ -1985,7 +1985,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Capa de maestría: pieza firmada por un maestro."
+      "lore": "Capa de maestría: pieza firmada por un maestro. Sirve contra la lluvia, el frío y las miradas, en ese orden."
     },
     {
       "id": "EQ084",
@@ -2005,7 +2005,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Capa de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Capa de memoria: pieza que conserva marcas de antiguos dueños. Sirve contra la lluvia, el frío y las miradas, en ese orden."
     },
     {
       "id": "EQ085",
@@ -2025,7 +2025,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Capa de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Capa de la Edad Clara: resto restaurado de la Edad Clara. Sirve contra la lluvia, el frío y las miradas, en ese orden."
     },
     {
       "id": "EQ086",
@@ -2045,7 +2045,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Manto de campaña: una pieza reparable de uso diario."
+      "lore": "Manto de campaña: una pieza reparable de uso diario. Hace parecer importante a cualquiera. Ese es el peligro."
     },
     {
       "id": "EQ087",
@@ -2065,7 +2065,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Manto de taller: obra de un taller identificado."
+      "lore": "Manto de taller: obra de un taller identificado. Hace parecer importante a cualquiera. Ese es el peligro."
     },
     {
       "id": "EQ088",
@@ -2085,7 +2085,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Manto de maestría: pieza firmada por un maestro."
+      "lore": "Manto de maestría: pieza firmada por un maestro. Hace parecer importante a cualquiera. Ese es el peligro."
     },
     {
       "id": "EQ089",
@@ -2105,7 +2105,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Manto de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Manto de memoria: pieza que conserva marcas de antiguos dueños. Hace parecer importante a cualquiera. Ese es el peligro."
     },
     {
       "id": "EQ090",
@@ -2125,7 +2125,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Manto de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Manto de la Edad Clara: resto restaurado de la Edad Clara. Hace parecer importante a cualquiera. Ese es el peligro."
     },
     {
       "id": "EQ091",
@@ -2145,7 +2145,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Cinturón de campaña: una pieza reparable de uso diario."
+      "lore": "Cinturón de campaña: una pieza reparable de uso diario. Sostiene los pantalones y la dignidad. Ninguno de los dos es eterno."
     },
     {
       "id": "EQ092",
@@ -2165,7 +2165,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Cinturón de taller: obra de un taller identificado."
+      "lore": "Cinturón de taller: obra de un taller identificado. Sostiene los pantalones y la dignidad. Ninguno de los dos es eterno."
     },
     {
       "id": "EQ093",
@@ -2185,7 +2185,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Cinturón de maestría: pieza firmada por un maestro."
+      "lore": "Cinturón de maestría: pieza firmada por un maestro. Sostiene los pantalones y la dignidad. Ninguno de los dos es eterno."
     },
     {
       "id": "EQ094",
@@ -2205,7 +2205,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Cinturón de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Cinturón de memoria: pieza que conserva marcas de antiguos dueños. Sostiene los pantalones y la dignidad. Ninguno de los dos es eterno."
     },
     {
       "id": "EQ095",
@@ -2225,7 +2225,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Cinturón de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Cinturón de la Edad Clara: resto restaurado de la Edad Clara. Sostiene los pantalones y la dignidad. Ninguno de los dos es eterno."
     },
     {
       "id": "EQ096",
@@ -2245,7 +2245,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Banda de campaña: una pieza reparable de uso diario."
+      "lore": "Banda de campaña: una pieza reparable de uso diario. Sus colores dicen de qué lado estás. Cambiarla cuesta menos que cambiar de idea."
     },
     {
       "id": "EQ097",
@@ -2265,7 +2265,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Banda de taller: obra de un taller identificado."
+      "lore": "Banda de taller: obra de un taller identificado. Sus colores dicen de qué lado estás. Cambiarla cuesta menos que cambiar de idea."
     },
     {
       "id": "EQ098",
@@ -2285,7 +2285,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Banda de maestría: pieza firmada por un maestro."
+      "lore": "Banda de maestría: pieza firmada por un maestro. Sus colores dicen de qué lado estás. Cambiarla cuesta menos que cambiar de idea."
     },
     {
       "id": "EQ099",
@@ -2305,7 +2305,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Banda de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Banda de memoria: pieza que conserva marcas de antiguos dueños. Sus colores dicen de qué lado estás. Cambiarla cuesta menos que cambiar de idea."
     },
     {
       "id": "EQ100",
@@ -2325,7 +2325,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Banda de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Banda de la Edad Clara: resto restaurado de la Edad Clara. Sus colores dicen de qué lado estás. Cambiarla cuesta menos que cambiar de idea."
     },
     {
       "id": "EQ101",
@@ -2345,7 +2345,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Espada de campaña: una pieza reparable de uso diario."
+      "lore": "Espada de campaña: una pieza reparable de uso diario. Termina las discusiones para siempre y casi nunca con justicia."
     },
     {
       "id": "EQ102",
@@ -2365,7 +2365,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Espada de taller: obra de un taller identificado."
+      "lore": "Espada de taller: obra de un taller identificado. Termina las discusiones para siempre y casi nunca con justicia."
     },
     {
       "id": "EQ103",
@@ -2385,7 +2385,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Espada de maestría: pieza firmada por un maestro."
+      "lore": "Espada de maestría: pieza firmada por un maestro. Termina las discusiones para siempre y casi nunca con justicia."
     },
     {
       "id": "EQ104",
@@ -2405,7 +2405,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Espada de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Espada de memoria: pieza que conserva marcas de antiguos dueños. Termina las discusiones para siempre y casi nunca con justicia."
     },
     {
       "id": "EQ105",
@@ -2425,7 +2425,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Espada de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Espada de la Edad Clara: resto restaurado de la Edad Clara. Termina las discusiones para siempre y casi nunca con justicia."
     },
     {
       "id": "EQ106",
@@ -2445,7 +2445,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Daga de campaña: una pieza reparable de uso diario."
+      "lore": "Daga de campaña: una pieza reparable de uso diario. Para cortar pan y conversaciones demasiado largas."
     },
     {
       "id": "EQ107",
@@ -2465,7 +2465,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Daga de taller: obra de un taller identificado."
+      "lore": "Daga de taller: obra de un taller identificado. Para cortar pan y conversaciones demasiado largas."
     },
     {
       "id": "EQ108",
@@ -2485,7 +2485,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Daga de maestría: pieza firmada por un maestro."
+      "lore": "Daga de maestría: pieza firmada por un maestro. Para cortar pan y conversaciones demasiado largas."
     },
     {
       "id": "EQ109",
@@ -2505,7 +2505,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Daga de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Daga de memoria: pieza que conserva marcas de antiguos dueños. Para cortar pan y conversaciones demasiado largas."
     },
     {
       "id": "EQ110",
@@ -2525,7 +2525,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Daga de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Daga de la Edad Clara: resto restaurado de la Edad Clara. Para cortar pan y conversaciones demasiado largas."
     },
     {
       "id": "EQ111",
@@ -2545,7 +2545,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Hacha de campaña: una pieza reparable de uso diario."
+      "lore": "Hacha de campaña: una pieza reparable de uso diario. Honrada como un leñador, y igual de poco sutil."
     },
     {
       "id": "EQ112",
@@ -2565,7 +2565,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Hacha de taller: obra de un taller identificado."
+      "lore": "Hacha de taller: obra de un taller identificado. Honrada como un leñador, y igual de poco sutil."
     },
     {
       "id": "EQ113",
@@ -2585,7 +2585,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Hacha de maestría: pieza firmada por un maestro."
+      "lore": "Hacha de maestría: pieza firmada por un maestro. Honrada como un leñador, y igual de poco sutil."
     },
     {
       "id": "EQ114",
@@ -2605,7 +2605,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Hacha de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Hacha de memoria: pieza que conserva marcas de antiguos dueños. Honrada como un leñador, y igual de poco sutil."
     },
     {
       "id": "EQ115",
@@ -2625,7 +2625,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Hacha de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Hacha de la Edad Clara: resto restaurado de la Edad Clara. Honrada como un leñador, y igual de poco sutil."
     },
     {
       "id": "EQ116",
@@ -2645,7 +2645,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Maza de campaña: una pieza reparable de uso diario."
+      "lore": "Maza de campaña: una pieza reparable de uso diario. No necesita técnica. Ese es su encanto y su problema."
     },
     {
       "id": "EQ117",
@@ -2665,7 +2665,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Maza de taller: obra de un taller identificado."
+      "lore": "Maza de taller: obra de un taller identificado. No necesita técnica. Ese es su encanto y su problema."
     },
     {
       "id": "EQ118",
@@ -2685,7 +2685,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Maza de maestría: pieza firmada por un maestro."
+      "lore": "Maza de maestría: pieza firmada por un maestro. No necesita técnica. Ese es su encanto y su problema."
     },
     {
       "id": "EQ119",
@@ -2705,7 +2705,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Maza de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Maza de memoria: pieza que conserva marcas de antiguos dueños. No necesita técnica. Ese es su encanto y su problema."
     },
     {
       "id": "EQ120",
@@ -2725,7 +2725,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Maza de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Maza de la Edad Clara: resto restaurado de la Edad Clara. No necesita técnica. Ese es su encanto y su problema."
     },
     {
       "id": "EQ121",
@@ -2745,7 +2745,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Lanza de campaña: una pieza reparable de uso diario."
+      "lore": "Lanza de campaña: una pieza reparable de uso diario. Mantiene los problemas a una distancia razonable."
     },
     {
       "id": "EQ122",
@@ -2765,7 +2765,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Lanza de taller: obra de un taller identificado."
+      "lore": "Lanza de taller: obra de un taller identificado. Mantiene los problemas a una distancia razonable."
     },
     {
       "id": "EQ123",
@@ -2785,7 +2785,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Lanza de maestría: pieza firmada por un maestro."
+      "lore": "Lanza de maestría: pieza firmada por un maestro. Mantiene los problemas a una distancia razonable."
     },
     {
       "id": "EQ124",
@@ -2805,7 +2805,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Lanza de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Lanza de memoria: pieza que conserva marcas de antiguos dueños. Mantiene los problemas a una distancia razonable."
     },
     {
       "id": "EQ125",
@@ -2825,7 +2825,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Lanza de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Lanza de la Edad Clara: resto restaurado de la Edad Clara. Mantiene los problemas a una distancia razonable."
     },
     {
       "id": "EQ126",
@@ -2845,7 +2845,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Bastón de campaña: una pieza reparable de uso diario."
+      "lore": "Bastón de campaña: una pieza reparable de uso diario. Para caminar, para apoyarse y, si hace falta, para convencer."
     },
     {
       "id": "EQ127",
@@ -2865,7 +2865,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Bastón de taller: obra de un taller identificado."
+      "lore": "Bastón de taller: obra de un taller identificado. Para caminar, para apoyarse y, si hace falta, para convencer."
     },
     {
       "id": "EQ128",
@@ -2885,7 +2885,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Bastón de maestría: pieza firmada por un maestro."
+      "lore": "Bastón de maestría: pieza firmada por un maestro. Para caminar, para apoyarse y, si hace falta, para convencer."
     },
     {
       "id": "EQ129",
@@ -2905,7 +2905,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Bastón de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Bastón de memoria: pieza que conserva marcas de antiguos dueños. Para caminar, para apoyarse y, si hace falta, para convencer."
     },
     {
       "id": "EQ130",
@@ -2925,7 +2925,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Bastón de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Bastón de la Edad Clara: resto restaurado de la Edad Clara. Para caminar, para apoyarse y, si hace falta, para convencer."
     },
     {
       "id": "EQ131",
@@ -2945,7 +2945,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Arco de campaña: una pieza reparable de uso diario."
+      "lore": "Arco de campaña: una pieza reparable de uso diario. Permite herir a alguien sin escuchar lo que dice. Muy popular."
     },
     {
       "id": "EQ132",
@@ -2965,7 +2965,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Arco de taller: obra de un taller identificado."
+      "lore": "Arco de taller: obra de un taller identificado. Permite herir a alguien sin escuchar lo que dice. Muy popular."
     },
     {
       "id": "EQ133",
@@ -2985,7 +2985,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Arco de maestría: pieza firmada por un maestro."
+      "lore": "Arco de maestría: pieza firmada por un maestro. Permite herir a alguien sin escuchar lo que dice. Muy popular."
     },
     {
       "id": "EQ134",
@@ -3005,7 +3005,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Arco de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Arco de memoria: pieza que conserva marcas de antiguos dueños. Permite herir a alguien sin escuchar lo que dice. Muy popular."
     },
     {
       "id": "EQ135",
@@ -3025,7 +3025,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Arco de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Arco de la Edad Clara: resto restaurado de la Edad Clara. Permite herir a alguien sin escuchar lo que dice. Muy popular."
     },
     {
       "id": "EQ136",
@@ -3045,7 +3045,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Ballesta de campaña: una pieza reparable de uso diario."
+      "lore": "Ballesta de campaña: una pieza reparable de uso diario. Cualquier idiota puede usarla. Por eso hay tantas."
     },
     {
       "id": "EQ137",
@@ -3065,7 +3065,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Ballesta de taller: obra de un taller identificado."
+      "lore": "Ballesta de taller: obra de un taller identificado. Cualquier idiota puede usarla. Por eso hay tantas."
     },
     {
       "id": "EQ138",
@@ -3085,7 +3085,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Ballesta de maestría: pieza firmada por un maestro."
+      "lore": "Ballesta de maestría: pieza firmada por un maestro. Cualquier idiota puede usarla. Por eso hay tantas."
     },
     {
       "id": "EQ139",
@@ -3105,7 +3105,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Ballesta de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Ballesta de memoria: pieza que conserva marcas de antiguos dueños. Cualquier idiota puede usarla. Por eso hay tantas."
     },
     {
       "id": "EQ140",
@@ -3125,7 +3125,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Ballesta de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Ballesta de la Edad Clara: resto restaurado de la Edad Clara. Cualquier idiota puede usarla. Por eso hay tantas."
     },
     {
       "id": "EQ141",
@@ -3145,7 +3145,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Carcaj de campaña: una pieza reparable de uso diario."
+      "lore": "Carcaj de campaña: una pieza reparable de uso diario. Un arco sin carcaj es solo una opinión."
     },
     {
       "id": "EQ142",
@@ -3165,7 +3165,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Carcaj de taller: obra de un taller identificado."
+      "lore": "Carcaj de taller: obra de un taller identificado. Un arco sin carcaj es solo una opinión."
     },
     {
       "id": "EQ143",
@@ -3185,7 +3185,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Carcaj de maestría: pieza firmada por un maestro."
+      "lore": "Carcaj de maestría: pieza firmada por un maestro. Un arco sin carcaj es solo una opinión."
     },
     {
       "id": "EQ144",
@@ -3205,7 +3205,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Carcaj de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Carcaj de memoria: pieza que conserva marcas de antiguos dueños. Un arco sin carcaj es solo una opinión."
     },
     {
       "id": "EQ145",
@@ -3225,7 +3225,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Carcaj de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Carcaj de la Edad Clara: resto restaurado de la Edad Clara. Un arco sin carcaj es solo una opinión."
     },
     {
       "id": "EQ146",
@@ -3245,7 +3245,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Relicario de campaña: una pieza reparable de uso diario."
+      "lore": "Relicario de campaña: una pieza reparable de uso diario. Dentro hay un hueso de santo. O de cerdo. Nadie ha querido comprobarlo."
     },
     {
       "id": "EQ147",
@@ -3265,7 +3265,7 @@
         "kind": "merchant",
         "requires_spanish": true
       },
-      "lore": "Relicario de taller: obra de un taller identificado."
+      "lore": "Relicario de taller: obra de un taller identificado. Dentro hay un hueso de santo. O de cerdo. Nadie ha querido comprobarlo."
     },
     {
       "id": "EQ148",
@@ -3285,7 +3285,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Relicario de maestría: pieza firmada por un maestro."
+      "lore": "Relicario de maestría: pieza firmada por un maestro. Dentro hay un hueso de santo. O de cerdo. Nadie ha querido comprobarlo."
     },
     {
       "id": "EQ149",
@@ -3305,7 +3305,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Relicario de memoria: pieza que conserva marcas de antiguos dueños."
+      "lore": "Relicario de memoria: pieza que conserva marcas de antiguos dueños. Dentro hay un hueso de santo. O de cerdo. Nadie ha querido comprobarlo."
     },
     {
       "id": "EQ150",
@@ -3325,7 +3325,7 @@
         "kind": "optional_treasure",
         "requires_spanish": false
       },
-      "lore": "Relicario de la Edad Clara: resto restaurado de la Edad Clara."
+      "lore": "Relicario de la Edad Clara: resto restaurado de la Edad Clara. Dentro hay un hueso de santo. O de cerdo. Nadie ha querido comprobarlo."
     },
     {
       "id": "SP001",

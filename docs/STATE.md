@@ -2849,3 +2849,21 @@ Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full 
 run, 61 suites, all exit 0 with `failures: 0` and no script error; save restart
 write/read PASS. Not read or heard in a window; no live model request; the Spanish has
 had no separate editorial review.
+
+## Voice in the remaining texts
+
+- Greetings and thanks: the 62 "hola" / "gracias" replies of the original speakers now
+  speak in their station and voice (e.g. Orma: "Aquí una coma puede colgar a un hombre";
+  Fermín: "No hay formulario para eso"); the comic speakers already did.
+- Equipment: the 150 generated items keep their tier sentence and gain one line per base
+  item (30 lines, e.g. relicario: "Dentro hay un hueso de santo. O de cerdo."). The soul
+  set components keep their own lore.
+- Market goods (12) and town buildings (8) keep their rule text and gain one line; the
+  opening battle description gains one.
+- Not changed on purpose: the ghost knights' `intervention.trace` (saves validate it),
+  their internal design texts (Russian/English, not shown), the soul ritual frames and
+  keys, treasure names, curriculum texts and UI notices.
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 61 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS. Not read in a window; no separate editorial review of the Spanish.
