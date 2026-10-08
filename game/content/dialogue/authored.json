@@ -1,127 +1,400 @@
 {
-    "LOC11":  {
-                  "npc_id":  "innkeeper_prototype",
-                  "name":  "El posadero",
-                  "greeting":  "Buenas tardes. Bienvenido a la Venta del Perro Negro. El perro murió hace años; el nombre sigue. ¿Qué necesita?",
-                  "greeting_again":  "Otra vez por aquí. Buena señal: los muertos no vuelven a pagar. ¿Qué necesita hoy?",
-                  "hint":  "Puede pedir pan, agua, una habitación o comida para el caballo, preguntar si el camino es seguro o cómo llegar a Santa Lucerna, y quejarse: anoche le sirvieron vino en vez de aceite para la lámpara.",
-                  "branches":  [{"follows": "stable", "survival": "stable", "keywords": ["un dia", "uno", "una", "1"], "reply": "Para un día, una ración de pienso: tres monedas. Pídalas en el mostrador de la venta."}, {"follows": "stable", "survival": "stable", "keywords": ["dos", "2"], "reply": "Para dos días, dos raciones de pienso: seis monedas. Pídalas en el mostrador de la venta."}, {"follows": "stable", "survival": "stable", "keywords": ["tres", "3"], "reply": "Para tres días, tres raciones de pienso: nueve monedas. Pídalas en el mostrador de la venta."}, {"follows": "stable", "survival": "stable", "keywords": ["cuatro", "4"], "reply": "Para cuatro días, cuatro raciones de pienso: doce monedas. Pídalas en el mostrador de la venta."}, {"follows": "stable", "survival": "stable", "keywords": ["cinco", "5"], "reply": "Para cinco días, cinco raciones de pienso: quince monedas. Pídalas en el mostrador de la venta."}, {"id": "stable", "follows": "stable", "keywords": ["dias", "dia", "semana", "cuanto", "cuesta"], "reply": "Tres monedas por ración, una ración por día. ¿Para cuántos días?"}, {"id": "stable", "keywords": ["caballo", "caballos", "pienso", "yegua", "mula"], "reply": "¿Cuánto quiere?"}, {"follows": "bread", "survival": "food", "keywords": ["uno", "un pan", "1"], "reply": "Aquí tiene: un pan, dos monedas. Se los cobro en el mostrador."}, {"follows": "bread", "survival": "food", "keywords": ["dos", "2"], "reply": "Aquí tiene: dos panes, cuatro monedas. Se los cobro en el mostrador."}, {"follows": "bread", "survival": "food", "keywords": ["tres", "3"], "reply": "Aquí tiene: tres panes, seis monedas. Se los cobro en el mostrador."}, {"follows": "bread", "survival": "food", "keywords": ["cuatro", "4"], "reply": "Aquí tiene: cuatro panes, ocho monedas. Se los cobro en el mostrador."}, {"follows": "bread", "survival": "food", "keywords": ["cinco", "5"], "reply": "Aquí tiene: cinco panes, diez monedas. Se los cobro en el mostrador."}, {"follows": "bread", "survival": "food", "keywords": ["seis", "6"], "reply": "Aquí tiene: seis panes, doce monedas. Se los cobro en el mostrador."}, {"id": "bread", "keywords": ["pan", "panes"], "reply": "Sí. Dos monedas."}, {"follows": "room", "survival": "inn", "keywords": ["incluye", "comida", "cena", "desayuno", "sopa"], "reply": "Incluye la cena: sopa y pan. Si descansa aquí un día entero, se repone mucho mejor."}, {"id": "room", "keywords": ["habitacion", "cuarto", "dormir", "cama", "alojamiento", "esta noche"], "reply": "Cinco monedas."}, {"survival": "water", "keywords": ["agua", "potable", "beber", "sed"], "reply": "Sí, detrás del establo."}, {"survival": "road", "keywords": ["seguro", "segura", "peligro", "peligroso", "peligrosa", "bandidos", "ladrones"], "reply": "Seguro, no. Abierto, sí. Viaje de día y no se aparte del camino."}, {"follows": "complaint", "survival": "complaint", "keywords": ["lampara", "aceite", "le pedi", "no"], "reply": "Ah, aceite para la lámpara… Tiene razón, me equivoqué. Perdone. Le cambio el vino por el aceite."}, {"id": "complaint", "keywords": ["no vino", "pedi", "trajo", "equivocado", "equivoco", "queja", "quejarme"], "reply": "Eso fue lo que me pidió."}, {"requires_flag": "SB10_published", "keywords": ["correo", "cartas", "carta", "ausentes"], "reply": "Desde que se publicó lo del correo, la gente viene a la venta a buscar sus cartas. Algunos ausentes ya no se atreven a escribir."}, {"requires_flag": "SB10_protected", "keywords": ["correo", "cartas", "carta", "ausentes"], "reply": "Las cartas desviadas llegan otra vez a sus dueños, y nadie tuvo que decir dónde vive. Aquí casi nadie sabe qué pasó."}, 
-                                   {
-                                       "keywords":  [
-                                                        "monasterio",
-                                                        "santa lucerna",
-                                                        "camino"
-                                                    ],
-                                       "survival": "directions", "reply":  "¿Busca Santa Lucerna? Siga este camino hacia el norte y gire a la izquierda en el cruce. El monasterio está junto al camino, hacia el oeste."
-                                   },
-                                   {
-                                       "keywords":  [
-                                                        "nombre",
-                                                        "posada",
-                                                        "venta"
-                                                    ],
-                                       "reply":  "Esta es la Venta del Perro Negro. Por aquí pasan muchos viajeros."
-                                   },
-                                   {
-                                       "keywords":  [
-                                                        "gracias"
-                                                    ],
-                                       "reply":  "De nada. Buen viaje."
-                                   },
-                                   {
-                                       "keywords":  [
-                                                        "hola",
-                                                        "buenas",
-                                                        "buenos dias"
-                                                    ],
-                                       "reply":  "Buenas. Dígame, ¿qué desea saber?"
-                                   }
-                               ],
-                  "fallback":  "No sabría decirle. Yo sé de camas, de pan y de deudas. ¿Quiere preguntar por el camino a Santa Lucerna?"
-              },
-    "LOC01":  {
-                  "npc_id":  "lucio_salcedo",
-                  "name":  "Abad Lucio Salcedo",
-                  "greeting":  "Bienvenido a Santa Lucerna. Soy el abad Lucio Salcedo. Aquí rezamos mucho y hablamos poco; usted puede cambiar la segunda parte. Le escucho.",
-                  "greeting_again":  "Vuelve usted. Una pregunta más y la comunidad empieza a rezar por usted. ¿Qué más desea saber?",
-                  "hint":  "Puede preguntar por el abad o por el monasterio.",
-                  "branches":  [{"requires_flag": "SB01_published", "keywords": ["censo", "limosnas", "familias", "deudas"], "reply": "Su expediente sobre el censo ya circula por el monasterio. Las familias recuperan sus derechos, pero ahora todo el mundo conoce sus nombres y algunas tienen miedo."}, {"requires_flag": "SB01_protected", "keywords": ["censo", "limosnas", "familias", "deudas"], "reply": "Presentó el censo con los domicilios tapados. Las familias recuperan sus derechos y nadie sabe dónde viven, aunque algunos hermanos dicen que falta detalle."}, {"requires_flag": "SB02_published", "keywords": ["reloj", "campana", "campanas", "horas"], "reply": "Desde que se publicó lo del reloj, todos saben que la hora estaba mal. Ya nadie acusa al campanero, pero el monasterio quedó en evidencia."}, {"requires_flag": "SB02_protected", "keywords": ["reloj", "campana", "campanas", "horas"], "reply": "El reloj se corrigió sin escándalo. El campanero está tranquilo; algunos monjes todavía murmuran porque no conocen toda la historia."}, 
-                         {
-                             "requires_flag":  "research_disclosed",
-                             "keywords":  ["investigaciones", "investigacion", "prohibida", "prohibidas", "cripta", "secreto", "oculta"],
-                             "reply":  "Ya no puedo callarlo: el monasterio oculta investigaciones prohibidas bajo la cripta. Lo que es de verdad El Índice, eso no lo sé."
-                         },
-                                   {
-                                       "keywords":  [
-                                                        "nombre",
-                                                        "quien es",
-                                                        "quien eres",
-                                                        "abad"
-                                                    ],
-                                       "reply":  "Me llamo Lucio Salcedo. Soy el abad de Santa Lucerna."
-                                   },
-                                   {
-                                       "keywords":  [
-                                                        "monasterio",
-                                                        "manuscritos",
-                                                        "ojos"
-                                                    ],
-                                       "reply":  "Santa Lucerna es conocida por sus manuscritos y por el cuidado de los ojos. Nuestro trabajo exige paciencia."
-                                   },
-                                   {
-                                       "keywords":  [
-                                                        "gracias"
-                                                    ],
-                                       "reply":  "No tiene que agradecérmelo. Pregunte con calma."
-                                   },
-                                   {
-                                       "keywords":  [
-                                                        "hola",
-                                                        "buenas",
-                                                        "buenos dias"
-                                                    ],
-                                       "reply":  "Buenos días. ¿Qué desea saber de Santa Lucerna?"
-                                   }
-                               ],
-                  "fallback":  "No quisiera confundir una sospecha con un hecho. En este monasterio ya tenemos bastante de las dos cosas. Formule una pregunta más concreta, por favor."
-              },
-    "LOC01_GABRIEL":  {
-                          "location_id":  "LOC01",
-                          "name":  "Hermano Gabriel",
-                          "greeting":  "Soy Gabriel. Cuido la bodega. Cuento las botellas cada día, y cada día salen las mismas. Casi. ¿Qué desea saber?",
-                          "greeting_again":  "Usted otra vez. Si viene por el vino, está todo. Todo. ¿Tiene más preguntas?",
-                          "branches":  [
-                                           {
-                                               "reply":  "Me llamo Gabriel. Estoy a cargo de la bodega.",
-                                               "keywords":  [
-                                                                "hola",
-                                                                "nombre"
-                                                            ]
-                                           }
-                                       ],
-                          "hint":  "Examine las pertenencias y pregunte por la noche.",
-                          "fallback":  "No sé cómo explicarlo. Y no sé nada de ninguna botella. Haga una pregunta concreta, por favor.",
-                          "npc_id":  "hermano_gabriel"
-                      },
-    "LOC01_LEONOR":  {
-                         "location_id":  "LOC01",
-                         "name":  "Doctora Leonor Valera",
-                         "greeting":  "Soy Leonor, médica de Miralba. Los muertos no mienten, pero tampoco ayudan mucho. Estoy aquí para examinar los indicios.",
-                         "greeting_again":  "Volvemos a vernos. Lávese las manos antes de tocar nada. ¿Qué quiere revisar?",
-                         "branches":  [
-                                          {
-                                              "reply":  "Me llamo Leonor Valera. Soy médica.",
-                                              "keywords":  [
-                                                               "hola",
-                                                               "nombre"
-                                                           ]
-                                          }
-                                      ],
-                         "hint":  "Examine el tubo, la sangre y la bota antes de preguntar por la herida.",
-                         "fallback":  "Necesito indicios físicos. Una sospecha no sustituye un examen, y una oración no sustituye el jabón.",
-                         "npc_id":  "leonor_valera"
-                     },
-      "LOC05": {
+  "LOC11": {
+    "npc_id": "innkeeper_prototype",
+    "name": "El posadero",
+    "greeting": "Buenas tardes. Bienvenido a la Venta del Perro Negro. El perro murió hace años; el nombre sigue. ¿Qué necesita?",
+    "greeting_again": "Otra vez por aquí. Buena señal: los muertos no vuelven a pagar. ¿Qué necesita hoy?",
+    "hint": "Puede pedir pan, agua, una habitación o comida para el caballo, preguntar si el camino es seguro o cómo llegar a Santa Lucerna, y quejarse: anoche le sirvieron vino en vez de aceite para la lámpara.",
+    "branches": [
+      {
+        "follows": "stable",
+        "survival": "stable",
+        "keywords": [
+          "un dia",
+          "uno",
+          "una",
+          "1"
+        ],
+        "reply": "Para un día, una ración de pienso: tres monedas. Pídalas en el mostrador de la venta."
+      },
+      {
+        "follows": "stable",
+        "survival": "stable",
+        "keywords": [
+          "dos",
+          "2"
+        ],
+        "reply": "Para dos días, dos raciones de pienso: seis monedas. Pídalas en el mostrador de la venta."
+      },
+      {
+        "follows": "stable",
+        "survival": "stable",
+        "keywords": [
+          "tres",
+          "3"
+        ],
+        "reply": "Para tres días, tres raciones de pienso: nueve monedas. Pídalas en el mostrador de la venta."
+      },
+      {
+        "follows": "stable",
+        "survival": "stable",
+        "keywords": [
+          "cuatro",
+          "4"
+        ],
+        "reply": "Para cuatro días, cuatro raciones de pienso: doce monedas. Pídalas en el mostrador de la venta."
+      },
+      {
+        "follows": "stable",
+        "survival": "stable",
+        "keywords": [
+          "cinco",
+          "5"
+        ],
+        "reply": "Para cinco días, cinco raciones de pienso: quince monedas. Pídalas en el mostrador de la venta."
+      },
+      {
+        "id": "stable",
+        "follows": "stable",
+        "keywords": [
+          "dias",
+          "dia",
+          "semana",
+          "cuanto",
+          "cuesta"
+        ],
+        "reply": "Tres monedas por ración, una ración por día. ¿Para cuántos días?"
+      },
+      {
+        "id": "stable",
+        "keywords": [
+          "caballo",
+          "caballos",
+          "pienso",
+          "yegua",
+          "mula"
+        ],
+        "reply": "¿Cuánto quiere?"
+      },
+      {
+        "follows": "bread",
+        "survival": "food",
+        "keywords": [
+          "uno",
+          "un pan",
+          "1"
+        ],
+        "reply": "Aquí tiene: un pan, dos monedas. Se los cobro en el mostrador."
+      },
+      {
+        "follows": "bread",
+        "survival": "food",
+        "keywords": [
+          "dos",
+          "2"
+        ],
+        "reply": "Aquí tiene: dos panes, cuatro monedas. Se los cobro en el mostrador."
+      },
+      {
+        "follows": "bread",
+        "survival": "food",
+        "keywords": [
+          "tres",
+          "3"
+        ],
+        "reply": "Aquí tiene: tres panes, seis monedas. Se los cobro en el mostrador."
+      },
+      {
+        "follows": "bread",
+        "survival": "food",
+        "keywords": [
+          "cuatro",
+          "4"
+        ],
+        "reply": "Aquí tiene: cuatro panes, ocho monedas. Se los cobro en el mostrador."
+      },
+      {
+        "follows": "bread",
+        "survival": "food",
+        "keywords": [
+          "cinco",
+          "5"
+        ],
+        "reply": "Aquí tiene: cinco panes, diez monedas. Se los cobro en el mostrador."
+      },
+      {
+        "follows": "bread",
+        "survival": "food",
+        "keywords": [
+          "seis",
+          "6"
+        ],
+        "reply": "Aquí tiene: seis panes, doce monedas. Se los cobro en el mostrador."
+      },
+      {
+        "id": "bread",
+        "keywords": [
+          "pan",
+          "panes"
+        ],
+        "reply": "Sí. Dos monedas."
+      },
+      {
+        "follows": "room",
+        "survival": "inn",
+        "keywords": [
+          "incluye",
+          "comida",
+          "cena",
+          "desayuno",
+          "sopa"
+        ],
+        "reply": "Incluye la cena: sopa y pan. Si descansa aquí un día entero, se repone mucho mejor."
+      },
+      {
+        "id": "room",
+        "keywords": [
+          "habitacion",
+          "cuarto",
+          "dormir",
+          "cama",
+          "alojamiento",
+          "esta noche"
+        ],
+        "reply": "Cinco monedas."
+      },
+      {
+        "survival": "water",
+        "keywords": [
+          "agua",
+          "potable",
+          "beber",
+          "sed"
+        ],
+        "reply": "Sí, detrás del establo."
+      },
+      {
+        "survival": "road",
+        "keywords": [
+          "seguro",
+          "segura",
+          "peligro",
+          "peligroso",
+          "peligrosa",
+          "bandidos",
+          "ladrones"
+        ],
+        "reply": "Seguro, no. Abierto, sí. Viaje de día y no se aparte del camino."
+      },
+      {
+        "follows": "complaint",
+        "survival": "complaint",
+        "keywords": [
+          "lampara",
+          "aceite",
+          "le pedi",
+          "no"
+        ],
+        "reply": "Ah, aceite para la lámpara… Tiene razón, me equivoqué. Perdone. Le cambio el vino por el aceite."
+      },
+      {
+        "id": "complaint",
+        "keywords": [
+          "no vino",
+          "pedi",
+          "trajo",
+          "equivocado",
+          "equivoco",
+          "queja",
+          "quejarme"
+        ],
+        "reply": "Eso fue lo que me pidió."
+      },
+      {
+        "requires_flag": "SB10_published",
+        "keywords": [
+          "correo",
+          "cartas",
+          "carta",
+          "ausentes"
+        ],
+        "reply": "Desde que se publicó lo del correo, la gente viene a la venta a buscar sus cartas. Algunos ausentes ya no se atreven a escribir."
+      },
+      {
+        "requires_flag": "SB10_protected",
+        "keywords": [
+          "correo",
+          "cartas",
+          "carta",
+          "ausentes"
+        ],
+        "reply": "Las cartas desviadas llegan otra vez a sus dueños, y nadie tuvo que decir dónde vive. Aquí casi nadie sabe qué pasó."
+      },
+      {
+        "keywords": [
+          "monasterio",
+          "santa lucerna",
+          "camino"
+        ],
+        "survival": "directions",
+        "reply": "¿Busca Santa Lucerna? Siga este camino hacia el norte y gire a la izquierda en el cruce. El monasterio está junto al camino, hacia el oeste."
+      },
+      {
+        "keywords": [
+          "nombre",
+          "posada",
+          "venta"
+        ],
+        "reply": "Esta es la Venta del Perro Negro. Por aquí pasan muchos viajeros."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada. Buen viaje."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenas. Dígame, ¿qué desea saber?"
+      }
+    ],
+    "fallback": "No sabría decirle. Yo sé de camas, de pan y de deudas. ¿Quiere preguntar por el camino a Santa Lucerna?"
+  },
+  "LOC01": {
+    "npc_id": "lucio_salcedo",
+    "name": "Abad Lucio Salcedo",
+    "greeting": "Bienvenido a Santa Lucerna. Soy el abad Lucio Salcedo. Aquí rezamos mucho y hablamos poco; usted puede cambiar la segunda parte. Le escucho.",
+    "greeting_again": "Vuelve usted. Una pregunta más y la comunidad empieza a rezar por usted. ¿Qué más desea saber?",
+    "hint": "Puede preguntar por el abad o por el monasterio.",
+    "branches": [
+      {
+        "requires_flag": "SB01_published",
+        "keywords": [
+          "censo",
+          "limosnas",
+          "familias",
+          "deudas"
+        ],
+        "reply": "Su expediente sobre el censo ya circula por el monasterio. Las familias recuperan sus derechos, pero ahora todo el mundo conoce sus nombres y algunas tienen miedo."
+      },
+      {
+        "requires_flag": "SB01_protected",
+        "keywords": [
+          "censo",
+          "limosnas",
+          "familias",
+          "deudas"
+        ],
+        "reply": "Presentó el censo con los domicilios tapados. Las familias recuperan sus derechos y nadie sabe dónde viven, aunque algunos hermanos dicen que falta detalle."
+      },
+      {
+        "requires_flag": "SB02_published",
+        "keywords": [
+          "reloj",
+          "campana",
+          "campanas",
+          "horas"
+        ],
+        "reply": "Desde que se publicó lo del reloj, todos saben que la hora estaba mal. Ya nadie acusa al campanero, pero el monasterio quedó en evidencia."
+      },
+      {
+        "requires_flag": "SB02_protected",
+        "keywords": [
+          "reloj",
+          "campana",
+          "campanas",
+          "horas"
+        ],
+        "reply": "El reloj se corrigió sin escándalo. El campanero está tranquilo; algunos monjes todavía murmuran porque no conocen toda la historia."
+      },
+      {
+        "requires_flag": "research_disclosed",
+        "keywords": [
+          "investigaciones",
+          "investigacion",
+          "prohibida",
+          "prohibidas",
+          "cripta",
+          "secreto",
+          "oculta"
+        ],
+        "reply": "Ya no puedo callarlo: el monasterio oculta investigaciones prohibidas bajo la cripta. Lo que es de verdad El Índice, eso no lo sé."
+      },
+      {
+        "keywords": [
+          "nombre",
+          "quien es",
+          "quien eres",
+          "abad"
+        ],
+        "reply": "Me llamo Lucio Salcedo. Soy el abad de Santa Lucerna."
+      },
+      {
+        "keywords": [
+          "monasterio",
+          "manuscritos",
+          "ojos"
+        ],
+        "reply": "Santa Lucerna es conocida por sus manuscritos y por el cuidado de los ojos. Nuestro trabajo exige paciencia."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "No tiene que agradecérmelo. Pregunte con calma."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. ¿Qué desea saber de Santa Lucerna?"
+      }
+    ],
+    "fallback": "No quisiera confundir una sospecha con un hecho. En este monasterio ya tenemos bastante de las dos cosas. Formule una pregunta más concreta, por favor."
+  },
+  "LOC01_GABRIEL": {
+    "location_id": "LOC01",
+    "name": "Hermano Gabriel",
+    "greeting": "Soy Gabriel. Cuido la bodega. Cuento las botellas cada día, y cada día salen las mismas. Casi. ¿Qué desea saber?",
+    "greeting_again": "Usted otra vez. Si viene por el vino, está todo. Todo. ¿Tiene más preguntas?",
+    "branches": [
+      {
+        "reply": "Me llamo Gabriel. Estoy a cargo de la bodega.",
+        "keywords": [
+          "hola",
+          "nombre"
+        ]
+      }
+    ],
+    "hint": "Examine las pertenencias y pregunte por la noche.",
+    "fallback": "No sé cómo explicarlo. Y no sé nada de ninguna botella. Haga una pregunta concreta, por favor.",
+    "npc_id": "hermano_gabriel"
+  },
+  "LOC01_LEONOR": {
+    "location_id": "LOC01",
+    "name": "Doctora Leonor Valera",
+    "greeting": "Soy Leonor, médica de Miralba. Los muertos no mienten, pero tampoco ayudan mucho. Estoy aquí para examinar los indicios.",
+    "greeting_again": "Volvemos a vernos. Lávese las manos antes de tocar nada. ¿Qué quiere revisar?",
+    "branches": [
+      {
+        "reply": "Me llamo Leonor Valera. Soy médica.",
+        "keywords": [
+          "hola",
+          "nombre"
+        ]
+      }
+    ],
+    "hint": "Examine el tubo, la sangre y la bota antes de preguntar por la herida.",
+    "fallback": "Necesito indicios físicos. Una sospecha no sustituye un examen, y una oración no sustituye el jabón.",
+    "npc_id": "leonor_valera"
+  },
+  "LOC05": {
     "requires": "ines_arrival",
     "companion_hero": "smuggler",
     "npc_id": "ines_vargas",
@@ -129,7 +402,27 @@
     "greeting": "Soy Inés Vargas. Me llaman la Urraca: me gusta lo que brilla y odio lo que pesa. Hablemos del encargo.",
     "greeting_again": "Otra vez tú. El encargo sigue siendo el mismo. Mi precio, no tanto.",
     "hint": "Pregunta por el encargo, el pago o los libros.",
-    "branches": [{"requires_flag": "SB07_published", "keywords": ["pesas", "balanza", "pesos", "perdidas"], "reply": "Desde que se publicó lo de las pesas falsas, los mercaderes reclaman a gritos. El puerto va más lento, pero nadie confía ya en la balanza vieja."}, {"requires_flag": "SB07_protected", "keywords": ["pesas", "balanza", "pesos", "perdidas"], "reply": "Las pérdidas se devuelven sin ruido y el puerto sigue abastecido. Pocos saben quién usaba las pesas falsas."}, 
+    "branches": [
+      {
+        "requires_flag": "SB07_published",
+        "keywords": [
+          "pesas",
+          "balanza",
+          "pesos",
+          "perdidas"
+        ],
+        "reply": "Desde que se publicó lo de las pesas falsas, los mercaderes reclaman a gritos. El puerto va más lento, pero nadie confía ya en la balanza vieja."
+      },
+      {
+        "requires_flag": "SB07_protected",
+        "keywords": [
+          "pesas",
+          "balanza",
+          "pesos",
+          "perdidas"
+        ],
+        "reply": "Las pérdidas se devuelven sin ruido y el puerto sigue abastecido. Pocos saben quién usaba las pesas falsas."
+      },
       {
         "keywords": [
           "nombre",
@@ -238,1452 +531,1732 @@
     ],
     "fallback": "Eso requiere otra investigación. Por ahora, separa mis objetos de mi relato. Los objetos, por lo menos, no exageran."
   },
-"LOC01_YSABEL": {
-      "location_id": "LOC01",
-      "requires": "ysabel_account",
-      "npc_id": "ysabel_de_la_sal",
-      "name": "Ysabel de la Sal",
-      "greeting": "Soy Ysabel de la Sal, lectora de la Última Luz. Pregunte con cuidado. Aquí las respuestas cuestan más que las preguntas.",
-      "greeting_again": "Vuelve usted. Mis razones no cambian. Las suyas, espero, sí.",
-      "hint": "Puede preguntar por las restricciones.",
-      "branches": [
-        {
-          "keywords": [
-            "nombre",
-            "quien es",
-            "quien eres",
-            "lectora",
-            "archivera"
-          ],
-          "reply": "Me llamo Ysabel de la Sal. Soy lectora mayor de la Última Luz y archivera."
-        },
-        {
-          "keywords": [
-            "restricciones",
-            "restriccion",
-            "experimentos",
-            "protegen"
-          ],
-          "reply": "Las restricciones protegen a la provincia. Son una prevención."
-        },
-        {
-          "keywords": [
-            "guia",
-            "teme",
-            "miedo"
-          ],
-          "reply": "Temo una provincia sin guía. Por eso defiendo las restricciones."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "No me dé las gracias. Piense en la provincia."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Le escucho."
-        }
-      ],
-      "fallback": "De eso no hablo. Pregunte por las restricciones; de esas tenemos muchas."
-    },
-    "LOC01_ESTEBAN": {
-      "location_id": "LOC01",
-      "requires": "esteban_choice",
-      "npc_id": "hermano_esteban",
-      "name": "Hermano Esteban",
-      "greeting": "Soy el hermano Esteban. Estoy vivo, como ve. Siento estropear su investigación. ¿Qué desea preguntar?",
-      "greeting_again": "Usted otra vez. Sigo aquí y sigo vivo. Casi nadie lo celebra.",
-      "hint": "Puede preguntar por su desaparición o por la Orden.",
-      "branches": [
-        {
-          "keywords": [
-            "nombre",
-            "quien es",
-            "quien eres",
-            "roque",
-            "impresores"
-          ],
-          "reply": "Soy el hermano Esteban. No soy Esteban Roque, el agente de los impresores."
-        },
-        {
-          "keywords": [
-            "orden",
-            "voluntariamente",
-            "decision"
-          ],
-          "reply": "Estoy en la Orden por mi propia voluntad. Nadie me obliga."
-        },
-        {
-          "keywords": [
-            "desaparicion",
-            "desaparecido",
-            "muerto",
-            "vivo"
-          ],
-          "reply": "No estoy muerto. Mi desaparición es una decisión mía."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada. Vaya con cuidado."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "No voy a explicar eso. Pregunte por mi decisión. Es lo único mío en toda esta historia."
-    },
-    "LOC02": {
-      "npc_id": "beatriz_orma",
-      "name": "Jueza Beatriz Orma",
-      "greeting": "Soy la jueza Beatriz Orma. Aquí las palabras tienen consecuencias. Por eso casi nadie habla bien en esta sala. ¿Qué necesita?",
-      "greeting_again": "Usted de nuevo. ¿Qué documento le preocupa hoy? Elija bien: tengo muchos.",
-      "hint": "Puede preguntar por una declaración o por un documento falso.",
-      "branches": [{"requires_flag": "SB04_published", "keywords": ["vecinos", "nombres", "identidad", "desplazados", "refugio"], "reply": "La lista de los vecinos desplazados se leyó en la plaza. Muchos recuperan su nombre, pero los guardias ya preguntan por los refugios."}, {"requires_flag": "SB04_protected", "keywords": ["vecinos", "nombres", "identidad", "desplazados", "refugio"], "reply": "Los vecinos recuperan sus papeles sin que nadie publique dónde se esconden. En los tribunales dicen que el informe es demasiado breve."}, 
-        {
-          "keywords": [
-            "nombre",
-            "quien es",
-            "quien eres",
-            "jueza"
-          ],
-          "reply": "Me llamo Beatriz Orma. Soy jueza y trabajo con documentos."
-        },
-        {
-          "keywords": [
-            "falso",
-            "falsa",
-            "falsos"
-          ],
-          "reply": "Un documento falso puede producir una detención verdadera. No confunda inventado con sin efectos."
-        },
-        {
-          "keywords": [
-            "declaracion",
-            "sello",
-            "documento",
-            "decreto"
-          ],
-          "reply": "Una declaración oficial cambia la situación legal. No demuestra un hecho físico."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "No hay de qué. Lea siempre quién firma."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Hable con precisión, por favor."
-        }
-      ],
-      "fallback": "Eso no consta en ningún documento que yo conozca. Sin papel, en Valdora, ni los muertos están muertos. Pregunte por una declaración concreta."
-    },
-    "LOC02_VEYRA": {
-      "location_id": "LOC02",
-      "npc_id": "aureliano_veyra",
-      "name": "Obispo Aureliano Veyra",
-      "greeting": "Soy Aureliano Veyra, obispo de Valdora. Tengo poco tiempo y muchos enemigos; usted decide en qué grupo entra. Le escucho.",
-      "greeting_again": "Vuelve usted. La provincia sigue necesitando calma. Yo también, francamente.",
-      "hint": "Puede preguntar qué quiere el obispo para la provincia.",
-      "branches": [
-        {
-          "keywords": [
-            "nombre",
-            "quien es",
-            "quien eres",
-            "obispo"
-          ],
-          "reply": "Soy Aureliano Veyra. Soy el obispo de Valdora."
-        },
-        {
-          "keywords": [
-            "estabilidad",
-            "provincia",
-            "quiere",
-            "calma"
-          ],
-          "reply": "Quiero estabilidad. Una provincia tranquila protege a su gente."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "Vaya en paz."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Sea breve, por favor."
-        }
-      ],
-      "fallback": "No voy a comentar eso. Pregunte por la provincia: para eso sí tengo respuestas preparadas."
-    },
-    "LOC02_MENDANA": {
-      "location_id": "LOC02",
-      "npc_id": "rodrigo_mendana",
-      "name": "Comandante Rodrigo Mendaña",
-      "greeting": "Soy Rodrigo Mendaña, comandante de la guardia provincial. Hable claro. Las palabras bonitas no paran flechas.",
-      "greeting_again": "Usted otra vez. La guardia sigue en su puesto. Gane quien gane la discusión, alguien tiene que pagar a mis soldados.",
-      "hint": "Puede preguntar por la guardia o por los soldados.",
-      "branches": [
-        {
-          "keywords": [
-            "nombre",
-            "quien es",
-            "quien eres",
-            "comandante"
-          ],
-          "reply": "Me llamo Rodrigo Mendaña. Soy el comandante de la guardia provincial."
-        },
-        {
-          "keywords": [
-            "soldados",
-            "discusion",
-            "filosofia",
-            "piensa"
-          ],
-          "reply": "Mi filosofía es sencilla: quien gana la discusión normalmente todavía necesita soldados."
-        },
-        {
-          "keywords": [
-            "guardia",
-            "guardias"
-          ],
-          "reply": "La guardia provincial está bajo mi mando."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada. Siga su camino."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. ¿Qué quiere de la guardia?"
-        }
-      ],
-      "fallback": "Eso no es asunto de la guardia. Pregunte por los soldados; ellos, por lo menos, saben lo que cuestan."
-    },
-    "LOC03": {
-      "npc_id": "selmo_oribe",
-      "name": "Maestro Selmo Oribe",
-      "greeting": "Bienvenido a Miralba. Soy el maestro Selmo Oribe, del gremio de boticarios. Aquí curamos casi todo, a un precio razonable. ¿En qué puedo servirle?",
-      "greeting_again": "Es un placer verle de nuevo. Un cliente que vuelve es un cliente vivo. ¿En qué puedo servirle hoy?",
-      "hint": "Puede preguntar por el gremio o por la ciencia.",
-      "branches": [{"requires_flag": "SB05_published", "keywords": ["animales", "bestiario", "margen", "simbolos", "plagio"], "reply": "Su informe sobre los animales del margen se lee en todas las aulas. La lista de acusados ya no vale, y el plagio del profesor es público."}, {"requires_flag": "SB05_protected", "keywords": ["animales", "bestiario", "margen", "simbolos", "plagio"], "reply": "Usted deshizo la lista de acusados con discreción. El plagio consta en el registro, pero solo lo conoce el claustro."}, {"requires_flag": "SB06_published", "keywords": ["instrumento", "lente", "lentes", "optica", "curaciones"], "reply": "Todos saben ya que el instrumento óptico no cura nada. Hay menos estafas, aunque los enfermos que lo usaban se sienten señalados."}, {"requires_flag": "SB06_protected", "keywords": ["instrumento", "lente", "lentes", "optica", "curaciones"], "reply": "El instrumento queda abierto a los estudiantes y los nombres de los enfermos no aparecen en ningún papel público."}, 
-        {
-          "keywords": [
-            "nombre",
-            "quien es",
-            "quien eres",
-            "maestro"
-          ],
-          "reply": "Me llamo Selmo Oribe. Soy el maestro del gremio de boticarios."
-        },
-        {
-          "keywords": [
-            "ciencia",
-            "ciencias"
-          ],
-          "reply": "No odio la ciencia, se lo aseguro."
-        },
-        {
-          "keywords": [
-            "gremio",
-            "boticarios",
-            "boticario"
-          ],
-          "reply": "Dirijo el gremio de boticarios."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "No hay de qué. Es un placer."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Es un honor recibirle."
-        }
-      ],
-      "fallback": "Lo siento, de eso no puedo decirle nada. Pregunte por el gremio, por favor."
-    },
-    "LOC13": {
-      "npc_id": "simon_vale",
-      "name": "Simón Vale",
-      "greeting": "Hola. Soy Simón. Cuidado con la máquina: está caliente. Yo también, pero de entusiasmo.",
-      "greeting_again": "¡Otra vez aquí! La máquina todavía funciona. Y todavía no ha explotado, que es lo importante.",
-      "hint": "Puede preguntar por la máquina de presión.",
-      "branches": [
-        {
-          "keywords": [
-            "nombre",
-            "quien es",
-            "quien eres"
-          ],
-          "reply": "Me llamo Simón Vale. Soy mecánico en Ferraza."
-        },
-        {
-          "keywords": [
-            "trabajo",
-            "empleos",
-            "trabajadores",
-            "obreros"
-          ],
-          "reply": "Ese es el problema. La máquina puede eliminar muchos empleos."
-        },
-        {
-          "keywords": [
-            "maquina",
-            "presion",
-            "motor",
-            "produccion"
-          ],
-          "reply": "Es una máquina de presión. Puede aumentar mucho la producción."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada. Vuelva cuando quiera."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Hola. ¿Quiere ver la máquina?"
-        }
-      ],
-      "fallback": "No sé nada de eso. Yo solo entiendo de máquinas. Con las personas tengo menos suerte."
-    },
-    "LOC15": {
-      "npc_id": "leonor_valera",
-      "name": "Doctora Leonor Valera",
-      "greeting": "Bienvenido al hospital de Miralba. Soy la doctora Leonor Valera. Aquí entra gente enferma y sale gente con deudas. Intentamos que salga viva también.",
-      "greeting_again": "Vuelve usted al hospital. Buena señal: las visitas, al menos, caminan. ¿En qué puedo ayudarle?",
-      "hint": "Puede preguntar por la enfermedad o por la higiene, pedir vendas o preguntar cómo llegar al monasterio.",
-      "branches": [{"follows": "bandages", "survival": "medicine", "keywords": ["una", "1"], "reply": "Cinco monedas cada una: una venda, cinco monedas. Se las doy en el mostrador del hospital."}, {"follows": "bandages", "survival": "medicine", "keywords": ["dos", "2"], "reply": "Cinco monedas cada una: dos vendas, diez monedas. Se las doy en el mostrador del hospital."}, {"follows": "bandages", "survival": "medicine", "keywords": ["tres", "3"], "reply": "Cinco monedas cada una: tres vendas, quince monedas. Se las doy en el mostrador del hospital."}, {"follows": "bandages", "survival": "medicine", "keywords": ["cuatro", "4"], "reply": "Cinco monedas cada una: cuatro vendas, veinte monedas. Se las doy en el mostrador del hospital."}, {"follows": "bandages", "survival": "medicine", "keywords": ["cinco", "5"], "reply": "Cinco monedas cada una: cinco vendas, veinticinco monedas. Se las doy en el mostrador del hospital."}, {"follows": "bandages", "survival": "medicine", "keywords": ["seis", "6"], "reply": "Cinco monedas cada una: seis vendas, treinta monedas. Se las doy en el mostrador del hospital."}, {"id": "bandages", "follows": "bandages", "keywords": ["cuanto", "cuestan", "precio"], "reply": "Cinco monedas cada una. ¿Cuántas necesita?"}, {"id": "bandages", "keywords": ["vendas", "venda", "vendaje", "vendajes"], "reply": "¿Cuántas?"}, {"survival": "directions", "keywords": ["monasterio", "lucerna", "llego", "llegar", "camino"], "reply": "Siga este camino hacia el norte y gire a la izquierda en el cruce. Después del puente, siga hacia el oeste: el monasterio está junto al camino."}, {"requires_flag": "SB08_published", "keywords": ["sanos", "cifras", "comparacion", "pacientes"], "reply": "Publicaron la comparación del hospital con todos los detalles. Las cifras son honestas, pero algunos pacientes se reconocen y se quejan."}, {"requires_flag": "SB08_protected", "keywords": ["sanos", "cifras", "comparacion", "pacientes"], "reply": "La comparación del hospital salió sin nombres ni tratamientos. Es honesta y nadie se siente expuesto; otros médicos piden más datos."}, 
-        {
-          "keywords": [
-            "nombre",
-            "quien es",
-            "quien eres",
-            "doctora",
-            "medica"
-          ],
-          "reply": "Me llamo Leonor Valera. Soy médica en Miralba."
-        },
-        {
-          "keywords": [
-            "enfermedad",
-            "infeccion",
-            "contagio"
-          ],
-          "reply": "Creo que la enfermedad pasa de una persona a otra por contacto. No es un castigo moral."
-        },
-        {
-          "keywords": [
-            "higiene",
-            "limpieza"
-          ],
-          "reply": "La higiene salva vidas. Por eso investigo la limpieza."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada. Cuídese."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. ¿Está enfermo o tiene preguntas?"
-        }
-      ],
-      "fallback": "No puedo afirmar eso sin examinar los hechos. Pregunte por la enfermedad o la higiene."
-    },
-    "LOC14_CUESTA": {
-      "location_id": "LOC14",
-      "requires": "e:opening_conclusion",
-      "npc_id": "fermin_cuesta",
-      "name": "Fermín Cuesta",
-      "greeting": "Soy Fermín Cuesta, oficial del Archivo. Tengo una orden sellada y ningún deseo de leerla. ¿En qué puedo ayudarle?",
-      "greeting_again": "Otra vez usted. La orden sigue aquí, sellada. Yo también sigo aquí, por desgracia.",
-      "hint": "Puede pedir permiso para entrar, preguntar por la orden, el sello o los cuadernos.",
-      "branches": [{"follows": "permit", "survival": "permission", "keywords": ["orden", "tribunal", "autorizacion", "documento", "papel", "permiso"], "reply": "Déjeme verla. … Está en regla: puede pasar y consultar la orden sellada."}, {"id": "permit", "keywords": ["entrar", "pasar", "permiso", "acceso"], "reply": "No puede pasar. Sin autorización del tribunal, aquí no entra nadie."}, 
-        {
-          "keywords": [
-            "orden",
-            "documento",
-            "sello",
-            "firma"
-          ],
-          "reply": "La orden lleva la firma del obispo Veyra y el sello episcopal. Declara ilícitos los cuadernos de Tomás."
-        },
-        {
-          "keywords": [
-            "cuadernos",
-            "custodia"
-          ],
-          "reply": "Los cuadernos de Tomás quedan bajo custodia del Archivo."
-        },
-        {
-          "keywords": [
-            "muerte",
-            "causa",
-            "prueba",
-            "medica"
-          ],
-          "reply": "La orden no trae ninguna prueba médica nueva. Yo solo la aplico."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "Eso no me corresponde. A mí casi nada me corresponde; por eso sigo en el puesto. Pregunte por la orden o por los cuadernos."
-    },
-    "LOC14_IBARRA": {
-      "location_id": "LOC14",
-      "requires": [
-        "leon_cause",
-        "gaspar_cause"
-      ],
-      "npc_id": "clara_ibarra",
-      "name": "Clara Ibarra",
-      "greeting": "Soy Clara Ibarra. Custodio los papeles del archivero Beltrán. Él ya no los necesita. Hable bajo, por favor.",
-      "greeting_again": "Ha vuelto. Los papeles de Beltrán siguen en su caja. Él está en otra, más pequeña.",
-      "hint": "Puede preguntar por los papeles de Beltrán o por el registro de servicio.",
-      "branches": [
-        {
-          "keywords": [
-            "beltran",
-            "papeles",
-            "documentos",
-            "autorizacion"
-          ],
-          "reply": "Entre los papeles de Beltrán hay una autorización interna de la Orden contra él."
-        },
-        {
-          "keywords": [
-            "registro",
-            "servicio",
-            "ejecutor",
-            "herida"
-          ],
-          "reply": "El registro de servicio nombra a un ejecutor. Sus datos coinciden con el informe de la herida."
-        },
-        {
-          "keywords": [
-            "indice"
-          ],
-          "reply": "Beltrán descubrió El Índice. Eso dice la autorización; yo no sé más."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "Solo hablo de lo que está escrito en estos papeles. Lo demás son rumores, y aquí los rumores acaban mal."
-    },
-    "LOC06_FERRER": {
-      "location_id": "LOC06",
-      "requires": "ines_arrival",
-      "npc_id": "nicolas_ferrer",
-      "name": "Nicolás Ferrer",
-      "greeting": "Nicolás Ferrer, escribano de aduanas. Todo lo que pasa por este puente queda anotado. Lo que pasa por debajo, no.",
-      "greeting_again": "Usted otra vez. Mi registro no ha cambiado. Mi sueldo tampoco.",
-      "hint": "Puede preguntar por el registro, el cuaderno o el mensajero.",
-      "branches": [{"requires_flag": "SB03_published", "keywords": ["agua", "atlas", "plano", "canal", "sed"], "reply": "Todo el puente habla de su atlas del agua. Los barrios altos recuperan el canal, y los vecinos que declararon ya tienen visitas incómodas."}, {"requires_flag": "SB03_protected", "keywords": ["agua", "atlas", "plano", "canal", "sed"], "reply": "El plano del agua llegó a la junta del canal sin los nombres de los testigos. El agua vuelve poco a poco; en el mercado se sabe poco del asunto."}, 
-        {
-          "keywords": [
-            "registro",
-            "anotado",
-            "libro"
-          ],
-          "reply": "Mi registro describe un cuaderno técnico. Yo anoto lo que veo, nada más."
-        },
-        {
-          "keywords": [
-            "mensajero",
-            "entrego",
-            "llevo",
-            "deposito",
-            "universidad"
-          ],
-          "reply": "El mensajero lo entregó en un depósito de los impresores. No fue a ninguna universidad."
-        },
-        {
-          "keywords": [
-            "cuaderno"
-          ],
-          "reply": "Era un cuaderno técnico, con dibujos y cifras."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "Eso no figura en mi registro. Y lo que no figura, oficialmente, nunca cruzó el río."
-    },
-    "LOC16_PARDO": {
-      "location_id": "LOC16",
-      "requires": "notebook_route",
-      "npc_id": "julian_pardo",
-      "name": "Julián Pardo",
-      "greeting": "Julián Pardo, oficial de las prensas. Esta casa respeta la ley. Sobre todo la ley que podemos imprimir. ¿Qué busca?",
-      "greeting_again": "Vuelve usted. Las prensas no se detienen. La verdad, a veces, sí.",
-      "hint": "Puede preguntar por el método de copia, el libro de cuentas o la firma.",
-      "branches": [
-        {
-          "keywords": [
-            "metodo",
-            "copia",
-            "optica",
-            "cuaderno"
-          ],
-          "reply": "El cuaderno describe un método barato de copia óptica. Sería un problema para nuestro oficio."
-        },
-        {
-          "keywords": [
-            "cuentas",
-            "pago",
-            "pagos",
-            "planos"
-          ],
-          "reply": "El libro de cuentas registra pagos de Esteban Roque para destruir los planos. No lo niego."
-        },
-        {
-          "keywords": [
-            "firma",
-            "roque",
-            "esteban"
-          ],
-          "reply": "La firma es de Esteban Roque, nuestro agente. No es el hermano Esteban."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "La casa no comenta eso. Pregunte por lo que consta en los libros. Los libros no hacen preguntas incómodas."
-    },
-    "LOC04_GALAN": {
-      "location_id": "LOC04",
-      "requires": "tomas_cause",
-      "npc_id": "remedios_galan",
-      "name": "Remedios Galán",
-      "greeting": "Soy Remedios Galán, la portera. Por esta puerta pasa todo el mundo, y casi nadie da las gracias. ¿Qué quiere saber?",
-      "greeting_again": "Otra vez por aquí. Siéntese si quiere. La silla cojea, como todo en Ferraza.",
-      "hint": "Puede preguntar por la advertencia de la Orden o por León.",
-      "branches": [{"requires_flag": "SB09_published", "keywords": ["vara", "medida", "medidas", "gremio", "patron"], "reply": "Su informe sobre la vara del maestro está colgado en la puerta del gremio. Hay una sola medida, y todos saben qué talleres usaban otra."}, {"requires_flag": "SB09_protected", "keywords": ["vara", "medida", "medidas", "gremio", "patron"], "reply": "Las medidas se unifican sin señalar a nadie. Los talleres que usaban otro patrón cambian poco a poco, sin vergüenza pública."}, 
-        {
-          "keywords": [
-            "advertencia",
-            "carta",
-            "orden",
-            "experimentos"
-          ],
-          "reply": "Guardo una carta de la Orden. Advertía contra los experimentos del taller."
-        },
-        {
-          "keywords": [
-            "leon",
-            "presion",
-            "demostracion"
-          ],
-          "reply": "León decía que si bajaba otra vez la presión, la demostración fracasaba."
-        },
-        {
-          "keywords": [
-            "sabotaje"
-          ],
-          "reply": "La carta amenaza, sí. Pero no habla de ningún sabotaje."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "De eso no sé nada. Yo solo abro la puerta y escucho. Escuchar es gratis; repetir, no."
-    },
-    "LOC03_UGARTE": {
-      "location_id": "LOC03",
-      "requires": "gaspar_protocol",
-      "npc_id": "marta_ugarte",
-      "name": "Marta Ugarte",
-      "greeting": "Me llamo Marta Ugarte. Soy ayudante aquí. Hable bajo, el maestro puede oírnos. El maestro lo oye todo, menos las quejas.",
-      "greeting_again": "Ha vuelto. Todavía tengo miedo, pero le escucho. El miedo no paga el alquiler.",
-      "hint": "Puede preguntar por aquella tarde, el frasco o el registro.",
-      "branches": [
-        {
-          "keywords": [
-            "tarde",
-            "trabajaba",
-            "preparacion",
-            "dosis"
-          ],
-          "reply": "Aquella tarde yo trabajaba aquí. Preparábamos la dosis para Gaspar."
-        },
-        {
-          "keywords": [
-            "frasco",
-            "selmo",
-            "maestro",
-            "cambio"
-          ],
-          "reply": "Vi al maestro Selmo cambiar el frasco de Gaspar. No dije nada entonces."
-        },
-        {
-          "keywords": [
-            "registro"
-          ],
-          "reply": "El registro de preparación corresponde a esa dosis."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "No sé nada más, de verdad. Solo lo que vi aquella tarde. Y preferiría no recordarlo."
-    },
-    "LOC02_QUIROGA": {
-      "location_id": "LOC02",
-      "requires": "archive_bias",
-      "npc_id": "baltasar_quiroga",
-      "name": "Baltasar Quiroga",
-      "greeting": "Baltasar Quiroga, por los gremios. El consejo necesita una respuesta clara. Clara y barata, si es posible.",
-      "greeting_again": "Usted otra vez. Mi opinión no cambia. Las opiniones caras nunca cambian.",
-      "hint": "Puede discutir con él si todas las muertes tienen el mismo autor.",
-      "branches": [
-        {
-          "keywords": [
-            "muertes",
-            "autor",
-            "culpable",
-            "mismo"
-          ],
-          "reply": "Para mí está claro: todas las muertes tienen el mismo autor."
-        },
-        {
-          "keywords": [
-            "consejo",
-            "decision"
-          ],
-          "reply": "El consejo debe decidir pronto. La provincia no puede esperar."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "Eso son detalles. Lo importante es cerrar el asunto. Los detalles los pagan otros."
-    },
-    "LOC07_RIUS": {
-      "location_id": "LOC07",
-      "requires": "legal_distinction",
-      "npc_id": "catalina_rius",
-      "name": "Catalina Rius",
-      "greeting": "Soy Catalina Rius. Si viene a quejarse del pan, póngase a la cola. La cola es lo único que no falta en San Vélaro.",
-      "greeting_again": "Vuelve usted. Hoy tampoco hay harina buena. Hay harina con piedras y esperanza con piedras.",
-      "hint": "Puede preguntar por la harina, las entregas o los precios.",
-      "branches": [{"requires_flag": "SB12_published", "keywords": ["grano", "glosario", "hambre", "reservas", "trigo"], "reply": "El glosario del grano se leyó en el mercado. Las familias recuperan sus reservas, y los especuladores sienten todas las miradas encima."}, {"requires_flag": "SB12_protected", "keywords": ["grano", "glosario", "hambre", "reservas", "trigo"], "reply": "Las reservas de las casas se liberan sin publicar quién las guardaba. Los especuladores siguen sin nombre, y eso molesta a algunos."}, 
-        {
-          "keywords": [
-            "harina",
-            "entregas",
-            "entrega"
-          ],
-          "reply": "Las entregas se cortaron. La harina que tengo no basta."
-        },
-        {
-          "keywords": [
-            "carros",
-            "grano",
-            "llegaron"
-          ],
-          "reply": "Los carros de grano no llegaron. Mire mis cuentas, si quiere."
-        },
-        {
-          "keywords": [
-            "precio",
-            "caro",
-            "duro",
-            "avaricia"
-          ],
-          "reply": "Dicen que soy avara. El pan es caro porque no hay harina."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "Yo hago pan, no sé de eso. Pregúnteme por la harina."
-    },
-    "LOC12_SOLER": {
-      "location_id": "LOC12",
-      "requires": "grain_records",
-      "npc_id": "damian_soler",
-      "name": "Damián Soler",
-      "greeting": "Damián Soler, carretero. Llevo el grano de la granja, cuando me dejan. ¿Qué necesita?",
-      "greeting_again": "Otra vez usted. Los carros siguen parados. Los bueyes, encantados.",
-      "hint": "Puede preguntar por las fechas, la ruta o los carros.",
-      "branches": [
-        {
-          "keywords": [
-            "fechas",
-            "salida",
-            "salidas",
-            "registro"
-          ],
-          "reply": "Aquí tengo las fechas de salida. Compárelas con las entregas."
-        },
-        {
-          "keywords": [
-            "ruta",
-            "camino",
-            "transporte",
-            "carros"
-          ],
-          "reply": "El transporte se cortó justo cuando empezó la escasez."
-        },
-        {
-          "keywords": [
-            "panadera",
-            "rius"
-          ],
-          "reply": "La panadera no tiene la culpa de que no llegue el grano."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "Eso no lo sé. Yo solo conduzco el carro. Por pensar no me pagan."
-    },
-    "LOC08_MONTOYA": {
-      "location_id": "LOC08",
-      "requires": "leon_cause",
-      "npc_id": "pilar_montoya",
-      "name": "Pilar Montoya",
-      "greeting": "Soy Pilar Montoya, delegada de los mineros. Traigo números, no rumores. Los rumores no tosen sangre.",
-      "greeting_again": "Ha vuelto. Los turnos siguen siendo largos. Las vidas, cada vez más cortas.",
-      "hint": "Puede preguntar por el aire, los turnos o la licencia.",
-      "branches": [{"requires_flag": "SB11_published", "keywords": ["aire", "ventilacion", "letania", "protocolo"], "reply": "El protocolo del aire está escrito en la entrada de la mina. Los mineros lo recitan, aunque algunos creen que ya nada puede pasar."}, {"requires_flag": "SB11_protected", "keywords": ["aire", "ventilacion", "letania", "protocolo"], "reply": "El protocolo del aire volvió a los capataces. Los mineros lo aplican, pero pocos saben de dónde salió."}, 
-        {
-          "keywords": [
-            "aire",
-            "ventilacion",
-            "ventilador"
-          ],
-          "reply": "Con el ventilador el aire mejora. Eso dicen los registros."
-        },
-        {
-          "keywords": [
-            "turnos",
-            "jornada",
-            "produccion",
-            "propietarios"
-          ],
-          "reply": "Pero los propietarios alargan los turnos cuando sube la producción."
-        },
-        {
-          "keywords": [
-            "licencia",
-            "prohibicion",
-            "gremio"
-          ],
-          "reply": "El gremio prohíbe usar una máquina sin licencia."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "No tengo datos sobre eso. Pregunte por los registros."
-    },
-    "LOC09_LLORENTE": {
-      "location_id": "LOC09",
-      "requires": "elias_arrival",
-      "npc_id": "agueda_llorente",
-      "name": "Águeda Llorente",
-      "greeting": "Águeda Llorente. Yo recibo a los peregrinos. ¿Viene a rezar o a preguntar? Las dos cosas se pagan en la puerta.",
-      "greeting_again": "Bienvenido otra vez a Monte Ciego. El milagro sigue aquí. El precio de la cama también.",
-      "hint": "Puede preguntar por los peregrinos, las cuentas o el objeto.",
-      "branches": [
-        {
-          "keywords": [
-            "peregrinos",
-            "visitas",
-            "cuentas",
-            "familias"
-          ],
-          "reply": "Las visitas mantienen a varias familias. Mire las cuentas."
-        },
-        {
-          "keywords": [
-            "objeto",
-            "chispas",
-            "reliquia"
-          ],
-          "reply": "El objeto da chispas. Para nosotros es sagrado."
-        },
-        {
-          "keywords": [
-            "elias",
-            "condensador"
-          ],
-          "reply": "Ese extranjero dice muchas cosas. Yo solo sé lo que da de comer al pueblo."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "No sé responder a eso. Pregunte por los peregrinos."
-    },
-    "LOC02_VIDAL": {
-      "location_id": "LOC02",
-      "requires": "legal_distinction",
-      "npc_id": "anselmo_vidal",
-      "name": "Anselmo Vidal",
-      "greeting": "Anselmo Vidal, guardia del Tribunal. El ladrón ya ha confesado. Una confesión ahorra mucho papel.",
-      "greeting_again": "Usted otra vez. El caso está claro. Si no lo ve claro, mire menos.",
-      "hint": "Puede preguntar por la acusación, la confesión o la reliquia.",
-      "branches": [
-        {
-          "keywords": [
-            "acusacion",
-            "escrita",
-            "robo",
-            "robar"
-          ],
-          "reply": "Mi acusación dice: «sustrajo el objeto sagrado con ánimo de lucro»."
-        },
-        {
-          "keywords": [
-            "confesion",
-            "confeso",
-            "muchacho"
-          ],
-          "reply": "El muchacho confesó. ¿Qué más quiere?"
-        },
-        {
-          "keywords": [
-            "reliquia",
-            "donde",
-            "lugar"
-          ],
-          "reply": "Dónde está la reliquia... eso no lo dice ninguna hoja."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "Eso no importa. Hay una confesión."
-    },
-    "LOC02_RUIZ": {
-      "location_id": "LOC02",
-      "requires": "confession_record",
-      "npc_id": "hernando_ruiz",
-      "name": "Hernando Ruiz",
-      "greeting": "Hernando Ruiz, escribano. Tengo las dos hojas delante. Una miente; a veces mienten las dos. ¿Las comparamos?",
-      "greeting_again": "Vuelve usted. Las hojas siguen sobre la mesa. Yo sigo sin cobrar las horas extra.",
-      "hint": "Puede preguntar por las dos hojas o por los detalles de la confesión.",
-      "branches": [
-        {
-          "keywords": [
-            "hojas",
-            "palabras",
-            "frase",
-            "igual",
-            "misma"
-          ],
-          "reply": "Las dos hojas dicen la misma frase, palabra por palabra."
-        },
-        {
-          "keywords": [
-            "detalle",
-            "detalles",
-            "lugar",
-            "hora"
-          ],
-          "reply": "La confesión no da ni lugar, ni hora, ni objeto. Nada propio."
-        },
-        {
-          "keywords": [
-            "inquisidor",
-            "guardia",
-            "delante"
-          ],
-          "reply": "El muchacho confesó delante de un guardia y de un inquisidor."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "Eso no consta en las actas."
-    },
-    "LOC17_MARIN": {
-      "location_id": "LOC17",
-      "requires": "notebook_route",
-      "npc_id": "tobias_marin",
-      "name": "Tobías Marín",
-      "greeting": "Tobías Marín, correo de la Hermandad. Yo llevo cartas, no las escribo. Así vivo más.",
-      "greeting_again": "¡Hombre, otra vez! ¿Más cartas? Cobro por peso, no por secretos.",
-      "hint": "Puede preguntar por la carta, el sello o quién la envió.",
-      "branches": [
-        {
-          "keywords": [
-            "carta",
-            "entrega",
-            "entrego"
-          ],
-          "reply": "Entregué la carta a Inés. Llevaba el sello de la Universidad de Miralba."
-        },
-        {
-          "keywords": [
-            "sello",
-            "universidad"
-          ],
-          "reply": "El sello parecía de la Universidad. Yo no soy experto."
-        },
-        {
-          "keywords": [
-            "quien",
-            "escribio",
-            "autor",
-            "envio"
-          ],
-          "reply": "No sé quién la escribió. Me la dieron en el camino."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "Ni idea. Yo solo llevo el correo."
-    },
-    "LOC04_VILLAR": {
-      "location_id": "LOC04",
-      "requires": "simon_engine",
-      "npc_id": "lorenzo_villar",
-      "name": "Lorenzo Villar",
-      "greeting": "Lorenzo Villar, por los trabajadores. Esa máquina nos quita el pan. Y el pan, aquí, ya era pequeño.",
-      "greeting_again": "Usted otra vez. Seguimos aquí. Mientras haya trabajo, o mientras haya rabia.",
-      "hint": "Puede preguntar qué piden los trabajadores y por qué.",
-      "branches": [
-        {
-          "keywords": [
-            "maquina",
-            "motor",
-            "destruir"
-          ],
-          "reply": "Pedimos destruir la máquina. No queremos perder el trabajo."
-        },
-        {
-          "keywords": [
-            "empleo",
-            "empleos",
-            "trabajo",
-            "miedo"
-          ],
-          "reply": "Tenemos miedo de perder los empleos. Somos muchas familias."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "Eso no es asunto mío. Hablo por los trabajadores."
-    },
-    "LOC04_FERRAN": {
-      "location_id": "LOC04",
-      "requires": "simon_engine",
-      "npc_id": "gonzalo_ferran",
-      "name": "Gonzalo Ferrán",
-      "greeting": "Gonzalo Ferrán, propietario. Con ese motor, Ferraza puede producir el doble. Con la mitad de gente, mejor todavía.",
-      "greeting_again": "Bienvenido otra vez. ¿Ha pensado en mi propuesta? El progreso no espera, y mis acreedores tampoco.",
-      "hint": "Puede preguntar qué quiere el propietario.",
-      "branches": [
-        {
-          "keywords": [
-            "motor",
-            "maquina",
-            "produccion",
-            "ampliar"
-          ],
-          "reply": "Quiero ampliar la producción con el motor. Es el futuro."
-        },
-        {
-          "keywords": [
-            "trabajadores",
-            "empleos"
-          ],
-          "reply": "Los trabajadores tienen miedo. Yo creo que habrá trabajo para todos."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "No hablo de eso. Pregunte por la producción."
-    },
-    "LOC04_CIPRIANO": {
-      "location_id": "LOC04",
-      "requires": "simon_engine",
-      "npc_id": "hermano_cipriano",
-      "name": "Hermano Cipriano",
-      "greeting": "Soy el hermano Cipriano, emisario de la Orden. Este motor es un peligro. Todos los peligros empiezan siendo útiles.",
-      "greeting_again": "Usted de nuevo. La Orden no ha cambiado de opinión. En trescientos años, casi nunca.",
-      "hint": "Puede preguntar qué pide la Orden y si ya es una prohibición.",
-      "branches": [
-        {
-          "keywords": [
-            "motor",
-            "maquina",
-            "prohibir",
-            "peligro"
-          ],
-          "reply": "La Orden pide prohibir el motor."
-        },
-        {
-          "keywords": [
-            "prohibicion",
-            "valida",
-            "ley",
-            "decision"
-          ],
-          "reply": "Es una petición. Todavía no es una prohibición válida."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "De nada."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenos días. Pregunte, por favor."
-        }
-      ],
-      "fallback": "La Orden no discute eso con usted. La Orden apenas discute con Dios."
-    },
-    "LOC01_INDICE": {
-      "location_id": "LOC01",
-      "requires": "archive_meeting",
-      "npc_id": "el_indice",
-      "name": "El Índice",
-      "greeting": "ÍNDICE DE CENIZA. FORMULE SU CONSULTA. LAS RESPUESTAS NO INCLUYEN GARANTÍA.",
-      "greeting_again": "ÍNDICE DE CENIZA. NUEVA CONSULTA. NIVEL DE ARREPENTIMIENTO: SIN DATOS.",
-      "hint": "Pregunte por un suceso (la imprenta, las máquinas, la medicina) o por un día corriente.",
-      "branches": [
-        {
-          "keywords": [
-            "martes",
-            "corriente",
-            "normal",
-            "ordinario",
-            "tranquilo",
-            "cotidiano",
-            "continuidad"
-          ],
-          "reply": "CONSULTA: DÍA ORDINARIO. REGISTROS INSUFICIENTES. EL ARCHIVO CONTIENE SUCESOS IMPORTANTES. NO PUEDO DESCRIBIR LA CONTINUIDAD."
-        },
-        {
-          "keywords": [
-            "imprenta",
-            "impresion",
-            "libros",
-            "copias",
-            "copia"
-          ],
-          "reply": "CONSULTA: IMPRENTA UNIVERSAL. PATRONES ASOCIADOS: PROPAGANDA. CONFLICTO SECTARIO. DESESTABILIZACIÓN ADMINISTRATIVA. MOVILIZACIÓN DE MASAS."
-        },
-        {
-          "keywords": [
-            "maquina",
-            "maquinas",
-            "motor",
-            "presion",
-            "industria",
-            "vapor"
-          ],
-          "reply": "CONSULTA: MÁQUINAS DE PRESIÓN. PATRONES ASOCIADOS: CONCENTRACIÓN INDUSTRIAL. HUELGAS. RUINA DE LOS GREMIOS."
-        },
-        {
-          "keywords": [
-            "medicina",
-            "alcohol",
-            "hospital",
-            "tratamiento",
-            "enfermedad"
-          ],
-          "reply": "CONSULTA: TRATAMIENTO BARATO. PATRONES ASOCIADOS: CRECIMIENTO DE LA POBLACIÓN. ESCASEZ. CONFLICTO POR LA TIERRA."
-        },
-        {
-          "keywords": [
-            "crisis",
-            "colapso",
-            "guerra",
-            "hambre"
-          ],
-          "reply": "CONSULTA: CRISIS. COINCIDENCIAS: MUY NUMEROSAS. EL ARCHIVO ESTÁ FORMADO POR CRISIS."
-        },
-        {
-          "keywords": [
-            "quien",
-            "eres",
-            "que eres",
-            "nombre"
-          ],
-          "reply": "ÍNDICE DE CENIZA. ARCHIVO DE ACONTECIMIENTOS REGISTRADOS COMO IMPORTANTES. RESPONDO CON PATRONES."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "CONSULTA CERRADA."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "CONSULTA VACÍA. FORMULE UNA PREGUNTA."
-        }
-      ],
-      "fallback": "SIN PATRÓN. REFORMULE LA CONSULTA CON UN SUCESO."
-    },
-    "LOC10": {
-      "location_id": "LOC10",
-      "npc_id": "nuno_barragan",
-      "name": "Nuño Barragán",
-      "greeting": "Nuño Barragán. Este marjal es mío y de mi gente. ¿Viene a pagar o a preguntar? Preguntar también se paga.",
-      "greeting_again": "Otra vez en mi barro. Al final, todos vuelven al barro. ¿Qué quiere ahora?",
-      "hint": "Puede preguntar por las ruinas, por los cofres o por el camino.",
-      "branches": [
-        {
-          "keywords": [
-            "ruinas",
-            "ruina",
-            "antiguo",
-            "antigua",
-            "torres",
-            "edad clara"
-          ],
-          "reply": "Bajo el agua hay puentes y torres de la Edad Clara. Nadie sabe ya para qué servían."
-        },
-        {
-          "keywords": [
-            "cofre",
-            "cofres",
-            "tesoro",
-            "tesoros",
-            "arca",
-            "caja"
-          ],
-          "reply": "Mis hombres vigilan los cofres de las ruinas. Si los quiere, tendrá que pasar por encima de ellos."
-        },
-        {
-          "keywords": [
-            "camino",
-            "ruta",
-            "cardena",
-            "pasar"
-          ],
-          "reply": "El camino a Cárdena cruza el marjal. Quien pasa por aquí, paga."
-        },
-        {
-          "keywords": [
-            "nombre",
-            "quien"
-          ],
-          "reply": "Nuño Barragán. En el marjal no hace falta otro título."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "No me dé las gracias. Pague."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "Buenas. Hable rápido; el barro no espera."
-        }
-      ],
-      "fallback": "De eso no hablo. Pregunte por las ruinas o por el camino."
-    },
-    "LOC18": {
-      "location_id": "LOC18",
-      "requires": "elias_arrival",
-      "npc_id": "torre_rele",
-      "name": "El relé de la torre",
-      "greeting": "SEÑAL DÉBIL. REGISTRO DEL OTRO LADO DISPONIBLE. ESCRIBA SU PREGUNTA.",
-      "greeting_again": "SEÑAL DÉBIL. CONTINÚE.",
-      "hint": "Pregunte por el registro, el distrito 17, el otro mundo o el viajero que pasó por aquí.",
-      "branches": [
-        {
-          "keywords": [
-            "distrito",
-            "17",
-            "registro",
-            "diecisiete"
-          ],
-          "reply": "MODELO: EL DISTRITO 17 TIENE RIESGO ALTO. ADMINISTRACIÓN: LIMITAR INVERSIÓN Y MOVILIDAD. RESULTADO: LOS NEGOCIOS SE VAN. MODELO: EL DECLIVE CONFIRMA EL RIESGO."
-        },
-        {
-          "keywords": [
-            "prediccion",
-            "predicciones",
-            "modelo",
-            "modelos",
-            "confirma"
-          ],
-          "reply": "LOS MODELOS NO PREDECÍAN LA REALIDAD. PARTICIPABAN EN CREAR LA REALIDAD QUE PREDECÍAN."
-        },
-        {
-          "keywords": [
-            "mundo",
-            "otro lado",
-            "origen",
-            "civilizacion"
-          ],
-          "reply": "MUNDO DE ORIGEN: SIN RESPUESTA DESDE HACE MUCHO. ÚLTIMO REGISTRO: DISTURBIOS. LOS DISTURBIOS CONFIRMAN LA PREDICCIÓN."
-        },
-        {
-          "keywords": [
-            "elias",
-            "viajero",
-            "paso",
-            "persona"
-          ],
-          "reply": "UN VIAJERO CRUZÓ LA INSTALACIÓN. NO HAY REGISTRO DE SU REGRESO."
-        },
-        {
-          "keywords": [
-            "indice"
-          ],
-          "reply": "ESTA INSTALACIÓN SE CRUZA CON UN ARCHIVO DE CONSULTA. DIRECCIÓN: BAJO SANTA LUCERNA."
-        },
-        {
-          "keywords": [
-            "gracias"
-          ],
-          "reply": "SEÑAL CERRADA."
-        },
-        {
-          "keywords": [
-            "hola",
-            "buenas",
-            "buenos dias"
-          ],
-          "reply": "SEÑAL DÉBIL. FORMULE UNA PREGUNTA."
-        }
-      ],
-      "fallback": "SEÑAL PERDIDA. REPITA CON OTRAS PALABRAS."
-    }
+  "LOC01_YSABEL": {
+    "location_id": "LOC01",
+    "requires": "ysabel_account",
+    "npc_id": "ysabel_de_la_sal",
+    "name": "Ysabel de la Sal",
+    "greeting": "Soy Ysabel de la Sal, lectora de la Última Luz. Pregunte con cuidado. Aquí las respuestas cuestan más que las preguntas.",
+    "greeting_again": "Vuelve usted. Mis razones no cambian. Las suyas, espero, sí.",
+    "hint": "Puede preguntar por las restricciones.",
+    "branches": [
+      {
+        "keywords": [
+          "nombre",
+          "quien es",
+          "quien eres",
+          "lectora",
+          "archivera"
+        ],
+        "reply": "Me llamo Ysabel de la Sal. Soy lectora mayor de la Última Luz y archivera."
+      },
+      {
+        "keywords": [
+          "restricciones",
+          "restriccion",
+          "experimentos",
+          "protegen"
+        ],
+        "reply": "Las restricciones protegen a la provincia. Son una prevención."
+      },
+      {
+        "keywords": [
+          "guia",
+          "teme",
+          "miedo"
+        ],
+        "reply": "Temo una provincia sin guía. Por eso defiendo las restricciones."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "No me dé las gracias. Piense en la provincia."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Le escucho."
+      }
+    ],
+    "fallback": "De eso no hablo. Pregunte por las restricciones; de esas tenemos muchas."
+  },
+  "LOC01_ESTEBAN": {
+    "location_id": "LOC01",
+    "requires": "esteban_choice",
+    "npc_id": "hermano_esteban",
+    "name": "Hermano Esteban",
+    "greeting": "Soy el hermano Esteban. Estoy vivo, como ve. Siento estropear su investigación. ¿Qué desea preguntar?",
+    "greeting_again": "Usted otra vez. Sigo aquí y sigo vivo. Casi nadie lo celebra.",
+    "hint": "Puede preguntar por su desaparición o por la Orden.",
+    "branches": [
+      {
+        "keywords": [
+          "nombre",
+          "quien es",
+          "quien eres",
+          "roque",
+          "impresores"
+        ],
+        "reply": "Soy el hermano Esteban. No soy Esteban Roque, el agente de los impresores."
+      },
+      {
+        "keywords": [
+          "orden",
+          "voluntariamente",
+          "decision"
+        ],
+        "reply": "Estoy en la Orden por mi propia voluntad. Nadie me obliga."
+      },
+      {
+        "keywords": [
+          "desaparicion",
+          "desaparecido",
+          "muerto",
+          "vivo"
+        ],
+        "reply": "No estoy muerto. Mi desaparición es una decisión mía."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada. Vaya con cuidado."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "No voy a explicar eso. Pregunte por mi decisión. Es lo único mío en toda esta historia."
+  },
+  "LOC02": {
+    "npc_id": "beatriz_orma",
+    "name": "Jueza Beatriz Orma",
+    "greeting": "Soy la jueza Beatriz Orma. Aquí las palabras tienen consecuencias. Por eso casi nadie habla bien en esta sala. ¿Qué necesita?",
+    "greeting_again": "Usted de nuevo. ¿Qué documento le preocupa hoy? Elija bien: tengo muchos.",
+    "hint": "Puede preguntar por una declaración o por un documento falso.",
+    "branches": [
+      {
+        "requires_flag": "SB04_published",
+        "keywords": [
+          "vecinos",
+          "nombres",
+          "identidad",
+          "desplazados",
+          "refugio"
+        ],
+        "reply": "La lista de los vecinos desplazados se leyó en la plaza. Muchos recuperan su nombre, pero los guardias ya preguntan por los refugios."
+      },
+      {
+        "requires_flag": "SB04_protected",
+        "keywords": [
+          "vecinos",
+          "nombres",
+          "identidad",
+          "desplazados",
+          "refugio"
+        ],
+        "reply": "Los vecinos recuperan sus papeles sin que nadie publique dónde se esconden. En los tribunales dicen que el informe es demasiado breve."
+      },
+      {
+        "keywords": [
+          "nombre",
+          "quien es",
+          "quien eres",
+          "jueza"
+        ],
+        "reply": "Me llamo Beatriz Orma. Soy jueza y trabajo con documentos."
+      },
+      {
+        "keywords": [
+          "falso",
+          "falsa",
+          "falsos"
+        ],
+        "reply": "Un documento falso puede producir una detención verdadera. No confunda inventado con sin efectos."
+      },
+      {
+        "keywords": [
+          "declaracion",
+          "sello",
+          "documento",
+          "decreto"
+        ],
+        "reply": "Una declaración oficial cambia la situación legal. No demuestra un hecho físico."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "No hay de qué. Lea siempre quién firma."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Hable con precisión, por favor."
+      }
+    ],
+    "fallback": "Eso no consta en ningún documento que yo conozca. Sin papel, en Valdora, ni los muertos están muertos. Pregunte por una declaración concreta."
+  },
+  "LOC02_VEYRA": {
+    "location_id": "LOC02",
+    "npc_id": "aureliano_veyra",
+    "name": "Obispo Aureliano Veyra",
+    "greeting": "Soy Aureliano Veyra, obispo de Valdora. Tengo poco tiempo y muchos enemigos; usted decide en qué grupo entra. Le escucho.",
+    "greeting_again": "Vuelve usted. La provincia sigue necesitando calma. Yo también, francamente.",
+    "hint": "Puede preguntar qué quiere el obispo para la provincia.",
+    "branches": [
+      {
+        "keywords": [
+          "nombre",
+          "quien es",
+          "quien eres",
+          "obispo"
+        ],
+        "reply": "Soy Aureliano Veyra. Soy el obispo de Valdora."
+      },
+      {
+        "keywords": [
+          "estabilidad",
+          "provincia",
+          "quiere",
+          "calma"
+        ],
+        "reply": "Quiero estabilidad. Una provincia tranquila protege a su gente."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "Vaya en paz."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Sea breve, por favor."
+      }
+    ],
+    "fallback": "No voy a comentar eso. Pregunte por la provincia: para eso sí tengo respuestas preparadas."
+  },
+  "LOC02_MENDANA": {
+    "location_id": "LOC02",
+    "npc_id": "rodrigo_mendana",
+    "name": "Comandante Rodrigo Mendaña",
+    "greeting": "Soy Rodrigo Mendaña, comandante de la guardia provincial. Hable claro. Las palabras bonitas no paran flechas.",
+    "greeting_again": "Usted otra vez. La guardia sigue en su puesto. Gane quien gane la discusión, alguien tiene que pagar a mis soldados.",
+    "hint": "Puede preguntar por la guardia o por los soldados.",
+    "branches": [
+      {
+        "keywords": [
+          "nombre",
+          "quien es",
+          "quien eres",
+          "comandante"
+        ],
+        "reply": "Me llamo Rodrigo Mendaña. Soy el comandante de la guardia provincial."
+      },
+      {
+        "keywords": [
+          "soldados",
+          "discusion",
+          "filosofia",
+          "piensa"
+        ],
+        "reply": "Mi filosofía es sencilla: quien gana la discusión normalmente todavía necesita soldados."
+      },
+      {
+        "keywords": [
+          "guardia",
+          "guardias"
+        ],
+        "reply": "La guardia provincial está bajo mi mando."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada. Siga su camino."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. ¿Qué quiere de la guardia?"
+      }
+    ],
+    "fallback": "Eso no es asunto de la guardia. Pregunte por los soldados; ellos, por lo menos, saben lo que cuestan."
+  },
+  "LOC03": {
+    "npc_id": "selmo_oribe",
+    "name": "Maestro Selmo Oribe",
+    "greeting": "Bienvenido a Miralba. Soy el maestro Selmo Oribe, del gremio de boticarios. Aquí curamos casi todo, a un precio razonable. ¿En qué puedo servirle?",
+    "greeting_again": "Es un placer verle de nuevo. Un cliente que vuelve es un cliente vivo. ¿En qué puedo servirle hoy?",
+    "hint": "Puede preguntar por el gremio o por la ciencia.",
+    "branches": [
+      {
+        "requires_flag": "SB05_published",
+        "keywords": [
+          "animales",
+          "bestiario",
+          "margen",
+          "simbolos",
+          "plagio"
+        ],
+        "reply": "Su informe sobre los animales del margen se lee en todas las aulas. La lista de acusados ya no vale, y el plagio del profesor es público."
+      },
+      {
+        "requires_flag": "SB05_protected",
+        "keywords": [
+          "animales",
+          "bestiario",
+          "margen",
+          "simbolos",
+          "plagio"
+        ],
+        "reply": "Usted deshizo la lista de acusados con discreción. El plagio consta en el registro, pero solo lo conoce el claustro."
+      },
+      {
+        "requires_flag": "SB06_published",
+        "keywords": [
+          "instrumento",
+          "lente",
+          "lentes",
+          "optica",
+          "curaciones"
+        ],
+        "reply": "Todos saben ya que el instrumento óptico no cura nada. Hay menos estafas, aunque los enfermos que lo usaban se sienten señalados."
+      },
+      {
+        "requires_flag": "SB06_protected",
+        "keywords": [
+          "instrumento",
+          "lente",
+          "lentes",
+          "optica",
+          "curaciones"
+        ],
+        "reply": "El instrumento queda abierto a los estudiantes y los nombres de los enfermos no aparecen en ningún papel público."
+      },
+      {
+        "keywords": [
+          "nombre",
+          "quien es",
+          "quien eres",
+          "maestro"
+        ],
+        "reply": "Me llamo Selmo Oribe. Soy el maestro del gremio de boticarios."
+      },
+      {
+        "keywords": [
+          "ciencia",
+          "ciencias"
+        ],
+        "reply": "No odio la ciencia, se lo aseguro."
+      },
+      {
+        "keywords": [
+          "gremio",
+          "boticarios",
+          "boticario"
+        ],
+        "reply": "Dirijo el gremio de boticarios."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "No hay de qué. Es un placer."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Es un honor recibirle."
+      }
+    ],
+    "fallback": "Lo siento, de eso no puedo decirle nada. Pregunte por el gremio, por favor."
+  },
+  "LOC13": {
+    "npc_id": "simon_vale",
+    "name": "Simón Vale",
+    "greeting": "Hola. Soy Simón. Cuidado con la máquina: está caliente. Yo también, pero de entusiasmo.",
+    "greeting_again": "¡Otra vez aquí! La máquina todavía funciona. Y todavía no ha explotado, que es lo importante.",
+    "hint": "Puede preguntar por la máquina de presión.",
+    "branches": [
+      {
+        "keywords": [
+          "nombre",
+          "quien es",
+          "quien eres"
+        ],
+        "reply": "Me llamo Simón Vale. Soy mecánico en Ferraza."
+      },
+      {
+        "keywords": [
+          "trabajo",
+          "empleos",
+          "trabajadores",
+          "obreros"
+        ],
+        "reply": "Ese es el problema. La máquina puede eliminar muchos empleos."
+      },
+      {
+        "keywords": [
+          "maquina",
+          "presion",
+          "motor",
+          "produccion"
+        ],
+        "reply": "Es una máquina de presión. Puede aumentar mucho la producción."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada. Vuelva cuando quiera."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Hola. ¿Quiere ver la máquina?"
+      }
+    ],
+    "fallback": "No sé nada de eso. Yo solo entiendo de máquinas. Con las personas tengo menos suerte."
+  },
+  "LOC15": {
+    "npc_id": "leonor_valera",
+    "name": "Doctora Leonor Valera",
+    "greeting": "Bienvenido al hospital de Miralba. Soy la doctora Leonor Valera. Aquí entra gente enferma y sale gente con deudas. Intentamos que salga viva también.",
+    "greeting_again": "Vuelve usted al hospital. Buena señal: las visitas, al menos, caminan. ¿En qué puedo ayudarle?",
+    "hint": "Puede preguntar por la enfermedad o por la higiene, pedir vendas o preguntar cómo llegar al monasterio.",
+    "branches": [
+      {
+        "follows": "bandages",
+        "survival": "medicine",
+        "keywords": [
+          "una",
+          "1"
+        ],
+        "reply": "Cinco monedas cada una: una venda, cinco monedas. Se las doy en el mostrador del hospital."
+      },
+      {
+        "follows": "bandages",
+        "survival": "medicine",
+        "keywords": [
+          "dos",
+          "2"
+        ],
+        "reply": "Cinco monedas cada una: dos vendas, diez monedas. Se las doy en el mostrador del hospital."
+      },
+      {
+        "follows": "bandages",
+        "survival": "medicine",
+        "keywords": [
+          "tres",
+          "3"
+        ],
+        "reply": "Cinco monedas cada una: tres vendas, quince monedas. Se las doy en el mostrador del hospital."
+      },
+      {
+        "follows": "bandages",
+        "survival": "medicine",
+        "keywords": [
+          "cuatro",
+          "4"
+        ],
+        "reply": "Cinco monedas cada una: cuatro vendas, veinte monedas. Se las doy en el mostrador del hospital."
+      },
+      {
+        "follows": "bandages",
+        "survival": "medicine",
+        "keywords": [
+          "cinco",
+          "5"
+        ],
+        "reply": "Cinco monedas cada una: cinco vendas, veinticinco monedas. Se las doy en el mostrador del hospital."
+      },
+      {
+        "follows": "bandages",
+        "survival": "medicine",
+        "keywords": [
+          "seis",
+          "6"
+        ],
+        "reply": "Cinco monedas cada una: seis vendas, treinta monedas. Se las doy en el mostrador del hospital."
+      },
+      {
+        "id": "bandages",
+        "follows": "bandages",
+        "keywords": [
+          "cuanto",
+          "cuestan",
+          "precio"
+        ],
+        "reply": "Cinco monedas cada una. ¿Cuántas necesita?"
+      },
+      {
+        "id": "bandages",
+        "keywords": [
+          "vendas",
+          "venda",
+          "vendaje",
+          "vendajes"
+        ],
+        "reply": "¿Cuántas?"
+      },
+      {
+        "survival": "directions",
+        "keywords": [
+          "monasterio",
+          "lucerna",
+          "llego",
+          "llegar",
+          "camino"
+        ],
+        "reply": "Siga este camino hacia el norte y gire a la izquierda en el cruce. Después del puente, siga hacia el oeste: el monasterio está junto al camino."
+      },
+      {
+        "requires_flag": "SB08_published",
+        "keywords": [
+          "sanos",
+          "cifras",
+          "comparacion",
+          "pacientes"
+        ],
+        "reply": "Publicaron la comparación del hospital con todos los detalles. Las cifras son honestas, pero algunos pacientes se reconocen y se quejan."
+      },
+      {
+        "requires_flag": "SB08_protected",
+        "keywords": [
+          "sanos",
+          "cifras",
+          "comparacion",
+          "pacientes"
+        ],
+        "reply": "La comparación del hospital salió sin nombres ni tratamientos. Es honesta y nadie se siente expuesto; otros médicos piden más datos."
+      },
+      {
+        "keywords": [
+          "nombre",
+          "quien es",
+          "quien eres",
+          "doctora",
+          "medica"
+        ],
+        "reply": "Me llamo Leonor Valera. Soy médica en Miralba."
+      },
+      {
+        "keywords": [
+          "enfermedad",
+          "infeccion",
+          "contagio"
+        ],
+        "reply": "Creo que la enfermedad pasa de una persona a otra por contacto. No es un castigo moral."
+      },
+      {
+        "keywords": [
+          "higiene",
+          "limpieza"
+        ],
+        "reply": "La higiene salva vidas. Por eso investigo la limpieza."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada. Cuídese."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. ¿Está enfermo o tiene preguntas?"
+      }
+    ],
+    "fallback": "No puedo afirmar eso sin examinar los hechos. Pregunte por la enfermedad o la higiene."
+  },
+  "LOC14_CUESTA": {
+    "location_id": "LOC14",
+    "requires": "e:opening_conclusion",
+    "npc_id": "fermin_cuesta",
+    "name": "Fermín Cuesta",
+    "greeting": "Soy Fermín Cuesta, oficial del Archivo. Tengo una orden sellada y ningún deseo de leerla. ¿En qué puedo ayudarle?",
+    "greeting_again": "Otra vez usted. La orden sigue aquí, sellada. Yo también sigo aquí, por desgracia.",
+    "hint": "Puede pedir permiso para entrar, preguntar por la orden, el sello o los cuadernos.",
+    "branches": [
+      {
+        "follows": "permit",
+        "survival": "permission",
+        "keywords": [
+          "orden",
+          "tribunal",
+          "autorizacion",
+          "documento",
+          "papel",
+          "permiso"
+        ],
+        "reply": "Déjeme verla. … Está en regla: puede pasar y consultar la orden sellada."
+      },
+      {
+        "id": "permit",
+        "keywords": [
+          "entrar",
+          "pasar",
+          "permiso",
+          "acceso"
+        ],
+        "reply": "No puede pasar. Sin autorización del tribunal, aquí no entra nadie."
+      },
+      {
+        "keywords": [
+          "orden",
+          "documento",
+          "sello",
+          "firma"
+        ],
+        "reply": "La orden lleva la firma del obispo Veyra y el sello episcopal. Declara ilícitos los cuadernos de Tomás."
+      },
+      {
+        "keywords": [
+          "cuadernos",
+          "custodia"
+        ],
+        "reply": "Los cuadernos de Tomás quedan bajo custodia del Archivo."
+      },
+      {
+        "keywords": [
+          "muerte",
+          "causa",
+          "prueba",
+          "medica"
+        ],
+        "reply": "La orden no trae ninguna prueba médica nueva. Yo solo la aplico."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "Eso no me corresponde. A mí casi nada me corresponde; por eso sigo en el puesto. Pregunte por la orden o por los cuadernos."
+  },
+  "LOC14_IBARRA": {
+    "location_id": "LOC14",
+    "requires": [
+      "leon_cause",
+      "gaspar_cause"
+    ],
+    "npc_id": "clara_ibarra",
+    "name": "Clara Ibarra",
+    "greeting": "Soy Clara Ibarra. Custodio los papeles del archivero Beltrán. Él ya no los necesita. Hable bajo, por favor.",
+    "greeting_again": "Ha vuelto. Los papeles de Beltrán siguen en su caja. Él está en otra, más pequeña.",
+    "hint": "Puede preguntar por los papeles de Beltrán o por el registro de servicio.",
+    "branches": [
+      {
+        "keywords": [
+          "beltran",
+          "papeles",
+          "documentos",
+          "autorizacion"
+        ],
+        "reply": "Entre los papeles de Beltrán hay una autorización interna de la Orden contra él."
+      },
+      {
+        "keywords": [
+          "registro",
+          "servicio",
+          "ejecutor",
+          "herida"
+        ],
+        "reply": "El registro de servicio nombra a un ejecutor. Sus datos coinciden con el informe de la herida."
+      },
+      {
+        "keywords": [
+          "indice"
+        ],
+        "reply": "Beltrán descubrió El Índice. Eso dice la autorización; yo no sé más."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "Solo hablo de lo que está escrito en estos papeles. Lo demás son rumores, y aquí los rumores acaban mal."
+  },
+  "LOC06_FERRER": {
+    "location_id": "LOC06",
+    "requires": "ines_arrival",
+    "npc_id": "nicolas_ferrer",
+    "name": "Nicolás Ferrer",
+    "greeting": "Nicolás Ferrer, escribano de aduanas. Todo lo que pasa por este puente queda anotado. Lo que pasa por debajo, no.",
+    "greeting_again": "Usted otra vez. Mi registro no ha cambiado. Mi sueldo tampoco.",
+    "hint": "Puede preguntar por el registro, el cuaderno o el mensajero.",
+    "branches": [
+      {
+        "requires_flag": "SB03_published",
+        "keywords": [
+          "agua",
+          "atlas",
+          "plano",
+          "canal",
+          "sed"
+        ],
+        "reply": "Todo el puente habla de su atlas del agua. Los barrios altos recuperan el canal, y los vecinos que declararon ya tienen visitas incómodas."
+      },
+      {
+        "requires_flag": "SB03_protected",
+        "keywords": [
+          "agua",
+          "atlas",
+          "plano",
+          "canal",
+          "sed"
+        ],
+        "reply": "El plano del agua llegó a la junta del canal sin los nombres de los testigos. El agua vuelve poco a poco; en el mercado se sabe poco del asunto."
+      },
+      {
+        "keywords": [
+          "registro",
+          "anotado",
+          "libro"
+        ],
+        "reply": "Mi registro describe un cuaderno técnico. Yo anoto lo que veo, nada más."
+      },
+      {
+        "keywords": [
+          "mensajero",
+          "entrego",
+          "llevo",
+          "deposito",
+          "universidad"
+        ],
+        "reply": "El mensajero lo entregó en un depósito de los impresores. No fue a ninguna universidad."
+      },
+      {
+        "keywords": [
+          "cuaderno"
+        ],
+        "reply": "Era un cuaderno técnico, con dibujos y cifras."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "Eso no figura en mi registro. Y lo que no figura, oficialmente, nunca cruzó el río."
+  },
+  "LOC16_PARDO": {
+    "location_id": "LOC16",
+    "requires": "notebook_route",
+    "npc_id": "julian_pardo",
+    "name": "Julián Pardo",
+    "greeting": "Julián Pardo, oficial de las prensas. Esta casa respeta la ley. Sobre todo la ley que podemos imprimir. ¿Qué busca?",
+    "greeting_again": "Vuelve usted. Las prensas no se detienen. La verdad, a veces, sí.",
+    "hint": "Puede preguntar por el método de copia, el libro de cuentas o la firma.",
+    "branches": [
+      {
+        "keywords": [
+          "metodo",
+          "copia",
+          "optica",
+          "cuaderno"
+        ],
+        "reply": "El cuaderno describe un método barato de copia óptica. Sería un problema para nuestro oficio."
+      },
+      {
+        "keywords": [
+          "cuentas",
+          "pago",
+          "pagos",
+          "planos"
+        ],
+        "reply": "El libro de cuentas registra pagos de Esteban Roque para destruir los planos. No lo niego."
+      },
+      {
+        "keywords": [
+          "firma",
+          "roque",
+          "esteban"
+        ],
+        "reply": "La firma es de Esteban Roque, nuestro agente. No es el hermano Esteban."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "La casa no comenta eso. Pregunte por lo que consta en los libros. Los libros no hacen preguntas incómodas."
+  },
+  "LOC04_GALAN": {
+    "location_id": "LOC04",
+    "requires": "tomas_cause",
+    "npc_id": "remedios_galan",
+    "name": "Remedios Galán",
+    "greeting": "Soy Remedios Galán, la portera. Por esta puerta pasa todo el mundo, y casi nadie da las gracias. ¿Qué quiere saber?",
+    "greeting_again": "Otra vez por aquí. Siéntese si quiere. La silla cojea, como todo en Ferraza.",
+    "hint": "Puede preguntar por la advertencia de la Orden o por León.",
+    "branches": [
+      {
+        "requires_flag": "SB09_published",
+        "keywords": [
+          "vara",
+          "medida",
+          "medidas",
+          "gremio",
+          "patron"
+        ],
+        "reply": "Su informe sobre la vara del maestro está colgado en la puerta del gremio. Hay una sola medida, y todos saben qué talleres usaban otra."
+      },
+      {
+        "requires_flag": "SB09_protected",
+        "keywords": [
+          "vara",
+          "medida",
+          "medidas",
+          "gremio",
+          "patron"
+        ],
+        "reply": "Las medidas se unifican sin señalar a nadie. Los talleres que usaban otro patrón cambian poco a poco, sin vergüenza pública."
+      },
+      {
+        "keywords": [
+          "advertencia",
+          "carta",
+          "orden",
+          "experimentos"
+        ],
+        "reply": "Guardo una carta de la Orden. Advertía contra los experimentos del taller."
+      },
+      {
+        "keywords": [
+          "leon",
+          "presion",
+          "demostracion"
+        ],
+        "reply": "León decía que si bajaba otra vez la presión, la demostración fracasaba."
+      },
+      {
+        "keywords": [
+          "sabotaje"
+        ],
+        "reply": "La carta amenaza, sí. Pero no habla de ningún sabotaje."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "De eso no sé nada. Yo solo abro la puerta y escucho. Escuchar es gratis; repetir, no."
+  },
+  "LOC03_UGARTE": {
+    "location_id": "LOC03",
+    "requires": "gaspar_protocol",
+    "npc_id": "marta_ugarte",
+    "name": "Marta Ugarte",
+    "greeting": "Me llamo Marta Ugarte. Soy ayudante aquí. Hable bajo, el maestro puede oírnos. El maestro lo oye todo, menos las quejas.",
+    "greeting_again": "Ha vuelto. Todavía tengo miedo, pero le escucho. El miedo no paga el alquiler.",
+    "hint": "Puede preguntar por aquella tarde, el frasco o el registro.",
+    "branches": [
+      {
+        "keywords": [
+          "tarde",
+          "trabajaba",
+          "preparacion",
+          "dosis"
+        ],
+        "reply": "Aquella tarde yo trabajaba aquí. Preparábamos la dosis para Gaspar."
+      },
+      {
+        "keywords": [
+          "frasco",
+          "selmo",
+          "maestro",
+          "cambio"
+        ],
+        "reply": "Vi al maestro Selmo cambiar el frasco de Gaspar. No dije nada entonces."
+      },
+      {
+        "keywords": [
+          "registro"
+        ],
+        "reply": "El registro de preparación corresponde a esa dosis."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "No sé nada más, de verdad. Solo lo que vi aquella tarde. Y preferiría no recordarlo."
+  },
+  "LOC02_QUIROGA": {
+    "location_id": "LOC02",
+    "requires": "archive_bias",
+    "npc_id": "baltasar_quiroga",
+    "name": "Baltasar Quiroga",
+    "greeting": "Baltasar Quiroga, por los gremios. El consejo necesita una respuesta clara. Clara y barata, si es posible.",
+    "greeting_again": "Usted otra vez. Mi opinión no cambia. Las opiniones caras nunca cambian.",
+    "hint": "Puede discutir con él si todas las muertes tienen el mismo autor.",
+    "branches": [
+      {
+        "keywords": [
+          "muertes",
+          "autor",
+          "culpable",
+          "mismo"
+        ],
+        "reply": "Para mí está claro: todas las muertes tienen el mismo autor."
+      },
+      {
+        "keywords": [
+          "consejo",
+          "decision"
+        ],
+        "reply": "El consejo debe decidir pronto. La provincia no puede esperar."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "Eso son detalles. Lo importante es cerrar el asunto. Los detalles los pagan otros."
+  },
+  "LOC07_RIUS": {
+    "location_id": "LOC07",
+    "requires": "legal_distinction",
+    "npc_id": "catalina_rius",
+    "name": "Catalina Rius",
+    "greeting": "Soy Catalina Rius. Si viene a quejarse del pan, póngase a la cola. La cola es lo único que no falta en San Vélaro.",
+    "greeting_again": "Vuelve usted. Hoy tampoco hay harina buena. Hay harina con piedras y esperanza con piedras.",
+    "hint": "Puede preguntar por la harina, las entregas o los precios.",
+    "branches": [
+      {
+        "requires_flag": "SB12_published",
+        "keywords": [
+          "grano",
+          "glosario",
+          "hambre",
+          "reservas",
+          "trigo"
+        ],
+        "reply": "El glosario del grano se leyó en el mercado. Las familias recuperan sus reservas, y los especuladores sienten todas las miradas encima."
+      },
+      {
+        "requires_flag": "SB12_protected",
+        "keywords": [
+          "grano",
+          "glosario",
+          "hambre",
+          "reservas",
+          "trigo"
+        ],
+        "reply": "Las reservas de las casas se liberan sin publicar quién las guardaba. Los especuladores siguen sin nombre, y eso molesta a algunos."
+      },
+      {
+        "keywords": [
+          "harina",
+          "entregas",
+          "entrega"
+        ],
+        "reply": "Las entregas se cortaron. La harina que tengo no basta."
+      },
+      {
+        "keywords": [
+          "carros",
+          "grano",
+          "llegaron"
+        ],
+        "reply": "Los carros de grano no llegaron. Mire mis cuentas, si quiere."
+      },
+      {
+        "keywords": [
+          "precio",
+          "caro",
+          "duro",
+          "avaricia"
+        ],
+        "reply": "Dicen que soy avara. El pan es caro porque no hay harina."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "Yo hago pan, no sé de eso. Pregúnteme por la harina."
+  },
+  "LOC12_SOLER": {
+    "location_id": "LOC12",
+    "requires": "grain_records",
+    "npc_id": "damian_soler",
+    "name": "Damián Soler",
+    "greeting": "Damián Soler, carretero. Llevo el grano de la granja, cuando me dejan. ¿Qué necesita?",
+    "greeting_again": "Otra vez usted. Los carros siguen parados. Los bueyes, encantados.",
+    "hint": "Puede preguntar por las fechas, la ruta o los carros.",
+    "branches": [
+      {
+        "keywords": [
+          "fechas",
+          "salida",
+          "salidas",
+          "registro"
+        ],
+        "reply": "Aquí tengo las fechas de salida. Compárelas con las entregas."
+      },
+      {
+        "keywords": [
+          "ruta",
+          "camino",
+          "transporte",
+          "carros"
+        ],
+        "reply": "El transporte se cortó justo cuando empezó la escasez."
+      },
+      {
+        "keywords": [
+          "panadera",
+          "rius"
+        ],
+        "reply": "La panadera no tiene la culpa de que no llegue el grano."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "Eso no lo sé. Yo solo conduzco el carro. Por pensar no me pagan."
+  },
+  "LOC08_MONTOYA": {
+    "location_id": "LOC08",
+    "requires": "leon_cause",
+    "npc_id": "pilar_montoya",
+    "name": "Pilar Montoya",
+    "greeting": "Soy Pilar Montoya, delegada de los mineros. Traigo números, no rumores. Los rumores no tosen sangre.",
+    "greeting_again": "Ha vuelto. Los turnos siguen siendo largos. Las vidas, cada vez más cortas.",
+    "hint": "Puede preguntar por el aire, los turnos o la licencia.",
+    "branches": [
+      {
+        "requires_flag": "SB11_published",
+        "keywords": [
+          "aire",
+          "ventilacion",
+          "letania",
+          "protocolo"
+        ],
+        "reply": "El protocolo del aire está escrito en la entrada de la mina. Los mineros lo recitan, aunque algunos creen que ya nada puede pasar."
+      },
+      {
+        "requires_flag": "SB11_protected",
+        "keywords": [
+          "aire",
+          "ventilacion",
+          "letania",
+          "protocolo"
+        ],
+        "reply": "El protocolo del aire volvió a los capataces. Los mineros lo aplican, pero pocos saben de dónde salió."
+      },
+      {
+        "keywords": [
+          "aire",
+          "ventilacion",
+          "ventilador"
+        ],
+        "reply": "Con el ventilador el aire mejora. Eso dicen los registros."
+      },
+      {
+        "keywords": [
+          "turnos",
+          "jornada",
+          "produccion",
+          "propietarios"
+        ],
+        "reply": "Pero los propietarios alargan los turnos cuando sube la producción."
+      },
+      {
+        "keywords": [
+          "licencia",
+          "prohibicion",
+          "gremio"
+        ],
+        "reply": "El gremio prohíbe usar una máquina sin licencia."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "No tengo datos sobre eso. Pregunte por los registros."
+  },
+  "LOC09_LLORENTE": {
+    "location_id": "LOC09",
+    "requires": "elias_arrival",
+    "npc_id": "agueda_llorente",
+    "name": "Águeda Llorente",
+    "greeting": "Águeda Llorente. Yo recibo a los peregrinos. ¿Viene a rezar o a preguntar? Las dos cosas se pagan en la puerta.",
+    "greeting_again": "Bienvenido otra vez a Monte Ciego. El milagro sigue aquí. El precio de la cama también.",
+    "hint": "Puede preguntar por los peregrinos, las cuentas o el objeto.",
+    "branches": [
+      {
+        "keywords": [
+          "peregrinos",
+          "visitas",
+          "cuentas",
+          "familias"
+        ],
+        "reply": "Las visitas mantienen a varias familias. Mire las cuentas."
+      },
+      {
+        "keywords": [
+          "objeto",
+          "chispas",
+          "reliquia"
+        ],
+        "reply": "El objeto da chispas. Para nosotros es sagrado."
+      },
+      {
+        "keywords": [
+          "elias",
+          "condensador"
+        ],
+        "reply": "Ese extranjero dice muchas cosas. Yo solo sé lo que da de comer al pueblo."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "No sé responder a eso. Pregunte por los peregrinos."
+  },
+  "LOC02_VIDAL": {
+    "location_id": "LOC02",
+    "requires": "legal_distinction",
+    "npc_id": "anselmo_vidal",
+    "name": "Anselmo Vidal",
+    "greeting": "Anselmo Vidal, guardia del Tribunal. El ladrón ya ha confesado. Una confesión ahorra mucho papel.",
+    "greeting_again": "Usted otra vez. El caso está claro. Si no lo ve claro, mire menos.",
+    "hint": "Puede preguntar por la acusación, la confesión o la reliquia.",
+    "branches": [
+      {
+        "keywords": [
+          "acusacion",
+          "escrita",
+          "robo",
+          "robar"
+        ],
+        "reply": "Mi acusación dice: «sustrajo el objeto sagrado con ánimo de lucro»."
+      },
+      {
+        "keywords": [
+          "confesion",
+          "confeso",
+          "muchacho"
+        ],
+        "reply": "El muchacho confesó. ¿Qué más quiere?"
+      },
+      {
+        "keywords": [
+          "reliquia",
+          "donde",
+          "lugar"
+        ],
+        "reply": "Dónde está la reliquia... eso no lo dice ninguna hoja."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "Eso no importa. Hay una confesión."
+  },
+  "LOC02_RUIZ": {
+    "location_id": "LOC02",
+    "requires": "confession_record",
+    "npc_id": "hernando_ruiz",
+    "name": "Hernando Ruiz",
+    "greeting": "Hernando Ruiz, escribano. Tengo las dos hojas delante. Una miente; a veces mienten las dos. ¿Las comparamos?",
+    "greeting_again": "Vuelve usted. Las hojas siguen sobre la mesa. Yo sigo sin cobrar las horas extra.",
+    "hint": "Puede preguntar por las dos hojas o por los detalles de la confesión.",
+    "branches": [
+      {
+        "keywords": [
+          "hojas",
+          "palabras",
+          "frase",
+          "igual",
+          "misma"
+        ],
+        "reply": "Las dos hojas dicen la misma frase, palabra por palabra."
+      },
+      {
+        "keywords": [
+          "detalle",
+          "detalles",
+          "lugar",
+          "hora"
+        ],
+        "reply": "La confesión no da ni lugar, ni hora, ni objeto. Nada propio."
+      },
+      {
+        "keywords": [
+          "inquisidor",
+          "guardia",
+          "delante"
+        ],
+        "reply": "El muchacho confesó delante de un guardia y de un inquisidor."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "Eso no consta en las actas."
+  },
+  "LOC17_MARIN": {
+    "location_id": "LOC17",
+    "requires": "notebook_route",
+    "npc_id": "tobias_marin",
+    "name": "Tobías Marín",
+    "greeting": "Tobías Marín, correo de la Hermandad. Yo llevo cartas, no las escribo. Así vivo más.",
+    "greeting_again": "¡Hombre, otra vez! ¿Más cartas? Cobro por peso, no por secretos.",
+    "hint": "Puede preguntar por la carta, el sello o quién la envió.",
+    "branches": [
+      {
+        "keywords": [
+          "carta",
+          "entrega",
+          "entrego"
+        ],
+        "reply": "Entregué la carta a Inés. Llevaba el sello de la Universidad de Miralba."
+      },
+      {
+        "keywords": [
+          "sello",
+          "universidad"
+        ],
+        "reply": "El sello parecía de la Universidad. Yo no soy experto."
+      },
+      {
+        "keywords": [
+          "quien",
+          "escribio",
+          "autor",
+          "envio"
+        ],
+        "reply": "No sé quién la escribió. Me la dieron en el camino."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "Ni idea. Yo solo llevo el correo."
+  },
+  "LOC04_VILLAR": {
+    "location_id": "LOC04",
+    "requires": "simon_engine",
+    "npc_id": "lorenzo_villar",
+    "name": "Lorenzo Villar",
+    "greeting": "Lorenzo Villar, por los trabajadores. Esa máquina nos quita el pan. Y el pan, aquí, ya era pequeño.",
+    "greeting_again": "Usted otra vez. Seguimos aquí. Mientras haya trabajo, o mientras haya rabia.",
+    "hint": "Puede preguntar qué piden los trabajadores y por qué.",
+    "branches": [
+      {
+        "keywords": [
+          "maquina",
+          "motor",
+          "destruir"
+        ],
+        "reply": "Pedimos destruir la máquina. No queremos perder el trabajo."
+      },
+      {
+        "keywords": [
+          "empleo",
+          "empleos",
+          "trabajo",
+          "miedo"
+        ],
+        "reply": "Tenemos miedo de perder los empleos. Somos muchas familias."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "Eso no es asunto mío. Hablo por los trabajadores."
+  },
+  "LOC04_FERRAN": {
+    "location_id": "LOC04",
+    "requires": "simon_engine",
+    "npc_id": "gonzalo_ferran",
+    "name": "Gonzalo Ferrán",
+    "greeting": "Gonzalo Ferrán, propietario. Con ese motor, Ferraza puede producir el doble. Con la mitad de gente, mejor todavía.",
+    "greeting_again": "Bienvenido otra vez. ¿Ha pensado en mi propuesta? El progreso no espera, y mis acreedores tampoco.",
+    "hint": "Puede preguntar qué quiere el propietario.",
+    "branches": [
+      {
+        "keywords": [
+          "motor",
+          "maquina",
+          "produccion",
+          "ampliar"
+        ],
+        "reply": "Quiero ampliar la producción con el motor. Es el futuro."
+      },
+      {
+        "keywords": [
+          "trabajadores",
+          "empleos"
+        ],
+        "reply": "Los trabajadores tienen miedo. Yo creo que habrá trabajo para todos."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "No hablo de eso. Pregunte por la producción."
+  },
+  "LOC04_CIPRIANO": {
+    "location_id": "LOC04",
+    "requires": "simon_engine",
+    "npc_id": "hermano_cipriano",
+    "name": "Hermano Cipriano",
+    "greeting": "Soy el hermano Cipriano, emisario de la Orden. Este motor es un peligro. Todos los peligros empiezan siendo útiles.",
+    "greeting_again": "Usted de nuevo. La Orden no ha cambiado de opinión. En trescientos años, casi nunca.",
+    "hint": "Puede preguntar qué pide la Orden y si ya es una prohibición.",
+    "branches": [
+      {
+        "keywords": [
+          "motor",
+          "maquina",
+          "prohibir",
+          "peligro"
+        ],
+        "reply": "La Orden pide prohibir el motor."
+      },
+      {
+        "keywords": [
+          "prohibicion",
+          "valida",
+          "ley",
+          "decision"
+        ],
+        "reply": "Es una petición. Todavía no es una prohibición válida."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "De nada."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenos días. Pregunte, por favor."
+      }
+    ],
+    "fallback": "La Orden no discute eso con usted. La Orden apenas discute con Dios."
+  },
+  "LOC01_INDICE": {
+    "location_id": "LOC01",
+    "requires": "archive_meeting",
+    "npc_id": "el_indice",
+    "name": "El Índice",
+    "greeting": "ÍNDICE DE CENIZA. FORMULE SU CONSULTA. LAS RESPUESTAS NO INCLUYEN GARANTÍA.",
+    "greeting_again": "ÍNDICE DE CENIZA. NUEVA CONSULTA. NIVEL DE ARREPENTIMIENTO: SIN DATOS.",
+    "hint": "Pregunte por un suceso (la imprenta, las máquinas, la medicina) o por un día corriente.",
+    "branches": [
+      {
+        "keywords": [
+          "martes",
+          "corriente",
+          "normal",
+          "ordinario",
+          "tranquilo",
+          "cotidiano",
+          "continuidad"
+        ],
+        "reply": "CONSULTA: DÍA ORDINARIO. REGISTROS INSUFICIENTES. EL ARCHIVO CONTIENE SUCESOS IMPORTANTES. NO PUEDO DESCRIBIR LA CONTINUIDAD."
+      },
+      {
+        "keywords": [
+          "imprenta",
+          "impresion",
+          "libros",
+          "copias",
+          "copia"
+        ],
+        "reply": "CONSULTA: IMPRENTA UNIVERSAL. PATRONES ASOCIADOS: PROPAGANDA. CONFLICTO SECTARIO. DESESTABILIZACIÓN ADMINISTRATIVA. MOVILIZACIÓN DE MASAS."
+      },
+      {
+        "keywords": [
+          "maquina",
+          "maquinas",
+          "motor",
+          "presion",
+          "industria",
+          "vapor"
+        ],
+        "reply": "CONSULTA: MÁQUINAS DE PRESIÓN. PATRONES ASOCIADOS: CONCENTRACIÓN INDUSTRIAL. HUELGAS. RUINA DE LOS GREMIOS."
+      },
+      {
+        "keywords": [
+          "medicina",
+          "alcohol",
+          "hospital",
+          "tratamiento",
+          "enfermedad"
+        ],
+        "reply": "CONSULTA: TRATAMIENTO BARATO. PATRONES ASOCIADOS: CRECIMIENTO DE LA POBLACIÓN. ESCASEZ. CONFLICTO POR LA TIERRA."
+      },
+      {
+        "keywords": [
+          "crisis",
+          "colapso",
+          "guerra",
+          "hambre"
+        ],
+        "reply": "CONSULTA: CRISIS. COINCIDENCIAS: MUY NUMEROSAS. EL ARCHIVO ESTÁ FORMADO POR CRISIS."
+      },
+      {
+        "keywords": [
+          "quien",
+          "eres",
+          "que eres",
+          "nombre"
+        ],
+        "reply": "ÍNDICE DE CENIZA. ARCHIVO DE ACONTECIMIENTOS REGISTRADOS COMO IMPORTANTES. RESPONDO CON PATRONES."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "CONSULTA CERRADA."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "CONSULTA VACÍA. FORMULE UNA PREGUNTA."
+      }
+    ],
+    "fallback": "SIN PATRÓN. REFORMULE LA CONSULTA CON UN SUCESO."
+  },
+  "LOC10": {
+    "location_id": "LOC10",
+    "npc_id": "nuno_barragan",
+    "name": "Nuño Barragán",
+    "greeting": "Nuño Barragán. Este marjal es mío y de mi gente. ¿Viene a pagar o a preguntar? Preguntar también se paga.",
+    "greeting_again": "Otra vez en mi barro. Al final, todos vuelven al barro. ¿Qué quiere ahora?",
+    "hint": "Puede preguntar por las ruinas, por los cofres o por el camino.",
+    "branches": [
+      {
+        "keywords": [
+          "ruinas",
+          "ruina",
+          "antiguo",
+          "antigua",
+          "torres",
+          "edad clara"
+        ],
+        "reply": "Bajo el agua hay puentes y torres de la Edad Clara. Nadie sabe ya para qué servían."
+      },
+      {
+        "keywords": [
+          "cofre",
+          "cofres",
+          "tesoro",
+          "tesoros",
+          "arca",
+          "caja"
+        ],
+        "reply": "Mis hombres vigilan los cofres de las ruinas. Si los quiere, tendrá que pasar por encima de ellos."
+      },
+      {
+        "keywords": [
+          "camino",
+          "ruta",
+          "cardena",
+          "pasar"
+        ],
+        "reply": "El camino a Cárdena cruza el marjal. Quien pasa por aquí, paga."
+      },
+      {
+        "keywords": [
+          "nombre",
+          "quien"
+        ],
+        "reply": "Nuño Barragán. En el marjal no hace falta otro título."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "No me dé las gracias. Pague."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "Buenas. Hable rápido; el barro no espera."
+      }
+    ],
+    "fallback": "De eso no hablo. Pregunte por las ruinas o por el camino."
+  },
+  "LOC18": {
+    "location_id": "LOC18",
+    "requires": "elias_arrival",
+    "npc_id": "torre_rele",
+    "name": "El relé de la torre",
+    "greeting": "SEÑAL DÉBIL. REGISTRO DEL OTRO LADO DISPONIBLE. ESCRIBA SU PREGUNTA.",
+    "greeting_again": "SEÑAL DÉBIL. CONTINÚE.",
+    "hint": "Pregunte por el registro, el distrito 17, el otro mundo o el viajero que pasó por aquí.",
+    "branches": [
+      {
+        "keywords": [
+          "distrito",
+          "17",
+          "registro",
+          "diecisiete"
+        ],
+        "reply": "MODELO: EL DISTRITO 17 TIENE RIESGO ALTO. ADMINISTRACIÓN: LIMITAR INVERSIÓN Y MOVILIDAD. RESULTADO: LOS NEGOCIOS SE VAN. MODELO: EL DECLIVE CONFIRMA EL RIESGO."
+      },
+      {
+        "keywords": [
+          "prediccion",
+          "predicciones",
+          "modelo",
+          "modelos",
+          "confirma"
+        ],
+        "reply": "LOS MODELOS NO PREDECÍAN LA REALIDAD. PARTICIPABAN EN CREAR LA REALIDAD QUE PREDECÍAN."
+      },
+      {
+        "keywords": [
+          "mundo",
+          "otro lado",
+          "origen",
+          "civilizacion"
+        ],
+        "reply": "MUNDO DE ORIGEN: SIN RESPUESTA DESDE HACE MUCHO. ÚLTIMO REGISTRO: DISTURBIOS. LOS DISTURBIOS CONFIRMAN LA PREDICCIÓN."
+      },
+      {
+        "keywords": [
+          "elias",
+          "viajero",
+          "paso",
+          "persona"
+        ],
+        "reply": "UN VIAJERO CRUZÓ LA INSTALACIÓN. NO HAY REGISTRO DE SU REGRESO."
+      },
+      {
+        "keywords": [
+          "indice"
+        ],
+        "reply": "ESTA INSTALACIÓN SE CRUZA CON UN ARCHIVO DE CONSULTA. DIRECCIÓN: BAJO SANTA LUCERNA."
+      },
+      {
+        "keywords": [
+          "gracias"
+        ],
+        "reply": "SEÑAL CERRADA."
+      },
+      {
+        "keywords": [
+          "hola",
+          "buenas",
+          "buenos dias"
+        ],
+        "reply": "SEÑAL DÉBIL. FORMULE UNA PREGUNTA."
+      }
+    ],
+    "fallback": "SEÑAL PERDIDA. REPITA CON OTRAS PALABRAS."
+  }
 }
