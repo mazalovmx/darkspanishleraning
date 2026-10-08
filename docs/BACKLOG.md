@@ -182,9 +182,9 @@ its own multi-session plan and scenario-bible review per NPC.
 
 ## P3 - Measurement and playtest (section 43)
 
-- Critical-path duration (4-5 h) and total content (8-10 h) have never been measured.
-- No test walks the critical path by real map travel; campaign suites place heroes
-  directly. Travel pacing (Mateo walking to Cárdena to unlock Inés) is unverified.
+- Mainline travel and writing load are measured by a real-path probe
+  (MEASUREMENTS.md: 61 travel days, 35 cards, 124 lesson sentences); the hours are an
+  estimate (about 4 h mainline, 8-10 h with optional content), not observed.
 - Language-event cadence (section 31) is not measured.
 - No human playtest of any kind is recorded.
 

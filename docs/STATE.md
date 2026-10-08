@@ -2111,3 +2111,15 @@ deleted. Not inspected: the other 20 conversation partners (they have no portrai
 
 Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Critical-path measurement probe
+
+`tests/measure_critical_path.gd` walks the mainline by real A* paths with terrain
+costs, shared daily movement, the northern pass and the reunion, and runs the ordered
+course. Measured: 61 travel days, 1,171 movement points, 39 journeys (none
+unreachable), 35 conclusion cards, 2 decisions, 14 Act I steps, 124 lesson sentences,
+course minimum 8 days. MEASUREMENTS.md turns this into an hour estimate under stated
+assumptions (about 4 h mainline, 8-10 h total); no human playtest has been done.
+
+Executed for this commit: the full non-live run, 54 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
