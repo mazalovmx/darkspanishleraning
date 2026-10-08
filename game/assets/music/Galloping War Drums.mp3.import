@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dukw3dku6stuh"
+path="res://.godot/imported/Galloping War Drums.mp3-ab174385e90d64d772374c49ca7ec5f8.mp3str"
+
+[deps]
+
+source_file="res://assets/music/Galloping War Drums.mp3"
+dest_files=["res://.godot/imported/Galloping War Drums.mp3-ab174385e90d64d772374c49ca7ec5f8.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
