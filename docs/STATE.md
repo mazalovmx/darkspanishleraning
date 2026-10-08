@@ -2362,3 +2362,25 @@ learner_progress_test (explain with known, combined and unknown tags).
 
 Executed for this commit: the full non-live run, 55 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Innkeeper and healer (Epic 13)
+
+- Goods have `locations` (default the roadside inn LOC11); `trade.offers_at(location)`
+  decides what a counter sells and where a purchase is allowed. Services can name their
+  own verb, a frame before the quantity and the confirmation noun ("Quiero reservar una
+  habitación para 2 noches.", "Confirmo la reserva de 2 noches por 10 monedas."), and a
+  `feminine` flag fixes "una noche"/"una cura". Reminders use the service's verb.
+- Innkeeper: "Habitación en la venta" (5 coins a night) at LOC11. A day spent at the
+  inn without travelling uses a booked night and heals 30 instead of 5.
+- Healer: Hospital de Miralba (LOC15) sells bandages and "Cura del médico" (12 coins,
+  +40 health at once). The location window shows "Pedir al médico"; the counter is
+  titled "HOSPITAL DE MIRALBA · MÉDICO".
+- Saves written before goods were added still load: the trade and party restores
+  accept a missing good (full stock, zero held), and the save's inventory comparison
+  counts missing goods as zero.
+- market_test: 15 new checks (offers per place, room booked in the player's own words,
+  rest in the room, cure at the hospital, refusals at the wrong place, reminder verb,
+  an older save without the services). Rendered in a window: the healer's counter.
+
+Executed for this commit: the full non-live run, 55 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

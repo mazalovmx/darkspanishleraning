@@ -150,7 +150,7 @@ static func decode(data: Variant) -> Dictionary:
 			return {"error": "invalid"}
 		if state.hero_cell != Vector2i(cell[0], cell[1]) or state.movement_remaining != int(data.hero.movement):
 			return {"error": "invalid"}
-		if state.army != data.strategy.army or state.party.active().inventory != data.strategy.trade.inventory:
+		if state.army != data.strategy.army or not state.trade.same_inventory(state.party.active().inventory, data.strategy.trade.inventory):
 			return {"error": "invalid"}
 		for member in state.party.heroes.values():
 			if member.unlocked and not explored.has(member.cell):

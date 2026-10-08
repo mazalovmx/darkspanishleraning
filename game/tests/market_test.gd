@@ -16,8 +16,54 @@ func purchase(state: RefCounted, id: String, quantity: int) -> Dictionary:
 	for stage in ["request", "price", "confirm"]:
 		result = state.trade.submit(state, id, quantity, models[stage])
 	return result
+func services() -> void:
+	# Innkeeper (Epic 13, spec 30 "Inn"): a room booked with the player's own words.
+	var state := World.new("province_160x120_v1")
+	var trade = state.trade
+	for location: Dictionary in state.locations:
+		if location.id == "LOC11":
+			state.hero_cell = Vector2i(location.position[0], location.position[1])
+	state.party.active().cell = state.hero_cell
+	state._reveal_from(state.hero_cell)
+	check(trade.offers_at("LOC11").has("room") and not trade.offers_at("LOC11").has("treatment"), "The inn rents rooms, the healer is elsewhere")
+	check(trade.models("room", 2).request == "Quiero reservar una habitación para 2 noches.", "Room request model")
+	check(trade.reminder("room", "request", "basic").contains("(reservar)") and not trade.reminder("room", "request", "basic").contains("comprar"), "The reminder names the service's verb")
+	check(not trade.submit(state, "treatment", 1, "Necesito una cura.").ok, "No healer at the inn")
+	var gold: int = state.resources.gold
+	check(trade.submit(state, "room", 2, "Necesito una habitación para dos noches.").ok, "Own wording books the room")
+	check(trade.submit(state, "room", 2, "Son diez monedas.").ok, "Price of two nights")
+	check(trade.submit(state, "room", 2, "Confirmo la reserva de dos noches por diez monedas.").get("committed", false), "Booking confirmed")
+	check(state.resources.gold == gold - 10 and state.party.active().inventory.room == 2, "Room paid and booked")
+	state.party.active().health = 50
+	state.end_turn()
+	check(state.party.active().health == 80 and state.party.active().inventory.room == 1 and state.turn_notice.contains("habitación"), "A night in the room heals 30")
+	# Healer at the Hospital de Miralba (LOC15).
+	for location: Dictionary in state.locations:
+		if location.id == "LOC15":
+			state.hero_cell = Vector2i(location.position[0], location.position[1])
+	state.party.active().cell = state.hero_cell
+	state._reveal_from(state.hero_cell)
+	check(trade.offers_at("LOC15") == ["medicine", "treatment"], "The hospital sells bandages and cures")
+	state.party.active().health = 40
+	gold = state.resources.gold
+	check(trade.submit(state, "treatment", 1, "Quiero pagar una cura.").ok and trade.submit(state, "treatment", 1, "Cuesta doce monedas.").ok, "Cure requested and priced")
+	check(trade.submit(state, "treatment", 1, "Confirmo el pago de una cura por doce monedas.").get("committed", false), "Cure confirmed")
+	check(state.party.active().health == 80 and state.resources.gold == gold - 12, "The healer treats at once")
+	check(not trade.submit(state, "room", 1, "Quiero una habitación para una noche.").ok, "No rooms at the hospital")
+	# A save written before the services existed still loads, with them empty.
+	var snapshot: Dictionary = Save.snapshot(state).duplicate(true)
+	for table in [snapshot.strategy.trade.stock, snapshot.strategy.trade.inventory]:
+		table.erase("room")
+		table.erase("treatment")
+	for entry in snapshot.party.heroes.values():
+		entry.inventory.erase("room")
+		entry.inventory.erase("treatment")
+	var older: Dictionary = Save.decode(snapshot)
+	check(older.has("state") and older.state.party.active().inventory.room == 0, "An older save without services loads")
+
 func run() -> void:
 	root.size = Vector2i(1280, 720)
+	services()
 	var state := World.new()
 	check(not purchase(state, "bread", 2).ok, "Remote purchase denied")
 	state.move_to(Vector2i(6, 11), true)
@@ -113,7 +159,7 @@ func run() -> void:
 	check(map.market_button.visible, "Inn offers market")
 	map.market_button.pressed.emit()
 	var panel = map.market
-	check(panel.visible and panel.products.item_count == 6, "Shop displays all supplies and recruits")
+	check(panel.visible and panel.products.item_count == 7, "The inn offers supplies, recruits and a room")
 	check(panel.prompt.text.contains("Recuerda:") and not panel.prompt.text.contains(map.state.trade.models("bread", 1).request), "Shop shows a cue and a rule, not the model")
 	panel.quantity.value = 2
 	models = map.state.trade.models("bread", 2)

@@ -95,17 +95,19 @@ func restore(data: Variant, bounds: Rect2i, passable: Callable, movement_bonus_c
 		if not entry.get("army") is Array or (not entry.army.is_empty() and not battle.valid_army(entry.army)):
 			return false
 		var hero := Hero.new(id, definitions[id])
-		if not entry.get("inventory") is Dictionary or entry.inventory.size() != hero.inventory.size():
+		# Goods added after the save was written are simply absent from it (zero).
+		if not entry.get("inventory") is Dictionary or entry.inventory.keys().any(func(item: String) -> bool: return not hero.inventory.has(item)):
 			return false
 		for item in hero.inventory:
-			if not _integer(entry.inventory.get(item), 0, 1000000):
+			if not _integer(entry.inventory.get(item, 0), 0, 1000000):
 				return false
 		hero.cell = cell
 		hero.movement_remaining = int(entry.movement)
 		hero.health = int(entry.health)
 		hero.unlocked = entry.unlocked
 		hero.army = entry.army.duplicate(true)
-		hero.inventory = entry.inventory.duplicate()
+		for item in hero.inventory:
+			hero.inventory[item] = int(entry.inventory.get(item, 0))
 		validated[id] = hero
 	if not validated[data.active].unlocked:
 		return false

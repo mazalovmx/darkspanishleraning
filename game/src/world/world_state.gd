@@ -236,7 +236,7 @@ func end_turn() -> void:
 ## Optional supplies (master spec 12): a travelling hero eats bread and drinks water or
 ## loses health; resting heals; bandages treat; horse feed adds two points; below half
 ## health the hero moves a quarter less; lamp oil lets the hero see two cells farther and
-## a flask burns per day of travel.
+## a flask burns per day of travel; a booked room at the inn heals 30 on a day of rest.
 func _use_supplies(travelled: Dictionary) -> void:
 	var notes: PackedStringArray = []
 	for id: String in party.heroes:
@@ -259,6 +259,11 @@ func _use_supplies(travelled: Dictionary) -> void:
 			if int(hero.inventory.get("horse_feed", 0)) > 0:
 				hero.inventory.horse_feed -= 1
 				hero.movement_remaining = mini(ceiling, hero.movement_remaining + 2)
+		elif str(location_at(hero.cell).get("id", "")) == "LOC11" and int(hero.inventory.get("room", 0)) > 0:
+			# A booked night at the roadside inn rests far better than the open road.
+			hero.inventory.room -= 1
+			hero.health = mini(100, hero.health + 30)
+			notes.append("%s duerme en una habitación de la venta y recupera fuerzas." % name)
 		else:
 			hero.health = mini(100, hero.health + 5)
 		if hero.health <= 70 and int(hero.inventory.get("medicine", 0)) > 0:

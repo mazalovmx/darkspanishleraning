@@ -90,6 +90,14 @@ func run() -> void:
 	if map.market.open_market(state):
 		await shot("09_market")
 		map.market.close()
+	for location: Dictionary in state.locations:
+		if location.id == "LOC15":
+			state.hero_cell = Vector2i(location.position[0], location.position[1])
+	state._reveal_from(state.hero_cell)
+	map._refresh()
+	if map.market.open_market(state):
+		await shot("09b_healer")
+		map.market.close()
 	map.lessons.open_course(state)
 	await shot("10_lessons")
 	var lesson: Dictionary = state.learner.curriculum.blocks[0].cards[0]

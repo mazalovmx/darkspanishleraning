@@ -1,4 +1,6 @@
 extends ColorRect
+const TITLES := {"LOC11": "MERCADO DE LA VENTA", "LOC15": "HOSPITAL DE MIRALBA · MÉDICO"}
+var title := Label.new()
 signal closed
 signal purchased
 var world_state: RefCounted
@@ -33,7 +35,6 @@ func _ready() -> void:
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 14)
 	margin.add_child(box)
-	var title := Label.new()
 	title.text = "MERCADO DE LA VENTA"
 	box.add_child(title)
 	var row := HBoxContainer.new()
@@ -67,13 +68,16 @@ func _ready() -> void:
 	box.add_child(close_button)
 	hide()
 
+## Opens the counter of the place the hero stands on: the inn's market or the healer.
 func open_market(state: RefCounted) -> bool:
-	if state.active_battle != null or state.location_at(state.hero_cell).get("id", "") != "LOC11":
+	var location := str(state.location_at(state.hero_cell).get("id", ""))
+	if state.active_battle != null or state.trade.offers_at(location).is_empty():
 		return false
 	world_state = state
 	world_state.trade.cancel()
+	title.text = TITLES.get(location, "MERCADO")
 	products.clear()
-	for id in world_state.trade.goods:
+	for id in world_state.trade.offers_at(location):
 		products.add_item(world_state.trade.goods[id].name)
 		products.set_item_metadata(products.item_count - 1, id)
 	quantity.value = 1
@@ -93,7 +97,7 @@ func _refresh() -> void:
 	description.text = "%s · Precio: %d monedas · Existencias: %d · Tu oro: %d" % [item.name, item.price, trade.stock[id], world_state.resources.gold]
 	if item.has("use"):
 		description.text += "\n" + str(item.use)
-	var phase_name: String = {"request": "1. Pide producto y cantidad", "price": "2. Comprueba el precio", "confirm": "3. Confirma la compra"}[trade.phase]
+	var phase_name: String = {"request": "1. Pide producto y cantidad", "price": "2. Comprueba el precio", "confirm": "3. Confirma el pedido" if item.kind == "service" else "3. Confirma la compra"}[trade.phase]
 	prompt.text = phase_name + "\n" + trade.cue(world_state, id, int(quantity.value))
 	products.disabled = trade.phase != "request"
 	quantity.editable = trade.phase == "request"

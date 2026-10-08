@@ -24,6 +24,7 @@
     "price": 5,
     "stock": 12,
     "kind": "supply",
+    "locations": ["LOC11", "LOC15"],
     "use": "Cura 25 puntos cuando la salud baja de 70."
   },
   "horse_feed": {
@@ -51,5 +52,32 @@
     "price": 20,
     "stock": 16,
     "kind": "recruit"
+  },
+  "room": {
+    "name": "Habitación en la venta",
+    "singular": "noche",
+    "plural": "noches",
+    "feminine": true,
+    "price": 5,
+    "stock": 30,
+    "kind": "service",
+    "verb": "reservar",
+    "frame": "una habitación para",
+    "confirm_noun": "la reserva",
+    "locations": ["LOC11"],
+    "use": "Si pasas el día en la venta sin viajar, una noche en la habitación cura 30 puntos de salud en vez de 5."
+  },
+  "treatment": {
+    "name": "Cura del médico",
+    "singular": "cura",
+    "plural": "curas",
+    "feminine": true,
+    "price": 12,
+    "stock": 30,
+    "kind": "service",
+    "verb": "pagar",
+    "confirm_noun": "el pago",
+    "locations": ["LOC15"],
+    "use": "El médico del hospital cura 40 puntos de salud al momento por cada cura."
   }
 }

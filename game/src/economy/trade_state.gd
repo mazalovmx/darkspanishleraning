@@ -18,24 +18,40 @@ func normalize(message: String) -> String:
 	var text := Curriculum.fold(message)
 	return text.trim_prefix("¿").trim_suffix("?").trim_suffix(".").strip_edges()
 
+## Goods and services are offered at their "locations" (the roadside inn by default).
+func sold_at(id: String, location: String) -> bool:
+	return goods.has(id) and location in goods[id].get("locations", ["LOC11"])
+
+func offers_at(location: String) -> Array:
+	return goods.keys().filter(func(id: String) -> bool: return sold_at(id, location))
+
+## Inventories equal once goods added after a save count as zero.
+static func same_inventory(a: Dictionary, b: Dictionary) -> bool:
+	for id in a.keys() + b.keys():
+		if int(a.get(id, 0)) != int(b.get(id, 0)):
+			return false
+	return true
+
 func phrase(id: String, quantity: int) -> String:
 	return "%d %s" % [quantity, goods[id].singular if quantity == 1 else goods[id].plural]
 
 func models(id: String, quantity: int, tier: String = "basic") -> Dictionary:
 	var total: int = int(goods[id].price) * quantity
-	var verb := "contratar" if goods[id].kind == "recruit" else "comprar"
-	var noun := "contratación" if goods[id].kind == "recruit" else "compra"
-	var result := {"request": "Quiero %s %s." % [verb, phrase(id, quantity)],
+	var verb: String = goods[id].get("verb", "contratar" if goods[id].kind == "recruit" else "comprar")
+	var noun: String = goods[id].get("confirm_noun", "la contratación" if goods[id].kind == "recruit" else "la compra")
+	# A service can name what is booked before the quantity: "una habitación para 2 noches".
+	var object: String = (str(goods[id].frame) + " " if goods[id].has("frame") else "") + phrase(id, quantity)
+	var result := {"request": "Quiero %s %s." % [verb, object],
 		"price": ("Es " if total == 1 else "Son ") + money(total) + ".",
-		"confirm": "Confirmo la %s de %s por %s." % [noun, phrase(id, quantity), money(total)]}
+		"confirm": "Confirmo %s de %s por %s." % [noun, phrase(id, quantity), money(total)]}
 	if tier == "past":
-		result.request = "Decidí %s %s." % [verb, phrase(id, quantity)]
+		result.request = "Decidí %s %s." % [verb, object]
 		result.price = "El total es %s por %s." % [money(total), phrase(id, quantity)]
 	elif tier == "plans":
-		result.request = "Voy a %s %s." % [verb, phrase(id, quantity)]
+		result.request = "Voy a %s %s." % [verb, object]
 		result.confirm = "Voy a pagar %s por %s." % [money(total), phrase(id, quantity)]
 	elif tier == "argument":
-		result.request = "Querría %s %s." % [verb, phrase(id, quantity)]
+		result.request = "Querría %s %s." % [verb, object]
 		result.price = "Si pido %s, el total es %s." % [phrase(id, quantity), money(total)]
 		result.confirm = "Acepto pagar %s porque necesito %s." % [money(total), phrase(id, quantity)]
 	return result
@@ -88,6 +104,14 @@ const REMINDERS := {
 		"plans": "Plan con ir a: voy a pagar + total + por + cantidad + producto.",
 		"argument": "Acepta y da una razón: acepto pagar + total + porque + necesitar → necesito + cantidad + producto."}}
 
+## The reminder for a stage, naming a service's own verb (reservar, pagar) instead of
+## comprar / contratar.
+func reminder(id: String, stage: String, tier: String) -> String:
+	var text := str(REMINDERS[stage][tier])
+	if goods.has(id) and goods[id].has("verb"):
+		text = text.replace("(comprar, contratar)", "(%s)" % goods[id].verb).replace("comprar / contratar", str(goods[id].verb))
+	return text
+
 func words(message: String) -> String:
 	var text := normalize(message)
 	for mark in [",", ".", ";", ":", "!", "¡", "?", "¿", "\"", "«", "»"]:
@@ -105,7 +129,7 @@ func _numbers(amount: int, feminine: bool) -> Array:
 func _has_items(text: String, id: String, quantity: int) -> bool:
 	var noun: String = words(goods[id].singular if quantity == 1 else goods[id].plural).strip_edges()
 	var head: String = words(goods[id].singular).strip_edges().get_slice(" ", 0)
-	for number in _numbers(quantity, head.ends_with("a") or head.ends_with("on")):
+	for number in _numbers(quantity, bool(goods[id].get("feminine", head.ends_with("a") or head.ends_with("on")))):
 		if text.contains(" %s %s " % [number, noun]):
 			return true
 	return false
@@ -144,7 +168,7 @@ func _matches(id: String, quantity: int, message: String, stage: String, tier: S
 func cue(state: RefCounted, id: String, quantity: int) -> String:
 	var tier := str(pending.get("tier", tier_for(state)))
 	var facts := "Producto: %s · Total: %s" % [phrase(id, quantity), money(int(goods[id].price) * quantity)]
-	return facts + "\nRecuerda: " + str(REMINDERS[phase][tier])
+	return facts + "\nRecuerda: " + reminder(id, phase, tier)
 
 ## The argument tier belongs to the last block, where tildes count (master spec 1.3).
 func spelling(message: String, model: String, stage: String, tier: String) -> String:
@@ -156,7 +180,7 @@ func spelling(message: String, model: String, stage: String, tier: String) -> St
 func _rejection(id: String, quantity: int, message: String, tier: String) -> String:
 	var gaps := missing(id, quantity, message, phase, tier)
 	var text := "Falta " + (", ".join(gaps.slice(0, gaps.size() - 1)) + " y " + gaps[-1] if gaps.size() > 1 else gaps[0]) + "."
-	return text + "\nRecuerda: " + str(REMINDERS[phase][tier])
+	return text + "\nRecuerda: " + reminder(id, phase, tier)
 
 func cancel() -> void:
 	pending.clear()
@@ -167,9 +191,9 @@ func submit(state: RefCounted, id: String, quantity: int, message: String) -> Di
 		return {"ok": false, "message": "Resuelve primero las órdenes preparadas."}
 	if not goods.has(id) or quantity < 1 or quantity > 20 or state.active_battle != null:
 		return {"ok": false, "message": "Pedido no válido."}
-	if state.location_at(state.hero_cell).get("id", "") != "LOC11":
+	if not sold_at(id, str(state.location_at(state.hero_cell).get("id", ""))):
 		cancel()
-		return {"ok": false, "message": "Visita la venta para comprar."}
+		return {"ok": false, "message": "Aquí no se ofrece eso." if not offers_at(str(state.location_at(state.hero_cell).get("id", ""))).is_empty() else "Visita la venta para comprar."}
 	if phase == "request":
 		if not _matches(id, quantity, message, "request", tier_for(state)):
 			return {"ok": false, "message": _rejection(id, quantity, message, tier_for(state))}
@@ -219,6 +243,10 @@ func submit(state: RefCounted, id: String, quantity: int, message: String) -> Di
 			state.army.append({"type": id, "count": quantity})
 		else:
 			state.army[target].count += quantity
+	elif id == "treatment":
+		# The healer treats the active hero at once.
+		var patient = state.party.active()
+		patient.health = mini(100, int(patient.health) + 40 * quantity)
 	else:
 		inventory[id] += quantity
 	state.resources.gold -= total
@@ -229,7 +257,8 @@ func submit(state: RefCounted, id: String, quantity: int, message: String) -> Di
 	if receipts.size() > 100:
 		receipts.pop_front()
 	cancel()
-	return {"ok": true, "committed": true, "message": "Compra completada: %s. Pagas %s." % [phrase(id, quantity), money(total)]}
+	var done := "Reserva hecha" if id == "room" else "Cura recibida" if id == "treatment" else "Compra completada"
+	return {"ok": true, "committed": true, "message": "%s: %s. Pagas %s." % [done, phrase(id, quantity), money(total)]}
 
 func snapshot() -> Dictionary:
 	return {"stock": stock.duplicate(), "inventory": inventory.duplicate(),
@@ -241,10 +270,13 @@ func _integer(value: Variant, low: int, high: int) -> bool:
 func restore(data: Variant, day: int) -> bool:
 	if not data is Dictionary or data.size() != 4 or not data.get("stock") is Dictionary or not data.get("inventory") is Dictionary:
 		return false
-	if data.stock.size() != goods.size() or data.inventory.size() != goods.size():
-		return false
+	# A save written before goods were added lacks them: they start full and empty.
+	for table in [data.stock, data.inventory]:
+		for id in table:
+			if not goods.has(id):
+				return false
 	for id in goods:
-		if not _integer(data.stock.get(id), 0, int(goods[id].stock)) or not _integer(data.inventory.get(id), 0, 1000000):
+		if not _integer(data.stock.get(id, int(goods[id].stock)), 0, int(goods[id].stock)) or not _integer(data.inventory.get(id, 0), 0, 1000000):
 			return false
 	if not data.get("receipts") is Array or data.receipts.size() > 100 or not _integer(data.get("purchase_count"), 0, 1000000):
 		return false
@@ -269,8 +301,9 @@ func restore(data: Variant, day: int) -> bool:
 		if not matches_tier:
 			return false
 		previous_day = int(receipt.day)
-	stock = data.stock.duplicate()
-	inventory = data.inventory.duplicate()
+	for id in goods:
+		stock[id] = int(data.stock.get(id, int(goods[id].stock)))
+		inventory[id] = int(data.inventory.get(id, 0))
 	receipts = data.receipts.duplicate(true)
 	purchase_count = int(data.purchase_count)
 	cancel()
