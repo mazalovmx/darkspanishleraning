@@ -1,11 +1,15 @@
 # Project state
 
-Updated: 2026-10-07
+Updated: 2026-10-08
 Branch: implementation
 Current state: Gates A-H passed; Gate I open. Mainline, economy, equipment, optional
 cases and ghost knights run on the province map with save v13. Open work is listed in
 BACKLOG.md. Sections below are a chronological log; early entries describe the state
 at the time they were written and are superseded by later ones.
+
+Latest verification: see READINESS_AUDIT.md. The 2026-10-08 Windows run passed all
+functional suites but failed six performance budgets; do not treat it as all green.
+The handoff below is historical and contains superseded counts and next steps.
 
 ## Handoff for the next agent (written 2026-10-07)
 
@@ -2819,3 +2823,20 @@ selection still references the earlier tracks; this task stores the new music an
 does not claim it is assigned to scenes or that it has been listened to.
 The full offline regression run for the merged implementation is in progress;
 its outcome will be recorded separately after completion.
+
+## Update audit and Windows regression (2026-10-08)
+
+Merged origin/implementation 6e5c09b, retaining the local verification history;
+resolved only an appended-log conflict in this file by keeping both sections.
+Editor import passed. The full Windows offline run completed: 62 runs, 58,553
+counted checks, 61 passing runs and one failed suite (performance_test, six timing
+budget failures). All functional suites and fresh-process save write/read passed.
+See READINESS_AUDIT.md for exact timing overruns, implemented scope and open work.
+Windows OpenGL title/menu/map fixture: 9 checks, zero failures, exit 0; hidden,
+not visually reviewed. Existing CanvasItem/ObjectDB shutdown warnings remain.
+No live request or Windows release export was run. Both specification pairs match.
+
+User requested continuation of unfinished work. A separate completion-logic
+worktree isolates technical changes from another agent's dialogue/persona, client,
+save-list, portrait and music-integration work. New grammar checks are being
+developed there; this entry does not claim those changes are tested or merged.

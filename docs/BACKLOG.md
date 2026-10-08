@@ -7,8 +7,9 @@ completed work is logged in STATE.md. Section numbers refer to the master spec.
 ## Current position
 
 Gates A-H passed. Sequence steps 01-20 are implemented and their suites pass headless.
-Gate I (full scenario content expansion) is open. Of the fifteen full-game criteria in
-section 43, seven are met, three are partial and five are unmet or unmeasured.
+Gate I (full scenario content expansion) is open. See READINESS_AUDIT.md for the
+2026-10-08 source-backed status and Windows verification: functional suites pass,
+but six performance timing budgets failed. Full-game acceptance remains incomplete.
 
 ## Session plan 2026-10-07
 
@@ -94,7 +95,7 @@ its own multi-session plan and scenario-bible review per NPC.
 - Request context (section 17): scene, focus verbs, recent errors and the last four
   exchanges are now sent. Still not sent, because the data does not exist:
   relationship and conversation_summary.
-- Golden conversation tests (section 39): 62 data-driven cases exist in
+- Golden conversation tests (section 39): 91 data-driven cases exist in
   `game/tests/dialogue_golden.json`, run offline with a fake transport. They cover the
   deterministic boundary only. A live variant that sends the same player lines to the
   real model and checks recasts and non-invention is still missing (paid, opt-in).
