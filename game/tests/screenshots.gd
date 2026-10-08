@@ -38,6 +38,15 @@ func run() -> void:
 	map.camera.zoom = Vector2(0.7, 0.7)
 	await shot("03b_map_wide")
 	map.camera.zoom = zoom
+	# Walk six cells down the road and capture the token on its way.
+	map.state.hero_cell = origin + Vector2i(0, 6)
+	map._refresh()
+	await create_timer(0.2).timeout
+	await shot("03c_map_walk")
+	await create_timer(0.6).timeout
+	map.state.hero_cell = origin
+	map._refresh()
+	await create_timer(0.6).timeout
 	var state = map.state
 	for location: Dictionary in state.locations:
 		if location.id == "LOC01":

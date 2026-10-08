@@ -2225,3 +2225,13 @@ Marjal Negro conversations fit at 1280×720.
 
 Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Hero token walks its path
+
+When the active hero's cell changes, the token walks the A* path from the old cell to
+the new one (0.07 s per cell, up to 60 cells) by animating the sprite's offset; its
+position is already the new cell, so logic, camera and tests see the final cell at once.
+Switching heroes stops a running walk. Rendered in a window: a frame mid-walk.
+
+Executed for this commit: the full non-live run, 54 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

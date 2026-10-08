@@ -100,6 +100,11 @@ var fog_tiles := TileMapLayer.new()
 var lit: Array[Vector2i] = []
 var camera := Camera2D.new()
 var hero := Sprite2D.new()
+# Last cell and hero the token showed: a move walks the token along its path by
+# animating the sprite offset, while its position is already the new cell.
+var shown_cell := Vector2i(-1, -1)
+var shown_id := ""
+var walk: Tween
 var status := Label.new()
 var route_info := Label.new()
 var end_button := Button.new()
@@ -823,6 +828,25 @@ func _resume_contact() -> void:
 		camera.position = tiles.map_to_local(state.hero_cell)
 		_start_battle(state.ghosts.pending_encounter.knight)
 
+func _walk_hero() -> void:
+	var target := tiles.map_to_local(state.hero_cell)
+	if shown_id == state.party.active_id and shown_cell.x >= 0 and shown_cell != state.hero_cell and is_inside_tree() and state.grid.region.has_point(shown_cell):
+		var path: Array[Vector2i] = state.grid.get_id_path(state.hero_cell, shown_cell)
+		if path.size() >= 2 and path.size() <= 60:
+			if walk != null:
+				walk.kill()
+			hero.offset = tiles.map_to_local(shown_cell) - target
+			walk = create_tween()
+			for k in range(path.size() - 2, -1, -1):
+				walk.tween_property(hero, "offset", tiles.map_to_local(path[k]) - target, 0.07)
+	elif shown_id != state.party.active_id or shown_cell == state.hero_cell:
+		if walk != null and shown_id != state.party.active_id:
+			walk.kill()
+			hero.offset = Vector2.ZERO
+	hero.position = target
+	shown_cell = state.hero_cell
+	shown_id = state.party.active_id
+
 ## Atlas row for a cell: 0 is the plain tile, 1-3 the decorated variants.
 static func variant_row(cell: Vector2i, kind: String) -> int:
 	var mixed := hash(cell) & 0x7fffffff
@@ -867,7 +891,7 @@ func _refresh() -> void:
 	for id in resource_labels:
 		resource_labels[id].text = str(state.resources.get(id, 0))
 	day_label.text = "Día %d · Semana %d" % [state.day, (state.day - 1) / 7 + 1]
-	hero.position = tiles.map_to_local(state.hero_cell)
+	_walk_hero()
 	hero.texture = hero_textures.get(state.party.active_id, hero_textures[""])
 	hero.modulate = Color.WHITE if hero_textures.has(state.party.active_id) else Color(state.party.active().definition.color)
 	for id in hero_buttons:

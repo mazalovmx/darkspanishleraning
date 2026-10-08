@@ -172,7 +172,7 @@ its own multi-session plan and scenario-bible review per NPC.
   music and interface sounds are wired into the map; the title screen uses the
   parchment page and the battle arena shows a Kenney unit figure per stack (coloured
   by side). Still placeholder or missing: gates; unit figures in battle are
-  small Kenney RTS sprites scaled ×3 (no animation frames); movement animation. The 20 newer speakers have simple generated busts
+  small Kenney RTS sprites scaled ×3 (no animation frames). The 20 newer speakers have simple generated busts
   (`tools/make_portraits.py`), not illustrated portraits. The fog
   and parchment shaders are unused; the vignette is optional and off. Nobody has
   listened to the audio.
