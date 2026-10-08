@@ -2035,3 +2035,19 @@ checks).
 
 Executed for this commit: the full non-live run, 53 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Automated balance pass (battles)
+
+`tests/balance_sim.gd` auto-plays every guarded encounter with three reference armies;
+the method, changes and final table are in BALANCE.md. The first run showed the
+starting army beating every ghost knight and mine guard and a modest army winning
+everything; four side-case units had attack and defense 0. Changes: those units get
+stats; side battles scale with their curriculum block (×1 to ×4), ghost knights with
+their minimum block, mine guards are stronger (raids are half a guard), treasure
+guards ×2.5. After the pass the starting army wins the opening and early cases, a mid
+army takes knights, mines and the marsh caches but not the late cases, and a strong
+army wins everything. economy_world_test and economy_scene_test now fight the gold mine with an army that
+can take it. Not a playtest; economy pacing unchanged.
+
+Executed for this commit: the full non-live run, 53 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

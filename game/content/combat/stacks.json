@@ -80,8 +80,8 @@
                                    "initiative":  5,
                                    "ability":  "temporary_brace",
                                    "ability_name":  "Cerrar filas",
-                                   "attack":  0,
-                                   "defense":  0,
+                                   "attack":  2,
+                                   "defense":  4,
                                    "ranged":  false
                                },
                   "hired_blade":  {
@@ -92,8 +92,8 @@
                                       "initiative":  7,
                                       "ability":  "feint",
                                       "ability_name":  "Finta",
-                                      "attack":  0,
-                                      "defense":  0,
+                                      "attack":  4,
+                                      "defense":  2,
                                       "ranged":  false
                                   },
                   "crossbow_guard":  {
@@ -104,8 +104,8 @@
                                          "initiative":  4,
                                          "ability":  "aim",
                                          "ability_name":  "Disparo preciso",
-                                         "attack":  0,
-                                         "defense":  0,
+                                         "attack":  4,
+                                         "defense":  1,
                                          "ranged":  true
                                      },
                   "enforcer":  {
@@ -116,8 +116,8 @@
                                    "initiative":  3,
                                    "ability":  "temporary_brace",
                                    "ability_name":  "Cerrar filas",
-                                   "attack":  0,
-                                   "defense":  0,
+                                   "attack":  5,
+                                   "defense":  5,
                                    "ranged":  false
                                },
                   "novice":  {"name": "Novicios", "hp": 8, "damage_min": 1, "damage_max": 3, "attack": 2, "defense": 3, "initiative": 6, "ability": "brace", "ability_name": "Formar escudos", "ranged": false},

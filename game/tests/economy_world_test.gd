@@ -19,6 +19,8 @@ func run() -> void:
 	var site: Dictionary = economy.site(state,"mine_gold")
 	state.hero_cell = Vector2i(site.position[0],site.position[1])
 	state._reveal_from(state.hero_cell)
+	# The gold mine's guard needs more than the starting army (balance pass, BALANCE.md).
+	state.army = [{"type":"veteran_guard","count":20},{"type":"archers","count":30},{"type":"militia","count":24}]
 	var armies: Array = state.army.duplicate(true)
 	check(state.begin_encounter("mine_gold"),"Guarded mine starts actual world battle")
 	check(state.active_battle.data.opening.id == "mine_gold","Arena receives correct encounter")

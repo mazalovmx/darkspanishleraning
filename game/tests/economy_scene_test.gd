@@ -73,6 +73,8 @@ func run() -> void:
 	check(map.state.economy.pending.is_empty() and map.state.resources.gold == gold,"Closing cancels without charge")
 	map._close_poi()
 	var site: Dictionary = map.state.economy.site(map.state,"mine_gold")
+	# The gold mine's guard needs more than the starting army (balance pass, BALANCE.md).
+	map.state.army = [{"type":"veteran_guard","count":20},{"type":"archers","count":30},{"type":"militia","count":24}]
 	map.state.hero_cell = Vector2i(site.position[0],site.position[1])
 	map.state._reveal_from(map.state.hero_cell)
 	map._refresh()

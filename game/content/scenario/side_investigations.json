@@ -12880,11 +12880,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  5
+                                                 "count":  8
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -12933,11 +12933,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  6
+                                                 "count":  9
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -12986,11 +12986,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  7
+                                                 "count":  14
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  4
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -13039,11 +13039,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  8
+                                                 "count":  20
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  4
+                                                 "count":  10
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -13093,15 +13093,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  9
+                                                 "count":  27
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  5
+                                                 "count":  15
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  2
+                                                 "count":  6
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -13150,15 +13150,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  10
+                                                 "count":  35
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  5
+                                                 "count":  18
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  2
+                                                 "count":  7
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -13207,15 +13207,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  11
+                                                 "count":  44
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  6
+                                                 "count":  24
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  2
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -13371,11 +13371,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  5
+                                                 "count":  8
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -13424,11 +13424,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  6
+                                                 "count":  9
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -13477,11 +13477,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  7
+                                                 "count":  14
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  4
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -13530,11 +13530,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  8
+                                                 "count":  20
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  4
+                                                 "count":  10
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -13584,15 +13584,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  9
+                                                 "count":  27
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  5
+                                                 "count":  15
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  2
+                                                 "count":  6
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -13641,15 +13641,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  10
+                                                 "count":  35
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  5
+                                                 "count":  18
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  2
+                                                 "count":  7
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -13698,15 +13698,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  11
+                                                 "count":  44
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  6
+                                                 "count":  24
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  2
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -13862,11 +13862,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  5
+                                                 "count":  8
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -13915,11 +13915,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  6
+                                                 "count":  9
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -13968,11 +13968,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  7
+                                                 "count":  14
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  4
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -14021,11 +14021,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  8
+                                                 "count":  20
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  4
+                                                 "count":  10
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -14075,15 +14075,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  9
+                                                 "count":  27
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  5
+                                                 "count":  15
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  2
+                                                 "count":  6
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -14132,15 +14132,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  10
+                                                 "count":  35
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  5
+                                                 "count":  18
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  2
+                                                 "count":  7
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -14189,15 +14189,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  11
+                                                 "count":  44
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  6
+                                                 "count":  24
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  2
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -14353,11 +14353,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  5
+                                                 "count":  8
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -14406,11 +14406,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  6
+                                                 "count":  9
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -14459,11 +14459,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  7
+                                                 "count":  14
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  4
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -14512,11 +14512,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  8
+                                                 "count":  20
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  4
+                                                 "count":  10
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -14566,15 +14566,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  9
+                                                 "count":  27
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  5
+                                                 "count":  15
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  2
+                                                 "count":  6
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -14623,15 +14623,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  10
+                                                 "count":  35
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  5
+                                                 "count":  18
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  2
+                                                 "count":  7
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -14680,15 +14680,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  11
+                                                 "count":  44
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  6
+                                                 "count":  24
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  2
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -14844,11 +14844,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  5
+                                                 "count":  8
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -14897,11 +14897,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  6
+                                                 "count":  9
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -14950,11 +14950,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  7
+                                                 "count":  14
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  4
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -15003,11 +15003,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  8
+                                                 "count":  20
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  4
+                                                 "count":  10
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -15057,15 +15057,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  9
+                                                 "count":  27
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  5
+                                                 "count":  15
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  2
+                                                 "count":  6
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -15114,15 +15114,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  10
+                                                 "count":  35
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  5
+                                                 "count":  18
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  2
+                                                 "count":  7
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -15171,15 +15171,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  11
+                                                 "count":  44
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  6
+                                                 "count":  24
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  2
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -15335,11 +15335,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  5
+                                                 "count":  8
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -15388,11 +15388,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  6
+                                                 "count":  9
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -15441,11 +15441,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  7
+                                                 "count":  14
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  4
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -15494,11 +15494,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  8
+                                                 "count":  20
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  4
+                                                 "count":  10
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -15548,15 +15548,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  9
+                                                 "count":  27
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  5
+                                                 "count":  15
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  2
+                                                 "count":  6
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -15605,15 +15605,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  10
+                                                 "count":  35
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  5
+                                                 "count":  18
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  2
+                                                 "count":  7
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -15662,15 +15662,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  11
+                                                 "count":  44
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  6
+                                                 "count":  24
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  2
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -15826,11 +15826,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  5
+                                                 "count":  8
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -15879,11 +15879,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  6
+                                                 "count":  9
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -15932,11 +15932,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  7
+                                                 "count":  14
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  4
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -15985,11 +15985,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  8
+                                                 "count":  20
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  4
+                                                 "count":  10
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -16039,15 +16039,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  9
+                                                 "count":  27
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  5
+                                                 "count":  15
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  2
+                                                 "count":  6
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -16096,15 +16096,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  10
+                                                 "count":  35
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  5
+                                                 "count":  18
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  2
+                                                 "count":  7
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -16153,15 +16153,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  11
+                                                 "count":  44
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  6
+                                                 "count":  24
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  2
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -16317,11 +16317,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  5
+                                                 "count":  8
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -16370,11 +16370,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  6
+                                                 "count":  9
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -16423,11 +16423,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  7
+                                                 "count":  14
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  4
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -16476,11 +16476,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  8
+                                                 "count":  20
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  4
+                                                 "count":  10
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -16530,15 +16530,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  9
+                                                 "count":  27
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  5
+                                                 "count":  15
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  2
+                                                 "count":  6
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -16587,15 +16587,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  10
+                                                 "count":  35
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  5
+                                                 "count":  18
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  2
+                                                 "count":  7
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -16644,15 +16644,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  11
+                                                 "count":  44
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  6
+                                                 "count":  24
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  2
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -16808,11 +16808,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  5
+                                                 "count":  8
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -16861,11 +16861,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  6
+                                                 "count":  9
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -16914,11 +16914,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  7
+                                                 "count":  14
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  4
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -16967,11 +16967,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  8
+                                                 "count":  20
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  4
+                                                 "count":  10
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -17021,15 +17021,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  9
+                                                 "count":  27
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  5
+                                                 "count":  15
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  2
+                                                 "count":  6
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -17078,15 +17078,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  10
+                                                 "count":  35
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  5
+                                                 "count":  18
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  2
+                                                 "count":  7
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -17135,15 +17135,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  11
+                                                 "count":  44
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  6
+                                                 "count":  24
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  2
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -17299,11 +17299,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  5
+                                                 "count":  8
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -17352,11 +17352,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  6
+                                                 "count":  9
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -17405,11 +17405,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  7
+                                                 "count":  14
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  4
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -17458,11 +17458,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  8
+                                                 "count":  20
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  4
+                                                 "count":  10
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -17512,15 +17512,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  9
+                                                 "count":  27
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  5
+                                                 "count":  15
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  2
+                                                 "count":  6
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -17569,15 +17569,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  10
+                                                 "count":  35
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  5
+                                                 "count":  18
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  2
+                                                 "count":  7
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -17626,15 +17626,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  11
+                                                 "count":  44
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  6
+                                                 "count":  24
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  2
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -17790,11 +17790,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  5
+                                                 "count":  8
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -17843,11 +17843,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  6
+                                                 "count":  9
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -17896,11 +17896,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  7
+                                                 "count":  14
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  4
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -17949,11 +17949,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  8
+                                                 "count":  20
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  4
+                                                 "count":  10
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -18003,15 +18003,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  9
+                                                 "count":  27
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  5
+                                                 "count":  15
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  2
+                                                 "count":  6
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -18060,15 +18060,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  10
+                                                 "count":  35
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  5
+                                                 "count":  18
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  2
+                                                 "count":  7
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -18117,15 +18117,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  11
+                                                 "count":  44
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  6
+                                                 "count":  24
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  2
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -18281,11 +18281,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  5
+                                                 "count":  8
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -18334,11 +18334,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  6
+                                                 "count":  9
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  3
+                                                 "count":  5
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -18387,11 +18387,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  7
+                                                 "count":  14
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  4
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -18440,11 +18440,11 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  8
+                                                 "count":  20
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  4
+                                                 "count":  10
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -18494,15 +18494,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  9
+                                                 "count":  27
                                              },
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  5
+                                                 "count":  15
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  2
+                                                 "count":  6
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -18551,15 +18551,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "crossbow_guard",
-                                                 "count":  10
+                                                 "count":  35
                                              },
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  5
+                                                 "count":  18
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  2
+                                                 "count":  7
                                              }
                                          ],
                         "max_stacks_per_side":  4,
@@ -18608,15 +18608,15 @@
                         "enemy_stacks":  [
                                              {
                                                  "unit":  "enforcer",
-                                                 "count":  11
+                                                 "count":  44
                                              },
                                              {
                                                  "unit":  "watchman",
-                                                 "count":  6
+                                                 "count":  24
                                              },
                                              {
                                                  "unit":  "hired_blade",
-                                                 "count":  2
+                                                 "count":  8
                                              }
                                          ],
                         "max_stacks_per_side":  4,

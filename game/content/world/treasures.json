@@ -12,11 +12,11 @@
       "guards": [
         {
           "type": "bandits",
-          "count": 6
+          "count": 15
         },
         {
           "type": "hired_blade",
-          "count": 2
+          "count": 5
         }
       ],
       "items": [
@@ -36,11 +36,11 @@
       "guards": [
         {
           "type": "bandits",
-          "count": 7
+          "count": 18
         },
         {
           "type": "hired_blade",
-          "count": 2
+          "count": 5
         }
       ],
       "items": [
@@ -60,11 +60,11 @@
       "guards": [
         {
           "type": "bandits",
-          "count": 8
+          "count": 20
         },
         {
           "type": "hired_blade",
-          "count": 3
+          "count": 8
         }
       ],
       "items": [
@@ -84,11 +84,11 @@
       "guards": [
         {
           "type": "bandits",
-          "count": 9
+          "count": 23
         },
         {
           "type": "hired_blade",
-          "count": 3
+          "count": 8
         }
       ],
       "items": [
@@ -108,11 +108,11 @@
       "guards": [
         {
           "type": "bandits",
-          "count": 10
+          "count": 25
         },
         {
           "type": "hired_blade",
-          "count": 4
+          "count": 10
         }
       ],
       "items": [
@@ -132,11 +132,11 @@
       "guards": [
         {
           "type": "bandits",
-          "count": 11
+          "count": 28
         },
         {
           "type": "hired_blade",
-          "count": 4
+          "count": 10
         }
       ],
       "items": [

@@ -196,11 +196,11 @@
                                        "enemy_stacks":  [
                                                             {
                                                                 "unit":  "watchman",
-                                                                "count":  3
+                                                                "count":  5
                                                             },
                                                             {
                                                                 "unit":  "hired_blade",
-                                                                "count":  4
+                                                                "count":  6
                                                             }
                                                         ],
                                        "commands":  [
@@ -295,11 +295,11 @@
                                        "enemy_stacks":  [
                                                             {
                                                                 "unit":  "watchman",
-                                                                "count":  4
+                                                                "count":  8
                                                             },
                                                             {
                                                                 "unit":  "enforcer",
-                                                                "count":  5
+                                                                "count":  10
                                                             }
                                                         ],
                                        "commands":  [
@@ -394,11 +394,11 @@
                                        "enemy_stacks":  [
                                                             {
                                                                 "unit":  "crossbow_guard",
-                                                                "count":  5
+                                                                "count":  13
                                                             },
                                                             {
                                                                 "unit":  "watchman",
-                                                                "count":  6
+                                                                "count":  15
                                                             }
                                                         ],
                                        "commands":  [
@@ -493,11 +493,11 @@
                                        "enemy_stacks":  [
                                                             {
                                                                 "unit":  "hired_blade",
-                                                                "count":  3
+                                                                "count":  9
                                                             },
                                                             {
                                                                 "unit":  "crossbow_guard",
-                                                                "count":  4
+                                                                "count":  12
                                                             }
                                                         ],
                                        "commands":  [
@@ -592,11 +592,11 @@
                                        "enemy_stacks":  [
                                                             {
                                                                 "unit":  "enforcer",
-                                                                "count":  4
+                                                                "count":  8
                                                             },
                                                             {
                                                                 "unit":  "watchman",
-                                                                "count":  5
+                                                                "count":  10
                                                             }
                                                         ],
                                        "commands":  [
@@ -691,11 +691,11 @@
                                        "enemy_stacks":  [
                                                             {
                                                                 "unit":  "hired_blade",
-                                                                "count":  5
+                                                                "count":  13
                                                             },
                                                             {
                                                                 "unit":  "enforcer",
-                                                                "count":  6
+                                                                "count":  15
                                                             }
                                                         ],
                                        "commands":  [
@@ -790,11 +790,11 @@
                                        "enemy_stacks":  [
                                                             {
                                                                 "unit":  "enforcer",
-                                                                "count":  3
+                                                                "count":  14
                                                             },
                                                             {
                                                                 "unit":  "crossbow_guard",
-                                                                "count":  4
+                                                                "count":  18
                                                             }
                                                         ],
                                        "commands":  [
@@ -889,11 +889,11 @@
                                        "enemy_stacks":  [
                                                             {
                                                                 "unit":  "crossbow_guard",
-                                                                "count":  4
+                                                                "count":  14
                                                             },
                                                             {
                                                                 "unit":  "enforcer",
-                                                                "count":  5
+                                                                "count":  18
                                                             }
                                                         ],
                                        "commands":  [

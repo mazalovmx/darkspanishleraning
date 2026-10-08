@@ -150,8 +150,9 @@ its own multi-session plan and scenario-bible review per NPC.
 - Soul specials reduce counter evidence from two to one for every set; the authored
   per-set actions and durations are not implemented.
 - Ghost activation takes the first three eligible ids, so NK07/NK08 may never appear.
-- Balance: every battle, knight and equipment rule is `authored_unplaytested`;
-  side-case enemy units have zero attack/defense modifiers; gold income looks high.
+- Balance: an automated probe (`tests/balance_sim.gd`, BALANCE.md) tuned battles
+  so difficulty rises with the curriculum; no human playtest; economy pacing not
+  tuned.
 
 ## P2 - Release readiness (sections 33, 35, 42, Epic 14.3, Epic 20)
 

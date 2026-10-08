@@ -246,31 +246,43 @@
     "gold": [
       {
         "type": "bandits",
+        "count": 24
+      },
+      {
+        "type": "hired_blade",
         "count": 8
       }
     ],
     "mercury": [
       {
         "type": "bandits",
-        "count": 6
+        "count": 14
+      },
+      {
+        "type": "crossbow_guard",
+        "count": 4
       }
     ],
     "sulfur": [
       {
         "type": "bandits",
-        "count": 7
+        "count": 16
+      },
+      {
+        "type": "crossbow_guard",
+        "count": 4
       }
     ],
     "crystal": [
       {
         "type": "ghost_guard",
-        "count": 3
+        "count": 8
       }
     ],
     "gems": [
       {
         "type": "ghost_guard",
-        "count": 4
+        "count": 10
       }
     ]
   },
