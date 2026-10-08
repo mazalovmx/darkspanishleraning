@@ -2077,3 +2077,17 @@ throwaway `user://` files; 7 checks).
 
 Executed for this commit: the full non-live run, 54 suites, all exit 0 with
 `failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.
+
+## Windows export preset and first build
+
+`game/export_presets.cfg` ("Windows Desktop", x86_64, embedded pack, `*.json` included,
+`tests/*` excluded). With the official 4.6.2 templates the export produced a 148 MB
+`.exe` without errors once three orphaned demo resources that pointed at the deleted
+demo folders were removed (`assets/gui/path_destination_marker.tres`,
+`src/combat/ui/action_menu/ui_action_button.tscn`, `ui_action_menu.tscn`; none is
+reachable from the game). The embedded pack holds the JSON content; running it with
+the Linux engine opened the title screen and the province map without errors. The
+`.exe` was not run on Windows. Steps in RELEASE.md.
+
+Executed for this commit: the full non-live run, 54 suites, all exit 0 with
+`failures: 0` and no script error; save restart write/read PASS. Not rendered in a window.

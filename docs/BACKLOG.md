@@ -156,7 +156,8 @@ its own multi-session plan and scenario-bible review per NPC.
 
 ## P2 - Release readiness (sections 33, 35, 42, Epic 14.3, Epic 20)
 
-- No `export_presets.cfg`; no Windows build has been produced or run.
+- A Windows preset exists and a build was produced (RELEASE.md); the `.exe` has not
+  been run on Windows; no application icon.
 - Title screen with continue, new game, audio settings (saved in
   `user://settings.json`) and quit; the map has "Menú principal".
 - Frame rate: after moving fog to a tile layer, one windowed run on the development
