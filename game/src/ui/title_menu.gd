@@ -49,7 +49,7 @@ func _ready() -> void:
 	title.add_theme_font_size_override("font_size", 34)
 	box.add_child(title)
 	var subtitle := Label.new()
-	subtitle.text = "Una investigación en español"
+	subtitle.text = "Una investigación en español\nInterfaz 2026.10.09 · edificios y partidas"
 	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(subtitle)
 	for pair in [[continue_button, "Continuar"], [new_button, "Nueva partida"], [settings_button, "Ajustes"], [quit_button, "Salir"]]:

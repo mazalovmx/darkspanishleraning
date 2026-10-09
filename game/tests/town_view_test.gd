@@ -17,7 +17,12 @@ func run() -> void:
 	for resource in map.state.resources:
 		map.state.resources[resource] = 10000
 	var panel = map.strategy_panel
-	panel.open_site(map.state)
+	map._open_poi(map.state.hero_cell)
+	await process_frame
+	check(map.strategy_button.is_visible_in_tree(), "Monastery exposes buildings from its entry screen")
+	check(map.strategy_button.global_position.y < map.dialogue.global_position.y, "Town entry stays above the conversation")
+	map.strategy_button.pressed.emit()
+	check(panel.visible, "Monastery button opens graphical town")
 	var city = panel.town_view
 	check(city.buttons.size() == map.state.economy.catalog.town_buildings.LOC01.size(), "All local building sites are visible")
 	check(city.income.is_empty() and city.built_ids.is_empty(), "Unbuilt town promises no existing income")
@@ -33,6 +38,7 @@ func run() -> void:
 		panel.send_button.pressed.emit()
 	check(city.built_ids.has("council_hall") and city.income.get("gold") == 40, "Completed administration appears and adds its exact daily income")
 	check(city.summary.text.contains("40"), "Next-day town income is visible")
+	check(map.strategy_button.text.contains("1 construidos"), "Monastery entry updates after construction")
 	panel.close()
 	map.state.end_turn()
 	panel.open_site(map.state)

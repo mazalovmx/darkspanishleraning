@@ -3158,3 +3158,15 @@ main working copy passed all 19 checks with the original budgets. The earlier
 full run and this isolated result are both retained; this is not an all-green
 single full run. No live model calls were made. Existing CanvasItem/ObjectDB
 shutdown leak warnings remain.
+## Monastery town entry visibility (2026-10-09)
+
+The graphical town screen was reachable only through the vaguely labelled
+Asentamiento action at the bottom of a conversation. It now has a prominent
+Edificios e ingresos button above the conversation, with the actual built count
+updated after construction. The title menu identifies this UI as 2026.10.09.
+The launcher play.cmd points to the main game/ project, not the worktree.
+
+Executed: town_view 31 checks, dialogue_layout 7, economy_scene 33, title_menu 9;
+all passed. Windowed town_view passed 31; screenshot inspected at Monasterio de
+Santa Lucerna, showing a completed administration and its actual +40 gold/day.
+Existing shutdown leak warnings remain. No live model calls or player save edits.

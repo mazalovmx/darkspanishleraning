@@ -394,6 +394,7 @@ func _build_ui() -> void:
 		end_button.disabled = poi_modal.visible
 		_update_preview())
 	strategy_panel.committed.connect(func():
+		_refresh_town_button()
 		_refresh()
 		_save_game(true))
 	strategy_panel.battle_requested.connect(_start_battle)
@@ -724,6 +725,7 @@ func _build_poi_window(layer: CanvasLayer, ui_theme: Theme) -> void:
 	poi_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	poi_title.max_lines_visible = 2
 	box.add_child(poi_title)
+	box.add_child(strategy_button)
 	poi_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	dialogue.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var details := ScrollContainer.new()
@@ -749,13 +751,18 @@ func _build_poi_window(layer: CanvasLayer, ui_theme: Theme) -> void:
 		if not dialogue.client.busy:
 			market.open_market(state))
 	actions.add_child(market_button)
-	strategy_button.text = "Asentamiento"
+	strategy_button.text = "Edificios e ingresos"
 	strategy_button.pressed.connect(func():
 		if not dialogue.client.busy:
 			strategy_panel.open_site(state))
-	actions.add_child(strategy_button)
 	actions.add_child(poi_close)
 	poi_modal.hide()
+
+func _refresh_town_button() -> void:
+	var town: String = state.location_at(state.hero_cell).get("id", "")
+	strategy_button.visible = state.map_id == "province_160x120_v1" and town in state.economy.catalog.towns
+	strategy_button.text = "Edificios e ingresos · %d construidos" % state.economy.buildings.get(town, {}).size()
+	strategy_button.tooltip_text = "Ver el asentamiento: edificios construidos, ingresos diarios y nuevas obras."
 
 func _open_poi(cell: Vector2i) -> void:
 	if cell != state.hero_cell:
@@ -768,7 +775,7 @@ func _open_poi(cell: Vector2i) -> void:
 			end_button.disabled = true
 			_update_preview()
 		return
-	strategy_button.visible = state.map_id == "province_160x120_v1" and location.id in state.economy.catalog.towns
+	_refresh_town_button()
 	market_button.visible = not state.trade.offers_at(location.id).is_empty()
 	market_button.text = {"LOC15": "Pedir al médico", "LOC12": "Establo", "LOC06": "Peaje", "LOC10": "Contrabandista"}.get(location.id, "Comprar")
 	inspect_button.visible = location.id == "LOC01"
