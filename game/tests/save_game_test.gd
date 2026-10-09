@@ -195,7 +195,7 @@ func run() -> void:
 	map.dialogue.histories.LOC01 = [{"player": "private turn", "reply": "private reply"}]
 	map.dialogue.last_feedback.LOC01 = "stale"
 	map._load_game()
-	check(map.dialogue.histories.is_empty() and map.dialogue.last_feedback.is_empty(), "Load clears future transcript and stale feedback")
+	check(not JSON.stringify(map.dialogue.histories).contains("private turn") and map.dialogue.last_feedback.is_empty(), "Load drops the transcript said after the save and stale feedback")
 	check(not FileAccess.get_file_as_string(path).contains("private turn"), "Raw dialogue not saved")
 	disk = FileAccess.get_file_as_string(path)
 	kept = map.state

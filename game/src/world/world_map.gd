@@ -171,6 +171,7 @@ func _ready() -> void:
 	Settings.apply_effects(Settings.audio(dialogue.client.config))
 
 	if persistence_enabled:
+		dialogue.talks_path = save_path.get_basename() + ".talks.json"
 		_load_game(true)
 	# Chosen on the title screen: start over once the existing save has been read.
 	if Engine.has_meta("start_new_game"):
@@ -1087,6 +1088,7 @@ func _save_game(automatic := false, replace_invalid := false) -> bool:
 	var error: String = SaveGame.write_save(state, save_path)
 	PlayLog.write("save", {"day": state.day, "automatic": automatic, "error": error})
 	if error.is_empty():
+		dialogue.store_talks()
 		save_locked = false
 		# A manual save shows the time, so pressing the button visibly changes the line.
 		save_notice.text = "Partida guardada." if automatic else "Partida guardada. Día %d · %s" % [state.day, Time.get_time_string_from_system()]
@@ -1113,6 +1115,7 @@ func _load_game(startup := false) -> void:
 			save_notice.text = "Todavía no hay una partida guardada."
 		return
 	_adopt(result.state)
+	dialogue.load_talks()
 	save_notice.text = "Partida cargada."
 	if not state.campaign.reopened.is_empty():
 		# The file still holds the old decision: keep a copy before the next save replaces it.

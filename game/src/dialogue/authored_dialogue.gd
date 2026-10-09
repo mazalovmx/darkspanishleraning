@@ -8,6 +8,7 @@ const MAX_MESSAGE_LENGTH := 300
 var conversations: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(
 	"res://content/dialogue/authored.json"))
 var histories: Dictionary = {}
+var talks_path := ""
 var location_id := ""
 var speaker := OptionButton.new()
 var transcript := RichTextLabel.new()
@@ -136,7 +137,7 @@ func submit(message: String) -> void:
 	var hero_definition: Dictionary = world_state.party.active().definition
 	context["player_hero"] = {"id": world_state.party.active_id, "name": hero_definition.name,
 		"role": hero_definition.role, "register": hero_definition.register}
-	context["recent_dialogue"] = histories[location_id].slice(-4).duplicate(true)
+	context["recent_dialogue"] = histories[location_id].slice(-8).duplicate(true)
 	var npc_id: String = conversations[location_id].npc_id
 	var memory: Dictionary = world_state.npc_memory.get(npc_id, {})
 	var revealed: Array = []
@@ -196,7 +197,12 @@ func _on_reply(proposal: Dictionary) -> void:
 				last_feedback[pending_location] += "\nNueva afirmación anotada en el cuaderno."
 				break
 	var history: Array = histories[pending_location]
-	history.append({"player": pending_message, "reply": reply, "branch": str(pending_branch.get("id", ""))})
+	# An authored line already given in the last exchanges is not said again word for word.
+	if proposal.is_empty() and history.slice(-3).any(func(exchange: Dictionary) -> bool: return exchange.reply == reply):
+		var topics := _topics(pending_location)
+		reply = "Eso ya se lo dije." + (" Puedo hablarle de esto: %s." % ", ".join(topics) if not topics.is_empty() else "")
+		pending_branch = {}
+	history.append({"player": pending_message, "reply": reply, "branch": str(pending_branch.get("id", "")), "day": pending_day})
 	var turn: Variant = client.get("last_turn")
 	preload("res://src/common/play_log.gd").write("talk", {"npc": npc_id, "day": pending_day, "player": pending_message, "reply": reply,
 		"source": "model" if not proposal.is_empty() else "rejected" if rejected else "authored",
@@ -299,6 +305,10 @@ func _offline_feedback(id: String, rejected: bool) -> String:
 	var why := "la respuesta del modelo fue descartada" if rejected else "el modelo no respondió"
 	if not rejected and client.has_method("_offline") and client._offline():
 		why = "no hay modelo conectado (falta la clave o el saldo)"
+	return "Evaluación de español no disponible: %s. El personaje usa respuestas escritas; entiende: %s." % [why, ", ".join(_topics(id))]
+
+## Up to six topics the authored branches of a speaker answer right now.
+func _topics(id: String) -> Array[String]:
 	var topics: Array[String] = []
 	var flags := context_flags()
 	for branch: Dictionary in conversations[id].branches:
@@ -306,7 +316,33 @@ func _offline_feedback(id: String, rejected: bool) -> String:
 			continue
 		if topics.size() < 6 and not branch.keywords.is_empty():
 			topics.append(str(branch.keywords[0]))
-	return "Evaluación de español no disponible: %s. El personaje usa respuestas escritas; entiende: %s." % [why, ", ".join(topics)]
+	return topics
+
+## The transcripts live beside the save (talks_path, set by the map) so speakers remember
+## earlier visits. They are written with each save. They are text for the transcript and the model only, never game state.
+func store_talks() -> void:
+	if talks_path.is_empty():
+		return
+	var file := FileAccess.open(talks_path, FileAccess.WRITE)
+	if file != null:
+		file.store_string(JSON.stringify(histories))
+		file.close()
+
+func load_talks() -> void:
+	histories.clear()
+	if talks_path.is_empty() or not FileAccess.file_exists(talks_path):
+		return
+	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(talks_path))
+	if not data is Dictionary:
+		return
+	for id: Variant in data:
+		if not conversations.has(id) or not data[id] is Array:
+			continue
+		var kept: Array = []
+		for exchange: Variant in data[id].slice(-MAX_EXCHANGES):
+			if exchange is Dictionary and exchange.get("player") is String and exchange.get("reply") is String and exchange.player.length() <= MAX_MESSAGE_LENGTH and exchange.reply.length() <= 2000:
+				kept.append({"player": exchange.player, "reply": exchange.reply, "branch": str(exchange.get("branch", "")), "day": int(exchange.get("day", 0)) if exchange.get("day") is float else 0})
+		histories[id] = kept
 
 func _language_feedback(language: Dictionary) -> String:
 	if language.confidence < 0.7:

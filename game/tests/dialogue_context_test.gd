@@ -47,7 +47,7 @@ func run() -> void:
 	panel.client = client
 	panel.add_child(client)
 	client.completed.connect(panel._on_reply)
-	for index in range(6):
+	for index in range(10):
 		panel.histories.LOC11.append({"player": str(index), "reply": "Respuesta " + str(index)})
 	var cursor: int = map.state.learner.curriculum.cursor
 	panel.submit("Hola, ¿hay pan?")
@@ -55,7 +55,7 @@ func run() -> void:
 	check(sent.scene.location_id == "LOC11" and sent.scene.conversation_location_id == "LOC11", "Request carries actual conversation place")
 	check(sent.scene.name == map.state.location_at(map.state.hero_cell).name and sent.scene.day == map.state.day, "Name and day come from world state")
 	check(sent.scene.keys().size() == 5 and not sent.scene.has("locations"), "Scene exposes no remote world catalog")
-	check(sent.recent_dialogue.size() == 4 and sent.recent_dialogue[0].player == "2" and sent.recent_dialogue[3].player == "5", "Latest four completed exchanges sent in order")
+	check(sent.recent_dialogue.size() == 8 and sent.recent_dialogue[0].player == "2" and sent.recent_dialogue[7].player == "9", "Latest eight completed exchanges sent in order")
 	check(sent.language_profile.has("focus_verbs") and sent.language_profile.has("recent_errors"), "Live request uses learner context additions")
 	check(map.state.learner.curriculum.cursor == cursor, "Offline captured turn returns focus slot")
 	check(not sent.has("relationship") and not sent.has("summary"), "No invented relationship or summary")

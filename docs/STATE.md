@@ -3010,3 +3010,19 @@ Reported by the player, with the save file as evidence (day 29, no buildings, 30
 Executed on Windows: strategy, market, dialogue, feedback, save, province_scene,
 world_map and title filters, all passed. Windowed start wrote a "start" line to
 play.log. Key scrolling, the step labels and the save line were not looked at in a window.
+
+## Speakers remember earlier talks and do not repeat a line (2026-10-08)
+
+Player request after the first live session. Transcripts (12 exchanges per speaker,
+with the game day) are written beside the save as `<save>.talks.json` on every
+successful save and read back on load, so a speaker's earlier visits are shown and
+sent to the model. They are text only and never validated as game state; the save
+file itself still holds no raw dialogue. The model now gets the last eight exchanges
+(was four) and is told to remember them, stay consistent and never repeat an earlier
+reply. Without a model, an authored line already given in the last three exchanges is
+replaced by "Eso ya se lo dije" plus the topics the speaker answers.
+save_game_test and dialogue_context_test were updated for the changed behaviour.
+
+Executed on Windows: dialogue, feedback, save, province_scene, world_map, claude,
+voices and npc filters, all passed. No live call: whether the model actually stops
+repeating is unverified.
