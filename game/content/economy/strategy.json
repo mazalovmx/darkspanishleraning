@@ -27,7 +27,7 @@
       "income": {
         "gold": 40
       },
-      "description": "Produce 40 de oro al día."
+      "description": "Produce 40 de oro al día. También produce reuniones, que nadie ha pedido."
     },
     "barracks": {
       "name": "cuartel",
@@ -38,7 +38,7 @@
       },
       "requires": [],
       "income": {},
-      "description": "Permite contratar hasta 12 milicianos por semana."
+      "description": "Permite contratar hasta 12 milicianos por semana. Los milicianos llegan con hambre, botas viejas y opiniones."
     },
     "archery_range": {
       "name": "campo de arquería",
@@ -51,7 +51,7 @@
         "barracks"
       ],
       "income": {},
-      "description": "Permite contratar hasta 8 arqueros por semana."
+      "description": "Permite contratar hasta 8 arqueros por semana. Los arqueros aprenden a no mirar lo que tocan."
     },
     "forge": {
       "name": "forja",
@@ -64,7 +64,7 @@
         "barracks"
       ],
       "income": {},
-      "description": "Permite mejorar milicianos a guardias veteranos."
+      "description": "Permite mejorar milicianos a guardias veteranos. El hierro mejora con el fuego. Los hombres, a veces."
     },
     "laboratory": {
       "name": "taller de reliquias",
@@ -79,7 +79,7 @@
         "forge"
       ],
       "income": {},
-      "description": "Permite contratar 2 centinelas de reliquia por semana."
+      "description": "Permite contratar 2 centinelas de reliquia por semana. Los centinelas no comen ni duermen. Tampoco explican nada."
     },
     "treasury": {
       "name": "tesorería",
@@ -94,7 +94,7 @@
       "income": {
         "gold": 80
       },
-      "description": "Añade 80 de oro al ingreso diario."
+      "description": "Añade 80 de oro al ingreso diario. El oro entra solo. Salir, sale todavía más rápido."
     },
     "lumber_yard": {
       "name": "aserradero",
@@ -108,7 +108,7 @@
       "income": {
         "wood": 1
       },
-      "description": "Añade una unidad de madera al día."
+      "description": "Añade una unidad de madera al día. Los árboles no protestan. Por eso nadie los consulta."
     },
     "artifact_market": {
       "name": "lonja de artefactos",
@@ -123,7 +123,7 @@
         "council_hall"
       ],
       "income": {},
-      "description": "Permite comerciar con equipo y fragmentos de reliquias."
+      "description": "Permite comerciar con equipo y fragmentos de reliquias. Todo tiene un dueño anterior. Algunos todavía lo buscan."
     }
   },
   "recruits": {

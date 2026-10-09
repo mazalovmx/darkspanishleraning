@@ -2899,3 +2899,52 @@ province_scene_test 64, performance_test 19. Five suites, 622 checks, zero failu
 exit 0, no script/parse errors. The performance run passes all original budgets;
 budgets were not relaxed. Headless timing is not FPS or a weak-PC visual acceptance.
 Original audit failures remain documented, and shutdown leak warnings remain.
+
+## Speech by station, dark sides, comic speakers
+
+- Every grounded speaker's persona has `station` (estate: poor, artisan, educated,
+  clergy, rich and powerful, machine), `speech` (how that station talks) and `dark_side`
+  (bible 38.2). The model prompt says how to use them: register by station; the dark
+  side breaks through rarely, one short sentence, when talk turns to money, power, fear
+  or death, and never adds a fact about the deaths, El Índice, evidence or a secret.
+  Three drafted dark sides that touched a witness's credibility or the victim (Gabriel,
+  Marta, Hernando) were rewritten before commit.
+- Offline: every conversation has a `dark_line`, added to the return greeting when the
+  speaker's remembered exchange count is 2 modulo 3.
+- Nine comic speakers (bible 13.12), present from the start, each knowing only two facts
+  of their own, none able to unlock a clue or lie: from Rabelais (public domain; episodes
+  retold in our own Spanish) Juez Bridoya (Valdora), Panurgo (Cárdena), Fray Juan de los
+  Entommeures (Venta del Perro Negro), Maestro Janotus de Bragmardo (Miralba), Señor
+  Picrócolo (San Vélaro); original madmen in a Discworld-like spirit (no names or lines of
+  Pratchett's) Don Ulpiano Sellado (Archivo), Tía Brígida del Fango (Marjal Negro), Maese
+  Tiburcio Ruedas (Taller Rojo), Sargento Mamerto Remolacha (Puente Seco). Saved under
+  `npc_memory` (ids added to save_game.NPC_IDS); portraits drawn by tools/make_portraits.py.
+- dialogue_golden_test: a speaker who is not there yet is still never opened or sent a
+  message, but another speaker of the same place may now take the conversation (Panurgo at
+  Cárdena before Inés arrives); the check was made exact instead of "panel closed".
+- Tests: new voices_test (fields for every speaker, prompt rules, dark line only on every
+  third exchange and never on a first visit, comic speakers placed, saveable, grounded,
+  unlocking nothing, own facts, portraits, sample replies).
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 61 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS. Not read or heard in a window; no live model request; the Spanish has
+had no separate editorial review.
+
+## Voice in the remaining texts
+
+- Greetings and thanks: the 62 "hola" / "gracias" replies of the original speakers now
+  speak in their station and voice (e.g. Orma: "Aquí una coma puede colgar a un hombre";
+  Fermín: "No hay formulario para eso"); the comic speakers already did.
+- Equipment: the 150 generated items keep their tier sentence and gain one line per base
+  item (30 lines, e.g. relicario: "Dentro hay un hueso de santo. O de cerdo."). The soul
+  set components keep their own lore.
+- Market goods (12) and town buildings (8) keep their rule text and gain one line; the
+  opening battle description gains one.
+- Not changed on purpose: the ghost knights' `intervention.trace` (saves validate it),
+  their internal design texts (Russian/English, not shown), the soul ritual frames and
+  keys, treasure names, curriculum texts and UI notices.
+
+Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
+run, 61 suites, all exit 0 with `failures: 0` and no script error; save restart
+write/read PASS. Not read in a window; no separate editorial review of the Spanish.

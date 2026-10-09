@@ -143,7 +143,7 @@
                     "id":  "opening_road",
                     "name":  "Salteadores del camino",
                     "location_id":  "LOC11",
-                    "description":  "Un grupo de salteadores bloquea las entregas junto a la venta. La pelea no demuestra quién mata a Tomás.",
+                    "description":  "Un grupo de salteadores bloquea las entregas junto a la venta. La pelea no demuestra quién mata a Tomás. Los salteadores también tienen hambre; eso no los hace más simpáticos.",
                     "enemies":  [
                                     {
                                         "type":  "bandits",
