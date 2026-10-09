@@ -3374,3 +3374,28 @@ touch, TV safe zones, narration, haptics, 4:3 / ultrawide reflow.
 Executed: asset_manifest_test 155, passed. All 26 screens rendered at 1280x720,
 1366x768 and 1920x1080; four inspected for the audit (town, battle, market, local
 cases), the rest only checked to exist. No behaviour changed in this stage.
+
+## UI plan, stage 2: keyboard reach, focus, help page (2026-10-09)
+
+- `common/ui_tokens.gd`: 8 px unit, paddings, font sizes (body 18, caption 16, H2 24, H1
+  30), meaning colours and a WCAG contrast function. `common/modal_frame.gd`: one builder
+  for a modal page (backdrop, parchment, title, guide line, content, close). Only the new
+  help page uses them so far; moving the existing windows over is stage 1 proper.
+- Both themes drew no keyboard focus (empty style box). Buttons, option buttons and lists
+  now get a 3 px frame, dark blue on parchment and pale gold on wood.
+- Map keys are input actions registered at start (`HOTKEYS` in `world_map.gd`): E end
+  day, J tasks, C notebook, L Spanish, I equipment, H help, Ctrl+S save. They act only on
+  the bare map, press the same buttons as the mouse and are named in the tooltips. WASD
+  panning ignores Ctrl so Ctrl+S does not move the map.
+- "Ayuda" (the former "Controles y costes" line, or H): mouse, keyboard, every map
+  button with its key and what it does, terrain costs. Same text as the tooltips, readable
+  without hovering. Esc closes it.
+- `_modal_open()` replaces four identical hand-written lists of open windows.
+
+Executed: ui_navigation_test 33 (token contrast, focus frames, each key opens its window,
+an open window ignores map keys, Esc closes exactly one, typing in a conversation
+triggers nothing), world_map_test 367, map_navigation_test 11, save_picker_test 36;
+passed headless. Help page and a focused button rendered in a window and inspected (the
+first render showed the wrong font; fixed). First token colours failed the 4.5:1 check
+and were darkened. Keys were sent as synthetic events; not tried on a real keyboard.
+Full offline run after stage 2: 73 runs, 60,486 counted checks, none failed.

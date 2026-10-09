@@ -30,6 +30,12 @@ func run() -> void:
 	root.add_child(map)
 	await process_frame
 	await shot("03_map")
+	map.help_button.pressed.emit()
+	await shot("03h_help")
+	map._close_help()
+	map.campaign_button.grab_focus()
+	await shot("03i_focus")
+	map.campaign_button.release_focus()
 	# A wider explored area, zoomed out, to see the terrain variants.
 	var origin: Vector2i = map.state.hero_cell
 	for y in range(origin.y - 30, origin.y + 31):

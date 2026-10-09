@@ -13,11 +13,13 @@ Shared findings:
 - Each window builds its own frame; titles, the "what to do" line and the close button sit
   in different places and are named differently (Volver / Volver al mapa / Volver al viaje /
   Volver sin pedido pendiente).
-- Only the knights panel closes with Esc. No window has keyboard shortcuts; the map has
-  F1-F3, Home and the zoom keys, compared as raw key codes.
-- "Which window is open" is a hand-written list repeated in six or more places of
-  `world_map.gd`.
-- Explanations live in hover tooltips only.
+- Every window closed with Esc already, but no window opened from the keyboard and no
+  control showed keyboard focus (both themes used an empty focus box). Fixed in stage 2:
+  map keys as input actions, a focus frame in both themes, an "Ayuda" page.
+- "Which window is open" was a hand-written list repeated in `world_map.gd`; the four
+  identical copies are now `_modal_open()`. Shorter, differing lists in the button handlers
+  remain.
+- Explanations lived in hover tooltips only; the "Ayuda" page (H) now repeats them as text.
 
 | Screen | The player's task | Always visible | Hidden until asked | Problems found | Stage |
 |---|---|---|---|---|---|

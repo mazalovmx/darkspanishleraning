@@ -44,7 +44,7 @@ static func apply(panel: PanelContainer) -> bool:
 			var frame := _box(pair[1], [5, 5, 5, 5])
 			if frame != null:
 				theme.set_stylebox(pair[0], type, frame)
-		theme.set_stylebox("focus", type, StyleBoxEmpty.new())
+		theme.set_stylebox("focus", type, preload("res://src/common/ui_tokens.gd").focus_box(preload("res://src/common/ui_tokens.gd").FOCUS))
 	theme.set_color("default_color", "RichTextLabel", INK)
 	# The field art is dark wood, so its text is light.
 	theme.set_color("font_color", "LineEdit", LIGHT)
@@ -56,6 +56,7 @@ static func apply(panel: PanelContainer) -> bool:
 	if field != null:
 		theme.set_stylebox("normal", "LineEdit", field)
 		theme.set_stylebox("focus", "LineEdit", field)
+	theme.set_stylebox("focus", "ItemList", preload("res://src/common/ui_tokens.gd").focus_box(preload("res://src/common/ui_tokens.gd").FOCUS))
 	var inset := _box("panel_inset.png", [5, 5, 5, 5])
 	if inset != null:
 		theme.set_stylebox("panel", "ItemList", inset)

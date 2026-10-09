@@ -98,6 +98,12 @@ var arena = preload("res://src/combat/stack_arena.tscn").instantiate()
 var hero_buttons: Dictionary = {}
 var selected := false
 var pointer := Vector2.ZERO
+## Keys of the map, as input actions so the help page and the tooltips name the same key.
+const HOTKEYS := {"map_end_day": KEY_E, "map_tasks": KEY_J, "map_notebook": KEY_C, "map_spanish": KEY_L,
+	"map_equipment": KEY_I, "map_help": KEY_H, "map_save": KEY_S}
+var help_panel := ColorRect.new()
+var help_text := RichTextLabel.new()
+var help_button := Button.new()
 # Right button: a drag moves the map, a click without movement clears the selection.
 var right_travel := 0.0
 var preview: Array[Vector2i] = []
@@ -485,9 +491,10 @@ func _build_ui() -> void:
 	army_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(army_notice)
 	# Controls and travel costs live in a tooltip, not in the panel.
-	var instructions := Button.new()
+	var instructions := help_button
 	instructions.flat = true
-	instructions.text = "Controles y costes (?)"
+	instructions.text = "Ayuda: controles y costes (?)"
+	instructions.pressed.connect(_open_help)
 	instructions.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	instructions.add_theme_font_size_override("font_size", 14)
 	instructions.add_theme_color_override("font_color", WoodTheme.DIM)
@@ -606,6 +613,23 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 	save_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	save_notice.add_theme_font_size_override("font_size", 14)
 	box.add_child(save_notice)
+	for action: String in HOTKEYS:
+		if not InputMap.has_action(action):
+			InputMap.add_action(action)
+			var key := InputEventKey.new()
+			key.keycode = HOTKEYS[action]
+			key.ctrl_pressed = action == "map_save"
+			InputMap.action_add_event(action, key)
+	var help: Dictionary = preload("res://src/common/modal_frame.gd").build(help_panel, "AYUDA · qué hace cada cosa", Vector2(920, 640))
+	help_panel.z_index = 30
+	help_panel.theme = panel.theme
+	help_text.bbcode_enabled = false
+	help_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	help_text.add_theme_font_size_override("normal_font_size", preload("res://src/common/ui_tokens.gd").BODY)
+	help.content.add_child(help_text)
+	help.close.pressed.connect(_close_help)
+	help_panel.hide()
+	layer.add_child(help_panel)
 	layer.add_child(save_picker)
 	save_picker.chosen.connect(_choose_save)
 	layer.add_child(save_confirm)
@@ -826,6 +850,10 @@ func _close_poi() -> void:
 	_save_game(true)
 
 func _input(event: InputEvent) -> void:
+	if help_panel.visible and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		_close_help()
+		get_viewport().set_input_as_handled()
+		return
 	if ghost_panel.visible and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		ghost_panel.close()
 		get_viewport().set_input_as_handled()
@@ -865,8 +893,53 @@ func _input(event: InputEvent) -> void:
 		_close_poi()
 		get_viewport().set_input_as_handled()
 
+## True while any window covers the map: the map then ignores clicks, keys and turns.
+func _modal_open() -> bool:
+	# Some windows are created later in _ready; a missing one is simply not open.
+	for window: Variant in [save_picker, poi_modal, notebook, arena, market, lessons, campaign_journal, strategy_panel, equipment_panel, ghost_panel, side_panel, help_panel]:
+		if window != null and window.visible:
+			return true
+	return false
+
+func _hotkey_buttons() -> Dictionary:
+	return {"map_end_day": end_button, "map_tasks": campaign_button, "map_notebook": notebook_button, "map_spanish": language_button,
+		"map_equipment": equipment_button, "map_help": help_button, "map_save": save_button}
+
+func _key_name(action: String) -> String:
+	return ("Ctrl+" if action == "map_save" else "") + OS.get_keycode_string(HOTKEYS[action])
+
+## The help page says without hovering what every control does (docs/UI_PLAN.md, stage 2).
+func _open_help() -> void:
+	if _modal_open():
+		return
+	var lines: Array[String] = ["RATÓN", "Clic en el héroe: seleccionarlo. Clic en una casilla: preparar la ruta. Clic en el héroe sobre un lugar: entrar.",
+		"Arrastrar con el botón derecho (o el central): mover el mapa. Clic derecho sin arrastrar: quitar la selección. Rueda: acercar o alejar.",
+		"", "TECLADO", "Flechas o WASD: mover el mapa · Home: ir al héroe · + y −: zoom · F1, F2, F3: cambiar de héroe · Esc: cerrar la ventana abierta · Tab: pasar al siguiente control",
+		"", "BOTONES DEL MAPA"]
+	var keys := {}
+	var buttons := _hotkey_buttons()
+	for action: String in buttons:
+		keys[buttons[action]] = _key_name(action)
+	for button: Button in [end_button, campaign_button, notebook_button, language_button, equipment_button, side_button, ghost_button, save_button, load_button, new_button, menu_button]:
+		if button == ghost_button and not ghost_button.visible:
+			continue
+		lines.append("· %s%s — %s" % [button.text, (" [%s]" % keys[button]) if keys.has(button) else "", button.tooltip_text.get_slice("\n", 0)])
+	lines.append_array(["", "EN UN LUGAR", "Escribe en español para hablar con la persona elegida. «Examinar pertenencias» abre la inspección; «Comprar» y «Edificios e ingresos» abren el mercado y el asentamiento.",
+		"", "COSTE DE MOVIMIENTO POR CASILLA", "Camino, pradera o campo: 1 · Bosque, ruinas o nieve: 2 · Pantano: 3 · Agua y montaña: no se pueden cruzar",
+		"", "TEXTO", "Selecciona con el ratón y Ctrl+C para copiar; clic derecho en una línea la copia entera."])
+	help_text.text = "\n".join(lines)
+	help_text.scroll_to_line(0)
+	help_panel.show()
+	end_button.disabled = true
+	_update_preview()
+
+func _close_help() -> void:
+	help_panel.hide()
+	end_button.disabled = poi_modal.visible
+	_update_preview()
+
 func _switch_hero(id: String) -> void:
-	if save_picker.visible or poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
+	if _modal_open() or dialogue.client.busy or not dialogue.pending_location.is_empty():
 		_refresh()
 		return
 	PlayLog.write("hero_select_attempt", {"target":id})
@@ -883,9 +956,9 @@ func _switch_hero(id: String) -> void:
 
 ## Arrow keys or WASD scroll the map while no panel is open and nothing is being typed.
 func _process(delta: float) -> void:
-	if save_picker.visible or poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible:
+	if _modal_open():
 		return
-	if get_viewport().gui_get_focus_owner() is LineEdit:
+	if get_viewport().gui_get_focus_owner() is LineEdit or Input.is_key_pressed(KEY_CTRL):
 		return
 	var push := Vector2(
 		float(Input.is_key_pressed(KEY_RIGHT) or Input.is_key_pressed(KEY_D)) - float(Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_A)),
@@ -895,13 +968,21 @@ func _process(delta: float) -> void:
 		_clamp_camera()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if save_picker.visible or poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible:
+	if _modal_open():
 		return
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode in [KEY_F1, KEY_F2, KEY_F3]:
 		_switch_hero(["inquisitor", "smuggler", "survivor"][event.keycode - KEY_F1])
 		get_viewport().set_input_as_handled()
 		return
 	if event is InputEventKey and event.pressed and not event.echo:
+		var buttons := _hotkey_buttons()
+		for action: String in buttons:
+			if event.is_action_pressed(action, false, true):
+				var button: Button = buttons[action]
+				if button.is_visible_in_tree() and not button.disabled:
+					button.pressed.emit()
+				get_viewport().set_input_as_handled()
+				return
 		if event.keycode == KEY_HOME:
 			_center_hero()
 			get_viewport().set_input_as_handled()
@@ -980,7 +1061,7 @@ func _clamp_camera() -> void:
 		camera_logged_at = Time.get_ticks_msec()
 
 func _end_turn() -> void:
-	if save_picker.visible or poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible:
+	if _modal_open():
 		return
 	var day_before: int = state.day
 	var before := PlayLog.snapshot(state)
@@ -1236,6 +1317,9 @@ func _explain_buttons() -> void:
 	}
 	for button: Button in texts:
 		button.tooltip_text = "%s\n%s" % texts[button]
+	var buttons := _hotkey_buttons()
+	for action: String in buttons:
+		buttons[action].tooltip_text += "\nTecla: " + _key_name(action)
 
 func _open_save_picker(saving: bool) -> void:
 	if not persistence_enabled or arena.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():

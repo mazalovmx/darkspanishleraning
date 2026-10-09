@@ -35,7 +35,7 @@ static func build(font_size := 16) -> Theme:
 	theme.set_stylebox("pressed", "Button", pressed)
 	theme.set_stylebox("hover_pressed", "Button", pressed)
 	theme.set_stylebox("disabled", "Button", frame("buttonLong_grey.png", 10, 6))
-	theme.set_stylebox("focus", "Button", StyleBoxEmpty.new())
+	theme.set_stylebox("focus", "Button", preload("res://src/common/ui_tokens.gd").focus_box(preload("res://src/common/ui_tokens.gd").FOCUS_ON_WOOD))
 	for state in ["font_color", "font_hover_color", "font_focus_color", "font_hover_pressed_color"]:
 		theme.set_color(state, "Button", LIGHT)
 	theme.set_color("font_pressed_color", "Button", Color("ffe08a"))
