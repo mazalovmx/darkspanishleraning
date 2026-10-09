@@ -38,7 +38,8 @@ by this audit. Root/docs specification pairs have matching SHA-256 hashes.
    npc_attitude_delta is explicitly restricted to zero.
 4. Survival conversations quote prices; purchases happen at separate counters.
    The complaint reply does not replace inventory items.
-5. Santa Lucerna sub-spaces and city-specific vocabulary remain absent. Some art
+5. Santa Lucerna sub-spaces remain absent (city vocabulary for four cities was
+   added after this audit; see STATE.md). Some art
    is placeholder, and the new prose and Spanish lessons lack human editorial review.
 6. Full input/cache/cost accounting and a live golden-conversation suite are absent.
    The latest provider chain has offline tests, not a live result from this audit.

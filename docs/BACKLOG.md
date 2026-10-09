@@ -144,7 +144,9 @@ its own multi-session plan and scenario-bible review per NPC.
   review and with it the Charter, and every choice adds an ending epilogue.
 - LOC10 Marjal Negro has a conversable bandit chief and the guarded caches. LOC18
   Torre del Relé has a talking relay (after Elias arrives) besides Elias's card.
-- Santa Lucerna sub-spaces and city-specific vocabulary sets are not represented.
+- Santa Lucerna sub-spaces are not represented. City vocabulary covers four cities
+  only (Valdora, Cárdena, Miralba, Ferraza: 32 words, offered first when the hero
+  stands there); other locations have no set and no Spanish speaker has checked it.
 - Institutional speech acts (Epic 18): authorities, procedures and acts are data
   (`institutions.json`); acts of recorded nodes and chosen outcomes are in force and
   listed in the journal; effects are flags. Still few acts use it (see MQ10 below).

@@ -2948,3 +2948,26 @@ had no separate editorial review.
 Executed for this commit (Linux, headless Godot 4.6.2, cloud session): the full non-live
 run, 61 suites, all exit 0 with `failures: 0` and no script error; save restart
 write/read PASS. Not read in a window; no separate editorial review of the Spanish.
+
+## City vocabulary tied to the hero's location (2026-10-08)
+
+Four city sets of eight B1 words each (Valdora, Cárdena, Miralba, Ferraza) live in
+game/content/spanish/city_vocabulary.json and follow the seven original themes in
+the "Vocabulario" tab. When the hero stands on a listed location (the city or one
+related site: LOC02/LOC14, LOC05/LOC17, LOC03/LOC15, LOC04/LOC13) the tab selects
+that city's set once per arrival; the player can still pick any theme. Words use the
+existing typed-answer check, spaced repetition and save schema (no new save version).
+The examples are practice sentences, not new canonical events. No Spanish speaker
+has reviewed the list. Other locations have no set.
+
+Started by the neighbouring agent and finished in a later session. Executed on
+Windows before the merge with origin/implementation: vocabulary_test 217,
+learner_progress_test 22, save_game_test 540, curriculum filters 1,227: seven
+suites, 2,006 checks, zero failures, exit 0. The panel was instantiated headlessly,
+not visually reviewed.
+
+Full offline regression after merging origin/implementation at a138d8d (voices by
+station, nine comic speakers) with the grammar, vocabulary and frozen-plan work:
+64 runs, 59,662 counted checks, zero not passed, runner exit 0, including
+performance_test within its original budgets. One Windows run; no live API calls,
+no windowed review, no playthrough.
