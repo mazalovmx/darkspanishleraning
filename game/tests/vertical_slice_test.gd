@@ -61,6 +61,14 @@ func run() -> void:
 	check(map.dialogue.histories.LOC11.size() == 1, "Innkeeper conversation")
 	map.market_button.pressed.emit()
 	map.market.quantity.value = 2
+	var gold_now: int = map.state.resources.gold
+	var bread_price: int = map.state.trade.goods.bread.price
+	check(map.market.description.text.contains("Cuesta: %d · Te quedará: %d de oro" % [bread_price * 2, gold_now - bread_price * 2]), "The market shows what the order costs and leaves before buying")
+	map.state.resources.gold = bread_price
+	map.market._refresh()
+	check(map.market.description.text.contains("✗ Falta: %d de oro" % bread_price), "An order beyond the purse names the missing gold")
+	map.state.resources.gold = gold_now
+	map.market._refresh()
 	var phrases: Dictionary = map.state.trade.models("bread", 2)
 	for stage in ["request", "price", "confirm"]:
 		map.market.input.text = phrases[stage]

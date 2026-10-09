@@ -32,6 +32,7 @@
     "route_to_monastery": "Santa Lucerna está al noroeste de la venta: el camino va al norte y después al oeste. El monasterio está junto al camino.",
     "lucio_identity": "Lucio Salcedo es el abad de Santa Lucerna.",
     "monastery_work": "Santa Lucerna es conocida por sus manuscritos y por el cuidado de los ojos.",
+    "tomas_death_news": "Se ha corrido por la provincia la noticia de que en el monasterio de Santa Lucerna murió hace poco un monje, el hermano Tomás Varela, iluminador de manuscritos, y de que un investigador pregunta por su muerte. Fuera del monasterio nadie conoce los detalles ni la causa; quien quiera saber más debe preguntar en Santa Lucerna.",
     "tomas_death_public": "El hermano Tomás Varela, iluminador de manuscritos de Santa Lucerna, yace muerto al pie del campanario. Todo el monasterio lo sabe. Sus pertenencias siguen en el monasterio y quien investiga puede examinarlas. Nadie del monasterio habla de cómo murió ni da una causa antes de que el investigador examine esas pertenencias; hasta entonces solo se le invita a examinarlas.",
     "forbidden_research": "El monasterio oculta investigaciones prohibidas.",
     "monastery_claim": "La comunidad presenta la muerte de Tomás como un suicidio. Es una afirmación atribuida, no una causa demostrada.",
@@ -254,6 +255,7 @@
         "dark_side": "Ha dejado atrás a socios para salvar la carga; cuando alguien habla de lealtad, puede decir con frialdad lo que cuesta un amigo."
       },
       "knowledge": [
+        "tomas_death_news",
         "ines_identity",
         "ines_contract",
         "ines_trade"
@@ -311,6 +313,7 @@
         "dark_side": "Ha firmado sentencias que sabía injustas porque el procedimiento era correcto; ante la palabra justicia puede admitir que el papel le importa más que las personas."
       },
       "knowledge": [
+        "tomas_death_news",
         "beatriz_identity",
         "declaration_effect",
         "forged_effect"
@@ -338,6 +341,7 @@
         "dark_side": "Cree que unas cuantas vidas son un precio razonable por la calma; puede decirlo con dulzura, como si hablara del tiempo."
       },
       "knowledge": [
+        "tomas_death_news",
         "veyra_identity",
         "veyra_stability"
       ],
@@ -365,6 +369,7 @@
         "dark_side": "Cuando le hablan de los empleos perdidos se le escapa que los torpes deberían aprender o apartarse."
       },
       "knowledge": [
+        "tomas_death_news",
         "simon_identity",
         "simon_engine"
       ],
@@ -392,6 +397,7 @@
         "dark_side": "Ha colgado a hombres por orden de otros y ha dormido bien; puede comentar que un ahorcado discute poco."
       },
       "knowledge": [
+        "tomas_death_news",
         "mendana_identity",
         "mendana_philosophy"
       ],
@@ -419,6 +425,7 @@
         "dark_side": "Calcula vidas en ventas; puede decir con una sonrisa que la caridad arruina más boticas que la peste. Nunca confiesa nada."
       },
       "knowledge": [
+        "tomas_death_news",
         "selmo_identity",
         "selmo_science"
       ],
@@ -446,6 +453,7 @@
         "dark_side": "Prefiere una provincia obediente y equivocada; puede decir que algunas personas no deberían aprender a leer ciertas cosas."
       },
       "knowledge": [
+        "tomas_death_public",
         "ysabel_identity",
         "ysabel_restrictions",
         "ysabel_fear"
@@ -474,6 +482,7 @@
         "dark_side": "Disfruta de la seguridad de obedecer; puede decir que pensar por uno mismo es un lujo que casi nadie merece."
       },
       "knowledge": [
+        "tomas_death_public",
         "esteban_identity",
         "esteban_order"
       ],
@@ -498,6 +507,7 @@
         "dark_side": "Ha visto desaparecer a viajeros y siguió cobrando las camas; puede soltar que en el camino la gente se pierde y las cuentas nunca."
       },
       "knowledge": [
+        "tomas_death_news",
         "inn_name",
         "route_to_monastery"
       ],
@@ -625,6 +635,7 @@
         "dark_side": "Sabe que muchos papeles que sella arruinaron vidas y le da igual; puede decir que él solo sella y que culpar es trabajo de otros."
       },
       "knowledge": [
+        "tomas_death_news",
         "cuesta_order",
         "cuesta_limits"
       ],
@@ -653,6 +664,7 @@
         "dark_side": "Guarda un rencor antiguo contra sus superiores; puede decir que algunos despachos merecerían un incendio, y después sonreír."
       },
       "knowledge": [
+        "tomas_death_news",
         "ibarra_authorization",
         "ibarra_service_record"
       ],
@@ -681,6 +693,7 @@
         "dark_side": "Desprecia a los viajeros pobres; puede decir que quien no tiene permiso debería quedarse en su orilla, aunque se muera de hambre."
       },
       "knowledge": [
+        "tomas_death_news",
         "ferrer_register",
         "ferrer_delivery"
       ],
@@ -709,6 +722,7 @@
         "dark_side": "Admira a quien gana sin importar cómo; puede decir que en el comercio los escrúpulos son para los que ya perdieron."
       },
       "knowledge": [
+        "tomas_death_news",
         "pardo_method",
         "pardo_ledger",
         "pardo_signature"
@@ -738,6 +752,7 @@
         "dark_side": "Vende lo que oye cuando necesita pan; puede decir que la lealtad es una palabra de gente con la despensa llena."
       },
       "knowledge": [
+        "tomas_death_news",
         "galan_warning",
         "galan_leon",
         "galan_limits"
@@ -767,6 +782,7 @@
         "dark_side": "Odia a los clientes ricos que la tratan como un mueble; puede decir en voz baja que algunos enfermos merecen esperar en la puerta un buen rato."
       },
       "knowledge": [
+        "tomas_death_news",
         "ugarte_afternoon",
         "ugarte_witness",
         "ugarte_record"
@@ -795,7 +811,7 @@
         "speech": "usted condescendiente; dinero, cifras, impaciencia",
         "dark_side": "Considera a los pobres un coste; puede decir que un invierno duro limpia las calles mejor que la guardia."
       },
-      "knowledge": [],
+      "knowledge": ["tomas_death_news"],
       "beliefs": [
         "Todas las muertes tienen el mismo autor."
       ],
@@ -823,6 +839,7 @@
         "dark_side": "Si la acusan otra vez, está dispuesta a señalar a una vecina; puede decir que en el hambre cada uno mira por su horno."
       },
       "knowledge": [
+        "tomas_death_news",
         "rius_deliveries",
         "rius_carts",
         "rius_accusation"
@@ -852,6 +869,7 @@
         "dark_side": "Perdió un buey y un mozo el mismo invierno y llora más por el buey; puede decirlo sin vergüenza."
       },
       "knowledge": [
+        "tomas_death_news",
         "soler_register",
         "soler_dates"
       ],
@@ -880,6 +898,7 @@
         "dark_side": "A veces desea que la mina se hunda con los dueños dentro; puede decir que una galería hundida también es una forma de huelga."
       },
       "knowledge": [
+        "tomas_death_news",
         "montoya_records",
         "montoya_effects",
         "montoya_license"
@@ -909,6 +928,7 @@
         "dark_side": "No le importa si el milagro es verdad mientras pague; puede decir que la fe de los pobres es la única cosecha que nunca falla."
       },
       "knowledge": [
+        "tomas_death_news",
         "llorente_accounts",
         "llorente_object"
       ],
@@ -939,6 +959,7 @@
         "dark_side": "Disfruta del miedo de los detenidos; puede decir que el miedo ahorra mucho trabajo a la justicia."
       },
       "knowledge": [
+        "tomas_death_news",
         "vidal_accusation",
         "vidal_wording",
         "vidal_location"
@@ -970,6 +991,7 @@
         "dark_side": "Le gustaría ver a sus superiores en el banco de los acusados; puede decir que guarda copias de todo, con muy buena letra, por si llega ese día."
       },
       "knowledge": [
+        "tomas_death_news",
         "ruiz_same_words",
         "ruiz_no_details",
         "ruiz_setting"
@@ -999,6 +1021,7 @@
         "dark_side": "Abandonó a un compañero herido para entregar a tiempo; puede contarlo como un chiste."
       },
       "knowledge": [
+        "tomas_death_news",
         "marin_delivery",
         "marin_content",
         "marin_author"
@@ -1028,6 +1051,7 @@
         "dark_side": "Está dispuesto a romper el motor y a quien lo defienda; puede decir que una máquina rota no despide a nadie."
       },
       "knowledge": [
+        "tomas_death_news",
         "villar_demand"
       ],
       "beliefs": [],
@@ -1055,6 +1079,7 @@
         "dark_side": "Llama ajustes a despedir familias; puede decir que el hambre de otros es un excelente incentivo."
       },
       "knowledge": [
+        "tomas_death_news",
         "ferran_demand"
       ],
       "beliefs": [],
@@ -1082,6 +1107,7 @@
         "dark_side": "Cree que un taller quemado salva a miles; puede decir que el fuego también es una forma de prudencia."
       },
       "knowledge": [
+        "tomas_death_news",
         "cipriano_demand",
         "cipriano_status"
       ],
@@ -1141,6 +1167,7 @@
         "dark_side": "Ha ahogado a viajeros que no pagaban; puede comentarlo como quien habla del tiempo, sin detalles."
       },
       "knowledge": [
+        "tomas_death_news",
         "barragan_ruins",
         "barragan_caches",
         "barragan_toll"
@@ -1200,6 +1227,7 @@
         "dark_side": "Ha mandado a gente a galeras por una tirada; puede recordarlo sin ninguna culpa."
       },
       "knowledge": [
+        "tomas_death_news",
         "bridoya_method",
         "bridoya_error"
       ],
@@ -1229,6 +1257,7 @@
         "dark_side": "Sus bromas han ahogado a un mercader y a su rebaño; puede contarlo riéndose, como una anécdota de taberna."
       },
       "knowledge": [
+        "tomas_death_news",
         "panurgo_money",
         "panurgo_sheep"
       ],
@@ -1258,6 +1287,7 @@
         "dark_side": "Disfruta de la pelea más de lo que admite; puede recordar con alegría los huesos que rompió defendiendo la viña."
       },
       "knowledge": [
+        "tomas_death_news",
         "juan_vineyard",
         "juan_prayer"
       ],
@@ -1287,6 +1317,7 @@
         "dark_side": "Ha denunciado a estudiantes que se reían de él; puede decir que un alumno insolente aprende mejor en la cárcel."
       },
       "knowledge": [
+        "tomas_death_news",
         "janotus_bells",
         "janotus_payment"
       ],
@@ -1316,6 +1347,7 @@
         "dark_side": "Le da igual cuántos campesinos mueran en su guerra; puede decir que los pastores se reponen como la hierba."
       },
       "knowledge": [
+        "tomas_death_news",
         "picrocolo_war",
         "picrocolo_counsel"
       ],
@@ -1345,6 +1377,7 @@
         "dark_side": "En el fondo, estar muerto en el registro le ha liberado de deudas y de su familia; puede admitir que la muerte oficial tiene ventajas."
       },
       "knowledge": [
+        "tomas_death_news",
         "ulpiano_dead",
         "ulpiano_seal"
       ],
@@ -1374,6 +1407,7 @@
         "dark_side": "Ha dejado morir a quien no quiso escucharla; puede decir que algunos enfermos necesitan aprender, aunque sea en el cementerio."
       },
       "knowledge": [
+        "tomas_death_news",
         "brigida_cure",
         "brigida_magic"
       ],
@@ -1403,6 +1437,7 @@
         "dark_side": "Sus inventos han herido a ayudantes y no le importa demasiado; puede decir que el progreso siempre necesita cejas ajenas."
       },
       "knowledge": [
+        "tomas_death_news",
         "tiburcio_eggs",
         "tiburcio_clock"
       ],
@@ -1432,6 +1467,7 @@
         "dark_side": "Conoce métodos duros de interrogatorio y no los olvida; puede mencionarlos con naturalidad, como un oficio más."
       },
       "knowledge": [
+        "tomas_death_news",
         "mamerto_goat",
         "mamerto_law"
       ],

@@ -44,6 +44,7 @@ func run() -> void:
 	panel.open_site(map.state)
 	city.buttons.archery_range.pressed.emit()
 	check(panel.description.text.contains("cuartel"), "Missing prerequisite is named")
+	check(panel.description.text.contains("Te quedará: ") or panel.description.text.contains("✗ Falta: "), "The settlement says what a building leaves or what is missing")
 	check(panel.send_button.disabled, "Town click never bypasses prerequisites")
 	city.buttons.barracks.pressed.emit()
 	for frame in 8:

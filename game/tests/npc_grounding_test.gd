@@ -34,6 +34,13 @@ func run() -> void:
 	check(lucio.npc_secrets.is_empty(), "Undisclosed secret omitted")
 	# Before any inspection the monastery still knows that Tomás is dead (play log
 	# 2026-10-09: the abbot denied knowing him), but not the gated suicide claim.
+	# People elsewhere have at least heard the news (play log 2026-10-09: the bishop asked who
+	# Tomás was), without details; the machine, the relay and the newcomer have not.
+	for id: String in ["aureliano_veyra", "beatriz_orma", "innkeeper_prototype", "catalina_rius", "nuno_barragan"]:
+		var far: Dictionary = real.context_for(id, "greeting", {}, [])
+		check(far.npc_knowledge.has("tomas_death_news") and not far.npc_knowledge.has("monastery_claim"), "The death of Tomás is known as news: " + id)
+	for id: String in ["el_indice", "torre_rele", "elias_venn"]:
+		check(not real.context_for(id, "greeting", {}, []).npc_knowledge.has("tomas_death_news"), "No province news for: " + id)
 	for id: String in ["lucio_salcedo", "hermano_gabriel", "leonor_valera"]:
 		var early: Dictionary = real.context_for(id, "ask_death", {}, [])
 		check(early.npc_knowledge.has("tomas_death_public") and not early.npc_knowledge.has("monastery_claim") and early.eligible_unlock_ids.is_empty(), "Death of Tomás is public, its explanation still gated: " + id)

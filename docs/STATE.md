@@ -3424,3 +3424,41 @@ Executed: full offline run, 73 runs, 60,494 counted checks, none failed.
 ui_navigation_test 36 and campaign_panel_test 436 carry the new checks. Map panel
 rendered in a window and inspected twice (the first layout pushed the last rows off the
 panel). The reminder line and the dashed route were checked by test, not seen on screen.
+
+## End-of-day button lost, then pinned; UI plan stage 4 (first part); news of Tomás (2026-10-09)
+
+Defect introduced by the stage 3 commit (200db7d) and reported by the user within the
+hour: "hero movement stopped working and the button disappeared". Play log: 26 accepted
+routes and no `turn` event. Cause: "Resolver órdenes" had been moved to the end of the
+panel's scrolling column; with the user's save the panel was taller (two-line status,
+objective plus reminder) and the button scrolled out of view, so no day could be
+resolved. The headless test had passed because it used a day-1 state with short text.
+Fix: the button sits outside the ScrollContainer, pinned under it; ui_navigation_test now
+forces a very long objective and checks the button is still on screen. The reminder no
+longer repeats pending inspections (the objective line names them) and the resource bar
+shows whole numbers after a load (it showed "0.0"). The objective text is recomputed when
+day, records, evidence, hero or place change, not on every repaint.
+
+Stage 4, first part:
+- Equipment: under the item text, what equipping in the chosen slot would change, e.g.
+  "SI LO CAMBIAS por «Botas de maestría»: Movimiento −1 ↓."; a wrong slot or an activated
+  set gives its reason before and after the click; equipping into an occupied slot swaps
+  (the worn piece returns to the backpack) instead of failing silently; failed hand-over
+  and removal name their conditions.
+- Market: "Cuesta: N · Te quedará: M de oro" or "✗ Falta: …", and stock shortfall.
+- Settlement: after the cost, "Te quedará: …" per resource or "✗ Falta: …".
+
+Dialogue: the bishop asked who Tomás was (user transcript). 36 more characters now know
+`tomas_death_news` (a monk died at Santa Lucerna, an investigator asks; no details
+outside the monastery); Ysabel and Esteban, who live there, get `tomas_death_public`.
+El Índice, the relay and Elias get nothing. Not checked live.
+
+Executed: full offline run before the fix, 73 runs, 60,507 checks: all functional suites
+passed, performance_test failed three budgets. After the fix: ui_navigation_test 38,
+campaign_panel_test 436, equipment_scene_test 177, vertical_slice_test 33,
+town_view_test 32, npc_grounding_test 70, six dialogue suites; passed. The user's save
+(a copy) was loaded in a window: the button is visible at day 74.
+NOT green: performance_test still fails two budgets (new band of cells 74 ms vs 60,
+full rebuild 378 ms vs 250). "_refresh, nothing new" improved to 0.65 ms average. The
+game was running on the same machine during these runs; rerun on an idle machine before
+calling it noise.

@@ -239,7 +239,19 @@ func refresh() -> void:
 		description.text += "\n\nUna pieza por mercado. La compra se guarda en la mochila del héroe activo."
 	elif selected.kind == "upgrade":
 		description.text = "La mejora conserva el número de soldados y ocupa un destacamento del nuevo tipo."
-	description.text += "\n\nCoste: " + economy.cost_text(economy.cost(selected.kind,selected.id,amount))
+	var price: Dictionary = economy.cost(selected.kind,selected.id,amount)
+	description.text += "\n\nCoste: " + economy.cost_text(price)
+	# After the purchase: what is left of each resource it uses, or what is missing.
+	var left: PackedStringArray = []
+	var short: PackedStringArray = []
+	for resource: String in price:
+		var after: int = int(world_state.resources.get(resource,0)) - int(price[resource])
+		var label := str(economy.catalog.resource_names.get(resource,resource))
+		if after < 0:
+			short.append("%d de %s" % [-after,label])
+		else:
+			left.append("%d de %s" % [after,label])
+	description.text += ("\n✗ Falta: " + ", ".join(short)) if not short.is_empty() else ("\nTe quedará: " + ", ".join(left))
 	if selected.kind == "build":
 		var needs: PackedStringArray = []
 		for required: String in definition.requires:

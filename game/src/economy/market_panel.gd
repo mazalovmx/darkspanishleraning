@@ -96,6 +96,12 @@ func _refresh() -> void:
 	var trade = world_state.trade
 	var item: Dictionary = trade.goods[id]
 	description.text = "%s · Precio: %d monedas · Existencias: %d · Tu oro: %d" % [item.name, item.price, trade.stock[id], world_state.resources.gold]
+	# What the order on screen costs and leaves, before anything is said or paid.
+	var total: int = int(item.price) * int(quantity.value)
+	var left: int = int(world_state.resources.gold) - total
+	description.text += "\nCuesta: %d · %s" % [total, "Te quedará: %d de oro" % left if left >= 0 else "✗ Falta: %d de oro" % -left]
+	if int(quantity.value) > int(trade.stock[id]):
+		description.text += " · ✗ Solo quedan %d en venta" % int(trade.stock[id])
 	if item.has("use"):
 		description.text += "\n" + str(item.use)
 	var phase_name: String = {"request": "1. Pide producto y cantidad", "price": "2. Comprueba el precio", "confirm": "3. Confirma el pedido" if item.kind == "service" else "3. Confirma la compra"}[trade.phase]

@@ -10,6 +10,8 @@ var inventory := ItemList.new()
 var body = preload("res://src/world/equipment_body.gd").new()
 var backpack_title := Label.new()
 var selected_instance := ""
+## What equipping the selected piece in the chosen slot would change, before doing it.
+var compare := Label.new()
 var slot := OptionButton.new()
 var target := OptionButton.new()
 var details := RichTextLabel.new()
@@ -84,6 +86,10 @@ func _ready() -> void:
 	details.custom_minimum_size.y = 130
 	details.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	controls.add_child(details)
+	compare.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	compare.add_theme_font_size_override("font_size", 15)
+	controls.add_child(compare)
+	slot.item_selected.connect(func(_index: int): _compare())
 	slot.clip_text = true
 	controls.add_child(slot)
 	_button(controls,equip_button,"Equipar en este espacio",func(): _action("equip"))
@@ -227,6 +233,55 @@ func _body_slot_selected(key: String) -> void:
 			slot.select(index)
 			break
 	body.refresh(world_state,SLOT_NAMES,_item_icon,key)
+	_compare()
+
+func _effects(instance: String) -> Dictionary:
+	var result := {}
+	if not instance.is_empty():
+		for effect: Dictionary in world_state.equipment.items[world_state.equipment.instances[instance].item].effects:
+			result[effect.effect] = int(result.get(effect.effect, 0)) + int(effect.amount)
+	return result
+
+## Why the selected piece cannot go into the chosen slot; empty when it can.
+func _equip_reason(id: String, key: String) -> String:
+	var gear = world_state.equipment
+	if id.is_empty():
+		return "Elige primero una pieza de la mochila."
+	if gear._assembled(id):
+		return "Esta pieza forma parte de un conjunto activado: sepáralo en Almas antes de moverla."
+	if not gear._slot_allowed(gear.instances[id].item, key):
+		return "«%s» no va en %s. Los espacios válidos están activos en la lista." % [gear.items[gear.instances[id].item].name, SLOT_NAMES.get(key, key)]
+	var worn: String = gear.at_slot(world_state.party.active_id, key)
+	if not worn.is_empty() and worn != id and gear._assembled(worn):
+		return "Ese espacio lo ocupa una pieza de un conjunto activado: sepáralo en Almas primero."
+	if not gear._allowed(world_state):
+		return "Ahora no se puede cambiar el equipo: termina antes la acción en curso (órdenes del día, combate o compra)."
+	return ""
+
+func _compare() -> void:
+	var gear = world_state.equipment
+	var id := _instance()
+	compare.text = ""
+	if id.is_empty() or slot.item_count == 0 or slot.selected < 0:
+		return
+	var key := str(slot.get_selected_metadata())
+	if gear.instances[id].slot == key:
+		compare.text = "Ya lo llevas puesto en este espacio."
+		return
+	var reason := _equip_reason(id, key)
+	if not reason.is_empty():
+		compare.text = "✗ " + reason
+		return
+	var worn: String = gear.at_slot(world_state.party.active_id, key)
+	var gain := _effects(id)
+	var loss := _effects(worn)
+	var changes: Array[String] = []
+	for effect: String in EFFECT_NAMES:
+		var delta: int = int(gain.get(effect, 0)) - int(loss.get(effect, 0))
+		if delta != 0:
+			changes.append("%s %s%d %s" % [EFFECT_NAMES[effect], "+" if delta > 0 else "−", absi(delta), "↑" if delta > 0 else "↓"])
+	var head: String = "SI LO EQUIPAS en %s (vacío): " % SLOT_NAMES.get(key, key) if worn.is_empty() else "SI LO CAMBIAS por «%s»: " % gear.items[gear.instances[worn].item].name
+	compare.text = head + (", ".join(changes) if not changes.is_empty() else "sin cambios en las bonificaciones") + "."
 
 func _item_details() -> void:
 	var gear = world_state.equipment
@@ -261,6 +316,7 @@ func _item_details() -> void:
 	if not id.is_empty():
 		remove_button.disabled = remove_button.disabled or gear.instances[id].slot.is_empty()
 	body.refresh(world_state,SLOT_NAMES,_item_icon,str(slot.get_selected_metadata()) if slot.item_count > 0 else "")
+	_compare()
 
 func _soul_details() -> void:
 	for control in [memory_a,memory_b,input,send_button,assemble_button,disassemble_button,transfer_set_button]:
@@ -339,13 +395,28 @@ func _action(action: String) -> void:
 	var ok := false
 	match action:
 		"equip":
-			if not id.is_empty(): ok = gear.equip(world_state,id,slot.get_selected_metadata())
+			var key := str(slot.get_selected_metadata())
+			var reason := _equip_reason(id, key)
+			if not reason.is_empty():
+				feedback.text = reason
+				return
+			# An occupied slot is a swap: the worn piece goes back to the backpack first.
+			var worn: String = gear.at_slot(world_state.party.active_id, key)
+			if not worn.is_empty() and worn != id:
+				gear.unequip(world_state, worn)
+			ok = gear.equip(world_state,id,key)
+			if not ok and not worn.is_empty() and worn != id:
+				gear.equip(world_state, worn, key)
 		"remove": ok = gear.unequip(world_state,id)
 		"transfer": ok = gear.transfer(world_state,id,recipient)
 		"assemble": ok = gear.assemble(world_state,set_id)
 		"disassemble": ok = gear.disassemble(world_state,set_id)
 		"transfer_set": ok = gear.transfer_set(world_state,set_id,recipient)
 	feedback.text = "Equipo actualizado." if ok else "Revisa los espacios, el pacto y la posición de los héroes."
+	if not ok and action in ["transfer", "transfer_set"]:
+		feedback.text = "No se pudo entregar: los dos héroes deben estar en la misma casilla, el destinatario debe estar disponible y sus espacios libres."
+	if not ok and action == "remove":
+		feedback.text = "No se pudo guardar: elige una pieza equipada que no sea parte de un conjunto activado."
 	if ok:
 		refresh()
 		changed.emit()

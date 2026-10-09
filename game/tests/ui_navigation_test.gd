@@ -69,12 +69,20 @@ func run() -> void:
 	map._update_preview()
 	check(map.route_info.text.contains(" por casilla") or map.route_info.text.contains("no se puede cruzar"), "Hovering a known cell names its terrain and cost: " + map.route_info.text)
 	map._refresh()
-	check(map._unfinished_here().size() == 1 and map.objective_button.text.contains("⚠ Aquí, antes de terminar el día: examinar 1 hallazgos"), "The panel reminds of an inspection still open at this place")
+	check(map.objective_button.text == "▶ AHORA: Santa Lucerna: pulsa «Examinar pertenencias»." and map._unfinished_here().is_empty(), "The objective line is one short sentence at the start")
 	map.selected = true
 	map.pointer = map.get_canvas_transform() * map.tiles.map_to_local(map.state.hero_cell + Vector2i(2, 0))
 	map._update_preview()
 	check(map.route_info.text.begins_with("Ruta: ") and map.route_info.text.contains("te quedan %d" % map.state.movement_remaining), "A planned route shows its cost beside the points left")
 	map.selected = false
+	# The end-of-day button can never scroll away, whatever the panel has to show.
+	var scroller: Node = map.objective_button.get_parent().get_parent()
+	check(scroller is ScrollContainer and not scroller.is_ancestor_of(map.end_button), "End of day sits outside the scrolling part of the panel")
+	map.objective_button.text = "▶ AHORA: " + "texto muy largo ".repeat(40)
+	await process_frame
+	await process_frame
+	check(Rect2(Vector2.ZERO, Vector2(root.size)).encloses(map.end_button.get_global_rect()) and map.end_button.is_visible_in_tree(), "End of day stays on screen under a very long objective")
+	map._refresh()
 	# Keys reach the text field, not the map, while the player is typing.
 	map._open_poi(map.state.hero_cell)
 	map.dialogue.input.grab_focus()

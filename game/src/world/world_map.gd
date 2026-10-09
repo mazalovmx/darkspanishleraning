@@ -106,6 +106,9 @@ var help_text := RichTextLabel.new()
 var help_button := Button.new()
 ## The current main objective, always on the map panel; a click opens the journal.
 var objective_button := Button.new()
+# The objective is recomputed when the situation changes (or a place is left), not on
+# every repaint: _refresh has a 5 ms budget.
+var objective_key := ""
 const TERRAIN_NAMES := {"road": "camino", "grass": "pradera", "field": "campo", "forest": "bosque", "marsh": "pantano",
 	"ruins": "ruinas", "snow": "nieve", "mountain": "montaña", "water": "agua"}
 # Right button: a drag moves the map, a click without movement clears the selection.
@@ -463,7 +466,16 @@ func _build_ui() -> void:
 	box.add_theme_constant_override("separation", 5)
 	var scroll := ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	margin.add_child(scroll)
+	# The end-of-day button is pinned under the scrolling part: whatever grows above it,
+	# it stays on screen (play log 2026-10-09: it had scrolled out and no day could end).
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 5)
+	margin.add_child(column)
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_child(scroll)
+	column.add_child(HSeparator.new())
+	end_button.custom_minimum_size.y = 44
+	column.add_child(end_button)
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(box)
 	var portraits := HBoxContainer.new()
@@ -680,10 +692,6 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 			else:
 				leave_unsaved.popup_centered())
 	session.add_child(menu_button)
-	# Apart from every other button, so it is never pressed by a slip of the hand.
-	box.add_child(HSeparator.new())
-	end_button.custom_minimum_size.y = 44
-	box.add_child(end_button)
 	_explain_buttons()
 	layer.add_child(leave_unsaved)
 	leave_unsaved.title = "Partida sin guardar"
@@ -866,6 +874,7 @@ func _open_poi(cell: Vector2i) -> void:
 	queue_redraw()
 
 func _close_poi() -> void:
+	objective_key = ""
 	if poi_modal.visible:
 		PlayLog.write("location_close", {"speaker":dialogue.location_id})
 		_play_sfx("leave")
@@ -1173,13 +1182,15 @@ func _refresh() -> void:
 					lit.append(cell)
 	army_notice.text = "Ejército: %d/7 destacamentos" % state.army.size()
 	if objective_button.visible:
-		objective_button.text = "▶ AHORA: " + str(state.campaign.next_step(state).short)
-		var todo := _unfinished_here()
-		if not todo.is_empty():
-			objective_button.text += "
-⚠ Aquí, antes de terminar el día: " + "; ".join(todo.slice(0, 2)) + "."
+		var key := "%d|%d|%d|%s|%s|%d" % [state.day, state.campaign.records.size(), state.evidence.progress().size(), state.hero_cell, state.party.active_id, state.get_instance_id()]
+		if key != objective_key:
+			objective_key = key
+			objective_button.text = "▶ AHORA: " + str(state.campaign.next_step(state).short)
+			var todo := _unfinished_here()
+			if not todo.is_empty():
+				objective_button.text += "\n⚠ Aquí aún puedes: " + todo[0] + ("…" if todo.size() > 1 else "") + "."
 	for id in resource_labels:
-		resource_labels[id].text = str(state.resources.get(id, 0))
+		resource_labels[id].text = str(int(state.resources.get(id, 0)))
 	day_label.text = "Día %d · Semana %d" % [state.day, (state.day - 1) / 7 + 1]
 	hero.texture = hero_textures.get(state.party.active_id, hero_textures[""])
 	hero.scale = Vector2.ONE * (34.0 / maxf(hero.texture.get_width(), hero.texture.get_height()))
@@ -1230,18 +1241,12 @@ func _terrain_text(cell: Vector2i) -> String:
 	var cost: int = state.terrain_cost(cell)
 	return "%s · %s" % [str(TERRAIN_NAMES.get(kind, kind)).capitalize(), "no se puede cruzar" if cost == 0 else "%d por casilla" % cost]
 
-## What can still be done at this very place before the day ends (shown, never enforced).
+## A task that can be recorded at this very place before the day ends (shown, never
+## enforced). Findings still to inspect are already named by the objective line.
 func _unfinished_here() -> Array[String]:
 	var todo: Array[String] = []
 	if state.map_id != "province_160x120_v1":
 		return todo
-	var here: String = state.location_at(state.hero_cell).get("id", "")
-	if here == "LOC01":
-		var waiting := 0
-		for id: String in state.evidence.inspectable_ids("LOC01"):
-			waiting += int(not state.evidence.has_evidence(id))
-		if waiting > 0:
-			todo.append("examinar %d hallazgos («Examinar pertenencias»)" % waiting)
 	for id: String in state.campaign.available(state):
 		if state.campaign.reason(state, id).is_empty():
 			todo.append("anotar «%s» en Tareas" % state.campaign.definitions[id].title)
