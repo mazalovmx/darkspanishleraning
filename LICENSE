@@ -54,3 +54,17 @@ licenses. Sources, authors and file locations are listed in game/CREDITS.md.
 
 5. The Dialogic addon under game/addons/dialogic is third-party software by the
    Dialogic contributors (MIT; https://github.com/dialogic-godot/dialogic).
+
+6. Assets under Creative Commons Attribution 3.0 (CC BY 3.0)
+   - game/assets/third_party/ravenmore/ : Fantasy Icon Pack by Ravenmore
+     (https://ravenmore.itch.io/)
+   - game/assets/third_party/game_icons/ : icons by Lorc and Delapouite,
+     https://game-icons.net/
+
+7. Assets under the GNU General Public License, version 2 or later
+   Files: game/assets/third_party/wesnoth/ (unit portraits and sprites from The Battle
+   for Wesnoth, https://www.wesnoth.org/; authors per file in that folder's README.md;
+   some files are also offered under CC BY-SA 4.0).
+   These files are NOT MIT-licensed. The full licence text is in
+   game/assets/third_party/wesnoth/COPYING. They may be copied and modified only under
+   the same licence, with their credits kept.

@@ -6,6 +6,8 @@ const SKULL := "res://assets/third_party/kenney_board_game_icons/skull.png"
 const SIDE_COLORS := [Color("2d5a9e"), Color("9e2d2d")]
 const GOLD := Color("f0cf6a")
 var figure: Texture2D
+## How much the figure is enlarged on the field (the small placeholder figures use 3).
+var figure_scale := 3.0
 var count := 0
 var health_ratio := 1.0
 var side := 0
@@ -47,7 +49,7 @@ func _draw() -> void:
 	draw_set_transform(Vector2.ZERO)
 	if figure != null:
 		var facing := 1.0 if side == 0 else -1.0
-		var main := figure.get_size() * 3.0
+		var main := figure.get_size() * figure_scale
 		# Two comrades behind the leader for a larger stack.
 		var rear: Array = []
 		if count >= 4:

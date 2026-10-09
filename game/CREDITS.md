@@ -174,3 +174,13 @@ License: Creative Commons Attribution 3.0 Unported,
 https://creativecommons.org/licenses/by/3.0/ .
 Files: `assets/third_party/game_icons/`, white on transparent, unmodified; the body
 silhouette is cropped and tinted at run time. Used in the equipment window.
+
+## Battle for Wesnoth unit art
+
+Portraits and field sprites of the battle units (`assets/third_party/wesnoth/`).
+Authors: Emilien Rotival (LordBob), Kathrin Polikeit (Kitty), Richard Kettering (Jetrel),
+Adrian Sheehy (Major), doofus-01, Phil Barber (thespaceinvader), Christian Sirviö
+(Girgistian), Santiago Iborra (Quellion), Alexander van Gessel (AI0867), Marcus Rosén
+(sleepwalker) and others listed per file in that folder's README.
+Source: https://github.com/wesnoth/wesnoth (branch 1.18, downloaded 2026-10-09).
+License: GNU GPL v2 or later (text in the folder's `COPYING`); some files also CC BY-SA 4.0.

@@ -48,6 +48,68 @@ const ROLE := {"militia": 3, "veteran_guard": 3, "ghost_guard": 3, "enforcer": 3
 	"relic_sentinel": 1, "hospitaller": 1, "relay_automaton": 4, "watchman": 6, "novice": 6, "thief": 6, "wolves": 6, "boars": 6}
 const GREY := ["ghost_guard", "relic_sentinel", "relay_automaton"]
 var icons := {}
+# Battle for Wesnoth art (GPL v2+, assets/third_party/wesnoth): a painted portrait and a
+# field sprite per unit type, both named after the unit. The Kenney figure is the fallback.
+const WESNOTH := "res://assets/third_party/wesnoth/"
+## Wesnoth marks team-coloured parts with this magenta ramp, darkest to lightest.
+const TEAM_RAMP := ["3f0016", "55002a", "690039", "7b0045", "8c0051", "9e005d", "b10069", "c30074", "d6007f", "ec008c",
+	"ee3d96", "ef5ba1", "f172ac", "f287b6", "f49ac1", "f6adcd", "f8c1d9", "fad5e5", "fde9f1"]
+const TEAM_COLORS := [Color("3f74d1"), Color("cf3b32"), Color("a9b0b8")]
+var sprites := {}
+var portraits := {}
+var portrait_view := TextureRect.new()
+var portrait_name := Label.new()
+
+## The unit's field sprite with its team parts in the side's colour, or null if absent.
+func unit_sprite(type: String, side: int) -> Texture2D:
+	var tone := 2 if type in GREY else side
+	var key := "%s|%d" % [type, tone]
+	if not sprites.has(key):
+		sprites[key] = null
+		var path := WESNOTH + "units/" + type + ".png"
+		if ResourceLoader.exists(path):
+			var image: Image = load(path).get_image()
+			image.convert(Image.FORMAT_RGBA8)
+			image = image.get_region(image.get_used_rect())
+			var ramp := {}
+			for index in TEAM_RAMP.size():
+				ramp[Color(TEAM_RAMP[index]).to_rgba32()] = TEAM_COLORS[tone].darkened(0.6).lerp(TEAM_COLORS[tone].lightened(0.6), float(index) / float(TEAM_RAMP.size() - 1))
+			for y in image.get_height():
+				for x in image.get_width():
+					var pixel := image.get_pixel(x, y)
+					if pixel.a > 0.9 and ramp.has(pixel.to_rgba32()):
+						image.set_pixel(x, y, ramp[pixel.to_rgba32()])
+			sprites[key] = ImageTexture.create_from_image(image)
+	return sprites[key]
+
+## The unit's painted portrait, or null if absent.
+func unit_portrait(type: String) -> Texture2D:
+	if not portraits.has(type):
+		var path := WESNOTH + "portraits/" + type + ".webp"
+		portraits[type] = load(path) if ResourceLoader.exists(path) else null
+	return portraits[type]
+
+## Head and shoulders of the portrait, for the small tiles of the turn order.
+func unit_face(type: String) -> Texture2D:
+	var full := unit_portrait(type)
+	if full == null:
+		return null
+	var face := AtlasTexture.new()
+	face.atlas = full
+	var side := full.get_size().x
+	face.region = Rect2(side * 0.14, 0, side * 0.72, side * 0.72)
+	return face
+
+## Shows a stack in the card of the command bar: portrait, name, numbers.
+func show_card(index: int) -> void:
+	if index < 0 or index >= battle.stacks.size() or battle.count_at(index) == 0:
+		return
+	var stack: Dictionary = battle.stacks[index]
+	var unit: Dictionary = battle.data.units[stack.type]
+	portrait_view.texture = unit_portrait(str(stack.type))
+	portrait_view.flip_h = int(stack.side) == 1
+	portrait_name.text = "%s · %d\nSalud %d · Ataque %d · Defensa %d\nDaño %d–%d · Mov. %d" % [unit.name, battle.count_at(index), stack.stats.health,
+		stack.stats.attack, stack.stats.defense, unit.damage_min, unit.damage_max, stack.speed]
 
 ## Blue for the player, red for the enemy, grey for spectral and relic units.
 ## The figure is cropped to its drawn pixels; callers scale it.
@@ -205,6 +267,17 @@ func _build_command_bar() -> void:
 	defend_button.pressed.connect(func(): command("defend"))
 	ability_button.pressed.connect(func(): command("ability"))
 	retreat_button.pressed.connect(func(): command("retreat"))
+	# The card of the acting stack, or of the enemy under the pointer.
+	portrait_view.custom_minimum_size = Vector2(88, 88)
+	portrait_view.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	portrait_view.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	portrait_view.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	portrait_view.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	lower.add_child(portrait_view)
+	portrait_name.custom_minimum_size.x = 210
+	portrait_name.add_theme_font_size_override("font_size", 15)
+	portrait_name.add_theme_color_override("font_color", INK_LIGHT)
+	lower.add_child(portrait_name)
 	var log_frame := PanelContainer.new()
 	log_frame.add_theme_stylebox_override("panel", _frame("panelInset_brown.png", 10))
 	log_frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -279,7 +352,11 @@ func present(model: RefCounted, title: String) -> void:
 		var stack: Dictionary = battle.stacks[i]
 		var token := Token.new()
 		token.side = int(stack.side)
-		token.figure = unit_icon(str(stack.type), token.side)
+		token.figure = unit_sprite(str(stack.type), token.side)
+		if token.figure != null:
+			token.figure_scale = 1.9
+		else:
+			token.figure = unit_icon(str(stack.type), token.side)
 		(enemies if stack.side == 1 else allies).add_child(token)
 		tokens.append(token)
 	show()
@@ -324,6 +401,7 @@ func _on_hover(cell: Vector2i) -> void:
 	var actor: int = battle.current()
 	var who: int = battle.occupant(cell) if cell != Battle.NOWHERE else -1
 	hint.text = forecast_text(who if who >= 0 and battle.stacks[who].side == 1 else selected_target)
+	show_card(who if who >= 0 else battle.current())
 	if actor < 0 or who < 0 or battle.stacks[who].side != 1 or not battle.outcome.is_empty():
 		return
 	if battle.data.units[battle.stacks[actor].type].ranged and battle._adjacent_enemies(actor).is_empty():
@@ -448,6 +526,7 @@ func refresh() -> void:
 		_layout()
 	transcript.text = "\n".join(battle.log)
 	hint.text = forecast_text(selected_target)
+	show_card(actor)
 	_refresh_queue(actor)
 
 func _refresh_queue(actor: int) -> void:
@@ -470,10 +549,12 @@ func _refresh_queue(actor: int) -> void:
 		var inner := HBoxContainer.new()
 		inner.add_theme_constant_override("separation", 2)
 		var picture := TextureRect.new()
-		picture.texture = tokens[i].figure if i < tokens.size() else null
+		var face := unit_face(str(battle.stacks[i].type))
+		picture.texture = face if face != null else (tokens[i].figure if i < tokens.size() else null)
 		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		picture.custom_minimum_size = Vector2(30, 34)
+		picture.custom_minimum_size = Vector2(46, 46) if i == actor else Vector2(38, 38)
+		picture.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 		picture.flip_h = int(battle.stacks[i].side) == 1
 		inner.add_child(picture)
 		var number := Label.new()

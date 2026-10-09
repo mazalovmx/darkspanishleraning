@@ -3567,3 +3567,36 @@ UI_AUDIT.md ends with a status table of every finding; BACKLOG.md has an Interfa
 Executed: full offline run, 74 runs, 60,636 counted checks, none failed (performance_test
 included). All screens re-rendered at 1280x720; settlement, equipment and the monastery
 conversation inspected after the size change.
+
+## Battle unit art from Battle for Wesnoth (2026-10-09)
+
+User request: battle icons "of Heroes III quality". No Heroes art can be used; the units
+now use art from The Battle for Wesnoth (GNU GPL v2 or later, some files also CC BY-SA
+4.0): one painted portrait and one field sprite for each of the 19 unit types, in
+`assets/third_party/wesnoth/` with the licence text (COPYING) and a README crediting every
+file from the upstream `copyrights.csv`. CREDITS.md, the asset manifest and the root
+LICENSE (new sections 6 and 7; section 6 also adds the CC BY 3.0 packs that were missing
+there) name it. The art is not MIT: whoever passes the game on must keep that folder's
+licence and credits.
+- Field: `stack_arena.unit_sprite` crops the sprite and replaces Wesnoth's magenta team
+  ramp with the side's colour (blue, red, grey for spectral and relic units); tokens draw
+  it at 1.9x. The Kenney figure remains the fallback.
+- Turn order: tiles show the head and shoulders of the portrait; the acting stack's tile
+  is larger.
+- Command bar: a card with the full portrait, name, count and numbers of the acting stack,
+  or of the stack under the pointer.
+Unit-to-art mapping is by meaning (militia = spearman, hospitaller = white mage, relay
+automaton = heavy infantry, relic sentinel = death knight, and so on); the automaton has
+no mechanical figure upstream.
+
+Executed: asset_manifest_test 211 (every unit has both files and a credit line, both sides
+are coloured differently, no magenta left), stack_battle_test 179, battle_integration_test
+64, ghost_battle_test 116, vertical_slice_test 33, province_scene_test 109,
+side_scene_test 220, ghost_scene_test 157: run directly, all passed. Opening battle
+rendered in a window and inspected twice.
+NOT done: the full regression. Two attempts stalled with TIMEOUT on suites that pass when
+run alone; the machine was at 100% CPU with two instances of the game open (16,000 s and
+5,600 s of CPU time), and an instrumented run showed the "hung" suite simply running
+several times slower. For the same reason the earlier diagnosis that button shortcuts
+"hang" vertical_slice_test (0d011f8) is not established: it may have been load too.
+Rerun `./tools/run-tests.ps1` with the game closed.
