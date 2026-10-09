@@ -98,6 +98,8 @@ var arena = preload("res://src/combat/stack_arena.tscn").instantiate()
 var hero_buttons: Dictionary = {}
 var selected := false
 var pointer := Vector2.ZERO
+# Right button: a drag moves the map, a click without movement clears the selection.
+var right_travel := 0.0
 var preview: Array[Vector2i] = []
 var hovered := Vector2i(-1, -1)
 var tiles := TileMapLayer.new()
@@ -490,7 +492,7 @@ func _build_ui() -> void:
 	instructions.add_theme_font_size_override("font_size", 14)
 	instructions.add_theme_color_override("font_color", WoodTheme.DIM)
 	instructions.focus_mode = Control.FOCUS_NONE
-	instructions.tooltip_text = "Clic en el héroe: seleccionar\nClic en una casilla: preparar ruta\nBotón derecho: deseleccionar\nFlechas o WASD, o arrastrar botón central: mover el mapa\nRueda: zoom bajo el cursor; + / −: zoom\nHome: volver al héroe\nEspacio + arrastrar: mover el mapa
+	instructions.tooltip_text = "Clic en el héroe: seleccionar\nClic en una casilla: preparar ruta\nArrastrar con el botón derecho (o el central): mover el mapa\nClic derecho sin arrastrar: deseleccionar\nFlechas o WASD: mover el mapa\nRueda: zoom bajo el cursor; + / −: zoom\nHome: volver al héroe\nEspacio + arrastrar: mover el mapa
 Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la copia entera\n\nCOSTE POR CASILLA\nCamino / pradera / campo: 1\nBosque / ruinas / nieve: 2\nPantano: 3\nAgua / montaña: impasable"
 	var navigation := HBoxContainer.new()
 	box.add_child(navigation)
@@ -908,12 +910,21 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouse:
 		pointer = event.position
 	if event is InputEventMouseMotion:
-		if event.button_mask & MOUSE_BUTTON_MASK_MIDDLE or (event.button_mask & MOUSE_BUTTON_MASK_LEFT and Input.is_key_pressed(KEY_SPACE)):
+		if event.button_mask & MOUSE_BUTTON_MASK_RIGHT:
+			right_travel += event.relative.length()
+		if event.button_mask & (MOUSE_BUTTON_MASK_MIDDLE | MOUSE_BUTTON_MASK_RIGHT) or (event.button_mask & MOUSE_BUTTON_MASK_LEFT and Input.is_key_pressed(KEY_SPACE)):
 			camera.position -= event.relative / camera.zoom
 			_clamp_camera()
 		# The preview depends only on the hovered cell.
 		if tiles.local_to_map(tiles.get_global_transform_with_canvas().affine_inverse() * pointer) != hovered:
 			_update_preview()
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
+		if event.pressed:
+			right_travel = 0.0
+		elif right_travel < 6.0:
+			selected = false
+			_update_preview()
+			_refresh()
 	elif event is InputEventMouseButton and event.pressed:
 		match event.button_index:
 			MOUSE_BUTTON_LEFT:
@@ -937,10 +948,6 @@ func _unhandled_input(event: InputEvent) -> void:
 				_refresh()
 				_update_preview()
 				_open_poi(cell)
-			MOUSE_BUTTON_RIGHT:
-				selected = false
-				_update_preview()
-				_refresh()
 			MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN:
 				var factor := 1.15 if event.button_index == MOUSE_BUTTON_WHEEL_UP else 1.0 / 1.15
 				_zoom_at(factor, pointer)

@@ -3300,3 +3300,12 @@ Run with the user's consent (paid requests, key from `.env`).
   offered the belongings. Two live samples per question, not a guarantee.
 
 Executed after the wording change: six dialogue suites and npc_grounding_test, passed.
+
+## Right-button drag moves the map (2026-10-09)
+
+User report: the map could not be dragged with the right button. Holding the right
+button and moving now pans the camera like the middle button; a right click that
+travels less than 6 px still clears the selection, now on release. The controls
+tooltip says so. Executed: world_map_test 367 (press alone keeps the selection, drag
+pans and keeps it, click clears it), map_navigation_test 11; passed headless. Not
+tried by hand with a real mouse.

@@ -133,7 +133,23 @@ func run() -> void:
 	deselect.button_index = MOUSE_BUTTON_RIGHT
 	deselect.pressed = true
 	root.push_input(deselect, true)
-	check(not map.selected and map.preview.is_empty(), "Right click clears selection and route")
+	check(map.selected, "Pressing the right button does not deselect yet: it may become a drag")
+	var right_drag := InputEventMouseMotion.new()
+	right_drag.position = Vector2(340, 280)
+	right_drag.relative = Vector2(40, -20)
+	right_drag.button_mask = MOUSE_BUTTON_MASK_RIGHT
+	var before_right: Vector2 = map.camera.position
+	root.push_input(right_drag, true)
+	var release := InputEventMouseButton.new()
+	release.position = right_drag.position
+	release.button_index = MOUSE_BUTTON_RIGHT
+	release.pressed = false
+	root.push_input(release, true)
+	check(map.camera.position.distance_to(before_right - right_drag.relative / map.camera.zoom) < 0.1 and map.selected, "Right drag pans the map and keeps the selection")
+	root.push_input(deselect, true)
+	release.position = deselect.position
+	root.push_input(release, true)
+	check(not map.selected and map.preview.is_empty(), "Right click without a drag clears selection and route")
 	click_map(map, map.state.hero_cell)
 	var hover := InputEventMouseMotion.new()
 	hover.position = map.get_canvas_transform() * map.tiles.map_to_local(Vector2i(8, 9))
