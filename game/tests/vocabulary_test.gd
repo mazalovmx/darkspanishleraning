@@ -17,7 +17,12 @@ func run() -> void:
 	root.size = Vector2i(1280, 720)
 	var practice := Vocabulary.new()
 	var ids: Array = practice.themes().map(func(theme: Dictionary) -> String: return theme.id)
-	check(ids == ["cuerpo", "ropa", "objetos", "emociones", "cocina", "conceptos", "conectores"], "Seven themes, connectors last")
+	check(ids.slice(0, 7) == ["cuerpo", "ropa", "objetos", "emociones", "cocina", "conceptos", "conectores"], "Original seven themes keep their order")
+	check(ids.slice(7) == ["valdora", "cardena", "miralba", "ferraza"], "Four city vocabularies follow the original themes")
+	check(practice.items.size() == 159, "127 original items plus 32 city words")
+	for pair in [["LOC02", "valdora"], ["LOC14", "valdora"], ["LOC05", "cardena"], ["LOC15", "miralba"], ["LOC13", "ferraza"]]:
+		check(practice.city_theme(pair[0]) == pair[1], "City vocabulary follows geography: " + pair[0])
+	check(practice.city_theme("LOC11").is_empty(), "Unrelated locations do not invent a city")
 	check(practice.items.size() >= 120, "At least 120 words and connectors")
 	for id: String in practice.items:
 		var item: Dictionary = practice.items[id]
@@ -72,7 +77,7 @@ func run() -> void:
 	await process_frame
 	panel.open_course(state)
 	panel.words_tab.pressed.emit()
-	check(panel.words_box.visible and not panel.practice_box.visible and panel.words_theme.item_count == 8, "Vocabulary tab with all themes")
+	check(panel.words_box.visible and not panel.practice_box.visible and panel.words_theme.item_count == 12, "Vocabulary tab with all original and city themes")
 	check(panel.words_clue.text.begins_with("¿QUÉ PALABRA ES?"), "A clue is shown")
 	var answer: String = state.learner.word_practice.items[panel.word_id].word
 	panel.words_answer.text = answer
@@ -84,6 +89,16 @@ func run() -> void:
 	panel.words_theme.select(7)
 	panel.words_theme.item_selected.emit(7)
 	check(panel.words_clue.text.begins_with("COMPLETA CON UN CONECTOR") and panel.words_clue.text.contains("___"), "Connector theme shows a sentence with a blank")
+	for location: Dictionary in state.locations:
+		if location.id == "LOC02":
+			state.hero_cell = Vector2i(location.position[0], location.position[1])
+	state._reveal_from(state.hero_cell)
+	panel.open_course(state)
+	panel.words_tab.pressed.emit()
+	check(panel.words_theme.get_selected_metadata() == "valdora" and panel.word_id.begins_with("valdora_"), "Arriving in Valdora suggests its own vocabulary")
+	check(state.learner.word_practice.check("valdora_01", "el tribunal", state.day).ok, "City word requires a typed answer")
+	loaded = Save.decode(Save.snapshot(state))
+	check(loaded.has("state") and loaded.state.learner.word_practice.progress.has("valdora_01"), "City vocabulary persists using the existing save schema")
 	panel.queue_free()
 	await process_frame
 	print("Vocabulary checks: %d, failures: %d" % [checks, failures])

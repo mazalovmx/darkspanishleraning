@@ -33,6 +33,7 @@ var words_check := Button.new()
 var words_next := Button.new()
 var words_feedback := Label.new()
 var word_id := ""
+var words_location := ""
 static func tag_name(tag: String) -> String:
 	return preload("res://src/spanish/curriculum.gd").tag_name(tag)
 func _ready() -> void:
@@ -147,6 +148,8 @@ func _ready() -> void:
 	hide()
 
 func open_course(state: RefCounted) -> void:
+	if world_state != state:
+		words_location = ""
 	world_state = state
 	feedback.text = ""
 	refresh()
@@ -169,6 +172,14 @@ func _show_tab(progress: bool, words := false) -> void:
 			for theme: Dictionary in world_state.learner.word_practice.themes():
 				words_theme.add_item(theme.name)
 				words_theme.set_item_metadata(words_theme.item_count - 1, theme.id)
+		var location: String = str(world_state.location_at(world_state.hero_cell).get("id", ""))
+		if location != words_location:
+			words_location = location
+			var theme: String = world_state.learner.word_practice.city_theme(location)
+			for index in words_theme.item_count:
+				if words_theme.get_item_metadata(index) == theme:
+					words_theme.select(index)
+					break
 		_next_word()
 
 ## Shows the next due word of the chosen theme.

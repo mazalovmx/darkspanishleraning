@@ -8,6 +8,7 @@ const PATH := "res://content/spanish/vocabulary.json"
 const INTERVALS := [0, 1, 2, 4, 7, 14]
 const ARTICLES := ["el ", "la ", "los ", "las ", "un ", "una "]
 static var catalog: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(PATH))
+static var cities: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/spanish/city_vocabulary.json"))
 var items: Dictionary = {}
 ## id -> {"box": 0-5, "due": day}
 var progress: Dictionary = {}
@@ -16,14 +17,20 @@ var _stamp := 0
 var _seen: Dictionary = {}
 
 func _init() -> void:
-	for theme: Dictionary in catalog.themes:
+	for theme: Dictionary in catalog.themes + cities.themes:
 		for item: Dictionary in theme.items:
 			var entry := item.duplicate(true)
 			entry["theme"] = theme.id
 			items[item.id] = entry
 
 func themes() -> Array:
-	return catalog.themes.map(func(theme: Dictionary) -> Dictionary: return {"id": theme.id, "name": theme.name})
+	return (catalog.themes + cities.themes).map(func(theme: Dictionary) -> Dictionary: return {"id": theme.id, "name": theme.name})
+
+func city_theme(location: String) -> String:
+	for theme: Dictionary in cities.themes:
+		if location in theme.locations:
+			return str(theme.id)
+	return ""
 
 ## Items due on a day (all themes when theme is empty): due ones first, then new ones,
 ## least recently tried first.

@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "source": "WORLD_AND_SCENARIO_BIBLE section 27; practice examples, not new canonical events",
+  "themes": [
+    {"id": "valdora", "name": "Valdora · autoridad y vida pública", "locations": ["LOC02", "LOC14"], "items": [
+      {"id": "valdora_01", "word": "el tribunal", "clue": "Institución donde se presentan pruebas y un juez resuelve un caso.", "example": "El tribunal debe escuchar a las dos partes antes de decidir.", "alt": [], "note": ""},
+      {"id": "valdora_02", "word": "el permiso", "clue": "Autorización para hacer algo que no se puede hacer libremente.", "example": "Necesito un permiso para consultar estos documentos.", "alt": [], "note": ""},
+      {"id": "valdora_03", "word": "el decreto", "clue": "Decisión oficial escrita por una autoridad, con efectos legales.", "example": "Un decreto puede cambiar una norma, pero no el pasado.", "alt": [], "note": ""},
+      {"id": "valdora_04", "word": "el archivo", "clue": "Lugar donde se conservan y organizan documentos para consultarlos después.", "example": "Busco en el archivo una copia con fecha y firma.", "alt": [], "note": ""},
+      {"id": "valdora_05", "word": "el impuesto", "clue": "Cantidad que una autoridad exige pagar para financiar gastos públicos.", "example": "Quiero saber quién paga este impuesto y quién queda exento.", "alt": [], "note": ""},
+      {"id": "valdora_06", "word": "el mercado", "clue": "Lugar donde varios vendedores ofrecen alimentos y otros productos.", "example": "Comparo los precios del mercado antes de comprar provisiones.", "alt": [], "note": ""},
+      {"id": "valdora_07", "word": "la guardia", "clue": "Conjunto de personas encargadas de vigilar y mantener el orden.", "example": "La guardia necesita una orden válida para cerrar el paso.", "alt": [], "note": "Aquí se trata del cuerpo de vigilancia, no de una persona."},
+      {"id": "valdora_08", "word": "el barrio", "clue": "Parte de una ciudad cuyos habitantes comparten calles y servicios cercanos.", "example": "La misma medida puede afectar de forma distinta a cada barrio.", "alt": [], "note": ""}
+    ]},
+    {"id": "cardena", "name": "Cárdena · puerto y comercio", "locations": ["LOC05", "LOC17"], "items": [
+      {"id": "cardena_01", "word": "el muelle", "clue": "Construcción junto al agua donde se acercan las embarcaciones para cargar o descargar.", "example": "Pregunto en el muelle a qué hora llegó la mercancía.", "alt": [], "note": ""},
+      {"id": "cardena_02", "word": "el barco", "clue": "Medio de transporte que navega y puede llevar personas o mercancías.", "example": "El nombre de un barco no demuestra quién era dueño de su carga.", "alt": ["la embarcación"], "note": "También puedes decir «embarcación»."},
+      {"id": "cardena_03", "word": "la carga", "clue": "Conjunto de mercancías que transporta un vehículo o una embarcación.", "example": "Comparamos la carga con la lista antes de firmar la entrega.", "alt": [], "note": ""},
+      {"id": "cardena_04", "word": "el precio", "clue": "Cantidad de dinero que se pide a cambio de un producto o servicio.", "example": "¿El precio incluye el transporte hasta el almacén?", "alt": [], "note": ""},
+      {"id": "cardena_05", "word": "el contrabando", "clue": "Comercio de mercancías prohibidas o introducidas sin cumplir las reglas de entrada.", "example": "Transportar un libro prohibido puede considerarse contrabando.", "alt": [], "note": ""},
+      {"id": "cardena_06", "word": "el almacén", "clue": "Edificio donde se guardan mercancías antes de venderlas o transportarlas.", "example": "Necesito comparar lo que salió del almacén con lo que llegó al puerto.", "alt": ["la bodega"], "note": "En México, «bodega» también se usa para un lugar donde se guardan mercancías."},
+      {"id": "cardena_07", "word": "la aduana", "clue": "Oficina que controla la entrada de mercancías y cobra los pagos correspondientes.", "example": "En la aduana preguntan por el origen y el valor de la mercancía.", "alt": [], "note": ""},
+      {"id": "cardena_08", "word": "la deuda", "clue": "Obligación de devolver dinero o algo recibido anteriormente.", "example": "Una deuda puede explicar un interés, pero no demuestra un delito.", "alt": [], "note": ""}
+    ]},
+    {"id": "miralba", "name": "Miralba · estudio y medicina", "locations": ["LOC03", "LOC15"], "items": [
+      {"id": "miralba_01", "word": "la universidad", "clue": "Institución de estudios superiores donde también se investiga.", "example": "En la universidad, una explicación debe poder discutirse.", "alt": [], "note": ""},
+      {"id": "miralba_02", "word": "el profesor", "clue": "Persona que enseña una materia a un grupo de alumnos.", "example": "Le pido al profesor que explique cómo obtuvo el resultado.", "alt": ["la profesora"], "note": "El artículo cambia según la persona."},
+      {"id": "miralba_03", "word": "el estudiante", "clue": "Persona que aprende una materia en una institución educativa.", "example": "Un estudiante puede hacer una buena pregunta sin conocer la respuesta.", "alt": ["la estudiante"], "note": "«Estudiante» mantiene su forma; cambia el artículo."},
+      {"id": "miralba_04", "word": "el libro", "clue": "Conjunto de páginas encuadernadas que contiene un texto para leer o consultar.", "example": "Que una afirmación aparezca en un libro no la convierte en una prueba.", "alt": [], "note": ""},
+      {"id": "miralba_05", "word": "el experimento", "clue": "Prueba organizada para observar qué sucede al cambiar una condición.", "example": "Repetimos el experimento con la misma cantidad de agua.", "alt": [], "note": ""},
+      {"id": "miralba_06", "word": "el hospital", "clue": "Centro donde se atiende a personas enfermas o heridas.", "example": "En el hospital preguntamos cuántos pacientes recibieron cada tratamiento.", "alt": [], "note": ""},
+      {"id": "miralba_07", "word": "la prueba", "clue": "Dato u objeto que se usa para apoyar o refutar una afirmación.", "example": "Esta prueba apoya la hipótesis, pero necesitamos otra fuente.", "alt": ["la evidencia"], "note": "En este contexto también se acepta «evidencia»."},
+      {"id": "miralba_08", "word": "la teoría", "clue": "Conjunto de ideas que intenta explicar cómo funciona un fenómeno.", "example": "Una teoría útil explica los datos y permite nuevas comprobaciones.", "alt": [], "note": ""}
+    ]},
+    {"id": "ferraza", "name": "Ferraza · trabajo y máquinas", "locations": ["LOC04", "LOC13"], "items": [
+      {"id": "ferraza_01", "word": "la fábrica", "clue": "Lugar donde se producen objetos mediante trabajo organizado y máquinas.", "example": "La producción de una fábrica no explica por sí sola las condiciones de trabajo.", "alt": [], "note": ""},
+      {"id": "ferraza_02", "word": "el taller", "clue": "Local donde se fabrican o reparan objetos con herramientas.", "example": "Antes de entrar al taller, pregunto qué herramientas puedo tocar.", "alt": [], "note": ""},
+      {"id": "ferraza_03", "word": "el hierro", "clue": "Metal resistente que se usa para fabricar herramientas y puede oxidarse.", "example": "La pieza es de hierro; su material no indica quién la fabricó.", "alt": [], "note": ""},
+      {"id": "ferraza_04", "word": "la máquina", "clue": "Conjunto de piezas que transforma energía para realizar un trabajo.", "example": "Quiero saber qué tarea realiza la máquina y qué riesgos tiene.", "alt": [], "note": ""},
+      {"id": "ferraza_05", "word": "la rueda", "clue": "Pieza circular que gira alrededor de un eje.", "example": "La rueda transmite el movimiento a las otras piezas.", "alt": [], "note": ""},
+      {"id": "ferraza_06", "word": "la presión", "clue": "Fuerza ejercida sobre una superficie, por ejemplo por vapor dentro de un recipiente.", "example": "Una válvula permite reducir la presión antes de que sea peligrosa.", "alt": [], "note": ""},
+      {"id": "ferraza_07", "word": "el trabajador", "clue": "Persona que realiza una labor a cambio de un salario.", "example": "Escuchamos al trabajador antes de valorar las condiciones del taller.", "alt": ["la trabajadora"], "note": "El artículo y la terminación cambian según la persona."},
+      {"id": "ferraza_08", "word": "el turno", "clue": "Periodo de trabajo que corresponde a un grupo antes de ser sustituido por otro.", "example": "Comparamos la duración del turno con el tiempo real de descanso.", "alt": [], "note": ""}
+    ]}
+  ]
+}
