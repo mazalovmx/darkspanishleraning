@@ -64,6 +64,7 @@ func _ready() -> void:
 	pack.name = "Equipo"
 	tabs.add_child(pack)
 	inventory.custom_minimum_size.x = 360
+	inventory.fixed_icon_size = Vector2i(32, 32)
 	inventory.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	inventory.item_selected.connect(func(_index: int): _item_details())
 	pack.add_child(inventory)
@@ -156,7 +157,7 @@ func refresh() -> void:
 		if entry.owner != owner:
 			continue
 		var where: String = "Mochila" if entry.slot.is_empty() else SLOT_NAMES.get(entry.slot,entry.slot)
-		inventory.add_item("%s · %s" % [where,gear.items[entry.item].name])
+		inventory.add_item("%s · %s" % [where,gear.items[entry.item].name], _item_icon(gear.items[entry.item]))
 		inventory.set_item_metadata(inventory.item_count-1,id)
 		if id == selected:
 			inventory.select(inventory.item_count-1)
@@ -319,3 +320,8 @@ func _action(action: String) -> void:
 func close() -> void:
 	hide()
 	closed.emit()
+
+func _item_icon(item: Dictionary) -> Texture2D:
+	var names := {"helmet":"helmet", "crown":"helmet", "hood":"helmet", "cuirass":"armor", "chainmail":"armor", "robe":"armor", "shield":"shield", "buckler":"shieldSmall", "sword":"sword", "dagger":"dagger", "axe":"axe", "mace":"hammer", "staff":"wand", "bow":"bow", "crossbow":"bow", "quiver":"bow", "reliquary":"scroll"}
+	var path: String = "res://assets/third_party/ravenmore/" + names.get(str(item.get("type", "")), "backpack") + ".png"
+	return load(path) if ResourceLoader.exists(path) else null

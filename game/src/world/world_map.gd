@@ -42,6 +42,7 @@ const SFX := {"route": "drop_002.ogg", "day": "confirmation_002.ogg", "denied": 
 	"enter": "doorOpen_2.ogg", "leave": "doorClose_1.ogg"}
 var site_textures: Dictionary = {}
 var knight_texture: Texture2D
+var treasure_texture: Texture2D
 var sfx := AudioStreamPlayer.new()
 var vignette := ColorRect.new()
 const LOCATION_MUSIC := {"inn": "the_old_tower_inn.mp3", "ruin": "dungeon_ambience.ogg", "mine": "dungeon_ambience.ogg",
@@ -142,12 +143,22 @@ func _ready() -> void:
 	hero_textures[""] = hero.texture
 	for id: String in HERO_ART:
 		var path := ART + "Unit/medievalUnit_%02d.png" % HERO_ART[id]
+		var face := "res://assets/third_party/claw_and_blade/portraits/%s.png" % id
+		if ResourceLoader.exists(face):
+			path = face
 		if ResourceLoader.exists(path):
 			hero_textures[id] = _map_art(path)
 	for kind: String in LOCATION_ART:
 		var path := ART + "Structure/medievalStructure_%02d.png" % LOCATION_ART[kind]
 		if ResourceLoader.exists(path):
 			location_textures[kind] = _map_art(path)
+	var painted_places := {"capital":"castle", "town":"houses", "workshop":"blacksmith", "industrial":"blacksmith", "university":"tower", "archive":"tower", "camp":"barracks", "guildhouse":"houses_2", "inn":"houses_1", "farm":"stable"}
+	for kind: String in painted_places:
+		var path: String = "res://assets/third_party/feudal_wars/" + painted_places[kind] + ".png"
+		if ResourceLoader.exists(path):
+			location_textures[kind] = _map_art(path)
+	if ResourceLoader.exists("res://assets/third_party/ravenmore/backpack.png"):
+		treasure_texture = load("res://assets/third_party/ravenmore/backpack.png")
 	add_child(music)
 	add_child(sfx)
 	for resource: String in SITE_ART:
@@ -1102,6 +1113,11 @@ func _draw() -> void:
 		if state.fog_at(cell) == WorldState.Fog.UNKNOWN or state.economy.treasure_claimed(state, id):
 			continue
 		var center := tiles.map_to_local(cell)
+		if treasure_texture != null:
+			draw_texture_rect(treasure_texture, Rect2(center - Vector2(15, 15), Vector2(30, 30)), false)
+			if cache.guarded:
+				draw_circle(center + Vector2(12, -12), 4, Color("df7962"))
+			continue
 		draw_rect(Rect2(center - Vector2(7, 5), Vector2(14, 10)), Color("d9a441") if not cache.guarded else Color("c26a4a"))
 		draw_rect(Rect2(center - Vector2(7, 5), Vector2(14, 10)), Color("3a2a12"), false, 2)
 	for gate: Dictionary in state.map_data.get("gates", []):

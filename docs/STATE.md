@@ -3120,3 +3120,15 @@ the unmodified PNGs and CREDITS.md. UI logs retain paths when buttons are replac
 Executed: town view (27), economy scene (33), artifact market (19), play log (45),
 all passed. Windowed town test passed (27), screenshot inspected. Long order text
 keeps actions on screen. Existing shutdown leak warnings remain.
+## Map figures, equipment icons and art options (2026-10-09)
+
+Map heroes now use the same licensed portraits as the hero selector. Ten location
+kinds use detailed Feudal Wars buildings, and treasure bags / equipment categories
+use Ravenmore icons (CC BY 3.0, attribution included). Existing sprite fallbacks stay
+available. Downloaded optional map references and their licenses are documented in
+ART_OPTIONS.md; these are art references, not new playable campaign scenarios.
+
+Executed: full offline run, 68 suites, 59,856 counted checks. All functional suites
+passed; performance_test had one timing failure (_refresh after move: 6.327 ms,
+budget 5 ms), pending isolated recheck. Windowed map navigation (11) and equipment
+scene (162) passed; both screenshots inspected. No live model calls were made.
