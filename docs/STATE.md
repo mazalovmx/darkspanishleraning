@@ -3042,3 +3042,13 @@ fights was not simulated.
 Executed on Windows: full offline regression, 64 runs, 59,753 counted checks, zero
 not passed, including performance_test and the reachability of every site.
 Not looked at in a window.
+
+## Copyable text (2026-10-08)
+
+Player request. `src/common/copy_text.gd`, applied once to the map scene: every
+RichTextLabel allows mouse selection and Ctrl+C; a right click on a plain Label
+copies the whole line and the save line shows "Texto copiado.". Labels created
+after the scene is built are not covered.
+
+Executed on Windows: full offline regression, 64 runs, 59,753 counted checks, zero
+not passed. Not tried in a window.

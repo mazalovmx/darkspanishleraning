@@ -170,6 +170,7 @@ func _ready() -> void:
 	_play_music("minstrel_dance.mp3")
 	Settings.apply_effects(Settings.audio(dialogue.client.config))
 
+	preload("res://src/common/copy_text.gd").apply(self, func() -> void: save_notice.text = "Texto copiado.")
 	if persistence_enabled:
 		dialogue.talks_path = save_path.get_basename() + ".talks.json"
 		_load_game(true)
@@ -461,7 +462,8 @@ func _build_ui() -> void:
 	instructions.add_theme_font_size_override("font_size", 14)
 	instructions.add_theme_color_override("font_color", WoodTheme.DIM)
 	instructions.focus_mode = Control.FOCUS_NONE
-	instructions.tooltip_text = "Clic en el héroe: seleccionar\nClic en una casilla: preparar ruta\nBotón derecho: deseleccionar\nFlechas o WASD, o arrastrar botón central: mover el mapa\nRueda: acercar / alejar\n\nCOSTE POR CASILLA\nCamino / pradera / campo: 1\nBosque / ruinas / nieve: 2\nPantano: 3\nAgua / montaña: impasable"
+	instructions.tooltip_text = "Clic en el héroe: seleccionar\nClic en una casilla: preparar ruta\nBotón derecho: deseleccionar\nFlechas o WASD, o arrastrar botón central: mover el mapa\nRueda: acercar / alejar
+Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la copia entera\n\nCOSTE POR CASILLA\nCamino / pradera / campo: 1\nBosque / ruinas / nieve: 2\nPantano: 3\nAgua / montaña: impasable"
 	box.add_child(instructions)
 	box.add_child(route_info)
 	route_info.custom_minimum_size = Vector2(260, 60)
