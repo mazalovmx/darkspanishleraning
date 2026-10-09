@@ -3108,3 +3108,15 @@ authored dialogue (30), economy scene (33), all passed. Windowed log regression
 passed (40): rejected/accepted routes, full accented dialogue, rejected/committed
 construction, before/after costs, ordering, redaction and non-destructive rollover.
 Existing CanvasItem/ObjectDB shutdown warnings remain outside these event logs.
+## Graphical town buildings and income (2026-10-09)
+
+The settlement window pairs illustrated building sites with the order form.
+Built, available and blocked sites are distinct; each shows its daily yield or
+service status, and the header totals completed buildings for the next day.
+Clicking artwork selects a request without spending; quoted orders lock selection.
+Missing prerequisites are named. Feudal Wars CC0 art sources and hashes accompany
+the unmodified PNGs and CREDITS.md. UI logs retain paths when buttons are replaced.
+
+Executed: town view (27), economy scene (33), artifact market (19), play log (45),
+all passed. Windowed town test passed (27), screenshot inspected. Long order text
+keeps actions on screen. Existing shutdown leak warnings remain.

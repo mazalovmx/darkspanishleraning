@@ -9,6 +9,7 @@ var title := Label.new()
 var resources := Label.new()
 var entries := OptionButton.new()
 var category := OptionButton.new()
+var town_view = preload("res://src/economy/town_view.gd").new()
 var cancel_button := Button.new()
 var quantity := SpinBox.new()
 var description := RichTextLabel.new()
@@ -23,8 +24,8 @@ func _ready() -> void:
 	z_index = 28
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var panel := PanelContainer.new()
-	panel.position = Vector2(200,22)
-	panel.size = Vector2(880,676)
+	panel.position = Vector2(60,22)
+	panel.size = Vector2(1160,676)
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("22252a")
 	panel.add_theme_stylebox_override("panel",style)
@@ -44,6 +45,28 @@ func _ready() -> void:
 	resources.max_lines_visible = 2
 	resources.add_theme_font_size_override("font_size",15)
 	box.add_child(resources)
+	var columns := HBoxContainer.new()
+	columns.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	columns.add_theme_constant_override("separation", 16)
+	box.add_child(columns)
+	columns.add_child(town_view)
+	town_view.building_selected.connect(func(id: String):
+		if not world_state.economy.pending.is_empty():
+			return
+		category.select(0)
+		_fill_offers()
+		for index in entries.item_count:
+			if entries.get_item_metadata(index).id == id:
+				entries.select(index)
+				break
+		PlayLog.write("city_building_select", {"building":id})
+		feedback.text = ""
+		refresh())
+	box = VBoxContainer.new()
+	box.custom_minimum_size.x = 470
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_theme_constant_override("separation", 8)
+	columns.add_child(box)
 	var offers := HBoxContainer.new()
 	box.add_child(offers)
 	for kind: String in ["build", "recruit", "upgrade", "artifact"]:
@@ -135,6 +158,10 @@ func _fill_offers() -> void:
 
 func refresh() -> void:
 	var economy = world_state.economy
+	town_view.visible = site_id.is_empty()
+	if town_view.visible:
+		var choice: Dictionary = entries.get_selected_metadata() if entries.item_count > 0 else {}
+		town_view.refresh(world_state, str(choice.get("id", "")) if choice.get("kind", "") == "build" else "")
 	resources.text = "RECURSOS · " + economy.cost_text(world_state.resources)
 	input.clear()
 	battle_button.hide()
@@ -213,10 +240,17 @@ func refresh() -> void:
 	elif selected.kind == "upgrade":
 		description.text = "La mejora conserva el número de soldados y ocupa un destacamento del nuevo tipo."
 	description.text += "\n\nCoste: " + economy.cost_text(economy.cost(selected.kind,selected.id,amount))
+	if selected.kind == "build":
+		var needs: PackedStringArray = []
+		for required: String in definition.requires:
+			if not economy.buildings.get(world_state.location_at(world_state.hero_cell).id, {}).has(required):
+				needs.append(economy.catalog.buildings[required].name)
+		if not needs.is_empty():
+			description.text += "\nRequiere: " + ", ".join(needs)
 	if not denied.is_empty():
 		description.text += "\n\n" + denied
 	var step: String = {"request":"1/3 · Escribe qué quieres pedir", "price":"2/3 · Escribe el coste del pedido", "confirm":"3/3 · Confirma el pedido en español"}[economy.phase]
-	prompt.text = step + "\n" + economy.cue(world_state,selected.kind,selected.id,amount)
+	prompt.text = step + "\n" + economy.cue(world_state,selected.kind,selected.id,amount).get_slice("\n", 1)
 	input.placeholder_text = {"request":"Pide el edificio, las tropas o el objeto.", "price":"Indica los recursos y sus cantidades.", "confirm":"Confirma lo que quieres comprar."}[economy.phase]
 	send_button.text = {"request":"Continuar", "price":"Comprobar coste", "confirm":"Confirmar y pagar"}[economy.phase]
 	if not denied.is_empty():

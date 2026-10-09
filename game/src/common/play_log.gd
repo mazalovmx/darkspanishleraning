@@ -91,15 +91,16 @@ static func _watch_node(node: Node) -> void:
 	if not is_instance_valid(root) or not root.is_ancestor_of(node) or node.has_meta("play_log_watched"):
 		return
 	node.set_meta("play_log_watched", true)
+	var control_path := str(root.get_path_to(node))
 	if node is BaseButton:
-		node.button_down.connect(func(): write("ui_attempt", {"control":str(root.get_path_to(node)), "label":node.text if node is Button else "", "fields":_fields(root)}))
-		node.pressed.connect(func(): write("ui_action", {"control":str(root.get_path_to(node)), "label":node.text if node is Button else ""}))
+		node.button_down.connect(func(): write("ui_attempt", {"control":control_path, "label":node.text if node is Button else "", "fields":_fields(root)}))
+		node.pressed.connect(func(): write("ui_action", {"control":control_path, "label":node.text if node is Button else ""}))
 	if node is OptionButton:
-		node.item_selected.connect(func(index: int): write("ui_choice", {"control":str(root.get_path_to(node)), "index":index, "label":node.get_item_text(index), "value":node.get_item_metadata(index)}))
+		node.item_selected.connect(func(index: int): write("ui_choice", {"control":control_path, "index":index, "label":node.get_item_text(index), "value":node.get_item_metadata(index)}))
 	if node is LineEdit:
-		node.text_submitted.connect(func(text: String): write("ui_submit", {"control":str(root.get_path_to(node)), "text":text}))
+		node.text_submitted.connect(func(text: String): write("ui_submit", {"control":control_path, "text":text}))
 	if node is SpinBox:
-		node.value_changed.connect(func(value: float): write("ui_quantity", {"control":str(root.get_path_to(node)), "value":value}))
+		node.value_changed.connect(func(value: float): write("ui_quantity", {"control":control_path, "value":value}))
 
 static func _fields(root: Node) -> Dictionary:
 	var fields := {}

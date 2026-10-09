@@ -1,0 +1,74 @@
+[
+    {
+        "author":  "Feudal Wars",
+        "source":  "https://opengameart.org/content/medieval-blacksmith-isometric-25d",
+        "download":  "https://opengameart.org/sites/default/files/blacksmith_0.png",
+        "license":  "CC0-1.0",
+        "sha256":  "BFB845D5C31C3F90B0FE13478A988B582797E12B0C2F9D1FAE38A18704DFAD2B",
+        "file":  "blacksmith.png"
+    },
+    {
+        "author":  "Feudal Wars",
+        "source":  "https://opengameart.org/content/medieval-barracks-isometric-25d",
+        "download":  "https://opengameart.org/sites/default/files/barracks_1.png",
+        "license":  "CC0-1.0",
+        "sha256":  "CF8AB7E58DAD85EF0443C1C6F18B4F156C0A9BBBF9D8D56F8EC04617A51D58F2",
+        "file":  "barracks.png"
+    },
+    {
+        "author":  "Feudal Wars",
+        "source":  "https://opengameart.org/content/western-european-castle-isometric-25d",
+        "download":  "https://opengameart.org/sites/default/files/castle_7.png",
+        "license":  "CC0-1.0",
+        "sha256":  "09DA8841806E1920B60E6E2C604AA750EFE6D4482BEAB65160240C0C0555627E",
+        "file":  "castle.png"
+    },
+    {
+        "author":  "Feudal Wars",
+        "source":  "https://opengameart.org/content/medieval-archery-range-isometric-25d",
+        "download":  "https://opengameart.org/sites/default/files/archery_range.png",
+        "license":  "CC0-1.0",
+        "sha256":  "B979CD58D271B64AE50E64DF8E59D19AF28A82ABACFAF91DC027D21AAA56ECDE",
+        "file":  "archery.png"
+    },
+    {
+        "author":  "Feudal Wars",
+        "source":  "https://opengameart.org/content/medieval-stable-isometric-25d",
+        "download":  "https://opengameart.org/sites/default/files/stable_0.png",
+        "license":  "CC0-1.0",
+        "sha256":  "6AC29F94BC3526B2522FF56D595A8F671E0C1FA44E11F19E821889259096C99E",
+        "file":  "stable.png"
+    },
+    {
+        "author":  "Feudal Wars",
+        "source":  "https://opengameart.org/content/western-european-medieval-houses-isometric-25d",
+        "download":  "https://opengameart.org/sites/default/files/house1_1.png",
+        "license":  "CC0-1.0",
+        "sha256":  "0A8A8244B2B6A60083D7F7FEA77D9AD19D2BAA4A032A90EB8888DC818671342F",
+        "file":  "houses.png"
+    },
+    {
+        "author":  "Feudal Wars",
+        "source":  "https://opengameart.org/content/western-european-medieval-houses-isometric-25d",
+        "download":  "https://opengameart.org/sites/default/files/house1b.png",
+        "license":  "CC0-1.0",
+        "sha256":  "08905B02276E3E14342039CE9641B0AFE8717FA3324C53083646F42540AEC6BB",
+        "file":  "houses_1.png"
+    },
+    {
+        "author":  "Feudal Wars",
+        "source":  "https://opengameart.org/content/western-european-medieval-houses-isometric-25d",
+        "download":  "https://opengameart.org/sites/default/files/house1c.png",
+        "license":  "CC0-1.0",
+        "sha256":  "680A5CBB6695B2CA8486500DF66AE670CA80215BD81D0278A9799C89FD98CB28",
+        "file":  "houses_2.png"
+    },
+    {
+        "author":  "Feudal Wars",
+        "source":  "https://opengameart.org/content/medieval-stone-guard-tower-isometric-25d",
+        "download":  "https://opengameart.org/sites/default/files/watchtower_lvl2-exp_full_size.png",
+        "license":  "CC0-1.0",
+        "sha256":  "E007B842A33113388BB0AB3B0A7E2CE7241F763EBF8B0DDCB9D22F0B2E0F468B",
+        "file":  "tower.png"
+    }
+]
