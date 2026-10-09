@@ -32,6 +32,11 @@ func run() -> void:
 	check(not inn.npc_knowledge.has("lucio_identity"), "NPC contexts isolated")
 	check(lucio.npc_knowledge.has("lucio_identity"), "Lucio knows own public identity")
 	check(lucio.npc_secrets.is_empty(), "Undisclosed secret omitted")
+	# Before any inspection the monastery still knows that Tomás is dead (play log
+	# 2026-10-09: the abbot denied knowing him), but not the gated suicide claim.
+	for id: String in ["lucio_salcedo", "hermano_gabriel", "leonor_valera"]:
+		var early: Dictionary = real.context_for(id, "ask_death", {}, [])
+		check(early.npc_knowledge.has("tomas_death_public") and not early.npc_knowledge.has("monastery_claim") and early.eligible_unlock_ids.is_empty(), "Death of Tomás is public, its explanation still gated: " + id)
 	check(not JSON.stringify(lucio).contains("investigaciones prohibidas"), "Secret text never sent")
 	check(not JSON.stringify(inn).contains("forbidden_research"), "Other NPC secret ID not sent")
 	check(real.campaign_flags({}).is_empty() and real.campaign_flags({"ysabel_account": {}}) == {"research_disclosed": "confirmed"}, "Ysabel's account confirms the research flag")

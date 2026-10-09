@@ -3228,3 +3228,17 @@ state no campaign fact. Written without a Spanish speaker's review. No code chan
 
 Executed: vocabulary_test (301), the four curriculum suites (1,227), save_game_test
 (540); all passed headless. The tab was not re-rendered in a window for this change.
+
+## The monastery knows that Tomás is dead (2026-10-09)
+
+User report, confirmed in the play log: asked about Tomás before the belongings were
+inspected, the abbot answered that no Tomás was in his books and Leonor that he "is
+not here". Cause: the only fact naming the death is the clue `monastery_claim`, which
+is withheld until `travel_food` is recorded, so the model had nothing to say. The
+order of the opening is intended; the denial was not. New public fact
+`tomas_death_public` (bible 13.2 and the opening: illuminator, dead beneath the bell
+tower, belongings can be examined) is known to Lucio, Gabriel and Leonor from the
+start. The suicide claim stays gated behind the inspection.
+
+Executed: npc_grounding_test (62) and the six dialogue suites (1,264), passed
+headless. No live model call: the new replies themselves were not observed.
