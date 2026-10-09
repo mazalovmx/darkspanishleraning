@@ -523,6 +523,7 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 	turns.add_child(end_button)
 	var cancel_route := Button.new()
 	cancel_route.text = "Cancelar ruta"
+	cancel_route.tooltip_text = "Borra la ruta preparada para el héroe activo; no gasta movimiento.\nClears the route planned for the active hero."
 	cancel_route.visible = state.map_id == "province_160x120_v1"
 	cancel_route.pressed.connect(func():
 		if state.ghosts.plan != null and not arena.visible:
@@ -569,8 +570,9 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 		_update_preview())
 	box.add_child(ghost_button)
 	var saves := HBoxContainer.new()
-	save_button.text = "Guardar"
-	load_button.text = "Cargar"
+	var study := HBoxContainer.new()
+	save_button.text = "Guardar partida"
+	load_button.text = "Cargar partida"
 	save_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	load_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	save_button.pressed.connect(func(): _open_save_picker(true))
@@ -578,6 +580,7 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 	saves.add_child(save_button)
 	saves.add_child(load_button)
 	notebook_button.text = "Cuaderno"
+	notebook_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	notebook_button.add_theme_font_size_override("font_size", 15)
 	notebook_button.pressed.connect(func():
 		if campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible:
@@ -585,16 +588,18 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 		notebook.open_journal(state)
 		end_button.disabled = true
 		_update_preview())
-	saves.add_child(notebook_button)
-	language_button.text = "Español"
+	study.add_child(notebook_button)
+	language_button.text = "Español · Diccionario"
+	language_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	language_button.pressed.connect(func():
 		if not arena.visible and not dialogue.client.busy and not market.visible and not notebook.visible and not campaign_journal.visible and not strategy_panel.visible and not equipment_panel.visible and not ghost_panel.visible and not side_panel.visible:
 			lessons.open_course(state)
 			end_button.disabled = true
 			_update_preview())
-	saves.add_child(language_button)
+	study.add_child(language_button)
 	for control in [save_button, load_button, notebook_button, language_button]:
 		control.add_theme_font_size_override("font_size", 13)
+	box.add_child(study)
 	box.add_child(saves)
 	save_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	save_notice.add_theme_font_size_override("font_size", 14)
@@ -610,7 +615,11 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 	new_button.pressed.connect(func():
 		if _can_restart():
 			new_confirm.popup_centered())
-	box.add_child(new_button)
+	var session := HBoxContainer.new()
+	box.add_child(session)
+	new_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	menu_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	session.add_child(new_button)
 	menu_button.text = "Menú principal"
 	menu_button.add_theme_font_size_override("font_size", 13)
 	menu_button.pressed.connect(func():
@@ -620,7 +629,8 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 				_leave_to_menu()
 			else:
 				leave_unsaved.popup_centered())
-	box.add_child(menu_button)
+	session.add_child(menu_button)
+	_explain_buttons()
 	layer.add_child(leave_unsaved)
 	leave_unsaved.title = "Partida sin guardar"
 	leave_unsaved.dialog_text = "La partida no se pudo guardar. Si vuelves al menú, se pierde el progreso no guardado."
@@ -1190,6 +1200,30 @@ func _draw() -> void:
 			points.append(tiles.map_to_local(cell))
 		var color := Color("f7df9a") if state.path_cost(preview) <= state.movement_remaining else Color("eb7770")
 		draw_polyline(points, color, 3)
+
+## One sentence per button, in Spanish and in English, shown when the pointer rests on
+## it. Labels stay short; the tooltip says what the button does.
+func _explain_buttons() -> void:
+	var texts := {
+		end_button: ["Termina el día: se cumplen las rutas y órdenes de todos los héroes y empieza el día siguiente.", "Ends the day: planned routes and orders are carried out, then the next day begins."],
+		campaign_button: ["Casos de la historia principal: qué investigar ahora, con quién hablar y dónde escribir tus conclusiones.", "Main story cases: what to investigate now, whom to talk to, where to write conclusions."],
+		equipment_button: ["Objetos del héroe: equípalos sobre la figura, entrégalos a otro héroe, pacta con las almas, pasa tropas.", "Hero items: equip, hand over, soul pacts, troop transfer."],
+		side_button: ["Casos opcionales del lugar donde está el héroe. No son necesarios para terminar la historia.", "Optional cases at the hero's location; not needed to finish the story."],
+		ghost_button: ["Caballeros fantasma que recorren la provincia y las órdenes para detenerlos.", "Ghost knights roaming the province and your orders against them."],
+		notebook_button: ["Cuaderno de pruebas: todo lo que has observado y oído, con su fuente.", "Evidence notebook: everything observed or heard, with its source."],
+		language_button: ["Lecciones de español, tu progreso, práctica de vocabulario y el diccionario con tus palabras.", "Spanish lessons, progress, vocabulary practice and the dictionary with your own words."],
+		save_button: ["Guarda una copia con nombre: se abre la ventana de archivos con un nombre ya propuesto. Además, el juego se guarda solo después de cada acción.", "Saves a named copy (file window, name prefilled). The game also autosaves after every action."],
+		load_button: ["Carga una partida guardada con nombre. El autoguardado se carga solo al entrar en el juego.", "Loads a named save. The autosave loads by itself when the game starts."],
+		new_button: ["Empieza la historia desde el día 1. Pide confirmación y conserva una copia de la partida actual.", "Restarts the story from day 1 (asks first; keeps a copy of the current game)."],
+		menu_button: ["Guarda y vuelve a la pantalla inicial.", "Saves and returns to the title screen."],
+		poi_close: ["Cierra este lugar y vuelve al mapa.", "Closes this place and returns to the map."],
+		inspect_button: ["Examina las pertenencias de Tomás y anota en español lo que ves. Es el primer paso de la investigación.", "Examine Tomás's belongings and note what you see; the first step of the investigation."],
+		battle_button: ["Combate contra quienes cortan el camino. Necesitas ejército y dos puntos de movimiento.", "Fight those blocking the road; needs an army and two movement points."],
+		market_button: ["Compra o pide algo escribiéndolo en español.", "Buy or ask for something by typing it in Spanish."],
+		strategy_button: ["Ver el asentamiento: edificios construidos, ingresos diarios y nuevas obras.", "The settlement: buildings, daily income and new construction."],
+	}
+	for button: Button in texts:
+		button.tooltip_text = "%s\n%s" % texts[button]
 
 func _open_save_picker(saving: bool) -> void:
 	if not persistence_enabled or arena.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():

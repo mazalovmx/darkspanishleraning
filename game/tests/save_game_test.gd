@@ -165,7 +165,7 @@ func run() -> void:
 	await process_frame
 	check(same(Save.snapshot(map.state), Save.snapshot(state)), "Startup resumes saved state")
 	check(map.dialogue.world_state == map.state, "Dialogue bound to restored learner")
-	check(map.save_button.text == "Guardar" and map.load_button.text == "Cargar", "Manual controls available")
+	check(map.save_button.text == "Guardar partida" and map.load_button.text == "Cargar partida", "Manual controls available")
 	map._end_turn()
 	check(Save.read_save(path).state.day == 4, "End day autosaves")
 	map._open_poi(map.state.hero_cell)

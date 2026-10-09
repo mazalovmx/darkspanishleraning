@@ -18,6 +18,10 @@ func run() -> void:
 	await process_frame
 	# A windowed run must not leave a real system dialog open; test the fallback.
 	map.save_picker.use_native_dialog = false
+	for button: Button in [map.end_button, map.campaign_button, map.equipment_button, map.side_button, map.ghost_button, map.notebook_button, map.language_button, map.save_button, map.load_button, map.new_button, map.menu_button, map.center_button, map.poi_close, map.inspect_button, map.battle_button, map.market_button, map.strategy_button]:
+		check(button.tooltip_text.length() > 20, "Every map button explains itself: " + button.text)
+	check(map.save_button.tooltip_text.contains("nombre") and map.save_button.tooltip_text.contains("
+") and map.save_button.get_parent() == map.load_button.get_parent() and map.save_button.get_parent() != map.language_button.get_parent(), "Saving has its own row and says what it does in two languages")
 	map._save_game(true)
 	var original_auto := FileAccess.get_file_as_string(map.save_path)
 	map.save_button.pressed.emit()

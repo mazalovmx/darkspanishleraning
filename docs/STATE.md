@@ -3267,3 +3267,18 @@ inspected after two layout fixes), vocabulary_test 301, save_game_test 540, the 
 curriculum suites 1,227; all passed. Not done: no live DeepSeek request was made (the
 lookup ran only against a fake transport), and the English glosses were written
 without review by a Spanish speaker.
+
+## Map buttons explain themselves; saving has its own row (2026-10-09)
+
+User report: it was hard to tell what each button does. Every button of the map panel
+and of the location window now has a tooltip of one Spanish sentence and its English
+equivalent (`_explain_buttons` in `world_map.gd`); the tooltip delay is 0.25 s. The
+panel rows were regrouped without changing its height: "Cuaderno" and "Español ·
+Diccionario" share a row, "Guardar partida" and "Cargar partida" the next, "Nueva
+partida" and "Menú principal" the last. The save tooltip states that the game also
+saves by itself and that the button makes a named copy. The four tabs of the lessons
+panel carry the same kind of tooltip.
+
+Executed: full offline run, 71 runs, 60,284 counted checks, none failed (includes
+dictionary_test and the updated save_picker_test, 36). Map re-rendered in a window and
+inspected. Tooltips themselves were not seen on screen: they need a resting pointer.

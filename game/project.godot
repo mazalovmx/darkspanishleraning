@@ -42,6 +42,7 @@ import/fbx/enabled=false
 [gui]
 
 theme/custom="res://assets/gui/default.theme"
+timers/tooltip_delay_sec=0.25
 
 [input]
 
