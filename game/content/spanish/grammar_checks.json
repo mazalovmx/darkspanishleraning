@@ -1,6 +1,11 @@
 {
   "nouns": [
     ["documento", "documentos", "m"], ["cuaderno", "cuadernos", "m"],
+    ["comida", "comidas", "f"], ["tubo", "tubos", "m"], ["sangre", "sangres", "f"],
+    ["bota", "botas", "f"], ["zurron", "zurrones", "m"], ["queso", "quesos", "m"],
+    ["mancha", "manchas", "f"], ["herida", "heridas", "f"], ["golpe", "golpes", "m"],
+    ["caida", "caidas", "f"], ["vino", "vinos", "m"], ["pertenencia", "pertenencias", "f"],
+    ["abad", "abades", "m"],
     ["sello", "sellos", "m"], ["testimonio", "testimonios", "m"],
     ["archivo", "archivos", "m"], ["precio", "precios", "m"],
     ["pan", "panes", "m"], ["caballo", "caballos", "m"],

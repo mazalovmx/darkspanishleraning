@@ -60,11 +60,11 @@ func run() -> void:
 	check(notebook.guide.text.begins_with("CÓMO ANOTAR") and notebook.entries.get_item_text(0).begins_with("● "), "An unrecorded finding shows the four steps and is marked as pending")
 	notebook.note.text = "Hay comida."
 	notebook.record_button.pressed.emit()
-	check(not map.state.evidence.has_evidence("travel_food") and notebook.feedback.text.contains("clase de frase"), "A missing classification is named, not just refused")
+	check(not map.state.evidence.has_evidence("travel_food") and notebook.feedback.text.contains("Elige en la lista qué clase de frase"), "A missing classification is named, not just refused")
 	notebook.note.text = "comida"
 	notebook.category.select(1)
 	notebook.record_button.pressed.emit()
-	check(not map.state.evidence.has_evidence("travel_food") and notebook.feedback.text.contains("Prueba con: Hay comida"), "An insufficient sentence gets an example")
+	check(not map.state.evidence.has_evidence("travel_food") and notebook.feedback.text.contains("un verbo en presente") and notebook.feedback.text.contains("Un ejemplo (cámbialo a tu manera): Hay comida"), "An insufficient sentence is told what it lacks and, the second time, gets an example")
 	notebook.note.text = "Hay comida."
 	notebook.category.select(1)
 	notebook.record_button.pressed.emit()
@@ -76,7 +76,7 @@ func run() -> void:
 			tube_index = index
 	check(tube_index >= 0, "Tube appears in selector")
 	notebook.entries.item_selected.emit(tube_index)
-	check(notebook.prompt.text.contains("Hay un tubo roto."), "Selected clue supplies its own Spanish scaffold")
+	check(notebook.prompt.text.contains("tubo roto") and not notebook.prompt.text.contains("Hay un tubo roto.") and notebook.body.text.contains("latón"), "Selected clue supplies its own scene and useful words, not the sentence")
 	notebook.note.text = "Hay un tubo roto."
 	notebook.category.select(1)
 	notebook.record_button.pressed.emit()

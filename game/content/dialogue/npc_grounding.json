@@ -164,12 +164,15 @@
       "buenos"
     ],
     "ask_death": [
+      "murio",
+      "muerto",
       "muerte",
       "suicidio",
       "comunidad",
       "tomas"
     ],
     "ask_night": [
+      "anoche",
       "noche"
     ],
     "ask_horse": [
@@ -177,11 +180,13 @@
       "medianoche"
     ],
     "ask_wine": [
+      "bodega",
       "vino",
       "cambia",
       "oculta"
     ],
     "ask_wound": [
+      "golpe",
       "herida",
       "lesion"
     ],

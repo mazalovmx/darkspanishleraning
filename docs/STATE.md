@@ -3604,3 +3604,38 @@ Rerun `./tools/run-tests.ps1` with the game closed.
 Full offline run repeated after the second game instance was closed (one still open):
 74 runs, 60,692 counted checks, none failed, performance_test included. This covers the
 Wesnoth unit art commit (23ad1e0). The earlier TIMEOUTs were machine load.
+
+## Evidence notes: free wording, a reading scene, a classification that means something (2026-10-09)
+
+User report: the evidence page already showed everything, the classifier did not match
+what was shown, and a note was accepted only when it repeated the example word for word.
+- Check. `evidence_graph.missing_note` replaces the exact list (which still passes):
+  a sentence must name the thing (key groups per clue in
+  `content/evidence/opening_practice.json`), contain a present-tense verb of the opening
+  block, be the kind of statement asked for, and pass the offline agreement check; it
+  returns what is missing in Spanish. Testimony questions need a key word and a question
+  form; reasoning conclusions need their key words and may not accuse. This also applies
+  to clues unlocked in conversation, which had the same exact-sentence rule. Four intent
+  lists gained synonyms (murió, muerto, anoche, bodega, golpe). 13 evidence nouns were
+  added to the agreement rules.
+- Page before the note: "HALLAZGO", a two-sentence scene to read (new text per finding;
+  it adds small props such as bread, cheese and a canteen to the bible's "packed food"),
+  and the task: "escribe una observación … con tus palabras" with sentence starters and
+  useful words. The model sentence, other people's claims and the interpretations are no
+  longer shown before the note; the example appears from the second failed attempt.
+- Classification: the list now reads "Mi frase es… una observación: lo que veo yo" and
+  so on. `kind_of` reads the kind from the sentence's own words (supposing, blaming,
+  ordering, else observing); a mismatch says so ("Has marcado una observación, pero tu
+  frase es una interpretación") and a correct label of the wrong kind says what is asked.
+- Page after the note: "LO QUE VISTE", "LO QUE DICEN OTROS (no lo has visto tú)", "QUÉ
+  PODRÍA SIGNIFICAR (interpretaciones, ninguna probada)", status and causal link, the
+  player's note and another wording.
+- The comparison page takes free wording too and names what the conclusion lacks.
+
+Executed: full offline run, 74 runs, 60,706 counted checks, none failed.
+evidence_notebook_test 67 and opening_inspection_test 53 carry the new checks (four free
+observations accepted, missing verb / missing thing / supposition / agreement error each
+named, the kind compared with the sentence). Inspection page seen in a window in three
+states. Limits: the kind is read from a fixed word list, so an interpretation phrased
+without those words passes as an observation; the verb list is a fixed list of present
+forms; the scenes and keys were not reviewed by a Spanish speaker.

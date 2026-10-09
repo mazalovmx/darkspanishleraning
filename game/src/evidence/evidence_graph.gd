@@ -15,9 +15,90 @@ func has_evidence(id: String) -> bool:
 func node(id: String) -> Dictionary:
 	return definitions.get(id, {}).duplicate(true)
 
+## Reading scenes and free-wording keys (opening_practice.json), by clue id.
+static var practice: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(
+	"res://content/evidence/opening_practice.json")).clues
+const KIND_NAMES := {"observation": "una observación", "interpretation": "una interpretación",
+	"accusation": "una acusación", "institutional_declaration": "una declaración institucional"}
+## Present-tense verbs of the opening block that state what is there or what is done.
+const PRESENT := ["hay", "veo", "ves", "ve", "vemos", "tiene", "tienen", "tengo", "esta", "estan", "es", "son", "falta", "faltan",
+	"encuentro", "observo", "noto", "lleva", "llevan", "presenta", "aparece", "aparecen", "queda", "quedan", "muestra", "contiene",
+	"guarda", "ordena", "exige", "manda", "dice", "obliga", "pide", "indica", "demuestra", "prueba", "identifica", "explica",
+	"significa", "precede", "ocurre", "sucede", "cae", "oye", "oigo"]
+const SUPPOSING := ["creo", "pienso", "supongo", "quiza", "quizas", "tal vez", "parece", "probablemente", "seguramente", "seguro",
+	"debe de", "a lo mejor", "porque", "puede que", "opino", "imagino"]
+const BLAMING := ["asesino", "asesina", "culpable", "culpables", "mato", "mata", "asesinato", "asesinan", "criminal", "lo matan", "es el responsable"]
+const ORDERING := ["ordena", "exige", "manda", "obliga", "prohibe", "decreta", "declara", "autoriza"]
+const ASKING := ["que", "quien", "quienes", "como", "cuando", "donde", "cual", "cuanto", "por que", "digame", "cuenteme", "expliqueme", "hableme"]
+
+static func _plain(note: String) -> String:
+	var text := Curriculum.fold(note)
+	return " " + " ".join(RegEx.create_from_string("[^a-zñ0-9]+").sub(text, " ", true).split(" ", false)) + " "
+
+static func _has(plain: String, words: Array) -> bool:
+	for word: String in words:
+		if plain.contains(" " + word + " "):
+			return true
+	return false
+
+## What kind of statement a sentence is, by its own words: an order from an authority,
+## a blame, a supposition, or else an observation.
+static func kind_of(note: String) -> String:
+	var plain := _plain(note)
+	if _has(plain, BLAMING):
+		return "accusation"
+	if _has(plain, SUPPOSING):
+		return "interpretation"
+	if _has(plain, ORDERING):
+		return "institutional_declaration"
+	return "observation"
+
+## What a free sentence still needs to count as this piece of evidence; empty when it is
+## enough. The authored notes always pass. Needs are Spanish phrases for the player.
+func missing_note(id: String, note: String) -> Array[String]:
+	var needs: Array[String] = []
+	if not definitions.has(id) or note.length() > 300 or note.strip_edges().is_empty():
+		return ["una frase en español (máximo 300 letras)"]
+	var exact := Curriculum.fold(note).trim_prefix("¿").trim_suffix("?").trim_suffix(".").strip_edges()
+	if exact in definitions[id].language.accepted_notes:
+		return needs
+	var clue: Dictionary = definitions[id]
+	var plain := _plain(note)
+	var keys: Array = practice.get(id, {}).get("keys", [])
+	if keys.is_empty():
+		return ["la frase del ejemplo"]
+	for group: Array in keys:
+		if not _has(plain, group):
+			needs.append("nombrar: " + " / ".join(group.slice(0, 3)))
+	if clue.source_type == "testimony":
+		if not note.contains("?") and not _has(plain, ASKING):
+			needs.append("forma de pregunta (¿qué…?, ¿quién…?, ¿por qué…?)")
+		return needs
+	if not _has(plain, PRESENT):
+		needs.append("un verbo en presente (hay, veo, tiene, está, falta…)")
+	var kind := kind_of(note)
+	if clue.source_type == "reasoning":
+		if kind == "accusation":
+			needs.append("no acusar a nadie: las pruebas todavía no nombran a un culpable")
+	elif clue.classification == "observation" and kind != "observation":
+		needs.append("decir solo lo que ves, sin suponer ni acusar (quita «%s»)" % _marker(plain))
+	elif clue.classification == "institutional_declaration" and kind == "accusation":
+		needs.append("citar lo que ordena el documento, sin acusar")
+	for problem: String in preload("res://src/spanish/grammar_checks.gd").missing(note):
+		needs.append(problem)
+	return needs
+
+static func _marker(plain: String) -> String:
+	for word: String in BLAMING + SUPPOSING + ORDERING:
+		if plain.contains(" " + word + " "):
+			return word
+	return ""
+
 func valid_note(id: String, note: String) -> bool:
 	if not definitions.has(id) or note.length() > 300:
 		return false
+	if practice.has(id):
+		return missing_note(id, note).is_empty()
 	var text := Curriculum.fold(note)
 	text = text.trim_prefix("¿").trim_suffix("?").trim_suffix(".").strip_edges()
 	return text in definitions[id].language.accepted_notes

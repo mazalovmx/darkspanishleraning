@@ -87,18 +87,35 @@ func run() -> void:
 	map.inspect_button.pressed.emit()
 	var notebook = map.notebook
 	check(notebook.visible and notebook.exercise.visible, "Inspection opens guided notebook")
-	for section in ["OBSERVACIÓN", "AFIRMACIÓN", "INTERPRETACIONES POSIBLES", "ESTADO INSTITUCIONAL", "VÍNCULO CAUSAL"]:
-		check(notebook.body.text.contains(section), "Semiotic categories visible separately")
+	check(notebook.body.text.begins_with("HALLAZGO · ") and notebook.body.text.contains("TAREA: escribe una observación") and notebook.body.text.contains("zurrón"), "Before recording: a scene to read and the kind of sentence to write")
+	check(not notebook.body.text.contains("Hay comida para un viaje") and not notebook.prompt.text.contains("Hay comida para un viaje") and not notebook.body.text.contains("suicidio"), "The page gives neither the sentence to write nor other people's claims before the note")
+	# Free wording: content and form decide, not a list of exact sentences.
+	var graph = map.state.evidence
+	for free in ["Encuentro pan y queso en el zurrón.", "En el catre hay provisiones para varios días.", "Tomás tiene comida lista para el camino.", "Veo un zurrón con comida."]:
+		check(graph.valid_note("travel_food", free), "A free observation in the player's words is accepted: " + free)
+	check(graph.missing_note("travel_food", "Un zurrón con pan")[0].contains("verbo en presente"), "A sentence without a verb is told so")
+	check(graph.missing_note("travel_food", "Hay una cantimplora llena")[0].begins_with("nombrar: comida"), "A sentence about something else names what to mention")
+	check(graph.missing_note("travel_food", "Creo que hay comida para huir").any(func(need: String) -> bool: return need.contains("sin suponer") and need.contains("creo")), "A supposition is not an observation, and the word is named")
+	check(graph.missing_note("travel_food", "Hay una comida en el zurrón").is_empty() and not graph.missing_note("brass_tube", "Hay una tubo roto").is_empty(), "Agreement errors of known nouns are caught, correct articles pass")
+	check(graph.kind_of("Hay sangre en la torre") == "observation" and graph.kind_of("Quizá alguien lo golpea") == "interpretation" and graph.kind_of("El abad es culpable") == "accusation" and graph.kind_of("El abad ordena conservar las cosas") == "institutional_declaration", "The kind of a sentence is read from its own words")
 	notebook.record_button.pressed.emit()
 	check(map.state.evidence.progress().is_empty(), "Button alone cannot grant evidence")
 	notebook.note.text = "Hay comida para un viaje."
 	notebook.category.select(2)
 	notebook.record_button.pressed.emit()
 	check(map.state.evidence.progress().is_empty(), "Correct Spanish alone is insufficient")
+	check(notebook.feedback.text.contains("Has marcado una interpretación, pero tu frase es una observación"), "The chosen kind is compared with the sentence itself")
+	notebook.note.text = "Creo que Tomás prepara comida para huir."
+	notebook.record_button.pressed.emit()
+	check(map.state.evidence.progress().is_empty() and notebook.feedback.text.contains("Aquí se pide una observación") and notebook.feedback.text.contains("Un ejemplo"), "A well-labelled interpretation is still not the observation asked for; the example appears from the second failure")
+	notebook.note.text = "Hay comida para un viaje."
 	notebook.category.select(1)
 	notebook.record_button.pressed.emit()
 	check(map.state.evidence.has_evidence("travel_food"), "Spanish description plus classification records observation")
-	check(not notebook.exercise.visible and notebook.feedback.text.contains("siguen abiertas"), "Recorded evidence does not settle interpretation")
+	check(not notebook.exercise.visible and notebook.body.text.contains("ninguna probada"), "Recorded evidence does not settle interpretation")
+	for section in ["LO QUE VISTE", "LO QUE DICEN OTROS (no lo has visto tú)", "QUÉ PODRÍA SIGNIFICAR", "ESTADO INSTITUCIONAL", "VÍNCULO CAUSAL"]:
+		check(notebook.body.text.contains(section), "After recording the sheet separates what was seen from what others say: " + section)
+	check(notebook.feedback.text.contains("Tu anotación: Hay comida para un viaje.") and notebook.feedback.text.contains("Otra forma de decirlo"), "The player's note is kept and another wording is offered")
 	check(map.state.learner.grammar.hay == 0, "Guided matching does not fake free-language mastery")
 	check(Save.read_save(path).state.evidence.has_evidence("travel_food"), "Recording autosaves")
 	map._input(escape)

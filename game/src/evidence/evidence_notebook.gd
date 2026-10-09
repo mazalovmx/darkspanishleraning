@@ -20,6 +20,14 @@ var exercise := VBoxContainer.new()
 var close_button := Button.new()
 ## Says, for the page on screen, what the player is expected to do next.
 var guide := Label.new()
+## Failed attempts at the page on screen: the example is shown from the second one.
+var attempts := 0
+const KINDS := ["", "observation", "interpretation", "accusation", "institutional_declaration"]
+const KIND_HELP := {
+	"observation": "Una OBSERVACIÓN dice solo lo que ves tú. Empieza con: Hay… / Veo… / … tiene… / … está… / Falta…",
+	"interpretation": "Una INTERPRETACIÓN dice lo que supones: Creo que… / Quizá… / Parece que…",
+	"accusation": "Una ACUSACIÓN culpa a alguien: … es culpable / … mata a…",
+	"institutional_declaration": "Una DECLARACIÓN INSTITUCIONAL repite lo que ordena o afirma una autoridad: El abad ordena… / La orden exige…"}
 
 func _ready() -> void:
 	color = Color(0, 0, 0, 0.8)
@@ -161,7 +169,7 @@ func _render() -> void:
 
 	note.clear()
 	category.clear()
-	for label in ["Esta frase es…", "Una observación", "Una interpretación", "Una acusación", "Una declaración institucional"]:
+	for label in ["Mi frase es…", "Una observación: lo que veo yo", "Una interpretación: lo que supongo", "Una acusación: culpo a alguien", "Una declaración institucional: lo que ordena una autoridad"]:
 		category.add_item(label)
 	category.select(0)
 	support_row.hide()
@@ -202,20 +210,29 @@ func _render() -> void:
 	if clue.source_type == "reasoning" and not world_state.evidence.has_evidence(active_id):
 		_render_assessment(clue)
 		return
-	prompt.text = "Modelo: %s\nPalabras: %s" % [
-		clue.language.get("sample", ""), clue.language.get("vocabulary", "")]
-	body.text = "%s\nOBSERVACIÓN\n%s\nFuente: %s\nAFIRMACIÓN\n%s\nFuente: %s\nINTERPRETACIONES POSIBLES\n• %s\nESTADO INSTITUCIONAL\n%s\nVÍNCULO CAUSAL\n%s" % [
-		clue.title, clue.observation, clue.source, clue.claim, clue.claim_source,
-		"\n• ".join(clue.interpretations), clue.institutional_status, clue.causal_link]
-	body.scroll_to_line(0)
-	if world_state.evidence.has_evidence(active_id):
+	var graph = world_state.evidence
+	if graph.has_evidence(active_id):
+		prompt.text = ""
+		body.text = "%s\n\nLO QUE VISTE (observación)\n%s\nFuente: %s\n\nLO QUE DICEN OTROS (no lo has visto tú)\n%s\nLo dice: %s\n\nQUÉ PODRÍA SIGNIFICAR (interpretaciones, ninguna probada)\n• %s\n\nESTADO INSTITUCIONAL\n%s\n\nVÍNCULO CAUSAL\n%s" % [
+			clue.title, clue.observation, clue.source, clue.claim, clue.claim_source,
+			"\n• ".join(clue.interpretations), clue.institutional_status, clue.causal_link]
+		body.scroll_to_line(0)
 		guide.text = "✓ Esta prueba ya está en tu cuaderno. " + ("Quedan %d sin anotar (●): elígelas en la lista de arriba." % pending if pending > 0 else "Aquí no queda nada por anotar: habla con la gente del lugar sobre lo que has visto, o pulsa Volver.")
-		feedback.text = ("Tu pregunta: " if clue.source_type == "testimony" else "Tu anotación: ") + str(world_state.evidence.progress()[active_id].spanish_note) + "\nLas interpretaciones siguen abiertas."
-	else:
-		exercise.show()
-		body.custom_minimum_size.y = 190
-		guide.text = "CÓMO ANOTAR ESTA PRUEBA: 1) Lee abajo lo que has encontrado. 2) Escribe en español lo que ves, con tus palabras (el modelo es solo un ejemplo). 3) Elige qué clase de frase es. 4) Pulsa «Anotar la prueba».\nRead the finding, write what you see in Spanish, choose the kind of sentence, press the button."
-		feedback.text = "Clasifica la frase: observar algo y recibir una orden son actos distintos."
+		feedback.text = ("Tu pregunta: " if clue.source_type == "testimony" else "Tu anotación: ") + str(graph.progress()[active_id].spanish_note)
+		if clue.source_type != "testimony":
+			feedback.text += "\nOtra forma de decirlo: " + str(clue.language.get("sample", ""))
+		return
+	# Not recorded yet: read the scene, then write the kind of sentence the task asks for.
+	attempts = 0
+	exercise.show()
+	body.custom_minimum_size.y = 190
+	var scene := str(graph.practice.get(active_id, {}).get("scene", clue.observation))
+	body.text = "HALLAZGO · %s\n\n%s\n\nTAREA: escribe %s sobre esto, en español y con tus palabras.\n%s" % [
+		clue.title, scene, graph.KIND_NAMES.get(clue.classification, "una frase"), KIND_HELP.get(clue.classification, "")]
+	body.scroll_to_line(0)
+	prompt.text = "Palabras útiles: %s" % clue.language.get("vocabulary", "")
+	guide.text = "CÓMO ANOTAR: 1) Lee el hallazgo. 2) Escribe tu frase. 3) Di qué clase de frase es. 4) Pulsa «Anotar la prueba». Si falta algo, abajo se explica qué.\nRead the finding, write your sentence, say what kind it is, press the button."
+	feedback.text = ""
 
 func _record() -> void:
 	if active_id.is_empty() or world_state == null:
@@ -231,17 +248,32 @@ func _record() -> void:
 			evidence_recorded.emit()
 		return
 	var location: Dictionary = world_state.location_at(world_state.hero_cell)
-	var classes := ["", "observation", "interpretation", "accusation", "institutional_declaration"]
 	var clue: Dictionary = world_state.evidence.node(active_id)
-	if category.selected < 0 or classes[category.selected] != clue.classification:
-		feedback.text = "Falta elegir bien la clase de frase (lista «Esta frase es…»). Observación: lo que ves tú. Interpretación: lo que supones. Acusación: culpar a alguien. Declaración institucional: lo que dice una autoridad."
-		return
-	if not world_state.evidence.valid_note(active_id, note.text):
-		feedback.text = "La frase todavía no dice lo que has encontrado. Prueba con: " + str(clue.language.get("sample", ""))
-		return
-	if world_state.evidence.record(active_id, location.get("id", ""), note.text, classes[category.selected], world_state.day):
+	var graph = world_state.evidence
+	var wanted: String = clue.classification
+	var chosen: String = KINDS[category.selected] if category.selected > 0 else ""
+	var written: String = graph.kind_of(note.text)
+	var needs: Array[String] = graph.missing_note(active_id, note.text)
+	var problems: Array[String] = []
+	if not needs.is_empty():
+		problems.append("Tu frase necesita: " + "; ".join(needs) + ".")
+	if chosen.is_empty():
+		problems.append("Elige en la lista qué clase de frase has escrito.")
+	elif not note.text.strip_edges().is_empty() and chosen != written:
+		# The choice is checked against the player's own words, not against a hidden answer.
+		problems.append("Has marcado %s, pero tu frase es %s. %s" % [graph.KIND_NAMES[chosen], graph.KIND_NAMES[written], KIND_HELP[written]])
+	elif chosen != wanted:
+		problems.append("Aquí se pide %s. %s" % [graph.KIND_NAMES.get(wanted, wanted), KIND_HELP.get(wanted, "")])
+	if problems.is_empty() and graph.record(active_id, location.get("id", ""), note.text, chosen, world_state.day):
 		_render()
 		evidence_recorded.emit()
+		return
+	attempts += 1
+	if problems.is_empty():
+		problems.append("Esta prueba no se puede anotar aquí ahora.")
+	if attempts >= 2:
+		problems.append("Un ejemplo (cámbialo a tu manera): " + str(clue.language.get("sample", "")))
+	feedback.text = "\n".join(problems)
 
 func open_reasoning() -> void:
 	var ids: Array = world_state.evidence.reviewable_ids(world_state.day)
@@ -265,7 +297,7 @@ func _render_assessment(clue: Dictionary) -> void:
 		if item.source_type != "reasoning":
 			body.text += "\n• " + str(item.title) + ": " + str(item.observation)
 	body.scroll_to_line(0)
-	prompt.text = "Formula una conclusión limitada. Modelo: " + str(clue.language.sample)
+	prompt.text = "Formula una conclusión prudente con tus palabras. Palabras útiles: " + str(clue.language.get("vocabulary", ""))
 	prompt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	category.clear()
 	category.add_item("Selecciona una hipótesis…")
@@ -298,4 +330,10 @@ func _record_assessment() -> void:
 		_render()
 		evidence_recorded.emit()
 	else:
-		feedback.text = str(clue.assessment.feedback) + " Revisa también los apoyos y la frase."
+		attempts += 1
+		var needs: Array[String] = world_state.evidence.missing_note(active_id, note.text)
+		feedback.text = str(clue.assessment.feedback) + " Revisa también la hipótesis y los dos apoyos."
+		if not needs.is_empty():
+			feedback.text += "\nTu frase necesita: " + "; ".join(needs) + "."
+		if attempts >= 2:
+			feedback.text += "\nUn ejemplo (cámbialo a tu manera): " + str(clue.language.sample)

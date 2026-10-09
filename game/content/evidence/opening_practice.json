@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "note": "Reading scenes and free-wording keys for the opening evidence (opening.json keeps the canonical facts). A scene describes what the investigator finds without stating the sentence to write. keys: every group needs one of its words in the player's sentence (accents folded).",
+  "clues": {
+    "travel_food": {
+      "scene": "Sobre el catre de Tomás hay un zurrón cerrado y listo. Dentro alguien guardó pan, queso y una cantimplora llena: lo que se lleva para varios días de camino.",
+      "keys": [["comida", "provisiones", "alimentos", "viveres", "pan", "queso", "zurron"]]
+    },
+    "brass_tube": {
+      "scene": "En el suelo de la torre, cerca de la escalera, brilla un tubo de latón. Está partido y uno de los extremos tiene el borde aplastado.",
+      "keys": [["tubo", "instrumento"], ["roto", "rota", "partido", "partida", "quebrado", "danado", "aplastado", "laton"]]
+    },
+    "tower_blood": {
+      "scene": "En el interior de la torre, sobre uno de los peldaños, queda una mancha oscura y seca: es sangre. Fuera, al pie del campanario, la lluvia lo ha lavado casi todo.",
+      "keys": [["sangre", "mancha"], ["torre", "dentro", "interior", "peldano", "escalera"]]
+    },
+    "scraped_boot": {
+      "scene": "Las botas de Tomás están junto a sus cosas. Una de ellas tiene el cuero raspado en la punta, como cuando algo roza contra la piedra.",
+      "keys": [["bota", "botas", "calzado"], ["marca", "roce", "raspada", "raspado", "raspadura", "rasguno", "aranazo", "rozada"]]
+    },
+    "missing_notebook": {
+      "scene": "Entre las pertenencias hay tinta, plumas y pinceles de iluminador. El lugar donde Tomás guardaba su cuaderno de trabajo está vacío.",
+      "keys": [["cuaderno", "libreta"], ["no", "falta", "ausente", "desaparecido", "vacio"]]
+    },
+    "preservation_order": {
+      "scene": "Junto a las pertenencias hay una hoja con el sello del abad. Dice que las cosas de Tomás deben conservarse y que cada entrega debe quedar registrada.",
+      "keys": [["abad", "orden", "documento", "hoja"], ["ordena", "exige", "manda", "dice", "obliga", "pide"], ["conservar", "guardar", "preservar", "custodiar", "conserven", "guarden", "registrar"]]
+    },
+    "monastery_claim": {
+      "keys": [["muerte", "suicidio", "murio", "muerto", "comunidad", "tomas"]]
+    },
+    "gabriel_denial": {
+      "keys": [["noche", "anoche"]]
+    },
+    "horse_sound": {
+      "keys": [["caballo", "medianoche"]]
+    },
+    "wine_secret": {
+      "keys": [["vino", "bodega", "cambia", "oculta"]]
+    },
+    "medical_report": {
+      "keys": [["herida", "lesion", "golpe"]]
+    },
+    "food_hypothesis": {
+      "keys": [["comida", "provisiones", "viveres"], ["no"], ["demuestra", "prueba", "explica", "indica", "significa"]]
+    },
+    "horse_hypothesis": {
+      "keys": [["caballo", "mentira", "vino", "sonido"], ["no"], ["identifica", "demuestra", "prueba", "indica", "significa"]]
+    },
+    "opening_conclusion": {
+      "keys": [["golpe"], ["antes", "anterior", "precede", "primero"], ["caida", "caer", "cae"]]
+    }
+  }
+}
