@@ -3462,3 +3462,33 @@ NOT green: performance_test still fails two budgets (new band of cells 74 ms vs 
 full rebuild 378 ms vs 250). "_refresh, nothing new" improved to 0.65 ms average. The
 game was running on the same machine during these runs; rerun on an idle machine before
 calling it noise.
+
+## Tenfold daily movement, one-click dictionary, mistake review (2026-10-09)
+
+- Movement (user request: "ten times more per day"). `movement_scale` in
+  `config/game.json` (10) is applied by the title menu to `PartyState.movement_scale`;
+  hero definitions multiply `movement_max` by it, `WorldState.movement_max()` replaces
+  the constant in the HUD and in save validation, and the day plan
+  (`simultaneous_turn.reach()`) scales its three fixed limits: route length (was 25
+  cells), actor movement bound (was 24) and resolution steps (was 24). Knights keep 18.
+  Worlds built directly (every other suite) keep scale 1; this is deliberate and is the
+  weak point: see RUN_REVIEW_2026-10-09.md.
+- One click to the dictionary (user request). `spanish/word_picker.gd` watches every text
+  of the map and its windows. Rich text: select a word (double click selects one) and
+  press the button that appears. Plain labels: double click the line and pick the word
+  from the list. A word already in the dictionary is shown with its gloss; otherwise
+  DeepSeek proposes the entry and it is kept only if it passes the same checks as the
+  dictionary form (lengths, no duplicate, explanation without the word). The result is
+  shown in a note at the top of the screen and saved at once.
+- `docs/RUN_REVIEW_2026-10-09.md`: the agent's mistakes of this session, on request.
+
+Executed: movement_scale_test 10 (title menu applies the scale, a route beyond 18 is
+planned and resolved in one day, saves at 180 and at 18 load, 187 is rejected);
+dictionary_test 275 with the picker driven through a fake transport. Not done: the
+picker was not seen in a window and not tried live; label double-click opens a popup
+menu that no test opens. Full regression result is recorded below.
+Full offline run: 74 runs, 60,544 counted checks. 73 passed, performance_test included;
+voices_test failed nine checks because the news fact added in ee27aa9 had also been given
+to the nine comic characters, whose facts must be their own. Removed from those nine (25
+characters keep it); voices_test 233, npc_grounding_test 70 and dialogue_golden_test
+1,090 rerun and passed. The full run was not repeated after that removal.
