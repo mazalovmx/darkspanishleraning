@@ -18,7 +18,7 @@ func run() -> void:
 	var practice := Vocabulary.new()
 	var ids: Array = practice.themes().map(func(theme: Dictionary) -> String: return theme.id)
 	check(ids.slice(0, 7) == ["cuerpo", "ropa", "objetos", "emociones", "cocina", "conceptos", "conectores"], "Original seven themes keep their order")
-	check(ids.slice(7) == ["valdora", "cardena", "miralba", "ferraza", "lucerna", "campo", "camino", "minas", "ruinas", "marjal", "imprenta"], "Eleven place vocabularies follow the original themes")
+	check(ids.slice(7) == ["valdora", "cardena", "miralba", "ferraza", "lucerna", "campo", "camino", "minas", "ruinas", "marjal", "imprenta", "mias"], "Eleven place vocabularies and the own list follow the original themes")
 	check(practice.items.size() == 215, "127 original items plus 88 place words")
 	for pair in [["LOC02", "valdora"], ["LOC14", "valdora"], ["LOC05", "cardena"], ["LOC15", "miralba"], ["LOC13", "ferraza"], ["LOC01", "lucerna"], ["LOC07", "campo"], ["LOC12", "campo"], ["LOC06", "camino"], ["LOC11", "camino"], ["LOC08", "minas"], ["LOC09", "ruinas"], ["LOC18", "ruinas"], ["LOC10", "marjal"], ["LOC16", "imprenta"]]:
 		check(practice.city_theme(pair[0]) == pair[1], "City vocabulary follows geography: " + pair[0])
@@ -69,6 +69,7 @@ func run() -> void:
 	check(loaded.has("state") and loaded.state.learner.word_practice.progress == {"cocina_01": {"box": 1, "due": 2}}, "Vocabulary boxes survive a save")
 	var older: Dictionary = Save.snapshot(state).duplicate(true)
 	older.learner.erase("word_practice")
+	older.learner.erase("own_words")
 	check(Save.decode(older).has("state"), "An older save without vocabulary loads")
 	var forged: Dictionary = Save.snapshot(state).duplicate(true)
 	forged.learner.word_practice = {"invented": {"box": 1, "due": 1}}
@@ -79,7 +80,7 @@ func run() -> void:
 	await process_frame
 	panel.open_course(state)
 	panel.words_tab.pressed.emit()
-	check(panel.words_box.visible and not panel.practice_box.visible and panel.words_theme.item_count == 19, "Vocabulary tab with all original and city themes")
+	check(panel.words_box.visible and not panel.practice_box.visible and panel.words_theme.item_count == 20, "Vocabulary tab with all original and city themes")
 	check(panel.words_clue.text.begins_with("¿QUÉ PALABRA ES?"), "A clue is shown")
 	var answer: String = state.learner.word_practice.items[panel.word_id].word
 	panel.words_answer.text = answer

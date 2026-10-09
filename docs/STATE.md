@@ -3242,3 +3242,28 @@ start. The suicide claim stays gated behind the inspection.
 
 Executed: npc_grounding_test (62) and the six dialogue suites (1,264), passed
 headless. No live model call: the new replies themselves were not observed.
+
+## Dictionary with English glosses and the player's own words (2026-10-09)
+
+User request. The lessons panel has a fourth tab, Diccionario: all 215 built-in words
+sorted by word, each with an English gloss (`vocabulary_en.json`, by item id), its
+Spanish explanation, example, theme and practice level; search works in Spanish or
+English. The player adds own words: Spanish word, English translation, Spanish
+explanation, optional example. "Completar con DeepSeek" (`spanish/word_lookup.gd`,
+one JSON-mode request, key from DEEPSEEK_API_KEY) proposes the fields from a Spanish
+or English word; the proposal only fills editable fields and nothing is kept until the
+player presses Añadir. Deterministic checks apply to typed and proposed entries alike:
+lengths, no duplicate of any dictionary word, the explanation may not contain the
+word. Own words form the theme "Mis palabras" in Vocabulario with the same spaced
+boxes, are due on the day they are added and can be removed. Words the model flagged
+in conversations and not yet kept are offered at the top of the list. Practice
+feedback now ends with the English gloss.
+
+Save: optional learner key `own_words` (list of five-field records, ids `mia_NNNN`),
+validated on load; no version change, older saves load. Limit 300 own words.
+
+Executed: dictionary_test 265 (headless and windowed inside the map; screenshot
+inspected after two layout fixes), vocabulary_test 301, save_game_test 540, the four
+curriculum suites 1,227; all passed. Not done: no live DeepSeek request was made (the
+lookup ran only against a fake transport), and the English glosses were written
+without review by a Spanish speaker.

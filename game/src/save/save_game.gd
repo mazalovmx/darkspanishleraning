@@ -27,7 +27,7 @@ static func snapshot(state: WorldState) -> Dictionary:
 		"grammar": learner.grammar.duplicate(true), "verbs": learner.verbs.duplicate(true),
 		"errors": learner.errors.duplicate(true), "vocabulary": learner.vocabulary.duplicate(),
 		"recent_messages": learner.recent_messages.duplicate(),
-		"successful_contexts": learner.successful_contexts.duplicate(true), "word_practice": learner.word_practice.snapshot()}}
+		"successful_contexts": learner.successful_contexts.duplicate(true), "word_practice": learner.word_practice.snapshot(), "own_words": learner.word_practice.snapshot_own()}}
 
 static func _integer(value: Variant, low: int, high: int) -> bool:
 	return (value is int or value is float) and is_finite(value) and value == floor(value) and value >= low and value <= high
@@ -54,11 +54,18 @@ static func _scores(values: Variant, keys: Array) -> bool:
 	return true
 
 static func _learner_valid(data: Variant, day: int, version: int) -> bool:
-	# "word_practice" (vocabulary boxes) is absent from saves written before it existed.
+	# "word_practice" (vocabulary boxes) and "own_words" (the player's dictionary) are
+	# absent from saves written before they existed; own words need the boxes.
 	var expected := 8 if version >= 5 else 7
-	if not data is Dictionary or (data.size() != expected and not (data.size() == expected + 1 and data.has("word_practice"))):
+	if not data is Dictionary:
 		return false
-	if data.has("word_practice") and not preload("res://src/spanish/vocabulary.gd").new().restore(data.word_practice, day):
+	var optional := int(data.has("word_practice")) + int(data.has("own_words"))
+	if data.size() != expected + optional or (data.has("own_words") and not data.has("word_practice")):
+		return false
+	var words = preload("res://src/spanish/vocabulary.gd").new()
+	if data.has("own_words") and not words.restore_own(data.own_words):
+		return false
+	if data.has("word_practice") and not words.restore(data.word_practice, day):
 		return false
 	var course = preload("res://src/spanish/curriculum.gd").new()
 	if version >= 5 and not course.restore(data.get("curriculum"), day):
@@ -180,6 +187,8 @@ static func decode(data: Variant) -> Dictionary:
 	state.learner.vocabulary.assign(learner.vocabulary)
 	state.learner.recent_messages.assign(learner.recent_messages)
 	state.learner.successful_contexts = learner.successful_contexts.duplicate(true)
+	if learner.has("own_words"):
+		state.learner.word_practice.restore_own(learner.own_words)
 	if learner.has("word_practice"):
 		state.learner.word_practice.restore(learner.word_practice, int(data.day))
 	if data.version >= 5:

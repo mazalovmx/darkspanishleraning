@@ -33,6 +33,21 @@ var words_check := Button.new()
 var words_next := Button.new()
 var words_feedback := Label.new()
 var word_id := ""
+# Dictionary tab: every word with its English gloss, and the player's own additions.
+var dictionary_tab := Button.new()
+var dictionary_box := VBoxContainer.new()
+var dict_search := LineEdit.new()
+var dict_list := ItemList.new()
+var dict_detail := RichTextLabel.new()
+var dict_word := LineEdit.new()
+var dict_en := LineEdit.new()
+var dict_clue := LineEdit.new()
+var dict_example := LineEdit.new()
+var dict_lookup := Button.new()
+var dict_add := Button.new()
+var dict_remove := Button.new()
+var dict_notice := Label.new()
+var lookup = preload("res://src/spanish/word_lookup.gd").new()
 var words_location := ""
 static func tag_name(tag: String) -> String:
 	return preload("res://src/spanish/curriculum.gd").tag_name(tag)
@@ -61,7 +76,7 @@ func _ready() -> void:
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(title)
 	var tabs := HBoxContainer.new()
-	for pair in [[practice_tab, "Práctica"], [progress_tab, "Progreso y repaso"], [words_tab, "Vocabulario"]]:
+	for pair in [[practice_tab, "Práctica"], [progress_tab, "Progreso y repaso"], [words_tab, "Vocabulario"], [dictionary_tab, "Diccionario"]]:
 		pair[0].text = pair[1]
 		pair[0].toggle_mode = true
 		pair[0].size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -69,6 +84,11 @@ func _ready() -> void:
 	practice_tab.pressed.connect(func(): _show_tab(false))
 	progress_tab.pressed.connect(func(): _show_tab(true))
 	words_tab.pressed.connect(func(): _show_tab(false, true))
+	dictionary_tab.pressed.connect(func(): _show_tab(false, false, true))
+	practice_tab.tooltip_text = "Lecciones del bloque actual: escribe frases para avanzar.\nLessons of the current block."
+	progress_tab.tooltip_text = "Tu avance, tus errores frecuentes y repaso sin crédito.\nYour progress, frequent errors and free review."
+	words_tab.tooltip_text = "Practica palabras: lees la explicación y escribes la palabra.\nPractise words from their Spanish explanation."
+	dictionary_tab.tooltip_text = "Consulta todas las palabras con su traducción y añade las tuyas.\nLook up every word and add your own."
 	box.add_child(tabs)
 	practice_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	practice_box.add_theme_constant_override("separation", 12)
@@ -142,6 +162,64 @@ func _ready() -> void:
 	words_feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	words_feedback.custom_minimum_size.y = 90
 	words_box.add_child(words_feedback)
+	dictionary_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	dictionary_box.add_theme_constant_override("separation", 6)
+	box.add_child(dictionary_box)
+	dict_search.placeholder_text = "Buscar en el diccionario (español o inglés)"
+	dict_search.max_length = 60
+	dict_search.text_changed.connect(func(_text: String): _fill_dictionary())
+	dictionary_box.add_child(dict_search)
+	var dict_top := HBoxContainer.new()
+	dict_top.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	dict_list.custom_minimum_size = Vector2(330, 215)
+	dict_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	dict_list.item_selected.connect(_dictionary_selected)
+	dict_top.add_child(dict_list)
+	dict_detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	dict_detail.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	dict_detail.add_theme_font_size_override("normal_font_size", 15)
+	dict_top.add_child(dict_detail)
+	dictionary_box.add_child(dict_top)
+	var dict_row := HBoxContainer.new()
+	dict_word.placeholder_text = "Palabra nueva para mi lista (español o inglés)"
+	dict_word.max_length = 60
+	dict_word.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	dict_word.text_submitted.connect(func(_text: String): _lookup_word())
+	dict_row.add_child(dict_word)
+	dict_lookup.text = "Completar con DeepSeek"
+	dict_lookup.tooltip_text = "Pide a DeepSeek la traducción, la explicación y un ejemplo. Puedes corregirlos antes de añadir.\nAsks DeepSeek to fill in the fields below."
+	dict_lookup.pressed.connect(_lookup_word)
+	dict_row.add_child(dict_lookup)
+	dictionary_box.add_child(dict_row)
+	var dict_fields := HBoxContainer.new()
+	dict_en.placeholder_text = "Traducción al inglés"
+	dict_en.max_length = 80
+	dict_en.custom_minimum_size.x = 230
+	dict_fields.add_child(dict_en)
+	dict_clue.placeholder_text = "Explicación en español (sin usar la palabra)"
+	dict_clue.max_length = 200
+	dict_clue.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	dict_fields.add_child(dict_clue)
+	dictionary_box.add_child(dict_fields)
+	var dict_last := HBoxContainer.new()
+	dict_example.placeholder_text = "Frase de ejemplo (opcional)"
+	dict_example.max_length = 200
+	dict_example.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	dict_last.add_child(dict_example)
+	dict_add.text = "Añadir"
+	dict_add.tooltip_text = "Guarda la palabra en «Mis palabras»; aparecerá en Vocabulario para practicarla.\nSaves the word; it joins the practice."
+	dict_add.pressed.connect(_add_word)
+	dict_last.add_child(dict_add)
+	dict_remove.text = "Quitar"
+	dict_remove.tooltip_text = "Quita de tu lista la palabra seleccionada (solo las tuyas).\nRemoves the selected word of yours."
+	dict_remove.pressed.connect(_remove_word)
+	dict_last.add_child(dict_remove)
+	dictionary_box.add_child(dict_last)
+	dict_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	dict_notice.add_theme_font_size_override("font_size", 14)
+	dictionary_box.add_child(dict_notice)
+	add_child(lookup)
+	lookup.finished.connect(_lookup_finished)
 	close_button.text = "Volver al viaje"
 	close_button.pressed.connect(close)
 	box.add_child(close_button)
@@ -156,11 +234,16 @@ func open_course(state: RefCounted) -> void:
 	_show_tab(false)
 	show()
 
-func _show_tab(progress: bool, words := false) -> void:
-	practice_tab.set_pressed_no_signal(not progress and not words)
+func _show_tab(progress: bool, words := false, dictionary := false) -> void:
+	practice_tab.set_pressed_no_signal(not progress and not words and not dictionary)
+	dictionary_tab.set_pressed_no_signal(dictionary)
+	dictionary_box.visible = dictionary
+	if dictionary:
+		dict_notice.text = ""
+		_fill_dictionary()
 	progress_tab.set_pressed_no_signal(progress)
 	words_tab.set_pressed_no_signal(words)
-	practice_box.visible = not progress and not words
+	practice_box.visible = not progress and not words and not dictionary
 	progress_box.visible = progress
 	words_box.visible = words
 	if progress:
@@ -181,6 +264,98 @@ func _show_tab(progress: bool, words := false) -> void:
 					words_theme.select(index)
 					break
 		_next_word()
+
+## Lists the dictionary: conversation words not kept yet, then every entry by word.
+func _fill_dictionary(select_id := "") -> void:
+	var practice = world_state.learner.word_practice
+	var wanted: String = practice._normal(dict_search.text, false)
+	dict_list.clear()
+	for word: String in world_state.learner.vocabulary:
+		if practice.find(word).is_empty() and (wanted.is_empty() or practice._normal(word, false).contains(wanted)):
+			dict_list.add_item("＋ %s  (de una conversación)" % word)
+			dict_list.set_item_metadata(dict_list.item_count - 1, "+" + word)
+	var ids: Array = practice.items.keys()
+	ids.sort_custom(func(a: String, b: String) -> bool:
+		return practice._bare(practice._normal(practice.items[a].word, false)) < practice._bare(practice._normal(practice.items[b].word, false)))
+	for id: String in ids:
+		var item: Dictionary = practice.items[id]
+		if not wanted.is_empty() and not practice._normal(item.word, false).contains(wanted) and not str(item.en).to_lower().contains(wanted):
+			continue
+		dict_list.add_item("%s%s — %s" % ["★ " if item.theme == practice.OWN_THEME else "", item.word, item.en])
+		dict_list.set_item_metadata(dict_list.item_count - 1, id)
+		if id == select_id:
+			dict_list.select(dict_list.item_count - 1)
+	dict_remove.disabled = true
+	dict_lookup.disabled = lookup.busy
+	dict_detail.text = "%d palabras · %d tuyas (★).\nElige una palabra para ver su traducción al inglés, su explicación y un ejemplo." % [practice.items.size(), practice.own.size()]
+	if not select_id.is_empty() and not dict_list.get_selected_items().is_empty():
+		_dictionary_selected(dict_list.get_selected_items()[0])
+
+func _dictionary_selected(index: int) -> void:
+	var practice = world_state.learner.word_practice
+	var id := str(dict_list.get_item_metadata(index))
+	if id.begins_with("+"):
+		dict_word.text = id.substr(1)
+		dict_remove.disabled = true
+		dict_detail.text = "«%s» apareció en una conversación. Complétala con DeepSeek o escribe tú la traducción y la explicación; después pulsa Añadir." % id.substr(1)
+		return
+	var item: Dictionary = practice.items[id]
+	var theme_name := ""
+	for theme: Dictionary in practice.themes():
+		if theme.id == item.theme:
+			theme_name = theme.name
+	var record: Dictionary = practice.progress.get(id, {})
+	var status := "Todavía sin practicar."
+	if not record.is_empty():
+		status = "Nivel %d de 5 · %s" % [record.box, "toca practicarla hoy" if int(record.due) <= world_state.day else "vuelve el día %d" % record.due]
+	var note := ("\n" + str(item.note)) if not str(item.note).is_empty() else ""
+	dict_detail.text = "%s\nEN: %s\n\n%s\n\nEjemplo: %s%s\n\nTema: %s\n%s" % [str(item.word).to_upper(), item.en, item.clue, item.example, note, theme_name, status]
+	dict_remove.disabled = item.theme != practice.OWN_THEME
+
+func _lookup_word() -> void:
+	if lookup.busy:
+		return
+	if dict_word.text.strip_edges().is_empty():
+		dict_notice.text = "Escribe primero la palabra."
+		return
+	dict_notice.text = "Consultando a DeepSeek…"
+	lookup.lookup(dict_word.text)
+	dict_lookup.disabled = lookup.busy
+
+func _lookup_finished(entry: Dictionary, error: String) -> void:
+	dict_lookup.disabled = false
+	if not error.is_empty():
+		dict_notice.text = error
+		return
+	dict_word.text = entry.word
+	dict_en.text = entry.en
+	dict_clue.text = entry.clue
+	dict_example.text = entry.example
+	var problem: String = world_state.learner.word_practice.own_error(entry)
+	dict_notice.text = "Propuesta de DeepSeek: revísala y pulsa Añadir." if problem.is_empty() else "Propuesta de DeepSeek, por corregir: " + problem
+
+func _add_word() -> void:
+	var practice = world_state.learner.word_practice
+	var result: Dictionary = practice.add_own({"word": dict_word.text, "en": dict_en.text, "clue": dict_clue.text, "example": dict_example.text}, world_state.day)
+	dict_notice.text = result.message
+	if not result.ok:
+		return
+	for field: LineEdit in [dict_word, dict_en, dict_clue, dict_example]:
+		field.clear()
+	dict_search.clear()
+	_fill_dictionary(result.id)
+	progressed.emit()
+
+func _remove_word() -> void:
+	var chosen := dict_list.get_selected_items()
+	if chosen.is_empty():
+		return
+	var id := str(dict_list.get_item_metadata(chosen[0]))
+	var word := str(world_state.learner.word_practice.items.get(id, {}).get("word", ""))
+	if world_state.learner.word_practice.remove_own(id):
+		dict_notice.text = "«%s» ya no está en tus palabras." % word
+		_fill_dictionary()
+		progressed.emit()
 
 ## Shows the next due word of the chosen theme.
 func _next_word() -> void:
