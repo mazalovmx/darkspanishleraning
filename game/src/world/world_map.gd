@@ -104,6 +104,8 @@ var painted := 0
 var fog_tiles := TileMapLayer.new()
 var lit: Array[Vector2i] = []
 var camera := Camera2D.new()
+var zoom_label := Label.new()
+var center_button := Button.new()
 var hero := Sprite2D.new()
 # Last cell and hero the token showed: a move walks the token along its path by
 # animating the sprite offset, while its position is already the new cell.
@@ -141,16 +143,16 @@ func _ready() -> void:
 	for id: String in HERO_ART:
 		var path := ART + "Unit/medievalUnit_%02d.png" % HERO_ART[id]
 		if ResourceLoader.exists(path):
-			hero_textures[id] = load(path)
+			hero_textures[id] = _map_art(path)
 	for kind: String in LOCATION_ART:
 		var path := ART + "Structure/medievalStructure_%02d.png" % LOCATION_ART[kind]
 		if ResourceLoader.exists(path):
-			location_textures[kind] = load(path)
+			location_textures[kind] = _map_art(path)
 	add_child(music)
 	add_child(sfx)
 	for resource: String in SITE_ART:
 		if ResourceLoader.exists(ART + SITE_ART[resource] + ".png"):
-			site_textures[resource] = load(ART + SITE_ART[resource] + ".png")
+			site_textures[resource] = _map_art(ART + SITE_ART[resource] + ".png")
 	if ResourceLoader.exists(ART + KNIGHT_ART + ".png"):
 		knight_texture = load(ART + KNIGHT_ART + ".png")
 	_build_ui()
@@ -178,6 +180,17 @@ func _ready() -> void:
 	if Engine.has_meta("start_new_game"):
 		Engine.remove_meta("start_new_game")
 		_new_game()
+
+## Trim transparent margins at runtime so map figures use their allotted size.
+func _map_art(path: String) -> Texture2D:
+	var texture: Texture2D = load(path)
+	var bounds := texture.get_image().get_used_rect()
+	if not bounds.has_area():
+		return texture
+	var cropped := AtlasTexture.new()
+	cropped.atlas = texture
+	cropped.region = bounds
+	return cropped
 
 func _build_tiles() -> void:
 	var atlas_image := Image.create(CELL_SIZE * COLORS.size(), CELL_SIZE * 4, false, Image.FORMAT_RGBA8)
@@ -324,8 +337,8 @@ func _build_ui() -> void:
 	var layer := CanvasLayer.new()
 	add_child(layer)
 	var panel := PanelContainer.new()
-	panel.position = Vector2(960, 20)
-	panel.size = Vector2(300, 680)
+	panel.position = Vector2(940, 20)
+	panel.size = Vector2(320, 680)
 	panel.theme = Theme.new()
 	panel.theme.default_font_size = 18
 	panel.theme.default_font = ThemeDB.fallback_font
@@ -462,8 +475,27 @@ func _build_ui() -> void:
 	instructions.add_theme_font_size_override("font_size", 14)
 	instructions.add_theme_color_override("font_color", WoodTheme.DIM)
 	instructions.focus_mode = Control.FOCUS_NONE
-	instructions.tooltip_text = "Clic en el héroe: seleccionar\nClic en una casilla: preparar ruta\nBotón derecho: deseleccionar\nFlechas o WASD, o arrastrar botón central: mover el mapa\nRueda: acercar / alejar
+	instructions.tooltip_text = "Clic en el héroe: seleccionar\nClic en una casilla: preparar ruta\nBotón derecho: deseleccionar\nFlechas o WASD, o arrastrar botón central: mover el mapa\nRueda: zoom bajo el cursor; + / −: zoom\nHome: volver al héroe\nEspacio + arrastrar: mover el mapa
 Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la copia entera\n\nCOSTE POR CASILLA\nCamino / pradera / campo: 1\nBosque / ruinas / nieve: 2\nPantano: 3\nAgua / montaña: impasable"
+	var navigation := HBoxContainer.new()
+	box.add_child(navigation)
+	center_button.text = "Al héroe"
+	center_button.tooltip_text = "Home: volver al héroe activo y seleccionarlo"
+	center_button.focus_mode = Control.FOCUS_NONE
+	center_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	center_button.pressed.connect(_center_hero)
+	navigation.add_child(center_button)
+	for factor: float in [1.0 / 1.15, 1.15]:
+		var button := Button.new()
+		button.text = "−" if factor < 1 else "+"
+		button.tooltip_text = "Alejar" if factor < 1 else "Acercar"
+		button.focus_mode = Control.FOCUS_NONE
+		button.custom_minimum_size.x = 36
+		button.pressed.connect(func(): _zoom_at(factor, get_viewport_rect().size / 2))
+		navigation.add_child(button)
+	zoom_label.text = "100%"
+	zoom_label.add_theme_font_size_override("font_size", 14)
+	navigation.add_child(zoom_label)
 	box.add_child(instructions)
 	box.add_child(route_info)
 	route_info.custom_minimum_size = Vector2(260, 60)
@@ -817,7 +849,7 @@ func _process(delta: float) -> void:
 		float(Input.is_key_pressed(KEY_RIGHT) or Input.is_key_pressed(KEY_D)) - float(Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_A)),
 		float(Input.is_key_pressed(KEY_DOWN) or Input.is_key_pressed(KEY_S)) - float(Input.is_key_pressed(KEY_UP) or Input.is_key_pressed(KEY_W)))
 	if push != Vector2.ZERO:
-		camera.position += push * 700.0 * delta / camera.zoom.x
+		camera.position += push.normalized() * 700.0 * delta / camera.zoom.x
 		_clamp_camera()
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -827,10 +859,19 @@ func _unhandled_input(event: InputEvent) -> void:
 		_switch_hero(["inquisitor", "smuggler", "survivor"][event.keycode - KEY_F1])
 		get_viewport().set_input_as_handled()
 		return
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_HOME:
+			_center_hero()
+			get_viewport().set_input_as_handled()
+			return
+		if event.keycode in [KEY_PLUS, KEY_EQUAL, KEY_KP_ADD, KEY_MINUS, KEY_KP_SUBTRACT]:
+			_zoom_at(1.0 / 1.15 if event.keycode in [KEY_MINUS, KEY_KP_SUBTRACT] else 1.15, get_viewport_rect().size / 2)
+			get_viewport().set_input_as_handled()
+			return
 	if event is InputEventMouse:
 		pointer = event.position
 	if event is InputEventMouseMotion:
-		if event.button_mask & MOUSE_BUTTON_MASK_MIDDLE:
+		if event.button_mask & MOUSE_BUTTON_MASK_MIDDLE or (event.button_mask & MOUSE_BUTTON_MASK_LEFT and Input.is_key_pressed(KEY_SPACE)):
 			camera.position -= event.relative / camera.zoom
 			_clamp_camera()
 		# The preview depends only on the hovered cell.
@@ -839,6 +880,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event is InputEventMouseButton and event.pressed:
 		match event.button_index:
 			MOUSE_BUTTON_LEFT:
+				if Input.is_key_pressed(KEY_SPACE):
+					return
 				var cell := tiles.local_to_map(tiles.get_global_transform_with_canvas().affine_inverse() * pointer)
 				if cell == state.hero_cell:
 					selected = true
@@ -857,9 +900,24 @@ func _unhandled_input(event: InputEvent) -> void:
 				_refresh()
 			MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN:
 				var factor := 1.15 if event.button_index == MOUSE_BUTTON_WHEEL_UP else 1.0 / 1.15
-				camera.zoom = Vector2.ONE * clampf(camera.zoom.x * factor, 0.65, 2.5)
-				_clamp_camera()
-				_update_preview()
+				_zoom_at(factor, pointer)
+
+func _center_hero() -> void:
+	camera.position = tiles.map_to_local(state.hero_cell)
+	selected = true
+	_clamp_camera()
+	_refresh()
+	_update_preview()
+
+func _zoom_at(factor: float, anchor: Vector2) -> void:
+	var before := get_canvas_transform().affine_inverse() * anchor
+	camera.zoom = Vector2.ONE * clampf(camera.zoom.x * factor, 0.65, 2.5)
+	camera.offset = Vector2(160, 0) / camera.zoom if state.map_id == "province_160x120_v1" else Vector2.ZERO
+	camera.force_update_scroll()
+	camera.position += before - get_canvas_transform().affine_inverse() * anchor
+	_clamp_camera()
+	zoom_label.text = "%d%%" % roundi(camera.zoom.x * 100)
+	_update_preview()
 
 func _clamp_camera() -> void:
 	camera.position = camera.position.clamp(Vector2.ZERO, Vector2(state.grid.region.size) * CELL_SIZE)
@@ -891,10 +949,10 @@ func _walk_hero() -> void:
 		if path.size() >= 2 and path.size() <= 60:
 			if walk != null:
 				walk.kill()
-			hero.offset = tiles.map_to_local(shown_cell) - target
+			hero.offset = (tiles.map_to_local(shown_cell) - target) / hero.scale
 			walk = create_tween()
 			for k in range(path.size() - 2, -1, -1):
-				walk.tween_property(hero, "offset", tiles.map_to_local(path[k]) - target, 0.07)
+				walk.tween_property(hero, "offset", (tiles.map_to_local(path[k]) - target) / hero.scale, 0.07)
 	elif shown_id != state.party.active_id or shown_cell == state.hero_cell:
 		if walk != null and shown_id != state.party.active_id:
 			walk.kill()
@@ -948,8 +1006,9 @@ func _refresh() -> void:
 	for id in resource_labels:
 		resource_labels[id].text = str(state.resources.get(id, 0))
 	day_label.text = "Día %d · Semana %d" % [state.day, (state.day - 1) / 7 + 1]
-	_walk_hero()
 	hero.texture = hero_textures.get(state.party.active_id, hero_textures[""])
+	hero.scale = Vector2.ONE * (34.0 / maxf(hero.texture.get_width(), hero.texture.get_height()))
+	_walk_hero()
 	hero.modulate = Color.WHITE if hero_textures.has(state.party.active_id) else Color(state.party.active().definition.color)
 	for id in hero_buttons:
 		hero_buttons[id].set_pressed_no_signal(id == state.party.active_id)
@@ -1064,15 +1123,24 @@ func _draw() -> void:
 		if member.cell == state.hero_cell:
 			center += Vector2(-12 + marker_index * 24, 12)
 		var color := Color(member.definition.color)
+		draw_circle(center + Vector2(0, 3), 18, Color(0, 0, 0, 0.65))
+		draw_arc(center, 17, 0, TAU, 32, color, 2, true)
 		if hero_textures.has(id):
-			draw_texture(hero_textures[id], center - hero_textures[id].get_size() / 2, Color(0.8, 0.8, 0.85))
+			var texture: Texture2D = hero_textures[id]
+			var size: Vector2 = texture.get_size() * (32.0 / maxf(texture.get_width(), texture.get_height()))
+			draw_texture_rect(texture, Rect2(center - size / 2, size), false)
 			marker_index += 1
 			continue
 		draw_circle(center, 8, color)
 		draw_string(ThemeDB.fallback_font, center + Vector2(-5, 5), str(member.definition.short_name).left(1), HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("17202b"))
 		marker_index += 1
+	var active_center := tiles.map_to_local(state.hero_cell)
+	var active_color := Color(state.party.active().definition.color)
+	draw_circle(active_center + Vector2(0, 3), 20, Color(0, 0, 0, 0.72))
+	draw_arc(active_center, 19, 0, TAU, 48, active_color, 3, true)
 	if selected:
-		draw_arc(tiles.map_to_local(state.hero_cell), 14, 0, TAU, 32, Color.WHITE, 2)
+		draw_arc(active_center, 22, 0, TAU, 48, Color("fff0bc"), 2, true)
+		draw_colored_polygon(PackedVector2Array([active_center + Vector2(-5, -30), active_center + Vector2(5, -30), active_center + Vector2(0, -24)]), Color("fff0bc"))
 	if preview.size() > 1:
 		var points := PackedVector2Array()
 		for cell in preview:
@@ -1157,7 +1225,7 @@ func _new_game() -> void:
 func _adopt(next: WorldState) -> void:
 	state = next
 	painted_state = null
-	camera.offset = Vector2(160, 0) if state.map_id == "province_160x120_v1" else Vector2.ZERO
+	camera.offset = Vector2(160, 0) / camera.zoom if state.map_id == "province_160x120_v1" else Vector2.ZERO
 	dialogue.world_state = state
 	notebook.hide()
 	market.hide()

@@ -3076,3 +3076,17 @@ Executed: economy scene (33 checks), artifact market (19), strategy curriculum
 and economy (118), all passing. The scene now covers categories, cancellation,
 and long-text action bounds. Windowed economy scene passed and its screenshot
 was inspected; shutdown still reports the existing CanvasItem/ObjectDB warning.
+## Map navigation and readable figures (2026-10-08)
+
+Wheel zoom preserves the world point under the cursor. Home or the visible hero
+button recentres and selects the active hero; +/- controls show the current zoom.
+Space-left drag joins middle-drag and WASD/arrows, with equal diagonal pan speed.
+Camera centring accounts for sidebar width at different zoom levels.
+Map figures trim transparent asset margins at runtime; heroes use a consistent
+34-pixel silhouette, dark backing and distinct active/party rings. Walk offsets
+account for sprite scale. The sidebar is wider to contain its controls.
+
+Executed: world map (365 checks), province scene (109), map navigation (11), all
+passing. Navigation regression covers cursor anchoring, both drag modes, Home,
+zoom limits, modal blocking and unchanged hero/day/order state. Windowed navigation
+passed; its screenshot was inspected. Existing shutdown leak warning remains.
