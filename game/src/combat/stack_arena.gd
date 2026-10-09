@@ -33,6 +33,9 @@ var result_panel := PanelContainer.new()
 var result_title := Label.new()
 var result_text := Label.new()
 var selected_target := -1
+## One line under the turn order: what an attack on the marked or hovered enemy would do.
+var hint := Label.new()
+const HINT := "Casilla iluminada: mover · Enemigo: atacar desde ese lado"
 var settled := false
 var tokens: Array = []
 var animation: Tween
@@ -169,10 +172,10 @@ func _build_command_bar() -> void:
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	queue_line.add_child(spacer)
-	var hint := Label.new()
-	hint.text = "Casilla iluminada: mover · Enemigo: atacar desde ese lado"
-	hint.add_theme_font_size_override("font_size", 14)
-	hint.add_theme_color_override("font_color", Color("cdb88f"))
+	hint.text = HINT
+	hint.add_theme_font_size_override("font_size", 16)
+	hint.add_theme_color_override("font_color", Color("f6e7c1"))
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	queue_line.add_child(hint)
 	rows.add_child(queue_line)
 	var lower := HBoxContainer.new()
@@ -193,6 +196,14 @@ func _build_command_bar() -> void:
 		_style_button(button)
 		button.custom_minimum_size = Vector2(196, 46)
 		grid.add_child(button)
+	# One key per action, shown in the tooltip (docs/UI_PLAN.md, stage 5).
+	for pair in [[attack_button, KEY_A], [defend_button, KEY_D], [wait_button, KEY_E], [ability_button, KEY_H], [retreat_button, KEY_R]]:
+		var key := InputEventKey.new()
+		key.keycode = pair[1]
+		var shortcut := Shortcut.new()
+		shortcut.events = [key]
+		pair[0].shortcut = shortcut
+		pair[0].shortcut_in_tooltip = true
 	attack_button.tooltip_text = "Ataca al objetivo marcado en rojo. En el campo: clic en una casilla iluminada para mover, clic en un enemigo para atacarlo desde ese lado."
 	defend_button.tooltip_text = "Recibe menos daño hasta su próximo turno."
 	retreat_button.tooltip_text = "Termina la batalla y conserva los supervivientes."
@@ -320,6 +331,7 @@ func _on_hover(cell: Vector2i) -> void:
 	field.strike_from = Battle.NOWHERE
 	var actor: int = battle.current()
 	var who: int = battle.occupant(cell) if cell != Battle.NOWHERE else -1
+	hint.text = forecast_text(who if who >= 0 and battle.stacks[who].side == 1 else selected_target)
 	if actor < 0 or who < 0 or battle.stacks[who].side != 1 or not battle.outcome.is_empty():
 		return
 	if battle.data.units[battle.stacks[actor].type].ranged and battle._adjacent_enemies(actor).is_empty():
@@ -327,6 +339,32 @@ func _on_hover(cell: Vector2i) -> void:
 	var from: Vector2i = battle.attack_cell(actor, who, _side_toward(cell, field.get_local_mouse_position()))
 	if from != battle.stacks[actor].cell:
 		field.strike_from = from
+
+## The forecast of an attack on that enemy as one line; the general hint when there is none.
+func forecast_text(target: int) -> String:
+	var actor: int = battle.current()
+	if actor < 0 or not battle.outcome.is_empty():
+		return HINT
+	var forecast: Dictionary = battle.forecast(actor, target)
+	if forecast.is_empty():
+		return HINT
+	var name := str(battle.data.units[battle.stacks[forecast.target].type].name)
+	if not forecast.reach:
+		return "✗ %s: fuera de alcance este turno; el destacamento solo avanzará." % name
+	var damage: String = str(forecast.low) if forecast.low == forecast.high else "%d–%d" % [forecast.low, forecast.high]
+	var losses: String = str(forecast.losses_low) if forecast.losses_low == forecast.losses_high else "%d–%d" % [forecast.losses_low, forecast.losses_high]
+	var line := "ATACAR a %s: daño %s · bajas %s de %d" % [name, damage, losses, forecast.count]
+	if forecast.far:
+		line += " · disparo lejano (mitad)"
+	if forecast.trapped:
+		line += " · trabado: cuerpo a cuerpo (mitad)"
+	line += " · responde: hasta %d" % forecast.answer if forecast.answer > 0 else " · sin respuesta"
+	if forecast.lucky:
+		line += " · la suerte puede duplicarlo"
+	var special: Dictionary = battle.forecast(actor, target, "ability")
+	if not battle.stacks[actor].ability_used and special.get("reach", false) and (special.low != forecast.low or special.high != forecast.high):
+		line += "\n%s: daño %d–%d" % [battle.data.units[battle.stacks[actor].type].ability_name, special.low, special.high]
+	return line
 
 func _side_toward(cell: Vector2i, point: Vector2) -> Vector2i:
 	var side := Battle.NOWHERE
@@ -405,6 +443,7 @@ func refresh() -> void:
 		result_text.text = ("Supervivientes · " + " · ".join(survivors)) if not survivors.is_empty() else "No queda nadie de tu ejército."
 		_layout()
 	transcript.text = "\n".join(battle.log)
+	hint.text = forecast_text(selected_target)
 	_refresh_queue(actor)
 
 func _refresh_queue(actor: int) -> void:

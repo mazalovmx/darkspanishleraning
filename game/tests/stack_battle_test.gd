@@ -179,5 +179,43 @@ func run() -> void:
 		root.get_texture().get_image().save_png("user://stack-battle-preview.png")
 	layer.queue_free()
 	await process_frame
+	# Forecast (docs/UI_PLAN.md, stage 5): what is promised before the order is what happens.
+	for seed_value in [1, 7, 123, 999]:
+		var trial := Battle.new()
+		trial.start(trial.data.starting_army, trial.data.opening.enemies, seed_value)
+		for turn in 12:
+			var actor: int = trial.current()
+			if actor < 0 or not trial.outcome.is_empty() or trial.stacks[actor].side != 0:
+				break
+			var enemy := -1
+			for i in trial.stacks.size():
+				if trial.stacks[i].side == 1 and trial.count_at(i) > 0:
+					enemy = i
+					break
+			if enemy < 0:
+				break
+			var healths: Array = trial.stacks.map(func(stack: Dictionary) -> int: return stack.stats.health)
+			var promise: Dictionary = trial.forecast(actor, enemy)
+			check(trial.stacks.map(func(stack: Dictionary) -> int: return stack.stats.health) == healths and trial.current() == actor, "A forecast changes nothing")
+			check(not promise.is_empty() and promise.low <= promise.high if promise.get("reach", false) else promise.has("reach"), "A forecast always answers for a living enemy")
+			var count_before: int = trial.count_at(enemy)
+			check(trial.act("attack", enemy), "The forecast order is accepted")
+			var blow: Dictionary = {}
+			for event: Dictionary in trial.events:
+				if event.kind == "strike" and event.actor == actor and blow.is_empty():
+					blow = event
+			if not promise.reach:
+				check(blow.is_empty(), "Out of reach means no blow this turn")
+				continue
+			var top: int = promise.high * (2 if promise.lucky else 1)
+			check(not blow.is_empty() and blow.target == promise.target and blow.amount >= promise.low and blow.amount <= top, "The blow lands inside the promised range: %s vs %s" % [blow, promise])
+			if not promise.lucky:
+				var lost: int = count_before - (trial.count_at(promise.target) if promise.target == enemy else count_before)
+				check(promise.target != enemy or (lost >= promise.losses_low and lost <= promise.losses_high) or promise.answer > 0, "Losses stay inside the promised range unless the fight went on")
+			var answered := false
+			for event: Dictionary in trial.events:
+				answered = answered or (event.kind == "strike" and event.actor == promise.target and event.target == actor)
+			check(not answered or promise.answer > 0, "No answer comes that was not announced")
+	check(battle.forecast(-1, 0).is_empty() and battle.forecast(0, 0).is_empty() and battle.forecast(0, 99).is_empty(), "No forecast for nobody, for an ally or for a missing stack")
 	print("Stack battle checks: %d, failures: %d" % [checks, failures])
 	quit(1 if failures else 0)

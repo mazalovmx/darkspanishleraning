@@ -3496,3 +3496,24 @@ A copy of the user's save was loaded in a window with the scale on: "Movimiento:
 180" on load, 180 / 180 after the day resolved (day 98 to 99), end-of-day button visible,
 the picker's offer shown over a conversation. The offer was restyled as a light note
 after that look; dictionary_test rerun (275).
+
+## UI plan, stage 5: battle forecast and action keys (2026-10-09)
+
+- `stack_battle.forecast(actor, target, command)` reads the state and returns the damage
+  range, units lost, whether the shot is far or the shooter is trapped, whether luck can
+  double it, and the largest answer the target can give; `{"reach": false}` when the
+  target cannot be hit this turn. The damage formula was split (`_damage_from`) so the
+  forecast and the real strike share it.
+- The arena shows it as one line beside the turn order for the marked enemy, and for the
+  enemy under the pointer: "ATACAR a Salteadores: daño 16–23 · bajas 2 de 5 · disparo
+  lejano (mitad) · sin respuesta", with a second line for a damaging ability.
+- Action keys through button shortcuts, named in the tooltips: A attack, D defend,
+  E wait, H ability, R retreat.
+Not done from stage 5: distinct shapes for valid / hovered / confirmed target, a larger
+current tile in the turn order, a collapsible structured log.
+
+Executed: stack_battle_test 179 (four seeds, up to twelve player turns each: a forecast
+changes nothing, the blow lands inside the promised range, no unannounced answer),
+battle_integration_test 64, ghost_battle_test 116; passed headless. Opening battle
+rendered in a window and inspected. The keys were not pressed in a real window, and the
+arena line itself is covered by the screenshot only.

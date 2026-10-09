@@ -194,6 +194,11 @@ func _new_round() -> void:
 func _damage(actor: int, target: int, roll: bool = true, ignore_defend: bool = false) -> int:
 	var unit: Dictionary = data.units[stacks[actor].type]
 	var base: int = rng.randi_range(int(unit.damage_min), int(unit.damage_max)) if roll else int(unit.damage_min)
+	return _damage_from(actor, target, base, ignore_defend)
+
+## The damage formula for a given base roll per unit; no randomness, no state change.
+func _damage_from(actor: int, target: int, base: int, ignore_defend: bool = false) -> int:
+	var unit: Dictionary = data.units[stacks[actor].type]
 	var delta: int = stacks[actor].stats.attack - stacks[target].stats.defense
 	var multiplier := 1.0 + 0.05 * clampi(delta, 0, 60) if delta >= 0 else 1.0 / (1.0 + 0.05 * mini(-delta, 60))
 	if unit.ranged:
@@ -204,6 +209,45 @@ func _damage(actor: int, target: int, roll: bool = true, ignore_defend: bool = f
 		if stacks[target].brace_active:
 			multiplier *= 0.5
 	return maxi(1, roundi(count_at(actor) * base * multiplier))
+
+## What the acting stack's attack (or damaging ability) on the target would do, before it
+## is ordered: damage range, units lost, and whether the target answers. Reads state only.
+## Empty when the command has no target; {"reach": false} when the target cannot be hit now.
+func forecast(actor: int, target: int, command: String = "attack") -> Dictionary:
+	if actor < 0 or target < 0 or target >= stacks.size() or count_at(target) == 0 or count_at(actor) == 0 or stacks[target].side == stacks[actor].side:
+		return {}
+	var unit: Dictionary = data.units[stacks[actor].type]
+	if command == "ability" and unit.ability in ["brace", "temporary_brace"]:
+		return {}
+	var shot: bool = unit.ranged and _adjacent_enemies(actor).is_empty()
+	var trapped := false
+	if unit.ranged and not shot and distance(stacks[actor].cell, stacks[target].cell) != 1:
+		target = _adjacent_enemies(actor)[0]
+		trapped = true
+	if not shot and distance(stacks[actor].cell, stacks[target].cell) != 1 and attack_cell(actor, target) == NOWHERE:
+		return {"reach": false, "target": target}
+	var multiplier := 1.0
+	if command == "ability":
+		multiplier = 1.5 if unit.ability == "aim" else 2.0 if unit.ability == "charge" else 1.0
+	if unit.ranged and not shot:
+		multiplier *= 0.5
+	var far: bool = shot and distance(stacks[actor].cell, stacks[target].cell) > FULL_RANGE
+	if far:
+		multiplier *= 0.5
+	var feint: bool = command == "ability" and unit.ability == "feint"
+	var low := maxi(1, roundi(_damage_from(actor, target, int(unit.damage_min), feint) * multiplier))
+	var high := maxi(1, roundi(_damage_from(actor, target, int(unit.damage_max), feint) * multiplier))
+	var health: int = stacks[target].stats.health
+	var hp: int = stacks[target].unit_hp
+	var before := count_at(target)
+	var result := {"reach": true, "target": target, "shot": shot, "far": far, "trapped": trapped, "low": low, "high": high,
+		"losses_low": before - ceili(float(maxi(0, health - low)) / float(hp)), "losses_high": before - ceili(float(maxi(0, health - high)) / float(hp)),
+		"count": before, "lucky": int(stacks[actor].luck) > 0, "answer": 0}
+	# The target answers a melee blow once per round, if anyone is left standing.
+	if not shot and not stacks[target].retaliated and health - low > 0:
+		var defender: Dictionary = data.units[stacks[target].type]
+		result.answer = maxi(1, roundi(_damage_from(target, actor, int(defender.damage_max)) * (0.5 if defender.ranged else 1.0)))
+	return result
 
 func _strike(actor: int, target: int, multiplier: float = 1.0, ignore_defend: bool = false, shot: bool = false) -> int:
 	var amount := maxi(1, roundi(_damage(actor, target, true, ignore_defend) * multiplier))
