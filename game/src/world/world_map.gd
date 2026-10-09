@@ -60,6 +60,8 @@ var persistence_enabled := true
 @export var save_path := SaveGame.PATH
 var save_locked := false
 var save_button := Button.new()
+var save_picker = preload("res://src/save/save_picker.gd").new()
+var slot_directory := "user://saves"
 var load_button := Button.new()
 var save_notice := Label.new()
 var save_confirm := ConfirmationDialog.new()
@@ -570,8 +572,8 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 	load_button.text = "Cargar"
 	save_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	load_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	save_button.pressed.connect(func(): _save_game())
-	load_button.pressed.connect(func(): _load_game())
+	save_button.pressed.connect(func(): _open_save_picker(true))
+	load_button.pressed.connect(func(): _open_save_picker(false))
 	saves.add_child(save_button)
 	saves.add_child(load_button)
 	notebook_button.text = "Cuaderno"
@@ -596,6 +598,8 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 	save_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	save_notice.add_theme_font_size_override("font_size", 14)
 	box.add_child(save_notice)
+	layer.add_child(save_picker)
+	save_picker.chosen.connect(_choose_save)
 	layer.add_child(save_confirm)
 	save_confirm.title = "Reemplazar archivo"
 	save_confirm.dialog_text = "El archivo no se puede cargar. ¿Guardar esta partida en su lugar?"
@@ -840,7 +844,7 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _switch_hero(id: String) -> void:
-	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
+	if save_picker.visible or poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
 		_refresh()
 		return
 	PlayLog.write("hero_select_attempt", {"target":id})
@@ -857,7 +861,7 @@ func _switch_hero(id: String) -> void:
 
 ## Arrow keys or WASD scroll the map while no panel is open and nothing is being typed.
 func _process(delta: float) -> void:
-	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible:
+	if save_picker.visible or poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible:
 		return
 	if get_viewport().gui_get_focus_owner() is LineEdit:
 		return
@@ -869,7 +873,7 @@ func _process(delta: float) -> void:
 		_clamp_camera()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible:
+	if save_picker.visible or poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible:
 		return
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode in [KEY_F1, KEY_F2, KEY_F3]:
 		_switch_hero(["inquisitor", "smuggler", "survivor"][event.keycode - KEY_F1])
@@ -949,7 +953,7 @@ func _clamp_camera() -> void:
 		camera_logged_at = Time.get_ticks_msec()
 
 func _end_turn() -> void:
-	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible:
+	if save_picker.visible or poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible:
 		return
 	var day_before: int = state.day
 	var before := PlayLog.snapshot(state)
@@ -1180,6 +1184,34 @@ func _draw() -> void:
 		var color := Color("f7df9a") if state.path_cost(preview) <= state.movement_remaining else Color("eb7770")
 		draw_polyline(points, color, 3)
 
+func _open_save_picker(saving: bool) -> void:
+	if not persistence_enabled or arena.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
+		save_notice.text = "Espera a que termine la acción actual."
+		return
+	save_picker.open(state, save_path, slot_directory, saving)
+
+func _choose_save(path: String, saving: bool) -> void:
+	if not persistence_enabled or arena.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
+		return
+	if (saving or path != save_path) and not save_picker.accepts(path):
+		save_notice.text = "Elige un archivo .save.json en la carpeta de partidas."
+		PlayLog.write("slot_rejected", {"saving":saving, "reason":"path"})
+		return
+	if not saving:
+		_load_game(false, path)
+		return
+	var error: String = SaveGame.write_save(state, path)
+	PlayLog.write("named_save", {"name":path.get_file(), "error":error})
+	if not error.is_empty():
+		save_notice.text = "No se pudo guardar: " + error
+		return
+	var original: String = dialogue.talks_path
+	dialogue.talks_path = path.get_basename() + ".talks.json"
+	dialogue.store_talks()
+	dialogue.talks_path = original
+	save_notice.text = "Partida guardada: " + path.get_file()
+	save_notice.remove_theme_color_override("font_color")
+
 ## True when the session is on disk (or persistence is off for this map).
 func _save_game(automatic := false, replace_invalid := false) -> bool:
 	if not persistence_enabled:
@@ -1209,27 +1241,35 @@ func _save_game(automatic := false, replace_invalid := false) -> bool:
 			save_failed.popup_centered()
 		return false
 
-func _load_game(startup := false) -> void:
+func _load_game(startup := false, selected_path := "") -> void:
 	if not persistence_enabled or arena.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
 		return
-	var result: Dictionary = SaveGame.read_save(save_path)
-	PlayLog.write("load_result", {"ok":result.has("state"), "reason":result.get("error", ""), "startup":startup})
+	var source: String = save_path if selected_path.is_empty() else selected_path
+	var result: Dictionary = SaveGame.read_save(source)
+	PlayLog.write("load_result", {"ok":result.has("state"), "reason":result.get("error", ""), "startup":startup, "name":source.get_file()})
 	if not result.has("state"):
 		if result.error != "missing":
-			save_locked = true
-			save_notice.text = "Archivo no válido. Guardado automático pausado."
+			if source == save_path:
+				save_locked = true
+			save_notice.text = "Archivo no válido. Guardado automático pausado." if source == save_path else "No se puede cargar ese archivo. La partida actual se conserva."
 			save_notice.add_theme_color_override("font_color", Color("ff8a70"))
 		elif not startup:
 			save_notice.text = "Todavía no hay una partida guardada."
 		return
+	var previous_lock := save_locked
 	_adopt(result.state)
-	PlayLog.write("load_applied", {})
+	if source != save_path:
+		save_locked = previous_lock
+	PlayLog.write("load_applied", {"name":source.get_file()})
+	var original: String = dialogue.talks_path
+	dialogue.talks_path = source.get_basename() + ".talks.json"
 	dialogue.load_talks()
-	save_notice.text = "Partida cargada."
+	dialogue.talks_path = original
+	save_notice.text = "Partida cargada: " + source.get_file()
 	if not state.campaign.reopened.is_empty():
 		# The file still holds the old decision: keep a copy before the next save replaces it.
-		var copy := save_path + ".reabierta.bak"
-		if DirAccess.copy_absolute(ProjectSettings.globalize_path(save_path), ProjectSettings.globalize_path(copy)) == OK:
+		var copy := source + ".reabierta.bak"
+		if DirAccess.copy_absolute(ProjectSettings.globalize_path(source), ProjectSettings.globalize_path(copy)) == OK:
 			save_notice.text = "La resolución del Consejo se reabrió: la propuesta no cumplía las condiciones de su opción. El resto del progreso se conserva; el archivo anterior queda en %s." % copy.get_file()
 		else:
 			save_locked = true
@@ -1242,7 +1282,7 @@ func _leave_to_menu() -> void:
 	get_tree().change_scene_to_file("res://src/ui/title_menu.tscn")
 
 func _can_restart() -> bool:
-	return not (arena.visible or dialogue.client.busy or not dialogue.pending_location.is_empty() or poi_modal.visible or notebook.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible)
+	return not (save_picker.visible or arena.visible or dialogue.client.busy or not dialogue.pending_location.is_empty() or poi_modal.visible or notebook.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible)
 
 func _new_game() -> void:
 	if not _can_restart():

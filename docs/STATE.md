@@ -3132,3 +3132,16 @@ Executed: full offline run, 68 suites, 59,856 counted checks. All functional sui
 passed; performance_test had one timing failure (_refresh after move: 6.327 ms,
 budget 5 ms), pending isolated recheck. Windowed map navigation (11) and equipment
 scene (162) passed; both screenshots inspected. No live model calls were made.
+## Named save and load chooser (2026-10-09)
+
+Save opens a file dialog with an automatic day/hero/timestamp name, editable by
+the player, plus a button to generate a fresh name. Load lists named checkpoints
+and offers the separate autosave. Files use user://saves/*.save.json; each keeps
+its own dialogue transcript. Standard overwrite confirmation is retained.
+World movement, turns and hero shortcuts pause while the chooser is open.
+Invalid named saves preserve the current world and do not disable healthy autosave.
+
+Executed: save_picker_test, 15 checks, passed headless and windowed. Inspected the
+windowed screenshot; list mode keeps long filenames readable. Full offline
+regression is running; results will be recorded below. Existing shutdown leak
+warnings remain; no live model calls were made.
