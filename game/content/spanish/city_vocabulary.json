@@ -41,6 +41,76 @@
       {"id": "ferraza_06", "word": "la presión", "clue": "Fuerza ejercida sobre una superficie, por ejemplo por vapor dentro de un recipiente.", "example": "Una válvula permite reducir la presión antes de que sea peligrosa.", "alt": [], "note": ""},
       {"id": "ferraza_07", "word": "el trabajador", "clue": "Persona que realiza una labor a cambio de un salario.", "example": "Escuchamos al trabajador antes de valorar las condiciones del taller.", "alt": ["la trabajadora"], "note": "El artículo y la terminación cambian según la persona."},
       {"id": "ferraza_08", "word": "el turno", "clue": "Periodo de trabajo que corresponde a un grupo antes de ser sustituido por otro.", "example": "Comparamos la duración del turno con el tiempo real de descanso.", "alt": [], "note": ""}
+    ]},
+    {"id": "lucerna", "name": "Santa Lucerna · monasterio y registros", "locations": ["LOC01"], "items": [
+      {"id": "lucerna_01", "word": "el monasterio", "clue": "Edificio donde vive y trabaja una comunidad religiosa apartada de la ciudad.", "example": "Llegué al monasterio antes de que cerraran la puerta principal.", "alt": [], "note": ""},
+      {"id": "lucerna_02", "word": "el monje", "clue": "Hombre que pertenece a una comunidad religiosa y vive según sus reglas.", "example": "El monje recuerda quién entró, pero no a qué hora salió.", "alt": ["la monja"], "note": "Para una mujer se dice «la monja»."},
+      {"id": "lucerna_03", "word": "la campana", "clue": "Instrumento de metal que suena al golpearlo y sirve para avisar la hora o un peligro.", "example": "Cuando sonó la campana, todos dejaron lo que estaban haciendo.", "alt": [], "note": ""},
+      {"id": "lucerna_04", "word": "la cripta", "clue": "Espacio subterráneo de un edificio religioso donde se guardan tumbas u objetos valiosos.", "example": "Nadie baja a la cripta sin que alguien lo acompañe.", "alt": [], "note": ""},
+      {"id": "lucerna_05", "word": "el claustro", "clue": "Patio interior rodeado de pasillos cubiertos, típico de los edificios religiosos.", "example": "Hablamos en el claustro para que nadie nos interrumpiera.", "alt": [], "note": ""},
+      {"id": "lucerna_06", "word": "el manuscrito", "clue": "Texto escrito a mano, generalmente antiguo.", "example": "Si el manuscrito fue corregido, quiero saber quién lo corrigió.", "alt": [], "note": ""},
+      {"id": "lucerna_07", "word": "la celda", "clue": "Cuarto pequeño y sencillo donde duerme un religioso o se encierra a un preso.", "example": "Encontraron la carta en la celda que había ocupado un visitante.", "alt": [], "note": ""},
+      {"id": "lucerna_08", "word": "el juramento", "clue": "Promesa solemne de decir la verdad o de cumplir una obligación.", "example": "Un juramento obliga a quien lo hace, pero no prueba lo que dice.", "alt": [], "note": ""}
+    ]},
+    {"id": "campo", "name": "San Vélaro y Granja Arce · campo y cosecha", "locations": ["LOC07", "LOC12"], "items": [
+      {"id": "campo_01", "word": "la cosecha", "clue": "Conjunto de frutos o granos que se recogen del campo cuando están maduros.", "example": "Si la cosecha se pierde, el pueblo no tendrá pan en invierno.", "alt": [], "note": ""},
+      {"id": "campo_02", "word": "el trigo", "clue": "Cereal con el que se hace la harina del pan.", "example": "Guardaron el trigo en un lugar seco para que no se echara a perder.", "alt": [], "note": ""},
+      {"id": "campo_03", "word": "el granero", "clue": "Construcción donde se guarda el grano después de recogerlo.", "example": "Alguien abrió el granero durante la noche sin romper la cerradura.", "alt": [], "note": ""},
+      {"id": "campo_04", "word": "la sequía", "clue": "Periodo largo sin lluvia que daña los cultivos.", "example": "Después de dos años de sequía, casi nadie pudo pagar lo que debía.", "alt": [], "note": ""},
+      {"id": "campo_05", "word": "el campesino", "clue": "Persona que vive en el campo y trabaja la tierra.", "example": "El campesino vio pasar tres carretas antes del amanecer.", "alt": ["la campesina"], "note": "El artículo y la terminación cambian según la persona."},
+      {"id": "campo_06", "word": "el establo", "clue": "Lugar cubierto donde se guardan y alimentan caballos o vacas.", "example": "Dejé el caballo en el establo y pedí que le dieran de comer.", "alt": ["la caballeriza"], "note": "Para caballos también se dice «caballeriza»."},
+      {"id": "campo_07", "word": "el molino", "clue": "Instalación donde se muele el grano para obtener harina.", "example": "El molino dejó de funcionar el mismo día en que subió el precio del pan.", "alt": [], "note": ""},
+      {"id": "campo_08", "word": "la escasez", "clue": "Situación en la que no hay suficiente cantidad de algo necesario.", "example": "La escasez de grano no explica por sí sola quién se benefició.", "alt": [], "note": ""}
+    ]},
+    {"id": "camino", "name": "Puente Seco y la venta · camino y peaje", "locations": ["LOC06", "LOC11"], "items": [
+      {"id": "camino_01", "word": "el peaje", "clue": "Pago que se exige por usar un camino o cruzar un puente.", "example": "¿Cuánto cuesta el peaje si llevo dos caballos?", "alt": [], "note": ""},
+      {"id": "camino_02", "word": "el puente", "clue": "Construcción que permite cruzar un río o un barranco.", "example": "Cruzamos el puente antes de que oscureciera.", "alt": [], "note": ""},
+      {"id": "camino_03", "word": "la posada", "clue": "Casa junto al camino donde los viajeros pagan por comer y dormir.", "example": "Busco una posada donde pueda quedarme dos noches.", "alt": ["la venta", "el mesón"], "note": "En los caminos antiguos también se llamaba «venta» o «mesón»."},
+      {"id": "camino_04", "word": "el viajero", "clue": "Persona que va de un lugar a otro, generalmente lejos de su casa.", "example": "Un viajero contó que el camino del norte estaba cerrado.", "alt": ["la viajera"], "note": "El artículo y la terminación cambian según la persona."},
+      {"id": "camino_05", "word": "el testigo", "clue": "Persona que vio u oyó un hecho y puede contarlo.", "example": "Necesito un testigo que haya estado allí esa noche.", "alt": ["la testigo"], "note": "«Testigo» mantiene su forma; cambia el artículo."},
+      {"id": "camino_06", "word": "el atajo", "clue": "Camino más corto que el principal para llegar a un lugar.", "example": "Tomamos un atajo y aun así llegamos tarde.", "alt": [], "note": ""},
+      {"id": "camino_07", "word": "la carreta", "clue": "Vehículo de madera con ruedas, tirado por animales, para llevar mercancías.", "example": "La carreta pasó sin detenerse, aunque el guardia le hizo señas.", "alt": ["el carro"], "note": "También se dice «carro»."},
+      {"id": "camino_08", "word": "el hospedaje", "clue": "Servicio de dar cama y techo a alguien a cambio de un pago.", "example": "El hospedaje cuesta más cuando hay feria en el pueblo.", "alt": ["el alojamiento"], "note": "También se dice «alojamiento»."}
+    ]},
+    {"id": "minas", "name": "Minas de Bruma · trabajo bajo tierra", "locations": ["LOC08"], "items": [
+      {"id": "minas_01", "word": "la mina", "clue": "Lugar excavado en la tierra de donde se sacan metales o piedras.", "example": "Nadie quería bajar a la mina hasta que revisaran el aire.", "alt": [], "note": ""},
+      {"id": "minas_02", "word": "el minero", "clue": "Persona cuyo trabajo consiste en sacar metales o piedras de debajo de la tierra.", "example": "El minero dijo que le dolía la cabeza desde hacía varios días.", "alt": ["la minera"], "note": "El artículo y la terminación cambian según la persona."},
+      {"id": "minas_03", "word": "el túnel", "clue": "Paso subterráneo largo y estrecho que comunica dos puntos.", "example": "El túnel más antiguo es también el que tiene menos aire.", "alt": [], "note": ""},
+      {"id": "minas_04", "word": "el derrumbe", "clue": "Caída repentina de tierra, rocas o de una construcción.", "example": "Hubo un derrumbe, pero nadie avisó a las familias hasta la tarde.", "alt": [], "note": ""},
+      {"id": "minas_05", "word": "la ventilación", "clue": "Sistema o acción que hace entrar aire limpio en un espacio cerrado.", "example": "Si la ventilación hubiera funcionado, nadie se habría enfermado.", "alt": [], "note": ""},
+      {"id": "minas_06", "word": "la lámpara", "clue": "Objeto que da luz y se puede llevar en la mano o colgar.", "example": "Cuando la lámpara se apaga sola, es mejor salir de inmediato.", "alt": [], "note": ""},
+      {"id": "minas_07", "word": "el polvo", "clue": "Partículas muy finas de tierra o de otro material que flotan en el aire o cubren las cosas.", "example": "Respirar ese polvo durante años termina dañando los pulmones.", "alt": [], "note": ""},
+      {"id": "minas_08", "word": "el capataz", "clue": "Persona que dirige y vigila a un grupo de trabajadores.", "example": "El capataz ordenó seguir trabajando aunque varios se habían quejado.", "alt": ["la capataz"], "note": "«Capataz» mantiene su forma; cambia el artículo."}
+    ]},
+    {"id": "ruinas", "name": "Monte Ciego y Torre del Relé · ruinas y señales", "locations": ["LOC09", "LOC18"], "items": [
+      {"id": "ruinas_01", "word": "las ruinas", "clue": "Restos de edificios antiguos que ya están destruidos.", "example": "Entre las ruinas encontramos una puerta que todavía cerraba.", "alt": ["la ruina"], "note": "Para un lugar se usa casi siempre en plural."},
+      {"id": "ruinas_02", "word": "la torre", "clue": "Construcción mucho más alta que ancha, desde la que se puede vigilar.", "example": "Desde la torre se ve el camino, pero no quién viene por él.", "alt": [], "note": ""},
+      {"id": "ruinas_03", "word": "la señal", "clue": "Luz, sonido o gesto que sirve para avisar o comunicar algo a distancia.", "example": "La señal se repitió tres veces y después se interrumpió.", "alt": [], "note": ""},
+      {"id": "ruinas_04", "word": "el mensaje", "clue": "Información que una persona envía a otra.", "example": "No sé quién envió el mensaje ni si llegó completo.", "alt": [], "note": ""},
+      {"id": "ruinas_05", "word": "la cumbre", "clue": "Parte más alta de una montaña.", "example": "Tardamos un día entero en llegar a la cumbre.", "alt": ["la cima"], "note": "También se dice «cima»."},
+      {"id": "ruinas_06", "word": "la niebla", "clue": "Nube muy baja que impide ver bien a poca distancia.", "example": "Había tanta niebla que no distinguíamos el borde del camino.", "alt": ["la neblina"], "note": "En México es muy común «neblina»."},
+      {"id": "ruinas_07", "word": "el desconocido", "clue": "Persona a la que nadie del lugar ha visto antes.", "example": "Un desconocido preguntó por el camino y nadie supo de dónde venía.", "alt": ["la desconocida"], "note": "El artículo y la terminación cambian según la persona."},
+      {"id": "ruinas_08", "word": "la huella", "clue": "Marca que deja un pie, una rueda o un animal en el suelo.", "example": "Seguimos la huella hasta que la lluvia la borró.", "alt": [], "note": ""}
+    ]},
+    {"id": "marjal", "name": "Marjal Negro · pantano y escondites", "locations": ["LOC10"], "items": [
+      {"id": "marjal_01", "word": "el pantano", "clue": "Terreno bajo cubierto de agua poco profunda, lodo y plantas.", "example": "Quien no conoce el pantano se pierde antes del mediodía.", "alt": ["la ciénaga"], "note": "También se dice «ciénaga»."},
+      {"id": "marjal_02", "word": "el lodo", "clue": "Mezcla de tierra y agua que queda en el suelo después de llover.", "example": "Las ruedas se hundieron en el lodo y tuvimos que seguir a pie.", "alt": ["el barro"], "note": "En México es más común «lodo»; «barro» también se entiende."},
+      {"id": "marjal_03", "word": "el escondite", "clue": "Lugar donde alguien se oculta o guarda algo para que no lo encuentren.", "example": "El escondite estaba vacío, como si alguien nos hubiera avisado.", "alt": [], "note": ""},
+      {"id": "marjal_04", "word": "el bandido", "clue": "Persona que roba a los viajeros, generalmente armada y en grupo.", "example": "El bandido no pidió dinero: quería saber qué llevábamos escrito.", "alt": ["el bandolero"], "note": "También se dice «bandolero»."},
+      {"id": "marjal_05", "word": "la emboscada", "clue": "Ataque por sorpresa de quienes esperaban escondidos.", "example": "Sospecho que es una emboscada, así que no entraremos por el sendero.", "alt": [], "note": ""},
+      {"id": "marjal_06", "word": "el botín", "clue": "Conjunto de cosas valiosas obtenidas en un robo o en un combate.", "example": "Se repartieron el botín antes de que amaneciera.", "alt": [], "note": ""},
+      {"id": "marjal_07", "word": "la reliquia", "clue": "Objeto antiguo que se conserva con respeto por su valor religioso o histórico.", "example": "Dicen que la reliquia protege a quien la lleva, pero nadie lo ha comprobado.", "alt": [], "note": ""},
+      {"id": "marjal_08", "word": "el sendero", "clue": "Camino estrecho, hecho por el paso de personas o animales.", "example": "El sendero se divide en dos y solo uno es seguro.", "alt": ["la vereda"], "note": "En México también se dice «vereda»."}
+    ]},
+    {"id": "imprenta", "name": "Casa de Impresores · imprenta y gremio", "locations": ["LOC16"], "items": [
+      {"id": "imprenta_01", "word": "la imprenta", "clue": "Taller o máquina con que se reproducen textos en papel.", "example": "Desde que llegó la imprenta, una idea viaja más rápido que un mensajero.", "alt": [], "note": ""},
+      {"id": "imprenta_02", "word": "el impresor", "clue": "Persona cuyo oficio es reproducir textos en papel.", "example": "El impresor asegura que nunca vio el texto completo.", "alt": ["la impresora"], "note": "Para una mujer, «la impresora»; hoy esa palabra nombra sobre todo una máquina."},
+      {"id": "imprenta_03", "word": "la tinta", "clue": "Líquido de color que se usa para escribir o para reproducir textos.", "example": "La tinta de esta página es más reciente que la de las demás.", "alt": [], "note": ""},
+      {"id": "imprenta_04", "word": "el gremio", "clue": "Asociación de personas del mismo oficio que defiende sus intereses y fija sus reglas.", "example": "El gremio exige que se le consulte antes de cambiar la norma.", "alt": [], "note": ""},
+      {"id": "imprenta_05", "word": "el folleto", "clue": "Texto breve de pocas hojas que se reparte para informar o convencer.", "example": "Repartieron el folleto en el mercado antes de que alguien lo prohibiera.", "alt": [], "note": ""},
+      {"id": "imprenta_06", "word": "la censura", "clue": "Control de una autoridad que decide qué textos pueden publicarse.", "example": "La censura no hizo desaparecer el texto: lo volvió más caro.", "alt": [], "note": ""},
+      {"id": "imprenta_07", "word": "el ejemplar", "clue": "Cada una de las copias de un mismo libro o periódico.", "example": "Solo queda un ejemplar y nadie sabe quién lo tiene.", "alt": [], "note": ""},
+      {"id": "imprenta_08", "word": "el aprendiz", "clue": "Persona joven que trabaja con un maestro para aprender su oficio.", "example": "El aprendiz copió la página sin entender lo que decía.", "alt": ["la aprendiz"], "note": "«Aprendiz» mantiene su forma; cambia el artículo."}
     ]}
   ]
 }

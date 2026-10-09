@@ -3216,3 +3216,15 @@ by a person typing in the dialog; the old built-in dialog fault was not investig
 Full offline run after both changes: 70 runs, 59,914 counted checks, none failed
 (performance_test included). equipment_scene_test was rerun after the last label
 change (169, passed). No live model calls were made.
+
+## Place vocabulary for every location (2026-10-09)
+
+Seven sets of eight words join the four city sets in `city_vocabulary.json`: Santa
+Lucerna (monastery), San Vélaro and Granja Arce (harvest), Puente Seco and the inn
+(road and toll), Minas de Bruma, Monte Ciego and Torre del Relé (ruins and signals),
+Marjal Negro, Casa de Impresores. Every location LOC01-LOC18 now offers its set first
+in the Vocabulario tab; 215 items in 18 themes. Examples are practice sentences and
+state no campaign fact. Written without a Spanish speaker's review. No code changed.
+
+Executed: vocabulary_test (301), the four curriculum suites (1,227), save_game_test
+(540); all passed headless. The tab was not re-rendered in a window for this change.

@@ -18,11 +18,13 @@ func run() -> void:
 	var practice := Vocabulary.new()
 	var ids: Array = practice.themes().map(func(theme: Dictionary) -> String: return theme.id)
 	check(ids.slice(0, 7) == ["cuerpo", "ropa", "objetos", "emociones", "cocina", "conceptos", "conectores"], "Original seven themes keep their order")
-	check(ids.slice(7) == ["valdora", "cardena", "miralba", "ferraza"], "Four city vocabularies follow the original themes")
-	check(practice.items.size() == 159, "127 original items plus 32 city words")
-	for pair in [["LOC02", "valdora"], ["LOC14", "valdora"], ["LOC05", "cardena"], ["LOC15", "miralba"], ["LOC13", "ferraza"]]:
+	check(ids.slice(7) == ["valdora", "cardena", "miralba", "ferraza", "lucerna", "campo", "camino", "minas", "ruinas", "marjal", "imprenta"], "Eleven place vocabularies follow the original themes")
+	check(practice.items.size() == 215, "127 original items plus 88 place words")
+	for pair in [["LOC02", "valdora"], ["LOC14", "valdora"], ["LOC05", "cardena"], ["LOC15", "miralba"], ["LOC13", "ferraza"], ["LOC01", "lucerna"], ["LOC07", "campo"], ["LOC12", "campo"], ["LOC06", "camino"], ["LOC11", "camino"], ["LOC08", "minas"], ["LOC09", "ruinas"], ["LOC18", "ruinas"], ["LOC10", "marjal"], ["LOC16", "imprenta"]]:
 		check(practice.city_theme(pair[0]) == pair[1], "City vocabulary follows geography: " + pair[0])
-	check(practice.city_theme("LOC11").is_empty(), "Unrelated locations do not invent a city")
+	check(practice.city_theme("LOC99").is_empty() and practice.city_theme("").is_empty(), "The open road has no place vocabulary")
+	for number in range(1, 19):
+		check(not practice.city_theme("LOC%02d" % number).is_empty(), "Every location of the province has a vocabulary: LOC%02d" % number)
 	check(practice.items.size() >= 120, "At least 120 words and connectors")
 	for id: String in practice.items:
 		var item: Dictionary = practice.items[id]
@@ -77,7 +79,7 @@ func run() -> void:
 	await process_frame
 	panel.open_course(state)
 	panel.words_tab.pressed.emit()
-	check(panel.words_box.visible and not panel.practice_box.visible and panel.words_theme.item_count == 12, "Vocabulary tab with all original and city themes")
+	check(panel.words_box.visible and not panel.practice_box.visible and panel.words_theme.item_count == 19, "Vocabulary tab with all original and city themes")
 	check(panel.words_clue.text.begins_with("¿QUÉ PALABRA ES?"), "A clue is shown")
 	var answer: String = state.learner.word_practice.items[panel.word_id].word
 	panel.words_answer.text = answer
