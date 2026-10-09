@@ -3064,3 +3064,15 @@ Executed: six dialogue suites, 1,264 checks, zero failures. New regression fills
 all text regions with long content, checks button bounds and sends by mouse.
 The same layout test passed in a window; inspected its 1280x720 screenshot.
 Godot still reports the existing CanvasItem/ObjectDB shutdown leak warning.
+## Clearer settlement orders (2026-10-08)
+
+Separate building, troop, upgrade and artifact selectors replace the mixed list.
+Buildings hide quantity; each of the three Spanish stages says what to write,
+and the last button explicitly confirms and pays. Unavailable orders show their
+reason. A change-order button cancels a quote without spending resources.
+Long instructions and feedback scroll independently of the input and actions.
+
+Executed: economy scene (33 checks), artifact market (19), strategy curriculum
+and economy (118), all passing. The scene now covers categories, cancellation,
+and long-text action bounds. Windowed economy scene passed and its screenshot
+was inspected; shutdown still reports the existing CanvasItem/ObjectDB warning.

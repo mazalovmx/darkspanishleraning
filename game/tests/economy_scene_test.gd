@@ -12,6 +12,11 @@ func check(ok: bool, message: String) -> void:
 		push_error(message)
 func select_offer(kind: String,id: String) -> void:
 	var panel = map.strategy_panel
+	for index in panel.category.item_count:
+		if panel.category.get_item_metadata(index) == kind:
+			panel.category.select(index)
+			panel.category.item_selected.emit(index)
+			break
 	for index in panel.entries.item_count:
 		var entry: Dictionary = panel.entries.get_item_metadata(index)
 		if entry.kind == kind and entry.id == id:
@@ -40,6 +45,9 @@ func run() -> void:
 	map.strategy_button.pressed.emit()
 	var panel = map.strategy_panel
 	check(panel.visible and panel.resources.text.contains("mercurio"),"Complete strategic wallet visible")
+	check(not panel.quantity.visible, "Buildings do not ask for a quantity")
+	for index in panel.entries.item_count:
+		check(panel.entries.get_item_metadata(index).kind == "build", "Building category hides other purchases")
 	panel.input.text = "Sí"
 	panel.send_button.pressed.emit()
 	check(map.state.economy.buildings.is_empty(),"Click-like text cannot build")
@@ -68,6 +76,11 @@ func run() -> void:
 	panel.input.text = models.request
 	panel.send_button.pressed.emit()
 	check(panel.entries.disabled and not panel.quantity.editable,"Quoted product and amount locked")
+	var before_cancel: Dictionary = map.state.resources.duplicate()
+	panel.cancel_button.pressed.emit()
+	check(map.state.economy.pending.is_empty() and map.state.resources == before_cancel and not panel.category.disabled, "Change order cancels and unlocks categories without spending")
+	panel.input.text = models.request
+	panel.send_button.pressed.emit()
 	gold = map.state.resources.gold
 	panel.close_button.pressed.emit()
 	check(map.state.economy.pending.is_empty() and map.state.resources.gold == gold,"Closing cancels without charge")
@@ -114,6 +127,15 @@ func run() -> void:
 	map._open_poi(map.state.hero_cell)
 	map.strategy_button.pressed.emit()
 	select_offer("build","forge")
+	var original_prompt: String = panel.prompt.text
+	panel.prompt.text = "Una explicación extensa. ".repeat(200)
+	panel.feedback.text = "Corrige la frase y vuelve a intentarlo. ".repeat(200)
+	for frame in 8:
+		await process_frame
+	for control: Control in [panel.input, panel.send_button, panel.close_button]:
+		check(Rect2(0, 0, 1280, 720).encloses(control.get_global_rect()), "Long construction text keeps actions on screen")
+	panel.prompt.text = original_prompt
+	panel.feedback.text = "Solo se paga al confirmar el último paso."
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw
