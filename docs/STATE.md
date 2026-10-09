@@ -3282,3 +3282,21 @@ panel carry the same kind of tooltip.
 Executed: full offline run, 71 runs, 60,284 counted checks, none failed (includes
 dictionary_test and the updated save_picker_test, 36). Map re-rendered in a window and
 inspected. Tooltips themselves were not seen on screen: they need a resting pointer.
+
+## Live DeepSeek check of the dictionary and the Tomás answers (2026-10-09)
+
+Run with the user's consent (paid requests, key from `.env`).
+- `run-game.ps1 -LiveTest -Provider deepseek`: passed (deepseek-flash, one attempt,
+  2.1 s, Spanish feedback check passed).
+- Dictionary lookup, five real requests of about 1.0-1.2 s each: "farol", "lantern",
+  "madrugar" and "to borrow" returned complete entries that pass the own-word checks;
+  a nonsense word returned the "not recognised" message. "to borrow" came back as
+  "prestar" with a lend-style explanation, so proposals do need the player's review.
+- The abbot before any inspection: asked about Tomás he now says who Tomás was and
+  that he lies dead beneath the bell tower. Asked what the community says about the
+  death, the first run invented explanations ("an accident", "God's will") that are not
+  canon. `tomas_death_public` now also states that nobody gives a cause before the
+  belongings are examined; the rerun answered that the community keeps silent and
+  offered the belongings. Two live samples per question, not a guarantee.
+
+Executed after the wording change: six dialogue suites and npc_grounding_test, passed.
