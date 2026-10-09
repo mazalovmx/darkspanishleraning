@@ -87,7 +87,7 @@ func _ready() -> void:
 	details.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	controls.add_child(details)
 	compare.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	compare.add_theme_font_size_override("font_size", 15)
+	compare.add_theme_font_size_override("font_size", preload("res://src/common/ui_tokens.gd").CAPTION)
 	controls.add_child(compare)
 	slot.item_selected.connect(func(_index: int): _compare())
 	slot.clip_text = true

@@ -47,7 +47,7 @@ func _ready() -> void:
 	title.text = "CUADERNO DE INVESTIGACIÓN"
 	box.add_child(title)
 	guide.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	guide.add_theme_font_size_override("font_size", 14)
+	guide.add_theme_font_size_override("font_size", preload("res://src/common/ui_tokens.gd").CAPTION)
 	box.add_child(guide)
 	entries.tooltip_text = "Páginas del cuaderno. ✓ ya anotada · ● falta anotarla.\nNotebook pages: ✓ recorded, ● still to record."
 	compare_button.tooltip_text = "Cuando tengas varias pruebas: elige una hipótesis, dos pruebas que la apoyan y escribe una conclusión.\nWith several pieces recorded: pick a hypothesis, two supporting pieces and write a conclusion."

@@ -217,6 +217,25 @@ its own multi-session plan and scenario-bible review per NPC.
 - Language-event cadence (section 31) is not measured.
 - No human playtest of any kind is recorded.
 
+## P2 - Interface (docs/UI_PLAN.md, docs/UI_AUDIT.md)
+
+- Done 2026-10-09: stages 0, 2, 3, 5 (forecast and keys) and 6 of the UI plan, and most of
+  stage 4. The status table at the end of UI_AUDIT.md lists every finding.
+- Open: move the existing windows onto `common/modal_frame.gd` and replace the remaining
+  literal sizes with `ui_tokens.gd`; the map panel still uses 13-15 px text (full screen
+  makes it about 20 px on a 1080p display). Journal as a list beside the detail. Battle:
+  target states by shape, larger current tile in the turn order, structured log.
+  Equipment: "send to" with portraits, capacity, undo. Stage 7 (filters, small feedback,
+  semantic sound names, reduce-motion setting).
+- Daily movement in the played game is ten times the content value (`movement_scale` in
+  config/game.json, applied by the title menu). The suites other than movement_scale_test
+  run at scale 1. Supplies per day, knights (still 18) and MEASUREMENTS.md were tuned for
+  18 and are not re-examined.
+- Deliberately out of scope: gamepad, touch, TV safe zones, screen narration, haptics, 4:3
+  and ultrawide reflow, a separate high-contrast theme.
+- The one-click dictionary keeps a DeepSeek proposal that passes the format checks without
+  the player reviewing it; a wrong translation can enter the list.
+
 ## Decisions needed from the user
 
 - (Resolved 2026-10-07: both spec and bible copies now record the expansion as

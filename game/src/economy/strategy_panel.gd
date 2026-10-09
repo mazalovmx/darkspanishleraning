@@ -43,7 +43,7 @@ func _ready() -> void:
 	box.add_child(title)
 	resources.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	resources.max_lines_visible = 2
-	resources.add_theme_font_size_override("font_size",15)
+	resources.add_theme_font_size_override("font_size",preload("res://src/common/ui_tokens.gd").CAPTION)
 	box.add_child(resources)
 	var columns := HBoxContainer.new()
 	columns.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -111,7 +111,7 @@ func _ready() -> void:
 	var actions := HBoxContainer.new()
 	actions.add_child(battle_button)
 	feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	feedback.add_theme_font_size_override("font_size", 15)
+	feedback.add_theme_font_size_override("font_size", preload("res://src/common/ui_tokens.gd").CAPTION)
 	_add_scroll(box, feedback, 48)
 	box.add_child(actions)
 	cancel_button.text = "Cambiar pedido"

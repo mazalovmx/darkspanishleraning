@@ -177,7 +177,7 @@ func _ready() -> void:
 	dict_top.add_child(dict_list)
 	dict_detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	dict_detail.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	dict_detail.add_theme_font_size_override("normal_font_size", 15)
+	dict_detail.add_theme_font_size_override("normal_font_size", preload("res://src/common/ui_tokens.gd").CAPTION)
 	dict_top.add_child(dict_detail)
 	dictionary_box.add_child(dict_top)
 	var dict_row := HBoxContainer.new()
@@ -216,7 +216,7 @@ func _ready() -> void:
 	dict_last.add_child(dict_remove)
 	dictionary_box.add_child(dict_last)
 	dict_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	dict_notice.add_theme_font_size_override("font_size", 14)
+	dict_notice.add_theme_font_size_override("font_size", preload("res://src/common/ui_tokens.gd").CAPTION)
 	dictionary_box.add_child(dict_notice)
 	add_child(lookup)
 	lookup.finished.connect(_lookup_finished)

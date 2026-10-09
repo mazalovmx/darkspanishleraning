@@ -59,7 +59,7 @@ func _ready() -> void:
 	transcript.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	talk.add_child(transcript)
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	hint.add_theme_font_size_override("font_size", 15)
+	hint.add_theme_font_size_override("font_size", preload("res://src/common/ui_tokens.gd").CAPTION)
 	var help := TabContainer.new()
 	help.custom_minimum_size.y = 112
 	add_child(help)
@@ -82,7 +82,7 @@ func _ready() -> void:
 	send_button.pressed.connect(func(): submit(input.text))
 	row.add_child(send_button)
 	feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	feedback.add_theme_font_size_override("font_size", 14)
+	feedback.add_theme_font_size_override("font_size", preload("res://src/common/ui_tokens.gd").CAPTION)
 	# Feedback scrolls independently; reply controls stay below the pages.
 
 func open_conversation(id: String) -> void:

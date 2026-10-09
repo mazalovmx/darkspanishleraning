@@ -69,13 +69,13 @@ func refresh(world: RefCounted, selected_id := "") -> void:
 		var label := Label.new()
 		label.text = SHORT_NAMES.get(id, definition.name)
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.add_theme_font_size_override("font_size", 14)
+		label.add_theme_font_size_override("font_size", 15)
 		label.add_theme_color_override("font_color", Color("fff0c9"))
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		button.add_child(label)
 		var status := Label.new()
 		status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		status.add_theme_font_size_override("font_size", 12)
+		status.add_theme_font_size_override("font_size", 14)
 		status.add_theme_color_override("font_color", Color("a6e2bb") if exists else Color("ddd2b5"))
 		status.text = "Construido" if exists else "Disponible" if reason.is_empty() else "Pendiente"
 		if not definition.income.is_empty():

@@ -38,3 +38,25 @@ Shared findings:
 
 Not planned (personal Windows game, COPILOT rule 14): gamepad, touch, TV safe zones, screen
 narration, haptics, 4:3 and ultrawide reflow, a separate high-contrast theme.
+
+## Status after the 2026-10-09 work (see STATE.md for each entry)
+
+| Finding | Status |
+|---|---|
+| No objective line on the map | done: "▶ AHORA: …", click opens the journal |
+| No minimap | done: bottom-left, click or drag moves the view, M toggles |
+| End of day shares a row with "Tareas" | done: pinned under the panel, cannot scroll away |
+| Unaffordable route by colour only | done: dashed, with the missing points in text |
+| Hovering a cell says nothing | done: terrain and cost |
+| No warning before ending a day | partly: a reminder line for a task recordable here; no confirmation by design |
+| Journal: no "show on map" | done; list-beside-detail layout still open |
+| Equipment: no comparison, silent failures | done: comparison line, swap, reasons |
+| Equipment: recipient list, capacity, undo | open |
+| Settlement and market: no "what is left" | done |
+| Local cases and lessons: general lock reason | open |
+| Battle: no forecast, no keys | done: forecast line, A D E H R |
+| Battle: target states by tint, turn order, log | open |
+| No keyboard reach, no focus frame, tooltips only | done: map keys, focus frames, "Ayuda" page |
+| No interface size setting | done as window size / full screen, F11 |
+| Literal sizes, each window its own frame | partly: tokens and a frame builder exist and the help page uses them; secondary texts inside windows raised to 16 px (body text there was already 18). The map panel keeps 13-15 px for lack of room, and no existing window was moved onto the shared frame |
+| Close buttons named differently | open |

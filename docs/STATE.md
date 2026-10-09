@@ -3554,3 +3554,16 @@ Executed: title_menu_test 14 (default, save, sound and size kept together, unkno
 refused, F11 toggle), passed headless. In a real window the three choices gave 1600x900,
 1920x1080 full screen and 1280x720 with the 1280x720 canvas kept. That probe switched the
 user's display to full screen for about a second while their game was open.
+
+## UI plan, stage 1 (partial): caption size inside windows; audit and backlog updated (2026-10-09)
+
+Body text inside the windows was already 18 px (the windows inherit that default); the
+smaller secondary texts there (guide lines, comparison, feedback, dictionary details,
+conversation hint) now use `ui_tokens.CAPTION` (16 px). Building cards and body slots,
+which have no room, went from 12-14 to 13-15. The map panel keeps 13-15 px. No existing
+window was moved onto `modal_frame.gd`: that refactor is listed in BACKLOG.md.
+UI_AUDIT.md ends with a status table of every finding; BACKLOG.md has an Interface section.
+
+Executed: full offline run, 74 runs, 60,636 counted checks, none failed (performance_test
+included). All screens re-rendered at 1280x720; settlement, equipment and the monastery
+conversation inspected after the size change.
