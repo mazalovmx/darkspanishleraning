@@ -102,6 +102,8 @@ var pointer := Vector2.ZERO
 const HOTKEYS := {"map_end_day": KEY_E, "map_tasks": KEY_J, "map_notebook": KEY_C, "map_spanish": KEY_L,
 	"map_equipment": KEY_I, "map_help": KEY_H, "map_save": KEY_S}
 var help_panel := ColorRect.new()
+## One-click "add this word to my dictionary" over every text of the interface.
+var word_picker = preload("res://src/spanish/word_picker.gd").new()
 var help_text := RichTextLabel.new()
 var help_button := Button.new()
 ## The current main objective, always on the map panel; a click opens the journal.
@@ -201,6 +203,7 @@ func _ready() -> void:
 	Settings.apply_effects(Settings.audio(dialogue.client.config))
 
 	preload("res://src/common/copy_text.gd").apply(self, func() -> void: save_notice.text = "Texto copiado.")
+	word_picker.watch(self)
 	PlayLog.attach(self)
 	if persistence_enabled:
 		dialogue.talks_path = save_path.get_basename() + ".talks.json"
@@ -666,6 +669,10 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 	help.close.pressed.connect(_close_help)
 	help_panel.hide()
 	layer.add_child(help_panel)
+	word_picker.theme = panel.theme
+	word_picker.world = func() -> RefCounted: return state
+	word_picker.added.connect(func(): _save_game(true))
+	layer.add_child(word_picker)
 	layer.add_child(save_picker)
 	save_picker.chosen.connect(_choose_save)
 	layer.add_child(save_confirm)
@@ -1202,7 +1209,7 @@ func _refresh() -> void:
 		hero_buttons[id].tooltip_text = "%s — %s · Salud: %d" % [state.party.heroes[id].definition.name, state.party.heroes[id].definition.role, state.party.heroes[id].health]
 	end_button.text = "Resolver órdenes" if state.map_id == "province_160x120_v1" else "Terminar turno"
 	status.text = "%s · Día %d · Salud %d\nMovimiento: %d / %d\n%s" % [state.party.active().definition.short_name, state.day, state.party.active().health,
-		state.movement_remaining, state.MOVEMENT_MAX + int(state.equipment.bonuses(state.party.active_id).world_movement),
+		state.movement_remaining, state.movement_max() + int(state.equipment.bonuses(state.party.active_id).world_movement),
 		"Órdenes congeladas:\nresuelve el día primero" if state.ghosts.plan != null else "Héroe seleccionado" if selected else "Selecciona al héroe"]
 	queue_redraw()
 

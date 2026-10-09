@@ -143,6 +143,37 @@ func run() -> void:
 	panel.dict_remove.pressed.emit()
 	check(play.learner.word_practice.own.is_empty() and saves[0] == 3 and panel.dict_list.get_item_text(0).contains("candil"), "Removing an own word saves and offers the conversation word again")
 	check(Rect2(Vector2.ZERO, root.size).encloses(panel.close_button.get_global_rect()) and Rect2(Vector2.ZERO, root.size).encloses(panel.dict_add.get_global_rect()), "Dictionary controls fit the viewport")
+	# One click on a word anywhere: looked up, checked and kept (user request 2026-10-09).
+	panel.close()
+	var picker = map.word_picker
+	var Picker = load("res://src/spanish/word_picker.gd")
+	check(Picker.clean("  ¿Candil?, ") == "candil" and Picker.words_of("¿Qué dice la comunidad sobre la muerte de Tomás? La comunidad calla.") == PackedStringArray(["qué", "dice", "comunidad", "sobre", "muerte", "tomás", "calla"]), "Words of a line are cleaned, unique and at least three letters")
+	picker.lookup.model = "deepseek-flash"
+	picker.lookup.transport = func(body: String): sent.append(JSON.parse_string(body))
+	picker._selected("  Campanario. ", Vector2(1270, 715))
+	check(picker.offer.visible and picker.offer.text == "＋ «campanario» al diccionario" and Rect2(Vector2.ZERO, Vector2(1280, 720)).encloses(picker.offer.get_rect()), "Selecting a word offers one button, kept on screen")
+	picker._selected("una frase entera de muchas palabras seguidas", Vector2(100, 100))
+	check(not picker.offer.visible, "A whole sentence is not offered as a word")
+	picker._selected("campanario", Vector2(300, 300))
+	var before_own: int = play.learner.word_practice.own.size()
+	picker.offer.pressed.emit()
+	check(not picker.offer.visible and picker.lookup.busy and sent.back().messages[1].content == "campanario" and picker.toast_text.text.contains("Consultando"), "The button asks DeepSeek for exactly that word")
+	picker.lookup.answer(200, reply({"word": "el campanario", "en": "bell tower", "clue": "Torre de una iglesia donde cuelgan las campanas.", "example": "Subió al campanario antes del amanecer."}))
+	var kept: Array = play.learner.word_practice.own
+	check(kept.size() == before_own + 1 and kept.back().word == "el campanario" and kept.back().en == "bell tower" and picker.toast_text.text.begins_with("＋ el campanario — bell tower"), "The word lands in the dictionary with translation and explanation, and the player is told")
+	check(Save.read_save(map.save_path).state.learner.word_practice.own.size() == kept.size(), "The new word is saved at once")
+	picker.pick("rodilla")
+	check(not picker.lookup.busy and picker.toast_text.text.contains("ya está en tu diccionario: knee"), "A known word is shown from the dictionary without any request")
+	picker.pick("campanarios")
+	picker.lookup.answer(200, reply({"word": "el campanario", "en": "bell tower", "clue": "Torre con campanas.", "example": ""}))
+	check(play.learner.word_practice.own.size() == kept.size() and picker.toast_text.text.contains("es una forma de «el campanario»"), "A form of a kept word is recognised, not duplicated")
+	picker.pick("muerte")
+	picker.lookup.answer(200, reply({"word": "la muerte", "en": "death", "clue": "La muerte es el final de la vida.", "example": ""}))
+	check(play.learner.word_practice.own.size() == kept.size() and picker.toast_text.text.contains("no se añadió sola"), "A proposal that fails the checks is not kept and says why")
+	picker.pick("xqzv")
+	picker.lookup.answer(402, "")
+	check(picker.toast_text.text.contains("no se añadió") and picker.toast_text.text.contains("saldo"), "A failed lookup explains itself")
+	play.learner.word_practice.remove_own(kept.back().id)
 	var path: String = map.save_path
 	map.queue_free()
 	await process_frame
