@@ -42,7 +42,7 @@ var sound := AudioStreamPlayer.new()
 const UNIT_ART := "res://assets/third_party/kenney_medieval_rts/Unit/medievalUnit_%02d.png"
 const ROLE := {"militia": 3, "veteran_guard": 3, "ghost_guard": 3, "enforcer": 3, "inquisitorial_guard": 3,
 	"archers": 2, "bandits": 2, "hired_blade": 2, "crossbow_guard": 2, "knife_fighter": 2, "crossbow_mercenary": 2,
-	"relic_sentinel": 1, "hospitaller": 1, "relay_automaton": 4, "watchman": 6, "novice": 6, "thief": 6}
+	"relic_sentinel": 1, "hospitaller": 1, "relay_automaton": 4, "watchman": 6, "novice": 6, "thief": 6, "wolves": 6, "boars": 6}
 const GREY := ["ghost_guard", "relic_sentinel", "relay_automaton"]
 var icons := {}
 

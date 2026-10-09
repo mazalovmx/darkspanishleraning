@@ -657,6 +657,696 @@
       ],
       "daily_income": 1,
       "guarded": true
+    },
+    {
+      "id": "wild_01",
+      "resource": "wood",
+      "position": [
+        51,
+        48
+      ],
+      "daily_income": 2,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "wolves",
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "wild_02",
+      "resource": "wood",
+      "position": [
+        52,
+        31
+      ],
+      "daily_income": 1,
+      "guarded": false
+    },
+    {
+      "id": "wild_03",
+      "resource": "ore",
+      "position": [
+        60,
+        48
+      ],
+      "daily_income": 2,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "boars",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "wild_04",
+      "resource": "wood",
+      "position": [
+        123,
+        109
+      ],
+      "daily_income": 2,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "wolves",
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "wild_05",
+      "resource": "ore",
+      "position": [
+        125,
+        98
+      ],
+      "daily_income": 1,
+      "guarded": false
+    },
+    {
+      "id": "wild_06",
+      "resource": "ore",
+      "position": [
+        121,
+        96
+      ],
+      "daily_income": 2,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "boars",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "wild_07",
+      "resource": "wood",
+      "position": [
+        56,
+        6
+      ],
+      "daily_income": 1,
+      "guarded": false
+    },
+    {
+      "id": "wild_08",
+      "resource": "ore",
+      "position": [
+        52,
+        5
+      ],
+      "daily_income": 1,
+      "guarded": false
+    },
+    {
+      "id": "wild_09",
+      "resource": "wood",
+      "position": [
+        43,
+        6
+      ],
+      "daily_income": 1,
+      "guarded": false
+    },
+    {
+      "id": "wild_10",
+      "resource": "gold",
+      "position": [
+        22,
+        32
+      ],
+      "daily_income": 15,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "wolves",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "id": "wild_11",
+      "resource": "gold",
+      "position": [
+        109,
+        74
+      ],
+      "daily_income": 15,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "wolves",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "id": "wild_12",
+      "resource": "gold",
+      "position": [
+        144,
+        59
+      ],
+      "daily_income": 40,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "bandits",
+          "count": 16
+        },
+        {
+          "type": "wolves",
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "wild_13",
+      "resource": "wood",
+      "position": [
+        2,
+        17
+      ],
+      "daily_income": 2,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "wolves",
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "wild_14",
+      "resource": "gold",
+      "position": [
+        137,
+        56
+      ],
+      "daily_income": 40,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "bandits",
+          "count": 16
+        },
+        {
+          "type": "wolves",
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "wild_15",
+      "resource": "ore",
+      "position": [
+        138,
+        96
+      ],
+      "daily_income": 1,
+      "guarded": false
+    },
+    {
+      "id": "wild_16",
+      "resource": "ore",
+      "position": [
+        119,
+        58
+      ],
+      "daily_income": 1,
+      "guarded": false
+    },
+    {
+      "id": "wild_17",
+      "resource": "ore",
+      "position": [
+        154,
+        57
+      ],
+      "daily_income": 1,
+      "guarded": false
+    },
+    {
+      "id": "wild_18",
+      "resource": "wood",
+      "position": [
+        80,
+        57
+      ],
+      "daily_income": 1,
+      "guarded": false
+    },
+    {
+      "id": "wild_19",
+      "resource": "ore",
+      "position": [
+        148,
+        71
+      ],
+      "daily_income": 2,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "boars",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "wild_20",
+      "resource": "wood",
+      "position": [
+        141,
+        85
+      ],
+      "daily_income": 2,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "wolves",
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "wild_21",
+      "resource": "wood",
+      "position": [
+        114,
+        38
+      ],
+      "daily_income": 1,
+      "guarded": false
+    },
+    {
+      "id": "wild_22",
+      "resource": "gold",
+      "position": [
+        123,
+        15
+      ],
+      "daily_income": 25,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "bandits",
+          "count": 10
+        },
+        {
+          "type": "thief",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "wild_23",
+      "resource": "wood",
+      "position": [
+        39,
+        22
+      ],
+      "daily_income": 1,
+      "guarded": false
+    },
+    {
+      "id": "wild_24",
+      "resource": "gold",
+      "position": [
+        49,
+        69
+      ],
+      "daily_income": 40,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "bandits",
+          "count": 16
+        },
+        {
+          "type": "wolves",
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "wild_25",
+      "resource": "wood",
+      "position": [
+        157,
+        69
+      ],
+      "daily_income": 2,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "wolves",
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "wild_26",
+      "resource": "gold",
+      "position": [
+        144,
+        95
+      ],
+      "daily_income": 40,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "bandits",
+          "count": 16
+        },
+        {
+          "type": "wolves",
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "wild_27",
+      "resource": "wood",
+      "position": [
+        158,
+        99
+      ],
+      "daily_income": 1,
+      "guarded": false
+    },
+    {
+      "id": "wild_28",
+      "resource": "ore",
+      "position": [
+        35,
+        19
+      ],
+      "daily_income": 1,
+      "guarded": false
+    },
+    {
+      "id": "wild_29",
+      "resource": "wood",
+      "position": [
+        80,
+        33
+      ],
+      "daily_income": 2,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "wolves",
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "wild_30",
+      "resource": "ore",
+      "position": [
+        75,
+        79
+      ],
+      "daily_income": 2,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "boars",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "wild_31",
+      "resource": "gold",
+      "position": [
+        115,
+        33
+      ],
+      "daily_income": 15,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "wolves",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "id": "wild_32",
+      "resource": "wood",
+      "position": [
+        108,
+        43
+      ],
+      "daily_income": 3,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "boars",
+          "count": 10
+        },
+        {
+          "type": "wolves",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "wild_33",
+      "resource": "ore",
+      "position": [
+        96,
+        61
+      ],
+      "daily_income": 2,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "boars",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "wild_34",
+      "resource": "gold",
+      "position": [
+        83,
+        93
+      ],
+      "daily_income": 15,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "wolves",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "id": "wild_35",
+      "resource": "gold",
+      "position": [
+        72,
+        115
+      ],
+      "daily_income": 40,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "bandits",
+          "count": 16
+        },
+        {
+          "type": "wolves",
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "wild_36",
+      "resource": "gold",
+      "position": [
+        133,
+        38
+      ],
+      "daily_income": 25,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "bandits",
+          "count": 10
+        },
+        {
+          "type": "thief",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "wild_37",
+      "resource": "gold",
+      "position": [
+        131,
+        30
+      ],
+      "daily_income": 25,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "bandits",
+          "count": 10
+        },
+        {
+          "type": "thief",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "wild_38",
+      "resource": "gold",
+      "position": [
+        30,
+        116
+      ],
+      "daily_income": 15,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "wolves",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "id": "wild_39",
+      "resource": "gold",
+      "position": [
+        46,
+        24
+      ],
+      "daily_income": 40,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "bandits",
+          "count": 16
+        },
+        {
+          "type": "wolves",
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "wild_40",
+      "resource": "wood",
+      "position": [
+        69,
+        87
+      ],
+      "daily_income": 3,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "boars",
+          "count": 10
+        },
+        {
+          "type": "wolves",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "wild_41",
+      "resource": "ore",
+      "position": [
+        12,
+        43
+      ],
+      "daily_income": 2,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "boars",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "wild_42",
+      "resource": "ore",
+      "position": [
+        155,
+        106
+      ],
+      "daily_income": 2,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "boars",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "wild_43",
+      "resource": "wood",
+      "position": [
+        62,
+        72
+      ],
+      "daily_income": 2,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "wolves",
+          "count": 8
+        }
+      ]
+    },
+    {
+      "id": "wild_44",
+      "resource": "wood",
+      "position": [
+        153,
+        39
+      ],
+      "daily_income": 3,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "boars",
+          "count": 10
+        },
+        {
+          "type": "wolves",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "id": "wild_45",
+      "resource": "ore",
+      "position": [
+        87,
+        111
+      ],
+      "daily_income": 3,
+      "guarded": true,
+      "guards": [
+        {
+          "type": "bandits",
+          "count": 12
+        }
+      ]
     }
   ],
   "gates": [

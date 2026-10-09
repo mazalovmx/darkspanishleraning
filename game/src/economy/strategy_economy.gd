@@ -455,7 +455,7 @@ func raid_definition(world: RefCounted, encounter_id: String) -> Dictionary:
 	if entry.is_empty():
 		return {}
 	# Raiders are half the original guard (rounded up): a weekly nuisance, not a siege.
-	var raiders: Array = catalog.mine_guards.get(entry.resource, [{"type": "bandits", "count": 10}]).duplicate(true)
+	var raiders: Array = entry.get("guards", catalog.mine_guards.get(entry.resource, [{"type": "bandits", "count": 10}])).duplicate(true)
 	for stack: Dictionary in raiders:
 		stack.count = maxi(1, ceili(int(stack.count) / 2.0))
 	return {"id": encounter_id, "name": "Salteadores en la mina de " + str(catalog.resource_names[entry.resource]),

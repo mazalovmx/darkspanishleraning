@@ -3026,3 +3026,19 @@ save_game_test and dialogue_context_test were updated for the changed behaviour.
 Executed on Windows: dialogue, feedback, save, province_scene, world_map, claude,
 voices and npc filters, all passed. No live call: whether the model actually stops
 repeating is unverified.
+
+## Scattered resource sites with beasts and bandits (2026-10-08)
+
+Player report: the province felt empty. `tools/scatter_sites.js` (deterministic, seeded)
+added 45 resource sites (`wild_01`–`wild_45`) to province.json, three within nine
+cells of each hero start: 13 free to claim, 32 guarded. A site may carry its own
+`guards`; without it the resource's `mine_guards` apply as before. Two beast units,
+`wolves` and `boars`, were added to stacks.json and use the generic arena figure.
+Sites reuse the mine rules: typed claim, daily income, weekly raids. Save schema
+unchanged (the encounter limit already scales with the number of sites).
+Not done: roaming enemies, pickups, per-site names or art; balance of the new
+fights was not simulated.
+
+Executed on Windows: full offline regression, 64 runs, 59,753 counted checks, zero
+not passed, including performance_test and the reachability of every site.
+Not looked at in a window.

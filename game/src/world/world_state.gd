@@ -434,7 +434,7 @@ func encounter_definition(id: String) -> Dictionary:
 	if entry.is_empty() or not entry.guarded:
 		return {}
 	return {"id":id,"name":"Guardianes de la mina de " + str(economy.catalog.resource_names[entry.resource]),
-		"position":entry.position.duplicate(),"enemies":economy.catalog.mine_guards[entry.resource].duplicate(true),
+		"position":entry.position.duplicate(),"enemies":entry.get("guards",economy.catalog.mine_guards.get(entry.resource,[])).duplicate(true),
 		"requires":"","reward":{}}
 func _retreat_from_ghost() -> void:
 	var preferred: Array = ghosts.pending_encounter.get("hero_previous",[hero_cell.x,hero_cell.y])
