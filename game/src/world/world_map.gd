@@ -910,6 +910,10 @@ func _close_poi() -> void:
 	_save_game(true)
 
 func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F11:
+		Settings.toggle_fullscreen(get_window())
+		get_viewport().set_input_as_handled()
+		return
 	if help_panel.visible and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		_close_help()
 		get_viewport().set_input_as_handled()
@@ -974,7 +978,7 @@ func _open_help() -> void:
 		return
 	var lines: Array[String] = ["RATÓN", "Clic en el héroe: seleccionarlo. Clic en una casilla: preparar la ruta. Clic en el héroe sobre un lugar: entrar.",
 		"Arrastrar con el botón derecho (o el central): mover el mapa. Clic derecho sin arrastrar: quitar la selección. Rueda: acercar o alejar.",
-		"", "TECLADO", "Flechas o WASD: mover el mapa · Home: ir al héroe · M: mapa pequeño · + y −: zoom · F1, F2, F3: cambiar de héroe · Esc: cerrar la ventana abierta · Tab: pasar al siguiente control",
+		"", "TECLADO", "Flechas o WASD: mover el mapa · Home: ir al héroe · M: mapa pequeño · F11: pantalla completa (letras más grandes) · + y −: zoom · F1, F2, F3: cambiar de héroe · Esc: cerrar la ventana abierta · Tab: pasar al siguiente control",
 		"", "BOTONES DEL MAPA"]
 	var keys := {}
 	var buttons := _hotkey_buttons()

@@ -3538,3 +3538,19 @@ battle_integration_test 64 were run directly and passed; the full run was not re
 ui_navigation_test 45 covers the minimap (explored ground painted, fits the screen, a
 click centres the view, blocked behind a window, M toggles). Minimap seen in a window
 once, in its first version (painted from the map's repaint loop), not after the rewrite.
+
+## UI plan, stage 6: interface size (2026-10-09)
+
+The canvas is stretched (`canvas_items`, expand), so a larger window enlarges every text
+and control; a scale factor inside the fixed 1280x720 layout would need each window
+re-laid out. The setting is therefore the window: "Tamaño de la interfaz" on the title
+screen's settings offers 1280x720, 1600x900, 1920x1080 and full screen; F11 toggles full
+screen on the title screen and on the map. It is stored in `user://settings.json` under
+"display"; saving sound no longer overwrites the other sections. On the user's 1920x1080
+screen full screen makes the interface 1.5 times larger (a 13 px label becomes about 20
+px). Headless runs never touch the window; screenshots.gd uses its own settings file.
+
+Executed: title_menu_test 14 (default, save, sound and size kept together, unknown size
+refused, F11 toggle), passed headless. In a real window the three choices gave 1600x900,
+1920x1080 full screen and 1280x720 with the 1280x720 canvas kept. That probe switched the
+user's display to full screen for about a second while their game was open.

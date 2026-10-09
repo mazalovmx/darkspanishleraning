@@ -20,6 +20,7 @@ func run() -> void:
 	root.size = Vector2i(int(wanted[0]), int(wanted[1]))
 	var menu = load("res://src/ui/title_menu.tscn").instantiate()
 	menu.save_path = "user://none.json"
+	menu.settings_path = "user://none_settings.json"
 	root.add_child(menu)
 	await shot("01_title")
 	menu.settings_button.pressed.emit()

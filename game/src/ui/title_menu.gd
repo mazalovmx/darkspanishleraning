@@ -60,6 +60,7 @@ func _ready() -> void:
 	var settings: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://config/game.json"))
 	if settings is Dictionary and (settings.get("movement_scale") is float or settings.get("movement_scale") is int):
 		preload("res://src/world/party_state.gd").movement_scale = clampi(int(settings.movement_scale), 1, 20)
+	Settings.apply_display(Settings.display(settings_path), get_window())
 	continue_button.visible = FileAccess.file_exists(save_path)
 	continue_button.pressed.connect(func(): get_tree().change_scene_to_file(MAP_SCENE))
 	new_button.pressed.connect(func():
@@ -81,6 +82,15 @@ func start_new() -> void:
 	# The map starts a new game (keeping a .bak of the old save) once it has loaded.
 	Engine.set_meta("start_new_game", true)
 	get_tree().change_scene_to_file(MAP_SCENE)
+
+var display_choice := OptionButton.new()
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F11:
+		var mode := Settings.toggle_fullscreen(get_window(), settings_path)
+		for index in display_choice.item_count:
+			if display_choice.get_item_metadata(index) == mode:
+				display_choice.select(index)
 
 func _build_settings(box: VBoxContainer) -> void:
 	box.add_child(settings_panel)
@@ -104,6 +114,26 @@ func _build_settings(box: VBoxContainer) -> void:
 		rows.add_child(line)
 		row[0].toggled.connect(func(_on: bool): save())
 		row[1].value_changed.connect(func(_v: float): save())
+	# Interface size: a larger window or the whole screen enlarges every text and control.
+	var size_line := HBoxContainer.new()
+	var size_label := Label.new()
+	size_label.text = "Tamaño de la interfaz"
+	size_label.custom_minimum_size.x = 200
+	size_line.add_child(size_label)
+	for mode: String in Settings.DISPLAYS:
+		display_choice.add_item("Pantalla completa (la más grande)" if mode == "fullscreen" else "Ventana " + mode.replace("x", " × "))
+		display_choice.set_item_metadata(display_choice.item_count - 1, mode)
+		if mode == Settings.display(settings_path):
+			display_choice.select(display_choice.item_count - 1)
+	display_choice.tooltip_text = "El juego se estira con la ventana: más grande la ventana, más grandes las letras y los botones. F11 cambia a pantalla completa.
+A larger window makes all text and controls larger. F11 toggles full screen."
+	display_choice.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	display_choice.item_selected.connect(func(index: int):
+		var mode := str(display_choice.get_item_metadata(index))
+		Settings.save_display(mode, settings_path)
+		Settings.apply_display(mode, get_window()))
+	size_line.add_child(display_choice)
+	rows.add_child(size_line)
 
 func save() -> bool:
 	Settings.apply_effects({"sfx": sfx_toggle.button_pressed, "sfx_db": sfx_slider.value})

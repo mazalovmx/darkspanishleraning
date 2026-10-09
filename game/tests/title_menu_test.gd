@@ -22,6 +22,16 @@ func run() -> void:
 	check(not menu.continue_button.visible and menu.new_button.visible and menu.settings_button.visible and menu.quit_button.visible, "Without a save there is nothing to continue")
 	menu.settings_button.pressed.emit()
 	check(menu.settings_panel.visible, "Settings open from the title screen")
+	# Interface size: a window size or full screen, kept beside the audio settings.
+	check(Settings.display(settings_path) == "1280x720" and menu.display_choice.item_count == 4 and menu.display_choice.get_selected_metadata() == "1280x720", "Interface size starts at the base window and offers four choices")
+	menu.display_choice.select(3)
+	menu.display_choice.item_selected.emit(3)
+	check(Settings.display(settings_path) == "fullscreen", "The chosen interface size is saved")
+	menu.music_slider.value = -20.0
+	check(Settings.display(settings_path) == "fullscreen" and is_equal_approx(Settings.audio({}, settings_path).music_db, -20.0), "Saving the sound keeps the interface size, and the reverse")
+	check(not Settings.save_display("9999x1", settings_path) and Settings.display(settings_path) == "fullscreen", "An unknown size is refused")
+	check(Settings.toggle_fullscreen(root, settings_path) == "1280x720" and Settings.toggle_fullscreen(root, settings_path) == "fullscreen", "F11 switches between full screen and the base window")
+	Settings.save_display("1280x720", settings_path)
 	menu.music_slider.value = -30.0
 	menu.sfx_toggle.button_pressed = false
 	var audio: Dictionary = Settings.audio({"audio": {"music": true, "music_db": -16.0, "sfx": true, "sfx_db": -8.0}}, settings_path)
