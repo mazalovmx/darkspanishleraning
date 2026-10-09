@@ -58,6 +58,41 @@ func _place(world: RefCounted, location_id: String) -> String:
 			return str(location.name)
 	return location_id
 
+## The one thing to do now in the main story, for the map tracker and the journal:
+## {"text", "short", "location"} (short fits the map panel; location id, empty when none).
+## Never names a task that is not open.
+func next_step(world: RefCounted) -> Dictionary:
+	var evidence = world.evidence
+	if not evidence.has_evidence("opening_conclusion"):
+		var step := "pregunta a los testigos del monasterio sobre lo que has visto y pulsa «Comparar pruebas» en el Cuaderno."
+		var brief := "Santa Lucerna: pregunta a los testigos y compara las pruebas."
+		if not evidence.has_evidence("travel_food"):
+			step = "entra en el monasterio de Santa Lucerna y pulsa «Examinar pertenencias»."
+			brief = "Santa Lucerna: pulsa «Examinar pertenencias»."
+		else:
+			var waiting := 0
+			for id: String in evidence.inspectable_ids("LOC01"):
+				waiting += int(not evidence.has_evidence(id))
+			if waiting > 0:
+				step = "quedan %d hallazgos por examinar en el monasterio («Examinar pertenencias»)." % waiting
+				brief = "Santa Lucerna: quedan %d hallazgos por examinar." % waiting
+		return {"text": "La muerte de Tomás — Santa Lucerna: %d de %d pruebas anotadas. Siguiente paso: %s" % [evidence.progress().size(), evidence.definitions.size(), step], "short": brief, "location": "LOC01"}
+	if world.map_id != "province_160x120_v1":
+		return {"text": "", "short": "", "location": ""}
+	var open: Array = available(world)
+	for id: String in definitions:
+		var node: Dictionary = definitions[id]
+		if node.get("optional", false) or records.has(id) or closed(world, node, records):
+			continue
+		if id in open:
+			var blocked := reason(world, id)
+			return {"text": "%s — %s. %s" % [node.title, _place(world, str(node.location)), blocked if not blocked.is_empty() else "Anota tu conclusión en Tareas."],
+				"short": "%s — %s" % [node.title, _place(world, str(node.location))], "location": str(node.location)}
+		var hints := pending_consultations(world)
+		var waiting_text: String = hints[0] if not hints.is_empty() else "Reúne las pruebas anteriores: revisa Tareas."
+		return {"text": waiting_text, "short": waiting_text if waiting_text.length() <= 90 else waiting_text.left(88) + "…", "location": str(node.location) if not hints.is_empty() else ""}
+	return {"text": "La historia principal está terminada. Quedan las tareas opcionales.", "short": "Historia principal terminada.", "location": ""}
+
 ## Cards that wait only for a conversation ("t:" requirement), with their hints.
 func pending_consultations(world: RefCounted) -> Array[String]:
 	var hints: Array[String] = []

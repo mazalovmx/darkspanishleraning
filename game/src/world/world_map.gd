@@ -104,6 +104,10 @@ const HOTKEYS := {"map_end_day": KEY_E, "map_tasks": KEY_J, "map_notebook": KEY_
 var help_panel := ColorRect.new()
 var help_text := RichTextLabel.new()
 var help_button := Button.new()
+## The current main objective, always on the map panel; a click opens the journal.
+var objective_button := Button.new()
+const TERRAIN_NAMES := {"road": "camino", "grass": "pradera", "field": "campo", "forest": "bosque", "marsh": "pantano",
+	"ruins": "ruinas", "snow": "nieve", "mountain": "montaña", "water": "agua"}
 # Right button: a drag moves the map, a click without movement clears the selection.
 var right_travel := 0.0
 var preview: Array[Vector2i] = []
@@ -408,6 +412,14 @@ func _build_ui() -> void:
 	strategy_panel.battle_requested.connect(_start_battle)
 	campaign_journal.theme = panel.theme
 	layer.add_child(campaign_journal)
+	campaign_journal.show_requested.connect(func(place: String):
+		var cell: Vector2i = state.ghosts._location(state, place)
+		if cell.x < 0 or state.fog_at(cell) == WorldState.Fog.UNKNOWN:
+			save_notice.text = "Ese lugar todavía no está descubierto en el mapa: %s." % state.campaign._place(state, place)
+			return
+		camera.position = tiles.map_to_local(cell)
+		_clamp_camera()
+		save_notice.text = "El mapa muestra: %s." % state.campaign._place(state, place))
 	campaign_journal.closed.connect(func():
 		end_button.disabled = poi_modal.visible
 		_update_preview())
@@ -454,11 +466,6 @@ func _build_ui() -> void:
 	margin.add_child(scroll)
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(box)
-	var title := Label.new()
-	title.text = "MAPA DE VIAJE"
-	title.add_theme_color_override("font_color", Color("f3d27a"))
-	title.add_theme_font_size_override("font_size", 20)
-	box.add_child(title)
 	var portraits := HBoxContainer.new()
 	box.add_child(portraits)
 	var hero_index := 0
@@ -490,6 +497,16 @@ func _build_ui() -> void:
 	army_notice.add_theme_font_size_override("font_size", 14)
 	army_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(army_notice)
+	objective_button.flat = true
+	objective_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	objective_button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	objective_button.custom_minimum_size = Vector2(260, 0)
+	objective_button.add_theme_font_size_override("font_size", 14)
+	objective_button.add_theme_color_override("font_color", Color("ffe08a"))
+	objective_button.tooltip_text = "Tu objetivo actual en la historia. Clic: abrir el diario de tareas.\nYour current story objective. Click to open the task journal."
+	objective_button.visible = state.map_id == "province_160x120_v1"
+	objective_button.pressed.connect(func(): campaign_button.pressed.emit())
+	box.add_child(objective_button)
 	# Controls and travel costs live in a tooltip, not in the panel.
 	var instructions := help_button
 	instructions.flat = true
@@ -522,14 +539,13 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 	navigation.add_child(zoom_label)
 	box.add_child(instructions)
 	box.add_child(route_info)
-	route_info.custom_minimum_size = Vector2(260, 60)
+	route_info.custom_minimum_size = Vector2(260, 44)
 	route_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	end_button.text = "Resolver órdenes" if state.map_id == "province_160x120_v1" else "Terminar turno"
 	end_button.pressed.connect(_end_turn)
 	var turns := HBoxContainer.new()
 	end_button.add_theme_font_size_override("font_size",15)
 	end_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	turns.add_child(end_button)
 	var cancel_route := Button.new()
 	cancel_route.text = "Cancelar ruta"
 	cancel_route.tooltip_text = "Borra la ruta preparada para el héroe activo; no gasta movimiento.\nClears the route planned for the active hero."
@@ -539,7 +555,9 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 			state.ghosts.plan.cancel_move(state.party.active_id)
 			_save_game(true)
 			_refresh())
-	box.add_child(cancel_route)
+	cancel_route.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	cancel_route.add_theme_font_size_override("font_size",15)
+	turns.add_child(cancel_route)
 	campaign_button.text = "Tareas"
 	campaign_button.add_theme_font_size_override("font_size",15)
 	campaign_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -560,7 +578,11 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 		end_button.disabled = true
 		_update_preview())
 	box.add_child(equipment_button)
-	side_button.text = "Investigaciones locales"
+	side_button.text = "Casos locales"
+	side_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	side_button.add_theme_font_size_override("font_size",15)
+	var cases_row := HBoxContainer.new()
+	box.add_child(cases_row)
 	side_button.visible = state.map_id == "province_160x120_v1"
 	side_button.pressed.connect(func():
 		if poi_modal.visible or arena.visible or market.visible or notebook.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible or dialogue.client.busy:
@@ -568,8 +590,10 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 		side_panel.open_cases(state)
 		end_button.disabled = true
 		_update_preview())
-	box.add_child(side_button)
-	ghost_button.text = "Caballeros y pruebas"
+	cases_row.add_child(side_button)
+	ghost_button.text = "Caballeros"
+	ghost_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	ghost_button.add_theme_font_size_override("font_size",15)
 	ghost_button.visible = state.map_id == "province_160x120_v1"
 	ghost_button.pressed.connect(func():
 		if poi_modal.visible or arena.visible or market.visible or notebook.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or side_panel.visible or ghost_panel.visible or dialogue.client.busy:
@@ -577,7 +601,7 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 		ghost_panel.open_orders(state)
 		end_button.disabled = true
 		_update_preview())
-	box.add_child(ghost_button)
+	cases_row.add_child(ghost_button)
 	var saves := HBoxContainer.new()
 	var study := HBoxContainer.new()
 	save_button.text = "Guardar partida"
@@ -656,6 +680,10 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 			else:
 				leave_unsaved.popup_centered())
 	session.add_child(menu_button)
+	# Apart from every other button, so it is never pressed by a slip of the hand.
+	box.add_child(HSeparator.new())
+	end_button.custom_minimum_size.y = 44
+	box.add_child(end_button)
 	_explain_buttons()
 	layer.add_child(leave_unsaved)
 	leave_unsaved.title = "Partida sin guardar"
@@ -1144,6 +1172,12 @@ func _refresh() -> void:
 					fog_tiles.erase_cell(cell)
 					lit.append(cell)
 	army_notice.text = "Ejército: %d/7 destacamentos" % state.army.size()
+	if objective_button.visible:
+		objective_button.text = "▶ AHORA: " + str(state.campaign.next_step(state).short)
+		var todo := _unfinished_here()
+		if not todo.is_empty():
+			objective_button.text += "
+⚠ Aquí, antes de terminar el día: " + "; ".join(todo.slice(0, 2)) + "."
 	for id in resource_labels:
 		resource_labels[id].text = str(state.resources.get(id, 0))
 	day_label.text = "Día %d · Semana %d" % [state.day, (state.day - 1) / 7 + 1]
@@ -1168,14 +1202,16 @@ func _update_preview() -> void:
 		preview = state.path_to(hovered, true)
 	if not selected:
 		route_info.text = "Selecciona al héroe para viajar."
+		if state.grid.region.has_point(hovered) and state.fog_at(hovered) != WorldState.Fog.UNKNOWN:
+			route_info.text = _terrain_text(hovered)
 	elif state.fog_at(hovered) == WorldState.Fog.UNKNOWN and state.grid.region.has_point(hovered):
 		route_info.text = "Zona sin explorar. Acércate para descubrirla."
 	elif preview.is_empty():
 		route_info.text = "Destino inaccesible."
 	else:
 		var cost: int = state.path_cost(preview)
-		route_info.text = "Ruta: %d puntos.%s" % [cost,
-			"\nNo quedan suficientes puntos." if cost > state.movement_remaining else ""]
+		route_info.text = "Ruta: %d puntos · te quedan %d.%s\n%s" % [cost, state.movement_remaining,
+			"\n✗ No alcanza hoy: faltan %d puntos." % (cost - state.movement_remaining) if cost > state.movement_remaining else "", _terrain_text(hovered)]
 	var site := state.resource_at(hovered)
 	if not site.is_empty() and site.has("items"):
 		route_info.text = "%s%s\n%s" % [site.name, " · vigilado" if site.guarded else "", route_info.text]
@@ -1188,6 +1224,28 @@ func _update_preview() -> void:
 	if not location.is_empty():
 		route_info.text = str(location.name) + "\n" + route_info.text
 	queue_redraw()
+
+func _terrain_text(cell: Vector2i) -> String:
+	var kind: String = state.terrain[cell.y][cell.x]
+	var cost: int = state.terrain_cost(cell)
+	return "%s · %s" % [str(TERRAIN_NAMES.get(kind, kind)).capitalize(), "no se puede cruzar" if cost == 0 else "%d por casilla" % cost]
+
+## What can still be done at this very place before the day ends (shown, never enforced).
+func _unfinished_here() -> Array[String]:
+	var todo: Array[String] = []
+	if state.map_id != "province_160x120_v1":
+		return todo
+	var here: String = state.location_at(state.hero_cell).get("id", "")
+	if here == "LOC01":
+		var waiting := 0
+		for id: String in state.evidence.inspectable_ids("LOC01"):
+			waiting += int(not state.evidence.has_evidence(id))
+		if waiting > 0:
+			todo.append("examinar %d hallazgos («Examinar pertenencias»)" % waiting)
+	for id: String in state.campaign.available(state):
+		if state.campaign.reason(state, id).is_empty():
+			todo.append("anotar «%s» en Tareas" % state.campaign.definitions[id].title)
+	return todo
 
 func _draw() -> void:
 	for location: Dictionary in state.locations:
@@ -1291,8 +1349,12 @@ func _draw() -> void:
 		var points := PackedVector2Array()
 		for cell in preview:
 			points.append(tiles.map_to_local(cell))
-		var color := Color("f7df9a") if state.path_cost(preview) <= state.movement_remaining else Color("eb7770")
-		draw_polyline(points, color, 3)
+		# A route the hero cannot finish today is dashed as well as red: not colour alone.
+		if state.path_cost(preview) <= state.movement_remaining:
+			draw_polyline(points, Color("f7df9a"), 3)
+		else:
+			for index in points.size() - 1:
+				draw_dashed_line(points[index], points[index + 1], Color("eb7770"), 3, 6.0)
 
 ## One sentence per button, in Spanish and in English, shown when the pointer rests on
 ## it. Labels stay short; the tooltip says what the button does.

@@ -58,11 +58,23 @@ func run() -> void:
 	map.help_button.pressed.emit()
 	var help: String = map.help_text.text
 	check(map.help_panel.visible and help.contains("BOTONES DEL MAPA") and help.contains("· Tareas [J] — ") and help.contains("· Guardar partida [Ctrl+S] — ") and help.contains("Pantano: 3"), "Help lists buttons with their keys and the terrain costs")
-	check(not help.contains("Caballeros y pruebas"), "Help does not describe a button that is not offered yet")
+	check(not help.contains("· Caballeros"), "Help does not describe a button that is not offered yet")
 	check(map.end_button.tooltip_text.ends_with("Tecla: E") and map.save_button.tooltip_text.ends_with("Tecla: Ctrl+S"), "Tooltips name the same keys")
 	map._end_turn()
 	check(map.state.day == day, "The day cannot end behind the help page")
 	press(KEY_ESCAPE)
+	# The map panel says what the hovered cell is and what is still open here.
+	map.selected = false
+	map.pointer = map.get_canvas_transform() * map.tiles.map_to_local(map.state.hero_cell + Vector2i(1, 0))
+	map._update_preview()
+	check(map.route_info.text.contains(" por casilla") or map.route_info.text.contains("no se puede cruzar"), "Hovering a known cell names its terrain and cost: " + map.route_info.text)
+	map._refresh()
+	check(map._unfinished_here().size() == 1 and map.objective_button.text.contains("⚠ Aquí, antes de terminar el día: examinar 1 hallazgos"), "The panel reminds of an inspection still open at this place")
+	map.selected = true
+	map.pointer = map.get_canvas_transform() * map.tiles.map_to_local(map.state.hero_cell + Vector2i(2, 0))
+	map._update_preview()
+	check(map.route_info.text.begins_with("Ruta: ") and map.route_info.text.contains("te quedan %d" % map.state.movement_remaining), "A planned route shows its cost beside the points left")
+	map.selected = false
 	# Keys reach the text field, not the map, while the player is typing.
 	map._open_poi(map.state.hero_cell)
 	map.dialogue.input.grab_focus()

@@ -1,6 +1,8 @@
 extends ColorRect
 signal closed
 signal progressed
+## Asks the map to show a place (location id); the journal closes itself first.
+signal show_requested(location: String)
 var world_state: RefCounted
 var active_id := ""
 const SUMMARY := "@resumen"
@@ -15,6 +17,7 @@ var support_b := OptionButton.new()
 var supports_row := HBoxContainer.new()
 var submit_button := Button.new()
 var hint_button := Button.new()
+var show_button := Button.new()
 var close_button := Button.new()
 var feedback := Label.new()
 ## Optional Claude review of an accepted conclusion: feedback only, never progress.
@@ -83,6 +86,14 @@ func _ready() -> void:
 			var parts: Array[String] = world_state.campaign.needs(world_state.campaign.definitions[active_id])
 			feedback.text = "Escribe una de las propuestas." if parts.is_empty() else "Tu frase necesita: " + "; ".join(parts) + ".")
 	actions.add_child(hint_button)
+	show_button.text = "Mostrar en el mapa"
+	show_button.tooltip_text = "Cierra el diario y centra el mapa en el lugar de esta tarea.\nCloses the journal and centres the map on this task's place."
+	show_button.pressed.connect(func():
+		var place := _shown_location()
+		if not place.is_empty():
+			close()
+			show_requested.emit(place))
+	actions.add_child(show_button)
 	feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	feedback.custom_minimum_size.y = 52
 	box.add_child(feedback)
@@ -126,16 +137,7 @@ func summary() -> String:
 	if evidence.has_evidence("opening_conclusion"):
 		lines.append("✓ La muerte de Tomás — Santa Lucerna (%d de %d pruebas anotadas)" % [found,total])
 	else:
-		var step := "Siguiente paso: pregunta a los testigos del monasterio sobre lo que has visto y pulsa «Comparar pruebas» en el Cuaderno."
-		if not evidence.has_evidence("travel_food"):
-			step = "Siguiente paso: entra en el monasterio de Santa Lucerna y pulsa «Examinar pertenencias»."
-		else:
-			var waiting := 0
-			for id: String in evidence.inspectable_ids("LOC01"):
-				waiting += int(not evidence.has_evidence(id))
-			if waiting > 0:
-				step = "Siguiente paso: quedan %d hallazgos por examinar en el monasterio («Examinar pertenencias»)." % waiting
-		lines.append("▶ La muerte de Tomás — Santa Lucerna: %d de %d pruebas anotadas. %s" % [found,total,step])
+		lines.append("▶ " + str(campaign.next_step(world_state).text))
 	lines.append_array(groups[false].now)
 	if groups[false].later > 0:
 		lines.append("○ %d tareas de la historia todavía sin abrir: aparecen al terminar las anteriores." % groups[false].later)
@@ -149,7 +151,7 @@ func summary() -> String:
 	if groups[true].closed + groups[false].closed > 0:
 		lines.append("✗ %d tareas cerradas por una decisión anterior." % (groups[true].closed + groups[false].closed))
 	lines.append_array(groups[true].done)
-	lines.append_array(["","INVESTIGACIONES LOCALES (opcionales; botón «Investigaciones locales» en cada lugar)"])
+	lines.append_array(["","INVESTIGACIONES LOCALES (opcionales; botón «Casos locales» en cada lugar)"])
 	var cases = world_state.side_cases
 	var untouched := 0
 	for branch: Dictionary in cases.branches.values():
@@ -166,6 +168,11 @@ func summary() -> String:
 	if untouched > 0:
 		lines.append("○ %d investigaciones sin empezar." % untouched)
 	return "\n".join(lines)
+
+func _shown_location() -> String:
+	if active_id == SUMMARY:
+		return str(world_state.campaign.next_step(world_state).location)
+	return str(world_state.campaign.definitions.get(active_id, {}).get("location", ""))
 
 func _location_name(id: String) -> String:
 	for location: Dictionary in world_state.locations:
@@ -214,6 +221,7 @@ func _refresh_body() -> void:
 	hint_button.disabled = true
 	for button: Button in [submit_button,hint_button]:
 		button.visible = active_id != SUMMARY
+	show_button.disabled = _shown_location().is_empty()
 	body.custom_minimum_size.y = 285 if active_id == SUMMARY else 170
 	if active_id == SUMMARY:
 		body.text = summary()

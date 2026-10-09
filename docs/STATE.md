@@ -3399,3 +3399,28 @@ passed headless. Help page and a focused button rendered in a window and inspect
 first render showed the wrong font; fixed). First token colours failed the 4.5:1 check
 and were darkened. Keys were sent as synthetic events; not tried on a real keyboard.
 Full offline run after stage 2: 73 runs, 60,486 counted checks, none failed.
+
+## UI plan, stage 3 (first part): objective on the map, end of day apart (2026-10-09)
+
+- `campaign_state.next_step(world)` is the single source of "what to do now" for the
+  main story (full text, a short form for the map panel, the place). The journal summary
+  and the new map line both read it.
+- Map panel: a gold line "▶ AHORA: …" under the hero status; a click opens the journal.
+  When something can still be done at the hero's place (findings to inspect, a task that
+  can be recorded right now) a second line "⚠ Aquí, antes de terminar el día: …" appears.
+  It is a reminder, not a confirmation: ending the day is never blocked.
+- "Resolver órdenes" left the row it shared with "Tareas": it is the last control of the
+  panel, taller, under a separator. "Cancelar ruta" and "Tareas" share a row; "Casos
+  locales" (was "Investigaciones locales") and "Caballeros" (was "Caballeros y pruebas")
+  share a row. The decorative title "MAPA DE VIAJE" was removed to make room.
+- Journal: "Mostrar en el mapa" closes it and centres the map on the task's place, or
+  says the place is not discovered yet.
+- Hovering a known cell names its terrain and cost; a planned route shows its cost beside
+  the points left and how many are missing; a route that cannot be finished today is
+  dashed as well as red.
+Still open in stage 3: minimap, journal as list beside detail.
+
+Executed: full offline run, 73 runs, 60,494 counted checks, none failed.
+ui_navigation_test 36 and campaign_panel_test 436 carry the new checks. Map panel
+rendered in a window and inspected twice (the first layout pushed the last rows off the
+panel). The reminder line and the dashed route were checked by test, not seen on screen.

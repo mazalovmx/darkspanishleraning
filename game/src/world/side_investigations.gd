@@ -72,7 +72,7 @@ func reason(world: RefCounted,id: String) -> String:
 		return "Consolida los bloques anteriores y practica las formas de este expediente."
 	var knight: String = world.ghosts.blocked(world,id)
 	if not knight.is_empty():
-		return "Una intervención impide este paso. Abre «Caballeros y pruebas» para refutarla en español, o espera a que termine."
+		return "Una intervención impide este paso. Abre «Caballeros» para refutarla en español, o espera a que termine."
 	if stage(id) == "complete":
 		return "El expediente ya está resuelto."
 	return ""
