@@ -253,6 +253,8 @@ func refresh() -> void:
 	prompt.text = step + "\n" + economy.cue(world_state,selected.kind,selected.id,amount).get_slice("\n", 1)
 	input.placeholder_text = {"request":"Pide el edificio, las tropas o el objeto.", "price":"Indica los recursos y sus cantidades.", "confirm":"Confirma lo que quieres comprar."}[economy.phase]
 	send_button.text = {"request":"Continuar", "price":"Comprobar coste", "confirm":"Confirmar y pagar"}[economy.phase]
+	if selected.kind == "build" and economy.phase == "request":
+		input.placeholder_text = "Pide construir el edificio seleccionado."
 	if not denied.is_empty():
 		prompt.text = "No disponible: " + denied + "\nElige otra opción o vuelve al mapa."
 		input.hide()

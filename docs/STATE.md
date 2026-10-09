@@ -3170,3 +3170,17 @@ Executed: town_view 31 checks, dialogue_layout 7, economy_scene 33, title_menu 9
 all passed. Windowed town_view passed 31; screenshot inspected at Monasterio de
 Santa Lucerna, showing a completed administration and its actual +40 gold/day.
 Existing shutdown leak warnings remain. No live model calls or player save edits.
+## Construction request context (2026-10-09)
+
+Building requests now resolve supported Spanish construction intent against the
+selected single building: no repeated name or quantity is necessary. Polite
+questions, infinitives and imperatives are recognized, including construirlo and
+este edificio. Wrong buildings, plural orders, negation and unrelated actions do
+not place an order. Building-specific guidance replaces quantity/product prompts
+both initially and on retries. Cost and payment confirmation remain mandatory;
+previously accepted saved receipts retain their original validation.
+
+Executed: building_intent 29 headless and 29 windowed, strategy_economy 90,
+strategy_curriculum 28, economy_scene 33, save_game 540; all passed. Includes actual
+UI request/cancel/commit, exact single-building payment and save/load round trip.
+Existing exit leak warnings remain. No live model requests were made.

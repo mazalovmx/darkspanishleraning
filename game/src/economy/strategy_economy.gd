@@ -198,6 +198,29 @@ var _trade: RefCounted = preload("res://src/economy/trade_state.gd").new()
 func world_words(phrase: String) -> String:
 	return _trade.words(phrase).substr(1)
 
+## Resolve a construction request against the selected single building, without
+## accepting a different object, a plural quantity, negation or an unrelated verb.
+func _building_request(message: String, id: String) -> bool:
+	var text: String = _trade.words(message).strip_edges()
+	text = RegEx.create_from_string("^(?:hola |buenos dias |buenas tardes |por favor )+").sub(text, "")
+	text = RegEx.create_from_string("(?: por favor| aqui| ahora| gracias)+$").sub(text, "")
+	var names := [world_words(str(catalog.buildings[id].name)).strip_edges()]
+	var short_names := {"council_hall":"administracion", "archery_range":"arqueria", "laboratory":"reliquias", "artifact_market":"mercado de artefactos"}
+	if short_names.has(id):
+		names.append(short_names[id])
+	var target := "(?:(?:un |una |el |la )?(?:%s)|este edificio|el edificio seleccionado|esto)" % "|".join(names)
+	var wish := "(?:yo )?(?:quiero|necesito|deseo|quisiera|querria|me gustaria|voy a|decidi|podemos|podriamos|puedes|podrias|puede|podria|me puedes|me podrias)"
+	var action := "(?:construir|edificar|levantar)"
+	var pattern := "^(?:%s (?:(?:%s(?:lo|la)?)(?: %s)?|%s)|(?:construye|construya|construyamos|edifica|levanta)(?:lo|la)?(?: %s)?)$" % [wish, action, target, target, target]
+	return RegEx.create_from_string(pattern).search(text) != null
+
+func reminder(kind: String, stage: String, tier: String) -> String:
+	if kind == "build":
+		return {"request":"El edificio ya está seleccionado: se construye uno. Pide construirlo en español; no necesitas repetir el nombre ni indicar cantidad.",
+			"price":"Explica el coste mostrado: cuesta / el total es + los recursos necesarios. Los números son del coste, no del número de edificios.",
+			"confirm":"Confirma la construcción y el coste completo en español."}[stage]
+	return str(_trade.REMINDERS[stage][tier])
+
 ## Names what an order sentence still lacks; the model itself always passes.
 ## `strict` is off when saved receipts are revalidated (see trade_state.missing).
 func missing(kind: String, id: String, quantity: int, message: String, stage: String, tier: String, strict := true) -> Array[String]:
@@ -211,6 +234,13 @@ func missing(kind: String, id: String, quantity: int, message: String, stage: St
 	if strict:
 		result.append_array(preload("res://src/spanish/grammar_checks.gd").missing(message))
 	var text: String = _trade.words(message)
+	if kind == "build" and stage == "request":
+		if _building_request(message, id):
+			return result
+		if strict:
+			result.append("una petición de construir el edificio seleccionado, sin negación ni otro edificio")
+			return result
+		# Previously accepted receipts still use their original validation below.
 	var rule: Dictionary = _trade.RULES[stage][tier]
 	if not rule.verbs.any(func(verb: String) -> bool: return text.contains(" %s " % verb)):
 		result.append(LABELS.verb)
@@ -230,7 +260,7 @@ func cue(world: RefCounted, kind: String, id: String, quantity: int) -> String:
 	var tier := str(pending.get("tier",world.trade.tier_for(world)))
 	var definition := offer(kind,id)
 	var target: String = definition.name if kind in ["build","artifact"] else "%d %s" % [quantity,definition.singular if quantity == 1 else definition.name]
-	return "Pedido: %s · Coste: %s\nRecuerda: %s" % [target,cost_text(cost(kind,id,quantity)),_trade.REMINDERS[phase][tier]]
+	return "Pedido: %s · Coste: %s\nRecuerda: %s" % [target,cost_text(cost(kind,id,quantity)),reminder(kind,phase,tier)]
 
 func _gaps_text(gaps: Array[String]) -> String:
 	return "Falta " + (", ".join(gaps.slice(0, gaps.size() - 1)) + " y " + gaps[-1] if gaps.size() > 1 else gaps[0]) + "."
@@ -339,7 +369,7 @@ func submit(world: RefCounted, kind: String, id: String, quantity: int, message:
 		return {"ok":false,"declined":true,"message":"Entendido: no se hace la operación y no se paga nada."}
 	var gaps := missing(kind,id,quantity,message,phase,tier)
 	if not gaps.is_empty():
-		return {"ok":false,"message":_gaps_text(gaps) + "\nRecuerda: " + str(_trade.REMINDERS[phase][tier])}
+		return {"ok":false,"message":_gaps_text(gaps) + "\nRecuerda: " + reminder(kind,phase,tier)}
 	var spelling: String = _trade.spelling(message,str(models(kind,id,quantity,tier)[phase]),phase,tier)
 	if not spelling.is_empty():
 		return {"ok":false,"message":spelling}
