@@ -4,6 +4,7 @@
   "provider_order": ["deepseek", "anthropic"],
   "nvidia_model": "deepseek-ai/deepseek-v4-flash",
   "language": "es",
+  "movement_scale": 10,
   "audio": {
     "music": true,
     "music_db": -16.0,

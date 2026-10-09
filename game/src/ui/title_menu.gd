@@ -56,6 +56,10 @@ func _ready() -> void:
 		pair[0].text = pair[1]
 		pair[0].add_theme_font_size_override("font_size", 22)
 		box.add_child(pair[0])
+	# The played game uses the movement scale of the configuration (user decision 2026-10-09).
+	var settings: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://config/game.json"))
+	if settings is Dictionary and (settings.get("movement_scale") is float or settings.get("movement_scale") is int):
+		preload("res://src/world/party_state.gd").movement_scale = clampi(int(settings.movement_scale), 1, 20)
 	continue_button.visible = FileAccess.file_exists(save_path)
 	continue_button.pressed.connect(func(): get_tree().change_scene_to_file(MAP_SCENE))
 	new_button.pressed.connect(func():

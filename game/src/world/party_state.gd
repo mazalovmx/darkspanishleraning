@@ -3,10 +3,14 @@ const Hero = preload("res://src/world/hero_state.gd")
 const Battle = preload("res://src/combat/stack_battle.gd")
 var definitions: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/world/heroes.json"))
 var heroes: Dictionary = {}
+## Multiplies every hero's daily movement. The title menu sets it from config/game.json
+## ("movement_scale") when the game starts; scripts that build a world directly keep 1.
+static var movement_scale := 1
 var active_id := "inquisitor"
 
 func _init() -> void:
 	for id in definitions:
+		definitions[id].movement_max = int(definitions[id].movement_max) * maxi(1, movement_scale)
 		heroes[id] = Hero.new(id, definitions[id])
 
 func active() -> RefCounted:

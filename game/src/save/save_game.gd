@@ -129,7 +129,7 @@ static func decode(data: Variant) -> Dictionary:
 	var cell: Variant = data.hero.get("cell")
 	if not cell is Array or cell.size() != 2 or not _integer(cell[0], 0, bounds.x - 1) or not _integer(cell[1], 0, bounds.y - 1):
 		return {"error": "invalid"}
-	if not _integer(data.hero.get("movement"), 0, WorldState.MOVEMENT_MAX + (6 if data.version >= 9 else 0)):
+	if not _integer(data.hero.get("movement"), 0, WorldState.movement_max() + (6 if data.version >= 9 else 0)):
 		return {"error": "invalid"}
 	if not data.get("explored") is Array or data.explored.size() > bounds.x * bounds.y:
 		return {"error": "invalid"}

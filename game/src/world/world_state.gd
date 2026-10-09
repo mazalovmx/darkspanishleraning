@@ -14,6 +14,9 @@ const LAMP_RADIUS := 2
 ## Movement lost waiting at a bridge post without the toll pass (salvoconducto).
 const TOLL_WAIT := 4
 const MOVEMENT_MAX := 18
+## Daily movement of the active hero before equipment, with the game's movement scale.
+static func movement_max() -> int:
+	return MOVEMENT_MAX * maxi(1, preload("res://src/world/party_state.gd").movement_scale)
 var ghosts = preload("res://src/world/ghost_state.gd").new()
 var turn_notice := ""
 var side_cases = preload("res://src/world/side_investigations.gd").new()

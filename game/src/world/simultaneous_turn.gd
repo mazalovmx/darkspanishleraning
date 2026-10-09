@@ -43,10 +43,15 @@ func freeze(world: RefCounted,knight_positions: Dictionary,ai_orders: Dictionary
 			candidate.known["%d,%d" % [cell.x,cell.y]] = true
 	return restore(candidate,world)
 
+## Cells a day's route may hold: the base 18 points times the game's movement scale,
+## plus the equipment cap of 6 and the starting cell (25 at scale 1).
+static func reach() -> int:
+	return 18 * maxi(1, preload("res://src/world/party_state.gd").movement_scale) + 7
+
 func _valid_order(world: RefCounted,id: String,actor: Dictionary,order: Variant,visibility: Dictionary) -> bool:
 	if not order is Dictionary or order.size() != 3 or order.get("kind") not in ["move","guard","intervene","recover"] or not order.get("target") is String:
 		return false
-	if not order.get("path") is Array or order.path.is_empty() or order.path.size() > 25:
+	if not order.get("path") is Array or order.path.is_empty() or order.path.size() > reach():
 		return false
 	if order.path[0] != actor.cell:
 		return false
@@ -101,7 +106,7 @@ func restore(data: Variant,world: RefCounted) -> bool:
 		var actor: Variant = data.actors[id]
 		if not id is String or not actor is Dictionary or actor.size() != 4 or not _valid_cell(actor.get("cell"),world):
 			return false
-		if not _integer(actor.get("side"),0,1) or not _integer(actor.get("movement"),0,24) or not _integer(actor.get("initiative"),1,10):
+		if not _integer(actor.get("side"),0,1) or not _integer(actor.get("movement"),0,reach() - 1) or not _integer(actor.get("initiative"),1,10):
 			return false
 		if actor.side == 0:
 			if not world.party.heroes.has(id) or not world.party.heroes[id].unlocked or world.party.heroes[id].cell != _cell(actor.cell) or actor.initiative != 10 or actor.movement != world.party.heroes[id].movement_remaining:
@@ -169,7 +174,7 @@ func resolve(world: RefCounted) -> Dictionary:
 		spent[id] = 0
 		indices[id] = 0
 		remaining[id] = world.step_cost(_cell(orders[id].path[1]), id) if orders[id].path.size() > 1 else 0
-	for tick in range(1,25):
+	for tick in range(1,reach()):
 		var proposed: Dictionary = positions.duplicate(true)
 		for id in actors:
 			if stopped.has(id) or int(indices[id])+1 >= orders[id].path.size():
