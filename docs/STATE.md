@@ -3142,6 +3142,19 @@ World movement, turns and hero shortcuts pause while the chooser is open.
 Invalid named saves preserve the current world and do not disable healthy autosave.
 
 Executed: save_picker_test, 15 checks, passed headless and windowed. Inspected the
-windowed screenshot; list mode keeps long filenames readable. Full offline
-regression is running; results will be recorded below. Existing shutdown leak
+windowed screenshot; list mode keeps long filenames readable. Full offline regression results are recorded below. Existing shutdown leak
 warnings remain; no live model calls were made.
+## Completion regression and integration (2026-10-09)
+
+Integrated the checked feature commits into the main implementation working copy.
+Godot asset import completed without script/parse errors. Windowed save-picker
+smoke test in the main working copy passed all 15 checks.
+
+Full offline regression: 69 suite runs, 59,871 counted checks, 68 suites passed.
+All functional suites passed. The performance suite had one timing failure while
+other setup work was running: revealing a band of terrain peaked at 79.611 ms
+against the unchanged 60 ms budget. A subsequent isolated performance run in the
+main working copy passed all 19 checks with the original budgets. The earlier
+full run and this isolated result are both retained; this is not an all-green
+single full run. No live model calls were made. Existing CanvasItem/ObjectDB
+shutdown leak warnings remain.
