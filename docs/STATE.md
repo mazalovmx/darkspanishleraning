@@ -3327,3 +3327,13 @@ Executed: full offline run after this change and the right-drag change, 71 runs,
 60,286 counted checks, none failed; opening_inspection_test rerun with four new
 checks (53). Monastery window and inspection page rendered in a window and inspected.
 The comparison page and the "recorded" state were not looked at on screen.
+
+## The knights button waits for the first knight (2026-10-09)
+
+User report: "Caballeros y pruebas" was offered from day 1 although no knight had
+appeared or acted. The button is now shown only when `ghosts.actors` is not empty,
+i.e. after a knight has entered the map (knights spawn only once an optional case of
+their branch is started and its grammar block is reached). The panel itself is
+unchanged. Executed: the six ghost suites, side_scene_test, save_picker_test and
+province_scene_test, all passed headless; ghost_scene_test has two new checks (157).
+No full run and no windowed look for this one-line change.

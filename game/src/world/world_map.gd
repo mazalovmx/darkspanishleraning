@@ -1027,6 +1027,8 @@ static func variant_row(cell: Vector2i, kind: String) -> int:
 	return 1 + (mixed / 10) % 3
 
 func _refresh() -> void:
+	# The knights have their own button only once one of them has appeared.
+	ghost_button.visible = state.map_id == "province_160x120_v1" and not state.ghosts.actors.is_empty()
 	# A tile shows terrain only, and explored cells are only ever added within one state:
 	# repaint everything for a new state, otherwise only the cells that have no tile yet.
 	if painted_state != state or painted > state.fog.size():

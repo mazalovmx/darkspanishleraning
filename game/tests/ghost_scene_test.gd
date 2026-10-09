@@ -11,6 +11,8 @@ func run() -> void:
 		finish_case(state,state.side_cases.branches.SB01.quest_ids[index])
 	# Fresh opposition isolates the telegraphed-order UI from earlier case days.
 	state.ghosts = Ghosts.new()
+	map._refresh()
+	check(not map.ghost_button.visible,"No knight has appeared: the map does not offer their panel")
 	map.ghost_button.pressed.emit()
 	var panel = map.ghost_panel
 	check(panel.visible,"Knight controls open from map")
@@ -20,6 +22,8 @@ func run() -> void:
 	check(state.day == day and not map.side_panel.visible,"Knight panel blocks day and overlapping case panel")
 	panel.prepare_button.pressed.emit()
 	check(state.ghosts.plan != null and panel.prepare_button.disabled,"Prepare freezes orders once")
+	map._refresh()
+	check(not state.ghosts.actors.is_empty() and map.ghost_button.visible,"Once a knight is on the map its panel is offered")
 	var selected := false
 	for index in panel.entries.item_count:
 		if panel.entries.get_item_metadata(index) == "NK01":
