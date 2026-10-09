@@ -26,6 +26,17 @@ func _ready() -> void:
 	lookup.finished.connect(_on_lookup)
 	offer.visible = false
 	offer.add_theme_font_size_override("font_size", 16)
+	# A light note on any background, so it reads as an offer and not as part of the text.
+	var note := StyleBoxFlat.new()
+	note.bg_color = Color("f4e6c8")
+	note.border_color = Color("33241a")
+	note.set_border_width_all(2)
+	note.set_corner_radius_all(4)
+	note.set_content_margin_all(6)
+	for state: String in ["normal", "hover", "pressed", "focus"]:
+		offer.add_theme_stylebox_override(state, note)
+	for state: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
+		offer.add_theme_color_override(state, Color("33241a"))
 	offer.pressed.connect(func():
 		offer.hide()
 		pick(candidate))

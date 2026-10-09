@@ -3492,3 +3492,7 @@ voices_test failed nine checks because the news fact added in ee27aa9 had also b
 to the nine comic characters, whose facts must be their own. Removed from those nine (25
 characters keep it); voices_test 233, npc_grounding_test 70 and dialogue_golden_test
 1,090 rerun and passed. The full run was not repeated after that removal.
+A copy of the user's save was loaded in a window with the scale on: "Movimiento: 18 /
+180" on load, 180 / 180 after the day resolved (day 98 to 99), end-of-day button visible,
+the picker's offer shown over a conversation. The offer was restyled as a light note
+after that look; dictionary_test rerun (275).
