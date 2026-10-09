@@ -2971,3 +2971,11 @@ station, nine comic speakers) with the grammar, vocabulary and frozen-plan work:
 64 runs, 59,662 counted checks, zero not passed, runner exit 0, including
 performance_test within its original budgets. One Windows run; no live API calls,
 no windowed review, no playthrough.
+
+## Launcher and windowed smoke check before the first live playtest (2026-10-08)
+
+`play.cmd` in the repository root starts `tools/run-game.ps1` by double click.
+Windowed on Windows (AMD Vega 8, OpenGL): the game started and quit cleanly after
+300 frames with and without `--accessibility disabled`, and `tests/screenshots.gd`
+rendered all 26 screens; title, map, monastery conversation and vocabulary were
+looked at. No keys were loaded and no live API call was made. Not a playthrough.
