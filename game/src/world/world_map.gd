@@ -106,6 +106,7 @@ var lit: Array[Vector2i] = []
 var camera := Camera2D.new()
 var zoom_label := Label.new()
 var center_button := Button.new()
+var camera_logged_at := 0
 var hero := Sprite2D.new()
 # Last cell and hero the token showed: a move walks the token along its path by
 # animating the sprite offset, while its position is already the new cell.
@@ -122,7 +123,6 @@ var poi_close := Button.new()
 var dialogue = preload("res://src/dialogue/authored_dialogue.gd").new()
 
 func _ready() -> void:
-	PlayLog.write("start", {"scene": "map"})
 	if state.map_id != initial_map_id:
 		state = WorldState.new(initial_map_id)
 	_build_tiles()
@@ -173,6 +173,7 @@ func _ready() -> void:
 	Settings.apply_effects(Settings.audio(dialogue.client.config))
 
 	preload("res://src/common/copy_text.gd").apply(self, func() -> void: save_notice.text = "Texto copiado.")
+	PlayLog.attach(self)
 	if persistence_enabled:
 		dialogue.talks_path = save_path.get_basename() + ".talks.json"
 		_load_game(true)
@@ -771,11 +772,13 @@ func _open_poi(cell: Vector2i) -> void:
 	preview.clear()
 	end_button.disabled = true
 	poi_modal.show()
+	PlayLog.write("location_open", {"location":location.id, "name":location.name})
 	poi_close.grab_focus()
 	queue_redraw()
 
 func _close_poi() -> void:
 	if poi_modal.visible:
+		PlayLog.write("location_close", {"speaker":dialogue.location_id})
 		_play_sfx("leave")
 	poi_modal.hide()
 	_play_music("minstrel_dance.mp3")
@@ -829,9 +832,11 @@ func _switch_hero(id: String) -> void:
 	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
 		_refresh()
 		return
+	PlayLog.write("hero_select_attempt", {"target":id})
 	if not state.select_hero(id):
 		_refresh()
 		return
+	PlayLog.write("hero_selected", {"target":id})
 	selected = true
 	camera.position = tiles.map_to_local(state.hero_cell)
 	_clamp_camera()
@@ -886,7 +891,13 @@ func _unhandled_input(event: InputEvent) -> void:
 				if cell == state.hero_cell:
 					selected = true
 				elif selected:
-					if state.move_to(cell, true):
+					var before := PlayLog.snapshot(state)
+					var intended: Array[Vector2i] = state.path_to(cell, true)
+					var route_cost: int = state.path_cost(intended)
+					var accepted: bool = state.move_to(cell, true)
+					var reason := "accepted" if accepted else "undiscovered" if state.fog_at(cell) == WorldState.Fog.UNKNOWN else "unreachable" if intended.size() < 2 else "movement_budget" if route_cost > state.movement_remaining else "world_rule_or_pending_order"
+					PlayLog.write("route_attempt", {"target": [cell.x, cell.y], "accepted":accepted, "before":before, "cost":route_cost, "reason":reason, "path":intended.map(func(step: Vector2i): return [step.x,step.y]), "notice":state.turn_notice, "terrain":state.terrain_cost(cell), "visible":state.fog_at(cell)})
+					if accepted:
 						_save_game(true)
 						_play_sfx("route")
 					else:
@@ -922,13 +933,18 @@ func _zoom_at(factor: float, anchor: Vector2) -> void:
 func _clamp_camera() -> void:
 	camera.position = camera.position.clamp(Vector2.ZERO, Vector2(state.grid.region.size) * CELL_SIZE)
 	camera.force_update_scroll()
+	if Time.get_ticks_msec() - camera_logged_at > 500:
+		PlayLog.write("camera", {"position": [camera.position.x, camera.position.y], "zoom":camera.zoom.x})
+		camera_logged_at = Time.get_ticks_msec()
 
 func _end_turn() -> void:
 	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible:
 		return
 	var day_before: int = state.day
+	var before := PlayLog.snapshot(state)
+	PlayLog.write("turn_attempt", {"before":before})
 	state.end_turn()
-	PlayLog.write("turn", {"day_before": day_before, "day": state.day, "notice": str(state.turn_notice), "resources": state.resources})
+	PlayLog.write("turn", {"day_before": day_before, "day": state.day, "notice": str(state.turn_notice), "before":before, "after":PlayLog.snapshot(state)})
 	_play_sfx("day" if state.day > day_before else "denied")
 	_save_game(true)
 	_refresh()
@@ -1181,6 +1197,7 @@ func _load_game(startup := false) -> void:
 	if not persistence_enabled or arena.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
 		return
 	var result: Dictionary = SaveGame.read_save(save_path)
+	PlayLog.write("load_result", {"ok":result.has("state"), "reason":result.get("error", ""), "startup":startup})
 	if not result.has("state"):
 		if result.error != "missing":
 			save_locked = true
@@ -1190,6 +1207,7 @@ func _load_game(startup := false) -> void:
 			save_notice.text = "Todavía no hay una partida guardada."
 		return
 	_adopt(result.state)
+	PlayLog.write("load_applied", {})
 	dialogue.load_talks()
 	save_notice.text = "Partida cargada."
 	if not state.campaign.reopened.is_empty():
@@ -1204,6 +1222,7 @@ func _load_game(startup := false) -> void:
 	_resume_contact()
 
 func _leave_to_menu() -> void:
+	PlayLog.write("session_end", {"reason":"menu"})
 	get_tree().change_scene_to_file("res://src/ui/title_menu.tscn")
 
 func _can_restart() -> bool:
@@ -1219,6 +1238,7 @@ func _new_game() -> void:
 			save_notice.add_theme_color_override("font_color", Color("ff8a70"))
 			return
 	_adopt(WorldState.new(state.map_id))
+	PlayLog.write("new_game", {})
 	_save_game(false, true)
 	save_notice.text = "Partida nueva."
 
@@ -1267,6 +1287,7 @@ func _on_dialogue_finished() -> void:
 	_save_game(true)
 
 func _start_battle(id := "opening_road") -> void:
+	PlayLog.write("battle_attempt", {"encounter":id})
 	if dialogue.client.busy or notebook.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible or not state.begin_encounter(id):
 		save_notice.text = "Necesitas un ejército, dos puntos de movimiento y acceso al encuentro."
 		return
@@ -1283,6 +1304,7 @@ func _start_battle(id := "opening_road") -> void:
 	_update_preview()
 
 func _on_battle_finished(_outcome: String, _survivors: Array) -> void:
+	PlayLog.write("battle_finished", {"outcome":_outcome, "survivors":_survivors})
 	var encounter_id: String = state.active_encounter
 	if not state.settle_encounter():
 		return
@@ -1303,3 +1325,6 @@ func _on_battle_finished(_outcome: String, _survivors: Array) -> void:
 	if not site.is_empty():
 		strategy_panel.open_site(state,site.id)
 		end_button.disabled = true
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		PlayLog.write("session_end", {"reason":"window_closed"})

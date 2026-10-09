@@ -204,6 +204,7 @@ func refresh() -> void:
 	entries.disabled = not economy.pending.is_empty()
 	var amount := int(quantity.value)
 	var denied: String = economy.reason(world_state,selected.kind,selected.id,amount)
+	PlayLog.write("order_offer", {"kind":selected.kind, "id":selected.id, "quantity":amount, "reason":denied, "cost":economy.cost(selected.kind,selected.id,amount)})
 	description.text = str(definition.get("description",""))
 	if selected.kind == "recruit":
 		description.text = "Disponibles esta semana: %d.\nCada ejército tiene un máximo de siete destacamentos." % economy.stock(world_state.location_at(world_state.hero_cell).id,selected.id,world_state.day)
@@ -225,12 +226,15 @@ func refresh() -> void:
 	send_button.disabled = not denied.is_empty()
 
 func _submit() -> void:
+	var before := PlayLog.snapshot(world_state) if world_state != null else {}
+	PlayLog.write("order_attempt", {"text":input.text, "site":site_id, "selection":entries.get_selected_metadata() if entries.item_count > 0 else {}, "quantity":quantity.value, "phase":world_state.economy.phase if world_state != null else "", "blocked":not visible or send_button.disabled, "before":before})
 	if not visible or send_button.disabled:
 		return
 	var economy = world_state.economy
 	if not economy.treasure(world_state,site_id).is_empty():
 		var result: Dictionary = economy.claim_treasure(world_state,site_id,input.text)
 		feedback.text = result.message
+		PlayLog.write("treasure_result", {"site":site_id, "result":result})
 		if result.ok:
 			refresh()
 			committed.emit()
@@ -242,6 +246,7 @@ func _submit() -> void:
 			committed.emit()
 		else:
 			feedback.text = economy.claim_feedback(world_state,site_id,input.text)
+		PlayLog.write("mine_result", {"site":site_id, "message":feedback.text, "owned":economy.mines.has(site_id)})
 		return
 	if entries.item_count == 0:
 		description.text = "No hay opciones en esta categoría."
@@ -255,7 +260,7 @@ func _submit() -> void:
 	feedback.text = result.message
 	if result.ok and not result.get("committed",false):
 		feedback.text = "Paso aceptado; todavía NO se ha pagado ni hecho nada. " + result.message
-	PlayLog.write("order",{"kind":selected.kind,"id":selected.id,"text":sent,"ok":result.ok,"committed":result.get("committed",false),"message":result.message})
+	PlayLog.write("order",{"kind":selected.kind,"id":selected.id,"text":sent,"ok":result.ok,"committed":result.get("committed",false),"message":result.message,"before":before,"after":PlayLog.snapshot(world_state)})
 	if result.ok:
 		refresh()
 		if result.get("committed",false):
@@ -263,6 +268,7 @@ func _submit() -> void:
 
 func close() -> void:
 	if world_state != null:
+		PlayLog.write("order_close", {"pending":world_state.economy.pending.duplicate(true)})
 		world_state.economy.cancel()
 	hide()
 	closed.emit()

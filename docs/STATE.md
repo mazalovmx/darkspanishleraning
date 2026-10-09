@@ -3090,3 +3090,21 @@ Executed: world map (365 checks), province scene (109), map navigation (11), all
 passing. Navigation regression covers cursor anchoring, both drag modes, Home,
 zoom limits, modal blocking and unchanged hero/day/order state. Windowed navigation
 passed; its screenshot was inspected. Existing shutdown leak warning remains.
+## Persistent diagnostic sessions (2026-10-08)
+
+Replaced the overwriting play.log with append-only session JSONL files and numbered
+5 MB parts. Each event carries schema version, session ID, sequence, UTC time and
+world context (hero positions, resources, army, buildings, mines and planned orders).
+Records accepted/rejected routes and their paths/cost/reason, hero switches, turns
+before/after, location entry/exit, camera samples, saves/loads, battle boundaries,
+dialogue attempts/requests/replies/fallbacks/feedback and every construction stage.
+Construction offers record costs and unavailability reasons. Generic UI attempts
+capture visible typed fields before button actions; results and selections carry
+updated context. Nested credentials and model prompts are redacted, never uploaded.
+Headless suites stay silent unless explicitly given an isolated test file.
+
+Executed: play_log_test (40 checks before offer logging), map navigation (11),
+authored dialogue (30), economy scene (33), all passed. Windowed log regression
+passed (40): rejected/accepted routes, full accented dialogue, rejected/committed
+construction, before/after costs, ordering, redaction and non-destructive rollover.
+Existing CanvasItem/ObjectDB shutdown warnings remain outside these event logs.

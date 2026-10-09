@@ -122,6 +122,7 @@ func open_conversation(id: String) -> void:
 func submit(message: String) -> void:
 	if client.busy or not is_visible_in_tree() or not available(location_id):
 		return
+	preload("res://src/common/play_log.gd").write("talk_attempt", {"speaker":location_id, "text":message, "day":world_state.day})
 	var clean := message.strip_edges().left(MAX_MESSAGE_LENGTH)
 	if clean.is_empty():
 		return
@@ -162,6 +163,7 @@ func submit(message: String) -> void:
 	var course = world_state.learner.curriculum
 	pending_focus = [course, course.cursor, course.recent_focus.duplicate()]
 	context["language_profile"]["focus"] = world_state.learner.curriculum.select_focus(world_state.learner.grammar, world_state.learner.errors)
+	preload("res://src/common/play_log.gd").write("talk_request", {"speaker":location_id, "npc":npc_id, "text":clean, "intent":grounding.intent_for(clean), "focus":context.language_profile.focus, "eligible_clues":pending_unlocks})
 	request_started.emit()
 	client.request_reply(context)
 
