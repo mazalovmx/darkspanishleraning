@@ -1200,8 +1200,8 @@ func _open_save_picker(saving: bool) -> void:
 func _choose_save(path: String, saving: bool) -> void:
 	if not persistence_enabled or arena.visible or dialogue.client.busy or not dialogue.pending_location.is_empty():
 		return
-	if (saving or path != save_path) and not save_picker.accepts(path):
-		save_notice.text = "Elige un archivo .save.json en la carpeta de partidas."
+	if saving and not save_picker.accepts(path):
+		save_notice.text = "Escribe un nombre para la partida."
 		PlayLog.write("slot_rejected", {"saving":saving, "reason":"path"})
 		return
 	if not saving:

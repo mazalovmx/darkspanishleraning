@@ -1,6 +1,6 @@
 # Project state
 
-Updated: 2026-10-08
+Updated: 2026-10-09
 Branch: implementation
 Current state: Gates A-H passed; Gate I open. Mainline, economy, equipment, optional
 cases and ghost knights run on the province map with save v13. Open work is listed in
@@ -3184,3 +3184,35 @@ Executed: building_intent 29 headless and 29 windowed, strategy_economy 90,
 strategy_curriculum 28, economy_scene 33, save_game 540; all passed. Includes actual
 UI request/cancel/commit, exact single-building payment and save/load round trip.
 Existing exit leak warnings remain. No live model requests were made.
+## Equipment worn on a body figure (2026-10-09)
+
+The Equipo tab shows the fourteen slots as buttons around a body silhouette, with the
+worn pieces drawn on the figure; the backpack list holds only unworn items. Clicking
+an occupied slot selects its item, an empty one only chooses the target slot. Item
+text names type, rarity, where it is, its set and found/worn component counts. The
+Almas tab lists a set only when all four parts are worn and otherwise explains how to
+get one. Three game-icons.net symbols (CC BY 3.0; Lorc, Delapouite) are credited in
+CREDITS.md and the folder README; the files were compared with the site originals.
+
+Executed: equipment suites headless (state 610, integration 295, catalog 1,886,
+scene 169), all passed; scene test windowed (169), screenshot inspected. The first
+screenshot showed an oversized silhouette and tiny slot icons; both were fixed and
+re-inspected. Worn pieces are symbolic icons placed on the figure, not fitted art.
+
+## Saving through the system file window (2026-10-09)
+
+User report: the save window was too large, its buttons were off screen and typing
+did nothing. Save and load now open the operating system's own file window (Godot
+native dialog) in `user://saves` with the proposed name filled in; any folder may be
+chosen. A typed name always gets `.save.json`, so a checkpoint cannot replace the
+autosave. Loading also offers `*.json`, so the autosave one folder up can be picked.
+Headless and test runs use Godot's built-in dialog, which keeps the two extra buttons.
+
+Executed: save_picker_test, 18 checks, passed headless. Real window: a probe opened
+the game, pressed Guardar, found the Windows dialog (606 x 540), pressed its Save
+button and the proposed file plus its transcript appeared in the folder. Not checked
+by a person typing in the dialog; the old built-in dialog fault was not investigated.
+
+Full offline run after both changes: 70 runs, 59,914 counted checks, none failed
+(performance_test included). equipment_scene_test was rerun after the last label
+change (169, passed). No live model calls were made.

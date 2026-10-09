@@ -1,5 +1,6 @@
 extends FileDialog
-## Native Godot file chooser, scoped to named checkpoints; autosave stays separate.
+## The operating system's own save/open window where available (Windows), opened in
+## the saves folder with a proposed name. Headless runs fall back to Godot's dialog.
 signal chosen(path: String, saving: bool)
 const Log = preload("res://src/common/play_log.gd")
 var saving := true
@@ -8,19 +9,16 @@ var autosave_path := ""
 var name_seed := ""
 var automatic_name := Button.new()
 var load_autosave := Button.new()
-var help := Label.new()
 
 func _ready() -> void:
-	access = FileDialog.ACCESS_USERDATA
+	access = FileDialog.ACCESS_FILESYSTEM
+	use_native_dialog = DisplayServer.has_feature(DisplayServer.FEATURE_NATIVE_DIALOG_FILE)
 	display_mode = FileDialog.DISPLAY_LIST
 	get_cancel_button().text = "Cancelar"
-	filters = PackedStringArray(["*.save.json ; Partidas guardadas"])
 	theme = Theme.new()
 	theme.default_font = ThemeDB.fallback_font
 	theme.default_font_size = 16
-	min_size = Vector2i(680, 440)
-	get_vbox().add_child(help)
-	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	# The two buttons exist only in the fallback dialog; the system window has none.
 	automatic_name.text = "Usar nombre automático"
 	automatic_name.pressed.connect(func(): current_file = fresh_name())
 	get_vbox().add_child(automatic_name)
@@ -31,7 +29,7 @@ func _ready() -> void:
 	get_vbox().add_child(load_autosave)
 	file_selected.connect(func(path: String):
 		hide()
-		chosen.emit(path, saving))
+		chosen.emit(resolved(path), saving))
 	canceled.connect(func(): Log.write("save_picker_cancelled", {"saving":saving}))
 
 func open(world: RefCounted, autosave: String, folder: String, for_save: bool) -> void:
@@ -39,18 +37,18 @@ func open(world: RefCounted, autosave: String, folder: String, for_save: bool) -
 	directory = folder
 	autosave_path = autosave
 	DirAccess.make_dir_recursive_absolute(directory)
-	root_subfolder = directory
-	current_dir = directory
 	file_mode = FileDialog.FILE_MODE_SAVE_FILE if saving else FileDialog.FILE_MODE_OPEN_FILE
+	# Loading also lists plain .json so the autosave, one folder up, can be chosen.
+	filters = PackedStringArray(["*.save.json ; Partidas guardadas"] if saving else ["*.save.json ; Partidas guardadas", "*.json ; Autoguardado y otras"])
+	current_dir = ProjectSettings.globalize_path(directory)
 	title = "Guardar partida" if saving else "Cargar partida"
 	get_ok_button().text = "Guardar" if saving else "Cargar"
 	automatic_name.visible = saving
 	load_autosave.visible = not saving
 	load_autosave.disabled = not FileAccess.file_exists(autosave_path)
-	help.text = "Puedes conservar el nombre propuesto o escribir el tuyo. El autoguardado se mantiene aparte." if saving else "Elige una partida de la lista o carga el autoguardado."
 	name_seed = "Dia_%03d_%s" % [world.day, str(world.party.active().definition.short_name).validate_filename()]
 	current_file = fresh_name() if saving else ""
-	Log.write("save_picker_open", {"saving":saving})
+	Log.write("save_picker_open", {"saving":saving, "native":use_native_dialog})
 	popup_centered(Vector2i(780, 520))
 
 func fresh_name() -> String:
@@ -62,5 +60,17 @@ func fresh_name() -> String:
 		index += 1
 	return filename
 
+## The path the game will use: a typed name always gets the .save.json ending, so a
+## checkpoint can never replace the autosave, a transcript or an unrelated file.
+func resolved(path: String) -> String:
+	path = path.replace("\\", "/")
+	if not saving:
+		return autosave_path if path == ProjectSettings.globalize_path(autosave_path) else path
+	for ending: String in [".save.json", ".json", ".save"]:
+		if path.to_lower().ends_with(ending):
+			path = path.left(-ending.length())
+			break
+	return path + ".save.json"
+
 func accepts(path: String) -> bool:
-	return path.get_base_dir().simplify_path() == directory.simplify_path() and path.ends_with(".save.json")
+	return path.ends_with(".save.json") and not path.get_file().trim_suffix(".save.json").is_empty()

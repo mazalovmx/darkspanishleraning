@@ -16,6 +16,8 @@ func run() -> void:
 	map.slot_directory = "user://picker_slots_%d" % OS.get_process_id()
 	root.add_child(map)
 	await process_frame
+	# A windowed run must not leave a real system dialog open; test the fallback.
+	map.save_picker.use_native_dialog = false
 	map._save_game(true)
 	var original_auto := FileAccess.get_file_as_string(map.save_path)
 	map.save_button.pressed.emit()
@@ -54,7 +56,15 @@ func run() -> void:
 	map.load_button.pressed.emit()
 	map.save_picker.file_selected.emit(bad)
 	check(map.state == kept and not map.save_locked, "Invalid named save neither replaces state nor locks healthy autosave")
-	check(not map.save_picker.accepts("user://outside.save.json"), "Picker cannot overwrite unrelated userdata")
+	map.save_button.pressed.emit()
+	check(map.save_picker.current_dir.replace("\\", "/").trim_suffix("/") == ProjectSettings.globalize_path(map.slot_directory).trim_suffix("/"), "Chooser opens in the saves folder")
+	check(map.save_picker.resolved("C:\\Juegos\\Mi partida") == "C:/Juegos/Mi partida.save.json" and map.save_picker.resolved("C:/Juegos/otra.JSON") == "C:/Juegos/otra.save.json", "A typed name gets the save ending in any folder")
+	var global_auto := ProjectSettings.globalize_path(map.save_path)
+	check(map.save_picker.resolved(global_auto) != global_auto and not map.save_picker.accepts(map.slot_directory.path_join(".save.json")), "A checkpoint can neither replace the autosave nor be nameless")
+	map.save_picker.hide()
+	map.load_button.pressed.emit()
+	check(map.save_picker.resolved(global_auto) == map.save_path, "The autosave file chosen by hand loads as the autosave")
+	map.save_picker.hide()
 	map.load_button.pressed.emit()
 	map.save_picker.load_autosave.pressed.emit()
 	check(map.state.day == day, "Autosave remains separately loadable")
