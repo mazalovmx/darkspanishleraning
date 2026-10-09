@@ -1,0 +1,38 @@
+# UI audit
+
+Written 2026-10-09 for stage 0 of `UI_PLAN.md`, from `tests/screenshots.gd` rendered at
+1280x720, 1366x768 and 1920x1080 and from the code. It lists what each screen is for and
+what gets in the way; the stages of the plan work through the last column. Update the row
+when a problem is fixed.
+
+Shared findings:
+
+- Sizes are literal numbers: 31 font overrides of 12-17 px and 13 of 20-34 px, each panel
+  with its own position, size and margins. Text looks the same at the three window sizes
+  because the canvas is stretched, so small text stays small on a larger monitor.
+- Each window builds its own frame; titles, the "what to do" line and the close button sit
+  in different places and are named differently (Volver / Volver al mapa / Volver al viaje /
+  Volver sin pedido pendiente).
+- Only the knights panel closes with Esc. No window has keyboard shortcuts; the map has
+  F1-F3, Home and the zoom keys, compared as raw key codes.
+- "Which window is open" is a hand-written list repeated in six or more places of
+  `world_map.gd`.
+- Explanations live in hover tooltips only.
+
+| Screen | The player's task | Always visible | Hidden until asked | Problems found | Stage |
+|---|---|---|---|---|---|
+| Map (`world_map.gd`) | plan travel, see what to do next | resources, day, heroes, movement, army count, buttons | terrain costs and controls (tooltip) | no line saying the current objective; no minimap on a 160x120 map; "Resolver órdenes" shares a row with "Tareas"; no warning before ending a day with things undone; an unaffordable route differs only by colour; hovering a cell says nothing about terrain | 3 |
+| Location window (`world_map.gd`) | talk, inspect, buy, build | place name, description, speaker, input | topics and Spanish hints (tabs) | description box shows two lines and scrolls; action buttons at the bottom are small and unordered | 1, 3 |
+| Task journal (`campaign_panel.gd`) | know what is open, done, not started | summary page | task text | tasks chosen from a dropdown instead of a list beside the detail; no way to show a task's place on the map; empty band under the text | 3 |
+| Evidence notebook (`evidence_notebook.gd`) | record and compare evidence | guide line, finding, input | other pages (dropdown) | "Comparar pruebas" is the largest button although it is rarely available; pages in a dropdown | 1 |
+| Lessons, vocabulary, dictionary (`curriculum_panel.gd`) | practise Spanish | four tabs | - | a locked block gives a general reason only | 4 |
+| Equipment (`equipment_panel.gd`) | see what is worn, change it, hand over | body slots, backpack, item text | souls and troops (tabs) | no comparison with the item already worn; rarity by word exists, no reason shown when a piece cannot be equipped; recipient chosen from a plain list; no backpack capacity or undo | 4, 7 |
+| Settlement (`strategy_panel.gd`, `town_view.gd`) | build, recruit, see income | buildings with state and yield, cost | - | resources written as one long sentence instead of the icon row; no "what will be left"; three-step order shown as scrolling text | 4 |
+| Market (`market_panel.gd`) | buy by asking in Spanish | product, price, stock, gold | - | total shown, remaining gold not; close button changes its label | 4 |
+| Local cases (`side_panel.gd`) | work an optional case | case text | other cases (dropdown) | a locked case says only "consolida los bloques anteriores"; mostly empty window | 4 |
+| Knights (`ghost_panel.gd`) | counter a knight | list, orders | - | not reviewed in a window yet | 4 |
+| Battle (`stack_arena.gd`) | choose the best action | round, acting stack, turn order, actions | - | no forecast of damage, losses or retaliation before confirming; reachable cells and the hovered target differ by tint only; turn order tiles are small and the next unit is not marked; no log of what happened; no keys on the action buttons | 5 |
+| Title and settings (`ui/title_menu`) | start, continue, sound | - | - | no interface size setting | 6 |
+
+Not planned (personal Windows game, COPILOT rule 14): gamepad, touch, TV safe zones, screen
+narration, haptics, 4:3 and ultrawide reflow, a separate high-contrast theme.

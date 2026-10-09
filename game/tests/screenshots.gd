@@ -1,6 +1,8 @@
 extends SceneTree
 ## Visual review helper, not a test: renders key screens to PNG files.
-## Run under a display: godot --path game --script res://tests/screenshots.gd -- <out_dir>
+## Run under a display: godot --path game --script res://tests/screenshots.gd -- <out_dir> [WIDTHxHEIGHT]
+## The optional size (default 1280x720) checks other window sizes, e.g. 1366x768 or 1920x1080;
+## pass the same size to --resolution.
 const World = preload("res://src/world/world_state.gd")
 var out := ""
 func shot(name: String) -> void:
@@ -14,7 +16,8 @@ func _initialize() -> void:
 
 func run() -> void:
 	out = OS.get_cmdline_user_args()[0] if not OS.get_cmdline_user_args().is_empty() else "user://shots"
-	root.size = Vector2i(1280, 720)
+	var wanted: PackedStringArray = (OS.get_cmdline_user_args()[1] if OS.get_cmdline_user_args().size() > 1 else "1280x720").split("x")
+	root.size = Vector2i(int(wanted[0]), int(wanted[1]))
 	var menu = load("res://src/ui/title_menu.tscn").instantiate()
 	menu.save_path = "user://none.json"
 	root.add_child(menu)

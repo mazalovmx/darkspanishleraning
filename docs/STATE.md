@@ -3359,3 +3359,18 @@ Executed: full offline run, 71 runs, 60,298 counted checks, none failed (before 
 final height tweak); campaign_panel_test 431 with six new checks rerun after it;
 campaign_test, council_endings_test and institutions_test rerun, passed. Day-1 summary
 rendered in a window and inspected; a mid-game summary was checked by test only.
+
+## UI plan, stage 0: audit, licence manifest, screenshots at other sizes (2026-10-09)
+
+The user approved a staged UI overhaul based on `deep-research-report.md` (root, the
+user's research on HoMM-like interfaces). The plan is `docs/UI_PLAN.md`; the screen
+audit that drives its stages is `docs/UI_AUDIT.md`. Out of scope by decision: gamepad,
+touch, TV safe zones, narration, haptics, 4:3 / ultrawide reflow.
+- `assets/third_party/manifest.json`: one licence record per asset folder (source,
+  author, licence, attribution text, modified, date, where used); asset_manifest_test
+  fails when a folder has no record or a credited licence is missing from CREDITS.md.
+- `tests/screenshots.gd` takes an optional WIDTHxHEIGHT.
+
+Executed: asset_manifest_test 155, passed. All 26 screens rendered at 1280x720,
+1366x768 and 1920x1080; four inspected for the audit (town, battle, market, local
+cases), the rest only checked to exist. No behaviour changed in this stage.
