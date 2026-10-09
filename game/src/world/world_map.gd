@@ -102,6 +102,8 @@ var pointer := Vector2.ZERO
 const HOTKEYS := {"map_end_day": KEY_E, "map_tasks": KEY_J, "map_notebook": KEY_C, "map_spanish": KEY_L,
 	"map_equipment": KEY_I, "map_help": KEY_H, "map_save": KEY_S}
 var help_panel := ColorRect.new()
+var minimap = preload("res://src/world/minimap.gd").new()
+var minimap_clock := 0.0
 ## One-click "add this word to my dictionary" over every text of the interface.
 var word_picker = preload("res://src/spanish/word_picker.gd").new()
 var help_text := RichTextLabel.new()
@@ -367,6 +369,20 @@ func _play_sfx(event: String) -> void:
 
 func _build_ui() -> void:
 	var layer := CanvasLayer.new()
+	# First on the layer, so every window opens above it.
+	minimap.visible = state.map_id == "province_160x120_v1"
+	minimap.anchor_top = 1.0
+	minimap.anchor_bottom = 1.0
+	minimap.offset_left = 12
+	minimap.offset_top = -192
+	minimap.offset_bottom = -12
+	minimap.custom_minimum_size = Vector2(240, 180)
+	minimap.picked.connect(func(cell: Vector2i):
+		if not _modal_open():
+			camera.position = tiles.map_to_local(cell)
+			_clamp_camera()
+			minimap_clock = 1.0)
+	layer.add_child(minimap)
 	add_child(layer)
 	var panel := PanelContainer.new()
 	panel.position = Vector2(940, 20)
@@ -958,7 +974,7 @@ func _open_help() -> void:
 		return
 	var lines: Array[String] = ["RATÓN", "Clic en el héroe: seleccionarlo. Clic en una casilla: preparar la ruta. Clic en el héroe sobre un lugar: entrar.",
 		"Arrastrar con el botón derecho (o el central): mover el mapa. Clic derecho sin arrastrar: quitar la selección. Rueda: acercar o alejar.",
-		"", "TECLADO", "Flechas o WASD: mover el mapa · Home: ir al héroe · + y −: zoom · F1, F2, F3: cambiar de héroe · Esc: cerrar la ventana abierta · Tab: pasar al siguiente control",
+		"", "TECLADO", "Flechas o WASD: mover el mapa · Home: ir al héroe · M: mapa pequeño · + y −: zoom · F1, F2, F3: cambiar de héroe · Esc: cerrar la ventana abierta · Tab: pasar al siguiente control",
 		"", "BOTONES DEL MAPA"]
 	var keys := {}
 	var buttons := _hotkey_buttons()
@@ -1000,6 +1016,14 @@ func _switch_hero(id: String) -> void:
 
 ## Arrow keys or WASD scroll the map while no panel is open and nothing is being typed.
 func _process(delta: float) -> void:
+	# The minimap follows the camera a few times a second; its image changes only on reveal.
+	minimap_clock += delta
+	if minimap.visible and minimap_clock > 0.15:
+		minimap_clock = 0.0
+		var inverse := get_canvas_transform().affine_inverse()
+		var first: Vector2i = tiles.local_to_map(inverse * Vector2.ZERO)
+		var last: Vector2i = tiles.local_to_map(inverse * get_viewport_rect().size)
+		minimap.refresh(state, Rect2(first, last - first + Vector2i.ONE), COLORS)
 	if _modal_open():
 		return
 	if get_viewport().gui_get_focus_owner() is LineEdit or Input.is_key_pressed(KEY_CTRL):
@@ -1027,6 +1051,10 @@ func _unhandled_input(event: InputEvent) -> void:
 					button.pressed.emit()
 				get_viewport().set_input_as_handled()
 				return
+		if event.keycode == KEY_M and state.map_id == "province_160x120_v1":
+			minimap.visible = not minimap.visible
+			get_viewport().set_input_as_handled()
+			return
 		if event.keycode == KEY_HOME:
 			_center_hero()
 			get_viewport().set_input_as_handled()
@@ -1173,6 +1201,7 @@ func _refresh() -> void:
 					tiles.set_cell(cell, 0, Vector2i(names.find(kind), variant_row(cell, kind)))
 				fog_tiles.set_cell(cell, 0, Vector2i.ZERO)
 		painted = state.fog.size()
+		minimap_clock = 1.0
 	# Only the cells around unlocked heroes can be visible: re-dim the old ones, clear the new.
 	for cell in lit:
 		fog_tiles.set_cell(cell, 0, Vector2i.ZERO)

@@ -83,6 +83,26 @@ func run() -> void:
 	await process_frame
 	check(Rect2(Vector2.ZERO, Vector2(root.size)).encloses(map.end_button.get_global_rect()) and map.end_button.is_visible_in_tree(), "End of day stays on screen under a very long objective")
 	map._refresh()
+	# Minimap: explored cells are painted, a click moves the view, M hides it.
+	var mini = map.minimap
+	for frame in 20:
+		await process_frame
+	check(mini.visible and mini.image.get_size() == map.state.grid.region.size and mini.image.get_pixelv(map.state.hero_cell) != mini.UNKNOWN, "The minimap shows the explored ground around the hero")
+	check(mini.image.get_pixelv(Vector2i(0, 0)) == mini.UNKNOWN or map.state.fog_at(Vector2i(0, 0)) != 0, "Unexplored ground stays dark on the minimap")
+	check(Rect2(Vector2.ZERO, Vector2(root.size)).encloses(mini.get_global_rect()) and not mini.get_global_rect().intersects(map.end_button.get_global_rect()), "The minimap fits the screen and covers no control")
+	var target_cell: Vector2i = map.state.hero_cell + Vector2i(20, 10)
+	mini.picked.emit(target_cell)
+	check(map.camera.position.distance_to(map.tiles.map_to_local(target_cell)) < 1.0, "A click on the minimap centres the view on that cell")
+	map.help_button.pressed.emit()
+	var held: Vector2 = map.camera.position
+	mini.picked.emit(map.state.hero_cell)
+	check(map.camera.position == held, "The minimap does not move the view behind an open window")
+	press(KEY_ESCAPE)
+	press(KEY_M)
+	check(not mini.visible, "M hides the minimap")
+	press(KEY_M)
+	check(mini.visible, "M shows it again")
+	map._center_hero()
 	# Keys reach the text field, not the map, while the player is typing.
 	map._open_poi(map.state.hero_cell)
 	map.dialogue.input.grab_focus()

@@ -3517,3 +3517,24 @@ changes nothing, the blow lands inside the promised range, no unannounced answer
 battle_integration_test 64, ghost_battle_test 116; passed headless. Opening battle
 rendered in a window and inspected. The keys were not pressed in a real window, and the
 arena line itself is covered by the screenshot only.
+
+## UI plan, stage 3 (second part): minimap; battle keys corrected (2026-10-09)
+
+- `world/minimap.gd`: bottom-left corner of the province map, 240x180. Explored terrain in
+  the map's colours, known places as pale squares, heroes as dots (the active one gold),
+  the camera's view as a white frame. A click or drag moves the view; M hides or shows
+  it; it does nothing behind an open window. The image is rebuilt only when another world
+  is loaded or more ground is explored, from the map's `_process` a few times a second,
+  so the map's own repaint budgets are untouched.
+- Battle keys: cc3702f gave the action buttons `Shortcut` resources; with them
+  vertical_slice_test finished its checks and then never exited (found by the full run
+  as a TIMEOUT with an empty error log). Replaced by `_unhandled_key_input` in the arena
+  (A, D, E, H, R), named in the tooltips. cc3702f was not pushed before this fix.
+
+Executed: full offline run, 74 runs, 60,598 counted checks: 73 passed (performance_test
+included, with the user's game open on the machine), vertical_slice_test timed out for
+the reason above. After the fix vertical_slice_test 33, stack_battle_test 179 and
+battle_integration_test 64 were run directly and passed; the full run was not repeated.
+ui_navigation_test 45 covers the minimap (explored ground painted, fits the screen, a
+click centres the view, blocked behind a window, M toggles). Minimap seen in a window
+once, in its first version (painted from the map's repaint loop), not after the rewrite.
