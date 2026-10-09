@@ -170,7 +170,7 @@ func _on_reply(proposal: Dictionary) -> void:
 			rejected = unlock not in pending_unlocks or proposal.conversation.player_intent != intent or not evidence.valid_note(unlock, pending_message)
 		if rejected:
 			proposal = {}
-	last_feedback[pending_location] = "Evaluación de español no disponible. Puede continuar la conversación."
+	last_feedback[pending_location] = _offline_feedback(pending_location, rejected)
 	# A turn without an applied proposal (offline, failed, refused) keeps its focus slot.
 	if proposal.is_empty() and not pending_focus.is_empty():
 		pending_focus[0].cursor = pending_focus[1]
@@ -288,6 +288,21 @@ func _render_history() -> void:
 		lines.append("Tú: " + str(exchange.player))
 		lines.append(str(npc.name) + ": " + str(exchange.reply))
 	transcript.text = "\n\n".join(lines)
+
+## Without a model reply: says why, and which topics the authored replies cover, so
+## the player is not left repeating a question that only gets the fallback line.
+func _offline_feedback(id: String, rejected: bool) -> String:
+	var why := "la respuesta del modelo fue descartada" if rejected else "el modelo no respondió"
+	if not rejected and client.has_method("_offline") and client._offline():
+		why = "no hay modelo conectado (falta la clave o el saldo)"
+	var topics: Array[String] = []
+	var flags := context_flags()
+	for branch: Dictionary in conversations[id].branches:
+		if branch.has("follows") or (branch.has("requires_flag") and flags.get(branch.requires_flag, "") != "confirmed"):
+			continue
+		if topics.size() < 6 and not branch.keywords.is_empty():
+			topics.append(str(branch.keywords[0]))
+	return "Evaluación de español no disponible: %s. El personaje usa respuestas escritas; entiende: %s." % [why, ", ".join(topics)]
 
 func _language_feedback(language: Dictionary) -> String:
 	if language.confidence < 0.7:

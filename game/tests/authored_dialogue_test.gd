@@ -70,6 +70,7 @@ func run() -> void:
 	map._open_poi(Vector2i(6, 11))
 	check(dialogue.histories.LOC11.size() == 2 and dialogue.transcript.text.contains("Gracias"), "Reopen preserves conversation")
 	dialogue.submit("[b]hola[/b]")
+	check(dialogue.feedback.text.contains("entiende: ") and dialogue.feedback.text.contains("no hay modelo conectado"), "Offline turn names the reason and the authored topics")
 	check(not dialogue.transcript.bbcode_enabled and dialogue.transcript.text.contains("[b]hola[/b]"), "Input displayed as literal text")
 	for i in 15:
 		dialogue.submit("Mensaje %d" % i)

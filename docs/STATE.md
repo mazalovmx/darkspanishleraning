@@ -2979,3 +2979,15 @@ Windowed on Windows (AMD Vega 8, OpenGL): the game started and quit cleanly afte
 300 frames with and without `--accessibility disabled`, and `tests/screenshots.gd`
 rendered all 26 screens; title, map, monastery conversation and vocabulary were
 looked at. No keys were loaded and no live API call was made. Not a playthrough.
+
+## Offline conversation turns say why and list the authored topics (2026-10-08)
+
+First live session: the player reported speakers repeating one line. Without a model
+reply a speaker answers from keyword branches and otherwise with its single fallback
+line. The feedback line now names the reason (no connected model, no reply, or a
+discarded reply) and up to six topics the authored replies cover. Replies, unlocks
+and state are unchanged. Whether the user's keys reach a provider was not checked:
+no live call was made.
+
+Executed on Windows: dialogue filters 1,257 checks in five suites and
+spanish_feedback_test 31, zero failures. Not looked at in a window.
