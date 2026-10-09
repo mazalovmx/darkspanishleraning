@@ -196,18 +196,10 @@ func _build_command_bar() -> void:
 		_style_button(button)
 		button.custom_minimum_size = Vector2(196, 46)
 		grid.add_child(button)
-	# One key per action, shown in the tooltip (docs/UI_PLAN.md, stage 5).
-	for pair in [[attack_button, KEY_A], [defend_button, KEY_D], [wait_button, KEY_E], [ability_button, KEY_H], [retreat_button, KEY_R]]:
-		var key := InputEventKey.new()
-		key.keycode = pair[1]
-		var shortcut := Shortcut.new()
-		shortcut.events = [key]
-		pair[0].shortcut = shortcut
-		pair[0].shortcut_in_tooltip = true
-	attack_button.tooltip_text = "Ataca al objetivo marcado en rojo. En el campo: clic en una casilla iluminada para mover, clic en un enemigo para atacarlo desde ese lado."
-	defend_button.tooltip_text = "Recibe menos daño hasta su próximo turno."
-	retreat_button.tooltip_text = "Termina la batalla y conserva los supervivientes."
-	wait_button.tooltip_text = "El destacamento actúa al final de la ronda (una vez por ronda)."
+	attack_button.tooltip_text = "Tecla A. Ataca al objetivo marcado en rojo. En el campo: clic en una casilla iluminada para mover, clic en un enemigo para atacarlo desde ese lado."
+	defend_button.tooltip_text = "Tecla D. Recibe menos daño hasta su próximo turno."
+	retreat_button.tooltip_text = "Tecla R. Termina la batalla y conserva los supervivientes."
+	wait_button.tooltip_text = "Tecla E. El destacamento actúa al final de la ronda (una vez por ronda)."
 	wait_button.pressed.connect(func(): command("wait"))
 	attack_button.pressed.connect(func(): command("attack"))
 	defend_button.pressed.connect(func(): command("defend"))
@@ -365,6 +357,18 @@ func forecast_text(target: int) -> String:
 	if not battle.stacks[actor].ability_used and special.get("reach", false) and (special.low != forecast.low or special.high != forecast.high):
 		line += "\n%s: daño %d–%d" % [battle.data.units[battle.stacks[actor].type].ability_name, special.low, special.high]
 	return line
+
+## One key per action (docs/UI_PLAN.md, stage 5). Handled here rather than with Button
+## shortcuts: those kept the headless test process from exiting.
+func _unhandled_key_input(event: InputEvent) -> void:
+	if not is_visible_in_tree() or not event is InputEventKey or not event.pressed or event.echo or event.ctrl_pressed or event.alt_pressed:
+		return
+	var keys := {KEY_A: attack_button, KEY_D: defend_button, KEY_E: wait_button, KEY_H: ability_button, KEY_R: retreat_button}
+	if keys.has(event.keycode):
+		var button: Button = keys[event.keycode]
+		if button.visible and not button.disabled:
+			button.pressed.emit()
+		get_viewport().set_input_as_handled()
 
 func _side_toward(cell: Vector2i, point: Vector2) -> Vector2i:
 	var side := Battle.NOWHERE
