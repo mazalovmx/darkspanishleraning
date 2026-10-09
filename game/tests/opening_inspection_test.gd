@@ -54,12 +54,22 @@ func run() -> void:
 	var notebook = map.notebook
 	notebook.open_journal(map.state)
 	check(notebook.entries.item_count == 0, "Journal does not leak unseen evidence")
+	check(notebook.guide.text.begins_with("QUÉ HACER") and notebook.guide.text.contains("Examinar pertenencias"), "An empty notebook says where the first evidence is")
 	check(notebook.inspect(map.state), "Monastery inspection opens")
 	check(notebook.entries.item_count == 1, "Unmet prerequisites hidden")
+	check(notebook.guide.text.begins_with("CÓMO ANOTAR") and notebook.entries.get_item_text(0).begins_with("● "), "An unrecorded finding shows the four steps and is marked as pending")
+	notebook.note.text = "Hay comida."
+	notebook.record_button.pressed.emit()
+	check(not map.state.evidence.has_evidence("travel_food") and notebook.feedback.text.contains("clase de frase"), "A missing classification is named, not just refused")
+	notebook.note.text = "comida"
+	notebook.category.select(1)
+	notebook.record_button.pressed.emit()
+	check(not map.state.evidence.has_evidence("travel_food") and notebook.feedback.text.contains("Prueba con: Hay comida"), "An insufficient sentence gets an example")
 	notebook.note.text = "Hay comida."
 	notebook.category.select(1)
 	notebook.record_button.pressed.emit()
 	check(notebook.entries.item_count == 5, "Recording refreshes available inspections")
+	check(notebook.guide.text.begins_with("✓") and notebook.guide.text.contains("Quedan 4 sin anotar") and notebook.entries.get_item_text(notebook.entries.selected).begins_with("✓ "), "After recording, the notebook says how many findings remain")
 	var tube_index := -1
 	for index in range(notebook.entries.item_count):
 		if notebook.entries.get_item_metadata(index) == "brass_tube":

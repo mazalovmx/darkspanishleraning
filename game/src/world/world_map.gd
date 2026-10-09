@@ -794,6 +794,9 @@ func _open_poi(cell: Vector2i) -> void:
 	battle_button.visible = location.id == "LOC11" and state.evidence.has_evidence("travel_food") and state.encounters.get("opening_road", {}).get("outcome", "") != "victory"
 	poi_title.text = location.name
 	poi_description.text = location.description
+	# The opening starts with an inspection; say so until it is done (play log 2026-10-09).
+	if location.id == "LOC01" and state.map_id == "province_160x120_v1" and not state.evidence.has_evidence("travel_food"):
+		poi_description.text = "▶ PRIMER PASO: pulsa «Examinar pertenencias» (abajo) y anota en español lo que ves. Después pregunta al abad.\n" + poi_description.text
 	# Local consequences of the optional cases concluded here (bible 42).
 	var consequences: Array[String] = []
 	if state.map_id == "province_160x120_v1":

@@ -18,6 +18,8 @@ var record_button := Button.new()
 var feedback := Label.new()
 var exercise := VBoxContainer.new()
 var close_button := Button.new()
+## Says, for the page on screen, what the player is expected to do next.
+var guide := Label.new()
 
 func _ready() -> void:
 	color = Color(0, 0, 0, 0.8)
@@ -44,6 +46,13 @@ func _ready() -> void:
 	var title := Label.new()
 	title.text = "CUADERNO DE INVESTIGACIÓN"
 	box.add_child(title)
+	guide.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	guide.add_theme_font_size_override("font_size", 14)
+	box.add_child(guide)
+	entries.tooltip_text = "Páginas del cuaderno. ✓ ya anotada · ● falta anotarla.\nNotebook pages: ✓ recorded, ● still to record."
+	compare_button.tooltip_text = "Cuando tengas varias pruebas: elige una hipótesis, dos pruebas que la apoyan y escribe una conclusión.\nWith several pieces recorded: pick a hypothesis, two supporting pieces and write a conclusion."
+	category.tooltip_text = "Observación: lo que ves tú. Interpretación: lo que supones. Acusación: culpar a alguien. Declaración institucional: lo que dice una autoridad.\nObservation = what you see; interpretation = what you suppose; accusation = blaming someone; institutional declaration = what an authority states."
+	record_button.tooltip_text = "Guarda tu frase en el cuaderno. Si falta algo, el texto de abajo dice qué.\nSaves your sentence; the line below says what is missing."
 	box.add_child(entries)
 	compare_button.text = "Comparar pruebas"
 	compare_button.pressed.connect(open_reasoning)
@@ -128,8 +137,11 @@ func _render() -> void:
 				ids.append(id)
 	if not active_id.is_empty() and active_id not in ids and not active_id.contains(":"):
 		ids.append(active_id)
+	var pending := 0
 	for id: String in ids:
-		entries.add_item(world_state.evidence.node(id).title)
+		var done: bool = world_state.evidence.has_evidence(id)
+		pending += int(not done)
+		entries.add_item(("✓ " if done else "● ") + str(world_state.evidence.node(id).title))
 		entries.set_item_metadata(entries.item_count - 1, id)
 		if id == active_id:
 			entries.select(entries.item_count - 1)
@@ -158,9 +170,11 @@ func _render() -> void:
 	compare_button.visible = not reasoning_mode
 	body.custom_minimum_size.y = 300
 	feedback.text = ""
+	guide.text = ""
 	exercise.hide()
 	if active_id.is_empty():
 		body.text = "Todavía no hay pruebas anotadas. Examina las pertenencias de Tomás en Santa Lucerna."
+		guide.text = "QUÉ HACER: ve con el héroe al monasterio de Santa Lucerna, haz clic en él para entrar y pulsa «Examinar pertenencias». Allí escribes tu primera prueba.\nWhat to do: enter the monastery and press «Examinar pertenencias» to record your first piece of evidence."
 		return
 	if active_id.begins_with("case:"):
 		body.text = world_state.side_cases.case_summary(active_id.trim_prefix("case:"))
@@ -195,9 +209,12 @@ func _render() -> void:
 		"\n• ".join(clue.interpretations), clue.institutional_status, clue.causal_link]
 	body.scroll_to_line(0)
 	if world_state.evidence.has_evidence(active_id):
+		guide.text = "✓ Esta prueba ya está en tu cuaderno. " + ("Quedan %d sin anotar (●): elígelas en la lista de arriba." % pending if pending > 0 else "Aquí no queda nada por anotar: habla con la gente del lugar sobre lo que has visto, o pulsa Volver.")
 		feedback.text = ("Tu pregunta: " if clue.source_type == "testimony" else "Tu anotación: ") + str(world_state.evidence.progress()[active_id].spanish_note) + "\nLas interpretaciones siguen abiertas."
 	else:
 		exercise.show()
+		body.custom_minimum_size.y = 190
+		guide.text = "CÓMO ANOTAR ESTA PRUEBA: 1) Lee abajo lo que has encontrado. 2) Escribe en español lo que ves, con tus palabras (el modelo es solo un ejemplo). 3) Elige qué clase de frase es. 4) Pulsa «Anotar la prueba».\nRead the finding, write what you see in Spanish, choose the kind of sentence, press the button."
 		feedback.text = "Clasifica la frase: observar algo y recibir una orden son actos distintos."
 
 func _record() -> void:
@@ -217,10 +234,10 @@ func _record() -> void:
 	var classes := ["", "observation", "interpretation", "accusation", "institutional_declaration"]
 	var clue: Dictionary = world_state.evidence.node(active_id)
 	if category.selected < 0 or classes[category.selected] != clue.classification:
-		feedback.text = "Distingue una observación de una interpretación, una acusación o una orden."
+		feedback.text = "Falta elegir bien la clase de frase (lista «Esta frase es…»). Observación: lo que ves tú. Interpretación: lo que supones. Acusación: culpar a alguien. Declaración institucional: lo que dice una autoridad."
 		return
 	if not world_state.evidence.valid_note(active_id, note.text):
-		feedback.text = "Prueba con: " + str(clue.language.get("sample", ""))
+		feedback.text = "La frase todavía no dice lo que has encontrado. Prueba con: " + str(clue.language.get("sample", ""))
 		return
 	if world_state.evidence.record(active_id, location.get("id", ""), note.text, classes[category.selected], world_state.day):
 		_render()
@@ -270,6 +287,7 @@ func _render_assessment(clue: Dictionary) -> void:
 	support_row.show()
 	exercise.show()
 	feedback.text = "Elige una hipótesis, dos pruebas distintas y escribe tu conclusión."
+	guide.text = "CÓMO COMPARAR: 1) Lee la pregunta y las pruebas. 2) Elige una hipótesis. 3) Elige dos pruebas distintas que la apoyan. 4) Escribe una conclusión prudente y pulsa el botón.\nPick a hypothesis, two different supporting pieces, write a cautious conclusion."
 
 func _record_assessment() -> void:
 	var clue: Dictionary = world_state.evidence.node(active_id)

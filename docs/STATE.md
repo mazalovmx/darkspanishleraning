@@ -3309,3 +3309,21 @@ travels less than 6 px still clears the selection, now on release. The controls
 tooltip says so. Executed: world_map_test 367 (press alone keeps the selection, drag
 pans and keeps it, click clears it), map_navigation_test 11; passed headless. Not
 tried by hand with a real mouse.
+
+## The evidence notebook says what to do (2026-10-09)
+
+User report: it was unclear what to do with "pruebas", what to study and how to add
+it. The notebook has a guide line under its title for the page on screen: an empty
+notebook says where the first evidence is; an unrecorded finding lists the four steps
+(read, write what you see in Spanish, choose the kind of sentence, press the button)
+with an English line; a recorded one says how many findings remain; the comparison
+page lists its steps. Pages are marked ✓ (recorded) or ● (pending). A wrong
+classification now explains the four kinds instead of only refusing, and the list,
+the two buttons and the classifier have tooltips. At Santa Lucerna the location text
+starts with "PRIMER PASO: pulsa «Examinar pertenencias»" until the first finding is
+recorded (the play log showed the player never pressed it).
+
+Executed: full offline run after this change and the right-drag change, 71 runs,
+60,286 counted checks, none failed; opening_inspection_test rerun with four new
+checks (53). Monastery window and inspection page rendered in a window and inspected.
+The comparison page and the "recorded" state were not looked at on screen.
