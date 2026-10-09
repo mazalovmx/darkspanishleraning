@@ -3600,3 +3600,7 @@ run alone; the machine was at 100% CPU with two instances of the game open (16,0
 several times slower. For the same reason the earlier diagnosis that button shortcuts
 "hang" vertical_slice_test (0d011f8) is not established: it may have been load too.
 Rerun `./tools/run-tests.ps1` with the game closed.
+
+Full offline run repeated after the second game instance was closed (one still open):
+74 runs, 60,692 counted checks, none failed, performance_test included. This covers the
+Wesnoth unit art commit (23ad1e0). The earlier TIMEOUTs were machine load.
