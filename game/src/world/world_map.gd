@@ -4,6 +4,7 @@ const WoodTheme = preload("res://src/common/wood_theme.gd")
 const Settings = preload("res://src/common/settings.gd")
 const WorldState = preload("res://src/world/world_state.gd")
 const SaveGame = preload("res://src/save/save_game.gd")
+const PlayLog = preload("res://src/common/play_log.gd")
 const CELL_SIZE := 32
 const COLORS := {"road": Color("bda474"), "grass": Color("69764b"),
 	"forest": Color("304a37"), "marsh": Color("64716b"), "mountain": Color("555660"),
@@ -119,6 +120,7 @@ var poi_close := Button.new()
 var dialogue = preload("res://src/dialogue/authored_dialogue.gd").new()
 
 func _ready() -> void:
+	PlayLog.write("start", {"scene": "map"})
 	if state.map_id != initial_map_id:
 		state = WorldState.new(initial_map_id)
 	_build_tiles()
@@ -458,7 +460,7 @@ func _build_ui() -> void:
 	instructions.add_theme_font_size_override("font_size", 14)
 	instructions.add_theme_color_override("font_color", WoodTheme.DIM)
 	instructions.focus_mode = Control.FOCUS_NONE
-	instructions.tooltip_text = "Clic en el héroe: seleccionar\nClic en una casilla: preparar ruta\nBotón derecho: deseleccionar\nArrastrar botón central: cámara\nRueda: acercar / alejar\n\nCOSTE POR CASILLA\nCamino / pradera / campo: 1\nBosque / ruinas / nieve: 2\nPantano: 3\nAgua / montaña: impasable"
+	instructions.tooltip_text = "Clic en el héroe: seleccionar\nClic en una casilla: preparar ruta\nBotón derecho: deseleccionar\nFlechas o WASD, o arrastrar botón central: mover el mapa\nRueda: acercar / alejar\n\nCOSTE POR CASILLA\nCamino / pradera / campo: 1\nBosque / ruinas / nieve: 2\nPantano: 3\nAgua / montaña: impasable"
 	box.add_child(instructions)
 	box.add_child(route_info)
 	route_info.custom_minimum_size = Vector2(260, 60)
@@ -797,6 +799,19 @@ func _switch_hero(id: String) -> void:
 	_update_preview()
 	_save_game(true)
 
+## Arrow keys or WASD scroll the map while no panel is open and nothing is being typed.
+func _process(delta: float) -> void:
+	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible:
+		return
+	if get_viewport().gui_get_focus_owner() is LineEdit:
+		return
+	var push := Vector2(
+		float(Input.is_key_pressed(KEY_RIGHT) or Input.is_key_pressed(KEY_D)) - float(Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_A)),
+		float(Input.is_key_pressed(KEY_DOWN) or Input.is_key_pressed(KEY_S)) - float(Input.is_key_pressed(KEY_UP) or Input.is_key_pressed(KEY_W)))
+	if push != Vector2.ZERO:
+		camera.position += push * 700.0 * delta / camera.zoom.x
+		_clamp_camera()
+
 func _unhandled_input(event: InputEvent) -> void:
 	if poi_modal.visible or notebook.visible or arena.visible or market.visible or lessons.visible or campaign_journal.visible or strategy_panel.visible or equipment_panel.visible or ghost_panel.visible or side_panel.visible:
 		return
@@ -847,6 +862,7 @@ func _end_turn() -> void:
 		return
 	var day_before: int = state.day
 	state.end_turn()
+	PlayLog.write("turn", {"day_before": day_before, "day": state.day, "notice": str(state.turn_notice), "resources": state.resources})
 	_play_sfx("day" if state.day > day_before else "denied")
 	_save_game(true)
 	_refresh()
@@ -1069,9 +1085,11 @@ func _save_game(automatic := false, replace_invalid := false) -> bool:
 			save_confirm.popup_centered()
 		return false
 	var error: String = SaveGame.write_save(state, save_path)
+	PlayLog.write("save", {"day": state.day, "automatic": automatic, "error": error})
 	if error.is_empty():
 		save_locked = false
-		save_notice.text = "Partida guardada."
+		# A manual save shows the time, so pressing the button visibly changes the line.
+		save_notice.text = "Partida guardada." if automatic else "Partida guardada. Día %d · %s" % [state.day, Time.get_time_string_from_system()]
 		save_notice.remove_theme_color_override("font_color")
 		return true
 	else:

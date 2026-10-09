@@ -2991,3 +2991,22 @@ no live call was made.
 
 Executed on Windows: dialogue filters 1,257 checks in five suites and
 spanish_feedback_test 31, zero failures. Not looked at in a window.
+
+## Fixes from the first live session: play log, order steps, map keys, save notice (2026-10-08)
+
+Reported by the player, with the save file as evidence (day 29, no buildings, 300 gold):
+- A "built" barracks was offered again: the order had stopped after step 1 or 2 of the
+  three typed steps, so nothing was built or paid. The settlement panel now labels the
+  step ("PASO n DE 3") and says after steps 1 and 2 that nothing is paid or done yet.
+- No readable record of a session: the engine keeps five logs and the test runner
+  rotates them away. `src/common/play_log.gd` appends JSON lines to
+  `user://logs/play.log` (start, talk with player text, reply, source and feedback,
+  order, market, turn, save). Never keys or prompts; headless runs write nothing.
+- The map scrolled only with a middle-button drag: arrow keys and WASD now scroll it
+  while no panel is open and no text field has focus.
+- "Guardar" seemed to do nothing because autosave already showed the same line: a
+  manual save now shows the day and the time.
+
+Executed on Windows: strategy, market, dialogue, feedback, save, province_scene,
+world_map and title filters, all passed. Windowed start wrote a "start" line to
+play.log. Key scrolling, the step labels and the save line were not looked at in a window.

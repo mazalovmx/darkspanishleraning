@@ -114,6 +114,7 @@ func submit(message: String) -> void:
 	var id: String = products.get_item_metadata(products.selected)
 	var result: Dictionary = world_state.trade.submit(world_state, id, int(quantity.value), message)
 	feedback.text = result.message
+	preload("res://src/common/play_log.gd").write("market",{"ok":result.ok,"committed":result.get("committed",false),"message":result.message})
 	if result.ok:
 		input.clear()
 	_refresh()

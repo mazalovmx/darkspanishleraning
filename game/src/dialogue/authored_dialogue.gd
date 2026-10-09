@@ -197,6 +197,10 @@ func _on_reply(proposal: Dictionary) -> void:
 				break
 	var history: Array = histories[pending_location]
 	history.append({"player": pending_message, "reply": reply, "branch": str(pending_branch.get("id", ""))})
+	var turn: Variant = client.get("last_turn")
+	preload("res://src/common/play_log.gd").write("talk", {"npc": npc_id, "day": pending_day, "player": pending_message, "reply": reply,
+		"source": "model" if not proposal.is_empty() else "rejected" if rejected else "authored",
+		"turn": turn if turn is Dictionary else {}, "feedback": last_feedback[pending_location]})
 	world_state.remember(npc_id, intent, pending_day)
 	# A finished survival exchange of master spec 30 counts once it has been carried through.
 	if pending_branch.has("survival"):

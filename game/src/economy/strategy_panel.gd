@@ -1,4 +1,5 @@
 extends ColorRect
+const PlayLog = preload("res://src/common/play_log.gd")
 signal closed
 signal committed
 signal battle_requested(id: String)
@@ -168,7 +169,9 @@ func refresh() -> void:
 	description.text += "\n\nCoste: " + economy.cost_text(economy.cost(selected.kind,selected.id,amount))
 	if not denied.is_empty():
 		description.text += "\n\n" + denied
-	prompt.text = economy.cue(world_state,selected.kind,selected.id,amount)
+	var step: String = {"request":"PASO 1 DE 3 · Pide","price":"PASO 2 DE 3 · Di el coste","confirm":"PASO 3 DE 3 · Confirma"}[economy.phase]
+	prompt.text = step + " (nada se paga ni se hace hasta completar el paso 3)
+" + economy.cue(world_state,selected.kind,selected.id,amount)
 	send_button.text = {"request":"Pedir","price":"Comprobar el coste","confirm":"Confirmar operación"}[economy.phase]
 	send_button.disabled = not denied.is_empty()
 
@@ -192,8 +195,12 @@ func _submit() -> void:
 			feedback.text = economy.claim_feedback(world_state,site_id,input.text)
 		return
 	var selected: Dictionary = entries.get_selected_metadata()
-	var result: Dictionary = economy.submit(world_state,selected.kind,selected.id,int(quantity.value),input.text)
+	var sent := input.text
+	var result: Dictionary = economy.submit(world_state,selected.kind,selected.id,int(quantity.value),sent)
 	feedback.text = result.message
+	if result.ok and not result.get("committed",false):
+		feedback.text = "Paso aceptado; todavía NO se ha pagado ni hecho nada. " + result.message
+	PlayLog.write("order",{"kind":selected.kind,"id":selected.id,"text":sent,"ok":result.ok,"committed":result.get("committed",false),"message":result.message})
 	if result.ok:
 		refresh()
 		if result.get("committed",false):
