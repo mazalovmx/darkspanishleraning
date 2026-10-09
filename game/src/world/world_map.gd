@@ -533,7 +533,7 @@ Copiar texto: selecciona con el ratón y Ctrl+C; clic derecho en una línea la c
 			_save_game(true)
 			_refresh())
 	box.add_child(cancel_route)
-	campaign_button.text = "Expedientes"
+	campaign_button.text = "Tareas"
 	campaign_button.add_theme_font_size_override("font_size",15)
 	campaign_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	campaign_button.visible = state.map_id == "province_160x120_v1"
@@ -1218,7 +1218,7 @@ func _draw() -> void:
 func _explain_buttons() -> void:
 	var texts := {
 		end_button: ["Termina el día: se cumplen las rutas y órdenes de todos los héroes y empieza el día siguiente.", "Ends the day: planned routes and orders are carried out, then the next day begins."],
-		campaign_button: ["Casos de la historia principal: qué investigar ahora, con quién hablar y dónde escribir tus conclusiones.", "Main story cases: what to investigate now, whom to talk to, where to write conclusions."],
+		campaign_button: ["Diario de tareas: principales y secundarias, cuáles están en curso, terminadas o sin empezar, y dónde escribir tus conclusiones.", "Task journal: main and optional tasks, in progress, finished or not started, and where to write conclusions."],
 		equipment_button: ["Objetos del héroe: equípalos sobre la figura, entrégalos a otro héroe, pacta con las almas, pasa tropas.", "Hero items: equip, hand over, soul pacts, troop transfer."],
 		side_button: ["Casos opcionales del lugar donde está el héroe. No son necesarios para terminar la historia.", "Optional cases at the hero's location; not needed to finish the story."],
 		ghost_button: ["Caballeros fantasma que recorren la provincia y las órdenes para detenerlos.", "Ghost knights roaming the province and your orders against them."],

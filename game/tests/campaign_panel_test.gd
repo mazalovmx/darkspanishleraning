@@ -14,7 +14,15 @@ func run() -> void:
 	complete_opening(map.state)
 	map.campaign_button.pressed.emit()
 	var panel = map.campaign_journal
-	check(panel.visible and panel.active_id == "sealed_order", "Expedientes opens next act")
+	check(panel.visible and panel.active_id == panel.SUMMARY and panel.entries.get_item_metadata(1) == "sealed_order", "The journal opens on the task summary, with the next act's task listed")
+	var overview: String = panel.body.text
+	check(overview.contains("HISTORIA PRINCIPAL · acto 2 de 7") and overview.contains("✓ La muerte de Tomás") and overview.contains("▶ El sello y la propiedad — "), "Summary: finished opening, main task in progress with its place")
+	check(overview.contains("TAREAS SECUNDARIAS") and overview.contains("○ 17 tareas secundarias todavía sin abrir.") and overview.contains("○ 12 investigaciones sin empezar."), "Summary: optional tasks and local investigations not started are counted")
+	check(not overview.contains("La resolución del Consejo") and not overview.contains("Pan de ayer"), "Summary never names a task that is not open yet")
+	check(not panel.answer.visible and panel.submit_button.disabled, "The summary page takes no answer")
+	panel.entries.select(1)
+	panel.entries.item_selected.emit(1)
+	check(panel.active_id == "sealed_order", "A task is chosen from the list")
 	check(panel.submit_button.disabled and not panel.body.text.contains("firma del obispo"), "Untaught/remote task exposes no document contents")
 	var day: int = map.state.day
 	map._end_turn()

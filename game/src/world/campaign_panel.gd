@@ -3,6 +3,7 @@ signal closed
 signal progressed
 var world_state: RefCounted
 var active_id := ""
+const SUMMARY := "@resumen"
 var title := Label.new()
 var entries := OptionButton.new()
 var body := RichTextLabel.new()
@@ -92,11 +93,79 @@ func _ready() -> void:
 
 func open_journal(state: RefCounted) -> void:
 	world_state = state
-	active_id = ""
+	active_id = SUMMARY
 	feedback.text = ""
 	feedback_serial += 1
 	refresh()
 	show()
+
+## The first page: every task grouped as main story, optional story tasks and local
+## investigations, each marked in progress (▶), finished (✓) or not started (○).
+## Tasks that are not open yet are counted, never named.
+func summary() -> String:
+	var campaign = world_state.campaign
+	var groups := {false: {"now": [], "done": [], "later": 0, "closed": 0}, true: {"now": [], "done": [], "later": 0, "closed": 0}}
+	var available: Array = campaign.available(world_state)
+	for id: String in campaign.definitions:
+		var node: Dictionary = campaign.definitions[id]
+		var group: Dictionary = groups[bool(node.get("optional",false))]
+		if campaign.records.has(id):
+			group.done.append("✓ %s — %s (día %d)" % [node.title,_location_name(node.location),campaign.records[id].day])
+		elif campaign.closed(world_state,node,campaign.records):
+			group.closed += 1
+		elif id in available:
+			var reason: String = campaign.reason(world_state,id)
+			group.now.append("▶ %s — %s. %s" % [node.title,_location_name(node.location),reason if not reason.is_empty() else "Puedes anotarla ahora: elígela en la lista de arriba."])
+		else:
+			group.later += 1
+	var lines: Array[String] = ["TAREAS · día %d        ▶ en curso    ✓ terminada    ○ sin empezar" % world_state.day,"",
+		"HISTORIA PRINCIPAL · acto %d de 7" % campaign.chapter(world_state)]
+	var evidence = world_state.evidence
+	var found: int = evidence.progress().size()
+	var total: int = evidence.definitions.size()
+	if evidence.has_evidence("opening_conclusion"):
+		lines.append("✓ La muerte de Tomás — Santa Lucerna (%d de %d pruebas anotadas)" % [found,total])
+	else:
+		var step := "Siguiente paso: pregunta a los testigos del monasterio sobre lo que has visto y pulsa «Comparar pruebas» en el Cuaderno."
+		if not evidence.has_evidence("travel_food"):
+			step = "Siguiente paso: entra en el monasterio de Santa Lucerna y pulsa «Examinar pertenencias»."
+		else:
+			var waiting := 0
+			for id: String in evidence.inspectable_ids("LOC01"):
+				waiting += int(not evidence.has_evidence(id))
+			if waiting > 0:
+				step = "Siguiente paso: quedan %d hallazgos por examinar en el monasterio («Examinar pertenencias»)." % waiting
+		lines.append("▶ La muerte de Tomás — Santa Lucerna: %d de %d pruebas anotadas. %s" % [found,total,step])
+	lines.append_array(groups[false].now)
+	if groups[false].later > 0:
+		lines.append("○ %d tareas de la historia todavía sin abrir: aparecen al terminar las anteriores." % groups[false].later)
+	lines.append_array(groups[false].done)
+	if world_state.map_id != "province_160x120_v1":
+		return "\n".join(lines)
+	lines.append_array(["","TAREAS SECUNDARIAS (opcionales, no hacen falta para terminar la historia)"])
+	lines.append_array(groups[true].now)
+	if groups[true].later > 0:
+		lines.append("○ %d tareas secundarias todavía sin abrir." % groups[true].later)
+	if groups[true].closed + groups[false].closed > 0:
+		lines.append("✗ %d tareas cerradas por una decisión anterior." % (groups[true].closed + groups[false].closed))
+	lines.append_array(groups[true].done)
+	lines.append_array(["","INVESTIGACIONES LOCALES (opcionales; botón «Investigaciones locales» en cada lugar)"])
+	var cases = world_state.side_cases
+	var untouched := 0
+	for branch: Dictionary in cases.branches.values():
+		var solved := 0
+		for id: String in branch.quest_ids:
+			solved += int(cases.complete(id,cases.records))
+		var begun: bool = branch.quest_ids.any(func(id: String) -> bool: return cases.records.has(id))
+		if solved == branch.quest_ids.size():
+			lines.append("✓ %s — %s" % [branch.title,_location_name(branch.location_id)])
+		elif begun:
+			lines.append("▶ %s — %s: %d de %d casos resueltos." % [branch.title,_location_name(branch.location_id),solved,branch.quest_ids.size()])
+		else:
+			untouched += 1
+	if untouched > 0:
+		lines.append("○ %d investigaciones sin empezar." % untouched)
+	return "\n".join(lines)
 
 func _location_name(id: String) -> String:
 	for location: Dictionary in world_state.locations:
@@ -117,16 +186,18 @@ func refresh() -> void:
 
 func _refresh_body() -> void:
 	var campaign = world_state.campaign
-	title.text = "EXPEDIENTES · ACTO %d" % campaign.chapter(world_state)
+	title.text = "DIARIO DE TAREAS · ACTO %d" % campaign.chapter(world_state)
 	var available: Array = campaign.available(world_state)
 	var ids: Array = available + campaign.records.keys()
 	entries.clear()
+	entries.add_item("Resumen de tareas: en curso, terminadas y sin empezar")
+	entries.set_item_metadata(0,SUMMARY)
 	for id: String in ids:
 		var node: Dictionary = campaign.definitions[id]
-		entries.add_item(("%s · " % "Anotado" if campaign.records.has(id) else "") + str(node.title) + " — " + _location_name(node.location))
+		entries.add_item(("✓ Anotado · " if campaign.records.has(id) else "▶ ") + ("(opcional) " if node.get("optional",false) else "") + str(node.title) + " — " + _location_name(node.location))
 		entries.set_item_metadata(entries.item_count - 1,id)
 	if active_id not in ids:
-		active_id = "" if ids.is_empty() else str(ids[0])
+		active_id = SUMMARY
 	for i in entries.item_count:
 		if entries.get_item_metadata(i) == active_id:
 			entries.select(i)
@@ -141,8 +212,12 @@ func _refresh_body() -> void:
 	category.hide()
 	submit_button.disabled = true
 	hint_button.disabled = true
-	if active_id.is_empty():
-		body.text = "Investiga la muerte de Tomás en Santa Lucerna. Examina sus pertenencias, escucha a los testigos y compara las pruebas en el cuaderno."
+	for button: Button in [submit_button,hint_button]:
+		button.visible = active_id != SUMMARY
+	body.custom_minimum_size.y = 285 if active_id == SUMMARY else 170
+	if active_id == SUMMARY:
+		body.text = summary()
+		body.scroll_to_line(0)
 		return
 	var node: Dictionary = campaign.definitions[active_id]
 	if campaign.records.has(active_id):

@@ -3337,3 +3337,25 @@ their branch is started and its grammar block is reached). The panel itself is
 unchanged. Executed: the six ghost suites, side_scene_test, save_picker_test and
 province_scene_test, all passed headless; ghost_scene_test has two new checks (157).
 No full run and no windowed look for this one-line change.
+
+## Task journal with a summary page (2026-10-09)
+
+User request: a more useful task journal with main and secondary tasks and what is in
+progress, finished or not started. The journal ("Tareas" on the map, formerly
+"Expedientes") opens on "Resumen de tareas" (`campaign_panel.summary`):
+- HISTORIA PRINCIPAL · acto N de 7: the opening investigation with its count of
+  recorded evidence and the next concrete step, every open main task with its place and
+  what still blocks it (travel, course practice, other hero), the number of main tasks
+  not open yet, then the finished ones with their day.
+- TAREAS SECUNDARIAS: the 17 optional story tasks, same three states, plus tasks closed
+  by an earlier decision.
+- INVESTIGACIONES LOCALES: each started optional branch with solved/total cases,
+  finished branches, and the number not started.
+Tasks that are not open yet are counted, never named (no spoilers). The list marks
+tasks ▶ / ✓ and "(opcional)"; the answer buttons are hidden on the summary page.
+Pending consultations and institutional acts still follow the summary.
+
+Executed: full offline run, 71 runs, 60,298 counted checks, none failed (before the
+final height tweak); campaign_panel_test 431 with six new checks rerun after it;
+campaign_test, council_endings_test and institutions_test rerun, passed. Day-1 summary
+rendered in a window and inspected; a mid-game summary was checked by test only.
