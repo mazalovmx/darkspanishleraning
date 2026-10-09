@@ -3052,3 +3052,15 @@ after the scene is built are not covered.
 
 Executed on Windows: full offline regression, 64 runs, 59,753 counted checks, zero
 not passed. Not tried in a window.
+
+## Bounded conversation window (2026-10-08)
+
+Long location descriptions, topic hints and language feedback now scroll inside
+bounded regions. Topics and Spanish feedback have separate tabs; the reply field,
+send button and wrapping location actions stay below them. Speaker names clip to
+the selector width, and conversation text remains selectable and literal.
+
+Executed: six dialogue suites, 1,264 checks, zero failures. New regression fills
+all text regions with long content, checks button bounds and sends by mouse.
+The same layout test passed in a window; inspected its 1280x720 screenshot.
+Godot still reports the existing CanvasItem/ObjectDB shutdown leak warning.

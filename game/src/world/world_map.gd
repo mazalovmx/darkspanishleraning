@@ -670,20 +670,25 @@ func _build_poi_window(layer: CanvasLayer, ui_theme: Theme) -> void:
 		margin.add_theme_constant_override("margin_" + side, 6 if paper and side in ["top", "bottom"] else 24)
 	panel.add_child(margin)
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 14 if paper else 20)
+	box.add_theme_constant_override("separation", 8)
 	poi_title.add_theme_font_size_override("font_size", 24)
 	margin.add_child(box)
 	poi_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	poi_title.custom_minimum_size.x = 712
+	poi_title.max_lines_visible = 2
 	box.add_child(poi_title)
 	poi_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	dialogue.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	box.add_child(poi_description)
+	var details := ScrollContainer.new()
+	details.custom_minimum_size.y = 48
+	details.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	box.add_child(details)
+	poi_description.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	details.add_child(poi_description)
 	dialogue.world_state = state
 	box.add_child(dialogue)
 	poi_close.text = "Volver al mapa"
 	poi_close.pressed.connect(_close_poi)
-	var actions := HBoxContainer.new()
+	var actions := HFlowContainer.new()
 	box.add_child(actions)
 	inspect_button.text = "Examinar pertenencias"
 	inspect_button.pressed.connect(func(): notebook.inspect(state))

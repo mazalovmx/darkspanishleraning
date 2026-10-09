@@ -36,12 +36,15 @@ var grounding = preload("res://src/dialogue/npc_grounding.gd").new()
 func _ready() -> void:
 	add_child(client)
 	client.completed.connect(_on_reply)
-	add_theme_constant_override("separation", 10)
+	add_theme_constant_override("separation", 8)
+	speaker.clip_text = true
 	add_child(speaker)
 	speaker.item_selected.connect(func(index: int):
 		if not client.busy:
 			open_conversation(str(speaker.get_item_metadata(index))))
-	transcript.custom_minimum_size = Vector2(0, 170)
+	transcript.custom_minimum_size = Vector2(0, 120)
+	transcript.add_theme_constant_override("line_separation", 5)
+	transcript.selection_enabled = true
 	transcript.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	transcript.bbcode_enabled = false
 	transcript.scroll_following = true
@@ -57,7 +60,16 @@ func _ready() -> void:
 	talk.add_child(transcript)
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	hint.add_theme_font_size_override("font_size", 15)
-	add_child(hint)
+	var help := TabContainer.new()
+	help.custom_minimum_size.y = 112
+	add_child(help)
+	for item: Label in [hint, feedback]:
+		var scroll := ScrollContainer.new()
+		scroll.name = "Temas" if item == hint else "Español"
+		scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		help.add_child(scroll)
+		item.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		scroll.add_child(item)
 	var row := HBoxContainer.new()
 	add_child(row)
 	input.placeholder_text = "Escriba en español…"
@@ -71,7 +83,7 @@ func _ready() -> void:
 	row.add_child(send_button)
 	feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	feedback.add_theme_font_size_override("font_size", 14)
-	add_child(feedback)
+	# Feedback scrolls independently; reply controls stay below the pages.
 
 func open_conversation(id: String) -> void:
 	# A place whose own speaker is absent (or who has none) opens the first one present.
