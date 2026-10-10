@@ -88,6 +88,24 @@ func missing_note(id: String, note: String) -> Array[String]:
 		needs.append(problem)
 	return needs
 
+## The part of the check that anchors a note to its finding: the things it must name.
+## This alone is never left to a model, and it is what a saved note must still satisfy.
+func content_missing(id: String, note: String) -> Array[String]:
+	var needs: Array[String] = []
+	if not definitions.has(id) or note.length() > 300 or note.strip_edges().is_empty():
+		return ["una frase en español (máximo 300 letras)"]
+	var exact := Curriculum.fold(note).trim_prefix("¿").trim_suffix("?").trim_suffix(".").strip_edges()
+	if exact in definitions[id].language.accepted_notes:
+		return needs
+	var plain := _plain(note)
+	for group: Array in practice.get(id, {}).get("keys", [["(sin claves)"]]):
+		if not _has(plain, group):
+			needs.append("nombrar: " + " / ".join(group.slice(0, 3)))
+	return needs
+
+func stored_ok(id: String, note: String) -> bool:
+	return definitions.has(id) and content_missing(id, note).is_empty()
+
 static func _marker(plain: String) -> String:
 	for word: String in BLAMING + SUPPOSING + ORDERING:
 		if plain.contains(" " + word + " "):
@@ -103,14 +121,21 @@ func valid_note(id: String, note: String) -> bool:
 	text = text.trim_prefix("¿").trim_suffix("?").trim_suffix(".").strip_edges()
 	return text in definitions[id].language.accepted_notes
 
-func record(id: String, location_id: String, note: String, classification: String, day: int) -> bool:
+## judged: a reader (the model) has classified the sentence and vouched for its form, so
+## only the anchored content and the offline agreement rules are checked here.
+func record(id: String, location_id: String, note: String, classification: String, day: int, judged := false) -> bool:
 	if not definitions.has(id) or _progress.has(id) or day < 1:
 		return false
 	if definitions[id].source_type not in ["physical", "document"]:
 		return false
 	if definitions[id].location_id != location_id or classification != definitions[id].classification:
 		return false
-	if not valid_note(id, note) or not prerequisites_met(id, _progress, day):
+	if judged:
+		if not stored_ok(id, note) or not preload("res://src/spanish/grammar_checks.gd").missing(note).is_empty():
+			return false
+	elif not valid_note(id, note):
+		return false
+	if not prerequisites_met(id, _progress, day):
 		return false
 	_progress[id] = {"found_day": day, "classification": classification, "spanish_note": note.strip_edges()}
 	return true
@@ -130,7 +155,7 @@ func restore(data: Variant, day: int) -> bool:
 			return false
 		if not entry.get("classification") is String or entry.classification != definitions[id].classification:
 			return false
-		if not entry.get("spanish_note") is String or not valid_note(id, entry.spanish_note):
+		if not entry.get("spanish_note") is String or not stored_ok(id, entry.spanish_note):
 			return false
 		validated[id] = {"found_day": int(found), "classification": entry.classification, "spanish_note": entry.spanish_note}
 	for id in validated:

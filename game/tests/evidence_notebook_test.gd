@@ -98,6 +98,56 @@ func run() -> void:
 	check(graph.missing_note("travel_food", "Creo que hay comida para huir").any(func(need: String) -> bool: return need.contains("sin suponer") and need.contains("creo")), "A supposition is not an observation, and the word is named")
 	check(graph.missing_note("travel_food", "Hay una comida en el zurrón").is_empty() and not graph.missing_note("brass_tube", "Hay una tubo roto").is_empty(), "Agreement errors of known nouns are caught, correct articles pass")
 	check(graph.kind_of("Hay sangre en la torre") == "observation" and graph.kind_of("Quizá alguien lo golpea") == "interpretation" and graph.kind_of("El abad es culpable") == "accusation" and graph.kind_of("El abad ordena conservar las cosas") == "institutional_declaration", "The kind of a sentence is read from its own words")
+	# The archivist (DeepSeek behind a fake transport): he reads the kind of the sentence,
+	# the game still decides what the note must name.
+	var asked: Array = []
+	var verdict := func(kind: String, ok := true) -> String:
+		return JSON.stringify({"choices": [{"message": {"content": JSON.stringify({"kind": kind, "grammar_ok": ok,
+			"why": "Dice «preparó su huida»: añade una intención.", "better": "Hay comida en el zurrón.",
+			"comment": "La comida no declara intenciones.", "challenge": "Ahora dilo con quizá."})}}]})
+	notebook.judge.model = "deepseek-flash"
+	notebook.judge.transport = func(body: String): asked.append(JSON.parse_string(body))
+	notebook.note.text = "Una cantimplora llena sobre el catre."
+	notebook.category.select(1)
+	notebook.record_button.pressed.emit()
+	check(asked.is_empty() and notebook.feedback.text.contains("nombrar: comida"), "A note that does not name the finding is refused without asking anyone")
+	notebook.note.text = "Tomás prepara su huida con comida."
+	notebook.record_button.pressed.emit()
+	check(asked.size() == 1 and notebook.record_button.disabled and notebook.feedback.text.contains("Fray Anselmo lee"), "A note that names the finding goes to the archivist")
+	var sent: Dictionary = JSON.parse_string(asked[0].messages[1].content)
+	check(sent.sentence == "Tomás prepara su huida con comida." and sent.task == "una observación" and sent.scene.contains("zurrón") and asked[0].messages[0].content.contains("fray Anselmo"), "He receives the scene, the task and the sentence")
+	notebook.judge.answer(200, verdict.call("interpretation"))
+	check(map.state.evidence.progress().is_empty() and not notebook.record_button.disabled, "An interpretation without telltale words is still not recorded as an observation")
+	check(notebook.feedback.text.contains("Has marcado una observación, pero tu frase es una interpretación") and notebook.feedback.text.contains("añade una intención") and notebook.feedback.text.contains("Fray Anselmo: «La comida no declara intenciones.»"), "His reason and his remark are shown")
+	notebook.note.text = "Asoma comida del zurrón de Tomás."
+	check(not map.state.evidence.valid_note("travel_food", notebook.note.text), "Offline this sentence fails: its verb is not on the list")
+	notebook.record_button.pressed.emit()
+	notebook.judge.answer(200, verdict.call("observation"))
+	check(map.state.evidence.has_evidence("travel_food") and notebook.feedback.text.contains("Tu anotación: Asoma comida del zurrón de Tomás.") and notebook.feedback.text.contains("Reto (sin nota): Ahora dilo con quizá."), "Read as an observation it is recorded, with a challenge that gives no credit")
+	var judged_save: Dictionary = Save.decode(Save.snapshot(map.state))
+	check(judged_save.has("state") and judged_save.state.evidence.has_evidence("travel_food"), "A note accepted by the archivist survives a save")
+	map.state.evidence._progress.erase("travel_food")
+	notebook.inspect(map.state)
+	notebook.note.text = "Hay una pan y comida en la zurrón."
+	notebook.category.select(1)
+	notebook.record_button.pressed.emit()
+	notebook.judge.answer(200, verdict.call("observation", false))
+	check(not map.state.evidence.has_evidence("travel_food") and notebook.feedback.text.contains("concordancia") and notebook.feedback.text.contains("Mejor: Hay comida en el zurrón."), "The agreement rules still bind him, and his correction is shown")
+	notebook.note.text = "Hay comida para un viaje."
+	notebook.category.select(2)
+	notebook.record_button.pressed.emit()
+	notebook.judge.answer(500, "")
+	check(not map.state.evidence.has_evidence("travel_food") and notebook.feedback.text.contains("Has marcado una interpretación, pero tu frase es una observación") and not notebook.feedback.text.contains("Fray Anselmo:"), "When he does not answer, the word lists decide")
+	notebook.record_button.pressed.emit()
+	notebook.judge.answer(200, JSON.stringify({"choices": [{"message": {"content": "{\"kind\":\"verdad absoluta\",\"grammar_ok\":true}"}}]}))
+	check(not map.state.evidence.has_evidence("travel_food") and asked.size() == 5, "A verdict outside the four kinds is ignored")
+	notebook.record_button.pressed.emit()
+	notebook.close()
+	notebook.judge.answer(200, verdict.call("interpretation"))
+	check(not map.state.evidence.has_evidence("travel_food"), "An answer that arrives after the notebook closed records nothing")
+	notebook.judge.transport = Callable()
+	notebook.judge.model = ""
+	notebook.inspect(map.state)
 	notebook.record_button.pressed.emit()
 	check(map.state.evidence.progress().is_empty(), "Button alone cannot grant evidence")
 	notebook.note.text = "Hay comida para un viaje."

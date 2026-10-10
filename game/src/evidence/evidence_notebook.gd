@@ -22,6 +22,9 @@ var close_button := Button.new()
 var guide := Label.new()
 ## Failed attempts at the page on screen: the example is shown from the second one.
 var attempts := 0
+## The archivist: DeepSeek reads a note when a key is configured; otherwise the lists decide.
+var judge = preload("res://src/evidence/note_judge.gd").new()
+var pending := {}
 const KINDS := ["", "observation", "interpretation", "accusation", "institutional_declaration"]
 const KIND_HELP := {
 	"observation": "Una OBSERVACIÓN dice solo lo que ves tú. Empieza con: Hay… / Veo… / … tiene… / … está… / Falta…",
@@ -99,6 +102,8 @@ func _ready() -> void:
 	feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	feedback.add_theme_font_size_override("font_size", 16)
 	box.add_child(feedback)
+	add_child(judge)
+	judge.judged.connect(_on_judged)
 	close_button.text = "Volver"
 	close_button.pressed.connect(close)
 	box.add_child(close_button)
@@ -247,25 +252,64 @@ func _record() -> void:
 			_render()
 			evidence_recorded.emit()
 		return
+	var graph = world_state.evidence
+	var chosen: String = KINDS[category.selected] if category.selected > 0 else ""
+	# The archivist (DeepSeek) reads the sentence when he can; what the note must name is
+	# checked here first and again when it is recorded, never by him.
+	if judge.available() and not judge.busy and not chosen.is_empty() and graph.content_missing(active_id, note.text).is_empty():
+		var clue: Dictionary = graph.node(active_id)
+		pending = {"id": active_id, "note": note.text, "chosen": chosen, "world": world_state}
+		if judge.ask(str(graph.practice.get(active_id, {}).get("scene", clue.observation)), str(graph.KIND_NAMES.get(clue.classification, "")), note.text):
+			feedback.text = "Fray Anselmo lee tu frase…"
+			record_button.disabled = true
+			return
+		pending = {}
+	_settle(note.text, chosen, {})
+
+## The archivist answered (or failed): finish the attempt that was waiting for him.
+func _on_judged(verdict: Dictionary, _error: String) -> void:
+	record_button.disabled = false
+	var waiting := pending
+	pending = {}
+	if waiting.is_empty() or waiting.world != world_state or waiting.id != active_id or not visible or world_state.evidence.has_evidence(active_id):
+		return
+	_settle(str(waiting.note), str(waiting.chosen), verdict)
+
+## Decides one attempt. With a verdict the kind of the sentence is the archivist's reading
+## and his remarks are shown; without one the word lists decide, as when offline.
+func _settle(text: String, chosen: String, verdict: Dictionary) -> void:
 	var location: Dictionary = world_state.location_at(world_state.hero_cell)
 	var clue: Dictionary = world_state.evidence.node(active_id)
 	var graph = world_state.evidence
 	var wanted: String = clue.classification
-	var chosen: String = KINDS[category.selected] if category.selected > 0 else ""
-	var written: String = graph.kind_of(note.text)
-	var needs: Array[String] = graph.missing_note(active_id, note.text)
+	var read: bool = not verdict.is_empty()
+	var written: String = str(verdict.kind) if read else graph.kind_of(text)
+	var needs: Array[String] = graph.content_missing(active_id, text) if read else graph.missing_note(active_id, text)
+	if read:
+		for problem: String in preload("res://src/spanish/grammar_checks.gd").missing(text):
+			needs.append(problem)
 	var problems: Array[String] = []
 	if not needs.is_empty():
 		problems.append("Tu frase necesita: " + "; ".join(needs) + ".")
 	if chosen.is_empty():
 		problems.append("Elige en la lista qué clase de frase has escrito.")
-	elif not note.text.strip_edges().is_empty() and chosen != written:
+	elif not text.strip_edges().is_empty() and chosen != written:
 		# The choice is checked against the player's own words, not against a hidden answer.
-		problems.append("Has marcado %s, pero tu frase es %s. %s" % [graph.KIND_NAMES[chosen], graph.KIND_NAMES[written], KIND_HELP[written]])
+		problems.append("Has marcado %s, pero tu frase es %s. %s" % [graph.KIND_NAMES[chosen], graph.KIND_NAMES[written], str(verdict.why) if read and not str(verdict.why).is_empty() else KIND_HELP[written]])
 	elif chosen != wanted:
 		problems.append("Aquí se pide %s. %s" % [graph.KIND_NAMES.get(wanted, wanted), KIND_HELP.get(wanted, "")])
-	if problems.is_empty() and graph.record(active_id, location.get("id", ""), note.text, chosen, world_state.day):
+	var remarks: Array[String] = []
+	if read:
+		if not str(verdict.comment).is_empty():
+			remarks.append("Fray Anselmo: «%s»" % verdict.comment)
+		if not verdict.grammar_ok and not str(verdict.better).is_empty():
+			remarks.append("Mejor: " + str(verdict.better))
+	if problems.is_empty() and graph.record(active_id, location.get("id", ""), text, chosen, world_state.day, read):
 		_render()
+		if read:
+			if not str(verdict.challenge).is_empty():
+				remarks.append("Reto (sin nota): " + str(verdict.challenge))
+			feedback.text = "Tu anotación: %s\n%s" % [text, "\n".join(remarks)]
 		evidence_recorded.emit()
 		return
 	attempts += 1
@@ -273,7 +317,7 @@ func _record() -> void:
 		problems.append("Esta prueba no se puede anotar aquí ahora.")
 	if attempts >= 2:
 		problems.append("Un ejemplo (cámbialo a tu manera): " + str(clue.language.get("sample", "")))
-	feedback.text = "\n".join(problems)
+	feedback.text = "\n".join(problems + remarks)
 
 func open_reasoning() -> void:
 	var ids: Array = world_state.evidence.reviewable_ids(world_state.day)

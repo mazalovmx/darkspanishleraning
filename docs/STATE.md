@@ -3639,3 +3639,42 @@ named, the kind compared with the sentence). Inspection page seen in a window in
 states. Limits: the kind is read from a fixed word list, so an interpretation phrased
 without those words passes as an observation; the verb list is a fixed list of present
 forms; the scenes and keys were not reviewed by a Spanish speaker.
+
+## The archivist: DeepSeek reads evidence notes (2026-10-09)
+
+User request after the previous entry: use DeepSeek so the kind of a sentence is not
+decided by a word list, and make it more interesting through the prompt.
+- `evidence/note_judge.gd`: one JSON-mode request per note with the scene, the kind asked
+  for and the sentence. The prompt gives the reader a voice (fray Anselmo, the dry old
+  archivist) and asks for: the kind by meaning, why, whether the Spanish is sound, a
+  better wording, one remark, and a challenge to say it as another kind. Kind must be one
+  of the four; texts are length-bounded.
+- Division of authority: what a note must name (`evidence_graph.content_missing`, the key
+  groups) and the offline agreement rules stay in code and are checked before the request
+  and again in `record(..., judged = true)`. The model only classifies the player's own
+  sentence and comments; it cannot accept a note that does not name the finding, and a
+  note is recorded only if the player's label, the model's reading and the kind asked for
+  agree. Without a key, on any failure, or on a malformed verdict the word lists decide as
+  before. Saved notes are validated by content (`stored_ok`), so a note accepted with a
+  verb outside the offline list still loads.
+- Shown to the player: the reason when label and reading differ, "Fray Anselmo: «…»",
+  "Mejor: …" when the Spanish was faulty, and after recording a "Reto (sin nota)".
+- Unchanged: testimony in conversation and the comparison page use the offline check.
+
+Live check (user asked for DeepSeek; eight requests, about 2 s each): "Tomás preparó su
+huida con comida" and "Alguien pone comida aquí para que parezca un viaje" were read as
+interpretations without any marker word; "El abad mató a Tomás…" as an accusation; "Hay
+una pan en la zurrón" as an observation with the correction "Hay pan en el zurrón"; the
+order sheet as an institutional declaration; remarks were short and in character.
+
+Executed: full offline run, 74 runs, 60,728 counted checks: 73 passed;
+vertical_slice_test failed 19 checks from its first line ("Travel to inn"). Cause: a save
+file left in user:// by a run interrupted earlier today had the same name
+(`vertical_slice_<pid>.json`, the process id was reused) and was loaded at start. The
+suite passes alone and through the runner (33) after 341 leftover test files were removed
+from the user data folder; the player's saves were not touched. Tests that name their
+files by process id can collide after any killed run: listed in BACKLOG.md.
+evidence_notebook_test 79 covers the archivist with a fake transport (no request without
+the named finding, hidden interpretation refused, unlisted verb accepted and saved,
+agreement rules still binding, failure and malformed verdict fall back, late answer
+ignored).

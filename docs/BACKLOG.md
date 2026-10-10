@@ -233,6 +233,10 @@ its own multi-session plan and scenario-bible review per NPC.
   18 and are not re-examined.
 - Deliberately out of scope: gamepad, touch, TV safe zones, screen narration, haptics, 4:3
   and ultrawide reflow, a separate high-contrast theme.
+- Test hygiene: suites name their save files `<suite>_<pid>.json` and load an existing
+  file at start; a run killed before its cleanup leaves the file, and a later process with
+  the same id starts from that state (vertical_slice_test failed this way on 2026-10-09).
+  Delete the file before the map is created, or use a unique name.
 - The one-click dictionary keeps a DeepSeek proposal that passes the format checks without
   the player reviewing it; a wrong translation can enter the list.
 
